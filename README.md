@@ -14,8 +14,8 @@ Todo
 This version of Silverjuke is still beta and the following points are with high
 priority on our todo-list:
 
-- Make player basics work properly
 - Create configure/make scripts
+- Make player basics work properly
 - Fix known bug: Visualisation screen freezes Silverjuke
 - Fix known bug: Program crashes on editing shortcuts
 - Adapt the skin
@@ -66,14 +66,13 @@ usefull esp. if you want to give your work back to the core (pull requests).
 
 - the other directories are used libraries
 
-- includes are done using the `#include <dir/file.h>` scheme; this allows us to
-  use a different file with the same name in another director (by using
-  different include directorues with higher priority);  moreover, this allows us
-  to move files around in the directory structure without changing the includes.
+- includes are done using the `#include <dir/file.h>` scheme which allows us to
+  move files around and to "overwrite" files by include directories with a 
+  higher priority
 
-If you use the Silverjuke source code as a base of you projects, please keep in
-mind that Silverjuke is released under the GPL and you have to open source your
-work as well.  See the file LICENSE that comes together with the source code.
+If you use the Silverjuke source code as a base of your projects, keep in mind
+that Silverjuke is released under the GPL and you have to open source your work
+as well.  See the file LICENSE that comes together with the source code.
 
 
 Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
