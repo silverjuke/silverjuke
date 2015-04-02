@@ -20,7 +20,7 @@ priority on our todo-list:
 - Fix known bug: Program crashes on editing shortcuts
 - Adapt the skin
 - Fix known bug: make filenames with "%" and "#" work
-- Other bug fixed, please report bugs to
+- Other bug fixes, please report bugs to
   https://github.com/r10s/silverjuke/issues
 
 

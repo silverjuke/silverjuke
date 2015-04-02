@@ -519,7 +519,6 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 	}
 
 	// search
-#if SJ_USE_ADVSEARCH
 	if( IsOpAvailable(SJ_OP_SEARCH) )
 	{
 		// open adv. search dialog
@@ -543,12 +542,8 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 		mainMenu.Append(IDO_REALLYENDSEARCH, _("End search"));
 		mainMenu.Enable(IDO_REALLYENDSEARCH, HasAnySearch());
 	}
-#endif
-
 
 	// settings / view  / control
-
-
 	if( IsAllAvailable() )
 	{
 
@@ -571,7 +566,6 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 		CreatePlaybackMenu(playbackMenu, false);
 		mainMenu.Append(0, _("Playback"), playbackMenu);
 	}
-
 
 	// help
 	if( IsKioskStarted() )
@@ -761,7 +755,9 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 			mainMenu.Enable(IDO_EXPLOREQUEUE, (markedCount==1));
 		}
 	}
-	else switch( targetId )
+	else
+	{
+		switch( targetId )
 		{
 			case IDT_DISPLAY_COVER:
 				if( m_player.m_queue.GetCount() )
@@ -799,6 +795,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 				}
 				break;
 		}
+	}
 
 	CreateContextMenu_(mainMenu, prependOpen, idtSettings, appendGotoCurrMark, embedFastSearch);
 
