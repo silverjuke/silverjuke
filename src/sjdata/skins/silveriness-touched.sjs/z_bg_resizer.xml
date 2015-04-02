@@ -1,0 +1,11 @@
+<if cond="shaped">
+	<resizer x="100%-8"  y="100%-59"  w="55"  h="17" />
+	<resizer x="100%-14" y="next"     w="55"  h="14" />
+	<resizer x="100%-24" y="next"     w="55"  h="10" />
+	<resizer x="100%-38" y="next"     w="55"  h="6"  />
+	<resizer x="100%-55" y="next"     w="55"  h="8"  />
+</if>
+<else>
+	<img src="resizer.png" x="100%-25" y="100%-25"  w="25"  h="25" />
+	<resizer x="100%-18" y="100%-18"  w="18"  h="18" />
+</else>

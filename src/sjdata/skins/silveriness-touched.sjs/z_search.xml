@@ -1,0 +1,9 @@
+<img x="0" y="0" w="100%-35" h="21" src="z_search_bg.png">
+<button x="next" y="0" src="z_search_button.png" srcindex="0" target="searchbutton" />
+<button x="next" y="0" src="z_search_button.png" srcindex="1" target="searchbutton" cmw="20" />
+<input x="4" y="4" w="100%-40" h="16">
+	<color fgcolor="#696969" bgcolor="#F9F9F9" target="normal" /> 
+</input>
+<box x="-6" y="22" w="100%+12" h="16" target="searchinfo" inactive="1">
+	<color target="normal" fgcolor="#222222" hicolor="#E8E8E8" offsetx="0" offsety="1" />
+</box>

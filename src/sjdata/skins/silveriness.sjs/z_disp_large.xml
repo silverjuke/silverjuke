@@ -1,0 +1,70 @@
+<img x="0" y="0" w="100%" src="z_disp_bg2.png" />
+
+<if cond="editqueue">
+<button x="14" y="11" src="z_shuffleetc.png" srcindex="0" target="shuffle" />
+</if>
+<if cond="repeat">
+<button x="14" y="24" src="z_shuffleetc.png" srcindex="1" target="repeat" />
+</if>
+<if cond="startvis">
+<button x="14" y="38" src="z_shuffleetc.png" srcindex="4" target="startvis" />
+</if>
+
+<if cond="all">
+<button x="13" y="100%-53" src="z_openetc.png" srcindex="0" target="openfiles" />
+<button x="same" y="next" src="z_openetc.png" srcindex="1" target="saveplaylist" />
+<button x="same" y="next+1" src="z_openetc.png" srcindex="2" target="unqueueall" />
+</if>
+
+<box x="41" y="6" w="42" h="42" target="displaycover" />
+
+<box x="95"   y="7"w="100%-132" h="14"   fgcolor="#8F8F8F"                   target="line00" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#B8BAAE" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F"                   target="line01" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line02" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line03" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line04" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line05" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line06" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line07" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line08" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line09" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line10" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line11" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F" bgcolor="#D1DBC3" target="line12" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#5F5F5F"                   target="line13" centeroffset="-29">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+
+<scrollbar x="same" y="0" w="100%-120" src="z_seek_slider.png" target="seek" hideifunused="1" />
+
+<button x="100%-29" y="7" src="z_shuffleetc.png" srcindex="2" target="displayUp" />
+<scrollbar x="same" y="next+2" h="100%-34" src="z_disp_scroll.png" target="displayVScroll" />
+<button x="same" y="100%-13" src="z_shuffleetc.png" srcindex="3" target="displayDown" />
+
+

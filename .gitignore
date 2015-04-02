@@ -1,0 +1,15 @@
+
+# ignore build directories
+/bin/
+/obj/
+
+# ignore backup files
+*~
+
+# codeblocks project files to ignore
+*.cbp
+*.depend
+*.layout
+
+
+

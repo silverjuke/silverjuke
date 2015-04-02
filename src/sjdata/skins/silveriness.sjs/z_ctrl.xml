@@ -1,0 +1,11 @@
+<if cond="playpause">
+	<button x="41" y="4" src="z_ctrl.png" srcindex="1" target="play" />
+</if>
+<if cond="editqueue">
+	<button x="2" y="4" src="z_ctrl.png" srcindex="0" target="prev" />
+	<button x="80" y="4" src="z_ctrl.png" srcindex="2" target="next" />
+</if>
+<if cond="volume">
+	<img x="0" y="37"  src="z_vol_icon.png" />
+	<scrollbar x="next+5" y="same-4" w="95" src="z_vol_slider.png" target="volSlider" />
+</if>

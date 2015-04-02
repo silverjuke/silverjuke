@@ -1,0 +1,170 @@
+
+<!-- decorations -->
+<img src="left1_artwork.png" x="210" y="24" />
+<box x="next" y="same" w="100%-725" h="140" bgcolor="#000000" /> <!-- this box was missing in v1.00 and leads to trash under Windows 98 where the video memory is not initialized to null -->
+<img src="right1_artwork.png" x="100%-404" y="35" />
+
+
+<img src="left1.png" />
+<img src="left2.png" y="next" h="100%-413">
+
+<img src="right1.png" x="100%-210" />
+<img src="right2.png" x="100%-68" y="next" h="100%-413" />
+
+<img src="top.png" x="210" y="0" w="100%-420" h="44" />
+<img src="logo.png" x="207" y="23" />
+
+<img src="woodbar.png" x="88" y="163" w="100%-174" h="36" />
+<img src="bottom.png" x="67" y="100%-39" w="100%-134" h="39" />
+
+<!-- controls in the lamps top-left and top-right -->
+<if cond="shaped">
+	<if cond="!kiosk">
+		<button src="titlebar.png" x="140" y="9" cmw="15" target="mainmenu" />
+		
+		<button src="titlebar.png" srcindex="1" x="100%-161" y="11"  target="minimize" />
+		<button src="titlebar.png" srcindex="2" x="100%-142" y="15"  target="maximize" />
+		<button src="titlebar.png" srcindex="3" x="100%-126" y="24" target="quit" />
+	</if>
+</if>
+
+<!-- controls atop above the a-z bar-->
+<box x="151" y="61" w="88" h="88" target="displaycover" />
+
+<div x="next+11" y="58" w="100%-415">
+	<box x="0" y="0" w="100%" h="16" fgcolor="#DDD4BB" target="line00" centeroffset="-29">
+	  <color target="selection" fgcolor="#FFFFFF" hicolor="#8C0300" />
+	</box>
+	<box x="same+2" y="next" w="same-3" h="same" fgcolor="#D1C5A5" target="line01" centeroffset="-46">
+	  <color target="selection" fgcolor="#FFFFFF" hicolor="#8C0300" />
+	</box>
+	<box x="same+2" y="next" w="same-3" h="same" fgcolor="#C5B68F" target="line02" centeroffset="-45">
+	  <color target="selection" fgcolor="#FFFFFF" hicolor="#8C0300" />
+	</box>
+	<box x="same+2" y="next" w="same-3" h="same" fgcolor="#BAA878" target="line03" centeroffset="-44">
+	  <color target="selection" fgcolor="#FFFFFF" hicolor="#8C0300" />
+	</box>
+	<box x="same+2" y="next" w="same-3" h="same" fgcolor="#AE9962" target="line04" centeroffset="-43">
+	  <color target="selection" fgcolor="#FFFFFF" hicolor="#8C0300" />
+	</box>
+	<box x="same+2" y="next" w="same-3" h="same" fgcolor="#9C8852" target="line05" centeroffset="-42">
+	  <color target="selection" fgcolor="#FFFFFF" hicolor="#8C0300" />
+	</box>
+</div>
+
+<scrollbar src="seek_slider.png" x="same" y="same-8" w="same" target="seek"  hideifunused="1" />
+
+
+<button src="playlist_updown.png" srcindex="0" x="100%-160" y="same+8" target="displayUp" />
+<scrollbar src="playlist_scroll.png" x="same" y="next+5" h="57" target="displayVScroll" />
+<button src="playlist_updown.png" srcindex="1" x="same" y="next+5" target="displayDown" />
+
+<button src="playlist_hideunused.png" x="100%-158" y="61" inactive="1" target="unqueueall" />
+
+<!-- controls in the a-z bar -->
+<img x="56" y="168" src="ctrl_line.png" />
+
+<if cond="playpause">
+	<button x="next" y="same" src="ctrl_play.png" srcindex="0" target="play" />
+</if>
+<if cond="editqueue">
+	<button x="next" y="same" src="ctrl_play.png" srcindex="1" target="prev" />
+	<button x="next" y="same" src="ctrl_play.png" srcindex="2" target="next" />
+</if>
+<if cond="playpause,editqueue">
+	<div x="next" y="same" w="6" h="8"></div>
+	<img x="next" y="same" src="ctrl_line.png" />
+</if>
+
+<if cond="!kiosk">
+	<button x="next" y="same" src="ctrl_play.png" srcindex="3" target="shuffle" />
+	<button x="next" y="same" src="ctrl_play.png" srcindex="4" target="repeat" />
+	<if cond="!startvis">
+		<div x="next" y="same" w="6" h="8"></div>
+		<img x="next" y="same" src="ctrl_line.png" />
+	</if>
+</if>
+<if cond="startvis">
+	<button x="next" y="same" src="ctrl_play.png" srcindex="5" target="startvis" />
+	<div x="next" y="same" w="6" h="8"></div>
+	<img x="next" y="same" src="ctrl_line.png" />
+</if>
+
+<button x="next" y="same" src="ctrl_az.png" srcindex="0" target="gotoA" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="1" target="gotoB" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="2" target="gotoC" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="3" target="gotoD" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="4" target="gotoE" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="5" target="gotoF" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="6" target="gotoG" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="7" target="gotoH" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="8" target="gotoI" />
+<button x="same" y="same" src="ctrl_az.png" srcindex="24" target="gotoJ" inactive="1" /><!-- overlay -->
+<button x="next" y="same" src="ctrl_az.png" srcindex="9" target="gotoK" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="10" target="gotoL" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="11" target="gotoM" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="12" target="gotoN" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="13" target="gotoO" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="14" target="gotoP" />
+<button x="same" y="same" src="ctrl_az.png" srcindex="25" target="gotoQ" inactive="1" /><!-- overlay -->
+<button x="next" y="same" src="ctrl_az.png" srcindex="15" target="gotoR" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="16" target="gotoS" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="17" target="gotoT" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="18" target="gotoU" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="19" target="gotoV" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="20" target="gotoW" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="21" target="gotoY" />
+<button x="same" y="same" src="ctrl_az.png" srcindex="26" target="gotoX" inactive="1" /><!-- overlay -->
+<button x="next" y="same" src="ctrl_az.png" srcindex="22" target="gotoZ" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="27" target="goto0" />
+<button x="next" y="same" src="ctrl_az.png" srcindex="23" target="gotoCurr" />
+
+<if cond="search">
+	<div x="100%-152" y="same" w="101" h="25">
+		<img src="search_arrow.png" x="-15" y="-2" />
+		<img src="search_bg.png" w="100%-25"/>
+		<input x="3" y="5" w="100%-28" h="16">
+			<color fgcolor="#000000" bgcolor="#D0C288" target="normal" /> 
+		</input>
+		<button x="100%-25" src="search_button.png" target="searchbutton" />
+		<if cond="!kiosk">
+			<button x="next" src="search_button.png" srcindex="1" cmw="8" target="searchbutton" />
+		</if>
+		<box x="-88" y="-15" w="168" h="14" target="searchinfo" inactive="1">
+			<color target="normal" fgcolor="#8E763E" />
+		</box>
+	</div>
+</if>
+
+<!-- the workspace -->
+<workspace x="68" y="199" w="100%-136" h="100%-238">
+	<color fgcolor="#232323" bgcolor="#E0D8C3" hicolor="#F00000" target="normal" /> 
+	<color fgcolor="#232323" bgcolor="#D3C8A9" hicolor="#F00000" target="normalodd" /> 
+	<color fgcolor="#F9F9F9" bgcolor="#771111" hicolor="#FFFF00" target="selection" /> 
+	<color fgcolor="#F9F9F9" bgcolor="#771111" hicolor="#FFFF00" target="selectionodd" /> 
+	<color fgcolor="#602828" bgcolor="#FFFFFF" hicolor="#F00000" target="title1" /> 
+	<color fgcolor="#434343" bgcolor="#FFFFFF" hicolor="#F00000" target="title2" />
+	<color fgcolor="#434343" bgcolor="#FFFFFF" hicolor="#F00000" target="title3" />
+	<color fgcolor="#434343" target="verttext" /> 
+	<color fgcolor="#80221A" target="stubtext" /> 
+</workspace>
+
+<scrollbar x="100%-68" y="353" h="100%-392" src="scroll_v.png" target="workspaceVScroll" />
+<scrollbar x="50%+53" y="100%-39" w="50%-120" src="scroll_h.png" target="workspaceHScroll" />
+
+<if cond="toggleView">
+	<button x="next+2" y="same" src="toggle_view.png" target="toggleView" />
+</if>
+
+<if cond="volume">
+	<scrollbar x="42" y="410" src="vol_slider.png" h="100%-450" target="volSlider" />
+</if>
+
+<if version="1.50">
+	<button x="50%-53" y="100%-35" src="prevnext.png" target="workspacePageLeft" />
+	<button x="next" y="same" src="prevnext.png" srcindex="1" target="workspacePageRight" />
+</if>
+<else>
+	<button x="50%-53" y="100%-35" src="prevnext.png" target="workspaceLeft" />
+	<button x="next" y="same" src="prevnext.png" srcindex="1" target="workspaceRight" />
+</else>

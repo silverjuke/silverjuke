@@ -1,0 +1,23 @@
+<img x="0" y="0" w="100%" src="z_disp_bg1.png" />
+
+<if cond="startvis">
+  <button x="2" y="52" src="z_shuffleetc.png" srcindex="4" target="startvis" />
+</if>
+
+<box x="21" y="6" w="54" h="54" target="displaycover" />
+
+<box x="89" y="8" w="100%-126" h="16" fgcolor="#8F8F8F" target="line00" centeroffset="-20">
+  <color target="selection" fgcolor="#000000" hicolor="#B8BAAE" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next+2" w="same" h="same" fgcolor="#5F5F5F" target="line01" centeroffset="-20">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+<box x="same" y="next+2" w="same" h="same" fgcolor="#5F5F5F" target="line02" centeroffset="-20">
+  <color target="selection" fgcolor="#000000" hicolor="#A6A898" offsetx="1" offsety="1" />
+</box>
+
+<scrollbar x="same" y="0" w="100%-102" src="z_seek_slider.png" target="seek" hideifunused="1" />
+
+<button x="100%-28" y="8" src="z_shuffleetc.png" srcindex="2" target="displayup" />
+<scrollbar x="same" y="next+1" h="26" src="z_disp_scroll.png" target="displayVScroll" />
+<button x="same" y="48" src="z_shuffleetc.png" srcindex="3" target="displaydown" />

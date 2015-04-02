@@ -1,0 +1,102 @@
+<!-- left/right/bottom line -->
+<img w="2" h="100%-1" src="z_workspace_left.png" />
+<img x="100%-2" y="16" w="2" h="100%-32" src="z_workspace_right.png" />
+<img x="2" y="100%-2" w="100%-18" h="2" src="z_workspace_bottom.png" />
+
+<!-- a-z bar -->
+<img x="2" y="0" w="100%-494" src="z_az_logo.png" />
+<button x="next" y="same" src="z_az.png" srcindex="0" target="gotoA" />
+<button x="next" y="same" src="z_az.png" srcindex="1" target="gotoB" />
+<button x="next" y="same" src="z_az.png" srcindex="2" target="gotoC" />
+<button x="next" y="same" src="z_az.png" srcindex="3" target="gotoD" />
+<button x="next" y="same" src="z_az.png" srcindex="4" target="gotoE" />
+<button x="next" y="same" src="z_az.png" srcindex="5" target="gotoF" />
+<button x="next" y="same" src="z_az.png" srcindex="6" target="gotoG" />
+<button x="next" y="same" src="z_az.png" srcindex="7" target="gotoH" />
+<button x="next" y="same" src="z_az.png" srcindex="8" target="gotoI" />
+<button x="next" y="same" src="z_az.png" srcindex="9" target="gotoJ" />
+<button x="next" y="same" src="z_az.png" srcindex="10" target="gotoK" />
+<button x="next" y="same" src="z_az.png" srcindex="11" target="gotoL" />
+<button x="next" y="same" src="z_az.png" srcindex="12" target="gotoM" />
+<button x="next" y="same" src="z_az.png" srcindex="13" target="gotoN" />
+<button x="next" y="same" src="z_az.png" srcindex="14" target="gotoO" />
+<button x="next" y="same" src="z_az.png" srcindex="15" target="gotoP" />
+<button x="next" y="same" src="z_az.png" srcindex="16" target="gotoQ" />
+<button x="next" y="same" src="z_az.png" srcindex="17" target="gotoR" />
+<button x="next" y="same" src="z_az.png" srcindex="18" target="gotoS" />
+<button x="next" y="same" src="z_az.png" srcindex="19" target="gotoT" />
+<button x="next" y="same" src="z_az.png" srcindex="20" target="gotoU" />
+<button x="next" y="same" src="z_az.png" srcindex="21" target="gotoV" />
+<button x="next" y="same" src="z_az.png" srcindex="22" target="gotoW" />
+<button x="next" y="same" src="z_az.png" srcindex="23" target="gotoX" />
+<button x="next" y="same" src="z_az.png" srcindex="24" target="gotoY" />
+<button x="next" y="same" src="z_az.png" srcindex="25" target="gotoZ" />
+<button x="next" y="same" src="z_az.png" srcindex="26" target="goto0" />
+<button x="next" y="same" src="z_az.png" srcindex="27" target="gotocurr" />
+
+<if cond="shaped,kiosk">
+<img    x="next" y="same" src="z_az_corner.png" />
+</if>
+<else>
+<img    x="next" y="same" src="z_az_corner2.png" />
+</else>
+
+
+<!-- the workspace itself -->
+<workspace x="2" y="16" w="100%-19" h="100%-33">
+	<color fgcolor="#232323" bgcolor="#FFFFFF" hicolor="#F00000" target="normal" /> 
+	<color fgcolor="#232323" bgcolor="#E7EFFF" hicolor="#F00000" target="normalodd" /> 
+	<color fgcolor="#F9F9F9" bgcolor="#3D80DF" hicolor="#FFFF00" target="selection" /> 
+	<color fgcolor="#F9F9F9" bgcolor="#3D80DF" hicolor="#FFFF00" target="selectionodd" /> 
+	<color fgcolor="#434343" bgcolor="#FFFFFF" hicolor="#F00000" target="title1" /> 
+	<color fgcolor="#434343" bgcolor="#FFFFFF" hicolor="#F00000" target="title2" />
+	<color fgcolor="#434343" bgcolor="#FFFFFF" hicolor="#F00000" target="title3" />
+	<color fgcolor="#434343" target="verttext" /> 
+	<color fgcolor="#C0C0C0" target="stubtext" /> 
+</workspace>
+
+<!-- horizontal scrollbar -->
+<div x="2" y="100%-17" w="100%-4" h="15">
+	<button src="z_scroll_h_buttons.png" target="workspaceLeft"/>
+	<scrollbar x="next" w="100%-48" src="z_scroll_h.png" target="workspaceHScroll" />
+	<button x="next" src="z_scroll_h_buttons.png" srcindex="1" target="workspaceRight"/>
+	<if cond="shaped,kiosk">
+		<img src="z_scroll_h_corner.png" x="next" y="same+1" />
+	</if>
+	<else>
+		<img src="z_scroll_h_corner_unshaped.png" x="next" y="same+1" />
+	</else>
+</div>
+
+<!-- vertical scrollbar -->
+<div x="100%-17" y="16" w="15" h="100%-29">
+	
+	<button src="z_scroll_v_buttons.png" target="workspaceUp"/>
+	<if cond="toggleview">
+		<if cond="zoom">
+			<scrollbar y="next" h="100%-88" src="z_scroll_v.png" target="workspaceVScroll" />
+		</if>
+		<else>
+			<scrollbar y="next" h="100%-54" src="z_scroll_v.png" target="workspaceVScroll" />
+		</else>
+	</if>
+	<else>
+		<if cond="zoom">
+			<scrollbar y="next" h="100%-71" src="z_scroll_v.png" target="workspaceVScroll" />
+		</if>
+		<else>
+			<scrollbar y="next" h="100%-37" src="z_scroll_v.png" target="workspaceVScroll" />
+		</else>
+	</else>
+	<button y="next" src="z_scroll_v_buttons.png" srcindex="1" target="workspaceDown"/>
+	
+	<if cond="zoom">
+		<button y="next" src="z_scroll_v_buttons.png" srcindex="2" target="zoomIn"/>
+		<button y="next" src="z_scroll_v_buttons.png" srcindex="3" target="zoomOut"/>
+	</if>
+	
+	<if cond="toggleview">
+		<button y="next" src="z_scroll_v_buttons.png" srcindex="4" target="toggleView"/>
+	</if>
+	
+</div>
