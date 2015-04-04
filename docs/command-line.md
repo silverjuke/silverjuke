@@ -75,9 +75,10 @@ You may control Silverjuke by the command line with the following options:
   Silverjuke window (by default, the whole screen is used). If the x and y
   parameters are skipped, the window will be placed at the upper left corner at
   0/0.  
-  Moreover, if you add the "clipmouse" modified, the mouse cannot be moved
-  outside the given rectangle. Using the following command line option, you can
-  also assign a static portion of the screen for the visualization:
+  Moreover, if you add the "clipmouse" modifier, the mouse cannot be moved
+  outside the given rectangle.  
+  See also: --visrect to assign a static portion of the screen to the 
+  visualization.
 
 * --visrect=[X,Y,]W,H  
   If --visrect or --kioskrect are given, portions of the screen not used by
