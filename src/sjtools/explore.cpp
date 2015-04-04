@@ -178,11 +178,6 @@ void SjTools::ExploreHomepage(SjHomepageId pageId, const wxString& param)
 		url += wxT("&param=") + SjTools::Urlencode(param);
 	}
 
-	// add any campaign
-#ifdef SJ_CAMPAIGN
-	url += wxT("&c=") + SjTools::Urlencode(SJ_CAMPAIGN);
-#endif
-
 	// explore now.
 
 	ExploreUrl(url);
