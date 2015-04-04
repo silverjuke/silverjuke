@@ -285,8 +285,8 @@ SJ_GET_VERSION
     lVersion = CallMaster(interf, SJ_GET_VERSION, 0, 0, 0);
 
 Returns the Silverjuke  version  as  0xjjnn00rr with  jj=major,  nn=minor  and
-rr=revision  as  BCD  <http://en.wikipedia.org/wiki/Binary-coded_decimal>. Eg.
-for Silverjuke 2.10 rev17, the function returns  0x02100017.  Note,  that  the
+rr=revision  as  BCD  (see http://en.wikipedia.org/wiki/Binary-coded_decimal ).
+Eg. for Silverjuke 2.10 rev17, the function returns  0x02100017. Note, that the
 revision  number  is  not always equal to the beta- or rc-number. You can find
 out the correct revision number eg. in the "Properties" dialog of Windows.
 
@@ -392,7 +392,7 @@ on the operating system in use.
 - CALLBACK defines the calling conventios of the CallMaster and  CallPlugin
   functions.
 - SJPROC is  used  by the SjInterface structure and defined a callback type
-  used for the communication between Silverjuke <-> plugin.
+  used for the communication between Silverjuke to/from plugin.
 
 See also: Strings (see "Strings in Plugins"), sj_api.h
 

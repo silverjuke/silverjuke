@@ -3,14 +3,14 @@ Command Line Options
 
 You may control Silverjuke by the command line with the following options:
 
-* --ini=<file>  
-  set the configuration file to use
+* --ini=FILE  
+  set the configuration file to use to FILE
 
-* --db=<file>  
-  set the database file to use
+* --db=FILE  
+  set the database file to use to FILE
 
-* --temp=<directory>  
-  set the temp. directory to use
+* --temp=DIRECTORY  
+  set the temp. directory to use to DIRECTORY
 
 * --play
 
@@ -29,21 +29,21 @@ You may control Silverjuke by the command line with the following options:
 * --minimize  
   start Silverjuke minimized
 
-* --open <files>  
-  open the given files, --open may be ommited
+* --open FILES  
+  open the given FILES, --open may be ommited
 
-* --enqueue <files>  
-  enqueue the given files
+* --enqueue FILES  
+  enqueue the given FILES
 
 * --help  
   Show all available commands
 
-* --addcredit=<num>  
+* --addcredit=NUM  
   Adds the numer of credits (tracks that may be enqueued) to the credit system.
   This option only work if the option "Credits may be added by external
   programs" is enabled in the kiosk mode settings.
 
-* --setcredit=<num>  
+* --setcredit=NUM  
   Sets the number of credits.  This option only work if the option "Credits may
   be added by external programs" is enabled in the kiosk mode settings.
 
@@ -53,7 +53,7 @@ You may control Silverjuke by the command line with the following options:
   Silverjuke using the "Power off" button, as in this case the operating system
   may not give us the time we need to unload all modules completely.
 
-* --instance=<INI-file>  
+* --instance=INI-FILE  
   If you give a different INI-file to each instance, you can use multiple 
   instances of Silverjuke with this option. All settings for each instance are 
   stored in the INI-file, so the intances are completely independent; however, 
@@ -61,7 +61,7 @@ You may control Silverjuke by the command line with the following options:
   You can give the INI-files as complete paths; if the files do not exist, they
   are created as needed.  
   If you want to use different music libraries for each instance, you have to
-  use the --db=<file> option as described above.
+  use the --db=FILE option as described above.
 
 * --update  
   This will automatically upate the index as if you hit F5 just after starting 
@@ -69,7 +69,7 @@ You may control Silverjuke by the command line with the following options:
   mode is running with limited functionality, the update process cannot be
   aborted.
 
-* --kioskrect=[<x>,<y>,]<width>,<height>[,clipmouse]  
+* --kioskrect=[X,Y,]W,H[,clipmouse]  
   With this option you can force the Silverjuke window to the given rectangle
   when using the kiosk mode. This is usefull if you want to show sth. beside the
   Silverjuke window (by default, the whole screen is used). If the x and y
@@ -79,7 +79,7 @@ You may control Silverjuke by the command line with the following options:
   outside the given rectangle. Using the following command line option, you can
   also assign a static portion of the screen for the visualization:
 
-* --visrect=[<x>,<y>,]<width>,<height>  
+* --visrect=[X,Y,]W,H  
   If --visrect or --kioskrect are given, portions of the screen not used by
   Silverjuke can be used by other programs - otherwise, Silverjuke would
   "darken" eg. an unused 2nd or 3rd screen.
@@ -93,7 +93,7 @@ You may control Silverjuke by the command line with the following options:
 * --togglevis  
   toggle the selected visualizations on and off
 
-* --execute=<script or file>  
+* --execute=SCRIPT_OR_FILE 
   Execute the given script snippet or file. With this command line option you
   are able to execute any little script by the  command line. For scripting 
   details, please refer to the Silverjuke SDK. Instead of using the command line

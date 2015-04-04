@@ -5,25 +5,25 @@ How to create Skins for Silverjuke
 
 - Overview
 - Tags
-    - <skin>
-    - <layout>
-    - <img>
-    - <button>
-    - <scrollbar>
-    - <workspace>
-    - <input>
-    - <box>
-    - <tooltips>
-    - <div>
-    - <color>
-    - <if>, <else>
-    - <include>
-    - <script>
+    - skin
+    - layout
+    - img
+    - button
+    - scrollbar
+    - workspace
+    - input
+    - box
+    - tooltips
+    - div
+    - color
+    - if, else
+    - include
+    - script
 - Targets
-    - Targets for the <button> Tag
-    - Targets for the <box> Tag
-    - Targets for the <scrollbar> Tag
-    - Targets for the <div> Tag
+    - Targets for the button-Tag
+    - Targets for the box-Tag
+    - Targets for the scrollbar-Tag
+    - Targets for the div-Tag
 
 
 Overview
@@ -112,7 +112,7 @@ Tags
 ================================================================================
 
 
-Tag <skin>
+skin-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <skin>
@@ -120,7 +120,7 @@ Tag <skin>
 
 This tag introduces a  new  skin. The tag must appear exactly one time for a
 skin. To provide several skins in one *.sjs archive, you can use several *.xml
-files containing <skin> tags.
+files containing skin-tags.
 
 Attributes:
 
@@ -148,7 +148,7 @@ An example skin may look like the following:
     </skin>
 
 
-Tag <layout>
+layout-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <layout>
@@ -163,7 +163,7 @@ Attributes:
 - name - The name of the layout. May be used as a target to allow switching
   between different layouts. This attribute is always required.  
   A special name is "kiosk": this layout is used as the default  layout  in
-  the  kiosk  mode.  Note the remarks for <if> when designing skins for the
+  the  kiosk  mode.  Note the remarks for if-tags when designing skins for the
   kiosk mode.
 
 - minh, maxw - The minimal size of the window in pixels.
@@ -178,11 +178,11 @@ Attributes:
   size and position.
 
 - doubleclicktarget - The action that should be performed on a double click
-  in unused areas. You may use most targets that can be used for  <button>-
+  in unused areas. You may use most targets that can be used for  button-
   tags here; for a list of all available targets see the chapter Targets.
 
 
-Tag <img>
+img-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <img>
@@ -244,7 +244,7 @@ Finally, some examples to get an idea about the x/y and w/h attributes:
     <img src="image3.png" x="300" y="300" w="30%" h="opposite+10%" />
 
 
-Tag <button>
+button-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <button>
@@ -283,7 +283,7 @@ Attributes:
   Silverjuke which column to use. "0" is the default value  and  represents
   the first column.
 
-- x,  y, w, h - The position and the size of the button, see <img> for more
+- x,  y, w, h - The position and the size of the button, see img-tag for more
   information about these attributes.
 
 - inactive - If set to "1", the button is not clickable,  but  the  current
@@ -303,7 +303,7 @@ the "normal" subimage. If a larger sizer is  set  later,  the  image  will  be
 centered vertically and/or horizontally.
 
 
-Tag <scrollbar>
+scrollbar-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <scrollbar>
@@ -322,13 +322,13 @@ Attributes:
   the  image  must  have  3x5 or 5x3 subimages. See the figures below. This
   attribute is always required.
 
-- x, y, w, h - The position and the size of the scrollbar,  see  <img>  for
+- x, y, w, h - The position and the size of the scrollbar, see img-tag for
   more information about these attributes.
 
 - hideifunused -  If set to "1", the scrollbar is hidden if it is currently
   not needed. Normally, the scrollbar is even shown in this case.
 
-- inactive - See <button>.
+- inactive - See button-Tag.
 
 An image for a vertical scrollbar looks like the following:
 
@@ -341,7 +341,7 @@ An image for a horizontal scrollbar looks like:
 Page left/right/up/down functionality is done by normal buttons if wanted.
 
 
-Tag <workspace>
+workspace-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <workspace>
@@ -353,11 +353,11 @@ in any <div>-tag, the workspace may also be replaced by the visualization.
 
 Attributes:
 
-- x, y, w, h - The position and the size of the workspace,  See  <img>  for
+- x, y, w, h - The position and the size of the workspace,  See  img-tag  for
   more information about these attributes.
 
 
-Tag <input>
+input-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <input>
@@ -368,23 +368,23 @@ used for the search.
 
 Attributes:
 
-- x, y, w, h - The position and the size of the input, See <img>  for  more
+- x, y, w, h - The position and the size of the input, See img-tag  for  more
   information about these attributes.
 
 
-Tag <box>
+box-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <box>
     Child tags: <color>
 
-With the  <box>  tag  you can draw a simple rectangle with or without a border
+With the  box-tag  you can draw a simple rectangle with or without a border
 (foreground) colour and with or without a background colour.
 
 If you link the box to a target, Silverjuke  may  draw  some  text  using  the
 foreground colour.
 
-If no   background   colour  is  given  using  the  <color>-tag,  the  box  is
+If no   background   colour  is  given  using  the  color-tag,  the  box  is
 transparent.
 
 Attributes:
@@ -392,7 +392,7 @@ Attributes:
 - target - Most common targets are Line00, Line01  etc.  and  DisplayCover.
   See the chapter Targets for a complete list.
 
-- x,  y,  w,  h -  The position and the size of the box, See <img> for more
+- x,  y,  w,  h -  The position and the size of the box, See img-tag for more
   information about these attributes.
 
 - border - "1" draws a border, "0" doesn't (default)
@@ -402,7 +402,7 @@ Attributes:
   (negative pixel count) or to the right (positive  pixel  count)  by  this
   option.
 
-- inactive - See <button>.
+- inactive - See button-tag.
 
 - hideCreditInDisplay -  special  flag for the target CurrCredit, if set to
   "1", the display does not show the credit changes
@@ -423,43 +423,43 @@ Attributes:
   default font is used. Available in Silverjuke 2.73.
 
 
-Tag <tooltips>
+tooltips-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <tooltips>
     Child tags: none
 
-With the  <tooltips>  tag  you  can  define  the foreground and the background
+With the  tooltips-tag  tag  you  can  define  the foreground and the background
 colours that should be used for the tooltips.
 
 Attributes:
 
 - bgcolor, fgcolor - The colours to use for the tooltips, always required. Only
-  strict RGB colours as "#RRGGBB" are supported, see the <color>-tag for more
+  strict RGB colours as "#RRGGBB" are supported, see the color-tag for more
   information about colour definitions.
 
 - bordercolor - The colour of the 1-pixel-border, only strict RGB colours as
   "#RRGGBB" are supported, defaults to the foreground colour
 
 
-Tag <div>
+div-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <div>
     Child tags: <img>, <button>, <scrollbar>, <workspace>, <input>, <box>,
                 <div>, <if>, <include>, <script>
 
-The <div> tag may be used as a container for other items, as all positions and
-sizes of child items are relative to <div>  tag,  using  <div>  makes  layouts
-easier to handle. <div> tags may be nested.
+The div-tag may be used as a container for other items, as all positions and
+sizes of child items are relative to div-tag,  using  div-tags  makes  layouts
+easier to handle. div-tags may be nested.
 
 Attributes:
 
-- x,  y,  w,  h - The position and the size of the container, see <img> for
+- x,  y,  w,  h - The position and the size of the container, see img-tag for
   more information about these attributes.
 
 - doubleclicktarget - The action that should be performed on a double click
-  in  unused areas. You may use most targets that can be used for <button>-
+  in  unused areas. You may use most targets that can be used for button-
   tags here; for a list of all available targets see the chapter Targets.
 
 - target - Target for this container, currently only the target VisRect  is
@@ -470,10 +470,10 @@ Attributes:
   "1",  the  vis.  is  started  automatically together with the kiosk mode.
 
 - indent -   Set   indent   borders   for    the    vis.    rectangle    as
-  "<left>,<top>,<right>,<bottom>" eg. "1,2,1,2"
+  "left,top,right,bottom" eg. "1,2,1,2"
 
 
-Tag <color>
+color-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <color>
@@ -532,7 +532,7 @@ such colours, however, there are also many colour pickers on the web, look eg.
 at http://de.selfhtml.org/helferlein/farben.htm .
 
 
-Tags <if>, <else>
+if-, else-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <if>
@@ -540,8 +540,7 @@ Tags <if>, <else>
                 <input>, <box>, <div>,
                 <tooltips>, <color>, <if>, <include>, <script>
 
-With this  tag  you  can  let  the  tags between <if>..</if> appear only under
-certain circumstances.
+With this tag you can let tags appear only under certain circumstances.
 
 Attributes:
 
@@ -578,14 +577,16 @@ Attributes:
 - version -  check  if  Silverjuke  runs  at  least  with the given version
   number. The version number must be given as "major.minor.revision" where
   "revision" may be skipped.  
-  Example: To check against version 1.22, use <if version="1.22">...</if>
+  Example: To check against version 1.22, use 
+  
+        <if version="1.22">...</if>
 
-You should not use <if> to skip complete layouts or skins for options that may
-change during Silverjuke is running (this is everything beside the shape-  and
-the  os-flags).  To test certain conditions, also note the attribute debugcond
-for the <skin>-tag. 
+You should not use if-tags to skip complete layouts or skins for options that 
+may change during Silverjuke is running (this is everything beside the 
+os-flags).  To test certain conditions, also note the attribute debugcond
+for the skin-tag. 
 
-Finally, the <else> tag may be used as follows: 
+Finally, the else-tag may be used as follows: 
 
     <if cond="mac">
         ...
@@ -595,35 +596,43 @@ Finally, the <else> tag may be used as follows:
     </else>
 
 
-Tag <include>
+include-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <include>
     Child tags: none
 
-Use <include src="filetoinclude.xml" /> to  include  other  XML-Files  to  the
+Use this tag to  include  other  XML-Files  to  the
 skin.  This  will  have  the  same  effect  as just writing the content of the
-included file at the position of the <include> tag.
+included file at the position of the include-tag.
 
 Attributes:
 
 - src - The name of the file to include. The  file  must  be  in  the  same
   directory, so do not prepend any path to the file name.
+  
+Example:
+
+    <include src="filetoinclude.xml" />
 
 
-Tag <script>
+script-Tag
 --------------------------------------------------------------------------------
 
     Tag:        <script>
     Child tags: none
 
-Use <script  src="scripting.sj"  />  to  include a script to the skin. See the
-chapter Scripting for more information about scripts.
+Use this tag to include a script to the skin. See the file _scripting_ for more
+information about scripts.
 
 Attributes:
 
 - src - The name of the script to include. The file must  be  in  the  same
   directory, so do not prepend any path to the file name.
+  
+Example:
+
+    <script  src="scripting.sj"  />
 
 Alternatively, you  can also write the script directly to in the XML-file of a
 skin:
@@ -640,12 +649,12 @@ Targets
 ================================================================================
 
 
-Targets for the <button> Tag
+Targets for the button-Tag
 --------------------------------------------------------------------------------
 
-The following list shows possible targets for the <button> Tag. It is okay  to
-use  the  same Target more than one time. <button> targets may also be used as
-doubleclick targets for <layout> or <div>.
+The following list shows possible targets for the button-Tag. It is okay  to
+use  the  same Target more than one time. button-targets may also be used as
+doubleclick targets for layout- or div-tags.
 
 There is no need to support all targets in a layout, it is up to you to decide
 which  functions  you  want  to  implement  by  the skin. Many - but not all -
@@ -666,8 +675,8 @@ functions are also available by the context menus or by shortcuts.
 - DisplayDown, DisplayUp
 
   Clicks on these buttons will scroll the display lines up or down. The  display
-  lines themselves are define by the targets Line00 .. Line99 using a <box> tag.
-  Also note the <scrollbar> target DisplayVScroll.
+  lines themselves are define by the targets Line00 .. Line99 using a box-tag.
+  Also note the scrollbar-target DisplayVScroll.
 
 - EnqueueLast, EnqueueNext, EnqueueNow, Unqueue, UnqueueAll, Prelisten
 
@@ -717,15 +726,15 @@ functions are also available by the context menus or by shortcuts.
 - Repeat, Shuffle, RemovePlayed
 
   "Repeat" toggles  the  repeat  state  from  "off",  "all" to "single" (in this
-  direction). So make sure, you have defined enough subimages (see <button>)  to
-  represent all button states.  
+  direction). So make sure, you have defined enough subimages (see button-tag)
+  to represent all button states.  
   "Shuffle" and "RemovePlayed" just toggles the corresponding states.
 
 - SearchButton
 
   Starts/ends a  search  on  click.  As  there are some important options in the
   context menu for this button, we've added a context menu area in  the  default
-  skin (see the parameter "cmw" for the <button> tag).  
+  skin (see the parameter "cmw" for the button-tag).  
   The context menu area of the search button is highlited in green.
 
 - SeekBwd, SeekFwd
@@ -735,7 +744,7 @@ functions are also available by the context menus or by shortcuts.
 - StartVis
 
   This target  starts  or stops the currently selected or running visualization.
-  Also note the <div> target VisRect.
+  Also note the div-target VisRect.
 
 - Stop, StopAfterThisTrack, StopAfterEachTrack
 
@@ -762,14 +771,14 @@ functions are also available by the context menus or by shortcuts.
 - VolDown, VolUp, Mute
 
   Clicks on these targets alter the main volume. In the default skin we  do  not
-  use  the  buttons  and only use a volume slider defined by the <scrollbar> tag
+  use  the  buttons  and only use a volume slider defined by the scrollbar-tag
   VolSlider. However, in  the  skin  Silveriness  Touched  we  use  the  targets
   "VolDown" and "VolUp"
 
 - WorkspaceDown, WorkspaceLeft, WorkspaceRight, WorkspaceUp
 
   These targets alter the horizontal or vertical position in the  browser.  Also
-  note the <scrollbar> targets WorkspaceHScroll and WorkspaceVScroll.
+  note the scrollbar-targets WorkspaceHScroll and WorkspaceVScroll.
 
 - WorkspacePageDown, WorkspacePageLeft, WorkspacePageRight, WorkspacePageUp
   
@@ -787,19 +796,18 @@ functions are also available by the context menus or by shortcuts.
 
   These button targets can be used to switch the current view of the  workspace.
   Note  that  views  can be disabled in the kiosk mode, you can check this using
-  <if>. 
+  the if-tag. 
 
-- Layout:<your layout name>
+- Layout:yourLayoutName
 
-  You can also use "Layout:<your layout name>" as a target for  a  button.  This
-  allows you to use several switchable layouts, eg. you can show/hide some items
-  this way.
+  You can also use a layout as a target for a button.  This allows you to use 
+  several switchable layouts, eg. you can show/hide some items this way.
 
 
-Targets for the <box> Tag
+Targets for the box-Tag
 --------------------------------------------------------------------------------
 
-The following list shows possible targets for the <box> Tag.
+The following list shows possible targets for the box-Tag.
 
 - DisplayCover
 
@@ -838,16 +846,16 @@ The following list shows possible targets for the <box> Tag.
   system is not enabled and there are infinite credits available, "oo" is shown.
 
 
-Targets for the <scrollbar> Tag
+Targets for the scrollbar-Tag
 --------------------------------------------------------------------------------
 
-The following list shows possible targets for the <scrollbar> Tag
+The following list shows possible targets for the scrollbar-Tag
 
 - DisplayVScroll
 
   This target  sets  the  scrollbar to scroll the display (eg. the tracklist) up
   and down. The display lines themselves are define by  the  targets  Line00  ..
-  Line99  using  a  <box>  tag.  Also  note the <button> targets DisplayDown and
+  Line99  using  a  box-tag.  Also  note the button-targets DisplayDown and
   DisplayUp.
 
 - Seek
@@ -859,36 +867,36 @@ The following list shows possible targets for the <scrollbar> Tag
 - VolSlider
 
   This target sets the scrollbar to alter the main volume  of  Silverjuke.  Also
-  note the <button> targets VolUp, VolDown and Mute.
+  note the button-targets VolUp, VolDown and Mute.
 
 - WorkspaceHScroll, WorkspaceVScroll
 
   These targets set the scrollbar to alter the horizontal or  vertical  position
-  in  the  browser. Also note the <button> targets WorkspaceDown, WorkspaceLeft,
+  in  the  browser. Also note the button-targets WorkspaceDown, WorkspaceLeft,
   WorkspaceRight and WorkspaceUp.
 
 
-Targets for the <div> Tag
+Targets for the div-Tag
 --------------------------------------------------------------------------------
 
-The following list shows possible targets for the <div> Tag.
+The following list shows possible targets for the div-Tag.
 
 - VisRect
 
   With "VisRect"  you  define  the container the visualization will be displayed
-  in. If you do not define a <div> area with this  target,  the  <workspace>  is
-  used  as  the  area  to  display  the visualization in. Also note the <button>
-  target StartVis.  
+  in. If you do not define a div-area with this  target,  the  workspace-tag is
+  used  as  the  area  to  display  the visualization in. Also note the
+  button-target StartVis.  
   The image shows the workspace (green)  and  the  VisRect  (red)  used  in  the
   default skin.
 
-- Layout:<your layout name>
+- Layout:yourLayoutName
 
-  You can also use "Layout:<your layout name>" as a doubleclick target for a
-  <div> tag. This allows you to use several switchable layouts, eg. you can
+  You can also use layouts as a doubleclick target for a
+  div-tag. This allows you to use several switchable layouts, eg. you can
   show/hide some items this way.  
-  Moreover, you  can  use the <button> targets from above as doubleclick targets
-  for the <div> tags.
+  Moreover, you  can  use the button-targets from above as doubleclick targets
+  for the div-tags.
 
   
 Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com

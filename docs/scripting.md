@@ -279,17 +279,17 @@ Variables have no type attached, and any value can be stored in any variable.
 - Variable  names  (as  well  as  functions  and  reserved  words) are case
   sensitive.
 
-    a = 1;         // declare a global variable
-    function var_test()
-    {
-        var b = 2; // this is a variable local to var_test()
-        c = 'str'; // this also declares a global variable
-    }
+        a = 1;         // declare a global variable
+        function var_test()
+        {
+            var b = 2; // this is a variable local to var_test()
+            c = 'str'; // this also declares a global variable
+        }
     
-    var_test();    // call var_test()
-    print(a);      // will print 1
-    print(b);      // b is undefined as local to var_test()
-    print(c);      // will print 'str'
+        var_test();    // call var_test()
+        print(a);      // will print 1
+        print(b);      // b is undefined as local to var_test()
+        print(c);      // will print 'str'
 
 
 **Basic Data Types**
@@ -322,20 +322,20 @@ between these types is done as needed.
   functions (callable  properties).  To access properties of an object, use
   the . operator
 
-    a = true;              // create a boolean
+        a = true;              // create a boolean
+        
+        b = 12.2;              // assign a number to b
+        c = 'test string';     // assign a string to c
+        d = "another string";  // assign a string to d
+        
+        e = [0,1,2];           // create an array with three elements
+        f = new Array(0,1,2);  // same using the new operator
+        
+        g = new Object;        // create a new (empty) object
+        g.prop = 23;           // assign a property to the object
 
-    b = 12.2;              // assign a number to b
-    c = 'test string';     // assign a string to c
-    d = "another string";  // assign a string to d
-
-    e = [0,1,2];           // create an array with three elements
-    f = new Array(0,1,2);  // same using the new operator
-
-    g = new Object;        // create a new (empty) object
-    g.prop = 23;           // assign a property to the object
-
-    h = new Date;          // create an object of a predefined class
-    h.getDay()             // call a method (a callable property) of the object
+        h = new Date;          // create an object of a predefined class
+        h.getDay()             // call a method (a callable property) of the object
 
 There is no need to worry about deleting variables - this is done
 automatically by Silverjuke's garbage collection.
@@ -345,7 +345,12 @@ automatically by Silverjuke's garbage collection.
 
 You can use the control structures if, switch, for, while and do..while.
 
-    if ( expr ) { statements; } else { statements; }
+    if ( expr ) { 
+        statements; 
+    }
+    else {
+        statements; 
+    }
 
 If-expression: The curly braces are needed only if you use more than one 
 statment. In general, they are recommended in most cases. The else part is 
