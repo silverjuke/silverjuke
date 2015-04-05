@@ -14,7 +14,6 @@ Todo
 This version of Silverjuke is still beta and the following points are with high
 priority on our todo-list:
 
-- Create configure/make scripts
 - Make player basics work properly
 - Fix known bug: Visualisation screen freezes Silverjuke
 - Fix known bug: Program crashes on editing shortcuts
