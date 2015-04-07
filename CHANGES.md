@@ -32,7 +32,7 @@ V15.1 (07.04.2015)
 - Fixed a problem with bad values assigned to program.repeat
 
 
-V2.75-V3.05 (15.05.2009-31.08.2011)
+V2.75-V3.05 (2009-2011)
 ================================================================================
 
 - Special and testing versions not belonging to the Silverjuke core
