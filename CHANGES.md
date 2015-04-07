@@ -2,132 +2,40 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.1 (02.04.2015)
+V15.1 (07.04.2015)
 ================================================================================
 
 - Silverjuke core made open source, see github.com/r10s/silverjuke
 - Source and feature cleanup
-
-
-V3.05 (31.08.2011)
-================================================================================
-
-- This version is an inoffical Versions for testing new features
-- Trying different video options
-
-
-V3.04 (27.08.2011)
-================================================================================
-
-- This version is an inoffical Versions for testing new features
-- In kiosk mode, the video playback screen can be closed by a simple click again
-
-
-V3.03 (25.08.2011)
-================================================================================
-
-- This version is an inoffical Versions for testing new features
 - New: "My music library/Source options/Read hidden folders", defaults to "on"
-- Search: characters like "+" or "$" works again (bug added in 3.00)
-- Updating BASS from 2.4.6 to 2.4.7
-
-
-V3.02 (18.11.2010)
-================================================================================
-
-- This version is an inoffical Versions for testing new features
 - New: Read/write support for XSPF (pronounced "spiff") playlists
 - New: Read support for iTunes playlists (*.xml)
 - New: Read support for Windows Media Player playlists (*.wpl)
-- New: Videos can be used as jingles
 - New: Scripting: Dialog.show('saveplaylist')
 - New: Virtual keyboards: "alt" keys may be locked
 - New: Virtual keyboards: Allowing up to 32 different "alt"-keys
-- The console window shows if the operating system is a 64 or a 32 bit one
-- Playlists handling on network drives improved
-- Fixed a bug with compressed ID3v2 frame headers
-- Updating sqlite from 3.6.23 to 3.7.3
-
-
-V3.01 (03.10.2010)
-================================================================================
-
-- This version is an inoffical Versions for testing new features
-- Fixed a bug when loading skins
-- Fixed a bug that prevents timers from unloaded scripts being stopped
-- Filenames containing a percent sign ("%") do work again
-- Memory leak fixed in "Settings/View/Skins/Menu/Update list"
-- Garbage debugging information removed from the console
-
-
-V3.00 (30.09.2010)
-================================================================================
-
-- This version is an inoffical Versions for testing new features
-- New: Video support in the Windows version of Silverjuke
-- New: To define video file extensions, see "Settings/Advanced/Further options/
-  Video decoder", default extensions are .avi and .mpg
-- New: The video playback screen is added to the Karaoke/Visualization screen;
-  to open it, press F2 or use the corresponding button
-- New: Blinking button if there is a video or a karaoke prompt belonging to the
-  currently playing track
-- New: Support for Winamp 5 visualization plugins
-- New: Support for Sonique visualization plugins
-- New: Support for Windows Media Player visualization plugins
-- New: Support for BassBox visualization plugins
-- New: Visualizations are now loaded from "Visualization/Menu/Use another
-  visualization"
 - New: The search filed allows you to search for single word, eg. "Stones Black"
   will find "Rolling Stones - Paint it Black"
 - New: "Settings/Advanced/Further options/Search: Search single words"
-- New: Improved, safer kiosk mode; works for Windows 7
-- New: To disable ctrl-alt-del on Windows 7, a little keyboard driver is
-  installed automatically
 - New: New AutoPlay feature: Ignore tracks from music selection (eg. from "Worst
   rated")
-- New: Support for Speex files
-- New: Support for True Audio files
-- New: Support for TAR archive files
-- New: Support for TGA image files
-- New: Bigger resonance range for the low pass filter
 - New: New "Change password" button at "Settings/Kiosk mode/Start"
-- New: New coloured, logical icons
-- Fixed a problem with bad values assigned to program.repeat
+- Playlists handling on network drives improved
 - Using the default font for the Video/Karaoke/Visualization title
-- The option "Settings/View/Font/Use this font in dialogs, too" does no longer
-  regard the zoom factor
 - Search: No longer searching for genre names by default; please use the context
   menu for this purpose or enable the feature manually at "Settings/Advanced/
   Further options/Search: Lookup genre on simple search"
-- Updating BASS from 2.2 to 2.4.6
-- Updating sqlite from 3.2.8 to 3.6.23
-- Updating wxWidgets from 2.6.3 to 2.8.11
-- The Silverjuke.exe file is no longer packed; this is because some virus
-  scanners have trouble with packed executables - they spend too much time in
-  scanning or report false positives
-- If you really need a smaller Silverjuke.exe file, you can use eg. the UPX
-  compressor which is available at upx.sourceforge.net
+- Fixed a bug with compressed ID3v2 frame headers
+- Fixed a bug when loading skins
+- Fixed a bug that prevents timers from unloaded scripts being stopped
+- Fixed: Memory leak in "Settings/View/Skins/Menu/Update list"
+- Fixed a problem with bad values assigned to program.repeat
 
 
-V2.77 (30.06.2010)
+V2.75-V3.05 (15.05.2009-31.08.2011)
 ================================================================================
 
-- This is a special version for all c't magazine readers
-- FX support is disabled
-
-
-V2.76 (10.05.2010)
-================================================================================
-
-- This is a special version for all PC Praxis readers
-- FX support is disabled
-
-
-V2.75 (15.05.2009)
-================================================================================
-
-- This is a special version for all c't magazine readers
-- FX support is disabled
+- Special and testing versions not belonging to the Silverjuke core
 
 
 V2.74 (09.04.2009)
@@ -145,7 +53,7 @@ V2.73 (04.01.2009)
 
 - New: AutoPlay regards the "Avoid boredom" settings
 - New: Music selection: Playlists can be used for include/exclude rules
-- New: New skin attribute <box font="...">
+- New: font-attribute in box-tags
 - New: Scripting: Program.visMode
 - New: Scripting: Player.avoidBoredom
 - New: Scripting: Program.getSelection() can return workspace or display
@@ -158,9 +66,9 @@ V2.73 (04.01.2009)
 - New: The command line parameters "--instance" and "--ini" may be combined with
   other command options
 - New: Support for UTF-16 encoded karaoke files and playlists andded
-- Skinning: Different <input>-items in different layouts can have different font
+- Skinning: Different input-items in different layouts can have different font
   colours and sizes
-- Skinning: <if cond="creditsystem"> also works on startup
+- Skinning: If-Tags: The condition "creditsystem" also works on startup
 - Music selection: When using the "is set" operator, the unit choice is always
   hidden
 - Music selection: No more crashes when using multiple include/exclude rules
@@ -213,7 +121,7 @@ V2.70 (28.09.2008)
   "Show rating"; for longer comments, only the first 40 characters are shown
 - New: New command line and DDE option --execute
 - New: New option "Kiosk mode/Functionality/Repeat"
-- New: New skin target: <button target="removePlayed">
+- New: New skin button-target "removePlayed"
 - New: A shortcut can be assigned to "Remove played tracks from queue"
 - New: Support for M3U8-playlists
 - Tag editor/Split field: Empty destination fields are okay
@@ -255,9 +163,9 @@ V2.70 (28.09.2008)
 - New: Scripting: Rights.zoom
 - Scripting: Rights.credits, Rights.editQueue, Rights.unqueue,
   Rights.multiEnqueue are writable
-- New skin condition: <if cond="zoom">
-- New skin attribute <box id="...">
-- New skin target: <button target="stopAfterEachTrack">
+- New skin condition "zoom"
+- New skin attribute for box-tags: "id"
+- New skin button-target: "stopAfterEachTrack"
 - New skin option: h="opposite" assigns the height of a box to its width, also
   works for w="opposite"
 - In skin "Silveriness": When showing the display only, the display can still be
@@ -356,15 +264,9 @@ V2.50 (16.12.2006)
 - "Use hardware" is no longer enabled by default
 - "Use system volume" options moved to "Settings/Advanced/Further options"
 - "Automatic volume control" and "Fading" moved to "Playback/Automatic control"
-- New skin target: Goto next/prev letter
-- New skin target <box target="currTrack"> <box target="currTime">
-- New skin attribute <box text="...">
-- New skin attribute <box hideCreditInDisplay="...">; this may be used for the
-  "currCredit" target
-- New skin attribute "visAutoStart" that may be used for the "visrect" target in
-  kiosk mode
-- New skin target <box target="currCredit"> and new skin condition
-  <if cond="creditsystem">
+- New skin target: Goto next/prev letter, "currTrack", "currTime", "currCredit"
+- New skin attributes: "text", "hideCreditInDisplay", "visAutoStart"
+- New skin condition: "creditsystem"
 - Skinning: The text size in the search input controls scales to fit the real
   size of the control
 - Better recognition of visualization DLLs
@@ -433,7 +335,7 @@ V2.00 (13.06.2006)
 - New command line options --volup, --voldown and --togglevis
 - New command line parameter "--kioskrect"; this can be used to let Silverjuke
   only use some parts of the screen in kiosk mode
-- <if version> tag added to the skin engine
+- New skin condition: "version"
 - New option in the playback context menu: "More from current album/artist"
 - Added amazon.com and jpc.de to the german cover search (thanks to timewind)
   and lyricwiki.org to the lyrics search
@@ -468,7 +370,6 @@ V1.22 (01.03.2006)
 - German umlauts are read correctly from UTF-16 ID3-tags
 - Fixed a problem if the key to exit the kiosk mode was still hold in the
   shutdown period
-- Updating sqlite from 3.2.7 to 3.2.8
 - Improved loading of Winamp 5.2 modules
 - MilkDrop 1.04d that comes with Winamp 5.2 is currently incompatible to
   Silverjuke due to undocumented API calls and is not loaded therefore
@@ -542,9 +443,8 @@ V1.16 (20.11.2005)
   tray icon
 - The prior searches, music selections and genres are accessible directly from
   the search menu now (use eg. the little arrow right of the search control)
-- New command line parameter "--instance=<INI-file>"
-- New tags for the skin engine: <if cond="shaped"> and <else>
-- Updating sqlite from 3.2.1 to 3.2.7
+- New command line parameter "--instance=INI-file"
+- New skin condition: "shaped", else-tag added
 - The kiosk mode option "Query settings before start" works as expected
 - Fixed a bug that avoids ID3-tag-reading under some circumstances
 - Fixed a bug that hides some tracks under some circumstances
@@ -708,7 +608,6 @@ V0.32 (08.04.2005)
 - A double click on an item in "Settings/Advanced/Further options" always opens
   the context menu if there are more than two options present
 - Optimized the icons to work with non-standard colors
-- Updating sqlite from 3.1.6 to 3.2.1
 - Bug fixed that lead the tag editor confirmation dialog crash in some cases
 - Bug fixed when selecting tracks using shift-up
 - The dialog "Automatic volume" shows more details about the current volume
@@ -746,7 +645,6 @@ V0.30 (21.03.2005)
 - Handling improved when Silverjuke is about to terminate and started again in
   these moments
 - Allowing "short" paths in playlists
-- Updating sqlite from 3.1.5 to 3.1.6
 - Giving volume-adjusted samples to the visualizations
 - Bug fixes when switching from internal to global drag'n'drop (let to program
   hang under some circumstances)
@@ -771,7 +669,6 @@ V0.29 (14.03.2005)
 - A database update is initiated automatically when this version is started
   first; normally, this will only take a few seconds
 - Cross fading, automatic volume and output dialogs are modeless
-- Updating sqlite from 3.1.3 to 3.1.5
 - Opened menus or modal system dialogs do no longer avoid playing the next title
   in the queue
 - Fading some milliseconds on play, pause, stop, previous, next and exit
@@ -847,7 +744,7 @@ V0.27 (27.02.2005)
 - Mute does no longer pause playback
 - Memory leak fixed when writing ID3 tags
 - "Play title now" works in shuffle mode
-- No more errors as "Image not found. Source tag is: <button >" when loading a
+- No more errors as "Image not found. Source tag is..." when loading a
   correct skin
 - If there are no columns in the browser, the thumb of the horizontal scrollbar
   is as wide as scrollbar
@@ -855,7 +752,6 @@ V0.27 (27.02.2005)
 - Moved option "Ask on close if playing" to "Advanced/Further options"
 - Renamed "Rating" to "My rating"
 - Renamed "Playback settings/Further options" to "Playback settings/Shuffle"
-- Updating sqlite from 3.0.8 to 3.1.3
 - IDs of deleted tracks are never reused again; future versions may depend on
   this behavior, so you may want to delete mymusic.db and create it again;
   however, currently this is not needed
@@ -884,7 +780,7 @@ V0.25 (16.02.2005)
 - New: Local and system-wide drag'n'drop support from the browser window eg. to
   the display
 - New options for drag'n'drop in "Advanced/Further options"
-- Command line option "--temp=<dir>" added
+- Command line option "--temp=DIR" added
 - Hiliting conflicting decoder modules in "Settings/Modules"
 - Sorting of strings that begin with a number corrected
 - Tooltips are closed if the mouse is over another window
