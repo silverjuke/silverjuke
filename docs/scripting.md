@@ -204,9 +204,8 @@ Overview
 ================================================================================
 
 Many things in Silverjuke can be controlled using scripting. A script is built
-of simple lines of code placed eg.  in  a  text  file  or  in  "onclick"  (see
-"<button>")-attributes  of  skins. Scripting will work in Silverjuke 2.10beta8
-or later.
+of simple lines of code placed eg. in a text file or in attributes attributes
+of skins (eg. "onclick" in button-Tags).
 
 These chapters describe how to write scripts for Silverjuke.
 
@@ -227,15 +226,15 @@ These chapters describe how to write scripts for Silverjuke.
 **Scripting commands and Targets**
 
 In contrast to  targets  in  skins  (see  "Targets"),  commands  are  executed
-independingly of the functionality allowed by the user:
+independingly of the functionality allowed by the user. Example:
 
-- The command <button onclick="pause();" /> will always pause the player.
-
-- The  target  <button target="pause" /> will  pause  the  player  only  if
-  pausing is allowed by the administrator of Silverjuke's kiosk mode.
+    <button onclick="pause();" /> <!-- will always pause the player -->
+    
+    <button target="pause" />     <!-- will pause the player only if allowed
+                                  in Silverjuke's kiosk mode options -->
 
 However, if required, you can check the allowed functionality before  defining
-eg. a button; please us the <if>-tag or the Rights Object for this purpose.
+eg. a button; please us the if-tag or the Rights Object for this purpose.
 
 
 **Read on ...**
@@ -492,11 +491,11 @@ Read only property. Contains the Silverjuke version as 0xjjnn00rr with:
 - nn ans the minor version
 - rr as the revision
 
-The single   components  are  encoded  as  BCD  <http://en.wikipedia.org/wiki/
-Binary-coded_decimal>; eg. for Silverjuke  2.10 rev17,  the  function  returns
+The single components are encoded as BCD (see http://en.wikipedia.org/wiki/
+Binary-coded_decimal); eg. for Silverjuke 2.10 rev17, the function returns
 0x02100017. Note, that the revision number is not always equal to the beta- or
-rc-number.  You  can  find  out  the  correct  revision  number  eg.  in   the
-"Properties" dialog of Windows.
+rc-number.  You can find out the correct revision number eg. in the "Properties"
+dialog of Windows.
 
 See also: SJ_GET_VERSION
 
@@ -506,7 +505,7 @@ Program.os
 
     value = program.os;
 
-Read only  property.  Contains  one  of the following strings representing the
+Read only property.  Contains one of the following strings representing the
 underlying operating system:
 
 - gtk - Silverjuke and the scripts run unter GTK, normally Linux
@@ -553,8 +552,7 @@ Program.layout
     value = program.layout;
 
 Read/write property. Contains the name of the currently selected  layout.  The
-layout  names  must  be  defined  in  the  skins  using the <layout> tag. This
-property is available in Silverjuke 2.52 or later.
+layout  names  must  be  defined  in  the  skins  using the layout-tag.
 
 Example:
 
@@ -651,7 +649,7 @@ Program.zoom
 
 Read/write property that contains the current zoom of the  current  view.  The
 zoom  is  defined  by a value between 0 and 6 (0=very small, 3=default, 6=very
-large view). This property is available since Silverjuke 2.52beta7.
+large view).
 
 Example:
 
@@ -673,7 +671,7 @@ This property contains the words of the current "simple search". If  there  is
 no  search at the moment, the property is undefined. You can change the search
 words by just assinging a string to this property.
 
-Note that this  property  may  not  work  if  Silverjuke  is  not  yet  loaded
+Note that this property may not work if Silverjuke is not yet loaded
 completely (see "Program.loaded"). 
 
 Example:
@@ -693,7 +691,7 @@ This property contains the name of the currently selected music  selection  or
 undefined.  You can change the current music selection by assinging one of the
 existing music seletions to this property.
 
-Note that this  property  may  not  work  if  Silverjuke  is  not  yet  loaded
+Note that this  property may not work if Silverjuke is not yet loaded
 completely (see "Program.loaded").
 
 Example:
@@ -757,8 +755,7 @@ Program.onUnload
 
     program.onUnload = function;
 
-This function is triggered  before  Silverjuke  is  terminated.  Available  in
-Silverjuke 2.52beta2.
+This function is triggered before Silverjuke is terminated.
 
 Example:
 
@@ -877,8 +874,7 @@ Program.visMode
     enabled = program.visMode;
 
 Read/write propterty  to  start/stop the selected visualization or to find out
-if it is running. This propterty will  be  available  in  Silverjuke  2.73  or
-later.
+if it is running.
 
 Example:
 
@@ -906,8 +902,7 @@ Program.autoPlay
     enabled = program.autoPlay;
 
 Read/write propterty to access the AutoPlay state. The state is simply true or
-false for  "AutoPlay  enabled"  or  "AutoPlay  disabled".  This  property   is
-available in Silverjuke 2.52 or later.
+false for  "AutoPlay  enabled"  or  "AutoPlay  disabled".
 
 Example:
 
@@ -941,9 +936,8 @@ Program.addMenuEntry()
 
 Adds a button eg. for your plugin's configuration dialog to the main menu. The
 name of the menu entry is defined by name. If the user selects one  of  "your"
-menu entry, the given function is called. In Silverjuke 2.52 or later, you can
-also add (even global) shortcuts for a menu entry;  see  "Advanced  /  Further
-options / Shortcut" for this purpose.
+menu entry, the given function is called. You can also add shortcuts for a menu
+entry; see "Advanced / Further options / Shortcut" for this purpose.
 
 See also: Program.addConfigButton(), Program.addSkinsButton(),
 Program.addExitOption()
@@ -1040,7 +1034,7 @@ longer than about 20 seconds.
 
 Example:
 
-program.setDisplayMsg('Hello!');
+    program.setDisplayMsg('Hello!');
 
 See also: print(), logWarning(), logError()
 
@@ -1050,11 +1044,11 @@ Program.setSkinText()
 
     program.setSkinText(id, text);
 
-With this  function  you  can change the text of a <box>-Tag. The id should be
-the same string as given to <box id=".."> and text is the text to display.
+With this  function  you  can change the text of a box-tag. The id should be
+the same string as given to the id-attribute in the box-tag and text is the
+text to display.
 
 If you use the same ID in different layout, the text is changed for all items.
-Available in Silverjuke 2.52beta2.
 
 Example - the skin part:
 
@@ -1073,7 +1067,7 @@ Example - the script part - here we write the current artist to the box:
 
     player.onTrackChange = updateBox;
 
-See also: <box>
+See also: box-tag
 
 
 Program.refreshWindows()
@@ -1123,8 +1117,7 @@ Returns an  array  (see "Array Object") containing all currently selected URLs
 "display").  The  selected  tracks  are  useful  eg. if you want to perform an
 action on the selection eg. from Program.addMenuEntry().
 
-The parameter what will be available in  Silverjuke  2.73  and  defines  which
-selection should be returned:
+The parameter "what" defines which selection should be returned:
 
 - 0 -  Smart selection detection. Return the selection in the workspace. If
   nothing is selected there, return the selection in the queue. If  nothing
@@ -1133,8 +1126,8 @@ selection should be returned:
   This behaviour is useful eg. if you want to do something with  some  user
   selected  tracks, but you do not want to worry about where the tracks are
   selected or where they come from. Internally, we use this  behaviour  eg.
-  in  our  "burn" dialog. If you do not specify what or in Silverjuke older
-  than 2.73, this is the default behaviour.
+  in  our  "burn" dialog. If you do not specify "what", this is the default 
+  behaviour.
 - 1 - Return the  workspace  selection.  If  nothing  is  selected  in  the
   workspace, an empty array is returned.
 - 2 -  Return  the queue selection. If nothing is selected in the queue, an
@@ -1151,7 +1144,7 @@ Program.getMusicSels()
 Returns an array (see "Array Object") containin all the  names  of  all  music
 selections available.
 
-Note that  this  function  may  not  work  if  Silverjuke  is  not  yet loaded
+Note that this function may not work if Silverjuke is not yetloaded
 completely (see "Program.loaded").
 
 See also: Program.musicSel
@@ -1162,7 +1155,7 @@ Program.run()
 
     program.run('c:/programs/whatever.exe');
 
-Just run the given  program.  Silverjuke  does  not  wait  until  the  program
+Just run the given program. Silverjuke does not wait until the program
 terminates.
 
 Example:
@@ -1175,13 +1168,9 @@ See also: Program.launchBrowser()
 Program.launchBrowser()
 --------------------------------------------------------------------------------
 
-    program.launchBrowser('http://whatever.com');
+    program.launchBrowser('http://www.whatever.com');
 
 Open the given site in the default browser.
-
-Example:
-
-    program.launchBrowser('http://www.silverjuke.net');
 
 See also: Program.run()
 
@@ -1406,8 +1395,7 @@ property to a callback function.
 
 The given function is called a little moment after the end of a track  or  eg.
 if the user hits the "next" button. Silverjuke eg. increases the play count on
-this notification. This notification is called for  Silverjuke  2.10beta12  or
-later.
+this notification. 
 
 To remove the callback function, just assign "undefined" to the property.
 
@@ -1450,8 +1438,8 @@ Player.stopAfterThisTrack
 
     state = player.stopAfterThisTrack;
 
-Read/write property  that  contains  the  state of the "Stop after this track"
-option. This property is available in Silverjuke 2.52 or later.
+Read/write property that contains the state of the "Stop after this track"
+option. 
 
 Example:
 
@@ -1464,8 +1452,8 @@ Player.stopAfterEachTrack
 
     state = player.stopAfterEachTrack;
 
-Read/write property that contains the  state  of  the  "Stop after each track"
-option. This property is available in Silverjuke 2.52 or later.
+Read/write property that contains the state of the "Stop after each track"
+option. 
 
 Example:
 
@@ -1579,9 +1567,9 @@ Some notes:
   play track. You can also add auto-played tracks  from  your  plugin,  see
   Player.addAtPos().
 
-- getPlayCountAtPos() was  added  in  Silverjuke 2.10beta12 and returns the
-  number of times the title was played while it was in the queue.  This  is
-  not the "overall" play count from the Database (see "Database Object").
+- getPlayCountAtPos() returns the number of times the title was played while it
+  was in the queue.  This is not the "overall" play count from the Database
+  (see "Database Object").
 
 Example:
 
@@ -1684,7 +1672,7 @@ case), which reflects the current  settings  from  Settings  /  Kiosk  mode  /
 Functionality. Note that the rights object only gives some hints - you may have 
 good reasons for your script to ignore some of them.
 
-See also: <if>-tag in skins (see "<if>")
+See also: if-tag in skins
 
 
 Rights.all
@@ -1707,7 +1695,7 @@ Rights.credits
     value = rights.credits;
 
 Read/write property. Contains the number of credits currently availabe for the
-credit system <http://www.silverjuke.net/user-guide/credit-system.html>.
+credit system.
 
 Example:
 
@@ -1762,8 +1750,7 @@ Rights.editQueue
     state = rights.editQueue;
 
 Property that is true if editing the queue is allowed in any way. If not, this
-property is set to false. Since Silverjuke 2.52beta2 this property can be read
-and written, in older version this property is read only.
+property is set to false. This property can be read and written.
 
 "Edit" in this meaning does not include removing tracks from  the  queue.  For
 this property, please have a look at Rights.unqueue
@@ -1779,10 +1766,8 @@ Rights.unqueue
 
     state = rights.unqueue;
 
-Property that is true if removing tracks from the queue is  allowed.  If  not,
-this  property  is  set  to  false.  This  property is available in Silverjuke
-2.52beta1 or later; since Silverjuke 2.52beta2 this property can be  read  and
-written, in older version this property is read only.
+Property that is true if removing tracks from the queue is allowed. If not, this
+property is set to false.  This property can be read and written.
 
 This property  is  only a hint - removing tracks from the queue by your script
 will work in any case.
@@ -1795,10 +1780,9 @@ Rights.multiEnqueue
 
     state = rights.multiEnqueue;
 
-Property that is true if enqueueing multiple tracks at the same time  (in  one
-step)  is  allowed.  If  not,  this property is set to false. Since Silverjuke
-2.52beta2 this property can  be  read  and  written,  in  older  version  this
-property is read only.
+Property that is true if enqueueing multiple tracks at the same time (in one
+step) is allowed. If not, this property is set to false. This property can be
+read and written.
 
 This property  is  only a hint - editing the queue by your script will work in
 any case.
@@ -1812,7 +1796,7 @@ Rights.repeat
     state = rights.repeat;
 
 Property that is true if the repeat mode can be changed. If not, this property
-is set to false. Available since Silverjuke 2.60beta5.
+is set to false.
 
 This property is only a hint - changing Player.repeat will work in any case.
 
@@ -1931,9 +1915,8 @@ presses the button, the given callback function is called.
 - If you do not provide a callback function, Dialog.close() is called  when
   the button is pressed.
 - Buttons  with the IDs "ok", "cancel" or "help" are shown at the bottom of
-  the dialog in a system-defined order. The labels of the "ok" and "cancel"
-  buttons  are  editable  since  Silverjuke 2.52beta2; for the label of the
-  "help" button, a system-specific text or icon is used.
+  the dialog and the labels can be left out.  The label of the button "help" may 
+  be replaced by another text or icon.
 - All other buttons are shown in the order as added.
 - If you do not add at least an "ok" button, the buttons "ok" and  "cancel"
   are added automatically.
