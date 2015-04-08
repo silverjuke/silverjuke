@@ -74,6 +74,12 @@ void SjTestdrive1()
 #error at least wxWidgets 2.8 required
 #endif
 
+	/* for newer versions, we have to check the changelog first (eg. the behaviour of c_str() has changed ...) */
+#if wxCHECK_VERSION(3, 0, 0)
+#error wxWidgets 3 will cause problems, use wxWidgets 2.8 instead
+#endif
+
+
 	/* Make sure, HTTP Auhorization is added to http.cpp in all used releases (see remarks like EDIT BY ME in wx/http.cpp and wx/http.h) */
 #if !wxCHECK_VERSION(2, 8, 7)
 	wxLogWarning(wxT("Testdrive: wxHTTP auhorization functionality missing."));
