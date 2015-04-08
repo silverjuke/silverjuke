@@ -34,6 +34,9 @@
 #include <xine.h>
 
 
+class SjXineStream;
+
+
 class SjPlayerImpl
 {
 public:
@@ -41,8 +44,8 @@ public:
 
 	xine_t*             m_xine;
 	xine_audio_port_t*  m_ao_port;
-	xine_stream_t*      m_curr_stream;
-	wxString            m_curr_url; // may also be set it m_curr_stream is NULL (not cleared on errors)
+
+	SjXineStream*		m_currStream;
 
 	SjExtList           m_extList;
 	bool                m_extListInitialized;
