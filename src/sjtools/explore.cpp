@@ -167,7 +167,7 @@ void SjTools::ExploreHomepage(SjHomepageId pageId, const wxString& param)
 	// create the url
 
 	wxString url = wxString::Format(
-	                   wxT("http://") SJ_WWW_DOMAIN wxT("/go/?page=%i&lang=%s"),
+	                   wxT("http://www.silverjuke.net/go/?page=%i&lang=%s"),
 	                   (int)pageId,
 	                   lang.c_str());
 
