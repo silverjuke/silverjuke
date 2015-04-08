@@ -522,7 +522,7 @@ bool SjServerScannerModule::IterateHttp(SjColModule* receiver, SjServerScannerSo
 
 		// lookup options
 		int searchPathIndex, searchPathCount = g_tools->GetSearchPathCount();
-		for( searchPathIndex=0; searchPathIndex<searchPathCount + 2/*check server/silverjuke.net*/; searchPathIndex++ )
+		for( searchPathIndex=0; searchPathIndex<searchPathCount + 1/*check server*/; searchPathIndex++ )
 		{
 			if( searchPathIndex < searchPathCount )
 			{
@@ -531,16 +531,10 @@ bool SjServerScannerModule::IterateHttp(SjColModule* receiver, SjServerScannerSo
 				fn.Normalize();
 				currTryFileName = fn.GetFullPath();
 			}
-			else if( searchPathIndex == searchPathCount )
+			else
 			{
 				// then, check the remove server configuration
 				currTryFileName = currSource->GetPath(wxT("music-lib-cfg.txt"));
-				g_tools->m_cache.RemoveFromCache(currTryFileName, TRUE/*never cache again*/);
-			}
-			else
-			{
-				// finally, check the database on www.silverjuke.net
-				currTryFileName = wxT("http://") SJ_WWW_DOMAIN wxT("/music-lib-cfg/") + normServerName;
 				g_tools->m_cache.RemoveFromCache(currTryFileName, TRUE/*never cache again*/);
 			}
 
