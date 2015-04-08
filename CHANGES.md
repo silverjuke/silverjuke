@@ -14,7 +14,7 @@ V15.1 (07.04.2015)
 - New: Scripting: Dialog.show('saveplaylist')
 - New: Virtual keyboards: "alt" keys may be locked
 - New: Virtual keyboards: Allowing up to 32 different "alt"-keys
-- New: The search filed allows you to search for single word, eg. "Stones Black"
+- New: The search field allows searching for single words, eg. "Stones Black"
   will find "Rolling Stones - Paint it Black"
 - New: "Settings/Advanced/Further options/Search: Search single words"
 - New: New AutoPlay feature: Ignore tracks from music selection (eg. from "Worst
@@ -98,19 +98,18 @@ V2.70 (28.09.2008)
   also regarded by "Avoid double tracks waiting in queue"
 - New: New option "Playback/Automatic Control/Further options/Reset view after..
   minutes of inactivity to .."
-- New: New option "Kiosk mode/Functionality/Toggle elements": With this new
-  option you can allow or forbid users to toggle covers, enlarge displays,
-  change columns etc.  This replaces the option "Enlarge display".
-- New: New options "Kiosk mode/Functionality/Toggle time mode", "Search for
-  genre", "Unqueue" and "Zoom"
-- New: New option "Further options/Kiosk mode: Maintenance password": When using
-  password to exit the kiosk mode, you can define an additional password here.
-  Entering this password, only the kiosk mode is ended.
+- New: "Kiosk mode/Functionality/Toggle elements": This option allows or forbids
+  users to toggle covers, enlarge displays, change columns etc.  Replaces
+  "Enlarge display".
+- New: "Kiosk mode/Functionality/Toggle time mode", "Search for genre",
+  "Unqueue" and "Zoom"
+- New: "Further options/Kiosk mode: Maintenance password": When using a
+  password to exit the kiosk mode, an additional password can be defined here.
+  Entering this password, only the kiosk mode is ended, without eg. a shutdown.
 - New: New option "My music library/Add source/Add a server containing music
   files"
 - New: New karaoke background option: "Use *.bg.jpg-files"
-- New: Playback context menu: New option "Stop after each track", you can also
-  define a shortcut for this
+- New option: "Stop after each track", a shortcut can also be defined for this
 - New: Cover view: Artist and album names can be shown below the covers (use the
   little triangle in the upper left corner)
 - New: Large cover view: After a little time, the enlarged cover is updated if
@@ -316,8 +315,8 @@ V2.00 (13.06.2006)
 - New effect section for internal effects and for VST effects added to the
   settings dialog
 - Shoutcast and Icecast support added, see "Open playlist or files/Open URL"
-- New context menu command "Fade to next"; as an alternative you may hold the
-  shift key while pressing eg. the "next" button
+- New context menu command "Fade to next"; as an alternative, hold the shift key
+  while pressing eg. the "next" button
 - New crossfading option "Only fade out, start new track with full volume";
   dialog "Playback settings/Fading" improved
 - New: Mouse and keyboard improvements:
@@ -325,7 +324,7 @@ V2.00 (13.06.2006)
   "Settings/Advanced/Further options/Middle mouse button")
 - Shortcuts defined for the action "Unqueue marked tracks" will work
 - More options for adding credits by shortcuts (see "Settings/Kiosk mode/Credit
-  system"); if you have used the "+5" shortcut before, you have to redefine it
+  system")
 - All cursor and workspace shortcuts can be changed at "Settings/Advanced/
   Further options" now, adding targets for pagination to the skin engine
 - Less flickering on object dragging and on dialog resizing
@@ -411,9 +410,7 @@ V1.18 (09.12.2005)
 V1.16 (20.11.2005)
 ================================================================================
 
-- New: If you have several audio outputs (eg. two soundcards), you can use the
-  new prelistening function at "Playback settings/Audio output"; if enabled,
-  prelistening is available in the context menus
+- New: Prelistening
 - New: Tag editor: Option to query the freedb online database added, see the
   "Menu" button
 - New: A balloon with information about the current track can be shown in the

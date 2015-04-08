@@ -27,8 +27,8 @@
  *******************************************************************************
  *
  * Docs:
- * - <xine-lib-N.N.N>/doc/hackersguide/hackersguide.html
- * - /usr/include/xine.h
+ * - xdg-open /usr/share/doc/libxine-dev/hackersguide/hackersguide.html &
+ * - xdg-open /usr/include/xine.h &
  * - http://sourceforge.net/p/xine/mailman/search/
  *
  * Howto set audio volume:
