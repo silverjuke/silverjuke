@@ -33,31 +33,21 @@
 // basic version definition
 #define SJ_VERSION_MAJOR 15
 #define SJ_VERSION_MINOR 1
-#define SJ_VERSION_REVISION 2
+#define SJ_VERSION_REVISION 3
 #define SJ_VERSION_ASCII "15.1"
 
-// versions with odd revision numbers and debug builds are treated as beta versions
-#if (SJ_VERSION_REVISION%2) || defined(__WXDEBUG__)
+// odd minor numbers and/or debug builds are treated as beta versions
+#if (SJ_VERSION_MINOR%2) || defined(__WXDEBUG__)
 #define SJ_BETA
 #else
 #undef SJ_BETA
 #endif
 
 // createa a more informative version string as wxT("<major>.<minor> <free text hints>")
-#if defined(__WXDEBUG__)
-#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII) wxT(" Debug")
-#elif defined(SJ_BETA)
+#if defined(SJ_BETA)
 #define SJ_VERSION_STR wxT(SJ_VERSION_ASCII) wxT(" Beta")
 #else
 #define SJ_VERSION_STR wxT(SJ_VERSION_ASCII)
-#endif
-
-#ifndef SJ_WWW_DOMAIN               // no protocol, no trailing slash!
-#if defined(__WXDEBUG__)
-#define SJ_WWW_DOMAIN wxT("www.silverjuke.local")
-#else
-#define SJ_WWW_DOMAIN wxT("www.silverjuke.net")
-#endif
 #endif
 
 #ifndef SJ_PROGRAM_NAME
