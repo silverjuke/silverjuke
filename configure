@@ -4202,7 +4202,7 @@ ac_fn_c_check_header_mongrel "$LINENO" "xine.h" "ac_cv_header_xine_h" "$ac_inclu
 if test "x$ac_cv_header_xine_h" = xyes; then :
 
 else
-  as_fn_error $? "xine.h required, please install eg. libxine-dev" "$LINENO" 5
+  as_fn_error $? "xine.h not found. Try eg. apt-get install libxine-dev" "$LINENO" 5
 fi
 
 
@@ -4251,7 +4251,7 @@ fi
 
 
 if [ "$WX_CONFIG" = "no" ] ; then
-	as_fn_error $? "Could not find wx-config: is wxWidgets installed? is wx-config in your path?" "$LINENO" 5
+	as_fn_error $? "wx-config not found. Is wxWidgets installed? Is wx-config in your path? Try eg. apt-get install libwxgtk2.8-dev" "$LINENO" 5
 fi
 WX_CPPFLAGS="`$WX_CONFIG --cppflags`"
 WX_CXXFLAGS="`$WX_CONFIG --cxxflags`"

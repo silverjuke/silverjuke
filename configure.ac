@@ -32,12 +32,12 @@ AC_PROG_CC
 
 # check for xine 
 # (do not define HAVE_XINE_H on success as this would disturb the include wrapper which uses the same define...)
-AC_CHECK_HEADER([xine.h], [], [AC_MSG_ERROR([xine.h required, please install eg. libxine-dev])])
+AC_CHECK_HEADER([xine.h], [], [AC_MSG_ERROR([xine.h not found. Try eg. apt-get install libxine-dev])])
 
 # wxWidgets -- we assume that if wx-config is found, wxWidgets is successfully installed.
 AC_PATH_PROG(WX_CONFIG, wx-config, no, $PATH:/usr/local/bin )
 if [[ "$WX_CONFIG" = "no" ]] ; then
-	AC_MSG_ERROR([Could not find wx-config: is wxWidgets installed? is wx-config in your path?])
+	AC_MSG_ERROR([wx-config not found. Is wxWidgets installed? Is wx-config in your path? Try eg. apt-get install libwxgtk2.8-dev])
 fi
 WX_CPPFLAGS="`$WX_CONFIG --cppflags`"
 WX_CXXFLAGS="`$WX_CONFIG --cxxflags`"
