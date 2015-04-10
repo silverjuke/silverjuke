@@ -3794,12 +3794,11 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # FIXME: Replace `main' with a function in `-lm':
 #AC_CHECK_LIB([m], [main])
 
-# Checks for system header files.
+# Checks for system header files (is this needed? as we do not use a config.h, this results in masses of -D options)
 #AC_FUNC_ALLOCA
 #AC_CHECK_HEADERS([fcntl.h float.h inttypes.h limits.h malloc.h memory.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])
 
-# check for xine
-# (do not define HAVE_XINE_H on success as this would disturb the include wrapper which uses the same define...)
+# check for zlib
 
 ac_ext=c
 ac_cpp='$CPP $CPPFLAGS'
@@ -4198,6 +4197,17 @@ fi
 done
 
 
+ac_fn_c_check_header_mongrel "$LINENO" "zlib.h" "ac_cv_header_zlib_h" "$ac_includes_default"
+if test "x$ac_cv_header_zlib_h" = xyes; then :
+
+else
+  as_fn_error $? "zlib.h not found. Try eg. apt-get install zlib1g-dev" "$LINENO" 5
+fi
+
+
+
+# check for xine
+# (do not define HAVE_XINE_H on success as this would disturb the include wrapper which uses the same define...)
 ac_fn_c_check_header_mongrel "$LINENO" "xine.h" "ac_cv_header_xine_h" "$ac_includes_default"
 if test "x$ac_cv_header_xine_h" = xyes; then :
 

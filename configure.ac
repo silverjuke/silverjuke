@@ -26,9 +26,12 @@ AC_PROG_CC
 # FIXME: Replace `main' with a function in `-lm':
 #AC_CHECK_LIB([m], [main])
 
-# Checks for system header files.
+# Checks for system header files (is this needed? as we do not use a config.h, this results in masses of -D options)
 #AC_FUNC_ALLOCA
 #AC_CHECK_HEADERS([fcntl.h float.h inttypes.h limits.h malloc.h memory.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])
+
+# check for zlib 
+AC_CHECK_HEADER([zlib.h], [], [AC_MSG_ERROR([zlib.h not found. Try eg. apt-get install zlib1g-dev])])
 
 # check for xine 
 # (do not define HAVE_XINE_H on success as this would disturb the include wrapper which uses the same define...)
