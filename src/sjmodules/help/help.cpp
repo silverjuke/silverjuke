@@ -187,7 +187,7 @@ wxString SjHelpDialog::GetAboutTopic() const
 	      wxT("<p>The Jukebox. Grown up.</p>") /*n/t*/
 	      wxT("<p><a href=\"web:0\">") + wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME) + wxT("...</a></p>")
 	      wxT("<p>Copyright &copy; 2015 Bj&ouml;rn Petersen Software Design and Development</p>")
-	      wxT("<p>All rights reserved!</p>")   /*n/t*/
+	      /*wxT("<p>All rights reserved!</p>") */  /*not _all_ but _some_ rights reserved. however, as the term seems not to add an extra value, we leave it out*/
 	      wxT("<p><a href=\"page:3\">Credits and License notes...</a></p>")
 	      wxT("</center>");
 
@@ -266,6 +266,10 @@ wxString SjHelpDialog::GetCreditsTopic() const
 	    "<li>"
 	    "The tagging code is based upon the work of Scott Wheeler's taglib, "
 	    "(C) 2002 - 2008 by Scott Wheeler"
+	    "<br />"
+	    "</li>"
+	    "<li>"
+	    "The Silverjuke core is available as free software under the GPL. See the GNU General Public License for more details."
 	    "</li>"
 	    "</ul>"
 	    "<p>"
