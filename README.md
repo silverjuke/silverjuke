@@ -63,7 +63,7 @@ usefull esp. if you want to give your work back to the core (pull requests).
 
 - For padding between funktions, classes etc. we use 2 empty lines
 
-- Files are encoded as UTF-8 with Unix-Lineends
+- Files are encoded as UTF-8 with Unix-Lineends (a simple `LF`, `0x0A` or `\n`)
 
 - `/sjbase` contains the main functions and the startup routines
 
