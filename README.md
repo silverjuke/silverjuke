@@ -29,8 +29,19 @@ Linux/Unix:  With chance, Silverjuke is available in your favorite packet
 manager.  If it is not there, please contact your linux distributor - we cannot
 help on this point.
 Alternatively, more experienced users can build Silverjuke theirself.  The
-source code from https://github.com/r10s/silverjuke plus a simple `./configure`,
-`make` and `make install` should do the job.
+source code from https://github.com/r10s/silverjuke plus a simple `./autogen.sh`,
+`make` and `make install` should do the job. If you want to run
+silverjuke from your build dir, run `./silverjuke` instead of `make install`.
+
+Beyond the usual gcc and system development packages, chances are
+you'll also need the following, less common stuff:
+
+- xine-devel
+- wxWidgets-wxcontainer-devel
+
+(note that your distro's default wxwidgets package might contain the
+stl version, which does *not* work with silverjuke. Check for
+something with wxcontainer in the name)
 
 Windows:  For Windows, an installation program with the most recent version is
 available at http://silverjuke.net .  Note, that the windows binaries are not
@@ -65,7 +76,7 @@ usefull esp. if you want to give your work back to the core (pull requests).
 - the other directories are used libraries
 
 - includes are done using the `#include <dir/file.h>` scheme which allows us to
-  move files around and to "overwrite" files by include directories with a 
+  move files around and to "overwrite" files by include directories with a
   higher priority
 
 If you use the Silverjuke source code as a base of your projects, keep in mind
@@ -73,5 +84,6 @@ that Silverjuke is released under the GPL and you have to open source your work
 as well.  See the file LICENSE that comes together with the source code.
 
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+Copyright (c) Bjoern Petersen Software Design and Development,
+http://b44t.com and contributors.
 

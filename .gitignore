@@ -27,3 +27,10 @@ Makefile
 /stamp-*
 /silverjuke
 silverjuke*.tar.gz
+
+# ignore generated files
+Makefile.in
+/aclocal.m4
+/configure
+/install-sh
+/missing
