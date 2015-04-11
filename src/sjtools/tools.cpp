@@ -647,7 +647,7 @@ wxString SjTools::GetUserAppDataDir()
 	return userAppDataDir;
 #else
 	wxFileName tempFileName;
-	if( wxGetenv(wxT("XDG_CONFIG_HOME")) )
+	if( wxGetenv(wxT("XDG_CONFIG_HOME")) ) // see http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 	{
 	    tempFileName = wxGetenv(wxT("XDG_CONFIG_HOME"));
 	}
