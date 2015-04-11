@@ -647,8 +647,16 @@ wxString SjTools::GetUserAppDataDir()
 	return userAppDataDir;
 #else
 	wxFileName tempFileName;
-	tempFileName.AssignHomeDir();
-	tempFileName.AppendDir(wxT(".Silverjuke"));
+	if( wxGetenv(wxT("XDG_CONFIG_HOME")) )
+	{
+	    tempFileName = wxGetenv(wxT("XDG_CONFIG_HOME"));
+	}
+	else
+	{
+	    tempFileName.AssignHomeDir();
+	    tempFileName.AppendDir(wxT(".config"));
+	}
+	tempFileName.AppendDir(wxT("silverjuke"));
 	tempFileName.Normalize();
 	if( !::wxDirExists(tempFileName.GetFullPath()) )
 	{
