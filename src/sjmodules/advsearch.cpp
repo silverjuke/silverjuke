@@ -2390,19 +2390,6 @@ bool SjAdvSearchModule::FirstLoad()
 
 		AddPredefinedSearches();
 	}
-	else if( g_tools->m_config->Read(wxT("advsearch/worstRatedAdded"), 0L)==0L )
-	{
-		// MAY BE DELETED LATER // this makes sure, the "Worst rated" music selection is available also for Silverjuke installations older than 3.00 (June 2010)
-		g_tools->m_config->Write(wxT("advsearch/worstRatedAdded"), 1L);
-		if( GetSearchByName(_("Worst rated")).GetId()==0L )
-		{
-			SjAdvSearch s;
-			s.Init(_("Worst rated"), SJ_SELECTSCOPE_TRACKS, SJ_SELECTOP_ALL);
-			s.AddRule(SJ_FIELD_RATING, SJ_FIELDOP_IS_EQUAL_TO, wxT("1"));
-			NewSearch(&s);
-		}
-		// /MAY BE DELETED LATER
-	}
 
 	return TRUE;
 }
