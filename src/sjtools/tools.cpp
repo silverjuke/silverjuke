@@ -3533,7 +3533,10 @@ SjStringSerializer::SjStringSerializer(const wxString& str)
 	tknzr.AddData((const unsigned char*)cb.data(), strlen(cb.data()));
 	tknzr.AddData((const unsigned char*)"\n", 1);
 
-	m_arr = *(tknzr.GetRecord());
+	wxArrayString* record = tknzr.GetRecord();
+	if( record ) {
+		m_arr = *record;
+	}
 }
 
 
