@@ -22,8 +22,8 @@
  * File:    cvs_tokenizer.cpp
  * Authors: Björn Petersen
  * Purpose: Handling (large) CVS-files, the last record _must_ be terminated by
- *          a line end, no implicit flush is done as GetRecord() does not when
- *          the data really ends (you may call AddData() at any time!)
+ *          a line end, no implicit flush is done as GetRecord() does not know
+ *          when the data really ends (you may call AddData() at any time!)
  *
  ******************************************************************************/
 
