@@ -191,10 +191,11 @@ void SjExtList::RepositoryInit()
 		RepositoryAdd(wxT("pls"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("PLS")));
 		RepositoryAdd(wxT("png"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-files"), wxT("PNG")));
 		RepositoryAdd(wxT("ra rm rv rmvb rmj rms ")
-		              wxT("rmm rax rvx rp rtx rt, mx"),          SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Real")));
+		              wxT("rmm rax rvx rp rtx rt, mx"),     SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Real")));
 		RepositoryAdd(wxT("ram"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("RAM")));
 		RepositoryAdd(wxT("sjx"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke scripts"));
 		RepositoryAdd(wxT("sjs"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke skin-files"));
+		RepositoryAdd(wxT("jukebox"),                       SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke jukebox-files"));
 		RepositoryAdd(wxT("spx"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Speex")));
 		RepositoryAdd(wxT("tif tiff"),                      SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"), wxT("TIFF")));
 		RepositoryAdd(wxT("tta"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("TrueAudio")));

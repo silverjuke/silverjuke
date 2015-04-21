@@ -90,9 +90,9 @@ SjTools::SjTools()
 		m_configIsDefault = FALSE;
 	}
 #ifdef __WXMSW__
-	else if( ::wxFileExists( GetSilverjukeProgramDir() + wxT("mysettings.ini")) ) // don't use "silverjuke.ini" which will be created by some (winamp) plugins
+	else if( ::wxFileExists( GetSilverjukeProgramDir() + wxT("globals.ini")) ) // don't use "silverjuke.ini" which will be created by some (winamp) plugins
 	{
-		m_configDescr = GetSilverjukeProgramDir() + wxT("mysettings.ini");
+		m_configDescr = GetSilverjukeProgramDir() + wxT("globals.ini");
 		m_config = new wxFileConfig(SJ_PROGRAM_NAME, SJ_PROGRAM_NAME, m_configDescr);
 		m_configIsDefault = FALSE;
 	}
@@ -103,7 +103,7 @@ SjTools::SjTools()
 		m_configDescr = wxT("HKEY_CURRENT_USER\\Software\\Silverjuke");
 		m_config = wxConfigBase::Create();
 #else
-		wxFileName fn(GetUserAppDataDir(), wxT("mysettings.ini"));
+		wxFileName fn(GetUserAppDataDir(), wxT("globals.ini"));
 		fn.Normalize();
 		m_configDescr = fn.GetFullPath();
 		m_config = new wxFileConfig(SJ_PROGRAM_NAME, SJ_PROGRAM_NAME, m_configDescr);
@@ -150,7 +150,7 @@ SjTools::SjTools()
 		m_dbFile = m_config->Read(wxT("main/db"), wxT(""));
 		if( m_dbFile.IsEmpty() )
 		{
-			wxFileName fn(GetSearchPath(0), wxT("mymusic.db"));
+			wxFileName fn(GetSearchPath(0), wxT("default.jukebox"));
 			fn.Normalize();
 			m_dbFile = fn.GetFullPath();
 			m_dbFileIsDefault = TRUE;
