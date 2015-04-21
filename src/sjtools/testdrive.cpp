@@ -202,6 +202,33 @@ void SjTestdrive1()
         wxASSERT(r==NULL);
 	}
 
+	/* test SjStringSerializer
+	*/
+	{
+		wxString str;
+		{
+			SjStringSerializer ser;
+			ser.AddString(wxT("simple"));
+			ser.AddString(TEST_STR_AS_W_CHAR);
+			ser.AddLong(666);
+			ser.AddLong(-1);
+			ser.AddFloat(123.456);
+			str = ser.GetResult();
+		}
+		{
+			SjStringSerializer ser(str);
+			wxString test_str = ser.GetString(); wxASSERT( test_str == wxT("simple") );
+			test_str = ser.GetString(); wxASSERT( test_str == TEST_STR_AS_W_CHAR );
+			long test_long = ser.GetLong(); wxASSERT( test_long == 666 );
+			test_long = ser.GetLong(); wxASSERT( test_long == -1 );
+			float test_float = ser.GetFloat(); wxASSERT( test_float >= 123.455 && test_float <= 123.457 );
+			wxASSERT( !ser.HasErrors() );
+			// some tests behind the data ...
+			test_long = ser.GetLong(); wxASSERT( test_long == 0 );
+			wxASSERT( ser.HasErrors() );
+		}
+	}
+
 
 	/* Stress wxFileSystem
 
