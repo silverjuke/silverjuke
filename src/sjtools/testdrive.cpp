@@ -30,6 +30,7 @@
 #include <sjbase/base.h>
 #include <wx/url.h>
 #include <sjtools/testdrive.h>
+#include <sjtools/csv_tokenizer.h>
 #include <see_dom/sj_see.h>
 #include <tagger/tg_wma_file.h>
 #include <tagger/tg_mpeg_file.h>
@@ -164,6 +165,42 @@ void SjTestdrive1()
 		}
 	}
 
+
+	/* test SjCsvTokenizer
+	*/
+	{
+		#define TEST_STR_AS_W_CHAR wxT("-abcÄÖÜ\x03B1\x1F82-")
+		#define TEST_STR_AS_UTF8   "\x2D\x61\x62\x63\xC3\x84\xC3\x96\xC3\x9C\xCE\xB1\xE1\xBE\x82\x2D"
+		wxString test1(TEST_STR_AS_W_CHAR);
+		wxASSERT( strcmp(test1.mb_str(wxConvUTF8), TEST_STR_AS_UTF8)==0 );
+		wxString test2(TEST_STR_AS_UTF8, wxConvUTF8);
+		wxASSERT( test2 == TEST_STR_AS_W_CHAR );
+
+        SjCsvTokenizer tknzr(wxT(","), wxT("\""), wxT("\\"));
+        const unsigned char* data = (const unsigned char*)"r0f0,\"r0f1\",\"r0\\\"\\\\\nf2\",r0f3\nr1f0" TEST_STR_AS_UTF8 ",r1f1;\t, r1f2 ,r1f3\nEOF";
+        long data_bytes = strlen((const char*)data)-3;  /*make sure, there is no NULL-byte at the end  (see EOF above)*/
+        tknzr.AddData(data /*UTF-8*/, data_bytes);
+        wxArrayString* r = tknzr.GetRecord();
+        wxASSERT(r);
+        if( r ) {
+			wxASSERT( r->GetCount()==4 );
+			wxASSERT( r->Item(0)==wxT("r0f0") ); // test normal field
+			wxASSERT( r->Item(1)==wxT("r0f1") ); // test quoted field
+			wxASSERT( r->Item(2)==wxT("r0\"\\\nf2") ); // test "quote", "backslash" and "new line" in quoted field
+			wxASSERT( r->Item(3)==wxT("r0f3") );
+        }
+        r = tknzr.GetRecord();
+        wxASSERT(r);
+        if( r ) {
+			wxASSERT( r->GetCount()==4 );
+			wxASSERT( r->Item(0) == wxT("r1f0") TEST_STR_AS_W_CHAR ); // test UTF8
+			wxASSERT( r->Item(1) == wxT("r1f1;\t") ); // make sure, semicolons and tabs to not break fields
+			wxASSERT( r->Item(2) == wxT(" r1f2 ") ); // spaces are not ignored
+			wxASSERT( r->Item(3) == wxT("r1f3") );
+        }
+        r = tknzr.GetRecord();
+        wxASSERT(r==NULL);
+	}
 
 
 	/* Stress wxFileSystem
