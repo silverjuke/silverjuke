@@ -21,7 +21,9 @@
  *
  * File:    cvs_tokenizer.cpp
  * Authors: Björn Petersen
- * Purpose: Handling (large) CVS-files
+ * Purpose: Handling (large) CVS-files, the last record _must_ be terminated by
+ *          a line end, no implicit flush is done as GetRecord() does not when
+ *          the data really ends (you may call AddData() at any time!)
  *
  ******************************************************************************/
 
@@ -97,7 +99,10 @@ wxArrayString* SjCsvTokenizer::GetRecord()
 {
 	unsigned char*  data = m_data;
 	long            x = m_x;
-	wxString        token;
+
+#define FIELD_BYTES 256000
+	char   			temp[FIELD_BYTES+1 /*+1 for the nullbyte*/];
+	long            temp_pos = 0;
 
 	m_record.Clear();
 
@@ -106,11 +111,12 @@ wxArrayString* SjCsvTokenizer::GetRecord()
 		if( data[x] == m_sep )
 		{
 			// token end found, add token (even if empty)
-			m_record.Add(token);
-			token.Empty();
+			temp[temp_pos] = 0;
+			m_record.Add(wxString(temp, wxConvUTF8));
+			temp_pos = 0;
 			x++;
 		}
-		else if( data[x] == m_quote && token.IsEmpty() )
+		else if( data[x] == m_quote && temp_pos == 0 )
 		{
 			// read quoted token
 			x++;
@@ -127,7 +133,8 @@ wxArrayString* SjCsvTokenizer::GetRecord()
 					if( m_esc != m_quote
 					        || data[x] == m_quote )
 					{
-						token.Append(data[x]);
+						temp[temp_pos] = data[x];
+						temp_pos++; if( temp_pos > FIELD_BYTES ) { temp_pos = 1; } // an simple buffer check, just enough to avoid crashes
 						x++;
 					}
 					else
@@ -142,7 +149,8 @@ wxArrayString* SjCsvTokenizer::GetRecord()
 				}
 				else
 				{
-					token.Append(data[x]);
+					temp[temp_pos] = data[x];
+					temp_pos++; if( temp_pos > FIELD_BYTES ) { temp_pos = 1; } // an simple buffer check, just enough to avoid crashes
 					x++;
 				}
 			}
@@ -150,10 +158,11 @@ wxArrayString* SjCsvTokenizer::GetRecord()
 		else if( data[x] == '\n' || data[x] == '\r' )
 		{
 			// end of line found, add record (if not empty)
-			if( !token.IsEmpty() )
+			if( temp_pos )
 			{
-				m_record.Add(token);
-				token.Empty();
+				temp[temp_pos] = 0;
+				m_record.Add(wxString(temp, wxConvUTF8));
+				temp_pos = 0;
 			}
 			x++;
 
@@ -167,7 +176,8 @@ wxArrayString* SjCsvTokenizer::GetRecord()
 		else
 		{
 			// normal character, add to token
-			token.Append(data[x]);
+			temp[temp_pos] = data[x];
+			temp_pos++; if( temp_pos > FIELD_BYTES ) { temp_pos = 1; } // an simple buffer check, just enough to avoid crashes
 			x++;
 		}
 	}
