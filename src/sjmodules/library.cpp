@@ -668,13 +668,9 @@ bool SjLibraryModule::FirstLoad()
 		}
 #endif
 
-		if( !sql.ConfigRead(wxT("library/update/az09updated"), 0L) )
-		{
-			needsRecombiningAlbums = TRUE;
-			sql.ConfigWrite(wxT("library/update/az09updated"), 1L);
-		}
 	}
 
+	// currently not needed, however, this may be useful for future updates of the library
 	if( needsRecombiningAlbums )
 	{
 		CombineTracksToAlbums();
