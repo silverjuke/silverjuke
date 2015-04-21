@@ -971,7 +971,7 @@ private:
 
 
 /*******************************************************************************
- *  SjStringSerializer Class
+ * SjStringSerializer Class
  ******************************************************************************/
 
 
@@ -986,15 +986,17 @@ public:
 	wxString        GetResult           () const { return m_str; }
 
 	// unserialize string
-	SjStringSerializer  (const wxString& str) { m_hasErrors=FALSE; m_str=str; }
+	SjStringSerializer  (const wxString& str);
 	wxString        GetString           ();
 	long            GetLong             ();
 	float           GetFloat            ();
+	// misc.
 	bool            HasErrors           () const { return m_hasErrors; }
 
 private:
 	// private stuff
 	wxString        m_str;
+	wxArrayString	m_arr;
 	bool            m_hasErrors;
 };
 

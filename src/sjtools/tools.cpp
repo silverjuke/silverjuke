@@ -54,6 +54,7 @@
 #include <wx/fontenum.h>
 #include <wx/fileconf.h>
 #include <sjtools/tools.h>
+#include <sjtools/csv_tokenizer.h>
 #include <tagger/tg_bytevector.h>
 #include <sjmodules/help/help.h>
 #include <sjdata/icons/xpm_movehand_32.xpm>
@@ -3473,58 +3474,84 @@ void SjCfgTokenizer::AddFromString(const wxString& content__)
 
 
 /*******************************************************************************
- * SjStringSerializer Class
+ * SjStringSerializer - Serialize Strings
  ******************************************************************************/
 
 
 void SjStringSerializer::AddString(const wxString& s)
 {
-	m_str += wxString::Format(wxT("%x:%s"), (unsigned int)s.Len(), s.c_str());
+	wxASSERT( m_arr.IsEmpty() );
+
+	if( !m_str.IsEmpty() ) {
+		m_str += wxT(",");
+	}
+
+	wxString escaped_s(s);
+	escaped_s.Replace(wxT("\\"), wxT("\\\\"));
+	escaped_s.Replace(wxT("\""), wxT("\\\""));
+	m_str += wxT("\"") + escaped_s + wxT("\"");
 }
 
 
 void SjStringSerializer::AddLong(long l)
 {
-	// longs are written decimal (instead of hex) to avoid problems with negative numbers
-	wxString s = wxString::Format(wxT("%i"), (int)l);
-	m_str += wxString::Format(wxT("%x:%s"), (unsigned int)s.Len(), s.c_str());
+	wxASSERT( m_arr.IsEmpty() );
+
+	if( !m_str.IsEmpty() ) {
+		m_str += wxT(",");
+	}
+
+	m_str += wxString::Format(wxT("%i"), (int)l); // longs are written decimal (instead of hex) to avoid problems with negative numbers
 }
 
 
 void SjStringSerializer::AddFloat(float f)
 {
+	wxASSERT( m_arr.IsEmpty() );
+
+	if( !m_str.IsEmpty() ) {
+		m_str += wxT(",");
+	}
+
 	wxString s = wxString::Format(wxT("%f"), f);
 	s.Replace(wxT(","), wxT(".")); // we want "." as a decimal point
-	m_str += wxString::Format(wxT("%x:%s"), (unsigned int)s.Len(), s.c_str());
+	m_str += s;
+}
+
+
+/*******************************************************************************
+ * SjStringSerializer - Unserialize Strings
+ ******************************************************************************/
+
+
+SjStringSerializer::SjStringSerializer(const wxString& str)
+{
+	m_hasErrors = false;
+	const wxCharBuffer cb = str.mb_str(wxConvUTF8);
+
+	SjCsvTokenizer tknzr(wxT(","), wxT("\""), wxT("\\"));
+	tknzr.AddData((const unsigned char*)cb.data(), strlen(cb.data()));
+	tknzr.AddData((const unsigned char*)"\n", 1);
+
+	m_arr = *(tknzr.GetRecord());
 }
 
 
 wxString SjStringSerializer::GetString()
 {
+	wxASSERT( m_str.IsEmpty() );
+
 	wxString ret;
-	long     len;
 
-	// find seperator between string length and string
-	long sepPos = m_str.Find(wxT(':'));
-	if( sepPos > 0 )
-	{
-		// read length
-		if( m_str.Left(sepPos).ToLong(&len, 16) )
-		{
-			if( (long)m_str.Len() >= sepPos+1+len )
-			{
-				// read string
-				ret = m_str.Mid(sepPos+1, len);
-				m_str = m_str.Mid(sepPos+1+len);
-
-				// success
-				return ret;
-			}
-		}
+	if( m_arr.GetCount() >= 1 ) {
+		ret = m_arr.Item(0);
+		m_arr.RemoveAt(0);
+	}
+	else {
+		m_hasErrors = true;
+		// end of list, no more items, this is treated as an error the caller can add
 	}
 
-	// error
-	m_hasErrors = TRUE;
 	return ret;
 }
 
