@@ -99,15 +99,10 @@ SjTools::SjTools()
 #endif
 	else
 	{
-#ifdef __WXMSW__
-		m_configDescr = wxT("HKEY_CURRENT_USER\\Software\\Silverjuke");
-		m_config = wxConfigBase::Create();
-#else
 		wxFileName fn(GetUserAppDataDir(), wxT("globals.ini"));
 		fn.Normalize();
 		m_configDescr = fn.GetFullPath();
 		m_config = new wxFileConfig(SJ_PROGRAM_NAME, SJ_PROGRAM_NAME, m_configDescr);
-#endif
 	}
 
 	wxLogInfo(wxT("Loading %s"), m_configDescr.c_str());
