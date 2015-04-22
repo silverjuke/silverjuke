@@ -25,11 +25,7 @@
  *
  *******************************************************************************
  *
- * Settings are stored in the configuration object g_tools->m_config, if some
- * setting changes requires a "deep update", this information is stored in
- * the database table "silverjuke" for canceled transaction safety.
- *
- * See library.cpp for some statistics.
+ * Settings are stored in the database.  See library.cpp for some statistics.
  *
  ******************************************************************************/
 
@@ -430,24 +426,25 @@ void SjFolderScannerModule::LoadSettings__()
 	wxLogNull logNull; // esp. for SjFileNameParser::Init()
 
 	m_listOfSources.Clear();
+	wxSqlt sql;
 
-	int                     sourceCount = g_tools->m_config->Read(wxT("folderscanner/sourceCount"), 0L);
+	int                     sourceCount = sql.ConfigRead(wxT("folderscanner/sourceCount"), 0L);
 	int                     currSourceIndex;
 	wxString                currSourceStr;
-	SjFolderScannerSource*   currSourceObj;
+	SjFolderScannerSource*  currSourceObj;
 	for( currSourceIndex = 0; currSourceIndex < sourceCount; currSourceIndex++ )
 	{
-		currSourceStr = g_tools->m_config->Read(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT(""));
+		currSourceStr = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT(""));
 		if( !currSourceStr.IsEmpty() )
 		{
 			currSourceObj = new SjFolderScannerSource;
 			if( currSourceObj )
 			{
 				currSourceObj->m_url        = currSourceStr;
-				currSourceObj->m_file       = g_tools->m_config->Read(wxString::Format(wxT("folderscanner/file%i"), currSourceIndex), wxT(""));
-				currSourceObj->m_ignoreExt  = g_tools->m_config->Read(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex), wxT(""));
-				currSourceObj->m_trackInfoMatcher.Compile(SJ_TI_URL, g_tools->m_config->Read(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex), SjTrackInfoMatcher::GetDefaultPattern()));
-				currSourceObj->m_flags      =  g_tools->m_config->Read(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex), SJ_FOLDERSCANNER_DEFFLAGS);
+				currSourceObj->m_file       = sql.ConfigRead(wxString::Format(wxT("folderscanner/file%i"), currSourceIndex), wxT(""));
+				currSourceObj->m_ignoreExt  = sql.ConfigRead(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex), wxT(""));
+				currSourceObj->m_trackInfoMatcher.Compile(SJ_TI_URL, sql.ConfigRead(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex), SjTrackInfoMatcher::GetDefaultPattern()));
+				currSourceObj->m_flags      =  sql.ConfigRead(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex), SJ_FOLDERSCANNER_DEFFLAGS);
 				m_listOfSources.Append(currSourceObj);
 			}
 		}
@@ -458,9 +455,10 @@ void SjFolderScannerModule::LoadSettings__()
 void SjFolderScannerModule::SaveSettings__()
 {
 	wxBusyCursor busy;
+	wxSqlt sql;
 
 	int sourceCount = m_listOfSources.GetCount();
-	g_tools->m_config->Write(wxT("folderscanner/sourceCount"), (long)sourceCount);
+	sql.ConfigWrite(wxT("folderscanner/sourceCount"), (long)sourceCount);
 
 	SjFolderScannerSourceList::Node* currSourceNode = m_listOfSources.GetFirst();
 	SjFolderScannerSource*           currSourceObj;
@@ -470,11 +468,11 @@ void SjFolderScannerModule::SaveSettings__()
 		// write source
 		currSourceObj = currSourceNode->GetData();
 		wxASSERT(currSourceObj);
-		g_tools->m_config->Write(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), currSourceObj->m_url);
-		g_tools->m_config->Write(wxString::Format(wxT("folderscanner/file%i"), currSourceIndex), currSourceObj->m_file);
-		g_tools->m_config->Write(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex), currSourceObj->m_ignoreExt.GetExt());
-		g_tools->m_config->Write(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex), currSourceObj->m_trackInfoMatcher.GetPattern());
-		g_tools->m_config->Write(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex), currSourceObj->m_flags);
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), currSourceObj->m_url);
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/file%i"), currSourceIndex), currSourceObj->m_file);
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex), currSourceObj->m_ignoreExt.GetExt());
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex), currSourceObj->m_trackInfoMatcher.GetPattern());
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex), currSourceObj->m_flags);
 
 		// next source
 		currSourceIndex++;
@@ -482,28 +480,26 @@ void SjFolderScannerModule::SaveSettings__()
 	}
 
 	// remove previously written and now unneeded data
-	wxSqlt sql;
 	while( 1 /*exit by break*/ )
 	{
-#define MAX_DEL 1000
-		if( !g_tools->m_config->Exists(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex))
+		#define MAX_DEL 1000
+		if( sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT("*"))==wxT("*") /*check for existance (`*` is an invalid URL)*/
 		        || currSourceIndex > MAX_DEL /*avoid deadlocks*/ )
 		{
 			break; // done
 		}
 
-		wxString url = g_tools->m_config->Read(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT(""));
-		sql.ConfigDeleteEntry(wxT("folderscanner/deepupdate/")+url);
+		wxString url = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT(""));
 
-		g_tools->m_config->DeleteEntry(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex));
-		g_tools->m_config->DeleteEntry(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex));
-		g_tools->m_config->DeleteEntry(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex));
-		g_tools->m_config->DeleteEntry(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex));
+		sql.ConfigDeleteEntry(wxT("folderscanner/deepupdate/")+url);
+		sql.ConfigDeleteEntry(wxT("folderscanner/trackCount/")+url);
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex));
 
 		currSourceIndex++;
 	}
-
-	g_tools->m_config->Flush();
 }
 
 

@@ -29,11 +29,7 @@
  *
  *******************************************************************************
  *
- * Settings are stored in the configuration object g_tools->m_config, if some
- * setting changes requires a "deep update", this information is stored in
- * the database table "silverjuke" for canceled transaction safety.
- *
- * See library.cpp for some statistics.
+ * Settings are stored in the database.  See library.cpp for some statistics.
  *
  ******************************************************************************/
 
