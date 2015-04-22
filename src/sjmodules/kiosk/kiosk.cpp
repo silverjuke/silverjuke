@@ -1759,11 +1759,11 @@ void SjKioskModule::LoadConfig()
 		m_configDispRes[1]      = g_tools->m_config->Read(wxT("kiosk/dispRes1"), wxT(""));
 		m_configDefExitAction   = (SjShutdownEtc)g_tools->m_config->Read(wxT("kiosk/defExitAction"), (long)SJ_SHUTDOWN_EXIT_KIOSK_MODE);
 
-		m_configUserPassword = g_tools->m_config->Read(wxT("main/regInfo"), wxT(""));
+		m_configUserPassword = g_tools->m_config->Read(wxT("kiosk/password"), wxT(""));
 		if( !m_configUserPassword.IsEmpty() )
 			m_configUserPassword = SjTools::UnscrambleString(m_configUserPassword);
 
-		m_configMaintenancePassword = g_tools->m_config->Read(wxT("main/regInfo2"), wxT(""));
+		m_configMaintenancePassword = g_tools->m_config->Read(wxT("kiosk/maintenancePassword"), wxT(""));
 		if( !m_configMaintenancePassword.IsEmpty() )
 			m_configMaintenancePassword = SjTools::UnscrambleString(m_configMaintenancePassword);
 
@@ -1787,9 +1787,8 @@ void SjKioskModule::SaveConfig()
 	g_tools->m_config->Write(wxT("kiosk/dispRes0"), m_configDispRes[0]);
 	g_tools->m_config->Write(wxT("kiosk/dispRes1"), m_configDispRes[1]);
 	g_tools->m_config->Write(wxT("kiosk/defExitAction"), (long)m_configDefExitAction);
-
-	g_tools->m_config->Write(wxT("main/regInfo"), SjTools::ScrambleString(m_configUserPassword));
-	g_tools->m_config->Write(wxT("main/regInfo2"), SjTools::ScrambleString(m_configMaintenancePassword));
+	g_tools->m_config->Write(wxT("kiosk/password"), SjTools::ScrambleString(m_configUserPassword));
+	g_tools->m_config->Write(wxT("kiosk/maintenancePassword"), SjTools::ScrambleString(m_configMaintenancePassword));
 
 	g_tools->m_config->Flush(); // Silverjuke may be "killed" eg. if the computer is rebooted
 	// on the exit of the kiosk mode; make sure, the settings are really saved
