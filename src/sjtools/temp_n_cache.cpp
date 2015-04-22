@@ -149,7 +149,7 @@ wxString SjTempNCache::GetDefaultTempDir()
 	{ wxLogNull null; ::wxRemoveFile(test); }
 
 	wxFileName fn(test);
-	fn.AppendDir(wxT("Silverjuke"));
+	fn.AppendDir(wxT("silverjuke-tmp")); // versions < 15 used "Silverjuke" with incompatible contents
 	return SjLittleDirSel::NormalizeDir(fn.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR));
 }
 
