@@ -47,49 +47,32 @@
 //
 // Usage of the macros:
 //   wxString str;
-//   WXSTRING_TO_SQLITE3(<sqliteUsesUtf8>, str)
+//   WXSTRING_TO_SQLITE3(str)
 //   sqlite3...(strSqlite3Str);
 //
 // or:
 //   const char* str = sqlite3...
-//   SQLITE3_TO_WXSTRING(<sqliteUsesUtf8>, str)
+//   SQLITE3_TO_WXSTRING(str)
 //   return strWxStr;
 #if wxUSE_UNICODE
 
-#define SQLITE3_TO_WXSTRING(fromUtf8, a) \
-     wxMBConv* a##__tempMBConv = fromUtf8? (wxMBConv*)&wxConvUTF8 : &wxConvISO8859_1; \
-     wxString a##WxStr = wxString((a), *(a##__tempMBConv));
+#define SQLITE3_TO_WXSTRING(a) \
+     wxString a##WxStr = wxString((a), wxConvUTF8);
 
-#define WXSTRING_TO_SQLITE3(toUtf8, a) \
-     wxMBConv* a##__tempMBConv = toUtf8? (wxMBConv*)&wxConvUTF8 : &wxConvISO8859_1; \
-     wxCharBuffer a##__tempCharBuf = (a).mb_str(*(a##__tempMBConv)); \
+#define WXSTRING_TO_SQLITE3(a) \
+     wxCharBuffer a##__tempCharBuf = (a).mb_str(wxConvUTF8); \
      const char* a##Sqlite3Str = a##__tempCharBuf.data();
 
 #else
 
-#define SQLITE3_TO_WXSTRING(fromUtf8, a) \
-     wxString a##WxStr; \
-     if( fromUtf8 ) \
-     { \
-         a##WxStr = wxString(wxConvUTF8.cMB2WC((a))); \
-     } \
-     else \
-     { \
-         a##WxStr = wxString((a)); \
-     }
+#define SQLITE3_TO_WXSTRING(a) \
+     wxString a##WxStr = wxString(wxConvUTF8.cMB2WC((a)));
 
-#define WXSTRING_TO_SQLITE3(toUtf8, a) \
+#define WXSTRING_TO_SQLITE3(a) \
      const char* a##Sqlite3Str; \
      wxCharBuffer a##__tempCharBuf((size_t)0L); \
-     if( toUtf8 ) \
-     { \
-         a##__tempCharBuf = wxConvUTF8.cWC2MB((a).wc_str(wxConvLocal)); \
-         a##Sqlite3Str = a##__tempCharBuf.data(); \
-     } \
-     else \
-     { \
-         a##Sqlite3Str = (a).c_str();  \
-     }
+	 a##__tempCharBuf = wxConvUTF8.cWC2MB((a).wc_str(wxConvLocal)); \
+	 a##Sqlite3Str = a##__tempCharBuf.data();
 
 #endif
 
@@ -126,9 +109,6 @@ public:
 	virtual void        OnTransactionBegin      () {}
 	virtual void        OnTransactionRollback   () {}
 	virtual void        OnTransactionCommit     () {}
-
-	// read-only!
-	bool                m_utf8content;
 
 private:
 	wxString            m_file;
@@ -207,7 +187,7 @@ public:
 		wxASSERT(fieldIndex>=0 && fieldIndex<m_fieldCount);
 		wxASSERT(m_stmt);
 		const char* str = (const char*)sqlite3_column_text(m_stmt, fieldIndex);
-		SQLITE3_TO_WXSTRING(m_db->m_utf8content, str)
+		SQLITE3_TO_WXSTRING(str)
 		return strWxStr;
 	}
 	const char*     GetAsciiPtr      (int fieldIndex) const

@@ -54,10 +54,9 @@ extern "C"
 		const char* arg0 = (const char*)sqlite3_value_text(argv[0]);
 		if( arg0 )
 		{
-			wxSqltDb* m_db = (wxSqltDb*)sqlite3_user_data(context);
 			wxDateTime dateTime;
 
-			SQLITE3_TO_WXSTRING(m_db->m_utf8content, arg0)
+			SQLITE3_TO_WXSTRING(arg0)
 			if( SjTools::ParseDate_( arg0WxStr, FALSE, &dateTime) )
 			{
 				sqlite3_result_int(context, dateTime.GetAsDOS());
@@ -75,12 +74,10 @@ extern "C"
 		const char *arg0 = (const char*)sqlite3_value_text(argv[0]);
 		if( arg0 )
 		{
-			wxSqltDb* m_db = (wxSqltDb*)sqlite3_user_data(context);
-
-			SQLITE3_TO_WXSTRING(m_db->m_utf8content, arg0);
+			SQLITE3_TO_WXSTRING(arg0);
 			wxString fileType = SjTools::GetExt( arg0WxStr );
 
-			WXSTRING_TO_SQLITE3(m_db->m_utf8content, fileType)
+			WXSTRING_TO_SQLITE3(fileType)
 			sqlite3_result_text(context, fileTypeSqlite3Str, -1, SQLITE_TRANSIENT);
 		}
 	}
@@ -115,13 +112,11 @@ extern "C"
 		// the returned positions start at index #1 (while internally, we start at #0, as usual)
 		if( argc >= 1 )
 		{
-			wxSqltDb* m_db = (wxSqltDb*)sqlite3_user_data(context);
 			const char *arg0 = (const char*)sqlite3_value_text(argv[0]);
 			long queuePos;
-			if( arg0
-			        && g_mainFrame )
+			if( arg0 && g_mainFrame )
 			{
-				SQLITE3_TO_WXSTRING(m_db->m_utf8content, arg0)
+				SQLITE3_TO_WXSTRING(arg0)
 				if( (queuePos=g_mainFrame->GetClosestQueuePosByUrl( arg0WxStr )) != wxNOT_FOUND )
 				{
 					sqlite3_result_int(context, queuePos+1);
@@ -149,7 +144,6 @@ extern "C"
 #endif
 		if( argc > 0 )
 		{
-			wxSqltDb* m_db = (wxSqltDb*)sqlite3_user_data(context);
 			const char *arg0 = (const char*)sqlite3_value_text(argv[0]);
 			if( arg0 )
 			{
@@ -161,13 +155,13 @@ extern "C"
 				}
 
 				// convert the sqlite string to wxString
-				SQLITE3_TO_WXSTRING(m_db->m_utf8content, arg0)
+				SQLITE3_TO_WXSTRING(arg0)
 
 				// normalize the string regarding the given flags
 				wxString sortable = ::SjNormaliseString( arg0WxStr, flags);
 
 				// convert the wxString back to a sqlite string and set the result
-				WXSTRING_TO_SQLITE3(m_db->m_utf8content, sortable)
+				WXSTRING_TO_SQLITE3(sortable)
 				sqlite3_result_text(context, sortableSqlite3Str, -1, SQLITE_TRANSIENT);
 			}
 		}
@@ -180,77 +174,6 @@ extern "C"
 	}
 
 };
-
-
-/*******************************************************************************
- *  Recode Database to UTF-8
- ******************************************************************************/
-
-
-static void sqlite_recodetoutf8(sqlite3_context* context, int argc, sqlite3_value** argv)
-{
-	const char *arg0 = (const char*)sqlite3_value_text(argv[0]);
-	if( arg0 )
-	{
-		wxString arg0__wxStr = wxString(arg0, wxConvISO8859_1);
-		wxCharBuffer arg0__tempCharBuf = arg0__wxStr.mb_str(wxConvUTF8);
-		sqlite3_result_text(context, arg0__tempCharBuf.data(), -1, SQLITE_TRANSIENT);
-	}
-}
-
-
-bool wxSqltDb::RecodeToUtf8(wxSqlt& sql)
-{
-	wxASSERT( m_utf8content == false );
-
-	SjBusyInfo::Set(_("Cleanup index..."), TRUE);
-
-	sqlite3_create_function(m_sqlite, "recodetoutf8", 1/*number of arguments*/, SQLITE_ANY, this, sqlite_recodetoutf8, NULL, NULL);
-
-	// get all tables
-	wxArrayString allTableNames;
-	sql.Query(wxT("SELECT name FROM sqlite_master WHERE type='table';"));
-	while( sql.Next() )
-	{
-		wxString tableName = sql.GetString(0);
-		if( !tableName.StartsWith(wxT("sqlite")) )
-			allTableNames.Add(tableName);
-	}
-
-	// go through all tables
-	for( size_t t = 0; t < allTableNames.GetCount(); t++ )
-	{
-		wxString        tableName = allTableNames[t];
-		wxArrayString   allColumnNames;
-
-		// get all columns of this table
-		sql.Query(wxString::Format(wxT("PRAGMA table_info(%s);"), tableName.c_str()));
-		while( sql.Next() )
-		{
-			wxString columnName = sql.GetString(wxT("name"));
-			wxString columnType = sql.GetString(wxT("type"));
-			if( columnType.Upper() != wxT("INTEGER") )
-				allColumnNames.Add(columnName);
-		}
-
-		if( !allColumnNames.IsEmpty() )
-		{
-			// create the update command
-			wxString updateCmd = wxT("UPDATE ") + tableName + wxT(" SET ");
-			for( size_t c = 0; c < allColumnNames.GetCount(); c++ )
-			{
-				if( c ) updateCmd += wxT(", ");
-				updateCmd += allColumnNames[c] + wxT("=recodetoutf8(") + allColumnNames[c] + wxT(")");
-			}
-			updateCmd += wxT(";");
-
-			// do the update
-			sql.Query(updateCmd);
-		}
-	}
-
-	return true;
-}
 
 
 /*******************************************************************************
@@ -268,7 +191,6 @@ wxSqltDb::wxSqltDb(const wxString& file)
 	m_file                      = file;
 	m_dbExistsBeforeOpening     = ::wxFileExists(file);
 	m_sqlite                    = NULL;
-	m_utf8content               = false;
 #ifdef __WXDEBUG__
 	m_instanceCount             = 0;
 #endif
@@ -301,7 +223,7 @@ wxSqltDb::wxSqltDb(const wxString& file)
 		if( m_sqlite )
 		{
 			const char* err = sqlite3_errmsg(m_sqlite);
-			SQLITE3_TO_WXSTRING(m_utf8content, err)
+			SQLITE3_TO_WXSTRING(err)
 			wxLogError(errWxStr);
 
 			sqlite3_close(m_sqlite);
@@ -311,9 +233,7 @@ wxSqltDb::wxSqltDb(const wxString& file)
 		return;
 	}
 
-	// some initialisations ... note that we do not know the encoding of the database at this point;
-	// so make sure only to use plain 7-bit-ASCII until the m_utf8 flag is initalized!
-	bool pleaseRecode = false;
+	// some initialisations ... database strings are _always_ encoded using UTF-8.
 	{
 		wxSqlt sql(this);
 
@@ -322,42 +242,7 @@ wxSqltDb::wxSqltDb(const wxString& file)
 		{
 			sql.Query(wxT("CREATE TABLE config (id INTEGER PRIMARY KEY, keyname TEXT, value TEXT);"));
 			sql.Query(wxT("CREATE INDEX configindex01 ON config (keyname);"));
-
-			sql.ConfigWrite(wxT("encoding"),
-#if wxUSE_UNICODE
-			                wxT("UTF-8")
-#else
-#error Please support UTF-8; we do not want more character sets!
-#endif
-			               );
 		}
-
-		// ... get the encoding - the encoding is only written since Silverjuke 1.50beta5; if not present,
-		// assume ISO 8859-1 as this was the only encoding used for older versions
-		if( sql.ConfigRead(wxT("encoding"), wxT("ISO 8859-1")) == wxT("UTF-8") )
-		{
-			m_utf8content = true;
-		}
-		else
-		{
-			pleaseRecode = true;
-		}
-	}
-
-	// recode the database to UTF-8?
-	if( pleaseRecode )
-	{
-		wxSqltTransaction transaction(this);
-		{
-			wxSqlt sql(this);
-
-			if( RecodeToUtf8(sql) )
-			{
-				sql.ConfigWrite(wxT("encoding"), wxT("UTF-8"));
-				m_utf8content = true;
-			}
-		}
-		transaction.Commit();
 	}
 
 	// set user defined functions
@@ -395,7 +280,7 @@ wxSqltDb::~wxSqltDb()
 #endif
 			{
 				const char* err = sqlite3_errmsg(m_sqlite);
-				SQLITE3_TO_WXSTRING(m_utf8content, err)
+				SQLITE3_TO_WXSTRING(err)
 				wxLogError(errWxStr);
 
 				wxLogError(wxT("Cannot close database \"%s\".")/*n/t*/, m_file.c_str());
@@ -530,11 +415,11 @@ bool wxSqlt::Query(const wxString& query)
 	CloseQuery();
 
 	// compile the complete SQL string
-	WXSTRING_TO_SQLITE3(m_db->m_utf8content, query)
+	WXSTRING_TO_SQLITE3(query)
 	if( sqlite3_prepare(m_db->m_sqlite, querySqlite3Str, -1, &m_stmt, &sqlTail) != SQLITE_OK )
 	{
 		const char* err = sqlite3_errmsg(m_db->m_sqlite);
-		SQLITE3_TO_WXSTRING(m_db->m_utf8content, err)
+		SQLITE3_TO_WXSTRING(err)
 		wxLogError(errWxStr);
 
 		CloseQuery();
@@ -597,7 +482,7 @@ int wxSqlt::FetchQuery_()
 		// http://www.silverjuke.net/forum/viewtopic.php?t=900
 #ifdef __WXDEBUG__
 		const char* err = sqlite3_errmsg(m_db->m_sqlite);
-		SQLITE3_TO_WXSTRING(m_db->m_utf8content, err)
+		SQLITE3_TO_WXSTRING(err)
 		wxLogError(errWxStr);
 
 		wxLogError(wxT("Cannot get SQL row.")/*n/t*/);
@@ -614,7 +499,7 @@ void wxSqlt::CloseQuery()
 		if( sqlite3_finalize(m_stmt) != SQLITE_OK )
 		{
 			const char* err = sqlite3_errmsg(m_db->m_sqlite);
-			SQLITE3_TO_WXSTRING(m_db->m_utf8content, err)
+			SQLITE3_TO_WXSTRING(err)
 			wxLogError(errWxStr);
 
 			wxLogError(wxT("Cannot close SQL query.")/*n/t*/);
@@ -664,7 +549,7 @@ int wxSqlt::GetFieldIndex(const wxString& fieldName) const
 	for( field = 0; field < m_fieldCount; field++ )
 	{
 		const char* colName = sqlite3_column_name(m_stmt, field);
-		SQLITE3_TO_WXSTRING(m_db->m_utf8content, colName)
+		SQLITE3_TO_WXSTRING(colName)
 		if( fieldName.CmpNoCase(colNameWxStr) == 0 )
 		{
 			return field;
@@ -687,7 +572,7 @@ wxString wxSqlt::GetFieldName(int fieldIndex) const
 	}
 
 	const char* colName = sqlite3_column_name(m_stmt, fieldIndex);
-	SQLITE3_TO_WXSTRING(m_db->m_utf8content, colName)
+	SQLITE3_TO_WXSTRING(colName)
 	colNameWxStr.MakeLower();
 	return colNameWxStr;
 }

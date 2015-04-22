@@ -373,17 +373,16 @@ void SjTestdrive1()
 					sql.Query(wxT("INSERT INTO test (col1) VALUES ('") + path2 + wxT("');"));
 				}
 
-				for( int sqliteUsesUtf8 = 0/*ISO 8859-1*/; sqliteUsesUtf8 <= 1/*UTF-8*/; sqliteUsesUtf8++ ) { // some string conversion tests
-#define ORG_SQLITE_STR wxT("this is a test\xE4\xF6\xFC\xC4\xD6\xDC\xDF") // this only uses ISO 8859-1 characters, so it should bypass all conversions
-					wxString test = ORG_SQLITE_STR;
+				// some string conversion tests
+				#define ORG_SQLITE_STR wxT("this is a test\xE4\xF6\xFC\xC4\xD6\xDC\xDF") // this only uses ISO 8859-1 characters, so it should bypass all conversions
+				wxString test = ORG_SQLITE_STR;
 
-					WXSTRING_TO_SQLITE3(sqliteUsesUtf8, test);
-					SQLITE3_TO_WXSTRING(sqliteUsesUtf8, testSqlite3Str);
+				WXSTRING_TO_SQLITE3(test);
+				SQLITE3_TO_WXSTRING(testSqlite3Str);
 
-					if( testSqlite3StrWxStr != ORG_SQLITE_STR )
-					{
-						wxLogWarning(wxT("Testdrive: sqlite3 string test testdrive failed!"));
-					}
+				if( testSqlite3StrWxStr != ORG_SQLITE_STR )
+				{
+					wxLogWarning(wxT("Testdrive: sqlite3 string test testdrive failed!"));
 				}
 
 				// does sqlite work well with upper/lower case and with german umlauts?
