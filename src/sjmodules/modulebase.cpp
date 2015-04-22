@@ -119,41 +119,21 @@ void SjModuleSystem::Init()
 		wxLogInfo(wxT("Loading %s"), g_tools->m_dbFile.c_str());
 		SjBusyInfo::Set(g_tools->m_dbFile, TRUE);
 
-		// ...opend database
+		// ...open database
 		wxSqltDb* db = new wxSqltDb(g_tools->m_dbFile);
 		if( !db->Ok() ) { SjMainApp::FatalError(); }
 		db->SetDefault();
 
-		// ...check database version: if the major version is unqual to the
-		// current version, we have to recreate the whole database.  all other
-		// stuff should be handled individually by the modules.
-		// however, currently this is not needed as we can use wxSqlt::AddField() now
-#define CURR_DB_VERSION_MAJOR 0L
-#define CURR_DB_VERSION_MINOR 0L
-#if 0
-		if( db->ExistsBeforeOpening() )
-		{
-			int dbversion_major = SjTools::DbConfigRead("dbversionmajor", 0L);
-			if( dbversion_major != CURR_DB_VERSION_MAJOR )
-			{
-				// bad database version: delete the database file and recreate it if the SjMainFrame constructor is done
-				delete db;
-				::wxRemoveFile(g_tools->m_dbFile);
-				db = new wxSqltDb(g_tools->m_dbFile);
-				if( !db->Ok() )
-				{
-					SjMainApp::FatalError();
-				}
-				db->SetDefault();
-
-				g_mainFrame->UpdateIndexAfterConstruction();
-			}
-		} // no "else if", database object may be recreated!
-#endif
+		// ...the database version: if the major version of the database is
+		// _larger_, the database cannot be opened.  However, the version
+		// normally does not change at all as we can add tables and fields as
+		// needed.
+		#define CURR_DB_VERSION 1L
 
 		// ...init database...
 		if( !db->ExistsBeforeOpening() )
 		{
+
 			// first opening...
 			wxSqlt sql;
 
@@ -161,15 +141,21 @@ void SjModuleSystem::Init()
 			db->SetSync(g_tools->m_config->Read(wxT("main/idxCacheSync"), SJ_DEF_SQLITE_SYNC));
 
 			// ...create silverjuke header table
-			sql.ConfigWrite(wxT("dbversionmajor"), CURR_DB_VERSION_MAJOR);
-			sql.ConfigWrite(wxT("dbversionminor"), CURR_DB_VERSION_MINOR);
+			sql.ConfigWrite(wxT("dbversion"), CURR_DB_VERSION);
 			sql.ConfigWrite(wxT("created"), (long)wxDateTime::Now().GetAsDOS());
 
 			// ...create arts tables, this table is used by several modules
-			if( !sql.TableExists(wxT("arts")) )
-			{
-				sql.Query(wxT("CREATE TABLE arts (id INTEGER PRIMARY KEY, url TEXT, operations TEXT);"));
-				sql.Query(wxT("CREATE INDEX artsindex01 ON arts (url);"));
+			sql.Query(wxT("CREATE TABLE arts (id INTEGER PRIMARY KEY, url TEXT, operations TEXT);"));
+			sql.Query(wxT("CREATE INDEX artsindex01 ON arts (url);"));
+		}
+		else
+		{
+			// subsequent opening
+			wxSqlt sql;
+			if( sql.ConfigRead(wxT("dbversion"), -1) != CURR_DB_VERSION ) {
+				// normally, this should not happen; the database format should be stable.
+				wxMessageBox(wxString::Format(wxT("Bad version of the jukebox file \"%s\". Delete the file and try over; we'll recreate a more correct version then. For now, the program will terminate.")/*n/t*/, g_tools->m_dbFile.c_str()));
+				SjMainApp::FatalError();
 			}
 		}
 	}
