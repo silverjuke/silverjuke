@@ -3262,6 +3262,7 @@ static int s_scrambleStringVal(wxUChar c)
 	int i;
 	for( i = 0; i < 16; i++ )
 	{
+		wxASSERT( s_scrambleStringChars[i] != s_scrambleStringUnicodeMark );
 		if( s_scrambleStringChars[i] == c )
 		{
 			return i;
@@ -3275,15 +3276,7 @@ wxString SjTools::ScrambleString(const wxString& str)
 {
 	wxString ret;
 
-	// append 3 void chars
-	int i;
-	for( i = 3*2; i > 0; i-- )
-	{
-		ret.Append(s_scrambleStringChars[g_tools->Rand(16)]);
-	}
-
-	// append string
-	for( i = 0; i < (int)str.Len(); i++ )
+	for( int i = 0; i < (int)str.Len(); i++ )
 	{
 		wxUChar c = str[i];
 		if( c > 255 )
@@ -3297,16 +3290,6 @@ wxString SjTools::ScrambleString(const wxString& str)
 		}
 	}
 
-	// append null-byte
-	ret.Append(s_scrambleStringChars[0]);
-	ret.Append(s_scrambleStringChars[0]);
-
-	// append some more void chars
-	for( i = (10+g_tools->Rand(10))*2; i >= 0; i-- )
-	{
-		ret.Append(s_scrambleStringChars[g_tools->Rand(16)]);
-	}
-
 	return ret;
 }
 
@@ -3316,7 +3299,7 @@ wxString SjTools::UnscrambleString(const wxString& str)
 	wxString ret;
 	wxUChar  c;
 	long     l;
-	int      i = 3*2/*skip 3 void characters*/;
+	int      i = 0;
 	while( i < (int)str.Len() )
 	{
 		if( str[i] == s_scrambleStringUnicodeMark )
@@ -3332,7 +3315,6 @@ wxString SjTools::UnscrambleString(const wxString& str)
 			i += 2;
 		}
 
-		if( c == 0 ) break;
 		ret.Append(c);
 	}
 
