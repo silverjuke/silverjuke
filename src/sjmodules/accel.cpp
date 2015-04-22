@@ -683,7 +683,7 @@ private:
 	void            EndWaitForKey       (bool releaseMouse=true)
 	{
 		GetParent()->Enable();
-		if( releaseMouse ) {
+		if( releaseMouse && HasCapture() ) {
 			ReleaseMouse();
 		}
 		m_doDestroy = TRUE;
@@ -737,8 +737,11 @@ SjWaitForKeyWindow::SjWaitForKeyWindow(wxWindow* parent, const wxString& title)
 	SetSizeHints(minW, minH, -1, minH);
 	SetSize(minW, minH);
 	CenterOnParent();
-	CaptureMouse();
 	parent->Disable();
+
+	// show and capture mouse
+	Show();
+	CaptureMouse(); // at least on GTK, this must be done after Show()
 }
 
 
@@ -1033,7 +1036,6 @@ bool SjLittleAccelOption::OnOption(wxWindow* parent, long optionIndex)
 		{
 			wxWindowDisabler disabler(parent);
 			SjWaitForKeyWindow* waitForKeyWindow = new SjWaitForKeyWindow(parent, GetName());
-			waitForKeyWindow->Show();
 			while( !waitForKeyWindow->TestDestroy() )
 			{
 				wxThread::Sleep(50);
