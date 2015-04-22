@@ -320,8 +320,8 @@ wxSqltDb::wxSqltDb(const wxString& file)
 		// ... create the configuration table
 		if( !m_dbExistsBeforeOpening )
 		{
-			sql.Query(wxT("CREATE TABLE silverjuke (id INTEGER PRIMARY KEY, keyname TEXT, value TEXT);"));
-			sql.Query(wxT("CREATE INDEX silverjukeindex01 ON silverjuke (keyname);"));
+			sql.Query(wxT("CREATE TABLE config (id INTEGER PRIMARY KEY, keyname TEXT, value TEXT);"));
+			sql.Query(wxT("CREATE INDEX configindex01 ON config (keyname);"));
 
 			sql.ConfigWrite(wxT("encoding"),
 #if wxUSE_UNICODE
@@ -746,35 +746,35 @@ void wxSqlt::AddColumn(const wxString& tablename, const wxString& column_def)
 
 void wxSqlt::ConfigWrite(const wxString& keyname, const wxString& value)
 {
-	Query(wxT("SELECT value FROM silverjuke WHERE keyname='") +  QParam(keyname) + wxT("';"));
+	Query(wxT("SELECT value FROM config WHERE keyname='") +  QParam(keyname) + wxT("';"));
 	if( !Next() )
 	{
-		Query(wxT("INSERT INTO silverjuke (keyname, value) VALUES ('") + QParam(keyname) + wxT("', '") + QParam(value) + wxT("')"));
+		Query(wxT("INSERT INTO config (keyname, value) VALUES ('") + QParam(keyname) + wxT("', '") + QParam(value) + wxT("')"));
 	}
 	else
 	{
-		Query(wxT("UPDATE silverjuke SET value='") + QParam(value) + wxT("' WHERE keyname='") + QParam(keyname) + wxT("';"));
+		Query(wxT("UPDATE config SET value='") + QParam(value) + wxT("' WHERE keyname='") + QParam(keyname) + wxT("';"));
 	}
 }
 
 
 wxString wxSqlt::ConfigRead(const wxString& keyname, const wxString& def)
 {
-	Query(wxT("SELECT value FROM silverjuke WHERE keyname='") + QParam(keyname) + wxT("';"));
+	Query(wxT("SELECT value FROM config WHERE keyname='") + QParam(keyname) + wxT("';"));
 	return Next()? GetString(0) : def;
 }
 
 
 long wxSqlt::ConfigRead(const wxString& keyname, long def)
 {
-	Query(wxT("SELECT value FROM silverjuke WHERE keyname='") + QParam(keyname) + wxT("';"));
+	Query(wxT("SELECT value FROM config WHERE keyname='") + QParam(keyname) + wxT("';"));
 	return Next()? GetLong(0) : def;
 }
 
 
 void wxSqlt::ConfigDeleteEntry(const wxString& keyname)
 {
-	Query(wxT("DELETE FROM silverjuke WHERE keyname='") + QParam(keyname) + wxT("';"));
+	Query(wxT("DELETE FROM config WHERE keyname='") + QParam(keyname) + wxT("';"));
 }
 
 
