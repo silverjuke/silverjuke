@@ -360,7 +360,7 @@ SjAutovolDlg::SjAutovolDlg(wxWindow* parent)
 	m_desVolLabel = new wxStaticText(this, -1, _("Desired volume:"));
 	sizer3->Add(m_desVolLabel, 0, wxALIGN_CENTER_VERTICAL);
 
-	long desVol = (long)(SjGain2Db(m_orgDesVol)*DESVOL_MULTIPLIER);
+	long desVol = (long)(SjGain2Decibel(m_orgDesVol)*DESVOL_MULTIPLIER);
 	m_desVolSlider = new wxSlider(this, IDC_DESVOLSLIDER,
 	                              desVol,
 	                              (int)( -12.0F*DESVOL_MULTIPLIER ),
@@ -376,7 +376,7 @@ SjAutovolDlg::SjAutovolDlg(wxWindow* parent)
 	m_maxGainLabel = new wxStaticText(this, -1, _("Max. gain:"));
 	sizer3->Add(m_maxGainLabel, 0, wxALIGN_CENTER_VERTICAL);
 
-	long maxGain = (long)(SjGain2Db(m_orgMaxGain)*MAXGAIN_MULTIPLIER);
+	long maxGain = (long)(SjGain2Decibel(m_orgMaxGain)*MAXGAIN_MULTIPLIER);
 	m_maxGainSlider = new wxSlider(this, IDC_MAXGAINSLIDER,
 	                               maxGain,
 	                               (int)( + 1.0F*MAXGAIN_MULTIPLIER ),
@@ -430,10 +430,10 @@ void SjAutovolDlg::UpdateState()
 
 void SjAutovolDlg::OnReset(wxCommandEvent&)
 {
-	m_desVolSlider->SetValue((int)( ::SjGain2Db(SJ_AV_DEF_DESIRED_VOLUME)*DESVOL_MULTIPLIER) );
+	m_desVolSlider->SetValue((int)( ::SjGain2Decibel(SJ_AV_DEF_DESIRED_VOLUME)*DESVOL_MULTIPLIER) );
 	UpdateDesVol(TRUE);
 
-	m_maxGainSlider->SetValue((int)( ::SjGain2Db(SJ_AV_DEF_MAX_GAIN)*MAXGAIN_MULTIPLIER ));
+	m_maxGainSlider->SetValue((int)( ::SjGain2Decibel(SJ_AV_DEF_MAX_GAIN)*MAXGAIN_MULTIPLIER ));
 	UpdateMaxGain(TRUE);
 
 	m_useAlbumVolCheck->SetValue(SJ_AV_DEF_USE_ALBUM_VOL);
@@ -446,9 +446,9 @@ void SjAutovolDlg::OnReset(wxCommandEvent&)
 void SjAutovolDlg::UpdateDesVol(bool saveToGainTool)
 {
 	double db   = (double)(m_desVolSlider->GetValue()) / DESVOL_MULTIPLIER;
-	double gain = ::SjDb2Gain(db);
+	double gain = ::SjDecibel2Gain(db);
 
-	m_desVolText->SetLabel(SjTools::FormatDb(db)+wxT("  "));
+	m_desVolText->SetLabel(SjTools::FormatDecibel(db)+wxT("  "));
 
 	if( saveToGainTool )
 	{
@@ -460,9 +460,9 @@ void SjAutovolDlg::UpdateDesVol(bool saveToGainTool)
 void SjAutovolDlg::UpdateMaxGain(bool saveToGainTool)
 {
 	double db = (double)(m_maxGainSlider->GetValue()) / MAXGAIN_MULTIPLIER;
-	double gain = ::SjDb2Gain(db);
+	double gain = ::SjDecibel2Gain(db);
 
-	m_maxGainText->SetLabel(SjTools::FormatDb(db)+wxT("  "));
+	m_maxGainText->SetLabel(SjTools::FormatDecibel(db)+wxT("  "));
 
 	if( saveToGainTool )
 	{

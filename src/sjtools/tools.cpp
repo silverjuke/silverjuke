@@ -1525,11 +1525,11 @@ wxString SjTools::FormatMs(unsigned long ms)
 }
 
 
-wxString SjTools::FormatDb(double db, bool addPercent)
+wxString SjTools::FormatDecibel(double db, bool addPercent)
 {
 	if( addPercent )
 	{
-		double gain = ::SjDb2Gain(db);
+		double gain = ::SjDecibel2Gain(db);
 		return wxString::Format(wxT("%+.1f dB (%i%%)"), db, (int)(gain*100.0F+0.5));
 	}
 	else
@@ -1541,7 +1541,7 @@ wxString SjTools::FormatDb(double db, bool addPercent)
 
 wxString SjTools::FormatGain(double gain, bool addPercent)
 {
-	double db = ::SjGain2Db(gain);
+	double db = ::SjGain2Decibel(gain);
 	if( addPercent )
 	{
 		return wxString::Format(wxT("%+.1f dB (%i%%)"), db, (int)(gain*100.0F+0.5));
@@ -1553,11 +1553,11 @@ wxString SjTools::FormatGain(double gain, bool addPercent)
 }
 
 
-bool SjTools::ParseDb(const wxString& s__, double& ret)
+bool SjTools::ParseDecibel(const wxString& s__, double& ret)
 {
 	wxString s(s__);
 	s = s.BeforeFirst(wxT(' '));
-	s = s.BeforeFirst(wxT('d') /*the "d" of "db"*/);
+	s = s.BeforeFirst(wxT('d') /*the "d" of "dB"*/);
 	if( !s.ToDouble(&ret) )
 	{
 		s.Replace(wxT("."), wxT(","));  // internally, we use "." as a decimal point, however, the loaded localed

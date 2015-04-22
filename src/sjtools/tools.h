@@ -695,9 +695,9 @@ public:
 
 	static wxString FormatMs            (unsigned long ms);
 
-	static wxString FormatDb            (double db, bool addPercent=TRUE);
+	static wxString FormatDecibel       (double db, bool addPercent=TRUE);
 	static wxString FormatGain          (double gain, bool addPercent=TRUE);
-	static bool     ParseDb             (const wxString&, double& ret);
+	static bool     ParseDecibel        (const wxString&, double& ret);
 
 #define         SJ_FORMAT_ADDTIME   0x00000001L
 #define         SJ_FORMAT_EDITABLE  0x00000002L

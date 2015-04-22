@@ -82,8 +82,8 @@ private:
 
 
 
-double  SjGain2Db           (double gain);
-double  SjDb2Gain           (double db);
+double  SjGain2Decibel      (double gain);
+double  SjDecibel2Gain      (double dB);
 long    SjGain2Long         (double gain);
 double  SjLong2Gain         (long lng);
 

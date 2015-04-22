@@ -220,7 +220,7 @@ void SjVolumeCalc::AdjustBuffer(float* data, long bytes, float desiredGain, floa
  ******************************************************************************/
 
 
-double SjDb2Gain(double db)
+double SjDecibel2Gain(double db)
 {
 	// for some common parameters, we're using predefined
 	// return values to avoid rounding errors
@@ -239,7 +239,7 @@ double SjDb2Gain(double db)
 }
 
 
-double SjGain2Db(double gain)
+double SjGain2Decibel(double gain)
 {
 	// for some common parameters, we're using predefined
 	// return values to avoid rounding errors
