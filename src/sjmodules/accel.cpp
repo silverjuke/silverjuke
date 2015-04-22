@@ -596,11 +596,11 @@ bool SjAccelModule::FirstLoad()
 		m_flags = g_tools->m_config->Read(wxT("main/accelFlags"), SJ_ACCEL_DEFAULT);
 		m_selDragNDrop = g_tools->m_config->Read(wxT("main/selDragNDrop"), 1L);
 		m_middleMouseAction = g_tools->m_config->Read(wxT("main/middleMouseAction"), SJ_ACCEL_MID_OPENS_TAG_EDITOR);
-		wxString reg = g_tools->m_config->Read(wxT("main/regHash")/*a compilated string in the registry is not bad ;-)*/, wxT(""));
-		if( !reg.IsEmpty() )
+		wxString iniShortcuts = g_tools->m_config->Read(wxT("main/shortcuts"), wxT(""));
+		if( !iniShortcuts.IsEmpty() )
 		{
 			long val, cmdIndex = 0, keyCount = -1;
-			wxStringTokenizer tkz(reg, wxT("g")/*the hex. numbers are separated by the character "g"*/);
+			wxStringTokenizer tkz(iniShortcuts, wxT(","));
 			while( tkz.HasMoreTokens() )
 			{
 				if( tkz.GetNextToken().ToLong(&val, 16) && val >= 0 )
@@ -1102,7 +1102,7 @@ void SjLittleAccelOption::OnApply()
 	if( m_lastOption )
 	{
 		// save settings
-		wxString reg;
+		wxString iniShortcuts;
 		int i, j;
 		for( i = 0; i < g_accelModule->m_cmdCount; i++ )
 		{
@@ -1110,19 +1110,21 @@ void SjLittleAccelOption::OnApply()
 
 			if( !cmd.AreUserAndOrgEqual() ) // only modified shortcuts are written
 			{
-				reg += wxString::Format(wxT("%xg%xg"), (int)cmd.m_id, (int)cmd.m_userKeyCount);
+				iniShortcuts += wxString::Format(wxT("%x,%x,"), (int)cmd.m_id, (int)cmd.m_userKeyCount);
 				for( j = 0; j < cmd.m_userKeyCount; j++ )
 				{
-					reg += wxString::Format(wxT("%xg"), (int)cmd.m_userKey[j]);
+					iniShortcuts += wxString::Format(wxT("%x,"), (int)cmd.m_userKey[j]);
 				}
 			}
 		}
 
-		if( !reg.IsEmpty() ) { reg.Truncate(reg.Len()-1); }
+		if( !iniShortcuts.IsEmpty() ) {
+			iniShortcuts.Truncate(iniShortcuts.Len()-1); // remove the last comma
+		}
 
 		g_accelModule->BuildHashes();
 
-		g_tools->m_config->Write(wxT("main/regHash")/*a compilated string in the registry is not bad ;-)*/, reg);
+		g_tools->m_config->Write(wxT("main/shortcuts"), iniShortcuts);
 
 		// apply new shortcuts
 		g_mainFrame->SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MAIN));
