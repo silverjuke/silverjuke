@@ -307,7 +307,7 @@ bool SjMainApp::OnInit()
 		{ wxCMD_LINE_OPTION, NULL, wxT("visrect"),      wxT("The window rectangle for the vis. in kiosk mode as [<x>,<y>,]<w>,<h>") },
 		{ wxCMD_LINE_OPTION, NULL, wxT("instance"),     wxT("Set the configuration file and the instance to use") },
 		{ wxCMD_LINE_OPTION, NULL, wxT("ini"),          wxT("Set the configuration file to use") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("db"),           wxT("Set the jukebox file to use") },
+		{ wxCMD_LINE_OPTION, NULL, wxT("jukebox"),      wxT("Set the jukebox file to use") },
 		{ wxCMD_LINE_OPTION, NULL, wxT("temp"),         wxT("Set the temporary directory to use") },
 		// addional parameters
 		{ wxCMD_LINE_PARAM,  NULL, NULL,                wxT("File(s)"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL|wxCMD_LINE_PARAM_MULTIPLE },

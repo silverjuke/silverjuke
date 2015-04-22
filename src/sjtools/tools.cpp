@@ -140,9 +140,9 @@ SjTools::SjTools()
 
 	// get db file (should be initialized AFTER search paths)
 	m_dbFileIsDefault = FALSE;
-	if( !SjMainApp::s_cmdLine->Found(wxT("db"), &m_dbFile) )
+	if( !SjMainApp::s_cmdLine->Found(wxT("jukebox"), &m_dbFile) )
 	{
-		m_dbFile = m_config->Read(wxT("main/db"), wxT(""));
+		m_dbFile = m_config->Read(wxT("main/jukebox"), wxT(""));
 		if( m_dbFile.IsEmpty() )
 		{
 			wxFileName fn(GetSearchPath(0), wxT("default.jukebox"));
