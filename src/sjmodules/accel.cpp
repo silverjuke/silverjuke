@@ -665,140 +665,104 @@ void SjAccelModule::LastUnload()
  ******************************************************************************/
 
 
-class SjWaitForKeyWindow : public wxFrame
+#define IDC_NEWKEY             (IDM_LASTPRIVATE-1)
+
+
+class SjWaitForKeyCtrl : public wxWindow
 {
 public:
-	SjWaitForKeyWindow  (wxWindow* parent, const wxString& title);
-	long            GetKey              () { return m_key; }
-	bool            TestDestroy         () { return m_doDestroy; }
-
-private:
-	long            m_key;
-	bool            m_keyDown, m_mouseDown,
-	                m_doDestroy;
-
-	wxString        m_msg;
-	wxCoord         m_msgW, m_msgH;
-
-	void            EndWaitForKey       (bool releaseMouse=true)
+	SjWaitForKeyCtrl(wxWindow* parent)
+		: wxWindow(parent, -1, wxDefaultPosition, wxDefaultSize, 0)
 	{
-		GetParent()->Enable();
-		if( releaseMouse && HasCapture() ) {
-			ReleaseMouse();
-		}
-		m_doDestroy = TRUE;
+		m_key = 0;
 	}
 
-	void            OnEraseBackground   (wxEraseEvent&) {}
-	void            OnPaint             (wxPaintEvent&);
-	void            OnMouseDown         (wxMouseEvent& event) { m_mouseDown = TRUE; }
-	void            OnMouseUp           (wxMouseEvent& event) { if(m_mouseDown) { EndWaitForKey(); } }
-	void            OnMouseCaptureLost  (wxMouseCaptureLostEvent&) { wxLogDebug(wxT("~~~~~~ CAPTURE LOST")); EndWaitForKey(false); }
-	void            OnKeyDown           (wxKeyEvent&) { m_keyDown = TRUE; }
-	void            OnKeyUp             (wxKeyEvent&);
-	DECLARE_EVENT_TABLE ()
+	long GetKey()
+	{
+		return m_key;
+	}
+
+private:
+	long m_key;
+	void OnKey (wxKeyEvent& event)
+	{
+		// get the keycode.  modifiers as keycodes are not accepted, in this case,
+		// wait for the next key
+		long keycode = event.GetKeyCode();
+
+		if( keycode == WXK_LBUTTON
+				|| keycode == WXK_RBUTTON
+				|| keycode == WXK_MBUTTON
+				|| keycode == WXK_SHIFT
+				|| keycode == WXK_ALT
+				|| keycode == WXK_CONTROL
+				|| keycode == WXK_MENU
+				|| keycode == WXK_CAPITAL )
+		{
+			return;
+		}
+
+		// get the modifiers
+		long modifiers = 0;
+		if( event.AltDown() ) modifiers |= wxACCEL_ALT;
+		if( event.ShiftDown() ) modifiers |= wxACCEL_SHIFT;
+		if( event.ControlDown() )  modifiers |= wxACCEL_CTRL;
+		wxLogDebug(wxT("meta.%i"), event.MetaDown());
+
+		// save the key
+		m_key = (modifiers << 16) | keycode;
+
+		wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, IDC_NEWKEY);
+		GetParent()->AddPendingEvent(evt);
+	}
+	DECLARE_EVENT_TABLE ();
 };
 
 
-BEGIN_EVENT_TABLE(SjWaitForKeyWindow, wxFrame)
-	EVT_ERASE_BACKGROUND    (SjWaitForKeyWindow::OnEraseBackground  )
-	EVT_PAINT               (SjWaitForKeyWindow::OnPaint            )
-	EVT_RIGHT_DOWN          (SjWaitForKeyWindow::OnMouseDown        )
-	EVT_LEFT_DOWN           (SjWaitForKeyWindow::OnMouseDown        )
-	EVT_RIGHT_UP            (SjWaitForKeyWindow::OnMouseUp          )
-	EVT_LEFT_UP             (SjWaitForKeyWindow::OnMouseUp          )
-	EVT_MOUSE_CAPTURE_LOST  (SjWaitForKeyWindow::OnMouseCaptureLost )
-	EVT_KEY_DOWN            (SjWaitForKeyWindow::OnKeyDown          )
-	EVT_KEY_UP              (SjWaitForKeyWindow::OnKeyUp            )
+BEGIN_EVENT_TABLE(SjWaitForKeyCtrl, wxWindow)
+	EVT_KEY_UP              (SjWaitForKeyCtrl::OnKey          )
 END_EVENT_TABLE()
 
 
-SjWaitForKeyWindow::SjWaitForKeyWindow(wxWindow* parent, const wxString& title)
-	: wxFrame(parent, wxID_ANY, title, wxDefaultPosition, wxDefaultSize,
-	          wxRESIZE_BORDER|wxCAPTION|wxFRAME_NO_TASKBAR|wxFRAME_FLOAT_ON_PARENT|wxWANTS_CHARS )
+class SjWaitForKeyDlg : public SjDialog
 {
-	wxASSERT( parent );
-
-	// save given objects
-	m_key = 0;
-	m_keyDown = FALSE;
-	m_mouseDown = FALSE;
-	m_doDestroy = FALSE;
-
-	// set text
-	m_msg = _("Please press the shortcut to add.");
-	wxClientDC dc(this);
-	dc.SetFont(*wxNORMAL_FONT);
-	dc.GetTextExtent(m_msg, &m_msgW, &m_msgH);
-
-	// set size
-	int minW = m_msgW+16; if( minW < 400 ) minW = 400;
-	int minH = m_msgH+64;
-	SetSizeHints(minW, minH, -1, minH);
-	SetSize(minW, minH);
-	CenterOnParent();
-	parent->Disable();
-
-	// show and capture mouse
-	Show();
-	CaptureMouse(); // at least on GTK, this must be done after Show()
-}
-
-
-void SjWaitForKeyWindow::OnPaint(wxPaintEvent&)
-{
-	wxPaintDC dc(this);
-
-	wxSize      clientSize = GetClientSize();
-	wxColour    bgColour = GetParent()->GetBackgroundColour();
-	wxColour    fgColour = GetParent()->GetForegroundColour();
-
-	// draw the background
-	dc.SetPen(*wxTRANSPARENT_PEN);
-	dc.SetBrush(wxBrush(bgColour, wxSOLID));
-	dc.DrawRectangle(0, 0, clientSize.x, clientSize.y);
-
-	// draw the message
-	dc.SetTextForeground(fgColour);
-	dc.SetTextBackground(bgColour);
-	dc.SetFont(*wxNORMAL_FONT);
-	dc.DrawText(m_msg, clientSize.x/2-m_msgW/2, clientSize.y/2-m_msgH/2);
-}
-
-
-void SjWaitForKeyWindow::OnKeyUp(wxKeyEvent& event)
-{
-	if( !m_keyDown ) return; // key not pressed as long as the window was opended
-
-	// get the keycode.  modifiers as keycodes are not accepted, in this case,
-	// wait for the next key
-	long keycode = event.GetKeyCode();
-
-	if( keycode == WXK_LBUTTON
-	        || keycode == WXK_RBUTTON
-	        || keycode == WXK_MBUTTON
-	        || keycode == WXK_SHIFT
-	        || keycode == WXK_ALT
-	        || keycode == WXK_CONTROL
-	        || keycode == WXK_MENU
-	        || keycode == WXK_CAPITAL )
+public:
+	SjWaitForKeyDlg   (wxWindow* parent, const wxString& title)
+		: SjDialog(parent, title, SJ_MODAL, SJ_NEVER_RESIZEABLE)
 	{
-		return;
+		wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
+		SetSizer(sizer1);
+
+		sizer1->Add(new wxStaticText(this, -1, _("Please press the shortcut to add.")), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT, SJ_DLG_SPACE);
+
+		m_keyCtrl = new SjWaitForKeyCtrl(this);
+		sizer1->Add(m_keyCtrl);
+
+		sizer1->Add(CreateButtons(SJ_DLG_CANCEL), 0, wxGROW|wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+
+		sizer1->SetSizeHints(this);
+		CentreOnParent();
+		m_keyCtrl->SetFocus();
 	}
 
-	// get the modifiers
-	long modifiers = 0;
-	if( event.AltDown() ) modifiers |= wxACCEL_ALT;
-	if( event.ShiftDown() ) modifiers |= wxACCEL_SHIFT;
-	if( event.ControlDown() )  modifiers |= wxACCEL_CTRL;
-	wxLogDebug(wxT("meta.%i"), event.MetaDown());
+	long GetKey()
+	{
+		return m_keyCtrl->GetKey();
+	}
 
-	// save the key
-	m_key = (modifiers << 16) | keycode;
+private:
+	SjWaitForKeyCtrl* m_keyCtrl;
+	void NewKey(wxCommandEvent&)
+	{
+		EndModal(wxID_OK);
+	}
+	DECLARE_EVENT_TABLE ();
+};
 
-	// change state
-	EndWaitForKey();
-}
+
+BEGIN_EVENT_TABLE(SjWaitForKeyDlg, SjDialog)
+	EVT_MENU            (IDC_NEWKEY, SjWaitForKeyDlg::NewKey          )
+END_EVENT_TABLE()
 
 
 /*******************************************************************************
@@ -1032,19 +996,14 @@ bool SjLittleAccelOption::OnOption(wxWindow* parent, long optionIndex)
 		g_accelModule->UpdateSystemAccel(FALSE/*clear*/);
 
 		// ...wait for a key
-		long newKey;
+		long newKey = 0;
 		{
-			wxWindowDisabler disabler(parent);
-			SjWaitForKeyWindow* waitForKeyWindow = new SjWaitForKeyWindow(parent, GetName());
-			while( !waitForKeyWindow->TestDestroy() )
+			wxWindowDisabler disabler(SjDialog::FindTopLevel(parent));
+			SjWaitForKeyDlg dlg(parent, GetName());
+			if( dlg.ShowModal() == wxID_OK )
 			{
-				wxThread::Sleep(50);
-				SjBusyInfo::Yield();
+				newKey = dlg.GetKey();
 			}
-
-			newKey = waitForKeyWindow->GetKey();
-
-			waitForKeyWindow->Destroy();
 		}
 
 		// ...re-activate system hotkeys

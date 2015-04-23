@@ -15,7 +15,6 @@ This version of Silverjuke is still beta and the following points are with high
 priority on our todo-list:
 
 - Fix known bug: Visualisation screen freezes Silverjuke
-- Fix known bug: Editing shortcuts does not work
 - Adapt the skin
 - Fix known bug: make filenames with "%" and "#" work
 - Other bug fixes, please report bugs to
