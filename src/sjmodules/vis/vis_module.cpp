@@ -426,13 +426,17 @@ wxString SjVisModule::GetRealNextRenderer(const wxString& desiredRenderer)
 
 	if( desiredRenderer.IsEmpty() )
 	{
-		// neither vidout nor karaoke desired, switch to vis.
+		// neither vidout nor karaoke desired, switch to a visualisation
 		if( currRenderer == wxT("") || currRenderer == wxT("memory:vidout.lib") || currRenderer == wxT("memory:karaoke.lib") )
 		{
-			nextRenderer = wxT("memory:sfx.lib");
+			nextRenderer = wxT("memory:oscilloscope.lib");
 			wxString moduleName = g_tools->m_config->Read(wxT("player/vismodule"), wxT(""));
-			if( moduleName == wxT("memory:oscilloscope.lib") )
-				nextRenderer = moduleName;
+			if( moduleName != wxT("memory:vidout.lib") && moduleName != wxT("memory:karaoke.lib") ) {
+				SjModule* m = g_mainFrame->m_moduleSystem.FindModuleByFile(moduleName);
+				if( m && m->m_type == SJ_MODULETYPE_VIS_RENDERER ) {
+					nextRenderer = moduleName;
+				}
+			}
 		}
 	}
 	else
@@ -563,8 +567,7 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 	{
 		wxString moduleName = g_tools->m_config->Read(wxT("player/vismodule"), wxT(""));
 		m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(moduleName);
-		if( m == NULL
-		        || m->m_type != SJ_MODULETYPE_VIS_RENDERER )
+		if( m == NULL || m->m_type != SJ_MODULETYPE_VIS_RENDERER )
 		{
 			m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(wxT("memory:oscilloscope.lib"));
 			if( m == NULL )
