@@ -854,44 +854,44 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 		/* Handle <SCRIPT>
 		 ***********************************************************************************/
 
-#if SJ_USE_SCRIPTS
-		if( skin->m_see == NULL )
-		{
-			return FALSE; // not needed for names loading
-		}
-
-		wxString scriptContent;
-
-		// first, execute external file
-		if( tag.HasParam(wxT("SRC")) )
-		{
-			wxString scriptFile = tag.GetParam(wxT("SRC"));
-			if( skin->m_debugInfo )
-				wxLogInfo(wxT("Including \"%s\" [%s]")/*n/t*/, scriptFile.c_str(), m_skinMlParser->m_data->GetUrl().c_str());
-
-			scriptContent = m_skinMlParser->m_data->LoadFile_(scriptFile);
-
-			skin->m_see->Execute(scriptContent);
-		}
-
-		// second, execute stuff between <script> and </script>
-		if( tag.HasEnding() )
-		{
-			scriptContent = m_skinMlParser->GetSource()->Mid(tag.GetBeginPos(), tag.GetEndPos1()-tag.GetBeginPos());
-			scriptContent.Trim(true);
-			scriptContent.Trim(false);
-			if( !scriptContent.IsEmpty() )
+		#if SJ_USE_SCRIPTS
+			if( skin->m_see == NULL )
 			{
-				if( scriptContent.StartsWith(wxT("<!--")) )
-					scriptContent = scriptContent.Mid(4);
+				return FALSE; // not needed for names loading
+			}
 
-				if( scriptContent.Right(3) == wxT("-->") )
-					scriptContent = scriptContent.Left(scriptContent.Len()-3);
+			wxString scriptContent;
+
+			// first, execute external file
+			if( tag.HasParam(wxT("SRC")) )
+			{
+				wxString scriptFile = tag.GetParam(wxT("SRC"));
+				if( skin->m_debugInfo )
+					wxLogInfo(wxT("Including \"%s\" [%s]")/*n/t*/, scriptFile.c_str(), m_skinMlParser->m_data->GetUrl().c_str());
+
+				scriptContent = m_skinMlParser->m_data->LoadFile_(scriptFile);
 
 				skin->m_see->Execute(scriptContent);
 			}
-		}
-#endif
+
+			// second, execute stuff between <script> and </script>
+			if( tag.HasEnding() )
+			{
+				scriptContent = m_skinMlParser->GetSource()->Mid(tag.GetBeginPos(), tag.GetEndPos1()-tag.GetBeginPos());
+				scriptContent.Trim(true);
+				scriptContent.Trim(false);
+				if( !scriptContent.IsEmpty() )
+				{
+					if( scriptContent.StartsWith(wxT("<!--")) )
+						scriptContent = scriptContent.Mid(4);
+
+					if( scriptContent.Right(3) == wxT("-->") )
+						scriptContent = scriptContent.Left(scriptContent.Len()-3);
+
+					skin->m_see->Execute(scriptContent);
+				}
+			}
+		#endif
 
 		return FALSE; // parse inner not called
 	}
@@ -1248,9 +1248,9 @@ SjSkinMlParser::~SjSkinMlParser()
 
 SjSkinSkin* SjSkinMlParser::ParseFile(const wxString& url,
                                       bool loadNameOnly
-#if SJ_USE_SCRIPTS
+                                      #if SJ_USE_SCRIPTS
                                       , SjSee* see /*NULL if scripts should not be executed*/
-#endif
+                                      #endif
                                      )
 {
 	wxASSERT(m_deleteData==TRUE);
@@ -1276,9 +1276,9 @@ SjSkinSkin* SjSkinMlParser::ParseFile(const wxString& url,
 
 	// create and setup new skin
 	m_data->m_skin = new SjSkinSkin(
-#if SJ_USE_SCRIPTS
+	    #if SJ_USE_SCRIPTS
 	    see
-#endif
+	    #endif
 	);
 	if( !m_data->m_skin )
 	{
@@ -1850,14 +1850,14 @@ SjSkinLayout::~SjSkinLayout()
 
 
 SjSkinSkin::SjSkinSkin(
-#if SJ_USE_SCRIPTS
+    #if SJ_USE_SCRIPTS
     SjSee* see
-#endif
+    #endif
 )
 {
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	m_see           = see;
-#endif
+	#endif
 	m_debugInfo         = FALSE;
 	m_debugOutline      = FALSE;
 	m_tooltipColoursSet = FALSE;
@@ -1867,9 +1867,9 @@ SjSkinSkin::SjSkinSkin(
 SjSkinSkin::~SjSkinSkin()
 {
 	// delete the scripting engine
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	delete m_see;
-#endif
+	#endif
 
 	// delete all layouts
 	SjSkinLayoutList::Node* layoutnode = m_layoutList.GetFirst();

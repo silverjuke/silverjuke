@@ -294,8 +294,8 @@ void SjOpenFilesModule::ReceiveMsg(int msg)
 	}
 
 	// hack: forwarding to SjSee ...
-#if SJ_USE_SCRIPTS
-	SjSee::ReceiveMsg(msg);
-#endif
+	#if SJ_USE_SCRIPTS
+		SjSee::ReceiveMsg(msg);
+	#endif
 }
 

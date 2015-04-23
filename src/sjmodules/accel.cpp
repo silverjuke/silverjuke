@@ -1123,10 +1123,10 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	                        &m_flags, 1L, SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE, wxT("main/accelFlags")));
 
 	// find out the extra menu items
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	wxArrayString extrasArr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
 	int           extrasCount = extrasArr.GetCount();
-#endif
+	#endif
 
 	// shortcuts (should be last as the last option will save all the stuff)
 	SjLittleOption::SetSection(_("Shortcut"));
@@ -1167,13 +1167,13 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 		{
 			wxASSERT( cmdIndex!=m_cmdCount-1 ); // ensure, the "last" flag gets set
 			addOption = false;
-#if SJ_USE_SCRIPTS
+			#if SJ_USE_SCRIPTS
 			if( cmd->m_id-IDO_EXTRAS_MENU00 < extrasCount )
 			{
 				cmd->m_name = _("Tools") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_EXTRAS_MENU00];
 				addOption = true;
 			}
-#endif
+			#endif
 		}
 
 		if( addOption )

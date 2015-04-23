@@ -222,9 +222,9 @@ void SjPlayer::SaveGatheredInfo(const wxString& url, unsigned long startingTime,
 		    newGain,        // -1 for unknown
 		    realDecodedBytes);
 
-#if SJ_USE_SCRIPTS
+		#if SJ_USE_SCRIPTS
 		SjSee::Player_onPlaybackDone(url);
-#endif
+		#endif
 	}
 }
 

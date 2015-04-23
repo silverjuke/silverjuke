@@ -445,20 +445,20 @@ void SjMainFrame::UpdateExtrasMenu()
 }
 void SjMainFrame::CreateExtrasMenu(SjMenu* extrasMenu)
 {
-#if SJ_USE_SCRIPTS
-	wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
-	int i, iCount = arr.GetCount();
-	if( icount > 0 )
-	{
-		if( iCount > (IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00)+1 ) {
-			iCount = IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00+1;
+	#if SJ_USE_SCRIPTS
+		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
+		int i, iCount = arr.GetCount();
+		if( icount > 0 )
+		{
+			if( iCount > (IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00)+1 ) {
+				iCount = IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00+1;
+			}
+			for( i = 0; i<iCount; i++ ) {
+				extrasMenu->Append(IDO_EXTRAS_MENU00+i, arr[i], SJ_ICON_MODULE);
+			}
+			extrasMenu->AppendSeparator();
 		}
-		for( i = 0; i<iCount; i++ ) {
-			extrasMenu->Append(IDO_EXTRAS_MENU00+i, arr[i], SJ_ICON_MODULE);
-		}
-		extrasMenu->AppendSeparator();
-	}
-#endif
+	#endif
 
 	extrasMenu->Append(IDO_CONSOLE);
 	extrasMenu->AppendSeparator();

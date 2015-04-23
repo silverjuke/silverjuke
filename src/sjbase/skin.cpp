@@ -1481,27 +1481,27 @@ SjMouseUsed SjSkinButtonItem::OnMouseLeftUp(long x, long y, long accelFlags, boo
 
 				if( !m_onclick.IsEmpty() )
 				{
-#if SJ_USE_SCRIPTS
-					SjSee* see = m_skinWindow->m_currSkin->m_see;
+					#if SJ_USE_SCRIPTS
+						SjSee* see = m_skinWindow->m_currSkin->m_see;
 
-					see->ExecuteAsFunction(m_onclick);
-					// ExecuteAsFunction() is a little hack as long as we have no real DOM for the skinning tree
-					// ExecuteAsFunction() allows to use eg. "return false;" from the handler - a simple
-					// Execute() would throw a "not in function" error.
+						see->ExecuteAsFunction(m_onclick);
+						// ExecuteAsFunction() is a little hack as long as we have no real DOM for the skinning tree
+						// ExecuteAsFunction() allows to use eg. "return false;" from the handler - a simple
+						// Execute() would throw a "not in function" error.
 
-					if( see->IsResultDefined() )
-					{
-						if( !see->GetResultLong() )
-							ret = SJ_MOUSE_USED;
-
-						if( ret == SJ_MOUSE_USED && m_delayedRedraw )
+						if( see->IsResultDefined() )
 						{
-							// no default processing - redraw now!
-							m_delayedRedraw = false;
-							RedrawMe();
+							if( !see->GetResultLong() )
+								ret = SJ_MOUSE_USED;
+
+							if( ret == SJ_MOUSE_USED && m_delayedRedraw )
+							{
+								// no default processing - redraw now!
+								m_delayedRedraw = false;
+								RedrawMe();
+							}
 						}
-					}
-#endif
+					#endif
 				}
 			}
 		}
@@ -2872,19 +2872,19 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 	g_tools->UpdateFacenames();
 
 	// load the new skin - if reloadScripts is false, SjSee of the current skin is reused and the scripts are not parsed again.
-#if SJ_USE_SCRIPTS
-	SjSee* see = NULL;
-	if( reloadScripts || m_currSkin == NULL )
-	{
-		see = new SjSee();
-		see->SetExecutionScope(path);
-	}
-#endif
+	#if SJ_USE_SCRIPTS
+		SjSee* see = NULL;
+		if( reloadScripts || m_currSkin == NULL )
+		{
+			see = new SjSee();
+			see->SetExecutionScope(path);
+		}
+	#endif
 
 	SjSkinSkin* newSkin = parser.ParseFile(path, false
-#if SJ_USE_SCRIPTS
+											#if SJ_USE_SCRIPTS
 	                                       , see
-#endif
+											#endif
 	                                      );
 	if( !newSkin )
 	{
@@ -2892,14 +2892,14 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 		return FALSE;
 	}
 
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	if( see == NULL )
 	{
 		wxASSERT( m_currSkin );
 		newSkin->m_see = m_currSkin->m_see;
 		m_currSkin->m_see = NULL;
 	}
-#endif
+	#endif
 
 	// deselect the old layout (if any)
 	LoadLayout(NULL);

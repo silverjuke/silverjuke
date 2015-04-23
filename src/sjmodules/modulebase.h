@@ -730,9 +730,9 @@ public:
 	wxArrayString   m_internalSjk;
 
 	wxArrayString   m_scripts;
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	wxArrayPtrVoid  m_sees;
-#endif
+	#endif
 
 	// needed for shutdown as the garbage may contain references to the default database
 	static wxSqltDb* s_delayedDbDelete;

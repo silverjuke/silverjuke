@@ -333,13 +333,13 @@ private:
 	bool            m_inConstruction;
 	wxArrayString   m_contextMenuClickedUrls;
 	long            m_contextMenuClickedId;
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	SjSee*          m_cmdLineAndDdeSee;
-#endif
+	#endif
 public:
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	void            CmdLineAndDdeSeeExecute (const wxString&);
-#endif
+	#endif
 private:
 
 	// paste handling

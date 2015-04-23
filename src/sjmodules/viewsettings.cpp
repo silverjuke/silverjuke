@@ -381,19 +381,19 @@ void SjViewSettingsPage::OnSkinExplore(wxCommandEvent& event)
 void SjViewSettingsPage::OnScriptConfig(wxCommandEvent& e)
 {
 	wxASSERT( e.GetId() >= IDC_SCRIPT_CONFIG && e.GetId() <= IDC_SCRIPT_CONFIG_LAST );
-#if SJ_USE_SCRIPTS
-	int index = e.GetId()-IDC_SCRIPT_CONFIG;
-	SjSee::OnGlobalEmbedding(SJ_PERSISTENT_SKINS_BUTTON, index);
-#endif
+	#if SJ_USE_SCRIPTS
+		int index = e.GetId()-IDC_SCRIPT_CONFIG;
+		SjSee::OnGlobalEmbedding(SJ_PERSISTENT_SKINS_BUTTON, index);
+	#endif
 }
 
 
 void SjViewSettingsPage::OnDoubleClick(wxListEvent& event)
 {
-#if SJ_USE_SCRIPTS
-	if( !SjSee::OnGlobalEmbedding(SJ_PERSISTENT_SKINS_BUTTON, -1/*def. action*/, g_mainFrame->GetSkinSee()) )
-#endif
-		SkinInfo();
+	#if SJ_USE_SCRIPTS
+		if( !SjSee::OnGlobalEmbedding(SJ_PERSISTENT_SKINS_BUTTON, -1/*def. action*/, g_mainFrame->GetSkinSee()) )
+	#endif
+			SkinInfo();
 }
 
 
@@ -431,15 +431,15 @@ void SjViewSettingsPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 {
 	SjMenu menu(0);
 
-#if SJ_USE_SCRIPTS
-	wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_SKINS_BUTTON);
-	int i, iCount = arr.GetCount();
-	if( iCount )
-	{
-		for( i = 0; i < iCount; i++ )
-			menu.Append(IDC_SCRIPT_CONFIG+i, arr[i], SJ_ICON_MODULE);
-	}
-#endif
+	#if SJ_USE_SCRIPTS
+		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_SKINS_BUTTON);
+		int i, iCount = arr.GetCount();
+		if( iCount )
+		{
+			for( i = 0; i < iCount; i++ )
+				menu.Append(IDC_SCRIPT_CONFIG+i, arr[i], SJ_ICON_MODULE);
+		}
+	#endif
 
 	menu.Append(IDC_SKININFO, _("Info..."), SJ_ICON_MODULE);
 

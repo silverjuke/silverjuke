@@ -109,11 +109,11 @@ void SjPasswordDlg::InitExitActionChoice(wxChoice* c)
 	c->Append(_("Shutdown computer"), (void*)SJ_SHUTDOWN_POWEROFF_COMPUTER);
 	c->Append(_("Reboot computer"), (void*)SJ_SHUTDOWN_REBOOT_COMPUTER);
 
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_EXIT_OPTION);
 	for( int i = 0; i < (int)arr.GetCount(); i++ )
 		c->Append(arr[i], (void*)((uintptr_t)SJ_SHUTDOWN_USER_DEF_SCRIPT+i));
-#endif
+	#endif
 }
 
 

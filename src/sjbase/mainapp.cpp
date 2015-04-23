@@ -190,11 +190,11 @@ bool SjConnection::OnExecute(const wxString& topic, wxChar* data_, int size_, wx
 	}
 	else if( topic==wxT("execute") )
 	{
-#if SJ_USE_SCRIPTS
-		g_mainFrame->CmdLineAndDdeSeeExecute(data_);
-#else
-		wxLogError(wxT("Scripts are not supported in this build."));
-#endif
+		#if SJ_USE_SCRIPTS
+			g_mainFrame->CmdLineAndDdeSeeExecute(data_);
+		#else
+			wxLogError(wxT("Scripts are not supported in this build."));
+		#endif
 	}
 	else /* eg. "raise" */
 	{
@@ -506,9 +506,9 @@ int SjMainApp::OnExit()
 
 	/* shutdown garbage collector
 	 */
-#if SJ_USE_SCRIPTS
-	::SjGcShutdown(); // this may free references to the objects deleted in the next lines
-#endif
+	#if SJ_USE_SCRIPTS
+		::SjGcShutdown(); // this may free references to the objects deleted in the next lines
+	#endif
 
 	delete SjModuleSystem::s_delayedDbDelete;
 	SjModuleSystem::s_delayedDbDelete = NULL;
@@ -569,9 +569,9 @@ void SjMainApp::DoShutdownEtc(SjShutdownEtc action, long restoreOrgVol)
 	// user defined script?
 	if( action>=SJ_SHUTDOWN_USER_DEF_SCRIPT && action<=SJ_SHUTDOWN_USER_DEF_SCRIPT_LAST )
 	{
-#if SJ_USE_SCRIPTS
-		SjSee::OnGlobalEmbedding(SJ_PERSISTENT_EXIT_OPTION, action-SJ_SHUTDOWN_USER_DEF_SCRIPT);
-#endif
+		#if SJ_USE_SCRIPTS
+			SjSee::OnGlobalEmbedding(SJ_PERSISTENT_EXIT_OPTION, action-SJ_SHUTDOWN_USER_DEF_SCRIPT);
+		#endif
 		return;
 	}
 

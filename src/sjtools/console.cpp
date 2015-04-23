@@ -250,9 +250,9 @@ public:
 
 	SjLogGui*           m_logGui;
 
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	SjSee               m_see;
-#endif
+	#endif
 
 	wxStaticBitmap*     m_icon;
 	bool                m_iconIsInfo;
@@ -527,28 +527,28 @@ void SjLogDialog::OnEval(wxCommandEvent& event)
 			scriptShortened = scriptShortened.Left(100).Trim()+wxT("..");
 
 		// prepare execute
-#if SJ_USE_SCRIPTS
-		m_see.SetExecutionScope(_("Console"));
-		size_t oldCount1 = m_logGui->m_aMessages.GetCount();
-		size_t oldCount2 = m_logGui->m_aPacked.GetCount();
+		#if SJ_USE_SCRIPTS
+			m_see.SetExecutionScope(_("Console"));
+			size_t oldCount1 = m_logGui->m_aMessages.GetCount();
+			size_t oldCount2 = m_logGui->m_aPacked.GetCount();
 
-		// execute
-		if( m_see.Execute(script) )
-		{
-			// print the result (if not empty or if nothng has been logged by Execute())
-			bool     sthLogged = (oldCount1!=m_logGui->m_aMessages.GetCount() || oldCount2!=m_logGui->m_aPacked.GetCount());
-			wxString result = m_see.GetResultString();
-			if( !sthLogged || !result.IsEmpty() )
+			// execute
+			if( m_see.Execute(script) )
 			{
-				if( result.IsEmpty() )
-					result = wxT("undefined");
-				else if( result.Len()>110 )
-					result = result.Left(100).Trim()+wxT("..");
+				// print the result (if not empty or if nothng has been logged by Execute())
+				bool     sthLogged = (oldCount1!=m_logGui->m_aMessages.GetCount() || oldCount2!=m_logGui->m_aPacked.GetCount());
+				wxString result = m_see.GetResultString();
+				if( !sthLogged || !result.IsEmpty() )
+				{
+					if( result.IsEmpty() )
+						result = wxT("undefined");
+					else if( result.Len()>110 )
+						result = result.Left(100).Trim()+wxT("..");
 
-				wxLogInfo(wxT("%s=%s [%s]"), scriptShortened.c_str(), result.c_str(), m_see.m_executionScope.c_str());
+					wxLogInfo(wxT("%s=%s [%s]"), scriptShortened.c_str(), result.c_str(), m_see.m_executionScope.c_str());
+				}
 			}
-		}
-#endif
+		#endif
 	}
 }
 

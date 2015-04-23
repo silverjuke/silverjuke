@@ -167,14 +167,14 @@ void SjModuleSystem::Exit()
 	int i;
 
 	// unload all scripts
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	for( i = 0; i < (int)m_sees.GetCount(); i++ )
 	{
 		SjSee* see = (SjSee*)m_sees[i];
 		delete see;
 	}
 	m_sees.Empty();
-#endif
+	#endif
 
 	// unload all modules -- we do this in two steps: first the plugins, then the internal modules
 	SjModuleList::Node* moduleNode;

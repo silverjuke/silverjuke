@@ -939,14 +939,14 @@ void SjBasicSettingsConfigPage::GetLittleMiscOptions(SjArrayLittleOption& lo)
 
 	// ...scripts
 	SjLittleOption::ClearSection();
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	{
 		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_CONFIG_BUTTON);
 		int i, iCount = arr.GetCount();
 		for( i = 0; i < iCount; i++ )
 			lo.Add(new SjLittleScript(arr[i], i));
 	}
-#endif
+	#endif
 
 	// ...language
 	{

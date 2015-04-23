@@ -93,9 +93,9 @@ public:
 	SjSkinMlParser  (SjSkinMlParserData* data, long conditions);
 	~SjSkinMlParser ();
 	SjSkinSkin* ParseFile           (const wxString& givenPath, bool loadNameOnly = false
-#if SJ_USE_SCRIPTS
+	                                #if SJ_USE_SCRIPTS
 	                                 , SjSee* see=NULL
-#endif
+									#endif
 	                                );
 
 	void            InitParser          (const wxString& source);

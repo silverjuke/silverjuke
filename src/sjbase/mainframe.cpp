@@ -803,58 +803,58 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 	else if( filenamesCount == 1 && ext == wxT("sj") )
 	{
 		// open and execute a script ...
-#if SJ_USE_SCRIPTS
-		if( !::wxFileExists(filenames[0]) )
-		{
-			wxLogError(_("Cannot open \"%s\"."), filenames[0].c_str());
-			return false;
-		}
-
-		// ... copy to user dir
-		Raise();
-		{
-			wxWindowDisabler disabler(this);
-			wxFileName srcfile(filenames[0]);
-			wxFileName destfile(g_tools->GetSearchPath(0), srcfile.GetFullName());
-			wxArrayString options;
-			options.Add(wxString::Format(_("Also install the script to \"%s\" for permanent use"), destfile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR).c_str()));
-			int selOption = 0;
-			if( ::SjMessageBox(wxString::Format(_("Execute the script \"%s\"?"), srcfile.GetFullPath().c_str()),
-			                   SJ_PROGRAM_NAME,
-			                   wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this,
-			                   &options, &selOption) != wxYES )
+		#if SJ_USE_SCRIPTS
+			if( !::wxFileExists(filenames[0]) )
 			{
+				wxLogError(_("Cannot open \"%s\"."), filenames[0].c_str());
 				return false;
 			}
 
-			if( selOption )
+			// ... copy to user dir
+			Raise();
 			{
-				::wxCopyFile(srcfile.GetFullPath(), destfile.GetFullPath(), true /*overwrite*/);
-				filenames[0] = destfile.GetFullPath();
+				wxWindowDisabler disabler(this);
+				wxFileName srcfile(filenames[0]);
+				wxFileName destfile(g_tools->GetSearchPath(0), srcfile.GetFullName());
+				wxArrayString options;
+				options.Add(wxString::Format(_("Also install the script to \"%s\" for permanent use"), destfile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR).c_str()));
+				int selOption = 0;
+				if( ::SjMessageBox(wxString::Format(_("Execute the script \"%s\"?"), srcfile.GetFullPath().c_str()),
+								   SJ_PROGRAM_NAME,
+								   wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this,
+								   &options, &selOption) != wxYES )
+				{
+					return false;
+				}
+
+				if( selOption )
+				{
+					::wxCopyFile(srcfile.GetFullPath(), destfile.GetFullPath(), true /*overwrite*/);
+					filenames[0] = destfile.GetFullPath();
+				}
 			}
-		}
 
-		// ... execute the script
-		wxLogInfo(wxT("Loading %s"), filenames[0].c_str());
+			// ... execute the script
+			wxLogInfo(wxT("Loading %s"), filenames[0].c_str());
 
-		wxFileSystem fs;
-		wxFSFile* fsFile = fs.OpenFile(filenames[0]);
-		if( fsFile == NULL )
-			return false;
+			wxFileSystem fs;
+			wxFSFile* fsFile = fs.OpenFile(filenames[0]);
+			if( fsFile == NULL )
+				return false;
 
-		SjSee* see = new SjSee;
-		see->SetExecutionScope(filenames[0]);
+			SjSee* see = new SjSee;
+			see->SetExecutionScope(filenames[0]);
 
-		see->Execute(SjTools::GetFileContent(fsFile->GetStream(), &wxConvUTF8));
-		delete fsFile;
+			see->Execute(SjTools::GetFileContent(fsFile->GetStream(), &wxConvUTF8));
+			delete fsFile;
 
-		if( see->m_persistentAnchor->m_next == NULL )
-			delete see; // script is a "one shot" and can be deleted
-		else
-			m_moduleSystem.m_sees.Add(see);
-#else
-		wxLogError(wxT("Scripts are not supported in this build."));
-#endif
+			if( see->m_persistentAnchor->m_next == NULL )
+				delete see; // script is a "one shot" and can be deleted
+			else
+				m_moduleSystem.m_sees.Add(see);
+		#else
+			wxLogError(wxT("Scripts are not supported in this build."));
+		#endif
 		return true;
 	}
 	else if( (filenamesCount == 1 && m_moduleSystem.FindImageHandlerByExt(ext))
@@ -965,9 +965,9 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	/* (/) Init some pointers
 	 */
 	g_mainFrame                     = this;
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	m_cmdLineAndDdeSee              = NULL;
-#endif
+	#endif
 	m_extrasMenu                    = NULL;
 	m_updateIndexAfterConstruction  = false;
 	m_menuBar                       = NULL;
@@ -1289,38 +1289,38 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		iCount = m_moduleSystem.m_scripts.GetCount();
 		for( i = 0; i < iCount; i++ )
 		{
-#if SJ_USE_SCRIPTS
-			wxLogInfo(wxT("Loading %s"), m_moduleSystem.m_scripts[i].c_str());
+			#if SJ_USE_SCRIPTS
+				wxLogInfo(wxT("Loading %s"), m_moduleSystem.m_scripts[i].c_str());
 
-			wxFSFile* fsFile = fs.OpenFile(m_moduleSystem.m_scripts[i]);
-			if( fsFile )
-			{
-				SjSee* see = new SjSee;
-				see->SetExecutionScope(m_moduleSystem.m_scripts[i]);
+				wxFSFile* fsFile = fs.OpenFile(m_moduleSystem.m_scripts[i]);
+				if( fsFile )
+				{
+					SjSee* see = new SjSee;
+					see->SetExecutionScope(m_moduleSystem.m_scripts[i]);
 
-				see->Execute(SjTools::GetFileContent(fsFile->GetStream(), &wxConvUTF8));
-				delete fsFile;
+					see->Execute(SjTools::GetFileContent(fsFile->GetStream(), &wxConvUTF8));
+					delete fsFile;
 
-				if( see->m_persistentAnchor->m_next == NULL )
-					delete see; // script is a "one shot" and can be deleted
-				else
-					m_moduleSystem.m_sees.Add(see);
-			}
-#else
-			wxLogInfo(wxT("%s not loaded - scripts are not supported in this build"), m_moduleSystem.m_scripts[i].c_str());
-#endif
+					if( see->m_persistentAnchor->m_next == NULL )
+						delete see; // script is a "one shot" and can be deleted
+					else
+						m_moduleSystem.m_sees.Add(see);
+				}
+			#else
+				wxLogInfo(wxT("%s not loaded - scripts are not supported in this build"), m_moduleSystem.m_scripts[i].c_str());
+			#endif
 		}
 	}
 
 	if( SjMainApp::s_cmdLine->Found(wxT("execute")) )
 	{
-#if SJ_USE_SCRIPTS
-		wxString cmds;
-		SjMainApp::s_cmdLine->Found(wxT("execute"), &cmds);
-		CmdLineAndDdeSeeExecute(cmds);
-#else
-		wxLogError(wxT("Scripts are not supported in this build."));
-#endif
+		#if SJ_USE_SCRIPTS
+			wxString cmds;
+			SjMainApp::s_cmdLine->Found(wxT("execute"), &cmds);
+			CmdLineAndDdeSeeExecute(cmds);
+		#else
+			wxLogError(wxT("Scripts are not supported in this build."));
+		#endif
 	}
 
 	/* (/) set the browser to the current state
@@ -1466,9 +1466,9 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	/* done
 	 */
 	m_inConstruction = FALSE;
-#if SJ_USE_SCRIPTS
-	SjSee::ReceiveMsg(IDMODMSG__SEE_PROGRAM_LOADED);
-#endif
+	#if SJ_USE_SCRIPTS
+		SjSee::ReceiveMsg(IDMODMSG__SEE_PROGRAM_LOADED);
+	#endif
 }
 
 
@@ -1720,9 +1720,9 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 	}
 	else if(  targetId >= IDO_EXTRAS_MENU00 && targetId <= IDO_EXTRAS_MENU99 )
 	{
-#if SJ_USE_SCRIPTS
-		SjSee::OnGlobalEmbedding(SJ_PERSISTENT_MENU_ENTRY, targetId-IDO_EXTRAS_MENU00);
-#endif
+		#if SJ_USE_SCRIPTS
+			SjSee::OnGlobalEmbedding(SJ_PERSISTENT_MENU_ENTRY, targetId-IDO_EXTRAS_MENU00);
+		#endif
 	}
 	else if( targetId >= IDM_FIRST && targetId <= IDM_LAST )
 	{

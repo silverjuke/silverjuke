@@ -74,23 +74,23 @@ long SjCPlugin::CallMaster(UINT msg, LPARAM param1, LPARAM param2, LPARAM param3
 	switch( msg )
 	{
 		case SJ_EXECUTE:
-#if SJ_USE_SCRIPTS
-			if( m_see == NULL )
-			{
-				m_see = new SjSee();
-				m_see->m_plugin = this;
-				m_see->SetExecutionScope(m_file);
-			}
+			#if SJ_USE_SCRIPTS
+				if( m_see == NULL )
+				{
+					m_see = new SjSee();
+					m_see->m_plugin = this;
+					m_see->SetExecutionScope(m_file);
+				}
 
-			m_see->Execute(DecodeString(param1));   // seems to work recursively ;-)
-			// ExecuteAsFunction() is no good idea - this avoids to define _any_ globals!
-			if( param2 )
-				return EncodeString(m_see->GetResultString());
-			else
-				return m_see->GetResultLong();
-#else
-			return 0;
-#endif
+				m_see->Execute(DecodeString(param1));   // seems to work recursively ;-)
+				// ExecuteAsFunction() is no good idea - this avoids to define _any_ globals!
+				if( param2 )
+					return EncodeString(m_see->GetResultString());
+				else
+					return m_see->GetResultLong();
+			#else
+				return 0;
+			#endif
 	}
 
 	// not supported
@@ -157,13 +157,13 @@ void SjCPlugin::LastUnload()
 	// call PL_EXIT (only if PL_INIT succeeded before)
 	CallPlugin(SJ_PLUGIN_EXIT);
 	m_initDone = false;
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	if( m_see )
 	{
 		delete m_see;
 		m_see = NULL;
 	}
-#endif
+	#endif
 }
 
 

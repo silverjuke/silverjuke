@@ -424,7 +424,7 @@ void SjTestdrive1()
 
 
 	/* Scripting tests */
-#if SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 	{
 		wxLogInfo(wxT("Testdrive: Scripting tests ..."));
 
@@ -459,9 +459,9 @@ void SjTestdrive1()
 			wxLogWarning(wxT("Testdrive: encodeURI()/decodeURI() failed, see http://www.silverjuke.net/forum/topic-3234.html"));
 		}
 	}
-#else
-	wxLogInfo(wxT("Testdrive: Script tests skipped - scripts are not supported in this build."));
-#endif
+	#else
+		wxLogInfo(wxT("Testdrive: Script tests skipped - scripts are not supported in this build."));
+	#endif
 
 	// Check if the floating point library is loaded and working well.
 	// Under some circumstances, the library is not loaded when it is nedded; this results in
