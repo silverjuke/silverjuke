@@ -1247,7 +1247,7 @@ bool SjAlbumBrowser::GotoColumn(long offset, bool selectOneInRow)
 	if( selectOneInRow ) // only used by "goto random"
 	{
 		g_mainFrame->m_columnMixer.SelectAll(false);
-		if( m_allocatedColCount > 0 )
+		if( m_applColCount > 0 && m_allocatedColCount > 0 )
 		{
 			int selectableCount=0, rowIndex;
 			for( rowIndex = 0; rowIndex < m_applCol[0]->m_rowCount; rowIndex++ )
