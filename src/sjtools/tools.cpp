@@ -2890,13 +2890,7 @@ const wxArrayString& SjTools::GetFacenames()
 		// (re-)load list of facenames
 		wxFontEnumerator fontEnumerator;
 		fontEnumerator.EnumerateFacenames();
-#if !wxCHECK_VERSION(2,8,0)
-		wxArrayString* fontFaces__ = fontEnumerator.GetFacenames();
-		if( fontFaces__ )
-			m_facenames = *fontFaces__;
-#else
 		m_facenames = fontEnumerator.GetFacenames();
-#endif
 
 		// make sure, there is at least one element
 		if( m_facenames.IsEmpty() )

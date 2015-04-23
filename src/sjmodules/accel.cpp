@@ -133,19 +133,11 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Page up"),
 	       IDT_WORKSPACE_PAGE_UP,
 	       SJA_MAIN);
-#if wxCHECK_VERSION(2,8,0)
 	OrgKey(0, WXK_PAGEUP);
-#else
-	OrgKey(0, WXK_PRIOR);
-#endif
 	OrgCmd(_("Page down"),
 	       IDT_WORKSPACE_PAGE_DOWN,
 	       SJA_MAIN);
-#if wxCHECK_VERSION(2,8,0)
 	OrgKey(0, WXK_PAGEDOWN);
-#else
-	OrgKey(0, WXK_NEXT);
-#endif
 
 	OrgCmd(_("Home"),
 	       IDT_WORKSPACE_HOME,
@@ -446,20 +438,12 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Previous track"),
 	       IDC_PREVDLGPAGE,
 	       SJA_EDIT);
-#if wxCHECK_VERSION(2,8,0)
 	OrgKey(0, WXK_PAGEUP);
-#else
-	OrgKey(0, WXK_PRIOR);
-#endif
 
 	OrgCmd(_("Next track"),
 	       IDC_NEXTDLGPAGE,
 	       SJA_EDIT);
-#if wxCHECK_VERSION(2,8,0)
 	OrgKey(0, WXK_PAGEDOWN);
-#else
-	OrgKey(0, WXK_NEXT);
-#endif
 
 	OrgCmd(_("Replace"),
 	       IDC_PLUGIN_REPLACE,
@@ -1423,17 +1407,8 @@ wxString SjAccelModule::GetReadableShortcutByKey(long modifier, long keycode)
 				case WXK_DELETE:            keyStr = _("Del");                          break;
 				case WXK_CANCEL:            // = CTRL+Pause
 				case WXK_PAUSE:             keyStr = _("Pause");                        break;
-
-#if ! wxCHECK_VERSION(2,8,0)
-				case WXK_PRIOR:
-#endif
 				case WXK_PAGEUP:            keyStr = _("Page up");                      break;
-
-#if ! wxCHECK_VERSION(2,8,0)
-				case WXK_NEXT:
-#endif
 				case WXK_PAGEDOWN:          keyStr = _("Page down");                    break;
-
 				case WXK_END:               keyStr = _("End");                          break;
 				case WXK_HOME:              keyStr = _("Home");                         break;
 				case WXK_UP:                keyStr = _("Up");                           break;

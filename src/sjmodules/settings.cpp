@@ -247,13 +247,7 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 					borderSize.y = windowSize.y - clientSize.y;
 
 					// enlarge the window, if needed
-					wxSize toolbarSize =
-#if wxCHECK_VERSION(2,8,0)
-					    m_toolBar->GetEffectiveMinSize();
-#else
-					    m_toolBar->GetAdjustedBestSize();
-#endif
-
+					wxSize toolbarSize = m_toolBar->GetEffectiveMinSize();
 					wxSize minSize = m_dialogSizer->CalcMin();
 					if( minSize.x < toolbarSize.x )
 						minSize.x = toolbarSize.x;
@@ -481,15 +475,7 @@ void SjSettingsModule::LastUnload()
 {
 	if( g_settingsDlg )
 	{
-#if wxCHECK_VERSION(2,8,0)
-		// TODO:    Check if this is really correct or if we should call
-		//          SjSettingsDialog::OnClose() (I think this is what we wanted to do where we've call
-		//          SjSettingsDialog::OnCloseWindow() (a wx-private-function) below ...)
 		g_settingsDlg->Destroy();
-#else
-		wxCloseEvent closeEvent;
-		g_settingsDlg->OnCloseWindow(closeEvent);
-#endif
 	}
 	g_settingsModule = NULL;
 }
