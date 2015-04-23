@@ -800,7 +800,7 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 		OpenSettings(wxT("memory:viewsettings.lib"), 0, 0);
 		return true;
 	}
-	else if( filenamesCount == 1 && ext == wxT("sj") )
+	else if( filenamesCount == 1 && ext == wxT("js") )
 	{
 		// open and execute a script ...
 		#if SJ_USE_SCRIPTS

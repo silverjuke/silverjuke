@@ -193,7 +193,7 @@ void SjExtList::RepositoryInit()
 		RepositoryAdd(wxT("ra rm rv rmvb rmj rms ")
 		              wxT("rmm rax rvx rp rtx rt, mx"),     SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Real")));
 		RepositoryAdd(wxT("ram"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("RAM")));
-		RepositoryAdd(wxT("sjx"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke scripts"));
+		RepositoryAdd(wxT("js"),                            SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Script-files"));
 		RepositoryAdd(wxT("sjs"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke skin-files"));
 		RepositoryAdd(wxT("jukebox"),                       SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke jukebox-files"));
 		RepositoryAdd(wxT("spx"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Speex")));
