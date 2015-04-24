@@ -33,10 +33,10 @@
 class SjExtList
 {
 public:
-	SjExtList       ()                          { }
-	SjExtList       (const wxString& ext)       { SetExt(ext); }
-	SjExtList       (const SjExtList& o)        { m_ext = o.m_ext; }
-	SjExtList       (const SjExtList* o)        { if(o) { m_ext = o->m_ext; } }
+					SjExtList       ()                          { }
+					SjExtList       (const wxString& ext)       { SetExt(ext); }
+					SjExtList       (const SjExtList& o)        { m_ext = o.m_ext; }
+					SjExtList       (const SjExtList* o)        { if(o) { m_ext = o->m_ext; } }
 
 	void            Clear           ()                          { m_hash.Clear(); m_ext.Clear(); }
 
@@ -66,9 +66,9 @@ public:
 	bool            HasIntersectionWith (const SjExtList&) const;
 
 	// our little repository with information about some well-known extensions (used to find out playable files and for the file selector)
-#define SJ_EXT_TYPE_UNKNOWN             0
-#define SJ_EXT_TYPE_PLAYABLE            1 // playable files are audio or video files as mp3, ogg, avi, mp4; just to decide whether to add a file to the library; playlists are _not_ playable in this sense!
-#define SJ_EXT_TYPE_KNOWN_UNPLAYABLE    2
+	#define SJ_EXT_TYPE_UNKNOWN             0
+	#define SJ_EXT_TYPE_PLAYABLE            1 // playable files are audio or video files as mp3, ogg, avi, mp4; just to decide whether to add a file to the library; playlists are _not_ playable in this sense!
+	#define SJ_EXT_TYPE_KNOWN_UNPLAYABLE    2
 	static void     RepositoryAdd   (const wxString& ext, long extType, const wxString& descr);
 	static wxString RepositoryDescr (const wxString& ext);
 	static long     RepositoryType  (const wxString& ext);
