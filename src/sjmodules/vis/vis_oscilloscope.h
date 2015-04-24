@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_OSCILLOSCOPE_H__
 #define __SJ_OSCILLOSCOPE_H__
-
 
 
 class SjOscModule;
@@ -37,43 +35,7 @@ class SjOscWindow;
 class SjOscFrame;
 
 
-
-#define SJ_USE_FIG 0        // not really cool, I think if we do sth. into this direction we should do it REALLY
-
-
-
-class SjOscThread : public wxThread
-{
-public:
-	SjOscThread         (SjOscModule*);
-	void*           Entry               ();
-
-	wxBitmap        m_offscreenBitmap;
-	wxMemoryDC      m_offscreenDc;
-
-private:
-	SjOscModule*    m_oscModule;
-};
-
-
-
-class SjOscData
-{
-public:
-	// the following data are shared between threads using the critical section object
-	wxCriticalSection
-	m_critical;
-	bool            m_forceSpectrAnim;
-	bool            m_forceOscAnim;
-	bool            m_titleChanged;
-	wxString        m_trackName,
-	                m_leadArtistName;
-};
-
-
-
 class SjVisImpl;
-
 
 
 class SjOscModule : public SjVisRendererModule
@@ -89,28 +51,23 @@ public:
 	void            OnMenuOption        (int);
 	void            PleaseUpdateSize    (SjVisImpl*);
 private:
-	SjOscThread*    m_oscThread;
 	SjOscWindow*    m_oscWindow;
-
 	SjVisImpl*      m_impl;
-	SjOscData       m_data;
-#define         SJ_OSC_SHOW_SPECTRUM    0x00000001L
-#define         SJ_OSC_SHOW_OSC         0x00000002L
-#define         SJ_OSC_SHOW_STARFIELD   0x00010000L
-#define         SJ_OSC_SHOW_DEFAULT     0x0000FFFFL
+	bool            m_forceSpectrAnim;
+	bool            m_forceOscAnim;
+	bool            m_titleChanged;
+	wxString        m_trackName;
+	wxString        m_leadArtistName;
+	#define         SJ_OSC_SHOW_SPECTRUM    0x00000001L
+	#define         SJ_OSC_SHOW_OSC         0x00000002L
+	#define         SJ_OSC_SHOW_STARFIELD   0x00010000L
+	#define         SJ_OSC_SHOW_FIGURES     0x00020000L
+	#define         SJ_OSC_SHOW_DEFAULT     0x0000FFFFL
 	long            m_showFlags;
-#if SJ_USE_FIG
-	bool            m_showFigures;
-#endif
 
-	bool            m_doBlit;
-	wxCriticalSection m_blitCritical;
-
-	friend class    SjOscThread;
 	friend class    SjOscWindow;
 	friend class    SjOscFrame;
 };
-
 
 
 #endif // __SJ_OSCILLOSCOPE_H__

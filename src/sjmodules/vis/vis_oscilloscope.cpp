@@ -34,112 +34,8 @@
 
 // you should not change SLEEP_MS without reasons.
 // IF you change it, also check if really all time-depending calculations are still correct.
+// (a sleep of 30 ms will render about 33 frames/s; on my 2012er i7, 2,9 GHz each frames needs about 0-1 ms for calculation)
 #define SLEEP_MS 30
-
-
-/*******************************************************************************
- *  SjOscWindow
- ******************************************************************************/
-
-
-class SjOscWindow : public wxWindow
-{
-public:
-	SjOscWindow         (SjOscModule*, wxWindow* parent);
-
-private:
-	SjOscModule*    m_oscModule;
-	friend class    SjOscModule;
-
-	void            ShowFigures         (int show); // -1 = toggle
-
-
-	void            OnEraseBackground   (wxEraseEvent&)     {} // we won't erease the background explcitly, this is done in the thread
-	void            OnPaint             (wxPaintEvent&);
-
-	bool            ImplOk              () const { return (m_oscModule&&m_oscModule->m_impl); }
-	void            OnKeyDown           (wxKeyEvent& e)     { if(ImplOk()) m_oscModule->m_impl->OnKeyDown(e); }
-	void            OnKeyUp             (wxKeyEvent& e)     { if(ImplOk()) m_oscModule->m_impl->OnKeyUp(e); }
-	/* -- for consistency with external plugins, do not use context menus etc. for the karaoke window!
-	   -- people shall use the menu button atop of the window
-	   Edit 3.04: well, but we'll need this for the kiosk mode
-	   */
-	// /*
-	void            OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDown(this, e); }
-	void            OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftUp(this, e); }
-	void            OnMouseRightUp      (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseRightUp(this, e); }
-	void            OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDClick(this, e); }
-	// */
-
-	void            OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseEnter(this, e); }
-
-#if SJ_USE_FIG
-	void            OnShowFigures       (wxCommandEvent&) { ShowFigures(-1); }
-#endif
-
-	void            OnTimer             (wxTimerEvent&);
-	wxTimer         m_timer;
-	DECLARE_EVENT_TABLE ();
-};
-
-
-#define IDC_SHOWSPECTRUM        (IDM_FIRSTPRIVATE+1)
-#define IDC_SHOWOSCILLOSCOPE    (IDM_FIRSTPRIVATE+2)
-#define IDC_SHOWSTARFIELD       (IDM_FIRSTPRIVATE+3)
-#define IDC_TIMER               (IDM_FIRSTPRIVATE+7)
-
-
-BEGIN_EVENT_TABLE(SjOscWindow, wxWindow)
-	EVT_ERASE_BACKGROUND(                       SjOscWindow::OnEraseBackground      )
-	EVT_PAINT           (                       SjOscWindow::OnPaint                )
-	EVT_KEY_DOWN        (                       SjOscWindow::OnKeyDown              )
-	EVT_KEY_UP          (                       SjOscWindow::OnKeyUp                )
-	EVT_ENTER_WINDOW    (                       SjOscWindow::OnMouseEnter           )
-	EVT_LEFT_DOWN       (                       SjOscWindow::OnMouseLeftDown        )
-	EVT_LEFT_UP         (                       SjOscWindow::OnMouseLeftUp          )
-	EVT_LEFT_DCLICK     (                       SjOscWindow::OnMouseLeftDClick      )
-	EVT_RIGHT_UP        (                       SjOscWindow::OnMouseRightUp         )
-	EVT_TIMER           (IDC_TIMER,             SjOscWindow::OnTimer                )
-END_EVENT_TABLE()
-
-
-
-SjOscWindow::SjOscWindow(SjOscModule* oscModule, wxWindow* parent)
-	: wxWindow( parent, -1, /*oscModule->m_name,*/
-	            wxPoint(-1000,-1000), wxSize(100,100),
-	            (wxNO_BORDER /*| wxFRAME_NO_TASKBAR | wxFRAME_FLOAT_ON_PARENT*/) )
-{
-	m_oscModule = oscModule;
-
-	m_timer.SetOwner(this, IDC_TIMER);
-	m_timer.Start(SLEEP_MS);
-}
-
-
-void SjOscWindow::OnPaint(wxPaintEvent&)
-{
-	// even if we do not paint the window here and do this in the thread, wxPaintDC MUST be constructed for validating the window list!
-	wxPaintDC dc(this);
-}
-
-
-void SjOscWindow::OnTimer(wxTimerEvent&)
-{
-	if( m_oscModule )
-	{
-		m_oscModule->m_blitCritical.Enter();
-		if( m_oscModule->m_doBlit )
-		{
-			wxClientDC dc(this);
-			dc.Blit(0, 0,    m_oscModule->m_oscThread->m_offscreenBitmap.GetWidth(),
-			        m_oscModule->m_oscThread->m_offscreenBitmap.GetHeight(),
-			        &m_oscModule->m_oscThread->m_offscreenDc, 0, 0);
-
-			m_oscModule->m_doBlit = false;
-		}
-		m_oscModule->m_blitCritical.Leave();
-	}
-}
 
 
 /*******************************************************************************
@@ -156,7 +52,7 @@ public:
 
 private:
 	// internal calculations are done in a 1000 x 1000 map
-#define         STAR_DEPTH 100
+	#define         STAR_DEPTH 100
 	int             m_x, m_y, m_z;
 	bool            m_doDraw,
 	                m_exitRequest;
@@ -198,8 +94,7 @@ bool SjOscStar::Draw(wxDC& dc, const wxSize& clientSize, double rot, wxPen& pen,
 	// check position
 	x = hh + 500;
 	y = vv + 500;
-	if( x < -300 || x > 1300
-	        || y < -300 || y > 1300 )
+	if( x < -300 || x > 1300 || y < -300 || y > 1300 )
 	{
 		m_z = STAR_DEPTH;
 		m_doDraw = !m_exitRequest;
@@ -218,9 +113,7 @@ bool SjOscStar::Draw(wxDC& dc, const wxSize& clientSize, double rot, wxPen& pen,
 	// use star?
 	if( !m_doDraw )
 	{
-		if( m_exitRequest
-		        || x < 450 || x > 550
-		        || y < 450 || y > 550 )
+		if( m_exitRequest || x < 450 || x > 550 || y < 450 || y > 550 )
 		{
 			return FALSE;
 		}
@@ -280,18 +173,17 @@ bool SjOscStar::Draw(wxDC& dc, const wxSize& clientSize, double rot, wxPen& pen,
 class SjOscStarfield
 {
 public:
-#define         STARFIELD_MODE_SLEEP    1
-#define         STARFIELD_MODE_DO       2
-#define         STARFIELD_MODE_FADEOUT  3
-
-	SjOscStarfield      ();
+	#define         STARFIELD_MODE_SLEEP    1
+	#define         STARFIELD_MODE_DO       2
+	#define         STARFIELD_MODE_FADEOUT  3
+					SjOscStarfield      ();
 	void            Draw                (wxDC& dc, const wxSize& clientSize,
 	                                     bool otherRunning, bool newTitle, bool on);
 	bool            IsRunning           () const { return m_mode==STARFIELD_MODE_DO; }
-private:
-#define         STAR_COUNT 300
-	SjOscStar       pol[STAR_COUNT];
 
+private:
+	#define         STAR_COUNT 300
+	SjOscStar       pol[STAR_COUNT];
 	double          m_rotate;
 	char            m_rsMode;
 	long            m_rsStepsLeft;
@@ -411,13 +303,10 @@ void SjOscStarfield::Draw(wxDC& dc, const wxSize& clientSize,
  ******************************************************************************/
 
 
-#if SJ_USE_FIG
-
-
 class SjOscRocket
 {
 public:
-	SjOscRocket         ();
+	                SjOscRocket         ();
 	void            Init                (int energy, int patch, int length, long seed, int mx, int my);
 	void            Start               ();
 	void            Show                (wxDC& dc, long light);
@@ -426,8 +315,8 @@ public:
 	bool            m_sleep;
 
 private:
-#define         MAX_ROCKET_PATCH_NUMBER 90
-#define         ROCKET_GRAVITY 400
+	#define         MAX_ROCKET_PATCH_NUMBER 90
+	#define         ROCKET_GRAVITY 400
 	int             m_energy, m_patch, m_length,
 	                m_mx, m_my,
 	                m_ox, m_oy,
@@ -489,7 +378,7 @@ void SjOscRocket::Show(wxDC& dc, long light)
 		int i, j, x, y, maxL;
 		double s;
 
-#define VIEW 20
+		#define VIEW 20
 		maxL = VIEW;
 		if( maxL > m_length-m_t )
 		{
@@ -529,18 +418,17 @@ void SjOscRocket::Show(wxDC& dc, long light)
 class SjOscFirework
 {
 public:
-	SjOscFirework       ();
-	void            Draw                (wxDC& dc, const wxSize& clientSize,
-	                                     bool newTitle, bool otherRunning, bool volumeBeat, long light);
+	                SjOscFirework       ();
+	void            Draw                (wxDC& dc, const wxSize& clientSize, bool newTitle, bool otherRunning, bool volumeBeat, long light);
 
 private:
-#define         MAX_ROCKET_NUMBER       4
-#define         MAX_ROCKET_PATCH_LEN    68
-#define         MAX_ROCKET_EXPL_ENERGY  850
+	#define         MAX_ROCKET_NUMBER       4
+	#define         MAX_ROCKET_PATCH_LEN    68
+	#define         MAX_ROCKET_EXPL_ENERGY  850
 	SjOscRocket     m_rockets[MAX_ROCKET_NUMBER];
 
-#define         FIREWORK_MODE_SLEEP 1
-#define         FIREWORK_MODE_DO    3
+	#define         FIREWORK_MODE_SLEEP 1
+	#define         FIREWORK_MODE_DO    3
 	int             m_mode;
 	long            m_progress;
 };
@@ -621,33 +509,26 @@ void SjOscFirework::Draw(wxDC& dc, const wxSize& clientSize,
 }
 
 
-#endif // SJ_USE_FIG
-
-
 /*******************************************************************************
  * SjOscHands
  ******************************************************************************/
 
 
-#if SJ_USE_FIG
-
-
 class SjOscHands
 {
 public:
-	SjOscHands          ();
-	void            Draw                (wxDC& dc, const wxSize& clientSize,
-	                                     long volume, long light, bool newTitle);
+	                SjOscHands          ();
+	void            Draw                (wxDC& dc, const wxSize& clientSize, long volume, long light, bool newTitle);
 
 private:
-#define         HAND_POINTS         19
-#define         HAND_W              54
-#define         HAND_H              81
-#define         MAX_HANDS           10
-#define         HAND_MODE_NOP       0
-#define         HAND_MODE_FADEIN    1
-#define         HAND_MODE_DO        2
-#define         HAND_MODE_FADEOUT   3
+	#define         HAND_POINTS         19
+	#define         HAND_W              54
+	#define         HAND_H              81
+	#define         MAX_HANDS           10
+	#define         HAND_MODE_NOP       0
+	#define         HAND_MODE_FADEIN    1
+	#define         HAND_MODE_DO        2
+	#define         HAND_MODE_FADEOUT   3
 	wxPoint         m_logHandsPos[MAX_HANDS];
 	long            m_logHandRnd[MAX_HANDS];
 	long            m_pause;
@@ -768,29 +649,22 @@ void SjOscHands::Draw(wxDC& dc, const wxSize& clientSize,
 }
 
 
-#endif // SJ_USE_FIG
-
-
 /*******************************************************************************
  * SjOscRotor
  ******************************************************************************/
 
 
-#if SJ_USE_FIG
-
-
 class SjOscRotor
 {
 public:
-#define         PI 3.14159265F
-#define         ROTOR_MODE_NOP          0
-#define         ROTOR_MODE_FADEIN       1
-#define         ROTOR_MODE_DO           2
-#define         ROTOR_MODE_FADEOUT      3
-#define         ROTOR_MODE_FADEOUTFAST  4
-	SjOscRotor          ();
-	void            Draw                (wxDC& dc, const wxSize& clientSize,
-	                                     bool otherRunning, bool newTitle, long volume, long light);
+	#define         PI 3.14159265F
+	#define         ROTOR_MODE_NOP          0
+	#define         ROTOR_MODE_FADEIN       1
+	#define         ROTOR_MODE_DO           2
+	#define         ROTOR_MODE_FADEOUT      3
+	#define         ROTOR_MODE_FADEOUTFAST  4
+	                SjOscRotor          ();
+	void            Draw                (wxDC& dc, const wxSize& clientSize, bool otherRunning, bool newTitle, long volume, long light);
 	bool            IsRunning           () const { return (m_mode==ROTOR_MODE_FADEIN||m_mode==ROTOR_MODE_DO); }
 
 private:
@@ -808,7 +682,7 @@ private:
 
 SjOscRotor::SjOscRotor()
 {
-#define ROTOR_SLEEP_MS 120000
+	#define ROTOR_SLEEP_MS 120000
 	m_pause = SjTools::Rand(ROTOR_SLEEP_MS/SLEEP_MS);
 	m_mode = ROTOR_MODE_NOP;
 }
@@ -907,9 +781,6 @@ void SjOscRotor::Draw(wxDC& dc, const wxSize& clientSize, bool otherRunning, boo
 	dc.DrawLine(centerx+sin(m_delta+PI/2    )*radius, centery+cos(m_delta+PI/2    )*radius,
 	            centerx+sin(m_delta+PI/2+PI )*radius, centery+cos(m_delta+PI/2+PI )*radius);
 }
-
-
-#endif // SJ_USE_FIG
 
 
 /*******************************************************************************
@@ -1062,13 +933,13 @@ private:
 	int             m_freqToBox[SPEC_NUM];
 	long            m_boxSampleCount[NUM_BOXES];
 
-#define         CRAZY_MAX 2.00
-#define         CRAZY_INC  0.1
-#define         CRAZY_RAND (120000/SLEEP_MS)
-#define         CRAZY_NONE 0
-#define         CRAZY_FADEIN 1
-#define         CRAZY_STAY 2
-#define         CRAZY_FADEOUT 3
+	#define         CRAZY_MAX 2.00
+	#define         CRAZY_INC  0.1
+	#define         CRAZY_RAND (120000/SLEEP_MS)
+	#define         CRAZY_NONE 0
+	#define         CRAZY_FADEIN 1
+	#define         CRAZY_STAY 2
+	#define         CRAZY_FADEOUT 3
 	int             m_crazyState;
 	double          m_crazy;
 	long            m_crazySleep;
@@ -1116,7 +987,7 @@ void SjOscSpectrum::Calc(const wxSize& clientSize, const unsigned char* bufferSt
 
 	for( i = 0; i < SPEC_NUM*2; i++ )
 	{
-#define  float_to_short ((float)0x7FFF) // Multiplier for making 16-bit integer
+		#define  float_to_short ((float)0x7FFF) // Multiplier for making 16-bit integer
 		kiss_in[0][i]  = (float)(*bufferSShort++) / float_to_short;
 		kiss_in[1][i] = (float)(*bufferSShort++) / float_to_short;
 	}
@@ -1259,7 +1130,7 @@ void SjOscSpectrum::Draw(wxDC& dc, SjOscSpectrumChData* chData, bool volumeBeat,
 		{
 			double val = chData->m_boxY[i];
 
-#define FALLOFF_MS 800
+			#define FALLOFF_MS 800
 			chData->m_boxMax[i] -= 1.0F/((double)FALLOFF_MS/(double)SLEEP_MS);
 			if( val > chData->m_boxMax[i] )
 			{
@@ -1306,16 +1177,16 @@ private:
 	void            CalcCurrTitleSize   (wxDC& dc);
 	wxString        m_nextTitle;
 
-#define         SCROLL_OFF      0
-#define         SCROLL_WAIT     1
-#define         SCROLL_LEFT     2
-#define         SCROLL_RIGHT    3
+	#define         SCROLL_OFF      0
+	#define         SCROLL_WAIT     1
+	#define         SCROLL_LEFT     2
+	#define         SCROLL_RIGHT    3
 	long            m_scroll;
 	long            m_scrollCnt;
 
-#define         TITLEOP_NOP     0
-#define         TITLEOP_WIPEIN  1
-#define         TITLEOP_WIPEOUT 2
+	#define         TITLEOP_NOP     0
+	#define         TITLEOP_WIPEIN  1
+	#define         TITLEOP_WIPEOUT 2
 	int             m_titleOp;
 	double          m_titleWipe;
 
@@ -1374,10 +1245,10 @@ void SjOscTitle::Draw(wxDC& dc, const wxSize& clientSize, bool titleChanged, con
 	dc.SetFont(m_font);
 
 	// scroll?
-#define SCROLL_PIX 8
-#define SCROLL_INITIAL_WAIT_MS 2000
-#define SCROLL_LEFT_END_WAIT_MS 2000
-#define SCROLL_RIGHT_END_WAIT_MS 12000
+	#define SCROLL_PIX 8
+	#define SCROLL_INITIAL_WAIT_MS 2000
+	#define SCROLL_LEFT_END_WAIT_MS 2000
+	#define SCROLL_RIGHT_END_WAIT_MS 12000
 	if( m_scroll == SCROLL_WAIT )
 	{
 		m_scrollCnt--;
@@ -1475,90 +1346,147 @@ void SjOscTitle::CalcCurrTitleSize(wxDC& dc)
 
 
 /*******************************************************************************
- * SjOscThread
+ *  SjOscWindow
  ******************************************************************************/
 
 
-SjOscThread::SjOscThread(SjOscModule* oscModule)
-	: wxThread(wxTHREAD_JOINABLE),
-	  m_offscreenBitmap(16, 16)
+class SjOscWindow : public wxWindow
+{
+public:
+	SjOscWindow         (SjOscModule*, wxWindow* parent);
+	~SjOscWindow		();
+
+private:
+	SjOscModule*        m_oscModule;
+    wxBitmap            m_offscreenBitmap;
+    wxMemoryDC          m_offscreenDc;
+    long                m_sampleCount;
+    unsigned char*      m_bufferStart;
+	wxColour            m_textColour;
+	wxColour            m_fgColour;
+	wxPen               m_fgPen;
+	wxBrush             m_bgBrush;
+	SjOscSpectrum*      m_spectrum;
+	SjOscOscilloscope*  m_oscilloscope;
+	SjOscTitle*         m_title;
+	SjOscRotor*         m_rotor;
+	SjOscHands*         m_hands;
+	SjOscFirework*      m_firework;
+	SjOscStarfield*     m_starfield;
+	wxTimer             m_timer;
+	void                ShowFigures         (int show); // -1 = toggle
+	void                OnEraseBackground   (wxEraseEvent&)     { /* we won't erease the background explcitly, this is done in the thread */ }
+	void                OnPaint             (wxPaintEvent&)     { wxPaintDC dc(this); /* even if we do not paint the window here and do this in the thread, wxPaintDC MUST be constructed for validating the window list! */ }
+	bool                ImplOk              () const            { return (m_oscModule&&m_oscModule->m_impl); }
+	void                OnKeyDown           (wxKeyEvent& e)     { if(ImplOk()) m_oscModule->m_impl->OnKeyDown(e); }
+	void                OnKeyUp             (wxKeyEvent& e)     { if(ImplOk()) m_oscModule->m_impl->OnKeyUp(e); }
+	void                OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDown(this, e); }
+	void                OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftUp(this, e); }
+	void                OnMouseRightUp      (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseRightUp(this, e); }
+	void                OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDClick(this, e); }
+	void                OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseEnter(this, e); }
+	void                OnShowFigures       (wxCommandEvent&) { ShowFigures(-1); }
+	void                OnTimer             (wxTimerEvent&);
+	friend class        SjOscModule;
+	DECLARE_EVENT_TABLE ();
+};
+
+
+#define IDC_SHOWSPECTRUM        (IDM_FIRSTPRIVATE+1)
+#define IDC_SHOWOSCILLOSCOPE    (IDM_FIRSTPRIVATE+2)
+#define IDC_SHOWSTARFIELD       (IDM_FIRSTPRIVATE+3)
+#define IDC_SHOWFIGURES         (IDM_FIRSTPRIVATE+4)
+#define IDC_TIMER               (IDM_FIRSTPRIVATE+7)
+
+
+BEGIN_EVENT_TABLE(SjOscWindow, wxWindow)
+	EVT_ERASE_BACKGROUND(                       SjOscWindow::OnEraseBackground      )
+	EVT_PAINT           (                       SjOscWindow::OnPaint                )
+	EVT_KEY_DOWN        (                       SjOscWindow::OnKeyDown              )
+	EVT_KEY_UP          (                       SjOscWindow::OnKeyUp                )
+	EVT_ENTER_WINDOW    (                       SjOscWindow::OnMouseEnter           )
+	EVT_LEFT_DOWN       (                       SjOscWindow::OnMouseLeftDown        )
+	EVT_LEFT_UP         (                       SjOscWindow::OnMouseLeftUp          )
+	EVT_LEFT_DCLICK     (                       SjOscWindow::OnMouseLeftDClick      )
+	EVT_RIGHT_UP        (                       SjOscWindow::OnMouseRightUp         )
+	EVT_TIMER           (IDC_TIMER,             SjOscWindow::OnTimer                )
+END_EVENT_TABLE()
+
+
+
+SjOscWindow::SjOscWindow(SjOscModule* oscModule, wxWindow* parent)
+	: wxWindow( parent, -1, /*oscModule->m_name,*/
+	            wxPoint(-1000,-1000), wxSize(100,100),
+	            (wxNO_BORDER /*| wxFRAME_NO_TASKBAR | wxFRAME_FLOAT_ON_PARENT*/) ),
+	m_offscreenBitmap(16,16)
 {
 	m_oscModule = oscModule;
 
-	m_offscreenDc.SelectObject(m_offscreenBitmap);
+	// get the number of samples wanted
+	// (currently we exactly 576 for the spcectrum analyzer)
+	m_sampleCount = SjMs2Bytes(SLEEP_MS) / (SJ_WW_CH*SJ_WW_BYTERES);
+	if( m_sampleCount < 576*2 )
+	{
+		m_sampleCount = 576*2;
+	}
 
-	Create();
-	Run();
+	m_bufferStart = (unsigned char*)malloc(m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES);
+
+	// set colors
+	m_textColour = wxColour(0x2F, 0x60, 0xA3);
+	m_fgColour = wxColour(0x3D, 0x80, 0xDF);
+	m_fgPen = wxPen(m_fgColour, 1, wxSOLID);
+
+	// create the drawing objects
+	m_spectrum = new SjOscSpectrum(m_sampleCount);
+	m_oscilloscope = new SjOscOscilloscope(m_sampleCount);
+	m_title = new SjOscTitle();
+	m_rotor = new SjOscRotor();
+	m_hands = new SjOscHands();
+	m_firework = new SjOscFirework();
+	m_starfield = new SjOscStarfield();
+
+	// finally, start the timer
+	m_timer.SetOwner(this, IDC_TIMER);
+	m_timer.Start(SLEEP_MS);
 }
 
 
-void* SjOscThread::Entry()
+SjOscWindow::~SjOscWindow()
 {
-	// get the number of samples wanted
-	// (currently we exactly 576 for the spcectrum analyzer)
-	long sampleCount = SjMs2Bytes(SLEEP_MS) / (SJ_WW_CH*SJ_WW_BYTERES);
-	if( sampleCount < 576*2 )
+	m_timer.Stop();
+	if( m_spectrum )     { delete m_spectrum; }
+	if( m_oscilloscope ) { delete m_oscilloscope; }
+	if( m_title )        { delete m_title; }
+	if( m_rotor )        { delete m_rotor; }
+	if( m_hands )        { delete m_hands; }
+	if( m_firework )     { delete m_firework; }
+	if( m_starfield )    { delete m_starfield; }
+	if( m_bufferStart )  { free(m_bufferStart); }
+	m_oscModule = NULL;
+}
+
+
+void SjOscWindow::OnTimer(wxTimerEvent&)
+{
+	SJ_FORCE_IN_HERE_ONLY_ONCE;
+
+	if( m_oscModule )
 	{
-		sampleCount = 576*2;
-	}
+		// volume stuff
+		long                volume, maxVolume = 1;
+		bool                volumeBeat;
 
-	// colours used
-	wxColour            textColour(0x2F, 0x60, 0xA3);
-	wxColour            fgColour(0x3D, 0x80, 0xDF);
-	wxPen               fgPen(fgColour, 1, wxSOLID);
-	wxBrush             bgBrush;
-
-	// used drawing objects
-	SjOscSpectrum       spectrum(sampleCount);
-	SjOscOscilloscope   oscilloscope(sampleCount);
-	SjOscTitle          title;
-#if SJ_USE_FIG
-	SjOscRotor      rotor;
-	SjOscHands      hands;
-	SjOscFirework   firework;
-#endif
-	SjOscStarfield      starfield;
-
-	// volume stuff
-	long                volume, maxVolume = 1;
-	bool                volumeBeat;
-
-	// other objects
-	long                i;
-	long                timeForFrame = SLEEP_MS;
-	bool                titleChanged, forceOscAnim, forceSpectrAnim;
-	wxString            newTitle;
-
-	// prepare offscreen bitmap
-	wxSize              clientSize = m_oscModule->m_oscWindow->GetClientSize();
-
-	// allocate the buffer
-	unsigned char* bufferStart = (unsigned char*)malloc(sampleCount*SJ_WW_CH*SJ_WW_BYTERES);
-	if( bufferStart == NULL )
-	{
-		goto Cleanup;
-	}
-
-	// start the main loop
-	SjUseVerticalBlank();
-	while( !TestDestroy() )
-	{
-		// sleep a moment, start stopping the time needed to render the
-		// frame (includes waiting for the vertical blank)
-		i = SLEEP_MS-timeForFrame;
-		if( i < 10 ) i = 10;
-		Sleep(i);
-
-		timeForFrame = SjTools::GetMsTicks();
+		// other objects
+		long                i;
+		bool                titleChanged, forceOscAnim, forceSpectrAnim;
+		wxString            newTitle;
 
 		// get data
-		g_mainFrame->m_player.GetVisData(bufferStart, sampleCount*SJ_WW_CH*SJ_WW_BYTERES, 0);
-
-		// lock bitmap
-		m_oscModule->m_blitCritical.Enter();
+		g_mainFrame->m_player.GetVisData(m_bufferStart, m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES, 0);
 
 		// get window client size, correct offscreen DC if needed
-		clientSize = m_oscModule->m_oscWindow->GetClientSize();
+		wxSize clientSize = m_oscModule->m_oscWindow->GetClientSize();
 		if( clientSize.x != m_offscreenBitmap.GetWidth() || clientSize.y != m_offscreenBitmap.GetHeight() )
 		{
 			m_offscreenBitmap.Create(clientSize.x, clientSize.y);
@@ -1566,36 +1494,34 @@ void* SjOscThread::Entry()
 		}
 
 		// calculate the points for the lines, collect volume
-		oscilloscope.Calc(clientSize, bufferStart, volume);
+		m_oscilloscope->Calc(clientSize, m_bufferStart, volume);
 		if( m_oscModule->m_showFlags&SJ_OSC_SHOW_SPECTRUM )
 		{
-			spectrum.Calc(clientSize, bufferStart);
+			m_spectrum->Calc(clientSize, m_bufferStart);
 		}
 
 		// get data that are shared between the threads
 		{
-			wxCriticalSectionLocker locker(m_oscModule->m_data.m_critical);
-
-			titleChanged = m_oscModule->m_data.m_titleChanged;
-			m_oscModule->m_data.m_titleChanged = FALSE;
+			titleChanged = m_oscModule->m_titleChanged;
+			m_oscModule->m_titleChanged = FALSE;
 			if( titleChanged )
 			{
-				newTitle = m_oscModule->m_data.m_trackName;
+				newTitle = m_oscModule->m_trackName;
 				if( newTitle.IsEmpty() )
 				{
 					newTitle = SJ_PROGRAM_NAME;
 				}
-				else if( !m_oscModule->m_data.m_leadArtistName.IsEmpty() )
+				else if( !m_oscModule->m_leadArtistName.IsEmpty() )
 				{
-					newTitle.Prepend(m_oscModule->m_data.m_leadArtistName + wxT(" - "));
+					newTitle.Prepend(m_oscModule->m_leadArtistName + wxT(" - "));
 				}
 			}
 
-			forceOscAnim = m_oscModule->m_data.m_forceOscAnim;
-			m_oscModule->m_data.m_forceOscAnim = FALSE;
+			forceOscAnim = m_oscModule->m_forceOscAnim;
+			m_oscModule->m_forceOscAnim = FALSE;
 
-			forceSpectrAnim = m_oscModule->m_data.m_forceSpectrAnim;
-			m_oscModule->m_data.m_forceSpectrAnim = FALSE;
+			forceSpectrAnim = m_oscModule->m_forceSpectrAnim;
+			m_oscModule->m_forceSpectrAnim = FALSE;
 		}
 
 		// calculate volume, volume is theoretically max. 255, normally lesser
@@ -1608,12 +1534,12 @@ void* SjOscThread::Entry()
 		m_offscreenDc.SetPen(*wxTRANSPARENT_PEN);
 		{
 			// blue gradient background
-#define BG_STEPS 88
+			#define BG_STEPS 88
 			int rowH = (clientSize.y/BG_STEPS)+1;
 			for( i = 0; i < BG_STEPS; i++ )
 			{
-				bgBrush.SetColour(0, 0, i);
-				m_offscreenDc.SetBrush(bgBrush);
+				m_bgBrush.SetColour(0, 0, i);
+				m_offscreenDc.SetBrush(m_bgBrush);
 				m_offscreenDc.DrawRectangle(0, i*rowH, clientSize.x, rowH);
 			}
 		}
@@ -1621,67 +1547,47 @@ void* SjOscThread::Entry()
 		// draw text (very background)
 		{
 			m_offscreenDc.SetBackgroundMode(wxTRANSPARENT);
-			m_offscreenDc.SetTextForeground(textColour);
-			title.Draw(m_offscreenDc, clientSize, titleChanged, newTitle);
+			m_offscreenDc.SetTextForeground(m_textColour);
+			m_title->Draw(m_offscreenDc, clientSize, titleChanged, newTitle);
 		}
 
 		// draw figures (they lay in backgroud)
-#if SJ_USE_FIG
-		if( m_oscModule->m_showFigures )
+		if( m_oscModule->m_showFlags&SJ_OSC_SHOW_FIGURES )
 		{
+			long bgLight = 100;
+
 			// draw hands (optional)
-			hands.Draw(offscreenDc, clientSize, volume, bgLight, titleChanged);
+			m_hands->Draw(m_offscreenDc, clientSize, volume, bgLight, titleChanged);
 
 			// draw rotor (optional)
-			rotor.Draw(offscreenDc, clientSize, starfield.IsRunning(), titleChanged, volume, bgLight);
+			m_rotor->Draw(m_offscreenDc, clientSize, m_starfield->IsRunning(), titleChanged, volume, bgLight);
 
 			// draw firework (optional)
-			firework.Draw(offscreenDc, clientSize, titleChanged, starfield.IsRunning(), volumeBeat, bgLight);
+			m_firework->Draw(m_offscreenDc, clientSize, titleChanged, m_starfield->IsRunning(), volumeBeat, bgLight);
 		}
-#endif
 
 		// draw starfield (optional)
-		starfield.Draw(m_offscreenDc, clientSize, false, titleChanged, (m_oscModule->m_showFlags&SJ_OSC_SHOW_STARFIELD)!=0);
+		m_starfield->Draw(m_offscreenDc, clientSize, false, titleChanged, (m_oscModule->m_showFlags&SJ_OSC_SHOW_STARFIELD)!=0);
 
 		// draw spectrum and/or oscilloscope (for both, the spectrum lays over the oscillosope)
-		m_offscreenDc.SetPen(fgPen);
+		m_offscreenDc.SetPen(m_fgPen);
 
 		if( m_oscModule->m_showFlags&SJ_OSC_SHOW_OSC )
 		{
-			oscilloscope.Draw(m_offscreenDc, forceOscAnim);
+			m_oscilloscope->Draw(m_offscreenDc, forceOscAnim);
 		}
 
 		if( m_oscModule->m_showFlags&SJ_OSC_SHOW_SPECTRUM )
 		{
-			spectrum.Draw(m_offscreenDc, volumeBeat,
-#if SJ_USE_FIG
-			              m_oscModule->m_showFigures,
-#else
-			              FALSE,
-#endif
-			              forceSpectrAnim);
-
+			m_spectrum->Draw(m_offscreenDc, volumeBeat,
+						  (m_oscModule->m_showFlags&SJ_OSC_SHOW_FIGURES)? true : false,
+						  forceSpectrAnim);
 		}
 
-		// unlock bitmap, refresh
-		m_oscModule->m_doBlit = true;
-		m_oscModule->m_blitCritical.Leave();
-		//m_oscModule->m_oscWindow->Refresh();
-
-		// stop the time
-		timeForFrame = SjTools::GetMsTicks() - timeForFrame;
+		// draw offscreen bitmap to screen
+		wxClientDC dc(this);
+		dc.Blit(0, 0, m_offscreenBitmap.GetWidth(), m_offscreenBitmap.GetHeight(), &m_offscreenDc, 0, 0);
 	}
-	SjUnuseVerticalBlank();
-
-Cleanup:
-
-	m_oscModule->m_blitCritical.Enter();
-	m_oscModule->m_doBlit = false;
-	m_oscModule->m_blitCritical.Leave();
-
-	if( bufferStart ) { free(bufferStart); }
-
-	return 0;
 }
 
 
@@ -1695,16 +1601,14 @@ SjOscModule::SjOscModule(SjInterfaceBase* interf)
 {
 	m_file          = wxT("memory:oscilloscope.lib");
 	m_name          = _("Spectrum Monitor");
-	m_oscThread     = NULL;
 	m_oscWindow     = NULL;
 	m_impl          = NULL;
-	m_doBlit        = false;
 }
 
 
 bool SjOscModule::Start(SjVisImpl* impl, bool justContinue)
 {
-	if( m_oscThread == NULL )
+	if( m_oscWindow == NULL )
 	{
 		m_impl = impl;
 
@@ -1715,22 +1619,15 @@ bool SjOscModule::Start(SjVisImpl* impl, bool justContinue)
 		{
 			ReceiveMsg(IDMODMSG_TRACK_ON_AIR_CHANGED);
 
-			m_data.m_forceSpectrAnim= !justContinue;
-			m_data.m_forceOscAnim   = !justContinue;
-			// m_data.m_titleChanged    = !justContinue; --
+			m_forceSpectrAnim= !justContinue;
+			m_forceOscAnim   = !justContinue;
 
-			m_oscThread = new SjOscThread(this);
-			if( m_oscThread )
-			{
-				wxRect visRect = impl->GetRendererClientRect();
-				m_oscWindow->SetSize(visRect);
+			wxRect visRect = impl->GetRendererClientRect();
+			m_oscWindow->SetSize(visRect);
 
-				m_oscWindow->Show();
+			m_oscWindow->Show();
 
-				return TRUE;
-			}
-
-			delete m_oscWindow;
+			return TRUE;
 		}
 	}
 
@@ -1740,24 +1637,16 @@ bool SjOscModule::Start(SjVisImpl* impl, bool justContinue)
 
 void SjOscModule::Stop()
 {
-	if( m_oscThread )
+	if( m_oscWindow )
 	{
-		m_oscThread->Delete();
-		delete m_oscThread; // Delete() does not call destructor for joinable threads
-		m_oscThread = NULL;
-
-		// delete the window AFTER deleting the thread
 		m_oscWindow->m_oscModule = NULL;
-		if( m_oscWindow )
-		{
-			m_oscWindow->Hide();
-			g_mainFrame->Update();
-			m_oscWindow->Destroy();
-			m_oscWindow = NULL;
-		}
-
-		m_impl = NULL;
+		m_oscWindow->Hide();
+		g_mainFrame->Update();
+		m_oscWindow->Destroy();
+		m_oscWindow = NULL;
 	}
+
+	m_impl = NULL;
 }
 
 
@@ -1765,12 +1654,10 @@ void SjOscModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED )
 	{
-		wxCriticalSectionLocker locker(m_data.m_critical);
-
-		m_data.m_titleChanged = TRUE;
+		m_titleChanged = TRUE;
 		SjPlaylistEntry& urlInfo = g_mainFrame->GetQueueInfo(-1);
-		m_data.m_trackName = urlInfo.GetTrackName();
-		m_data.m_leadArtistName = urlInfo.GetLeadArtistName();
+		m_trackName = urlInfo.GetTrackName();
+		m_leadArtistName = urlInfo.GetLeadArtistName();
 	}
 	else if( msg == IDMODMSG_WINDOW_SIZE_MOVE_BEGIN )
 	{
@@ -1798,30 +1685,33 @@ void SjOscModule::AddMenuOptions(SjMenu& m)
 
 	m.AppendCheckItem(IDC_SHOWSTARFIELD, _("Show starfield"));
 	m.Check(IDC_SHOWSTARFIELD, (m_showFlags&SJ_OSC_SHOW_STARFIELD)!=0);
+
+	m.AppendCheckItem(IDC_SHOWFIGURES, _("Show other figures"));
+	m.Check(IDC_SHOWFIGURES, (m_showFlags&SJ_OSC_SHOW_FIGURES)!=0);
 }
 
 
 void SjOscModule::OnMenuOption(int i)
 {
+	switch( i )
 	{
-		wxCriticalSectionLocker locker(m_data.m_critical);
+		case IDC_SHOWSPECTRUM:
+			SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_SPECTRUM);
+			if( m_showFlags&SJ_OSC_SHOW_SPECTRUM ) m_forceSpectrAnim = TRUE;
+			break;
 
-		switch( i )
-		{
-			case IDC_SHOWSPECTRUM:
-				SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_SPECTRUM);
-				if( m_showFlags&SJ_OSC_SHOW_SPECTRUM ) m_data.m_forceSpectrAnim = TRUE;
-				break;
+		case IDC_SHOWOSCILLOSCOPE:
+			SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_OSC);
+			if( m_showFlags&SJ_OSC_SHOW_OSC ) m_forceOscAnim = TRUE;
+			break;
 
-			case IDC_SHOWOSCILLOSCOPE:
-				SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_OSC);
-				if( m_showFlags&SJ_OSC_SHOW_OSC ) m_data.m_forceOscAnim = TRUE;
-				break;
+		case IDC_SHOWSTARFIELD:
+			SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_STARFIELD);
+			break;
 
-			case IDC_SHOWSTARFIELD:
-				SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_STARFIELD);
-				break;
-		}
+		case IDC_SHOWFIGURES:
+			SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_FIGURES);
+			break;
 	}
 
 	g_tools->m_config->Write(wxT("player/oscflags"), m_showFlags);
