@@ -424,7 +424,7 @@ void SjKaraokeWindow::OnTimer(wxTimerEvent&)
 	{
 		long totalMs, elapsedMs, remainingMs;
 		g_mainFrame->m_player.GetTime(totalMs, elapsedMs, remainingMs);
-		if( elapsedMs > 0 )
+		if( elapsedMs >= 0 ) // -1=error, 0=normal position 0:00
 		{
 			karaokeEnded = m_karaokeMaster.SetPosition(elapsedMs)? 0 : 1;
 		}
