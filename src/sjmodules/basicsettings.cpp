@@ -74,7 +74,6 @@ private:
 	(wxListEvent&) { UpdateButtons(); }
 	void            OnContextMenu       (wxListEvent&);
 	void            OnShowSearchPath    (wxCommandEvent&);
-	void            OnHelp              (wxCommandEvent&);
 	void            OnSize              (wxSizeEvent&);
 	DECLARE_EVENT_TABLE ()
 };
@@ -89,7 +88,6 @@ BEGIN_EVENT_TABLE(SjSearchPathDlg, SjDialog)
 	EVT_LIST_ITEM_SELECTED      (IDC_SEARCHPATHS,        SjSearchPathDlg::OnSearchPathSelectionChange   )
 	EVT_LIST_ITEM_DESELECTED    (IDC_SEARCHPATHS,        SjSearchPathDlg::OnSearchPathSelectionChange   )
 	EVT_LIST_ITEM_RIGHT_CLICK   (IDC_SEARCHPATHS,        SjSearchPathDlg::OnContextMenu                 )
-	EVT_BUTTON                  (wxID_HELP,              SjSearchPathDlg::OnHelp                        )
 	EVT_MENU                    (IDC_SHOWSEARCHPATH,     SjSearchPathDlg::OnShowSearchPath              )
 END_EVENT_TABLE()
 
@@ -142,7 +140,7 @@ SjSearchPathDlg::SjSearchPathDlg(wxWindow* parent, const wxArrayString& paths)
 
 	sizer2->Add(1, SJ_DLG_SPACE); // some space
 
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	sizer1->SetSizeHints(this);
 	CentreOnParent();
@@ -250,12 +248,6 @@ void SjSearchPathDlg::OnSearchPathRemove(wxCommandEvent& event)
 			m_searchPathListCtrl->DeleteItem(index);
 		}
 	}
-}
-
-
-void SjSearchPathDlg::OnHelp(wxCommandEvent& event)
-{
-	g_tools->ExploreHomepage(SJ_HELP_SEARCHPATHS);
 }
 
 
@@ -1218,19 +1210,6 @@ void SjBasicSettingsModule::DoneConfigPage(wxWindow* configPage__, int doneCode_
 }
 
 
-SjHomepageId SjBasicSettingsModule::GetHelpTopic()
-{
-	SjHomepageId ret = SJ_HELP_BASICSETTINGS;
-	if( g_configPage )
-	{
-		int selPage = g_configPage->m_notebook->GetSelection();
-		int pageCount = g_configPage->m_notebook->GetPageCount();
-		if( selPage == pageCount+PAGE_LITTLEOPTIONS )
-		{
-			ret = SJ_HELP_FURTHEROPTIONS;
-		}
-	}
-	return ret;
-}
+
 
 

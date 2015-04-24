@@ -92,14 +92,11 @@ public:
 	                     long addStyle=0);
 
 	// tools
-#define         SJ_DLG_OK           0x01
-#define         SJ_DLG_CANCEL       0x02
-#define         SJ_DLG_PREV_NEXT    0x10
-#define         SJ_DLG_HELP         0x20
-#define         SJ_DLG_MENU         0x40
-#define         SJ_DLG_OK_CANCEL    (SJ_DLG_OK|SJ_DLG_CANCEL)
-	wxWindow*       CreateHelpButton    () { return CreateHelpButton(this); }
-	static wxWindow* CreateHelpButton   (wxWindow*);
+	#define         SJ_DLG_OK           0x01
+	#define         SJ_DLG_CANCEL       0x02
+	#define         SJ_DLG_PREV_NEXT    0x10
+	#define         SJ_DLG_MENU         0x40
+	#define         SJ_DLG_OK_CANCEL    (SJ_DLG_OK|SJ_DLG_CANCEL)
 	wxSizer*        CreateButtons       (long flags, const wxString& okTitle=wxT(""), const wxString& cancelTitle=wxT(""), const wxString& prevTitle=wxT(""), const wxString& nextTitle=wxT("")) { return CreateButtons(this, flags, okTitle, cancelTitle, prevTitle, nextTitle); }
 	static wxSizer* CreateButtons       (wxWindow*, long flags, const wxString& okTitle=wxT(""), const wxString& cancelTitle=wxT(""), const wxString& prevTitle=wxT(""), const wxString& nextTitle=wxT(""));
 

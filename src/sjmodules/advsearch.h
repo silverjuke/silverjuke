@@ -120,21 +120,19 @@ WX_DECLARE_OBJARRAY(SjRuleControls, SjArrayRuleControls);
 
 
 /*******************************************************************************
- *  SjAdvSearchDialog
+ * SjAdvSearchDialog
  ******************************************************************************/
-
 
 
 class SjAdvSearchDialog : public SjDialog
 {
 public:
-	SjAdvSearchDialog   (long preselectId);
+	                SjAdvSearchDialog   (long preselectId);
 	void            ReloadRule          (long ruleId, long focusRepostValue); // should be called from a rule to enforce recreation of its controls
 	void            RuleChanged         (); // should be called if any field (eg. in the rule) is modifued
 	void            UpdateIncludeExclude(const SjAdvSearch& s, long changedRule);
 	SjAdvSearch     GetSearchInEdit     () const;
-	bool            SaveSearchInEditIfNeeded
-	(bool askUser=TRUE);
+	bool            SaveSearchInEditIfNeeded(bool askUser=TRUE);
 
 private:
 	// controls
@@ -143,10 +141,8 @@ private:
 	wxStaticBox*    m_staticBox;
 	wxChoice*       m_selectScopeChoice;
 	wxChoice*       m_selectOpChoice;
-	wxFlexGridSizer*
-	m_ruleSizer;
-	SjArrayRuleControls
-	m_ruleControls;
+	wxFlexGridSizer* m_ruleSizer;
+	SjArrayRuleControls m_ruleControls;
 	wxButton*       m_menuButton;
 	wxButton*       m_startSearchButton;
 	wxButton*       m_endSearchButton;
@@ -155,30 +151,24 @@ private:
 	                m_ruleTempFocusRepostValue;
 
 	// handling controls
-	wxArrayLong     GetSelectionFromSearchListCtrl
-	(long* retSingleSelIndex=NULL); // returns and array of selected search IDs
-	void            SetSelectionToSearchListCtrl
-	(long advSearchId);
+	wxArrayLong     GetSelectionFromSearchListCtrl(long* retSingleSelIndex=NULL); // returns and array of selected search IDs
+	void            SetSelectionToSearchListCtrl(long advSearchId);
 	void            UpdateSearchList    (const SjAdvSearch& recentSearch);
-	void            UpdateSearchListColours
-	(bool init);
+	void            UpdateSearchListColours(bool init);
 	void            UpdateSearchTitle   (const SjAdvSearch& recentSearch);
 	void            UpdateSearchButtons ();
 	void            UpdateSearchControls(const SjAdvSearch&, long focusIndex=-1, long focusRepostValue=-1);
 	void            ShowContextMenu     (wxWindow*, const wxPoint&);
 	long            GetRuleIndex        (long ruleId);
-	bool            IsSearchInEditEqualToRecentSearch
-	();
-	bool            IsSearchInEditEqualToSearchInMain
-	();
+	bool            IsSearchInEditEqualToRecentSearch();
+	bool            IsSearchInEditEqualToSearchInMain();
 
 	// events
 	void            OnSearchDoubleClick (wxListEvent&) { wxCommandEvent fwd; OnSearch(fwd); }
 	void            OnSearchContextMenu (wxListEvent&) { ShowContextMenu(this, ScreenToClient(::wxGetMousePosition())); }
 	void            OnSearchSelChange   (wxListEvent&);
 	void            OnSearchSelChangeDo (wxCommandEvent&);
-	void            OnSearchInMainChanged
-	(wxCommandEvent&);
+	void            OnSearchInMainChanged(wxCommandEvent&);
 	void            OnSearchEndEditLabel(wxListEvent&);
 	void            OnSearchKeyDown     (wxListEvent&);
 	void            OnUpdateSearchList  (wxCommandEvent&);
@@ -205,12 +195,9 @@ private:
 	void            OnReloadRuleDo      (wxCommandEvent&);
 	void            OnAddRule           (wxCommandEvent&);
 	void            OnOpenPlaylistDo    (wxCommandEvent&);
-
-	void            OnHelp              (wxCommandEvent&);
 	void            OnSize              (wxSizeEvent&);
 	void            OnSearch            (wxCommandEvent&);
-	bool            OnSearchCheckObviousErrors
-	(const SjAdvSearch& advSearch, wxString& warnings);
+	bool            OnSearchCheckObviousErrors (const SjAdvSearch& advSearch, wxString& warnings);
 	void            OnSearchShowErrors  (const SjAdvSearch& advSearch, wxString& warnings);
 	void            OnEndSearch         (wxCommandEvent&);
 	void            OnPlay              (wxCommandEvent&);
@@ -221,11 +208,9 @@ private:
 };
 
 
-
 /*******************************************************************************
- *  SjSearchHistory
+ * SjSearchHistory
  ******************************************************************************/
-
 
 
 class SjSearchHistory

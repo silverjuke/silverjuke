@@ -64,7 +64,7 @@ public:
 class SjTagEditorPlugin : public SjDialog
 {
 public:
-	SjTagEditorPlugin   (wxWindow* parent, const wxString& name, const wxString& title, SjTrackInfo* exampleTrackInfo, SjHomepageId helpId);
+	SjTagEditorPlugin   (wxWindow* parent, const wxString& name, const wxString& title, SjTrackInfo* exampleTrackInfo);
 	virtual         ~SjTagEditorPlugin  () { }
 	void            LoadSize            ();
 	void            SaveSize            ();
@@ -75,24 +75,19 @@ public:
 
 	// Change the given track information; any modifications must
 	// be added to SjConfirm using Add()
-	virtual void    ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&) { }
+	virtual void     ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&) { }
 
 	// Called after a serie of ModifyTrackInfo(),
 	// you may return a message that should be presented to the user.
-	virtual wxString
-	PostModify          () { return wxEmptyString; }
+	virtual wxString PostModify          () { return wxEmptyString; }
 
 protected:
 	// misc.
-	void            OnPluginHelp        (wxCommandEvent&);
-	bool            TransferDataFromWindow
-	() { SaveSize(); return TRUE; }
-	SjHomepageId    m_helpId;
+	void            OnCommand              (wxCommandEvent&);
+	bool            TransferDataFromWindow () { SaveSize(); return TRUE; }
 	wxString        m_name;
 	wxSizer*        m_sizer1;
 	SjTrackInfo*    m_exampleTrackInfo;
-
-	DECLARE_EVENT_TABLE ()
 };
 
 

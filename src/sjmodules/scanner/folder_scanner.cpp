@@ -91,7 +91,6 @@ private:
 
 	void            OnEnableCheck       (wxCommandEvent&) { EnableDisable(); }
 	void            OnReset             (wxCommandEvent&);
-	void            OnHelp              (wxCommandEvent&);
 	void            EnableDisable       ();
 	DECLARE_EVENT_TABLE ()
 
@@ -107,7 +106,6 @@ private:
 BEGIN_EVENT_TABLE(SjFolderSettingsDialog, SjDialog)
 	EVT_CHECKBOX    (   IDC_ENABLECHECK,    SjFolderSettingsDialog::OnEnableCheck   )
 	EVT_BUTTON      (   IDC_RESET,          SjFolderSettingsDialog::OnReset         )
-	EVT_BUTTON      (   wxID_HELP,          SjFolderSettingsDialog::OnHelp          )
 END_EVENT_TABLE()
 
 
@@ -212,7 +210,7 @@ SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScan
 	}
 
 	// buttons
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	// init done, center dialog
 	sizer1->SetSizeHints(this);
@@ -240,16 +238,15 @@ void SjFolderSettingsDialog::EnableDisable()
 			int         childId = child->GetId();
 
 			if( child->GetClassInfo()->GetClassName() == wxString(wxT("wxStaticBox"))
-			        && child->GetLabel() == _("State") )
+			 && child->GetLabel() == _("State") )
 			{
 				break;
 			}
 
 			if( childId != wxID_OK
-			        && childId != wxID_CANCEL
-			        && childId != wxID_HELP
-			        && childId != IDC_ENABLECHECK
-			        && childId != IDC_STATICBOX )
+			 && childId != wxID_CANCEL
+			 && childId != IDC_ENABLECHECK
+			 && childId != IDC_STATICBOX )
 			{
 				child->Enable(enable);
 			}
@@ -293,12 +290,6 @@ void SjFolderSettingsDialog::OnReset(wxCommandEvent&)
 	}
 
 	m_infoMaskTextCtrl->SetValue(SjTrackInfoMatcher::GetDefaultPattern());
-}
-
-
-void SjFolderSettingsDialog::OnHelp(wxCommandEvent&)
-{
-	g_tools->ExploreHomepage(SJ_HELP_FOLDEROPTIONS);
 }
 
 

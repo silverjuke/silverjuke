@@ -59,7 +59,6 @@
 #define IDC_STARTVIS_LAST               (IDM_FIRSTPRIVATE+500)
 #define IDC_EMBED_WINDOW                (IDM_FIRSTPRIVATE+501)
 #define IDC_HALF_SIZE                   (IDM_FIRSTPRIVATE+502)
-#define IDC_VIS_HELP                    (IDM_FIRSTPRIVATE+503)
 #define IDC_SWITCH_OVER_AUTOMATICALLY   (IDM_FIRSTPRIVATE+504)
 
 #define IDCI_LAST                   (IDM_FIRSTPRIVATE+600)
@@ -368,7 +367,6 @@ void SjVisImpl::ShowContextMenu(int x, int y)
 		// misc.
 		m.AppendSeparator();
 
-		m.Append(IDC_VIS_HELP, _("Online help"));
 		m.Append(IDC_STOP_OR_CLOSE, _("Close"));
 		m.Enable(IDC_STOP_OR_CLOSE, g_visModule->IsCloseMenuEntryNeeded());
 
@@ -433,12 +431,6 @@ void SjVisImpl::OnCommand(wxCommandEvent& e)
 	{
 		// attach / detach
 		g_visModule->AttachDetachRequest();
-	}
-	else if( cmdId == IDC_VIS_HELP )
-	{
-		// online help
-		g_tools->ExploreHomepage(
-		    (g_visModule&&g_visModule->m_file==wxT("memory:karaoke.lib"))? SJ_HELP_KARAOKE : SJ_HELP_VIS);
 	}
 	else if( cmdId == IDC_STOP_OR_CLOSE )
 	{

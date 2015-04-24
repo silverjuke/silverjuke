@@ -214,7 +214,6 @@ public:
 	// Simple "little" configutation.  GetLittleOptions() should also work for
 	// unloaded modules.
 	virtual void    GetLittleOptions    (SjArrayLittleOption&) { }
-	virtual SjHomepageId GetHelpTopic    ()       { return SJ_HELP_INDEX; }
 
 	// Receiving IDMODMSG_* messages (Silverjuke -> Module)
 	virtual void    ReceiveMsg          (int) { };

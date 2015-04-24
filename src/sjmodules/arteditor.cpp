@@ -118,7 +118,6 @@ private:
 BEGIN_EVENT_TABLE(SjArtEditor, wxFrame)
 	EVT_MENU_RANGE          (IDM_FIRST, IDM_LAST,   SjArtEditor::OnCommand          )
 	EVT_MENU                (IDO_SMOOTH,            SjArtEditor::OnCommand          )
-	EVT_MENU                (IDO_ONLINE_HELP,       SjArtEditor::OnCommand          )
 	EVT_LEFT_DOWN           (                       SjArtEditor::OnMouseLeftDown    )
 	EVT_LEFT_UP             (                       SjArtEditor::OnMouseLeftUp      )
 	EVT_MOUSE_CAPTURE_LOST  (                       SjArtEditor::OnMouseCaptureLost )
@@ -550,11 +549,7 @@ void SjArtEditor::OnCommand(wxCommandEvent& event)
 	int     id = event.GetId();
 	bool    idUsed = TRUE;
 
-	if( id == IDO_ONLINE_HELP && g_mainFrame->IsAllAvailable() )
-	{
-		g_tools->ExploreHomepage(SJ_HELP_COVERS);
-	}
-	else if( id == IDM_CLOSEARTEDITOR )
+	if( id == IDM_CLOSEARTEDITOR )
 	{
 		Close();
 	}

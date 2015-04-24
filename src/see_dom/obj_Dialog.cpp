@@ -195,7 +195,6 @@ BEGIN_EVENT_TABLE(SjApiDlg, SjDialog)
 	EVT_BUTTON  (IDC_USER_BUTTON,       SjApiDlg::OnAnyButton       )
 	EVT_BUTTON  (wxID_OK,               SjApiDlg::OnAnyButton       )
 	EVT_BUTTON  (wxID_CANCEL,           SjApiDlg::OnAnyButton       )
-	EVT_BUTTON  (wxID_HELP,             SjApiDlg::OnAnyButton       )
 	EVT_CLOSE   (                       SjApiDlg::OnClose           )
 END_EVENT_TABLE()
 
@@ -242,7 +241,6 @@ void SjApiDlg::OnAnyButton(wxCommandEvent& event)
 	{
 		case wxID_OK:       m_lastButtonIndex = m_dlo->m_controls->Id2Index(wxT("ok"));     break;
 		case wxID_CANCEL:   m_lastButtonIndex = m_dlo->m_controls->Id2Index(wxT("cancel")); break;
-		case wxID_HELP:     m_lastButtonIndex = m_dlo->m_controls->Id2Index(wxT("help"));   break;
 		default:            { wxWindow* button = (wxWindow*)event.GetEventObject(); m_lastButtonIndex = (int)button->GetClientData(); } break;
 	}
 

@@ -176,11 +176,8 @@ void SjHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link)
 		// explore the silverjuke homepage
 		long homepageId;
 		rest.AfterLast(',').ToLong(&homepageId);
-		if( homepageId >= 0 && homepageId < SJ_HOMEPAGE_MAX_PAGE_INDEX )
-		{
-			g_tools->ExploreHomepage((SjHomepageId)homepageId);
-			return;
-		}
+		g_tools->ExploreHomepage((SjHomepageId)homepageId);
+		return;
 	}
 	else if( href.StartsWith(wxT("id:"), &rest) )
 	{

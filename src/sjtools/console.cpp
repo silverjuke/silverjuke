@@ -277,7 +277,6 @@ public:
 	void                OnDetails           (wxCommandEvent& e);
 	void                OnEval              (wxCommandEvent& e);
 	void                OnClear             (wxCommandEvent& e);
-	void                OnHelp              (wxCommandEvent& e) {if(g_tools) g_tools->ExploreHomepage(SJ_HELP_CONSOLE);}
 	void                OnSave              (wxCommandEvent& e);
 	void                OnAutoOpen          (wxCommandEvent& e) { SjLogGui::SetAutoOpen(m_autoOpenCheckBox->GetValue()!=0); }
 	void                OnSize              (wxSizeEvent& event) { SjDialog::OnSize(event); if(m_listCtrl) { m_listCtrl->SizeChanged(); } }
@@ -304,7 +303,6 @@ BEGIN_EVENT_TABLE(SjLogDialog, SjDialog)
 	EVT_BUTTON      (IDC_CLEAR_BUTTON,      SjLogDialog::OnClear    )
 	EVT_BUTTON      (IDC_SAVE_BUTTON,       SjLogDialog::OnSave     )
 	EVT_CHECKBOX    (IDC_AUTO_OPEN_CHECKBOX,SjLogDialog::OnAutoOpen )
-	EVT_BUTTON      (wxID_HELP,             SjLogDialog::OnHelp     )
 	EVT_SIZE        (                       SjLogDialog::OnSize     )
 	EVT_CLOSE       (                       SjLogDialog::OnClose    )
 END_EVENT_TABLE()
@@ -401,7 +399,7 @@ SjLogDialog::SjLogDialog(SjLogGui* logGui,
 	m_sizerDetails->Add(m_autoOpenCheckBox, 0, wxTOP, SJ_DLG_SPACE);
 
 	// buttons
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_MENU|SJ_DLG_OK, _("Close")),
+	sizer1->Add(CreateButtons(SJ_DLG_MENU|SJ_DLG_OK, _("Close")),
 	            0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	ShowDetails(m_showingDetails);

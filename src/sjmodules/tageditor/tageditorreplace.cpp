@@ -33,7 +33,7 @@
 
 
 SjReplacePlugin::SjReplacePlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
-	: SjTagEditorPlugin(parent, wxT("replace"), _("Replace"), exampleTrackInfo, SJ_HELP_TAGEDITOR_REPLACE)
+	: SjTagEditorPlugin(parent, wxT("replace"), _("Replace"), exampleTrackInfo)
 {
 	// read configuration
 	m_searchFor = g_tools->ReadArray(wxT("tageditor/searchFor"));

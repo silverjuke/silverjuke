@@ -51,7 +51,6 @@ private:
 	void            EnableDisable       ();
 
 	void            OnEnableCheck       (wxCommandEvent&) { EnableDisable(); }
-	void            OnHelp              (wxCommandEvent&);
 	DECLARE_EVENT_TABLE ()
 };
 

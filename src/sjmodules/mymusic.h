@@ -40,8 +40,6 @@ public:
 	SjEmbedTo       EmbedTo             () { return SJ_EMBED_TO_MAIN; }
 	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);
 	void            DoneConfigPage      (wxWindow* p, int action);
-
-	SjHomepageId    GetHelpTopic        () { return SJ_HELP_MYMUSIC; }
 };
 
 

@@ -50,7 +50,6 @@ private:
 	void            OnOK                (wxCommandEvent&);
 	void            OnCancel            (wxCommandEvent&);
 	void            OnClose             (wxCloseEvent&) { wxCommandEvent fwd; OnCancel(fwd); }
-	void            OnHelp              (wxCommandEvent&);
 	DECLARE_EVENT_TABLE ()
 };
 
@@ -68,7 +67,6 @@ BEGIN_EVENT_TABLE(SjOpenFilesDialog, SjDialog)
 	EVT_BUTTON          (wxID_OK,               SjOpenFilesDialog::OnOK         )
 	EVT_BUTTON          (wxID_CANCEL,           SjOpenFilesDialog::OnCancel     )
 	EVT_CLOSE           (                       SjOpenFilesDialog::OnClose      )
-	EVT_BUTTON          (wxID_HELP,             SjOpenFilesDialog::OnHelp       )
 END_EVENT_TABLE()
 
 
@@ -96,7 +94,7 @@ SjOpenFilesDialog::SjOpenFilesDialog()
 	m_appendCheck = new wxCheckBox(this, IDC_APPEND, _("Append to current playlist"));
 	sizer2->Add(m_appendCheck, 0, wxLEFT|wxBOTTOM|wxRIGHT, SJ_DLG_SPACE);
 
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	sizer1->SetSizeHints(this);
 }
@@ -178,12 +176,6 @@ void SjOpenFilesDialog::OnOK(wxCommandEvent&)
 void SjOpenFilesDialog::OnCancel(wxCommandEvent&)
 {
 	g_openFilesModule->CloseDialog();
-}
-
-
-void SjOpenFilesDialog::OnHelp(wxCommandEvent&)
-{
-	g_tools->ExploreHomepage(SJ_HELP_OPENFILES);
 }
 
 

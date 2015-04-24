@@ -50,7 +50,7 @@ END_EVENT_TABLE()
 
 
 SjFreedbPlugin::SjFreedbPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo, const wxArrayString& urls)
-	: SjTagEditorPlugin(parent, wxT("freedb"), _("Query online database"), exampleTrackInfo, SJ_HELP_TAGEDITOR_FREEDB)
+	: SjTagEditorPlugin(parent, wxT("freedb"), _("Query online database"), exampleTrackInfo)
 {
 	m_okHit = FALSE;
 	m_urls = urls;

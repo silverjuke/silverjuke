@@ -157,8 +157,6 @@ void SjTools::ExploreHomepage(SjHomepageId pageId, const wxString& param)
 		return;
 	}
 
-	wxASSERT( pageId >= 0 && pageId < SJ_HOMEPAGE_MAX_PAGE_INDEX );
-
 	// get the language
 	wxString lang = wxT("en");
 	if( IsLangGerman() )

@@ -41,7 +41,6 @@
 
 BEGIN_EVENT_TABLE(SjServerScannerConfigDialog, SjDialog)
 	EVT_CHECKBOX    (   IDC_ENABLECHECK,    SjServerScannerConfigDialog::OnEnableCheck  )
-	EVT_BUTTON      (   wxID_HELP,          SjServerScannerConfigDialog::OnHelp         )
 END_EVENT_TABLE()
 
 
@@ -142,7 +141,7 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 
 
 	// buttons
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	// init done, center dialog
 	EnableDisable();
@@ -174,10 +173,9 @@ void SjServerScannerConfigDialog::EnableDisable()
 			}
 
 			if( childId != wxID_OK
-			        && childId != wxID_CANCEL
-			        && childId != wxID_HELP
-			        && childId != IDC_ENABLECHECK
-			        && childId != IDC_STATICBOX )
+			 && childId != wxID_CANCEL
+			 && childId != IDC_ENABLECHECK
+			 && childId != IDC_STATICBOX )
 			{
 				child->Enable(enable);
 			}
@@ -185,12 +183,6 @@ void SjServerScannerConfigDialog::EnableDisable()
 			childNode = childNode->GetNext();
 		}
 	}
-}
-
-
-void SjServerScannerConfigDialog::OnHelp(wxCommandEvent&)
-{
-	g_tools->ExploreHomepage(SJ_HELP_SERVERSCANNER);
 }
 
 

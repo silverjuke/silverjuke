@@ -1221,7 +1221,6 @@ BEGIN_EVENT_TABLE(SjAdvSearchDialog, SjDialog)
 	EVT_MENU                    (IDC_DELETESEARCH,      SjAdvSearchDialog::OnDeleteSearch           )
 	EVT_MENU                    (IDC_REVERTTOSAVEDSEARCH,
 	                             SjAdvSearchDialog::OnRevertToSavedSearch    )
-	EVT_BUTTON                  (wxID_HELP,             SjAdvSearchDialog::OnHelp                   )
 	EVT_SIZE                    (                       SjAdvSearchDialog::OnSize                   )
 	EVT_BUTTON                  (wxID_OK,               SjAdvSearchDialog::OnSearch                 )
 	EVT_MENU                    (wxID_OK,               SjAdvSearchDialog::OnSearch                 )
@@ -1325,8 +1324,6 @@ SjAdvSearchDialog::SjAdvSearchDialog(long preselectId)
 	// ...buttons
 	sizer2 = new wxBoxSizer(wxHORIZONTAL);
 	m_mainSizer->Add(sizer2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
-
-	sizer2->Add(CreateHelpButton(), 0, wxRIGHT, SJ_DLG_SPACE);
 
 	m_menuButton = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
 	sizer2->Add(m_menuButton, 0, wxRIGHT, SJ_DLG_SPACE);
@@ -2152,12 +2149,6 @@ void SjAdvSearchDialog::OnPlay(wxCommandEvent& e)
 void SjAdvSearchDialog::OnEndSearch(wxCommandEvent&)
 {
 	g_mainFrame->SetSearch(SJ_SETSEARCH_CLEARSIMPLE|SJ_SETSEARCH_CLEARADV);
-}
-
-
-void SjAdvSearchDialog::OnHelp(wxCommandEvent&)
-{
-	g_tools->ExploreHomepage(SJ_HELP_ADVSEARCH);
 }
 
 

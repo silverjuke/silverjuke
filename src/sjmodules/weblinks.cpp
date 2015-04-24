@@ -238,16 +238,6 @@ void SjWebLinks::Explore(int i, const wxString& leadArtistName, const wxString& 
 {
 	wxString url = GetUrl(i, leadArtistName, albumName, trackName);
 
-	if( m_type == SJ_WEBLINK_COVERSEARCH
-	        && g_tools->m_config->Read(wxT("main/showCoverHowto"), 1L) )
-	{
-		// when exploring covers for the first time, first we'll redirect the user
-		// to our homepage where some tips are displayed.
-		g_tools->m_config->Write(wxT("main/showCoverHowto"), 0L);
-		g_tools->ExploreHomepage(SJ_COVER_BROWSER_ONE_SHOT_HOWTO, wxT("coversearch=")+SjTools::Urlencode(url));
-		return;
-	}
-
 	g_tools->ExploreUrl(url);
 }
 

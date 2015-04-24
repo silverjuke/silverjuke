@@ -1839,37 +1839,6 @@ void SjKioskModule::ReceiveMsg(int msg)
 }
 
 
-SjHomepageId SjKioskModule::GetHelpTopic()
-{
-	SjHomepageId ret = SJ_HELP_KIOSK;
-	if( g_kioskConfigPage )
-	{
-		int selPage = g_kioskConfigPage->m_notebook->GetSelection();
-		if( selPage == PAGE_FUNCTIONS )
-		{
-			ret = SJ_HELP_KIOSK_FUNC;
-		}
-		else if( selPage == PAGE_MONITOR )
-		{
-			ret = SJ_HELP_KIOSK_MONITORS;
-		}
-		else if( selPage == PAGE_VIRTKEYBD )
-		{
-			ret = SJ_HELP_VIRTKEYBD;
-		}
-		else if( selPage == PAGE_NUMPAD )
-		{
-			ret = SJ_HELP_NUMPAD;
-		}
-		else if( selPage == PAGE_CREDIT )
-		{
-			ret = SJ_HELP_CREDIT_SYSTEM;
-		}
-	}
-	return ret;
-}
-
-
 bool SjKioskModule::IsPasswordInUse()
 {
 	LoadConfig();

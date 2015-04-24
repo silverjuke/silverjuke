@@ -40,8 +40,6 @@ public:
 	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);
 	void            DoneConfigPage      (wxWindow* configPage, int action);
 
-	SjHomepageId    GetHelpTopic        ();
-
 protected:
 	void            LastUnload          () { CloseDependingDialogs(); }
 	void            ReceiveMsg          (int msg);

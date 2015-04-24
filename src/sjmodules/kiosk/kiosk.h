@@ -74,8 +74,6 @@ public:
 	void            DoneConfigPage      (wxWindow* configPage, int action);
 	void            GetLittleOptions    (SjArrayLittleOption& lo);
 
-	SjHomepageId    GetHelpTopic        ();
-
 	void            StartRequest        (bool forceNoQuerySettings=false);
 	bool            ExitRequest         (long flag, const wxString* password=NULL, bool forceSimpleExit=false);
 	void            DoExit              (bool restoreWindow);

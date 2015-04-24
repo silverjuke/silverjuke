@@ -281,7 +281,7 @@ END_EVENT_TABLE()
 
 
 SjConfirmDlg::SjConfirmDlg(wxWindow* parent, SjModifyInfo& items, bool askWriteId3, bool askDelEmptyDir)
-	: SjTagEditorPlugin(parent, wxT("confirm"), _("Confirm modifications"), NULL, SJ_HELP_TAGEDITOR_CONFIRM)
+	: SjTagEditorPlugin(parent, wxT("confirm"), _("Confirm modifications"), NULL)
 {
 	m_items = &items;
 	m_itemsEdited = FALSE;
@@ -616,17 +616,11 @@ void SjTrackInfoFieldChoice::AppendFlags(long tiFlags)
  ******************************************************************************/
 
 
-BEGIN_EVENT_TABLE(SjTagEditorPlugin, SjDialog)
-	EVT_BUTTON   (wxID_HELP,    SjTagEditorPlugin::OnPluginHelp     )
-END_EVENT_TABLE()
-
-
-SjTagEditorPlugin::SjTagEditorPlugin(wxWindow* parent, const wxString& name, const wxString& title, SjTrackInfo* exampleTrackInfo, SjHomepageId helpId)
+SjTagEditorPlugin::SjTagEditorPlugin(wxWindow* parent, const wxString& name, const wxString& title, SjTrackInfo* exampleTrackInfo)
 	: SjDialog(parent, title, SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE )
 {
 	m_exampleTrackInfo = exampleTrackInfo;
 	m_name = name;
-	m_helpId = helpId;
 	m_sizer1 = new wxBoxSizer(wxVERTICAL);
 	SetSizer(m_sizer1);
 
@@ -637,7 +631,7 @@ SjTagEditorPlugin::SjTagEditorPlugin(wxWindow* parent, const wxString& name, con
 
 void SjTagEditorPlugin::AfterConstructor()
 {
-	m_sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL),
+	m_sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL),
 	              0, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	m_sizer1->SetSizeHints(this);
@@ -659,10 +653,4 @@ void SjTagEditorPlugin::SaveSize()
 	{
 		g_tools->WriteRect(wxT("tageditor/")+m_name+wxT("Pos"), GetRect());
 	}
-}
-
-
-void SjTagEditorPlugin::OnPluginHelp(wxCommandEvent&)
-{
-	g_tools->ExploreHomepage(m_helpId);
 }

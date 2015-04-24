@@ -77,13 +77,6 @@ SjDialog::SjDialog(wxWindow* parent, const wxString& title, SjDialogMode mode,
  ******************************************************************************/
 
 
-wxWindow* SjDialog::CreateHelpButton(wxWindow* this_)
-{
-	wxButton* b = new wxButton(this_, wxID_HELP, _("Online help"));
-	return b;
-}
-
-
 wxSizer* SjDialog::CreateButtons(wxWindow* this_, long flags,
                                  const wxString& okTitle,   const wxString& cancelTitle,
                                  const wxString& prevTitle, const wxString& nextTitle)
@@ -97,11 +90,6 @@ wxSizer* SjDialog::CreateButtons(wxWindow* this_, long flags,
 
 	/* create the buttons
 	 */
-	if( flags & SJ_DLG_HELP )
-	{
-		buttonSizer->Add(CreateHelpButton(this_), 0, wxRIGHT, SJ_DLG_SPACE);
-	}
-
 	if( flags & SJ_DLG_MENU )
 	{
 		b = new wxButton(this_, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
@@ -1014,7 +1002,6 @@ long SjDlgControls::Render(wxWindow* parent, wxSizer* parentSizer, int idButtons
 			}
 			else if( dc.m_type == SJ_DLG_BUTTON_TYPE )
 			{
-				if( dc.m_id==wxT("help") )   { defButtons |= SJ_DLG_HELP; continue; }
 				if( dc.m_id==wxT("ok") )     { defButtons |= SJ_DLG_OK; *retDefOkTitle = dc.m_label; continue; }
 				if( dc.m_id==wxT("cancel") ) { defButtons |= SJ_DLG_CANCEL; *retDefCancelTitle = dc.m_label; continue; }
 

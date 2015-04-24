@@ -50,7 +50,7 @@ END_EVENT_TABLE()
 
 
 SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
-	: SjTagEditorPlugin(parent, wxT("split"), _("Split field"), exampleTrackInfo, SJ_HELP_TAGEDITOR_SPLIT)
+	: SjTagEditorPlugin(parent, wxT("split"), _("Split field"), exampleTrackInfo)
 {
 	// load configuration
 	m_pattern = g_tools->ReadArray(wxT("tageditor/splitPattern"));

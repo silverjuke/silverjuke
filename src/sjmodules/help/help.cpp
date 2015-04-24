@@ -32,8 +32,7 @@
 #include <sjmodules/help/htmlwindow.h>
 #include <sjmodules/basicsettings.h>
 
-#define IDM_HTMLWINDOW      (IDM_FIRSTPRIVATE+4)
-#define IDM_MULTIBUTTON     (IDM_FIRSTPRIVATE+10)
+#define IDM_HTMLWINDOW (IDM_FIRSTPRIVATE+4)
 
 SjHelpModule* g_helpModule = NULL;
 
@@ -46,24 +45,17 @@ SjHelpModule* g_helpModule = NULL;
 class SjHelpDialog : public SjDialog
 {
 public:
-	SjHelpDialog        (SjHelpModule* helpModule, wxWindow* parent);
-
+	                SjHelpDialog        (SjHelpModule* helpModule, wxWindow* parent);
 	void            GotoHtml            (const wxString& html, const wxString& title);
 	void            GotoProp            (SjProp&);
 	void            GotoTopic           (SjHelpTopicId);
 
-
 private:
 	SjHtmlWindow*   m_htmlWindow;
-	wxButton*       m_multiButton;
-	SjHelpTopicId   m_multiButtonHelpTopic;
-	SjHomepageId    m_homepageId;
 
 	wxString        GetAboutTopic       () const;
 	wxString        GetCreditsTopic     () const;
 	wxString        LoadTopic           (SjHelpTopicId, wxString& retTitle) const;
-
-	void            UpdateMultiButton   (SjHelpTopicId);
 
 	void            OnCommand           (wxCommandEvent&);
 	void            OnMyCancel          (wxCommandEvent&) { g_helpModule->CloseHelp(); }
@@ -76,8 +68,6 @@ private:
 
 BEGIN_EVENT_TABLE(SjHelpDialog, SjDialog)
 	EVT_MENU        (IDO_LINKCLICKED,   SjHelpDialog::OnCommand         )
-	EVT_BUTTON      (IDM_MULTIBUTTON,   SjHelpDialog::OnCommand         )
-	EVT_BUTTON      (wxID_HELP,         SjHelpDialog::OnCommand         )
 	EVT_BUTTON      (wxID_OK,           SjHelpDialog::OnMyCancel        )
 	EVT_BUTTON      (wxID_CANCEL,       SjHelpDialog::OnMyCancel        )
 	EVT_CLOSE       (                   SjHelpDialog::OnMyClose         )
@@ -346,7 +336,7 @@ void SjHelpModule::LastUnload()
 
 
 void SjHelpModule::OpenHelp(wxWindow* parent, SjHelpTopicId topicId, SjProp* prop, const wxString& html,
-                            SjHomepageId homepageId, const wxString& title)
+                            const wxString& title)
 {
 	wxBusyCursor busy;
 
@@ -368,8 +358,6 @@ void SjHelpModule::OpenHelp(wxWindow* parent, SjHelpTopicId topicId, SjProp* pro
 	{
 		m_helpDialog->GotoTopic(topicId);
 	}
-
-	m_helpDialog->m_homepageId = homepageId;
 
 	m_helpDialog->Show();
 	m_helpDialog->Raise();

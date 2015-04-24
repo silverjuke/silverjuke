@@ -55,7 +55,6 @@ public:
 	SjDlgCheckCtrl  m_autoStopVis;
 
 	void            OnAutoCtrlCheckM    (wxCommandEvent&) { UpdateAutoCtrlChecksM(); }
-	void            OnHelp              (wxCommandEvent&) { g_tools->ExploreHomepage(SJ_HELP_AUTOCTRL); }
 	void            UpdateAutoCtrlChecksM();
 	DECLARE_EVENT_TABLE ()
 };
@@ -73,7 +72,6 @@ BEGIN_EVENT_TABLE(SjAdvAutoCtrlDlg, SjDialog)
 	EVT_CHECKBOX                (IDC_RESET_VIEW,        SjAdvAutoCtrlDlg::OnAutoCtrlCheckM          )
 	EVT_CHECKBOX                (IDC_AUTO_START_VIS,    SjAdvAutoCtrlDlg::OnAutoCtrlCheckM          )
 	EVT_CHECKBOX                (IDC_AUTO_STOP_VIS,     SjAdvAutoCtrlDlg::OnAutoCtrlCheckM          )
-	EVT_BUTTON                  (wxID_HELP,             SjAdvAutoCtrlDlg::OnHelp                    )
 END_EVENT_TABLE()
 
 
@@ -125,7 +123,7 @@ SjAdvAutoCtrlDlg::SjAdvAutoCtrlDlg(wxWindow* parent)
 
 	UpdateAutoCtrlChecksM();
 
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	sizer1->SetSizeHints(this);
 
@@ -152,30 +150,26 @@ void SjAdvAutoCtrlDlg::UpdateAutoCtrlChecksM()
 class SjEffectDlg : public SjDialog
 {
 public:
-	SjEffectDlg         (wxWindow* parent, const wxString& title, SjHomepageId);
+	                SjEffectDlg         (wxWindow* parent, const wxString& title);
 	void            StartStateTimer     (long ms=200);
 	void            UpdateStateText     (int id, const wxString&);
 	virtual void    UpdateState         () { }
 
 private:
-	void            OnHelp              (wxCommandEvent&);
-	void            OnStateTimer            (wxTimerEvent&) { UpdateState(); }
+	void            OnStateTimer           (wxTimerEvent&) { UpdateState(); }
 	wxTimer         m_stateTimer;
-	SjHomepageId    m_helpId;
 	DECLARE_EVENT_TABLE ()
 };
 
 
 BEGIN_EVENT_TABLE(SjEffectDlg, SjDialog)
-	EVT_BUTTON  (wxID_HELP,             SjEffectDlg::OnHelp         )
 	EVT_TIMER   (IDTIMER_EFFECTINFO,    SjEffectDlg::OnStateTimer   )
 END_EVENT_TABLE()
 
 
-SjEffectDlg::SjEffectDlg(wxWindow* parent, const wxString& title, SjHomepageId helpId)
+SjEffectDlg::SjEffectDlg(wxWindow* parent, const wxString& title)
 	: SjDialog(parent, title, SJ_MODELESS, SJ_NEVER_RESIZEABLE)
 {
-	m_helpId = helpId;
 }
 
 
@@ -193,12 +187,6 @@ void SjEffectDlg::UpdateStateText(int id, const wxString& state)
 	{
 		s->SetLabel(state);
 	}
-}
-
-
-void SjEffectDlg::OnHelp(wxCommandEvent&)
-{
-	g_tools->ExploreHomepage(m_helpId);
 }
 
 
@@ -322,7 +310,7 @@ void SjAutovolDlg::CloseDialog()
 
 
 SjAutovolDlg::SjAutovolDlg(wxWindow* parent)
-	: SjEffectDlg(parent, _("Volume control"), SJ_HELP_AUTOVOL)
+	: SjEffectDlg(parent, _("Volume control"))
 {
 	// backup settings
 	SjPlayer* player = &g_mainFrame->m_player;
@@ -401,7 +389,7 @@ SjAutovolDlg::SjAutovolDlg(wxWindow* parent)
 	UpdateState();
 	StartStateTimer();
 
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	sizer1->SetSizeHints(this);
 
@@ -676,7 +664,7 @@ void SjCrossfadeDlg::CloseDialog()
 
 
 SjCrossfadeDlg::SjCrossfadeDlg(wxWindow* parent)
-	: SjEffectDlg(parent, _("Fading"), SJ_HELP_CROSSFADE)
+	: SjEffectDlg(parent, _("Fading"))
 {
 	SjPlayer* player = &g_mainFrame->m_player;
 
@@ -770,7 +758,7 @@ SjCrossfadeDlg::SjCrossfadeDlg(wxWindow* parent)
 	sizer2->Add(button, 0, wxALL, SJ_DLG_SPACE);
 
 
-	sizer1->Add(CreateButtons(SJ_DLG_HELP|SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	sizer1->SetSizeHints(this);
 
@@ -1837,20 +1825,3 @@ void SjPlaybackSettingsModule::ReceiveMsg(int msg)
 }
 
 
-SjHomepageId SjPlaybackSettingsModule::GetHelpTopic()
-{
-	SjHomepageId ret = SJ_HELP_PLAYBACKSETTINGS;
-	if( g_playbackConfigPage )
-	{
-		int selPage = g_playbackConfigPage->m_notebook->GetSelection();
-		if( selPage == g_playbackConfigPage->m_queuePage )
-		{
-			ret = SJ_HELP_QUEUE;
-		}
-		else if( selPage == g_playbackConfigPage->m_autoCtrlPage )
-		{
-			ret = SJ_HELP_AUTOCTRL;
-		}
-	}
-	return ret;
-}

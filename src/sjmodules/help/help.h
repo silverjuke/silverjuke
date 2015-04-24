@@ -48,11 +48,10 @@ enum SjHelpTopicId
 class SjHelpModule : public SjCommonModule
 {
 public:
-	SjHelpModule        (SjInterfaceBase*);
+	                SjHelpModule        (SjInterfaceBase*);
 
-	void            OpenHtml            (wxWindow* parent, const wxString& html, const wxString& title)         { OpenHelp(parent, SJ_HELP_TOPIC_VOID,  NULL, html,         SJ_HELP_INDEX,  title); }
-	void            OpenProp            (wxWindow* parent, SjProp* prop, SjHomepageId hpId)                     { OpenHelp(parent, SJ_HELP_TOPIC_VOID,  prop, wxT(""),      hpId,           wxT(""));   }
-	void            OpenTopic           (wxWindow* parent, SjHelpTopicId topicId)                               { OpenHelp(parent, topicId,             NULL, wxT(""),      SJ_HELP_INDEX,  wxT(""));   }
+	void            OpenHtml            (wxWindow* parent, const wxString& html, const wxString& title) { OpenHelp(parent, SJ_HELP_TOPIC_VOID,  NULL, html,         title); }
+	void            OpenTopic           (wxWindow* parent, SjHelpTopicId topicId)                       { OpenHelp(parent, topicId,             NULL, wxT(""),      wxT(""));   }
 
 	void            CloseHelp           ();
 
@@ -64,7 +63,7 @@ protected:
 
 private:
 	void            ReceiveMsg          (int msg);
-	void            OpenHelp            (wxWindow* parent, SjHelpTopicId, SjProp*, const wxString& html, SjHomepageId homepageId, const wxString& title);
+	void            OpenHelp            (wxWindow* parent, SjHelpTopicId, SjProp*, const wxString& html, const wxString& title);
 	SjHelpDialog*   m_helpDialog;
 
 	friend class    SjHelpDialog;

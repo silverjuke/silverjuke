@@ -111,7 +111,6 @@ BEGIN_EVENT_TABLE(SjTagEditorDlg, SjDialog)
 	EVT_MENU                    (IDC_PREVDLGPAGE,       SjTagEditorDlg::OnPrevOrNext        )
 	EVT_BUTTON                  (IDC_NEXTDLGPAGE,       SjTagEditorDlg::OnPrevOrNext        )
 	EVT_MENU                    (IDC_NEXTDLGPAGE,       SjTagEditorDlg::OnPrevOrNext        )
-	EVT_BUTTON                  (wxID_HELP,             SjTagEditorDlg::OnHelp              )
 	EVT_CLOSE                   (                       SjTagEditorDlg::OnClose             )
 END_EVENT_TABLE()
 
@@ -161,7 +160,7 @@ SjTagEditorDlg::SjTagEditorDlg(wxWindow* parent, bool multiEdit)
 		if( !shortcut.IsEmpty() ) { nextTitle.Append(wxString::Format(wxT(" [%s]"), shortcut.c_str())); }
 	}
 
-	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL | SJ_DLG_MENU | SJ_DLG_HELP | (m_dataMultiEdit? 0 : SJ_DLG_PREV_NEXT), wxT(""), wxT(""), prevTitle, nextTitle),
+	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL | SJ_DLG_MENU | (m_dataMultiEdit? 0 : SJ_DLG_PREV_NEXT), wxT(""), wxT(""), prevTitle, nextTitle),
 	            0, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	sizer1->SetSizeHints(this);
@@ -589,12 +588,6 @@ void SjTagEditorDlg::OnDataInput(wxCommandEvent& event)
 
 		inHere = FALSE;
 	}
-}
-
-
-void SjTagEditorDlg::OnHelp(wxCommandEvent&)
-{
-	g_tools->ExploreHomepage(SJ_HELP_TAGEDITOR);
 }
 
 

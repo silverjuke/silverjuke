@@ -174,7 +174,7 @@ END_EVENT_TABLE()
 
 
 SjRenamePlugin::SjRenamePlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
-	: SjTagEditorPlugin(parent, wxT("rename"), _("Rename files"), exampleTrackInfo, SJ_HELP_TAGEDITOR_RENAME)
+	: SjTagEditorPlugin(parent, wxT("rename"), _("Rename files"), exampleTrackInfo)
 {
 	// load configuration
 	m_pattern = g_tools->ReadArray(wxT("tageditor/renamePattern"));

@@ -209,7 +209,6 @@ private:
 	void            OnShowMoreInfo      (wxCommandEvent&) { Data2Dlg_CopyInfo(TRUE); }
 	void            OnDataInput         (wxCommandEvent&);
 	void            OnTogglePage        (wxCommandEvent&);
-	void            OnHelp              (wxCommandEvent&);
 	void            OnCancel            (wxCommandEvent&);
 	void            OnOK                (wxCommandEvent&);
 	void            OnPrevOrNext        (wxCommandEvent&);

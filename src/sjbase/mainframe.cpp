@@ -2177,7 +2177,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDO_ONLINE_HELP:
 				if( IsAllAvailable() )
 				{
-					g_tools->ExploreHomepage(SJ_HELP_INDEX);
+					g_tools->ExploreHomepage(SJ_HOMEPAGE_HELP_INDEX);
 				}
 				break;
 

@@ -89,7 +89,6 @@ private:
 	SjSettingsModule*
 	m_settingsModule;
 	bool            m_trackSelectionChanges;
-	void            OnHelp              (wxCommandEvent&);
 	void            OnCancel            (wxCommandEvent&);
 	void            OnOK                (wxCommandEvent&);
 	void            OnClose             (wxCloseEvent&);
@@ -101,7 +100,6 @@ private:
 
 BEGIN_EVENT_TABLE(SjSettingsDlg, SjDialog)
 	EVT_TOOL_RANGE              (1000, 2000,            SjSettingsDlg::OnSelectionChange    )
-	EVT_BUTTON                  (wxID_HELP,             SjSettingsDlg::OnHelp               )
 	EVT_BUTTON                  (wxID_OK,               SjSettingsDlg::OnOK                 )
 	EVT_BUTTON                  (wxID_CANCEL,           SjSettingsDlg::OnCancel             )
 	EVT_CLOSE                   (                       SjSettingsDlg::OnClose              )
@@ -178,7 +176,7 @@ SjSettingsDlg::SjSettingsDlg(SjSettingsModule* settingsModule, wxWindow* parent)
 
 	m_pageSizer->Add(m_toolBar, 0, wxGROW);
 
-	m_buttonSizer = SjDialog::CreateButtons(this, SJ_DLG_OK_CANCEL | SJ_DLG_HELP);
+	m_buttonSizer = SjDialog::CreateButtons(this, SJ_DLG_OK_CANCEL);
 	m_dialogSizer->Add(m_buttonSizer,
 	                   0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE*2);
 
@@ -382,13 +380,6 @@ SjCommonModule* SjSettingsDlg::GetSelFromDialog()
 /*******************************************************************************
  * SjSettingsDlg - Events
  ******************************************************************************/
-
-
-void SjSettingsDlg::OnHelp(wxCommandEvent& event)
-{
-	SjModule* selModule = GetSelFromDialog();
-	g_tools->ExploreHomepage(selModule? selModule->GetHelpTopic() : SJ_HELP_INDEX);
-}
 
 
 void SjSettingsDlg::OnSelectionChange(wxCommandEvent& event)
