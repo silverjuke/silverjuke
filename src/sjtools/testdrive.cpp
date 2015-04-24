@@ -71,26 +71,26 @@ void SjTestdrive1()
 
 
 	/* older versions of wxWidgets are incompatible (in fact, the wxWidgets interface has changed) */
-#if !wxCHECK_VERSION(2, 8, 0)
-#error at least wxWidgets 2.8 required
-#endif
+	#if !wxCHECK_VERSION(2, 8, 0)
+		#error at least wxWidgets 2.8 required
+	#endif
 
 	/* for newer versions, we have to check the changelog first (eg. the behaviour of c_str() has changed ...) */
-#if wxCHECK_VERSION(3, 0, 0)
-#error wxWidgets 3 will cause problems, use wxWidgets 2.8 instead
-#endif
+	#if wxCHECK_VERSION(3, 0, 0)
+		#error wxWidgets 3 will cause problems, use wxWidgets 2.8 instead
+	#endif
 
 
 	/* Make sure, HTTP Auhorization is added to http.cpp in all used releases (see remarks like EDIT BY ME in wx/http.cpp and wx/http.h) */
-#if !wxCHECK_VERSION(2, 8, 7)
-	wxLogWarning(wxT("Testdrive: wxHTTP auhorization functionality missing."));
-#endif
+	#if !wxCHECK_VERSION(2, 8, 7)
+		wxLogWarning(wxT("Testdrive: wxHTTP auhorization functionality missing."));
+	#endif
 
 
 	/* wxString::Replace() seems to be very inefficient for replacements of only one character, see modified wx source */
-#if !wxCHECK_VERSION(2, 8, 10) // since 2.8.10, this is optimized by the wxWidgets team
-	wxLogWarning(wxT("Testdrive: wxString::Replace() may get some optimizations"));
-#endif
+	#if !wxCHECK_VERSION(2, 8, 10) // since 2.8.10, this is optimized by the wxWidgets team
+		wxLogWarning(wxT("Testdrive: wxString::Replace() may get some optimizations"));
+	#endif
 
 	/* Two things to fix for wxDisplay:
 	- on wxDisplay::GetCount(), the whole display array should  be reloaded (to reflect changes directly)
@@ -98,14 +98,14 @@ void SjTestdrive1()
 	  in wx 2.6, internally EnumDisplayMonitors() was used, not DirectX, same for 2.8
 	- note the changes in src/common/wincmn.cpp ("wxRect clientrect = wxGetClientDisplayRect();"
 	  must be replaced with the functionality from SjDialog::GetDisplayWorkspaceRect()) - in wx 2.8 this seems to be okay by default :-) */
-#if !wxCHECK_VERSION(2, 8, 0)
-	wxLogWarning(wxT("Testdrive: wxDisplay may contain a bug, see testdrive.cpp for details."));
-#endif
+	#if !wxCHECK_VERSION(2, 8, 0)
+		wxLogWarning(wxT("Testdrive: wxDisplay may contain a bug, see testdrive.cpp for details."));
+	#endif
 
 	/* Debug-versions without Beta-code are suspicious */
-#if !defined(SJ_BETA) && defined(__WXDEBUG__)
-	wxLogWarning(wxT("Testdrive: Debug versions without beta code are suspicious."));
-#endif
+	#if !defined(SJ_BETA) && defined(__WXDEBUG__)
+		wxLogWarning(wxT("Testdrive: Debug versions without beta code are suspicious."));
+	#endif
 
 
 	/*******************************************************************************
@@ -113,7 +113,7 @@ void SjTestdrive1()
 	 ******************************************************************************/
 
 
-#ifdef SJ_BETA // (***)
+	#ifdef SJ_BETA // (***)
 
 	SjBusyInfo::Set(wxT("Some testdrives (beta only) ..."), TRUE);
 	wxLogInfo(wxT("Testdrive: Some physical tests (beta only) ..."));
@@ -122,17 +122,17 @@ void SjTestdrive1()
 	{
 		wxLogInfo(wxT("Testdrive: SjTools tests ..."));
 
-#define FILES_ZIP_ID3   wxT("d:\\mp3\\test.zip#zip:file1.mp3#id3:cover1.gif")
-#define FILES_ZIP_ID3_S wxT("d:/mp3/test.zip#zip:file1.mp3#id3:cover1.gif")
+		#define FILES_ZIP_ID3   wxT("d:\\mp3\\test.zip#zip:file1.mp3#id3:cover1.gif")
+		#define FILES_ZIP_ID3_S wxT("d:/mp3/test.zip#zip:file1.mp3#id3:cover1.gif")
 		if( !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3)
 		        || !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3) )
 			wxLogWarning(wxT("Testdrive: AreFilesSame() failed!"));
 
-#if wxUSE_UNICODE
-#define ORG_SCRAMBLE_STR wxT("Kalim\x00E9ra - \x039a\x03b1\x03bb\x03b7\x03bc\x03b5\x03c1\x03b1")
-#else
-#define ORG_SCRAMBLE_STR wxT("Kalim\xE9ra")
-#endif
+		#if wxUSE_UNICODE
+		#define ORG_SCRAMBLE_STR wxT("Kalim\x00E9ra - \x039a\x03b1\x03bb\x03b7\x03bc\x03b5\x03c1\x03b1")
+		#else
+		#define ORG_SCRAMBLE_STR wxT("Kalim\xE9ra")
+		#endif
 		wxString scrStr = SjTools::ScrambleString(ORG_SCRAMBLE_STR);
 		wxString unscrStr = SjTools::UnscrambleString(scrStr);
 		if( unscrStr != ORG_SCRAMBLE_STR )
@@ -229,6 +229,32 @@ void SjTestdrive1()
 		}
 	}
 
+	/* make sure, SjSLHash, SjSSHash are case-sensitibe while SjExtList is not (important eg. to allow exentensions as "MP3" on linux)
+	*/
+	{
+		SjSLHash slHash;
+		slHash.Insert(wxT("TEST"), 666);
+		wxASSERT( slHash.Lookup(wxT("TEST"))==666 );
+		wxASSERT( slHash.Lookup(wxT("test"))==0 );
+		wxASSERT( slHash.Lookup(wxT("notinhash"))==0 );
+
+		SjSSHash ssHash;
+		ssHash.Insert(wxT("foo"), wxT("bar"));
+		wxASSERT( ssHash.Lookup(wxT("foo"))!=NULL );
+		wxASSERT( ssHash.Lookup(wxT("FOO"))==NULL );
+		wxASSERT( ssHash.Lookup(wxT("notinhash"))==NULL );
+
+		SjExtList extList(wxT("MP3 jpg,png;Js"));
+		wxASSERT( extList.LookupExt(wxT("mp3")));
+		wxASSERT( extList.LookupExt(wxT("MP3")));
+		wxASSERT( extList.LookupExt(wxT("jPg")));
+		wxASSERT( extList.LookupExt(wxT("pNG")));
+		wxASSERT( extList.LookupExt(wxT("js")));
+		wxASSERT( extList.LookupExt(wxT("jS")));
+		wxASSERT( extList.LookupExt(wxT("JS")));
+
+		wxASSERT( SjTools::GetExt(wxT("someWhat.MP3"))==wxT("mp3") );
+	}
 
 	/* Stress wxFileSystem
 
@@ -477,6 +503,6 @@ void SjTestdrive1()
 	/* Done */
 	wxLogInfo(wxT("Testdrive: Done."));
 
-#endif // of (***)
+	#endif // of (***)
 }
 
