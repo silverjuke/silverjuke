@@ -61,13 +61,26 @@ wxFSFile* SjKaraokeMaster::CheckFile(const wxString& musicFile, const wxString& 
 	wxFSFile* fsFile;
 
 	wxString testFile = musicFile.BeforeLast('.') + wxT(".") + karaokeExt;
-	if( (fsFile=fs.OpenFile(testFile, wxFS_READ|wxFS_SEEKABLE)) == NULL )
-	{
-		testFile = musicFile + wxT(".") + karaokeExt;
-		fsFile = fs.OpenFile(testFile, wxFS_READ|wxFS_SEEKABLE);
+	if( (fsFile=fs.OpenFile(testFile, wxFS_READ|wxFS_SEEKABLE)) != NULL ) {
+		return fsFile;
 	}
 
-	return fsFile;
+	testFile = musicFile + wxT(".") + karaokeExt;
+	if( (fsFile=fs.OpenFile(testFile, wxFS_READ|wxFS_SEEKABLE)) != NULL ) {
+		return fsFile;
+	}
+
+	testFile = musicFile.BeforeLast('.') + wxT(".") + karaokeExt.Upper();
+	if( (fsFile=fs.OpenFile(testFile, wxFS_READ|wxFS_SEEKABLE)) != NULL ) {
+		return fsFile;
+	}
+
+	testFile = musicFile + wxT(".") + karaokeExt.Upper();
+	if( (fsFile=fs.OpenFile(testFile, wxFS_READ|wxFS_SEEKABLE)) != NULL ) {
+		return fsFile;
+	}
+
+	return NULL;
 }
 
 
@@ -79,8 +92,8 @@ bool SjKaraokeMaster::Init(const wxString& musicFile, const wxString& artist, co
 	Exit();
 
 	if( musicFile.StartsWith(wxT("http:")) // this may be a steam - in this case (or in others) we get into an endless loop
-	        || musicFile.StartsWith(wxT("https:"))
-	        || musicFile.StartsWith(wxT("ftp:")) )
+	 || musicFile.StartsWith(wxT("https:"))
+	 || musicFile.StartsWith(wxT("ftp:")) )
 		return false;
 
 	// try to create CDG (try musicFile.cdg and musicFile.mp3.cdg)
