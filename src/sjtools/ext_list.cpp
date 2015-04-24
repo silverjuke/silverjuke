@@ -144,7 +144,7 @@ bool SjExtList::LookupExt(const wxString& ext) const
 		}
 	}
 
-	return m_hash.Lookup(ext)!=0;
+	return m_hash.Lookup(ext.Lower())!=0;
 }
 
 
