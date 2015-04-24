@@ -524,16 +524,6 @@ void SjPlayer::GetVisData(unsigned char* buffer, long bytes, long latencyBytes)
 }
 
 
-long SjPlayer::GetVisPosition()
-{
-	if( !m_isInitialized ) {
-		return 0;
-	}
-
-	return DoGetVisPosition();
-}
-
-
 void SjPlayer::SeekAbs(long ms)
 {
 	if( !m_isInitialized ) {

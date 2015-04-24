@@ -159,7 +159,6 @@ public:
 	// between the call of this function and really drawing the data
 	// (the number of bytes reflect the latency time in sample size).
 	void            GetVisData          (unsigned char* buffer, long bytes, long latencyBytes);
-	long            GetVisPosition      ();
 
 	// The IDP_* messages posted to the main module should
 	// be given to ReceiveSignal().  This is to avoid using a separate
@@ -191,7 +190,6 @@ public:
 	void            DoSetMainVol        ();
 	void            DoSeekAbs           (long ms);
 	void            DoGetVisData        (unsigned char* pcmBuffer, long bytes, long visLatencyBytes);
-	long            DoGetVisPosition    ();
 	void            DoReceiveSignal     (int id, uintptr_t extraLong);
 	void            DoGetLittleOptions  (SjArrayLittleOption&);
 	SjPlayerImpl*   m_impl;
