@@ -94,16 +94,16 @@ void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
 	{
 		// enought credits?
 		if( !autoPlay
-		        &&  g_kioskModule
-		        && !g_kioskModule->CanEnqueue(urls, urlsVerified) )
+		 &&  g_kioskModule
+		 && !g_kioskModule->CanEnqueue(urls, urlsVerified) )
 		{
 			return; // no, an error is already printed in CanEnqueue()
 		}
 
 		// interrupt AutoPlay?
 		if( !autoPlay
-		        &&  m_autoCtrl.HasInterruptibleAutoPlay()
-		        &&  m_player.IsAutoPlayOnAir() )
+		 &&  m_autoCtrl.HasInterruptibleAutoPlay()
+		 &&  m_player.IsAutoPlayOnAir() )
 		{
 			enqueuePos = -3; /*play now*/
 			fadeToPos  = true;
@@ -130,7 +130,7 @@ void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
 		if( m_player.m_queue.GetCount() == 0 )
 		{
 			if( (g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)
-			        || !IsOpAvailable(SJ_OP_PLAYPAUSE) )
+			 || !IsOpAvailable(SJ_OP_PLAYPAUSE) )
 			{
 				forcePlayback = true;
 			}
@@ -140,7 +140,7 @@ void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
 		{
 			gotoPos = true;
 			if( (g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)
-			        || !IsOpAvailable(SJ_OP_PLAYPAUSE) )
+			 || !IsOpAvailable(SJ_OP_PLAYPAUSE) )
 			{
 				forcePlayback = true;
 			}
@@ -159,7 +159,7 @@ void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
 	                         markForPlayingNext|(autoPlay? SJ_PLAYLISTENTRY_AUTOPLAY : 0));
 
 	if(  gotoPos
-	        && (!queueEmptyBefore || !m_player.m_queue.GetShuffle()) /*if shuffle is enabled, let the queue select the track*/ )
+	 && (!queueEmptyBefore || !m_player.m_queue.GetShuffle()) /*if shuffle is enabled, let the queue select the track*/ )
 	{
 		m_player.GotoAbsPos(enqueuePos==-1? m_player.m_queue.GetCount()-urls.GetCount() : enqueuePos,
 		                    fadeToPos);
@@ -201,8 +201,8 @@ void SjMainFrame::UnqueueByPos(long queuePos)
 	{
 		long playlistEntryFlags = m_player.m_queue.GetFlags(queuePos);
 		if( (playlistEntryFlags&SJ_PLAYLISTENTRY_AUTOPLAY)
-		        && !IsPaused()
-		        && !HasNextIgnoreAP() )
+		 && !IsPaused()
+		 && !HasNextIgnoreAP() )
 		{
 			m_autoCtrl.SetAutoPlayUnqueueId(m_player.m_queue.GetIdByPos(queuePos));
 		}
@@ -220,7 +220,7 @@ void SjMainFrame::UnqueueByPos(long queuePos)
 void SjMainFrame::GotoNextRegardAP(bool fadeToNext)
 {
 	if( !HasNextIgnoreAP()
-	        &&  HasNextRegardAP() )
+	 &&  HasNextRegardAP() )
 	{
 		// enqueue a new auto play URL
 		m_autoCtrl.DoAutoPlayIfEnabled(true /*ignore timeouts*/);

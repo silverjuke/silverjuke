@@ -48,7 +48,7 @@ class SjPlayer;
 class SjQueue
 {
 public:
-	SjQueue             ();
+	                SjQueue             ();
 	void            Init                ()  { m_isInitialized = true; }
 	void            Exit                ()  { m_isInitialized = false; }
 
@@ -99,15 +99,15 @@ public:
 	void            EqualizeRepeatRound (); // should be called if auto-play tracks are added
 
 	// getting the previous / next queue positions
-#define         SJ_PREVNEXT_REGARD_REPEAT   0x01
-#define         SJ_PREVNEXT_LOOKUP_ONLY     0x02
-#define         SJ_PREVNEXT_INIT            0x04
+	#define         SJ_PREVNEXT_REGARD_REPEAT   0x01
+	#define         SJ_PREVNEXT_LOOKUP_ONLY     0x02
+	#define         SJ_PREVNEXT_INIT            0x04
 	long            GetPrevPos          (int flags);
 	long            GetNextPos          (int flags);
 
 	// shuffle - the intensity is a percentage between 2 and 100
-#define         SJ_DEF_SHUFFLE_STATE FALSE
-#define         SJ_DEF_SHUFFLE_INTENSITY 50L
+	#define         SJ_DEF_SHUFFLE_STATE FALSE
+	#define         SJ_DEF_SHUFFLE_INTENSITY 50L
 	void            SetShuffle          (bool s) { m_shuffle = s; CleanupNextShufflePos(); }
 	void            ToggleShuffle       ()       { SetShuffle(!GetShuffle()); }
 	bool            GetShuffle          () const { return m_shuffle; }
@@ -120,12 +120,12 @@ public:
 	SjRepeat        GetRepeat           () const { return m_repeat; }
 
 	// queue flags / boredom
-#define         SJ_QUEUEF_BOREDOM_TRACKS        0x0001L
-#define         SJ_QUEUEF_BOREDOM_ARTISTS       0x0002L
-#define         SJ_QUEUEF_REMOVE_PLAYED         0x0004L
-#define         SJ_QUEUEF_DEFAULT               0x0000L
-#define         SJ_DEF_BOREDOM_TRACK_MINUTES    30L
-#define         SJ_DEF_BOREDOM_ARTIST_MINUTES   20L
+	#define         SJ_QUEUEF_BOREDOM_TRACKS        0x0001L
+	#define         SJ_QUEUEF_BOREDOM_ARTISTS       0x0002L
+	#define         SJ_QUEUEF_REMOVE_PLAYED         0x0004L
+	#define         SJ_QUEUEF_DEFAULT               0x0000L
+	#define         SJ_DEF_BOREDOM_TRACK_MINUTES    30L
+	#define         SJ_DEF_BOREDOM_ARTIST_MINUTES   20L
 	void            SetQueueFlags       (long flags, long t, long a)
 	{
 		m_queueFlags = flags;

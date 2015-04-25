@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_MAINFRAME_H__
 #define __SJ_MAINFRAME_H__
-
 
 
 class SjColumnMixer;
@@ -40,9 +38,7 @@ class SjMainFrame;
 class SjSee;
 
 
-
 extern SjMainFrame* g_mainFrame;
-
 
 
 #if SJ_USE_TOOLTIPS
@@ -62,23 +58,20 @@ private:
 #endif
 
 
-
 class SjMainFrame : public SjSkinWindow
 {
 public:
 	// Constructor and Destructor
-	SjMainFrame         (SjMainApp*, int id, long skinFlags, const wxPoint& pos, const wxSize& size);
-	~SjMainFrame        (void);
+	                    SjMainFrame         (SjMainApp*, int id, long skinFlags, const wxPoint& pos, const wxSize& size);
+	                    ~SjMainFrame        (void);
 	bool                InConstruction      () { return m_inConstruction; }
 	long                GetUptimeSeconds    ();
 
 	// Public pointers and objects
 	SjModuleSystem  m_moduleSystem;
-	SjLibraryModule*
-	m_libraryModule;
+	SjLibraryModule* m_libraryModule;
 	SjColumnMixer   m_columnMixer;
-	SjBrowserWindow*
-	m_browser;
+	SjBrowserWindow* m_browser;
 	wxIconBundle    m_iconBundle;
 	wxLocale        m_locale;
 
@@ -137,9 +130,9 @@ public:
 
 	// open files - this function is called eg. on a double click
 	// on an associated file or when the user drags a file onto the main frame.
-#define         SJ_OPENFILES_DEFCMD     0
-#define         SJ_OPENFILES_PLAY       1
-#define         SJ_OPENFILES_ENQUEUE    2
+	#define         SJ_OPENFILES_DEFCMD     0
+	#define         SJ_OPENFILES_PLAY       1
+	#define         SJ_OPENFILES_ENQUEUE    2
 	void            OnIDO_DND_ONDATA    (wxCommandEvent&);
 	bool            OpenFiles           (const wxArrayString&, int command=SJ_OPENFILES_DEFCMD, int x=0, int y=0);
 	bool            OpenData            (SjDataObject*, int command=SJ_OPENFILES_DEFCMD, int x=0, int y=0);
@@ -148,16 +141,15 @@ public:
 	void            SetPasteCoord       (const wxPoint& pt) { m_pasteCoord=pt; }
 
 	// Public Search Functions
-#define         SJ_SETSEARCH_CLEARSIMPLE        0x01
-#define         SJ_SETSEARCH_SETSIMPLE          0x02
-#define         SJ_SETSEARCH_CLEARADV           0x04
-#define         SJ_SETSEARCH_SETADV             0x08
-#define         SJ_SETSEARCH_NOTEXTCTRLUPDATE   0x10
-#define         SJ_SETSEARCH_NOAUTOHISTORYADD   0x20
+	#define         SJ_SETSEARCH_CLEARSIMPLE        0x01
+	#define         SJ_SETSEARCH_SETSIMPLE          0x02
+	#define         SJ_SETSEARCH_CLEARADV           0x04
+	#define         SJ_SETSEARCH_SETADV             0x08
+	#define         SJ_SETSEARCH_NOTEXTCTRLUPDATE   0x10
+	#define         SJ_SETSEARCH_NOAUTOHISTORYADD   0x20
 	void            SetSearch           (long flags, const wxString& newSimpleSearch=wxEmptyString, const SjAdvSearch* newAdvSearch=NULL);
 	const SjSearch* GetSearch           () const { return &m_search; }
-	const SjSearchStat*
-	GetSearchStat       () const { return &m_searchStat; }
+	const SjSearchStat* GetSearchStat   () const { return &m_searchStat; }
 	void            EndOneSearch        () { SetSearch(m_search.m_simple.IsSet()? SJ_SETSEARCH_CLEARSIMPLE : SJ_SETSEARCH_CLEARADV); }
 	void            EndAllSearch        () { SetSearch(SJ_SETSEARCH_CLEARADV|SJ_SETSEARCH_CLEARSIMPLE); }
 	void            EndSimpleSearch     () { SetSearch(SJ_SETSEARCH_CLEARSIMPLE); }
@@ -212,12 +204,12 @@ public:
 	void            CreateViewMenu      (SjMenu* viewMenu, bool createMainMenu, bool appendGotoCurrMark=FALSE);
 	void            CreateUnqueueMenu   (SjMenu&);
 	void            CreateSearchMenu    (SjMenu&);
-#if SJ_USE_TOOLTIPS
+	#if SJ_USE_TOOLTIPS
 	SjMainFrameToolTipProvider
 	m_toolTipProvider;
 	SjToolTipProvider*
 	GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) { m_toolTipProvider.m_targetId = targetId; m_toolTipProvider.m_subitem = subitem; m_toolTipProvider.m_rect = rect; return &m_toolTipProvider; }
-#endif
+	#endif
 	SjMenu          *m_fileMenu, *m_editMenu, *m_viewMenu, *m_playbackMenu, *m_kioskMenu, *m_extrasMenu, *m_helpMenu;
 private:
 	wxMenuBar*      m_menuBar;
@@ -238,9 +230,9 @@ public:
 	// (used for timeouts, eg. for the display reset and for following the playlist)
 	void     GotInputFromUser    () {
 		m_lastUserInputTimestamp = SjTools::GetMsTicks();
-#if SJ_USE_TOOLTIPS
+		#if SJ_USE_TOOLTIPS
 		if(g_tools) {g_tools->m_toolTipManager.CloseToolTipWindow();}
-#endif
+		#endif
 	}
 	unsigned long LastInputFromUser       () const {return m_lastUserInputTimestamp;}
 	void          GotDisplayInputFromUser () { m_lastUserDisplayInputTimestamp = SjTools::GetMsTicks(); GotInputFromUser(); }
@@ -251,8 +243,8 @@ public:
 	// Display stuff
 	// The message OnSetDisplayMsg() may contain up to two lines separated by "\n"
 	void            SetDisplayMsg       (const wxString& text, long holdMs=10000);
-#define         SDM_STATE_CHANGE_MS         2500
-#define         SDM_KIOSK_CANNOT_ENQUEUE_MS 3000
+	#define         SDM_STATE_CHANGE_MS         2500
+	#define         SDM_KIOSK_CANNOT_ENQUEUE_MS 3000
 	void            ClearDisplayMsg     () { SetDisplayMsg(wxEmptyString, 0); }
 
 	// you should only use the Get-functions from the player;
@@ -274,14 +266,12 @@ private:
 
 private:
 	// Functions overwritten from SjSkinWindow
-	void            OnSkinTargetContextMenu
-	(int, long x, long y);
+	void            OnSkinTargetContextMenu (int, long x, long y);
 
 	// The search stuff
 	wxString        NormalizeSearchText (const wxString&);
 	void            OnSimpleSearchInput (wxCommandEvent&); // also called on SetValue, so use the flag below
-	void            OnSimpleSearchInputTimer
-	(wxTimerEvent&);
+	void            OnSimpleSearchInputTimer (wxTimerEvent&);
 	void            OnSearchHistory     (wxCommandEvent&);
 	void            OnSearchGenre       (wxCommandEvent&);
 	void            OnSearchMusicSel    (wxCommandEvent&);
@@ -302,9 +292,9 @@ private:
 
 	// Zoom and Font Settings
 public:
-#define         SJ_ZOOM_MIN     0
-#define         SJ_ZOOM_DEF     3
-#define         SJ_ZOOM_MAX     6
+	#define         SJ_ZOOM_MIN     0
+	#define         SJ_ZOOM_DEF     3
+	#define         SJ_ZOOM_MAX     6
 	void            SetZoom__           (long newZoom, bool redraw=true); // Should ONLY be called by SjBrowserWindow::SetZoom() (which should be used from extern)
 	long            GetZoom             () const {return m_currZoom;}
 	static long     CorrectZoom         (long zoom);
@@ -317,14 +307,11 @@ private:
 	static long     CorrectColumnWidth  (long columnWidth);
 	static long     CorrectCoverHeight  (long coverHeight);
 	static long     CorrectFontSize     (long fontSize);
-	void            CalcCurrFontSizesFromZoom
-	();
+	void            CalcCurrFontSizesFromZoom ();
 	void            CreateFontObjects   ();
 
 	// Misc.
-	unsigned long   m_lastUserInputTimestamp,
-	         m_lastUserDisplayInputTimestamp,
-	         m_lastUserBrowserInputTimestamp;
+	unsigned long   m_lastUserInputTimestamp, m_lastUserDisplayInputTimestamp, m_lastUserBrowserInputTimestamp;
 	bool            m_showRemainingTime;
 	bool            m_blinkBlink;
 	wxTimer         m_elapsedTimeTimer;
@@ -373,8 +360,6 @@ private:
 	friend class    SjTagEditorDlg;
 #endif
 };
-
-
 
 
 #endif /* __SJ_MAINFRAME_H__ */

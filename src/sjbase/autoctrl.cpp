@@ -100,7 +100,7 @@ void SjAutoFader::Notify()
 			}
 		}
 		else if(  g_mainFrame->m_lastUserInputTimestamp > m_startFadingTimestamp
-		          && (g_mainFrame->m_autoCtrl.m_sleepTimemode==SJ_SLEEPMODE_TIMEMODE_AFTER || g_mainFrame->m_autoCtrl.m_sleepTimemode==SJ_SLEEPMODE_TIMEMODE_ALWAYS_AFTER ) )
+		      && (g_mainFrame->m_autoCtrl.m_sleepTimemode==SJ_SLEEPMODE_TIMEMODE_AFTER || g_mainFrame->m_autoCtrl.m_sleepTimemode==SJ_SLEEPMODE_TIMEMODE_ALWAYS_AFTER ) )
 		{
 			if( !g_mainFrame->IsOpAvailable(SJ_OP_MAIN_VOL) )
 			{
@@ -117,7 +117,7 @@ void SjAutoFader::Notify()
 		// calculate the available volume steps
 		long totalSteps = m_startFadingVol;
 		if( totalSteps <= 0
-		        || thisTimestamp >= m_endFadingTimestamp )
+		 || thisTimestamp >= m_endFadingTimestamp )
 		{
 			FadingDone(FALSE/*aborted*/);
 			return;
@@ -180,9 +180,9 @@ void SjAutoCtrl::SetSleepSettings(bool enabled, SjShutdownEtc action, long timem
 	bool setDisplayMsg = FALSE;
 
 	if( (m_flags&SJ_AUTOCTRL_SLEEP) != (enabled? SJ_AUTOCTRL_SLEEP : 0)
-	        || m_sleepAction  != action
-	        || m_sleepTimemode!= timemode
-	        || m_sleepMinutes != minutes )
+	 || m_sleepAction  != action
+	 || m_sleepTimemode!= timemode
+	 || m_sleepMinutes != minutes )
 	{
 		setDisplayMsg = TRUE;
 		m_stateTriggerSleep = FALSE;
@@ -201,7 +201,7 @@ void SjAutoCtrl::SetSleepSettings(bool enabled, SjShutdownEtc action, long timem
 	}
 
 	if( (editDoFade && ((m_flags&SJ_AUTOCTRL_SLEEP_FADE) != (doFade? SJ_AUTOCTRL_SLEEP_FADE : 0)))
-	        || m_sleepFadeSeconds != fadeSeconds )
+	 || m_sleepFadeSeconds != fadeSeconds )
 	{
 		setDisplayMsg = TRUE;
 	}
@@ -231,11 +231,11 @@ void SjAutoCtrl::LoadAutoCtrlSettings()
 {
 	// load the settings, as this may reset some sleep flags,
 	// this function should only be called once at startups
-#ifdef __WXDEBUG__
-	static bool s_debugLoaded = FALSE;
-	wxASSERT( s_debugLoaded == FALSE );
-	s_debugLoaded = TRUE;
-#endif
+	#ifdef __WXDEBUG__
+		static bool s_debugLoaded = FALSE;
+		wxASSERT( s_debugLoaded == FALSE );
+		s_debugLoaded = TRUE;
+	#endif
 
 	wxConfigBase* c = g_tools->m_config;
 
@@ -337,13 +337,13 @@ void SjAutoCtrl::ValidateSettings()
 	// these values are set to defaults if out of range
 	// (loading errors, there should be no need to use very large or very small values)
 	if( m_followPlaylistMinutes < SJ_AUTOCTRL_MIN_FOLLOWPLAYLISTMINUTES
-	        || m_followPlaylistMinutes > SJ_AUTOCTRL_MAX_FOLLOWPLAYLISTMINUTES )
+	 || m_followPlaylistMinutes > SJ_AUTOCTRL_MAX_FOLLOWPLAYLISTMINUTES )
 	{
 		m_followPlaylistMinutes = SJ_AUTOCTRL_DEF_FOLLOWPLAYLISTMINUTES;
 	}
 
 	if( m_resetViewMinutes < SJ_AUTOCTRL_MIN_RESETVIEWMINUTES
-	        || m_resetViewMinutes > SJ_AUTOCTRL_MAX_RESETVIEWMINUTES )
+	 || m_resetViewMinutes > SJ_AUTOCTRL_MAX_RESETVIEWMINUTES )
 	{
 		m_resetViewMinutes = SJ_AUTOCTRL_DEF_RESETVIEWMINUTES;
 	}
@@ -354,13 +354,13 @@ void SjAutoCtrl::ValidateSettings()
 	}
 
 	if( m_startVisMinutes < SJ_AUTOCTRL_MIN_STARTVISMINUTES
-	        || m_startVisMinutes > SJ_AUTOCTRL_MAX_STARTVISMINUTES )
+	 || m_startVisMinutes > SJ_AUTOCTRL_MAX_STARTVISMINUTES )
 	{
 		m_startVisMinutes = SJ_AUTOCTRL_DEF_STARTVISMINUTES;
 	}
 
 	if( m_stopVisMinutes < SJ_AUTOCTRL_MIN_STOPVISMINUTES
-	        || m_stopVisMinutes > SJ_AUTOCTRL_MAX_STOPVISMINUTES )
+	 || m_stopVisMinutes > SJ_AUTOCTRL_MAX_STOPVISMINUTES )
 	{
 		m_stopVisMinutes = SJ_AUTOCTRL_DEF_STOPVISMINUTES;
 	}
@@ -399,9 +399,9 @@ void SjAutoCtrl::OnOneSecondTimer()
 		{
 			unsigned long refTimestamp = g_mainFrame->m_lastUserInputTimestamp;
 
-#define IDLE_MINUTES 2
-#define MIN_IN_BETWEEN_MINUTES 15
-#define MAX_IN_BETWEEN_MINUTES 120
+			#define IDLE_MINUTES 2
+			#define MIN_IN_BETWEEN_MINUTES 15
+			#define MAX_IN_BETWEEN_MINUTES 120
 			if(     (    thisTimestamp > refTimestamp+IDLE_MINUTES*60*1000
 			             && thisTimestamp > m_lastCleanupTimestamp+MIN_IN_BETWEEN_MINUTES*60*1000
 			        )
@@ -424,7 +424,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		if( (m_flags & SJ_AUTOCTRL_FOLLOW_PLAYLIST)
-		        &&  g_mainFrame->IsPlaying() )
+		 &&  g_mainFrame->IsPlaying() )
 		{
 			unsigned long refTimestamp = g_mainFrame->m_lastUserBrowserInputTimestamp;
 			if( m_stateOpenDialogTimestamp > refTimestamp ) refTimestamp = m_stateOpenDialogTimestamp;
@@ -456,8 +456,8 @@ void SjAutoCtrl::OnOneSecondTimer()
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		if( (m_flags & SJ_AUTOCTRL_RESET_VIEW)
-		        && g_mainFrame->m_browser != NULL
-		        && g_mainFrame->m_browser->GetView() != m_resetViewTo )
+		 && g_mainFrame->m_browser != NULL
+		 && g_mainFrame->m_browser->GetView() != m_resetViewTo )
 		{
 			unsigned long refTimestamp = g_mainFrame->m_lastUserBrowserInputTimestamp;
 			if( m_stateOpenDialogTimestamp > refTimestamp ) refTimestamp = m_stateOpenDialogTimestamp;
@@ -473,8 +473,8 @@ void SjAutoCtrl::OnOneSecondTimer()
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		if( (m_flags & SJ_AUTOCTRL_START_VIS)
-		        &&  g_mainFrame->IsPlaying()
-		        && !g_visModule->IsVisStarted() )
+		 &&  g_mainFrame->IsPlaying()
+		 && !g_visModule->IsVisStarted() )
 		{
 			unsigned long refTimestamp = g_mainFrame->m_lastUserInputTimestamp;
 			if( m_stateOpenDialogTimestamp > refTimestamp ) refTimestamp = m_stateOpenDialogTimestamp;
@@ -520,7 +520,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 
 		if( (m_flags & SJ_AUTOCTRL_STOP_VIS)
-		        &&  g_visModule->IsVisStarted() )
+		 &&  g_visModule->IsVisStarted() )
 		{
 			if( thisTimestamp > (m_stateStartVisTimestamp+m_stopVisMinutes*60*1000) )
 			{
@@ -532,10 +532,10 @@ void SjAutoCtrl::OnOneSecondTimer()
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		if( (m_flags & SJ_AUTOCTRL_AUTOPLAY_ENABLED)
-		        && !g_mainFrame->m_inConstruction
-		        && !g_mainFrame->m_mainApp->IsInShutdown()
-		        && !SjBusyInfo::InYield()
-		        && m_haltAutoPlay == 0 )
+		 && !g_mainFrame->m_inConstruction
+		 && !g_mainFrame->m_mainApp->IsInShutdown()
+		 && !SjBusyInfo::InYield()
+		 && m_haltAutoPlay == 0 )
 		{
 			if( g_mainFrame->IsStopped() )
 			{
@@ -597,15 +597,15 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 
 		if( (m_flags & SJ_AUTOCTRL_SLEEP)
-		        && !g_mainFrame->m_inConstruction
-		        && !g_mainFrame->m_mainApp->IsInShutdown() )
+		 && !g_mainFrame->m_inConstruction
+		  && !g_mainFrame->m_mainApp->IsInShutdown() )
 		{
-#ifdef __WXDEBUG__
-			if( m_stateTriggerSleep )
-			{
-				wxLogDebug(wxT("Sleep triggered..."));
-			}
-#endif
+			#ifdef __WXDEBUG__
+				if( m_stateTriggerSleep )
+				{
+					wxLogDebug(wxT("Sleep triggered..."));
+				}
+			#endif
 
 			if( m_stateSleepWaitTimestamp )
 			{
@@ -704,7 +704,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		if(  m_pendingEvents.GetCount()
-		        && !SjBusyInfo::InYield() )
+		 && !SjBusyInfo::InYield() )
 		{
 			int i, iCount = m_pendingEvents.GetCount();
 			for( i = 0; i < iCount; i++ )
@@ -799,7 +799,7 @@ bool SjAutoCtrl::IsCurrTrackCloseToEnd()
 {
 	long    remainingMs = g_mainFrame->GetRemainingTime();
 	long    crossfadeMs = g_mainFrame->m_player.GetAutoCrossfade()? g_mainFrame->m_player.m_autoCrossfadeMs : 0;
-#define headroomMs 10000L // 10 seconds before anythings starts; the player itself prepares a new stream 5 seconds before the end of the previous one
+	#define headroomMs 10000L // 10 seconds before anythings starts; the player itself prepares a new stream 5 seconds before the end of the previous one
 
 	if( remainingMs < (crossfadeMs+headroomMs) )
 	{
@@ -894,8 +894,8 @@ wxString SjAutoCtrl::GetAutoPlayUrl()
 	// select a random track ID from the available track IDs
 	////////////////////////////////////////////////////////
 
-#define MAX_REMEMBER_IDS 32
-#define MAX_ITERATIONS   1000
+	#define MAX_REMEMBER_IDS 32
+	#define MAX_ITERATIONS   1000
 
 	wxSqlt sql;
 	unsigned long now = SjTools::GetMsTicks();
