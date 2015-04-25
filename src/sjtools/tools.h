@@ -1168,11 +1168,6 @@ private:
  ******************************************************************************/
 
 
-void    SjUseVerticalBlank          ();
-void    SjWaitForVerticalBlank      ();
-void    SjFlushAfterVerticalBlank   ();
-void    SjUnuseVerticalBlank        ();
-
 // just to make calculations easier
 #define SJ_ONE_GB 0x40000000L
 #define SJ_ONE_MB 0x00100000L

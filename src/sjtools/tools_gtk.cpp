@@ -60,31 +60,6 @@ void SjTools::ExploreFile_(const wxString& location__, const wxString& program__
 
 
 /*******************************************************************************
- * Vertical Blank Stuff
- ******************************************************************************/
-
-
-void SjUseVerticalBlank()
-{
-}
-
-
-void SjWaitForVerticalBlank()
-{
-}
-
-
-void SjFlushAfterVerticalBlank()
-{
-}
-
-
-void SjUnuseVerticalBlank()
-{
-}
-
-
-/*******************************************************************************
  * Kiosk mode - set exclusive
  ******************************************************************************/
 
