@@ -136,9 +136,13 @@ void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
 			}
 		}
 
-		if( !m_player.IsPlaying() && (IsKioskStarted() || !m_haltedManually ) )
+		if( !m_player.IsPlaying() && (IsKioskStarted() || !m_haltedManually ) ) // stopped and (in-kiosk or end-of-playlist)
 		{
-			gotoPos = true;
+			if( g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE )
+			{
+				gotoPos = true; // this will also mark the previous one as play which is unwanted if SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE is unset
+			}
+
 			if( (g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)
 			 || !IsOpAvailable(SJ_OP_PLAYPAUSE) )
 			{
