@@ -72,11 +72,12 @@ void SjMainFrame::InitMainMenu()
 	{
 		// mac specific
 
-#ifdef __WXMAC__
+		#ifdef __WXMAC__
 		wxApp::s_macHelpMenuTitleName = _("Help");
 		wxApp::s_macAboutMenuItemId = IDO_ABOUT_SILVERJUKE;
 		wxApp::s_macExitMenuItemId = IDT_QUIT;
-#endif
+		#endif
+
 		// file menu - do not update as there are problems with the MAC-specific items
 
 		if( !m_menuBarComplete )
@@ -159,12 +160,12 @@ void SjMainFrame::InitMainMenu()
 			m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")), SJ_ICON_SILVERJUKE);
 		}
 
-#ifdef __WXMAC__
+		#ifdef __WXMAC__
 		if( !m_menuBarComplete )
 		{
 			SetMenuBar(m_menuBar);
 		}
-#endif
+		#endif
 
 		m_menuBarComplete = TRUE;
 
@@ -254,6 +255,12 @@ void SjMainFrame::UpdateMenuBarQueue()
 }
 
 
+void SjMainFrame::UpdateMenuBarView()
+{
+	m_viewMenu->Check(IDO_SAMEZOOMINALLVIEWS, g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS);
+}
+
+
 /*******************************************************************************
  * The view menu
  ******************************************************************************/
@@ -283,6 +290,9 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool app
 		zoomMenu->Append(IDT_ZOOM_IN);
 		zoomMenu->Append(IDT_ZOOM_OUT);
 		zoomMenu->Append(IDT_ZOOM_NORMAL);
+		zoomMenu->AppendSeparator();
+		zoomMenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
+		zoomMenu->Check(IDO_SAMEZOOMINALLVIEWS, g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS);
 		viewMenu->Append(0, _("Zoom"), zoomMenu);
 	}
 
@@ -309,9 +319,9 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool app
 	viewMenu->AppendSeparator();
 
 	// add vis. toggle
-	if( g_visModule )
+	if( g_visModule ) {
 		viewMenu->Append(IDT_START_VIS, g_visModule->GetVisMenuTitle());
-
+	}
 }
 
 

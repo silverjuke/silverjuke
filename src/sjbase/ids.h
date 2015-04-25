@@ -232,6 +232,7 @@
 #define IDO_SEARCHGENRE999      6999 /* range end */
 #define IDO_SEARCHMUSICSEL000   7000 /* range start */
 #define IDO_SEARCHMUSICSEL999   7999 /* range end */
+#define IDO_SAMEZOOMINALLVIEWS  8000
 #define IDO_CORNERCLICK         8002
 #define IDO_SETTINGS_ADV        8003
 #define IDO_SETTINGS_ADDFILES   8004

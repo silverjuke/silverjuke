@@ -224,6 +224,7 @@ private:
 	bool            m_menuBarComplete;
 	void            UpdateMenuBarValue  (int targetId, const SjSkinValue& v);
 	void            UpdateMenuBarQueue  ();
+	void            UpdateMenuBarView   ();
 
 	// Allowed Operations (in Kiosk Mode), see SJ_OP_* in skin.h
 public:

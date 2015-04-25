@@ -1083,14 +1083,7 @@ void SjLittleAccelOption::OnApply()
 
 void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 {
-#define SEP wxString(wxT("|"))
-
-	// same zoom?
-	SjLittleOption::SetSection(_("View"));
-
-	lo.Add(new SjLittleBit (_("Same zoom in all views"), wxT("yn"),
-	                        &m_flags, 0L, SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS, wxT("main/accelFlags")));
-
+	#define SEP wxString(wxT("|"))
 
 	// mouse
 	SjLittleOption::SetSection(_("Mouse"));
@@ -1104,10 +1097,10 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	lo.Add(new SjLittleBit (_("Middle mouse button"), _("Off")+SEP+
 	                        _("Edit tracks")+wxString(wxT("/"))+_("Cover editor"),
 	                        &m_middleMouseAction, SJ_ACCEL_MID_OPENS_TAG_EDITOR, 0, wxT("main/middleMouseAction")));
-#if SJ_USE_TOOLTIPS
+	#if SJ_USE_TOOLTIPS
 	lo.Add(new SjLittleBit (_("Tooltips"), wxT("oo"),
 	                        &m_flags, 1L, SJ_ACCEL_TOOLTIPS, wxT("main/accelFlags")));
-#endif
+	#endif
 
 	// mouse wheel
 	SjLittleOption::ClearSection();
@@ -1189,10 +1182,10 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	// multimedia keys
 	SjLittleOption::ClearSection();
 
-#if SJ_CAN_USE_MM_KEYBD
+	#if SJ_CAN_USE_MM_KEYBD
 	lo.Add(new SjLittleBit (_("Use multimedia keyboard keys"), wxT("yn"),
 	                        &m_flags, 0L, SJ_ACCEL_USE_MM_KEYBD, wxT("main/accelFlags")));
-#endif
+	#endif
 
 	// confirmation stuff
 	lo.Add(new SjLittleBit(_("Ask on close if playing"), wxT("yn"),
@@ -1270,14 +1263,14 @@ static bool addToAccelTable(long key)
 	if( !(key & 0x7FFF0000L) )
 	{
 		if(  (key >= 'A' && key <= 'Z')
-		        || (key >= 'a' && key <= 'z')
-		        || (key >= '0' && key <= '9')
-		        /* ||  key == WXK_TAB  !!!tab IS an accelerator key!!! */
-		        ||  key == WXK_INSERT|| key == WXK_DELETE
-		        ||  key == WXK_LEFT  || key == WXK_RIGHT    || key == WXK_UP    || key == WXK_DOWN
-		        ||  key == WXK_SPACE || key == WXK_RETURN   || key == WXK_BACK
-		        ||  key == WXK_HOME  || key == WXK_END
-		        ||  key == WXK_ADD   || key == WXK_SUBTRACT || key == WXK_MULTIPLY )
+		  || (key >= 'a' && key <= 'z')
+		  || (key >= '0' && key <= '9')
+		/*||  key == WXK_TAB  !!!tab IS an accelerator key!!! */
+		  ||  key == WXK_INSERT|| key == WXK_DELETE
+		  ||  key == WXK_LEFT  || key == WXK_RIGHT    || key == WXK_UP    || key == WXK_DOWN
+		  ||  key == WXK_SPACE || key == WXK_RETURN   || key == WXK_BACK
+		  ||  key == WXK_HOME  || key == WXK_END
+		  ||  key == WXK_ADD   || key == WXK_SUBTRACT || key == WXK_MULTIPLY )
 		{
 			return false;
 		}
@@ -1397,7 +1390,9 @@ wxString SjAccelModule::GetReadableShortcutByKey(long modifier, long keycode)
 		{
 			keyStr.Printf(_("Num%s"), wxString::Format(wxT("%i"), (int)keycode-WXK_NUMPAD0).c_str());
 		}
-		else switch( keycode )
+		else
+		{
+			switch( keycode )
 			{
 				case WXK_BACK:              keyStr = _("Backspace");                    break;
 				case WXK_TAB:               keyStr = _("Tab");                          break;
@@ -1435,6 +1430,7 @@ wxString SjAccelModule::GetReadableShortcutByKey(long modifier, long keycode)
 				case wxT('.'):              keyStr = wxT(".");                          break;
 				default:                    keyStr.Printf(wxT("#%x"), (int)keycode);    break;
 			}
+		}
 
 		ret += keyStr;
 	}
@@ -1514,7 +1510,7 @@ wxString SjAccelModule::GetCmdNameByIndex(int cmdIndex, bool shortName)
 		}
 		else if( !(cmd.m_flags&SJA_MAIN) )
 		{
-			if( cmd.m_flags&SJA_ART )          { ret = SjLittleOption::ApplySection(_("Cover editor"), ret); }
+			     if( cmd.m_flags&SJA_ART )          { ret = SjLittleOption::ApplySection(_("Cover editor"), ret); }
 			else if( cmd.m_flags&SJA_EDIT )         { ret = SjLittleOption::ApplySection(_("Edit tracks/Get info"), ret); }
 			else if( cmd.m_flags&SJA_ADVSEARCH )    { ret = SjLittleOption::ApplySection(_("Music selection"), ret); }
 			else if( cmd.m_flags&SJA_MAINNUMPAD )   { ret = SjLittleOption::ApplySection(_("Numpad"), ret); }
@@ -1749,12 +1745,12 @@ wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind ki
 	wxMenuItem* mi = new wxMenuItem(this, id, text, wxT(""), kind==wxITEM_RADIO? wxITEM_CHECK : kind, subMenu);
 
 	// set font (wxMenuItem::SetFont() is not available in GTK)
-#if !defined(__WXGTK__)
+    #if !defined(__WXGTK__)
 	if( g_accelModule->m_flags&SJ_ACCEL_USE_VIEW_FONT_IN_DLG )
 	{
 		mi->SetFont(g_mainFrame->m_baseStdFont);
 	}
-#endif
+    #endif
 
 	// done
 	return mi;

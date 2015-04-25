@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2015 BjÃ¶rn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -20,11 +20,11 @@
  *******************************************************************************
  *
  * File:    mainframe.cpp
- * Authors: Björn Petersen
+ * Authors: BjÃ¶rn Petersen
  * Purpose: Silverjuke main frame
  * OS:      independent
  *
- * (C) Björn Petersen Software Design and Development, http://b44t.com
+ * (C) BjÃ¶rn Petersen Software Design and Development, http://b44t.com
  *
  ******************************************************************************/
 
@@ -1598,7 +1598,7 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU_RANGE  (IDO_RATINGQUEUE00, IDO_RATINGQUEUE05,      SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_EXPLOREQUEUE,                          SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_SMOOTH,                                SjMainFrame::OnFwdToSkin     )
-
+	EVT_MENU        (IDO_SAMEZOOMINALLVIEWS,                    SjMainFrame::OnFwdToSkin     )
 
 	EVT_MENU_RANGE  (IDMODMSG_FIRST,
 	                 IDMODMSG_LAST,             SjMainFrame::OnFwdToModules         )
@@ -1670,7 +1670,7 @@ void SjMainFrame::CmdLineAndDdeSeeExecute(const wxString& cmds__)
 
 void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accelFlags)
 {
-	/* hier sollten wirklich alle Fäden zusammenlaufen damit die Tastaturbedienung auch ohne
+	/* hier sollten wirklich alle FÃ¤den zusammenlaufen damit die Tastaturbedienung auch ohne
 	Accel-Table funktioniert, vgl. http://www.silverjuke.net/forum/topic-3197.html */
 
 	GotInputFromUser();
@@ -1680,19 +1680,19 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 		OnSkinDisplayEvent(targetId, value, accelFlags);
 	}
 	else if( (targetId >= IDT_WORKSPACE_GOTO_A    && targetId <= IDT_WORKSPACE_GOTO_0_9) // Silverjuke is a "grown" program, so we have no continuous IDs for the workspace ...
-	         || (targetId >= IDT_WORKSPACE_LINE_LEFT && targetId <= IDT_WORKSPACE_LINE_DOWN)
-	         || (targetId >= IDT_WORKSPACE_PAGE_LEFT && targetId <= IDT_WORKSPACE_ENTER)
-	         ||  targetId == IDT_WORKSPACE_GOTO_PREV_AZ
-	         ||  targetId == IDT_WORKSPACE_GOTO_NEXT_AZ
-	         ||  targetId == IDT_WORKSPACE_HOME
-	         ||  targetId == IDT_WORKSPACE_END
-	         ||  targetId == IDT_WORKSPACE_H_SCROLL
-	         ||  targetId == IDT_WORKSPACE_V_SCROLL
-	         ||  targetId == IDT_WORKSPACE_GOTO_RANDOM
-	         ||  targetId == IDT_WORKSPACE_SHOW_COVERS
-	         ||  targetId == IDT_ZOOM_IN
-	         ||  targetId == IDT_ZOOM_OUT
-	         ||  targetId == IDT_ZOOM_NORMAL )
+	      || (targetId >= IDT_WORKSPACE_LINE_LEFT && targetId <= IDT_WORKSPACE_LINE_DOWN)
+	      || (targetId >= IDT_WORKSPACE_PAGE_LEFT && targetId <= IDT_WORKSPACE_ENTER)
+	      ||  targetId == IDT_WORKSPACE_GOTO_PREV_AZ
+	      ||  targetId == IDT_WORKSPACE_GOTO_NEXT_AZ
+	      ||  targetId == IDT_WORKSPACE_HOME
+	      ||  targetId == IDT_WORKSPACE_END
+	      ||  targetId == IDT_WORKSPACE_H_SCROLL
+	      ||  targetId == IDT_WORKSPACE_V_SCROLL
+	      ||  targetId == IDT_WORKSPACE_GOTO_RANDOM
+	      ||  targetId == IDT_WORKSPACE_SHOW_COVERS
+	      ||  targetId == IDT_ZOOM_IN
+	      ||  targetId == IDT_ZOOM_OUT
+	      ||  targetId == IDT_ZOOM_NORMAL )
 	{
 		// this stuff will be forwarded to the browser
 		// (we may come from there, but this is not necessarily the case, eg. when using "real" accelerators or buttons for this)
@@ -1735,7 +1735,9 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			m_libraryModule->ShowArtistInfo(IDO_ARTISTINFQUEUE00, targetId);
 		}
 	}
-	else switch( targetId )
+	else
+	{
+		switch( targetId )
 		{
 			case IDMODMSG_WINDOW_SIZE_MOVE_BEGIN:
 			case IDMODMSG_WINDOW_SIZE_MOVE_END:
@@ -1946,10 +1948,19 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				}
 				break;
 
+			case IDO_SAMEZOOMINALLVIEWS:
+				if( IsAllAvailable() )
+				{
+					SjTools::ToggleFlag(g_accelModule->m_flags, SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS);
+					g_tools->m_config->Write(wxT("main/accelFlags"), g_accelModule->m_flags);
+					UpdateMenuBarView();
+				}
+				break;
+
 			case IDT_PLAY:
 			case IDT_PAUSE:
 				if(  m_player.m_queue.GetCount()==0
-				        && !m_player.IsPlaying() )
+				 && !m_player.IsPlaying() )
 				{
 					OnSkinTargetEvent(IDT_ENQUEUE_LAST, value, 0); // recursive call
 					if( !m_player.IsPlaying() )
@@ -2035,55 +2046,55 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDT_ENQUEUE_LAST:
 			case IDT_ENQUEUE_NEXT:
 			case IDT_ENQUEUE_NOW:
-			{
-				GotBrowserInputFromUser();
-				wxArrayString urls;
-				m_columnMixer.GetSelectedUrls(urls);
-				long enqueuePos = -1;
-
-				if( targetId == IDT_ENQUEUE_NEXT && IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 				{
-					enqueuePos = -2;
-				}
+					GotBrowserInputFromUser();
+					wxArrayString urls;
+					m_columnMixer.GetSelectedUrls(urls);
+					long enqueuePos = -1;
 
-				if( targetId == IDT_ENQUEUE_NOW && IsOpAvailable(SJ_OP_EDIT_QUEUE) )
-				{
-					enqueuePos = -3;
-				}
-
-				Enqueue(urls, enqueuePos, TRUE/*verified*/);
-
-				m_libraryModule->UpdateMenuBar();
-			}
-			break;
-
-			case IDT_MORE_FROM_CURR_ALBUM:
-			case IDT_MORE_FROM_CURR_ARTIST:
-			{
-				GotBrowserInputFromUser();
-				wxArrayString urls = m_libraryModule->GetMoreFrom(m_player.GetUrlOnAir(), targetId, &m_player.m_queue);
-				if( urls.GetCount() )
-				{
-					long enqueuePos = -1; // last, if queue editing is not available
-
-					if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
+					if( targetId == IDT_ENQUEUE_NEXT && IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 					{
-						enqueuePos = -2; // next, this is the normal usage
+						enqueuePos = -2;
+					}
+
+					if( targetId == IDT_ENQUEUE_NOW && IsOpAvailable(SJ_OP_EDIT_QUEUE) )
+					{
+						enqueuePos = -3;
 					}
 
 					Enqueue(urls, enqueuePos, TRUE/*verified*/);
 
 					m_libraryModule->UpdateMenuBar();
 				}
-				else
+				break;
+
+			case IDT_MORE_FROM_CURR_ALBUM:
+			case IDT_MORE_FROM_CURR_ARTIST:
 				{
-					wxString msg(targetId==IDT_MORE_FROM_CURR_ALBUM? _("More from current album") : _("More from current artist"));
-					msg += wxT(": ");
-					msg += _("No more tracks.");
-					SetDisplayMsg(msg, 3000);
+					GotBrowserInputFromUser();
+					wxArrayString urls = m_libraryModule->GetMoreFrom(m_player.GetUrlOnAir(), targetId, &m_player.m_queue);
+					if( urls.GetCount() )
+					{
+						long enqueuePos = -1; // last, if queue editing is not available
+
+						if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
+						{
+							enqueuePos = -2; // next, this is the normal usage
+						}
+
+						Enqueue(urls, enqueuePos, TRUE/*verified*/);
+
+						m_libraryModule->UpdateMenuBar();
+					}
+					else
+					{
+						wxString msg(targetId==IDT_MORE_FROM_CURR_ALBUM? _("More from current album") : _("More from current artist"));
+						msg += wxT(": ");
+						msg += _("No more tracks.");
+						SetDisplayMsg(msg, 3000);
+					}
 				}
-			}
-			break;
+				break;
 
 			case IDT_UNQUEUE:
 				if( IsOpAvailable(SJ_OP_UNQUEUE) )
@@ -2146,22 +2157,22 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				}
 				break;
 
-				/*
-				case IDT_OPEN_URL:
-				    if( IsAllAvailable() )
-				    {
-				        wxWindowDisabler disabler(this);
-				        wxTextEntryDialog dlg(this,
-				            _("Open URL")+wxString(wxT(":")), _("Open URL"));
-				        if( dlg.ShowModal() != wxID_OK ) { return; }
-				        wxString url = dlg.GetValue().Trim(TRUE).Trim(FALSE);
-				        if( url.IsEmpty() ) return;
-				        wxArrayString filenames;
-				        filenames.Add(url);
-				        OpenFiles(filenames, SJ_OPENFILES_DEFCMD);
-				    }
-				    break;
-				*/
+			/*
+			case IDT_OPEN_URL:
+				if( IsAllAvailable() )
+				{
+					wxWindowDisabler disabler(this);
+					wxTextEntryDialog dlg(this,
+						_("Open URL")+wxString(wxT(":")), _("Open URL"));
+					if( dlg.ShowModal() != wxID_OK ) { return; }
+					wxString url = dlg.GetValue().Trim(TRUE).Trim(FALSE);
+					if( url.IsEmpty() ) return;
+					wxArrayString filenames;
+					filenames.Add(url);
+					OpenFiles(filenames, SJ_OPENFILES_DEFCMD);
+				}
+				break;
+			*/
 
 			case IDO_ABOUT_OPEN_WWW:
 				if( IsAllAvailable() )
@@ -2184,34 +2195,36 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDT_GOTO_CURR:
 			case IDO_GOTO_CURR_MARK:
 				m_autoCtrl.m_stateGotoCurrClickedTimestamp = SjTools::GetMsTicks();
-				GotDisplayInputFromUser(); // fall through
+				GotDisplayInputFromUser();
+				// fall through
+
 			case IDO_GOTOCURRAUTO:
-			{
-				wxString url;
-				if( targetId == IDO_GOTO_CURR_MARK && m_contextMenuClickedUrls.GetCount()==1 )
 				{
-					url = m_contextMenuClickedUrls[0];
-				}
-				else
-				{
-					url = m_player.m_queue.GetUrlByPos(-1);
-				}
-
-				if( !url.IsEmpty() )
-				{
-					if( targetId!=IDO_GOTOCURRAUTO )
+					wxString url;
+					if( targetId == IDO_GOTO_CURR_MARK && m_contextMenuClickedUrls.GetCount()==1 )
 					{
-						g_visModule->StopVisIfOverWorkspace();
+						url = m_contextMenuClickedUrls[0];
+					}
+					else
+					{
+						url = m_player.m_queue.GetUrlByPos(-1);
 					}
 
-					if( !m_browser->GotoUrl(url) )
+					if( !url.IsEmpty() )
 					{
-						EndSimpleSearch();
-						m_browser->GotoUrl(url);
+						if( targetId!=IDO_GOTOCURRAUTO )
+						{
+							g_visModule->StopVisIfOverWorkspace();
+						}
+
+						if( !m_browser->GotoUrl(url) )
+						{
+							EndSimpleSearch();
+							m_browser->GotoUrl(url);
+						}
 					}
 				}
-			}
-			break;
+				break;
 
 			case IDT_ADV_SEARCH:
 				if( g_advSearchModule && IsAllAvailable() )
@@ -2241,6 +2254,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				m_moduleSystem.BroadcastMsg((int)targetId);
 				break;
 		}
+	}
 }
 
 
