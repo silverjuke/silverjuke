@@ -387,7 +387,7 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
 		playbackMenu->Append(0, _("Volume"), volMenu);
 	}
 
-	if( createMainMenu || IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_REPEAT) )
+	if( createMainMenu || IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_REPEAT) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
 	{
 		playbackMenu->AppendSeparator();
 
@@ -404,9 +404,25 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
 		{
 			playbackMenu->AppendCheckItem(IDT_SHUFFLE);
 			playbackMenu->Check(IDT_SHUFFLE, m_player.m_queue.GetShuffle());
+		}
 
-			playbackMenu->AppendCheckItem(IDT_PLAY_NOW_ON_DBL_CLICK);
-			playbackMenu->Check(IDT_PLAY_NOW_ON_DBL_CLICK, (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK)!=0);
+		if( createMainMenu || IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
+		{
+			SjMenu* queueMenu = new SjMenu(playbackMenu->ShowShortcuts());
+
+			if( IsOpAvailable(SJ_OP_PLAYPAUSE) )
+			{
+				queueMenu->AppendCheckItem(IDO_START_PB_ON_ENQUEUE, _("Start playback on first enqueue"));
+				queueMenu->Check(IDO_START_PB_ON_ENQUEUE, (g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)!=0);
+			}
+
+			if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
+			{
+				queueMenu->AppendCheckItem(IDT_PLAY_NOW_ON_DBL_CLICK);
+				queueMenu->Check(IDT_PLAY_NOW_ON_DBL_CLICK, (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK)!=0);
+			}
+
+			playbackMenu->Append(0, _("Queue"), queueMenu);
 		}
 	}
 

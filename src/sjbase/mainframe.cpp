@@ -1576,6 +1576,7 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU_RANGE  (IDT_FIRST, IDT_LAST,                       SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_DISPLAY_COVER,                         SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_DISPLAY_COVER_EXPLR,                   SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_START_PB_ON_ENQUEUE,                   SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_GOTO_CURR_MARK,                        SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_GOTOCURRAUTO,                          SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_SETTINGS_ADV,                          SjMainFrame::OnFwdToSkin     )
@@ -2011,7 +2012,18 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					g_tools->m_config->Write(wxT("main/accelFlags"), g_accelModule->m_flags);
 
 					SetSkinTargetValue(IDT_PLAY_NOW_ON_DBL_CLICK, (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK)? 1 : 0);
-					SetDisplayMsg(_("Play tracks at once on double click")+wxString(wxT(": "))+((g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK)? _("On") : _("Off")), SDM_STATE_CHANGE_MS);
+					SetDisplayMsg(_("Double click play tracks at once")+wxString(wxT(": "))+((g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK)? _("On") : _("Off")), SDM_STATE_CHANGE_MS);
+				}
+				break;
+
+			case IDO_START_PB_ON_ENQUEUE:
+				if( IsOpAvailable(SJ_OP_PLAYPAUSE) )
+				{
+					SjTools::ToggleFlag(g_accelModule->m_flags, SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE);
+					g_tools->m_config->Write(wxT("main/accelFlags"), g_accelModule->m_flags);
+
+					m_playbackMenu->Check(IDO_START_PB_ON_ENQUEUE, g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE);
+					SetDisplayMsg(_("Start playback on first enqueue")+wxString(wxT(": "))+((g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)? _("On") : _("Off")), SDM_STATE_CHANGE_MS);
 				}
 				break;
 

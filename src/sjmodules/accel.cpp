@@ -249,7 +249,7 @@ bool SjAccelModule::FirstLoad()
 	       IDT_ENQUEUE_NOW,
 	       SJA_MAIN | SJA_ADVSEARCH);
 	OrgKey(wxACCEL_CTRL, 'P');
-	OrgCmd(_("Play tracks at once on double click"),
+	OrgCmd(_("Double click play tracks at once"),
 	       IDT_PLAY_NOW_ON_DBL_CLICK,
 	       SJA_MAIN);
 	OrgKey(wxACCEL_CTRL, 'D');
@@ -1109,11 +1109,6 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	SjLittleOption::SetSection(_("Mouse wheel"));
 	lo.Add(new SjLittleBit (_("Context sensitive"), wxT("yn"), //n/t
 	                        &m_flags, 1L, SJ_ACCEL_CONTEXT_SENSITIVE_WHEEL, wxT("main/accelFlags")));
-
-	// start playback on enqueue?
-	SjLittleOption::ClearSection();
-	lo.Add(new SjLittleBit (_("Start playback on enqueue"), wxT("yn"), //n/t
-	                        &m_flags, 1L, SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE, wxT("main/accelFlags")));
 
 	// find out the extra menu items
 	#if SJ_USE_SCRIPTS
