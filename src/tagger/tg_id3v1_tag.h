@@ -65,6 +65,11 @@ public:
 		ret.appendString(s, SJ_LATIN1);
 		return ret;
 	}
+
+	// missing virtual constructors may cause warnings otherwise ("deleting object of polymorphic class type X which has non-virtual destructor might cause undefined behaviour [-Wdelete-non-virtual-dtor]")
+	virtual ~ID3v1_StringHandler()
+	{
+	}
 };
 
 
