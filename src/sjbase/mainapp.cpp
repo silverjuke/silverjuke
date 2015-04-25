@@ -261,16 +261,16 @@ bool SjMainApp::OnInit()
 	// log silverjuke and platform version and release information
 	wxLogInfo(wxT("Loading Silverjuke %s Rev. %i (%i Bit%s%s) on %s (%i Bit) using %s"),
 	          SJ_VERSION_STR, SJ_VERSION_REVISION, sizeof(void*)*8,
-#ifdef wxUSE_UNICODE
-	          wxT(" Unicode"),
-#else
-	          wxT(""),
-#endif
-#ifdef __WXDEBUG__
-              wxT(" Debug"),
-#else
-              wxT(""),
-#endif
+	          #ifdef wxUSE_UNICODE
+	              wxT(" Unicode"),
+	          #else
+	              wxT(""),
+	          #endif
+	          #ifdef __WXDEBUG__
+                  wxT(" Debug"),
+	          #else
+				wxT(""),
+	          #endif
 	          ::wxGetOsDescription().c_str(), ::wxIsPlatform64Bit()? 64 : 32,
 	          wxVERSION_STRING);
 
@@ -325,24 +325,23 @@ bool SjMainApp::OnInit()
 
 	// create the server name
 	wxString serviceName;
-#ifndef __WXMSW__
-	// under Unix (or Mac) the IPC communication goes over a temporary file
-	serviceName = g_tools->m_cache.GetTempDir();
-	wxASSERT( serviceName.Last() == wxT('/') );
-#endif
+	#ifndef __WXMSW__
+		// under Unix (or Mac) the IPC communication goes over a temporary file
+		serviceName = g_tools->m_cache.GetTempDir();
+		wxASSERT( serviceName.Last() == wxT('/') );
+	#endif
 	serviceName << wxT("silverjuke");
 	if( !g_tools->m_instance.IsEmpty() )
 	{
 		serviceName << wxT("-") << g_tools->m_instance;
 	}
-#ifndef __WXMSW__
-	serviceName << wxT("-ipc");
-#endif
+	#ifndef __WXMSW__
+		serviceName << wxT("-ipc");
+	#endif
 
 	// Is there another instance of silverjuke? if so, forward the commmand line
 	// to this instance. We use the wxSingleInstanceChecker class in addition
 	// for speed reasons - wxClient::MakeConnection() is rather slow.
-#ifndef __WXDEBUG__
 	{
 		wxLogNull null; // don't show any suspicious errors
 
@@ -430,7 +429,6 @@ bool SjMainApp::OnInit()
 			}
 		}
 	}
-#endif
 
 	// create the server
 	s_server = new SjServer;
