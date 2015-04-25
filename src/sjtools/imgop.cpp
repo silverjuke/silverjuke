@@ -734,9 +734,12 @@ bool SjImgOp::DoNegative(wxImage& image)
 
 		for( x = 0; x < srcWidth; x++ )
 		{
-			*currSrcLinePtr++ = 255 - *currSrcLinePtr;
-			*currSrcLinePtr++ = 255 - *currSrcLinePtr;
-			*currSrcLinePtr++ = 255 - *currSrcLinePtr;
+			*currSrcLinePtr = 255 - *currSrcLinePtr;
+			currSrcLinePtr++;
+			*currSrcLinePtr = 255 - *currSrcLinePtr;
+			currSrcLinePtr++;
+			*currSrcLinePtr = 255 - *currSrcLinePtr;
+			currSrcLinePtr++;
 		}
 	}
 
@@ -894,9 +897,12 @@ bool SjImgOp::DoContrast(wxImage& image, long contrast, long brightness)
 
 		for( x = 0; x < srcWidth; x++ )
 		{
-			*currSrcLinePtr++ = cmap[*currSrcLinePtr];
-			*currSrcLinePtr++ = cmap[*currSrcLinePtr];
-			*currSrcLinePtr++ = cmap[*currSrcLinePtr];
+			*currSrcLinePtr = cmap[*currSrcLinePtr];
+			currSrcLinePtr++;
+			*currSrcLinePtr = cmap[*currSrcLinePtr];
+			currSrcLinePtr++;
+			*currSrcLinePtr = cmap[*currSrcLinePtr];
+			currSrcLinePtr++;
 		}
 	}
 
