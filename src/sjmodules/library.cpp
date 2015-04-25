@@ -394,21 +394,9 @@ SjLittleLibBit::SjLittleLibBit( SjLibraryModule* module,
 }
 
 
-class SjLittleLibStringSel : public SjLittleStringSel
-{
-public:
-	SjLittleLibStringSel(const wxString& name, wxString* string, const wxString& defaultString, const wxString& ini)
-		: SjLittleStringSel(name, string, defaultString, ini) { }
-	void OnFeedback() { g_mainFrame->m_browser->RefreshAll(); }
-};
-
-
 void SjLibraryModule::GetLittleOptions(SjArrayLittleOption& lo)
 {
 	SjLittleOption::SetSection(_("Track list"));
-
-	lo.Add(new SjLittleLibStringSel(wxString::Format(_("Abbreviation for \"%s\""), _("Composer")),         &m_abbrComposer,  _("C:"), wxT("library/abbrComposer") ));
-	lo.Add(new SjLittleLibStringSel(wxString::Format(_("Abbreviation for \"%s\""), _("Original artist")), &m_abbrOrgArtist, _("O:"), wxT("library/abbrOrgArtist")));
 
 	lo.Add(new SjLittleLibBit(this, _("Show double tracks"),        SJ_LIB_SHOWDOUBLETRACKS));
 	lo.Add(new SjLittleLibBit(this, _("Show track number"),         SJ_LIB_SHOWTRACKNR));
@@ -465,8 +453,6 @@ void SjLibraryModule::LoadSettings()
 	m_omitArtist.Init       ( config->Read(wxT("library/omitArtistWords"), DEFAULT_OMIT_ARTISTS) );
 	m_omitAlbum.Init        ( config->Read(wxT("library/omitAlbumWords"), DEFAULT_OMIT_ALBUMS) );
 	m_coverFinder.Init      ( config->Read(wxT("library/coverKeywords"), DEFAULT_COVER_KEYWORDS) );
-	m_abbrComposer          = config->Read(wxT("library/abbrComposer"), _("C:"));
-	m_abbrOrgArtist         = config->Read(wxT("library/abbrOrgArtist"), _("O:"));
 
 	if( m_sort < 0 || m_sort >= SJ_LIBSORT_COUNT ) m_sort = SJ_LIBSORT_ARTIST_YEAR_ALBUM;
 }
@@ -3481,7 +3467,7 @@ SjCol* SjLibraryModule::GetCol__(long dbAlbumIndex, long virtualAlbumIndex, bool
 			        &&  trackOrgArtistName.CmpNoCase(albumArtistName)!=0
 			        &&  trackOrgArtistName.CmpNoCase(trackLeadArtistName)!=0 )
 			{
-				trackRow->m_textm += wxT(" (") + m_abbrOrgArtist + wxT(" ") + trackOrgArtistName + wxT(")");
+				trackRow->m_textm += wxT(" (") + wxString(_("O:"))/*abbreviation for "Original artist:"*/ + wxT(" ") + trackOrgArtistName + wxT(")");
 			}
 
 			if(  (m_flags&SJ_LIB_SHOWCOMPOSERNAME)
@@ -3490,7 +3476,7 @@ SjCol* SjLibraryModule::GetCol__(long dbAlbumIndex, long virtualAlbumIndex, bool
 			        &&  trackComposerName.CmpNoCase(trackLeadArtistName)!=0
 			        &&  trackComposerName.CmpNoCase(trackOrgArtistName)!=0 )
 			{
-				trackRow->m_textm += wxT(" (") + m_abbrComposer + wxT(" ") + trackComposerName + wxT(")");
+				trackRow->m_textm += wxT(" (") + wxString(_("C:"))/*abbreviation for "Composer:"*/ + wxT(" ") + trackComposerName + wxT(")");
 			}
 
 			if(  (m_flags&SJ_LIB_SHOWGENRE)

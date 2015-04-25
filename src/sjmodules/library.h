@@ -224,7 +224,6 @@ private:
 	SjOmitWords     m_omitAlbum;
 
 	long            m_flags;
-	wxString        m_abbrComposer, m_abbrOrgArtist;
 
 	bool            m_deepUpdate;
 	unsigned long   m_updateStartingTime; // the DOS timestamp the update process stated
