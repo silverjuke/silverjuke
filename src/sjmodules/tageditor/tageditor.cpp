@@ -139,11 +139,10 @@ SjTagEditorDlg::SjTagEditorDlg(wxWindow* parent, bool multiEdit)
 	SetSizer(sizer1);
 
 	m_dlgNotebook = new wxNotebook(this, IDC_NOTEBOOK, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN);
-	//m_dlgNotebook->SetImageList(g_tools->GetIconlist(FALSE)); -- we do not use images in tabs, don't do it here
 
 	wxNotebook* notebookSizer = m_dlgNotebook;
 
-	m_dlgNotebook->AddPage(CreateTitlePage(m_dlgNotebook), _("Edit track")/* , FALSE, SJ_ICON_EDIT -- we do not use images in tabs, don't do it here */);
+	m_dlgNotebook->AddPage(CreateTitlePage(m_dlgNotebook), _("Edit track"));
 	m_dlgNotebook->AddPage(CreateInfoPage(m_dlgNotebook),  _("Info"));
 
 	sizer1->Add(notebookSizer, 1, wxALL|wxGROW, SJ_DLG_SPACE);

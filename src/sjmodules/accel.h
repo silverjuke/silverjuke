@@ -51,7 +51,6 @@ public:
 	// command flages
 	#define         SJA_MAIN                    0x0001
 	#define         SJA_SETTINGS                0x0002
-	#define         SJA_MYMUSIC                 0x0004
 	#define         SJA_ART                     0x0008
 	#define         SJA_EDIT                    0x0020
 	#define         SJA_KIOSKSETTINGS           0x0040
@@ -65,9 +64,6 @@ public:
 	#define         SJA_3P                  0x00040000  // add "..." to m_name
 	#define         SJA_UNEDITABLE          0x00080000
 	long            m_flags;
-
-	// use a bitmap in the menu for this command?
-	SjIcon          m_icon;
 
 	// is this command just a link to another command?
 	int             m_linkId;
@@ -120,8 +116,6 @@ public:
 	wxString        GetCmdNameById      (int id, bool shortName=FALSE) { int index=CmdId2CmdIndex(id); if(index) { return GetCmdNameByIndex(index, shortName); } else { return wxEmptyString; } }
 
 	// misc. settings, public read
-	#define         was_SJ_ACCEL_SHOW_MENU_SHORTCUTS    0x00000001L
-	#define         was_SJ_ACCEL_SHOW_MENU_ICONS        0x00000002L
 	#define         SJ_ACCEL_CONTENT_DRAG               0x00000004L
 	#define         SJ_ACCEL_ASK_ON_MULTI_ENQUEUE       0x00000008L
 	#define         SJ_ACCEL_ASK_ON_CLEAR_PLAYLIST      0x00000010L
@@ -164,12 +158,12 @@ protected:
 	void            LastUnload          ();
 
 private:
-#define         SJ_ACCEL_MAX_CMDS 280
+	#define         SJ_ACCEL_MAX_CMDS 280
 	SjAccelCmd      m_cmd[SJ_ACCEL_MAX_CMDS];
 	int             m_cmdCount;
 	int             m_totalUserKeyCount; // all keys in all commands
 
-	void            OrgCmd              (const wxString& name, int id, long flags, SjIcon icon=SJ_ICON_EMPTY, int linkId=0);
+	void            OrgCmd              (const wxString& name, int id, long flags, int linkId=0);
 	void            OrgKey              (long orgModifier, long orgKeycode);
 	wxString        GetReadableShortcutsByPtr (const long userKey[], int userKeyCount, long flags) const;
 	SjLLHash        m_cmdId2CmdIndex,
@@ -202,17 +196,15 @@ extern SjAccelModule* g_accelModule;
 class SjMenu : public wxMenu
 {
 public:
-			SjMenu(long showShortcuts);
+			SjMenu          (long showShortcuts);
 
-	void    Append          (int id, const wxString& s=wxEmptyString) {	wxMenu::Append(CreateMenuItem(id, s, wxITEM_NORMAL, NULL, SJ_ICON_EMPTY, TRUE));	}
-	void    Append          (int id, const wxString& s, SjIcon icon)  { wxMenu::Append(CreateMenuItem(id, s, wxITEM_NORMAL, NULL, icon, FALSE)); }
-	void    Append          (int id, const wxString& s, wxMenu* m)    { wxMenu::Append(CreateMenuItem(id, s, wxITEM_NORMAL, m, SJ_ICON_EMPTY, TRUE)); }
-	void    Append          (int id, const wxString& s, wxMenu* m, SjIcon icon)	{ wxMenu::Append(CreateMenuItem(id, s, wxITEM_NORMAL, m, icon, FALSE)); }
-	void    AppendCheckItem (int id, const wxString& s=wxEmptyString) { wxMenu::Append(CreateMenuItem(id, s, wxITEM_CHECK, NULL, SJ_ICON_EMPTY, TRUE)); }
-	void    AppendRadioItem (int id, const wxString& s=wxEmptyString) { wxMenu::Append(CreateMenuItem(id, s, wxITEM_RADIO, NULL, SJ_ICON_EMPTY, TRUE)); }
-	void    Insert          (size_t pos, int id, const wxString& s=wxEmptyString) { wxMenu::Insert(pos, CreateMenuItem(id, s, wxITEM_NORMAL, NULL, SJ_ICON_EMPTY, TRUE)); }
-	void    Insert          (size_t pos, int id, const wxString& s, wxMenu* m, SjIcon icon)	{ wxMenu::Insert(pos, CreateMenuItem(id, s, wxITEM_NORMAL, m, icon, FALSE)); }
-	void    InsertCheckItem (size_t pos, int id, const wxString& s=wxEmptyString) { wxMenu::Insert(pos, CreateMenuItem(id, s, wxITEM_CHECK, NULL, SJ_ICON_EMPTY, TRUE)); }
+	void    Append          (int id, const wxString& s=wxEmptyString) {	wxMenu::Append(CreateMenuItem(id, s, wxITEM_NORMAL, NULL));	}
+	void    Append          (int id, const wxString& s, wxMenu* m)    { wxMenu::Append(CreateMenuItem(id, s, wxITEM_NORMAL, m)); }
+	void    AppendCheckItem (int id, const wxString& s=wxEmptyString) { wxMenu::Append(CreateMenuItem(id, s, wxITEM_CHECK, NULL)); }
+	void    AppendRadioItem (int id, const wxString& s=wxEmptyString) { wxMenu::Append(CreateMenuItem(id, s, wxITEM_RADIO, NULL)); }
+	void    Insert          (size_t pos, int id, const wxString& s=wxEmptyString) { wxMenu::Insert(pos, CreateMenuItem(id, s, wxITEM_NORMAL, NULL)); }
+	void    Insert          (size_t pos, int id, const wxString& s, wxMenu* m)	{ wxMenu::Insert(pos, CreateMenuItem(id, s, wxITEM_NORMAL, m)); }
+	void    InsertCheckItem (size_t pos, int id, const wxString& s=wxEmptyString) { wxMenu::Insert(pos, CreateMenuItem(id, s, wxITEM_CHECK, NULL)); }
 	long    ShowShortcuts   (long showShortcuts) { long old = m_showShortcuts; m_showShortcuts = showShortcuts; return old; }
 	long    ShowShortcuts   () const { return m_showShortcuts; }
 	void    SetLabel        (int id, const wxString& newLabel);
@@ -221,9 +213,7 @@ public:
 	void    Clear           ();
 
 private:
-	wxMenuItem*     CreateMenuItem      (int id, const wxString& str,
-	                                     wxItemKind kind, wxMenu* subMenu,
-	                                     SjIcon icon, bool useDefaultIcon);
+	wxMenuItem*     CreateMenuItem      (int id, const wxString& str, wxItemKind kind, wxMenu* subMenu);
 	long            m_showShortcuts;
 	bool            m_underscores[256];
 };

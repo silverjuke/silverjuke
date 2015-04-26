@@ -91,87 +91,63 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Show covers"), IDT_WORKSPACE_SHOW_COVERS,SJA_MAIN); OrgKey(wxACCEL_ALT, 'C');
 
 	// common commands - not all commands have predefined shortcuts!
-	OrgCmd(_("Open playlist"),                 IDT_OPEN_FILES, SJA_MAIN|SJA_3P, SJ_ICON_MUSIC_FILE); OrgKey(wxACCEL_CTRL, 'O');
-	OrgCmd(_("Unqueue marked tracks"),         IDO_UNQUEUE_MARKED,  SJA_MAIN);
-	OrgCmd(_("Unqueue all but marked tracks"), IDO_UNQUEUE_ALL_BUT_MARKED, SJA_MAIN);
-	OrgCmd(_("Clear playlist"),                IDT_UNQUEUE_ALL, SJA_MAIN);
-	OrgCmd(_("Save playlist"),                 IDT_SAVE_PLAYLIST, SJA_MAIN | SJA_3P);                OrgKey(wxACCEL_CTRL, 'S');
-	OrgCmd(_("Paste"),                         IDO_PASTE, SJA_MAIN);                                 OrgKey(wxACCEL_CTRL, 'V'); OrgKey(wxACCEL_SHIFT, WXK_INSERT);
-	OrgCmd(_("Paste"),                         IDO_PASTE_USING_COORD, 0, SJ_ICON_EMPTY, IDO_PASTE);
-	OrgCmd(_("Music selection"),               IDT_ADV_SEARCH, SJA_MAIN | SJA_3P, SJ_ICON_ADVSEARCH); OrgKey(wxACCEL_CTRL, 'F');
-	OrgCmd(_("Jukebox settings"),              IDT_SETTINGS_JUKEBOX, SJA_MAIN| SJA_3P, SJ_ICON_SETTINGSDIALOG);
-		OrgKey(wxACCEL_ALT, 'P');
-		OrgKey(wxACCEL_ALT, WXK_RETURN);
-	OrgCmd(_("Advanced settings"), IDO_SETTINGS_ADV, SJA_MAIN | SJA_3P, SJ_ICON_EMPTY);
-	OrgCmd(wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME), IDT_QUIT, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'Q');
-		OrgKey(wxACCEL_ALT, 'X');
-	OrgCmd(_("Update music library"), IDT_UPDATE_INDEX, SJA_MAIN | SJA_MYMUSIC);
-		OrgKey(0, WXK_F5);
-	OrgCmd(_("Recreate music library"), IDT_DEEP_UPDATE_INDEX, SJA_MAIN | SJA_MYMUSIC);
-		OrgKey(wxACCEL_SHIFT, WXK_F5);
-	OrgCmd(_("Enqueue tracks"), IDT_ENQUEUE_LAST, SJA_MAIN | SJA_ADVSEARCH, SJ_ICON_PLAY);
-		OrgKey(wxACCEL_CTRL, 'E');
-	OrgCmd(_("Play tracks next"), IDT_ENQUEUE_NEXT, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'N');
-	OrgCmd(_("Play tracks now"), IDT_ENQUEUE_NOW, SJA_MAIN | SJA_ADVSEARCH);
-		OrgKey(wxACCEL_CTRL, 'P');
-	OrgCmd(_("Double click play tracks at once"), IDT_PLAY_NOW_ON_DBL_CLICK, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'D');
-	OrgCmd(_("Remove played tracks from queue"), IDT_TOGGLE_REMOVE_PLAYED, SJA_MAIN);
-	OrgCmd(_("Unqueue tracks"), IDT_UNQUEUE, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'U');
-	OrgCmd(_("More from current album"), IDT_MORE_FROM_CURR_ALBUM, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'J');
-	OrgCmd(_("More from current artist"), IDT_MORE_FROM_CURR_ARTIST, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'K');
-	OrgCmd(_("Edit tracks/Get info"), IDM_EDITSELECTION, SJA_MAIN | SJA_EDIT | SJA_3P, SJ_ICON_EDIT);
-		OrgKey(wxACCEL_CTRL, 'I');
-	OrgCmd(_("Play"), IDT_PLAY, SJA_MAIN);
-		OrgKey(0, WXK_PAUSE);
-		OrgKey(0, WXK_SPACE); // if we move this above WXK_PAUSE, entering spaced in the search field will fail - why?
-	OrgCmd(_("Pause"), IDT_PAUSE, SJA_UNEDITABLE); // same shortcut as IDT_PLAY
-	OrgCmd(_("Stop"), IDT_STOP, SJA_MAIN);
-		OrgKey(wxACCEL_SHIFT, WXK_SPACE);
-	OrgCmd(_("Stop after this track"), IDT_STOP_AFTER_THIS_TRACK, SJA_MAIN);
-	OrgCmd(_("Stop after each track"), IDT_STOP_AFTER_EACH_TRACK, SJA_MAIN);
-	OrgCmd(_("Previous track"), IDT_PREV, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, WXK_LEFT);
-	OrgCmd(_("Next track"), IDT_NEXT, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, WXK_RIGHT);
-	OrgCmd(_("Seek backward"), IDT_SEEK_BWD, SJA_MAIN);
-	OrgCmd(_("Seek forward"), IDT_SEEK_FWD, SJA_MAIN);
-	OrgCmd(_("Fade to next"), IDT_FADE_TO_NEXT, SJA_MAIN);
-	OrgCmd(_("Volume up"), IDT_MAIN_VOL_UP, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, WXK_UP);
-	OrgCmd(_("Volume down"), IDT_MAIN_VOL_DOWN, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, WXK_DOWN);
-	OrgCmd(_("Mute"), IDT_MAIN_VOL_MUTE, SJA_MAIN);
-	OrgCmd(_("Shuffle"), IDT_SHUFFLE, SJA_MAIN);
-	OrgCmd(_("Repeat playlist"), IDT_REPEAT, SJA_MAIN);
-	OrgCmd(_("Reaload skin"), IDO_DEBUGSKIN_RELOAD, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL|wxACCEL_SHIFT, 'R');
-	OrgCmd(_("Video screen"), IDT_START_VIS, SJA_MAIN);
-		OrgKey(0, WXK_F2);
-	OrgCmd(_("Smooth"), IDO_SMOOTH, SJA_MAIN | SJA_ART );
-	OrgCmd(_("Toggle time mode"), IDT_TOGGLE_TIME_MODE, SJA_MAIN);
-	OrgCmd(_("Select all"), IDO_SELECTALL, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'A');
-	OrgCmd(_("Zoom in"), IDT_ZOOM_IN, SJA_MAIN);
-		OrgKey(0, WXK_ADD);
-	OrgCmd(_("Zoom out"), IDT_ZOOM_OUT, SJA_MAIN);
-		OrgKey(0, WXK_SUBTRACT);
-	OrgCmd(_("Normal zoom"), IDT_ZOOM_NORMAL, SJA_MAIN);
-		OrgKey(0, WXK_MULTIPLY);
-	OrgCmd(_("Always on top"), IDT_ALWAYS_ON_TOP, SJA_MAIN);
-	OrgCmd(_("Show file"), IDM_EXPLORE, SJA_MAIN | SJA_MYMUSIC | SJA_ART);
-	OrgCmd(_("Kiosk mode"), IDT_TOGGLE_KIOSK, SJA_MAIN | SJA_KIOSKSETTINGS);
-		OrgKey(0, WXK_F11);
-	OrgCmd(_("Go to current track"), IDT_GOTO_CURR, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'T');
-	OrgCmd(_("Go to marked track"), IDO_GOTO_CURR_MARK, SJA_MAIN | SJA_UNEDITABLE); // edit may be possible but does not make much sense as marking tracks in the display is very temporary and mostly only possible using the mouse+context menu
-	OrgCmd(_("Go to random album"), IDT_WORKSPACE_GOTO_RANDOM, SJA_MAIN);
-		OrgKey(wxACCEL_CTRL, 'R');
+	OrgCmd(_("Open playlist"),                  IDT_OPEN_FILES,            SJA_MAIN|SJA_3P); OrgKey(wxACCEL_CTRL, 'O');
+	OrgCmd(_("Unqueue marked tracks"),          IDO_UNQUEUE_MARKED,        SJA_MAIN);
+	OrgCmd(_("Unqueue all but marked tracks"),  IDO_UNQUEUE_ALL_BUT_MARKED,SJA_MAIN);
+	OrgCmd(_("Clear playlist"),                 IDT_UNQUEUE_ALL,           SJA_MAIN);
+	OrgCmd(_("Save playlist"),                  IDT_SAVE_PLAYLIST,         SJA_MAIN|SJA_3P); OrgKey(wxACCEL_CTRL, 'S');
+	OrgCmd(_("Paste"),                          IDO_PASTE,                 SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'V'); OrgKey(wxACCEL_SHIFT, WXK_INSERT);
+	OrgCmd(_("Paste"),                          IDO_PASTE_USING_COORD,     0, IDO_PASTE);
+	OrgCmd(_("Music selection"),                IDT_ADV_SEARCH,            SJA_MAIN|SJA_3P); OrgKey(wxACCEL_CTRL, 'F');
+	OrgCmd(_("Jukebox settings"),               IDT_SETTINGS_JUKEBOX,      SJA_MAIN|SJA_3P); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
+	OrgCmd(_("Advanced settings"),              IDO_SETTINGS_ADV,          SJA_MAIN|SJA_3P);
+	OrgCmd(wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME),
+	                                            IDT_QUIT,                  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'Q'); OrgKey(wxACCEL_ALT, 'X');
+	OrgCmd(_("Update music library"),           IDT_UPDATE_INDEX,          SJA_MAIN);        OrgKey(0, WXK_F5);
+	OrgCmd(_("Recreate music library"),         IDT_DEEP_UPDATE_INDEX,     SJA_MAIN);        OrgKey(wxACCEL_SHIFT, WXK_F5);
+	OrgCmd(_("Enqueue tracks"),                 IDT_ENQUEUE_LAST,          SJA_MAIN|SJA_ADVSEARCH);
+	                                                                                         OrgKey(wxACCEL_CTRL, 'E');
+	OrgCmd(_("Play tracks next"),               IDT_ENQUEUE_NEXT,          SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'N');
+	OrgCmd(_("Play tracks now"),                IDT_ENQUEUE_NOW,           SJA_MAIN|SJA_ADVSEARCH);
+																							 OrgKey(wxACCEL_CTRL, 'P');
+	OrgCmd(_("Double click play tracks at once"),
+	                                            IDT_PLAY_NOW_ON_DBL_CLICK, SJA_MAIN);		 OrgKey(wxACCEL_CTRL, 'D');
+	OrgCmd(_("Remove played tracks from queue"),IDT_TOGGLE_REMOVE_PLAYED,  SJA_MAIN);
+	OrgCmd(_("Unqueue tracks"),                 IDT_UNQUEUE,               SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'U');
+	OrgCmd(_("More from current album"),        IDT_MORE_FROM_CURR_ALBUM,  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'J');
+	OrgCmd(_("More from current artist"),       IDT_MORE_FROM_CURR_ARTIST, SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'K');
+	OrgCmd(_("Edit tracks/Get info"),           IDM_EDITSELECTION,         SJA_MAIN|SJA_EDIT|SJA_3P);
+																					         OrgKey(wxACCEL_CTRL, 'I');
+	OrgCmd(_("Play"),                           IDT_PLAY,                  SJA_MAIN);        OrgKey(0, WXK_PAUSE); OrgKey(0, WXK_SPACE); // if we move this above WXK_PAUSE, entering spaced in the search field will fail - why?
+	OrgCmd(_("Pause"),                          IDT_PAUSE, SJA_UNEDITABLE); // same shortcut as IDT_PLAY
+	OrgCmd(_("Stop"),                           IDT_STOP,                  SJA_MAIN);        OrgKey(wxACCEL_SHIFT, WXK_SPACE);
+	OrgCmd(_("Stop after this track"),          IDT_STOP_AFTER_THIS_TRACK, SJA_MAIN);
+	OrgCmd(_("Stop after each track"),          IDT_STOP_AFTER_EACH_TRACK, SJA_MAIN);
+	OrgCmd(_("Previous track"),                 IDT_PREV,                  SJA_MAIN);        OrgKey(wxACCEL_CTRL, WXK_LEFT);
+	OrgCmd(_("Next track"),                     IDT_NEXT,                  SJA_MAIN);        OrgKey(wxACCEL_CTRL, WXK_RIGHT);
+	OrgCmd(_("Seek backward"),                  IDT_SEEK_BWD,              SJA_MAIN);
+	OrgCmd(_("Seek forward"),                   IDT_SEEK_FWD,              SJA_MAIN);
+	OrgCmd(_("Fade to next"),                   IDT_FADE_TO_NEXT,          SJA_MAIN);
+	OrgCmd(_("Volume up"),                      IDT_MAIN_VOL_UP,           SJA_MAIN);        OrgKey(wxACCEL_CTRL, WXK_UP);
+	OrgCmd(_("Volume down"),                    IDT_MAIN_VOL_DOWN,         SJA_MAIN);        OrgKey(wxACCEL_CTRL, WXK_DOWN);
+	OrgCmd(_("Mute"),                           IDT_MAIN_VOL_MUTE,         SJA_MAIN);
+	OrgCmd(_("Shuffle"),                        IDT_SHUFFLE,               SJA_MAIN);
+	OrgCmd(_("Repeat playlist"),                IDT_REPEAT,                SJA_MAIN);
+	OrgCmd(_("Reaload skin"),                   IDO_DEBUGSKIN_RELOAD,      SJA_MAIN);        OrgKey(wxACCEL_CTRL|wxACCEL_SHIFT, 'R');
+	OrgCmd(_("Video screen"),                   IDT_START_VIS,             SJA_MAIN);        OrgKey(0, WXK_F2);
+	OrgCmd(_("Smooth"),                         IDO_SMOOTH,                SJA_MAIN|SJA_ART);
+	OrgCmd(_("Toggle time mode"),               IDT_TOGGLE_TIME_MODE,      SJA_MAIN);
+	OrgCmd(_("Select all"),                     IDO_SELECTALL,             SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'A');
+	OrgCmd(_("Zoom in"),                        IDT_ZOOM_IN,               SJA_MAIN);        OrgKey(0, WXK_ADD);
+	OrgCmd(_("Zoom out"),                       IDT_ZOOM_OUT,              SJA_MAIN);        OrgKey(0, WXK_SUBTRACT);
+	OrgCmd(_("Normal zoom"),                    IDT_ZOOM_NORMAL,           SJA_MAIN);        OrgKey(0, WXK_MULTIPLY);
+	OrgCmd(_("Always on top"),                  IDT_ALWAYS_ON_TOP,         SJA_MAIN);
+	OrgCmd(_("Show file"),                      IDM_EXPLORE,               SJA_MAIN|SJA_ART);
+	OrgCmd(_("Kiosk mode"),                     IDT_TOGGLE_KIOSK,          SJA_MAIN|SJA_KIOSKSETTINGS);
+	                                                                                         OrgKey(0, WXK_F11);
+	OrgCmd(_("Go to current track"),            IDT_GOTO_CURR,             SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'T');
+	OrgCmd(_("Go to marked track"),             IDO_GOTO_CURR_MARK,        SJA_MAIN|SJA_UNEDITABLE); // edit may be possible but does not make much sense as marking tracks in the display is very temporary and mostly only possible using the mouse+context menu
+	OrgCmd(_("Go to random album"),             IDT_WORKSPACE_GOTO_RANDOM, SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'R');
 
 	{
 		wxString descr = _("Go to \"%s\"");
@@ -183,7 +159,7 @@ bool SjAccelModule::FirstLoad()
 	}
 
 	OrgCmd(_("Go to previous letter"), IDT_WORKSPACE_GOTO_PREV_AZ, SJA_MAIN);
-	OrgCmd(_("Go to next letter"), IDT_WORKSPACE_GOTO_NEXT_AZ, SJA_MAIN);
+	OrgCmd(_("Go to next letter"),     IDT_WORKSPACE_GOTO_NEXT_AZ, SJA_MAIN);
 
 	for( int idtCredit = IDT_ADD_CREDIT_01; idtCredit <= IDT_ADD_CREDIT_16; idtCredit++ )
 	{
@@ -232,8 +208,8 @@ bool SjAccelModule::FirstLoad()
 
 	// art editor shortcuts
 
-	OrgCmd(_("Open file"),                IDM_OPENCOVER,          SJA_ART|SJA_3P, SJ_ICON_EMPTY, IDT_OPEN_FILES); /*yeah, "File", not "Cover" as this appears in a submenu as "Open cover -> Open file" submenu*/
-	OrgCmd(_("Save cover"),                IDM_SAVECOVER,         SJA_ART|SJA_3P, SJ_ICON_EMPTY, IDT_SAVE_PLAYLIST);
+	OrgCmd(_("Open file"),                 IDM_OPENCOVER,         SJA_ART|SJA_3P, IDT_OPEN_FILES); /*yeah, "File", not "Cover" as this appears in a submenu as "Open cover -> Open file" submenu*/
+	OrgCmd(_("Save cover"),                IDM_SAVECOVER,         SJA_ART|SJA_3P, IDT_SAVE_PLAYLIST);
 	OrgCmd(_("Rotate left"),               IDM_ROTATELEFT,        SJA_ART);         OrgKey(0, 'L');
 	OrgCmd(_("Rotate right"),              IDM_ROTATERIGHT,       SJA_ART);         OrgKey(0, 'R');
 	OrgCmd(_("Flip horizontally"),         IDM_FLIPHORZ,          SJA_ART);         OrgKey(0, 'H');
@@ -906,14 +882,13 @@ SjAccelModule::SjAccelModule(SjInterfaceBase* interf)
 }
 
 
-void SjAccelModule::OrgCmd(const wxString& name, int id, long flags, SjIcon icon, int linkId)
+void SjAccelModule::OrgCmd(const wxString& name, int id, long flags, int linkId)
 {
 	wxASSERT(m_cmdCount<SJ_ACCEL_MAX_CMDS);
 
 	m_cmd[m_cmdCount].m_name        = name;
 	m_cmd[m_cmdCount].m_id          = id;
 	m_cmd[m_cmdCount].m_flags       = flags;
-	m_cmd[m_cmdCount].m_icon        = icon;
 	m_cmd[m_cmdCount].m_linkId      = linkId;
 	m_cmd[m_cmdCount].m_userKeyCount= 0;
 	m_cmd[m_cmdCount].m_orgKeyCount = 0;
@@ -1309,8 +1284,7 @@ SjMenu::SjMenu(long showShortcuts)
 }
 
 
-wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind kind, wxMenu* subMenu,
-                                   SjIcon icon, bool useDefaultIcon)
+wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind kind, wxMenu* subMenu)
 {
 	// get information about this menu item from the accelerator table
 	wxString text(text__);
@@ -1319,10 +1293,6 @@ wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind ki
 	if( cmdIndex )
 	{
 		SjAccelCmd* cmd = &g_accelModule->m_cmd[cmdIndex];
-		if( icon == SJ_ICON_EMPTY && useDefaultIcon )
-		{
-			icon = cmd->m_icon;
-		}
 
 		if( text.IsEmpty() )
 		{

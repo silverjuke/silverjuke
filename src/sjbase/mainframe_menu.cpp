@@ -157,7 +157,7 @@ void SjMainFrame::InitMainMenu()
 			m_helpMenu->Append(IDO_ABOUT_OPEN_WWW, wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
 			m_helpMenu->Append(IDO_ONLINE_HELP, _("Online help")+wxString(wxT("...")));
 			m_helpMenu->AppendSeparator();
-			m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")), SJ_ICON_SILVERJUKE);
+			m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
 		}
 
 		#ifdef __WXMAC__
@@ -596,7 +596,7 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 	// help
 	if( IsKioskStarted() )
 	{
-		mainMenu.Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")), SJ_ICON_SILVERJUKE);
+		mainMenu.Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
 	}
 }
 
@@ -771,7 +771,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 
 			mainMenu.AppendSeparator();
 
-			mainMenu.Append(IDO_EDITQUEUE, _("Edit tracks/Get info")+wxString(wxT("...")), SJ_ICON_EDIT);
+			mainMenu.Append(IDO_EDITQUEUE, _("Edit tracks/Get info")+wxString(wxT("...")));
 			mainMenu.Enable(IDO_EDITQUEUE, (markedCount>0));
 
 			m_libraryModule->CreateRatingMenu(mainMenu, IDO_RATINGQUEUE00, m_contextMenuClickedUrls);
@@ -788,7 +788,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 			case IDT_DISPLAY_COVER:
 				if( m_player.m_queue.GetCount() )
 				{
-					mainMenu.Append(IDO_DISPLAY_COVER, _("Cover editor"), SJ_ICON_COVER);
+					mainMenu.Append(IDO_DISPLAY_COVER, _("Cover editor"));
 					if( IsAllAvailable() )
 					{
 						mainMenu.Append(IDO_DISPLAY_COVER_EXPLR, _("Show file"));

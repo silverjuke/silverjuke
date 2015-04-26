@@ -441,7 +441,7 @@ void SjViewSettingsPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 		}
 	#endif
 
-	menu.Append(IDC_SKININFO, _("Info..."), SJ_ICON_MODULE);
+	menu.Append(IDC_SKININFO, _("Info..."));
 
 	menu.Append(IDC_SKINEXPLORE, _("Show file"));
 	menu.AppendSeparator();

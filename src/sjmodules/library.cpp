@@ -3935,7 +3935,7 @@ void SjLibraryModule::ShowArtistInfo(int baseId, int clickedId)
 }
 
 
-void SjLibraryModule::CreateRatingMenu(SjMenu& m, int baseId, const wxArrayString& urls, SjIcon icon)
+void SjLibraryModule::CreateRatingMenu(SjMenu& m, int baseId, const wxArrayString& urls)
 {
 	wxSqlt sql;
 
@@ -3959,12 +3959,12 @@ void SjLibraryModule::CreateRatingMenu(SjMenu& m, int baseId, const wxArrayStrin
 		rating /= ratingCount;
 	}
 
-	CreateRatingMenu(m, baseId, icon);
+	CreateRatingMenu(m, baseId);
 	UpdateRatingMenu(m, baseId, rating, trackCount);
 }
 
 
-void SjLibraryModule::CreateRatingMenu(SjMenu& m, int baseId, SjIcon icon)
+void SjLibraryModule::CreateRatingMenu(SjMenu& m, int baseId)
 {
 	SjMenu* ratingMenu = new SjMenu(m.ShowShortcuts());
 	ratingMenu->AppendRadioItem(baseId+1, SJ_RATING_CHARS_DLG);
@@ -3976,8 +3976,7 @@ void SjLibraryModule::CreateRatingMenu(SjMenu& m, int baseId, SjIcon icon)
 
 	m.Append(baseId+6,
 	         _("Rating"),
-	         ratingMenu,
-	         icon);
+	         ratingMenu);
 }
 
 

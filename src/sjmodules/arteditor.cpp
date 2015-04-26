@@ -914,7 +914,7 @@ void SjArtEditorModule::CreateArtMenu(
 			submenu->Append(IDM_OPENCOVER, _("Browse")+wxString(wxT("...")));
 
 		}
-		menu.Append(0, _("Select cover"), submenu, SJ_ICON_COVER);
+		menu.Append(0, _("Select cover"), submenu);
 
 		// "covers on the web"
 		submenu = new SjMenu(showShortcuts);

@@ -158,8 +158,8 @@ public:
 	// rating/artist info handling
 	void            CreateMenu          (SjMenu* enqueueMenu, SjMenu* editMenu, bool createMainMenu=FALSE);
 	void            UpdateMenuBar       ();
-	void            CreateRatingMenu    (SjMenu&, int baseId, const wxArrayString& urls, SjIcon icon=SJ_ICON_EMPTY);
-	void            CreateRatingMenu    (SjMenu&, int baseId, SjIcon icon=SJ_ICON_EMPTY);
+	void            CreateRatingMenu    (SjMenu&, int baseId, const wxArrayString& urls);
+	void            CreateRatingMenu    (SjMenu&, int baseId);
 	void            UpdateRatingMenu    (SjMenu&, int baseId, long rating, long trackCount);
 
 	bool            SetRating           (const wxArrayString& urls, long rating);

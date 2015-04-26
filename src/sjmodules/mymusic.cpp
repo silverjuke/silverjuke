@@ -276,9 +276,6 @@ SjMyMusicConfigPage::SjMyMusicConfigPage(SjMyMusicModule* myMusicModule, wxWindo
 
 	// init data
 	InitPage(g_tools->m_config->Read(wxT("settings/selSource"), wxT("")));
-
-	// set accelerators
-	SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MYMUSIC));
 }
 
 
@@ -574,7 +571,7 @@ void SjMyMusicConfigPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 			wxASSERT( scannerModule->m_addSourceTypes_.GetCount() == scannerModule->m_addSourceIcons_.GetCount() );
 			for( i = 0; i < scannerModule->m_addSourceTypes_.GetCount(); i++ )
 			{
-				m.Append(IDC_MODULE00+typeCount, scannerModule->m_addSourceTypes_.Item(i)+wxT("..."), (SjIcon)scannerModule->m_addSourceIcons_.Item(i));
+				m.Append(IDC_MODULE00+typeCount, scannerModule->m_addSourceTypes_.Item(i)+wxT("..."));
 
 				typeCount++;
 			}

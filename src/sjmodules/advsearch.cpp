@@ -1829,7 +1829,7 @@ void SjAdvSearchDialog::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 
 	m.AppendSeparator();
 
-	m.Append(wxID_OK, _("Search"), SJ_ICON_ADVSEARCH);
+	m.Append(wxID_OK, _("Search"));
 	m.Append(IDC_ENDADVSEARCH, _("End search"));
 	m.Enable(IDC_ENDADVSEARCH, g_mainFrame->HasAnySearch());
 
