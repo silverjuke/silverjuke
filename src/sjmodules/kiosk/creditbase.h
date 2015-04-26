@@ -42,8 +42,8 @@
 class SjCreditBase
 {
 public:
-	SjCreditBase            ();
-	~SjCreditBase           ();
+	                SjCreditBase            ();
+	                ~SjCreditBase           ();
 
 	long            GetCredit               () { return m_creditCount; }
 

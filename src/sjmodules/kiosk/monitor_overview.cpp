@@ -53,8 +53,8 @@ END_EVENT_TABLE()
 SjMonitorOverview::SjMonitorOverview(wxWindow* parent, int id, long style)
 	: wxWindow(parent, id, wxDefaultPosition, wxDefaultSize, style | wxFULL_REPAINT_ON_RESIZE)
 {
-#define CTRL_WIDTH 320
-#define CTRL_HEIGHT 80
+	#define CTRL_WIDTH 320
+	#define CTRL_HEIGHT 80
 	SetSizeHints(CTRL_WIDTH, CTRL_HEIGHT, -1, -1);
 	SetSize(CTRL_WIDTH, CTRL_HEIGHT);
 
@@ -172,8 +172,8 @@ void SjMonitorOverview::CalcPositions()
 	}
 
 	// avoid too much zooming (looks ugly)
-#define MAX_W 300
-#define MAX_H 300
+	#define MAX_W 300
+	#define MAX_H 300
 	if( scale > 0.0F && geomOverall.width*scale > MAX_W )
 	{
 		scale = float(MAX_W) / float(geomOverall.width);
@@ -237,7 +237,7 @@ void SjMonitorOverview::DoPaint(wxDC& dc__)
 	wxBrush     monitorIconBrush(monitorIconColour);
 	wxPen       monitorIconPen(monitorIconColour);
 
-#define     digitColour *wxWHITE
+	#define     digitColour *wxWHITE
 
 	wxDC* drawDc = &dc__;
 
@@ -306,8 +306,8 @@ void SjMonitorOverview::DoPaint(wxDC& dc__)
 
 void SjMonitorOverview::DrawBg(wxDC& dc, long what, const wxRect& drawRect, bool full)
 {
-#define NUM_COVERS 4
-#define COVER_LINES_DEFINDED 3
+	#define NUM_COVERS 4
+	#define COVER_LINES_DEFINDED 3
 	long lineCounts[COVER_LINES_DEFINDED] = { 5, 7, 6 };
 	float coverW = float(drawRect.width) / float(NUM_COVERS+1);
 	float space = (float(drawRect.width) - coverW*float(NUM_COVERS)) / float(NUM_COVERS+1);

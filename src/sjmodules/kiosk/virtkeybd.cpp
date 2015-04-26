@@ -77,12 +77,12 @@ void SjVirtKeybdTextCtrl::OnMyMouseDown(wxMouseEvent& e)
 		if( topLevel->IsShown()
 		        && topLevel->IsEnabled() )
 		{
-#ifdef __WXMAC__ // if we create the window from within the mouse event on wxMac, it does not stay raised - so do this in a delayed event
-			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_VIRTKEYBDFWD);
-			AddPendingEvent(fwd);
-#else
-			g_virtKeybd->OpenKeybd(this, m_forceForTesting);
-#endif
+			#ifdef __WXMAC__ // if we create the window from within the mouse event on wxMac, it does not stay raised - so do this in a delayed event
+				wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_VIRTKEYBDFWD);
+				AddPendingEvent(fwd);
+			#else
+				g_virtKeybd->OpenKeybd(this, m_forceForTesting);
+			#endif
 		}
 	}
 
@@ -229,13 +229,13 @@ wxString SjVirtKeybdKey::ParseKey(const wxString& key__, const wxString& default
 		if( key.Mid(2).ToLong(&l, 16)
 		        && l >= 0 )
 		{
-#if wxUSE_UNICODE
-			// in ISO8859-1 the "Euro" sign has the code 0x80 where
-			// in Unicode the code is 0x20AC - fix this little incompatibility as the file encoding
-			// is defined to use ISO8859-1.
-			if( l == 0x0080 )
-				l = 0x20AC;
-#endif
+			#if wxUSE_UNICODE
+				// in ISO8859-1 the "Euro" sign has the code 0x80 where
+				// in Unicode the code is 0x20AC - fix this little incompatibility as the file encoding
+				// is defined to use ISO8859-1.
+				if( l == 0x0080 )
+					l = 0x20AC;
+			#endif
 
 			return wxString((wxChar)l);
 		}
@@ -246,11 +246,11 @@ wxString SjVirtKeybdKey::ParseKey(const wxString& key__, const wxString& default
 	}
 	else
 	{
-#if wxUSE_UNICODE
-		// see remark above
-		if( key[0] == 0x0080 )
-			return wxString((wxChar)0x20AC);
-#endif
+		#if wxUSE_UNICODE
+			// see remark above
+			if( key[0] == 0x0080 )
+				return wxString((wxChar)0x20AC);
+		#endif
 
 		return key;
 	}
@@ -1291,7 +1291,7 @@ void SjVirtKeybdFrame::SendKeyEvent(const wxString& key_)
 
 bool SjVirtKeybdFrame::CheckClose(wxWindow* focusWindow)
 {
-#define SJ_VIRTKEYBD_AUTO_CLOSE_MINUTES 3
+	#define SJ_VIRTKEYBD_AUTO_CLOSE_MINUTES 3
 	if( SjTools::GetMsTicks() > m_lastUserInput + SJ_VIRTKEYBD_AUTO_CLOSE_MINUTES*60*1000 )
 	{
 		return true; // close as the keyboard is unused for some minutes
@@ -1309,11 +1309,11 @@ bool SjVirtKeybdFrame::CheckClose(wxWindow* focusWindow)
 	}
 
 	if(
-#ifdef __WXMAC__
-	    m_isActive
-#else
-	    focusWindow == this ||  focusWindow == inputReceiver
-#endif
+		#ifdef __WXMAC__
+			m_isActive
+		#else
+			focusWindow == this ||  focusWindow == inputReceiver
+		#endif
 	)
 	{
 		return false; // keep keyboard
@@ -1691,10 +1691,10 @@ wxCursor SjVirtKeybdModule::GetStandardCursor()
 	}
 	else
 	{
-#ifdef __WXDEBUG__
-		return wxCursor(wxCURSOR_CROSS);
-#else
-		return wxCursor(wxCURSOR_BLANK);
-#endif
+		#ifdef __WXDEBUG__
+			return wxCursor(wxCURSOR_CROSS);
+		#else
+			return wxCursor(wxCURSOR_BLANK);
+		#endif
 	}
 }

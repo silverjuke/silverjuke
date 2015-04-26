@@ -58,9 +58,9 @@ void SjMainFrame::AllocMainMenu()
 	m_helpMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_menuBar->Append(m_helpMenu, _("Help"));
 
-#ifndef __WXMAC__
-	SetMenuBar(m_menuBar);
-#endif
+	#ifndef __WXMAC__
+		SetMenuBar(m_menuBar);
+	#endif
 }
 
 
@@ -655,7 +655,7 @@ void SjMainFrame::CreateSearchMenu(SjMenu& m)
 		iCount = (int)data.GetCount();
 		if( iCount )
 		{
-#define MAX_SEARCH_GENRE_IN_MENU (IDO_SEARCHGENRE999-IDO_SEARCHGENRE000)
+			#define MAX_SEARCH_GENRE_IN_MENU (IDO_SEARCHGENRE999-IDO_SEARCHGENRE000)
 			if( iCount > MAX_SEARCH_GENRE_IN_MENU ) iCount = MAX_SEARCH_GENRE_IN_MENU;
 
 			SjMenu* genreMenu = new SjMenu(m.ShowShortcuts());
@@ -674,7 +674,7 @@ void SjMainFrame::CreateSearchMenu(SjMenu& m)
 		iCount = g_advSearchModule->GetSearchCount();
 		if( iCount )
 		{
-#define MAX_MUSIC_SEL_IN_MENU (IDO_SEARCHMUSICSEL999-IDO_SEARCHMUSICSEL000)
+			#define MAX_MUSIC_SEL_IN_MENU (IDO_SEARCHMUSICSEL999-IDO_SEARCHMUSICSEL000)
 			if( iCount > MAX_MUSIC_SEL_IN_MENU ) iCount = MAX_MUSIC_SEL_IN_MENU;
 
 			SjMenu* advSearchMenu = new SjMenu(m.ShowShortcuts());

@@ -106,7 +106,7 @@ void SjVolumeCalc::AddBuffer(const float* data, long bytes, int freq, int channe
 
 			// sometimes BASS may give me data widely out of range, see http://www.silverjuke.net/forum/viewtopic.php?t=1007
 			// never trust incoming data
-#define TOLERANCE 1.4
+			#define TOLERANCE 1.4
 			if( sample < TOLERANCE*-1 ) sample = TOLERANCE*-1;
 			if( sample > TOLERANCE    ) sample = TOLERANCE;
 
@@ -190,7 +190,7 @@ void SjVolumeCalc::AdjustBuffer(float* data, long bytes, float desiredGain, floa
 		// we do not have a precalculated gain, limit the max gain;
 		// this is to avoid tracks starting MUCH too loud if the track is completely unknown
 		// (the value comes from my quietest album "TOTO IV")
-#define MAX_UNKNOWN_GAIN 3.1F
+		#define MAX_UNKNOWN_GAIN 3.1F
 		if( maxGain > MAX_UNKNOWN_GAIN )
 			maxGain = MAX_UNKNOWN_GAIN;
 	}
@@ -202,7 +202,7 @@ void SjVolumeCalc::AdjustBuffer(float* data, long bytes, float desiredGain, floa
 	if( gain > maxGain )
 		gain = maxGain;
 
-#define MIN_GAIN 0.5F
+	#define MIN_GAIN 0.5F
 	if( gain < MIN_GAIN )
 		gain = MIN_GAIN;
 

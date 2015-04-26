@@ -71,14 +71,14 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 
 	// prepare destination string
 	wxString             destString;
-#define              destChars (16+srcString.Len()*6)   // The worst case of output length is sth. like "Ae1Ae1Ae",
+	#define              destChars (16+srcString.Len()*6)   // The worst case of output length is sth. like "Ae1Ae1Ae",
 	// the numbers increase the string by 9 bytes and the
 	// umlauts by 1 byte; so 2 bytes may get 12 bytes. The
 	// "16" is for prependend "zzzzzzzzzz" and for the nullbyte.
 	wxUChar*             destStart = (wxUChar*)destString.GetWriteBuf(destChars * sizeof(wxChar));
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	wxUChar*             destEnd = destStart + destChars;
-#endif
+	#endif
 	wxUChar*             destPtr = destStart;
 
 	// start conversion
@@ -86,13 +86,13 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 	const wxChar*        norm;
 	while( *srcPtr )
 	{
-#if wxUSE_UNICODE
+		#if wxUSE_UNICODE
 		if( *srcPtr < 1 || *srcPtr > 255 )
 		{
 			norm = NULL;
 		}
 		else
-#endif
+		#endif
 		{
 			norm = s_normaliseIso8859_1[*srcPtr];
 		}
@@ -116,9 +116,9 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 				const wxUChar* numberStart = srcPtr;
 				numberLen = 0;
 				while(
-#if wxUSE_UNICODE
+					#if wxUSE_UNICODE
 				    *srcPtr >= 1 && *srcPtr < 256 &&
-#endif
+					#endif
 				    s_normaliseIso8859_1[*srcPtr]
 				    && *(s_normaliseIso8859_1[*srcPtr]) >= wxT('0')
 				    && *(s_normaliseIso8859_1[*srcPtr]) <= wxT('9') )

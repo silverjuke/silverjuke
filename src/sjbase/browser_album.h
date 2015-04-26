@@ -37,7 +37,7 @@ class SjAlbumBrowser : public SjBrowserBase
 public:
 	// this is a pure-virtual base class defining a browser view
 	// currently implemented classes are SjAlbumBrowser and SjListBrowser
-	SjAlbumBrowser      (SjBrowserWindow*);
+	                SjAlbumBrowser      (SjBrowserWindow*);
 
 	// Exit() is be called sooner than the destructor is called for save-freeing pointers.
 	void            Exit                ();
@@ -87,14 +87,12 @@ private:
 	long            m_scrollY;              // positive or negative
 
 	// selecting
-#define         FOUND_NOTHING       0
-#define         FOUND_ROW           1
-#define         FOUND_COVER_ARROW   2
+	#define         FOUND_NOTHING       0
+	#define         FOUND_ROW           1
+	#define         FOUND_COVER_ARROW   2
 	long            FindRow             (long xPos, long yPos, SjCol** retCol, SjRow** retRow, wxRect* retRect=NULL);
-	bool            FindSelectedRowInView
-	(SjCol**, SjRow**, long* colIndex=NULL, long* rowIndex=NULL, bool findFromTop=TRUE);
-	bool            FindBoundingRowInView
-	(SjCol**, SjRow**, long* colIndex=NULL, long* rowIndex=NULL, bool findFromTop=TRUE);
+	bool            FindSelectedRowInView (SjCol**, SjRow**, long* colIndex=NULL, long* rowIndex=NULL, bool findFromTop=TRUE);
+	bool            FindBoundingRowInView (SjCol**, SjRow**, long* colIndex=NULL, long* rowIndex=NULL, bool findFromTop=TRUE);
 
 	// painting
 	wxBitmap        GetDragNDropBitmap  (int mouseX, int mouseY, wxPoint& retHotspot, wxRect& retSize);
@@ -125,7 +123,7 @@ private:
 	// misc
 	long            m_applColCount;         // the real number of colums available by SjColumnMixer::GetMaskedCol()
 	long            m_applColIndex;         // the SjColumnMixer index of the first column visible
-#define         MAX_COL_COUNT 64        // MAX_COL_COUNT is the max. number of columns visible the SAME time
+	#define         MAX_COL_COUNT 64        // MAX_COL_COUNT is the max. number of columns visible the SAME time
 	SjCol*          m_applCol[MAX_COL_COUNT];
 
 	long            m_visibleColCount;      // the number of COMPLETELY visible columns
@@ -137,7 +135,6 @@ private:
 	SjCol*          m_lastTooltipCol;
 	SjRow*          m_lastTooltipRow;
 };
-
 
 
 #endif // __SJ_BROWSER_ALBUM_H__

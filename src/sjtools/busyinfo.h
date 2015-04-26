@@ -36,8 +36,8 @@ class SjMainFrame;
 class SjBusyInfo : public SjDialog
 {
 public:
-	SjBusyInfo          (wxWindow *parent, const wxString& title=wxT(""), bool canCancel=TRUE, const wxString& questionOnCancel=wxT(""));
-	~SjBusyInfo         ();
+	                SjBusyInfo          (wxWindow *parent, const wxString& title=wxT(""), bool canCancel=TRUE, const wxString& questionOnCancel=wxT(""));
+	                ~SjBusyInfo         ();
 
 	static bool     Set                 (const wxString& object=wxT(""), bool forceUpdateForLongOp = FALSE);
 	static void     SetMainFrame        (SjMainFrame*);
@@ -50,11 +50,9 @@ public:
 	static bool     InYield             () { return (s_dlgOpen || (s_inYield!=0)); }
 
 private:
-	static SjBusyInfo*
-	s_busyInfo;
+	static SjBusyInfo* s_busyInfo;
 	static long     s_busyInfoUsage;
-	static SjMainFrame*
-	s_mainFrame;
+	static SjMainFrame* s_mainFrame;
 	static long     s_inYield;
 	static bool     s_dlgOpen;
 
@@ -76,7 +74,6 @@ private:
 	void            OnCancel            (wxCommandEvent& event);
 	DECLARE_EVENT_TABLE ();
 };
-
 
 
 #endif // __SJ_BUSYINFO_H__

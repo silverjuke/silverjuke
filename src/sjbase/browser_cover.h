@@ -36,7 +36,7 @@ class SjCoverBrowser : public SjBrowserBase
 {
 public:
 	// this is a pure-virtual base class defining a browser view
-	SjCoverBrowser      (SjBrowserWindow*);
+	                SjCoverBrowser      (SjBrowserWindow*);
 
 	// Exit() is be called sooner than the destructor is called for save-freeing pointers.
 	void            Exit                ();
@@ -102,9 +102,9 @@ private:
 
 	long            m_scrollY;              // always positive and always smaller than g_mainFrame->m_currCoverWidth - g_mainFrame->m_currColumnXSpace
 
-#define         FOUND_NOTHING       0
-#define         FOUND_COVER         1
-#define         FOUND_COVER_ARROW   2
+	#define         FOUND_NOTHING       0
+	#define         FOUND_COVER         1
+	#define         FOUND_COVER_ARROW   2
 	long            FindCover           (long xPos, long yPos, SjCol** retCover, wxRect* retRect=NULL);
 
 	void            ToggleView          ();

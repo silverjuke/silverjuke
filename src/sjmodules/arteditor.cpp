@@ -122,11 +122,11 @@ BEGIN_EVENT_TABLE(SjArtEditor, wxFrame)
 	EVT_LEFT_UP             (                       SjArtEditor::OnMouseLeftUp      )
 	EVT_MOUSE_CAPTURE_LOST  (                       SjArtEditor::OnMouseCaptureLost )
 	EVT_MOTION              (                       SjArtEditor::OnMouseMotion      )
-#ifdef __WXMAC__ // the context menu MUST be opened on down on MAC: TODO: We should use EVT_CONTEXT_MENU instead
+	#ifdef __WXMAC__ // the context menu MUST be opened on down on MAC: TODO: We should use EVT_CONTEXT_MENU instead
 	EVT_RIGHT_DOWN          (                       SjArtEditor::OnMouseRight       )
-#else
+	#else
 	EVT_RIGHT_UP            (                       SjArtEditor::OnMouseRight       )
-#endif
+	#endif
 	EVT_PAINT               (                       SjArtEditor::OnPaint            )
 	EVT_ERASE_BACKGROUND    (                       SjArtEditor::OnEraseBackground  )
 	EVT_ACTIVATE            (                       SjArtEditor::OnActivate         )
@@ -151,11 +151,11 @@ SjArtEditor::SjArtEditor(wxWindow* parent,
 	m_currBitmap        = NULL;
 	m_defaultUrl        = defaultUrl;
 	m_isPlaylistCover   = isPlaylistCover;
-#ifdef ALWAYS_CLOSE
+	#ifdef ALWAYS_CLOSE
 	m_stay              = 0;
-#else
+	#else
 	m_stay              = 1000;
-#endif
+	#endif
 	m_cropState         = 0;
 	m_cropRectDrawn     = FALSE;
 

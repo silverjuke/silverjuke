@@ -26,14 +26,11 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_HTTP_H__
 #define __SJ_HTTP_H__
 
 
-
 class SjHttpThread;
-
 
 
 class SjHttp
@@ -69,11 +66,11 @@ private:
 	static wxString ReadFile_           (const wxString& urlStr, wxMBConv*, const SjSSHash* requestHeader, const wxString& postData, int& retHttpStatusCode, SjSSHash** responseHeader);
 	void            ReadReady           ();
 
-#define SJ_HTTP_THREAD
-#ifdef SJ_HTTP_THREAD
-	SjHttpThread*   m_thread;
-	friend class    SjHttpThread;
-#endif
+	#define SJ_HTTP_THREAD
+	#ifdef SJ_HTTP_THREAD
+		SjHttpThread*   m_thread;
+		friend class    SjHttpThread;
+	#endif
 };
 
 

@@ -88,9 +88,9 @@ void SjInternalInterface::LoadModules(SjModuleList& list)
 	list.Append   (new SjVisModule                (this));
 	list.Append   (new SjOscModule                (this));
 	list.Append   (new SjKaraokeModule            (this));
-#if SJ_USE_VIDEO
+	#if SJ_USE_VIDEO
 	list.Append   (new SjVidoutModule             (this));
-#endif
+	#endif
 }
 
 

@@ -124,7 +124,7 @@
 #define MAX_N2                  99
 
 
-#define IDM_DEFAULT                      (IDM_FIRSTPRIVATE+16)
+#define IDM_DEFAULT             (IDM_FIRSTPRIVATE+16)
 
 
 /*******************************************************************************
@@ -178,7 +178,7 @@ SjLibraryConfigPage::SjLibraryConfigPage(SjLibraryModule* module, wxWindow* pare
 	sizer1->Add(staticText, 0, wxALL, SJ_DLG_SPACE);
 
 	// n1
-#define N1_N2_CHOICE_W 50
+	#define N1_N2_CHOICE_W 50
 	wxBoxSizer* sizer2 = new wxBoxSizer(wxHORIZONTAL);
 	sizer1->Add(sizer2, 0/*grow*/, wxLEFT|wxTOP|wxRIGHT|wxGROW, SJ_DLG_SPACE);
 
@@ -998,7 +998,7 @@ wxString SjUpdateAlbum::GetSortStr(const wxString& year) const
 {
 	SjLibraryModule* lib = g_mainFrame->m_libraryModule;
 
-#define SORT_SEP wxT("0z")
+	#define SORT_SEP wxT("0z")
 	// SORT_SEP is needed to separate the artist- from the albumname to allow
 	// differing eg. between "Queen" and "Queen Ida And Her Zydeco Band", see
 	// http://www.silverjuke.net/forum/topic-1573.html
@@ -1277,11 +1277,11 @@ bool SjLibraryModule::CombineTracksToAlbums()
 		SjUpdateAlbumHash::iterator albumsThisStepNode;
 		wxString                    year;
 		int                         FIRST_STEP = (m_flags&SJ_LIB_CREATEALBUMSBY_DIR)? -1 : 0;
-#define                     LAST_STEP 4
+		#define                     LAST_STEP 4
 
-#ifdef __WXDEBUG__
-		SjSLHash usedAlbumUrls;
-#endif
+		#ifdef __WXDEBUG__
+			SjSLHash usedAlbumUrls;
+		#endif
 
 		for( step = FIRST_STEP; step <= LAST_STEP; step++ )
 		{
@@ -1506,10 +1506,10 @@ bool SjLibraryModule::CombineTracksToAlbums()
 
 						// add album
 						allAlbums.Append(currAlbum);
-#ifdef __WXDEBUG__
-						wxASSERT( usedAlbumUrls.Lookup(currAlbum->m_url) == 0 );
-						usedAlbumUrls.Insert(currAlbum->m_url, 1);
-#endif
+						#ifdef __WXDEBUG__
+							wxASSERT( usedAlbumUrls.Lookup(currAlbum->m_url) == 0 );
+							usedAlbumUrls.Insert(currAlbum->m_url, 1);
+						#endif
 					}
 				}
 			}
@@ -1687,13 +1687,13 @@ bool SjLibraryModule::CombineTracksToAlbums()
 			wxString updatedAlbumsStr = updatedAlbums.GetAsString();
 			if( !updatedAlbumsStr.IsEmpty() )
 			{
-#ifdef __WXDEBUG__
-				sql.Query(wxString::Format(wxT("SELECT url FROM albums WHERE NOT (id IN (%s));"), updatedAlbumsStr.c_str()));
-				while( sql.Next() )
-				{
-					wxLogDebug(wxT("unused album: %s"), sql.GetString(0).c_str());
-				}
-#endif
+				#ifdef __WXDEBUG__
+					sql.Query(wxString::Format(wxT("SELECT url FROM albums WHERE NOT (id IN (%s));"), updatedAlbumsStr.c_str()));
+					while( sql.Next() )
+					{
+						wxLogDebug(wxT("unused album: %s"), sql.GetString(0).c_str());
+					}
+				#endif
 				sql.Query(wxT("DELETE FROM albums WHERE NOT (id IN (") + updatedAlbumsStr + wxT("));"));
 			}
 			else
@@ -1832,7 +1832,7 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 	wxString    destDir;
 	bool        copyImage = FALSE;
 
-#define     THUMBNAIL_SIZE 64
+	#define     THUMBNAIL_SIZE 64
 	wxBitmap    thumbnailBitmap;
 
 	wxWindowDisabler disabler1(g_mainFrame);
@@ -1907,13 +1907,13 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 				return FALSE; // no data, however, don't log an error
 			}
 
-#ifdef __WXMAC__ // there seems to be a bug in the drag'n'drop handler of wx - the filenames contain lineend characters!?
-			for( int i = allSrcFilenames.GetCount()-1; i >= 0; i-- )
-			{
-				allSrcFilenames[i].Replace(wxT("\n"), wxT(""));
-				allSrcFilenames[i].Replace(wxT("\r"), wxT(""));
-			}
-#endif
+			#ifdef __WXMAC__ // there seems to be a bug in the drag'n'drop handler of wx - the filenames contain lineend characters!?
+				for( int i = allSrcFilenames.GetCount()-1; i >= 0; i-- )
+				{
+					allSrcFilenames[i].Replace(wxT("\n"), wxT(""));
+					allSrcFilenames[i].Replace(wxT("\r"), wxT(""));
+				}
+			#endif
 
 			srcFilename = allSrcFilenames[0];
 
@@ -2003,7 +2003,7 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 
 		if( !srcFilename.IsEmpty() )
 		{
-#define SHORTEN_LEN 50
+			#define SHORTEN_LEN 50
 			wxString srcDir;
 			SjTools::GetFileNameFromUrl(srcFilename, &srcDir, FALSE, TRUE);
 			destOptions.Add(wxString::Format(_("Yes, leave the image in \"%s\""), SjTools::ShortenUrl(srcDir, SHORTEN_LEN).c_str()));
@@ -2322,11 +2322,11 @@ SjSearchStat SjLibraryModule::SetSearch(const SjSearch& search, bool deepSearch)
 	// query database
 	{
 		wxSqlt  sql;
-#if 0//def __WXDEBUG__
-		wxString queryDebug__(query);
-		queryDebug__.Replace(wxT("%"), wxT("%%"));
-		wxLogDebug(queryDebug__);
-#endif
+		#if 0//def __WXDEBUG__
+				wxString queryDebug__(query);
+				queryDebug__.Replace(wxT("%"), wxT("%%"));
+				wxLogDebug(queryDebug__);
+		#endif
 		sql.Query(query);
 
 		// go through result:
@@ -3360,7 +3360,7 @@ SjCol* SjLibraryModule::GetCol__(long dbAlbumIndex, long virtualAlbumIndex, bool
 		// Avoid double tracks.
 		// The comparison implies the same artis- and albumname
 		// and the same disk- and tracknumber
-#define MS_TOLERANCE 1200
+		#define MS_TOLERANCE 1200
 		if( !(m_flags&SJ_LIB_SHOWDOUBLETRACKS)
 		        && (lastPlaytimeMs==0 || trackPlaytimeMs==0 || (lastPlaytimeMs>trackPlaytimeMs-MS_TOLERANCE && lastPlaytimeMs<trackPlaytimeMs+MS_TOLERANCE))
 		        && lastTrackName == trackName )
@@ -3488,7 +3488,7 @@ SjCol* SjLibraryModule::GetCol__(long dbAlbumIndex, long virtualAlbumIndex, bool
 			if(  (m_flags&SJ_LIB_SHOWCOMMENT)
 			        && !trackComment.IsEmpty() )
 			{
-#define SJ_LIB_SHOWCOMMENT_MAX_CHARS 40
+				#define SJ_LIB_SHOWCOMMENT_MAX_CHARS 40
 
 				trackComment.Replace(wxT("\n"), wxT(" "));
 				trackComment.Replace(wxT("\r"), wxT(" "));
@@ -5061,9 +5061,9 @@ void SjLibraryListView::ChangeOrder(long orderField, bool orderDesc)
 		return;
 	}
 
-#ifdef __WXDEBUG__
-	unsigned long ms = SjTools::GetMsTicks();
-#endif
+	#ifdef __WXDEBUG__
+		unsigned long ms = SjTools::GetMsTicks();
+	#endif
 
 	// get ordering -- we do not add secondary sort criterias as this will slow down the whole stuff
 	// as there is no - combined - index available
@@ -5218,9 +5218,9 @@ void SjLibraryListView::ChangeOrder(long orderField, bool orderDesc)
 	m_currOrderField = orderField;
 	m_currOrderDesc = orderDesc;
 
-#ifdef __WXDEBUG__
-	wxLogDebug(wxT("%lu ms needed to create the view"), (SjTools::GetMsTicks()-ms));
-#endif
+	#ifdef __WXDEBUG__
+		wxLogDebug(wxT("%lu ms needed to create the view"), (SjTools::GetMsTicks()-ms));
+	#endif
 }
 
 

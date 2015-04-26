@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_SETTINGS_H__
 #define __SJ_SETTINGS_H__
-
 
 
 class SjSettingsModule : public SjCommonModule

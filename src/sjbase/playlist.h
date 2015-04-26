@@ -26,14 +26,11 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_PLAYLIST_H__
 #define __SJ_PLAYLIST_H__
 
 
-
 class SjPlaylist;
-
 
 
 class SjPlaylistAddInfo
@@ -52,8 +49,8 @@ public:
 
 	// what add. information are set
 	// misc = track, artist, album and playtime
-#define         SJ_ADDINFO_PLAYCOUNT            0x04
-#define         SJ_ADDINFO_MISC                 0x08
+	#define         SJ_ADDINFO_PLAYCOUNT            0x04
+	#define         SJ_ADDINFO_MISC                 0x08
 	long            m_what;
 
 	// the add. information
@@ -63,10 +60,10 @@ public:
 	long            m_playtimeMs;           // -1 for unknown
 	long            m_playCount;
 
-#define         SJ_PLAYLISTENTRY_ERRONEOUS  0x01
-#define         SJ_PLAYLISTENTRY_AUTOPLAY   0x02
-#define         SJ_PLAYLISTENTRY_PLAYNEXT   0x04 // mainly for the queue
-#define         SJ_PLAYLISTENTRY_MOVED_DOWN 0x20 // delayed due to avoid boredom
+	#define         SJ_PLAYLISTENTRY_ERRONEOUS  0x01
+	#define         SJ_PLAYLISTENTRY_AUTOPLAY   0x02
+	#define         SJ_PLAYLISTENTRY_PLAYNEXT   0x04 // mainly for the queue
+	#define         SJ_PLAYLISTENTRY_MOVED_DOWN 0x20 // delayed due to avoid boredom
 	long            m_flags;
 };
 
@@ -122,9 +119,9 @@ public:
 
 	// make sure, the operator = is NOT used,
 	// always use references for speed reasons instead
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	SjPlaylistEntry&  operator =            (const SjPlaylistEntry& o) { wxASSERT(0); return *this; }
-#endif
+	#endif
 
 private:
 	// private stuff
@@ -201,8 +198,8 @@ public:
 	long            GetUnplayedCount    (long currPos=-1, long maxCnt=-1) const;
 
 	// import / export
-#define         SJ_M3U_NO_EXT       0x01
-#define         SJ_CUE_SHORTPATHS   0x02
+	#define         SJ_M3U_NO_EXT       0x01
+	#define         SJ_CUE_SHORTPATHS   0x02
 	bool            AddFromFileDlg      (wxWindow* parent);
 	bool            AddFromFile         (const wxString& path, long addMax=0, long flags=0);
 	bool            AddFromFile         (wxFSFile*, long addMax=0, long flags=0);
@@ -222,8 +219,7 @@ public:
 	wxString        GetAlbumName        () { LoadOverallNames(); return m_overallAlbumName; }
 
 	wxString        SuggestPlaylistName ();
-	wxString        SuggestPlaylistFileName
-	();
+	wxString        SuggestPlaylistFileName ();
 
 	// Handling relative paths and container URLs.
 	// Container URLs are URLs of files referencing tracks such as *.m3u files.
@@ -250,9 +246,9 @@ private:
 	wxString        m_playlistUrl;
 
 	// cache and overall names
-#define         SJ_CACHE_OVERALL_LOADED     0x01
-#define         SJ_CACHE_LEAD_ARTIST_FINE   0x02
-#define         SJ_CACHE_ALBUM_FINE         0x04
+	#define         SJ_CACHE_OVERALL_LOADED     0x01
+	#define         SJ_CACHE_LEAD_ARTIST_FINE   0x02
+	#define         SJ_CACHE_ALBUM_FINE         0x04
 	int             m_cacheFlags;
 	wxString        m_overallLeadArtistName;
 	wxString        m_overallAlbumName;

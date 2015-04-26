@@ -71,10 +71,10 @@ public:
 
 	// calculate the client rect we need to display the text
 	// the magin is okay for MSW, may be adjusted for other OS
-#define         MARGIN_LEFT         3
-#define         MARGIN_RIGHT        2
-#define         MARGIN_TOP          2
-#define         MARGIN_BOTTOM       0
+	#define         MARGIN_LEFT         3
+	#define         MARGIN_RIGHT        2
+	#define         MARGIN_TOP          2
+	#define         MARGIN_BOTTOM       0
 	void            Adjust              (const wxString& text, wxCoord maxLength);
 
 protected:
@@ -343,9 +343,9 @@ void SjToolTipManager::SetToolTipProvider(SjToolTipProvider* provider)
 		return;
 	}
 
-#ifdef DEBUG_TOOLTIPS
-	wxLogDebug("tooltip provider set to %i", (int)provider);
-#endif
+	#ifdef DEBUG_TOOLTIPS
+		wxLogDebug("tooltip provider set to %i", (int)provider);
+	#endif
 
 	// if another tooltip is already opened, close it
 	if( m_toolTipWindow )
@@ -360,9 +360,9 @@ void SjToolTipManager::SetToolTipProvider(SjToolTipProvider* provider)
 				parent->ClientToScreen(&newRect.x, &newRect.y);
 				if( oldRect == newRect )
 				{
-#ifdef DEBUG_TOOLTIPS
-					wxLogDebug("tooltip provider ignored (a tooltip at the same position is already opened)");
-#endif
+					#ifdef DEBUG_TOOLTIPS
+						wxLogDebug("tooltip provider ignored (a tooltip at the same position is already opened)");
+					#endif
 					return; // nothing to do, this tooltip is already opened
 				}
 			}
@@ -400,7 +400,7 @@ void SjToolTipManager::Notify()
 
 static bool ArePointsNearTogether(const wxPoint& p1, const wxPoint& p2)
 {
-#define DIFF 1
+	#define DIFF 1
 	wxRect r1(p1.x-DIFF, p1.y-DIFF, DIFF*2, DIFF*2);
 	wxRect r2(p2.x-DIFF, p2.y-DIFF, DIFF*2, DIFF*2);
 	return r1.Intersects(r2);
@@ -409,9 +409,9 @@ static bool ArePointsNearTogether(const wxPoint& p1, const wxPoint& p2)
 
 void SjToolTipManager::OpenToolTipWindow()
 {
-#ifdef DEBUG_TOOLTIPS
-	wxLogDebug("try to open tooltip (got timer)...");
-#endif
+	#ifdef DEBUG_TOOLTIPS
+		wxLogDebug("try to open tooltip (got timer)...");
+	#endif
 
 	// - if we're on exit do nothing.
 	// - if the window is already opend, do nothing.
@@ -419,11 +419,11 @@ void SjToolTipManager::OpenToolTipWindow()
 	// - if there is no tool tip provider, do nothing.
 	if( m_toolTipTimer == NULL || m_toolTipWindow || m_toolTipProvider == NULL )
 	{
-#ifdef DEBUG_TOOLTIPS
-		if(m_toolTipTimer==NULL)   wxLogDebug("...failed, no timer");
-		if(m_toolTipWindow)        wxLogDebug("...failed, window already opened");
-		if(m_toolTipProvider==NULL)wxLogDebug("...failed, no tooltip provider");
-#endif
+		#ifdef DEBUG_TOOLTIPS
+			if(m_toolTipTimer==NULL)   wxLogDebug("...failed, no timer");
+			if(m_toolTipWindow)        wxLogDebug("...failed, window already opened");
+			if(m_toolTipProvider==NULL)wxLogDebug("...failed, no tooltip provider");
+		#endif
 		return;
 	}
 
@@ -440,18 +440,18 @@ void SjToolTipManager::OpenToolTipWindow()
 	if( SjDialog::FindTopLevel(parent) != SjDialog::FindTopLevel(focusWindow)
 	        || SjDialog::FindTopLevel(parent) != SjDialog::FindTopLevel(windowUnderMouse) )
 	{
-#ifdef DEBUG_TOOLTIPS
-		wxLogDebug("...failed, bad parent/focus/mouse window combination");
-#endif
+		#ifdef DEBUG_TOOLTIPS
+			wxLogDebug("...failed, bad parent/focus/mouse window combination");
+		#endif
 		m_toolTipProvider = NULL;
 		return;
 	}
 
 	if( ArePointsNearTogether(m_lastMousePosition, mousePosition) )
 	{
-#ifdef DEBUG_TOOLTIPS
-		wxLogDebug("...failed, mouse is near the old position");
-#endif
+		#ifdef DEBUG_TOOLTIPS
+			wxLogDebug("...failed, mouse is near the old position");
+		#endif
 		m_toolTipProvider = NULL;
 		return;
 	}
@@ -461,10 +461,10 @@ void SjToolTipManager::OpenToolTipWindow()
 	wxRect      rect = m_toolTipProvider->GetLocalRect();
 	if( parent == NULL || text.IsEmpty() )
 	{
-#ifdef DEBUG_TOOLTIPS
-		if( parent == NULL ) wxLogDebug("...failed, no parent");
-		if( text.IsEmpty() ) wxLogDebug("...failed, no text");
-#endif
+		#ifdef DEBUG_TOOLTIPS
+			if( parent == NULL ) wxLogDebug("...failed, no parent");
+			if( text.IsEmpty() ) wxLogDebug("...failed, no text");
+		#endif
 		m_toolTipProvider = NULL;
 		return;
 	}
@@ -489,19 +489,19 @@ void SjToolTipManager::OpenToolTipWindow()
 
 	if( m_toolTipWindow == NULL )
 	{
-#ifdef DEBUG_TOOLTIPS
-		wxLogDebug("...failed, tooltip allocation error");
-#endif
+		#ifdef DEBUG_TOOLTIPS
+			wxLogDebug("...failed, tooltip allocation error");
+		#endif
 		m_toolTipProvider = NULL;
 		return;
 	}
 
 	m_toolTipTimer->Start(stayOpenMs, TRUE/*one shot*/);
 
-#ifdef DEBUG_TOOLTIPS
-	wxLogDebug("...tooltip \"%s\" opened [x=%i, y=%i, %ix%i]", text.c_str(),
-	           rect.x, rect.y, rect.width, rect.height);
-#endif
+	#ifdef DEBUG_TOOLTIPS
+		wxLogDebug("...tooltip \"%s\" opened [x=%i, y=%i, %ix%i]", text.c_str(),
+				   rect.x, rect.y, rect.width, rect.height);
+	#endif
 
 	// preserve the focus
 	focusWindow->SetFocus();
@@ -534,9 +534,9 @@ void SjToolTipManager::CloseToolTipWindow()
 				// destroy the window
 				m_toolTipWindow->Destroy();
 				m_toolTipWindow = NULL;
-#ifdef DEBUG_TOOLTIPS
-				wxLogDebug("tooltip closed");
-#endif
+				#ifdef DEBUG_TOOLTIPS
+					wxLogDebug("tooltip closed");
+				#endif
 			}
 		}
 

@@ -26,14 +26,11 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_FOLDER_SCANNER_H__
 #define __SJ_FOLDER_SCANNER_H__
 
 
-
 WX_DECLARE_STRING_HASH_MAP(int/*data not interesting*/, SjIgnoreExtHash);
-
 
 
 class SjFolderScannerSource
@@ -41,21 +38,20 @@ class SjFolderScannerSource
 public:
 	SjFolderScannerSource()
 	{
-#define SJ_FOLDERSCANNER_DEFFLAGS           0x0000FFFFL  // for a possible future merging, try to be compatible with SJ_SERVERSCANNER_FLAGS
-#define SJ_FOLDERSCANNER_ENABLED            0x00000004L
-#define SJ_FOLDERSCANNER_READZIP            0x00000008L
-#define SJ_FOLDERSCANNER_DOUPDATE           0x00000010L
-#define SJ_FOLDERSCANNER_READID3            0x00000020L
-#define SJ_FOLDERSCANNER_READHIDDENFILES    0x00000040L
-#define SJ_FOLDERSCANNER_READHIDDENDIRS     0x00000080L
+		#define SJ_FOLDERSCANNER_DEFFLAGS           0x0000FFFFL  // for a possible future merging, try to be compatible with SJ_SERVERSCANNER_FLAGS
+		#define SJ_FOLDERSCANNER_ENABLED            0x00000004L
+		#define SJ_FOLDERSCANNER_READZIP            0x00000008L
+		#define SJ_FOLDERSCANNER_DOUPDATE           0x00000010L
+		#define SJ_FOLDERSCANNER_READID3            0x00000020L
+		#define SJ_FOLDERSCANNER_READHIDDENFILES    0x00000040L
+		#define SJ_FOLDERSCANNER_READHIDDENDIRS     0x00000080L
 		m_flags = SJ_FOLDERSCANNER_DEFFLAGS;
 	}
 
 	wxString        m_url;
 	wxString        m_file; // empty if the URL specifies a directory that should be read recursive
 	SjExtList       m_ignoreExt;
-	SjTrackInfoMatcher
-	m_trackInfoMatcher;
+	SjTrackInfoMatcher m_trackInfoMatcher;
 	long            m_flags;
 
 	wxString        UrlPlusFile         ();
@@ -91,13 +87,10 @@ protected:
 	bool            FirstLoad           ();
 
 private:
-	SjFolderScannerSourceList
-	m_listOfSources;
+	SjFolderScannerSourceList m_listOfSources;
 
-	SjFolderScannerSource*
-	GetSourceObj__      (long index);
-	SjFolderScannerSource*
-	GetSourceObj__      (const wxString& url);
+	SjFolderScannerSource* GetSourceObj__      (long index);
+	SjFolderScannerSource* GetSourceObj__      (const wxString& url);
 
 	SjTrackInfo     m_trackInfoMatcherObj;
 

@@ -26,15 +26,12 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_KIOSK_H__
 #define __SJ_KIOSK_H__
 
 
-
 #include "numpad.h"
 #include "creditbase.h"
-
 
 
 #define         SJ_KIOSKF_EXIT_KEY              0x00000001L
@@ -56,7 +53,6 @@
 #define         SJ_KIOSKF_RESETABLE         (SJ_KIOSKF_NO_DBL_TRACKS|SJ_KIOSKF_SHUFFLE|SJ_KIOSKF_MAX_TRACKS_IN_QUEUE|SJ_KIOSKF_LIMIT_TO_ADV_SEARCH)
 
 
-
 class SjKioskModule : public SjCommonModule
 {
 public:
@@ -65,7 +61,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////////
 
 public:
-	SjKioskModule       (SjInterfaceBase*);
+	                SjKioskModule       (SjInterfaceBase*);
 	void            LastUnload          ();
 
 	SjEmbedTo       EmbedTo             () { return SJ_EMBED_TO_MAIN; }
@@ -111,7 +107,7 @@ private:
 	wxString        m_configMaintenancePassword;
 	SjShutdownEtc   m_configDefExitAction;
 
-#define         SJ_DEF_MAX_TRACKS_IN_QUEUE  16
+	#define         SJ_DEF_MAX_TRACKS_IN_QUEUE  16
 	long            m_configMaxTracksInQueue;
 
 	long            m_configLimitToAdvSearch;
@@ -153,9 +149,7 @@ private:
 };
 
 
-
 extern SjKioskModule* g_kioskModule;
-
 
 
 #endif // __SJ_KIOSK_H__

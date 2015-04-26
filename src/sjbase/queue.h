@@ -26,23 +26,19 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_QUEUE_H__
 #define __SJ_QUEUE_H__
 
 
-
 enum SjRepeat
 {
-    SJ_REPEAT_OFF = 0
-                    ,SJ_REPEAT_SINGLE = 1
-                                        ,SJ_REPEAT_ALL = 2
+    SJ_REPEAT_OFF = 0,
+	SJ_REPEAT_SINGLE = 1,
+    SJ_REPEAT_ALL = 2
 };
 
 
-
 class SjPlayer;
-
 
 
 class SjQueue

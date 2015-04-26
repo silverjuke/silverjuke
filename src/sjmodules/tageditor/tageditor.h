@@ -41,8 +41,7 @@ class wxNotebook;
 class SjModifyItem
 {
 public:
-	SjModifyItem        (long field, const wxString& url, const wxString& oldVal)
-	{ m_field = field; m_url = url; m_oldVal = oldVal; }
+	                SjModifyItem        (long field, const wxString& url, const wxString& oldVal) { m_field = field; m_url = url; m_oldVal = oldVal; }
 
 	wxString        GetUrl              () const { return m_url; }
 	long            GetField            () const { return m_field; }

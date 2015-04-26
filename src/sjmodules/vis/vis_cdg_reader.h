@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_CDG_READER_H__
 #define __SJ_CDG_READER_H__
 
@@ -35,11 +34,10 @@
 #include "vis_cdg_raw.h"
 
 
-
 class SjCdgReader : public SjKaraokeReader
 {
 public:
-	SjCdgReader         (wxFSFile* fsFile);
+	                SjCdgReader         (wxFSFile* fsFile);
 	virtual         ~SjCdgReader        ();
 	virtual bool    SetPosition         (long ms);
 	virtual void    Render              (wxDC&, SjVisBg&, bool pleaseUpdateAll);
@@ -51,7 +49,7 @@ private:
 	bool            m_eof;
 	long            m_eokMs; // end of Karaoke ms, 0 if unknown
 
-#define         SJ_CDG_REALLOC_EVERY SJ_ONE_MB
+	#define         SJ_CDG_REALLOC_EVERY SJ_ONE_MB
 	long            m_fsFileDataAllocated;
 	long            m_fsFileDataLoaded;
 	unsigned char*  m_fsFileData;
@@ -60,8 +58,6 @@ private:
 
 	static long     Ms2Bytes            (long ms);
 };
-
-
 
 
 #endif /*__SJ_CDG_READER_H__*/

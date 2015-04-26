@@ -35,8 +35,8 @@
 class WXDLLEXPORT SjInternetFSHandler : public wxFileSystemHandler
 {
 public:
-	SjInternetFSHandler ();
-	~SjInternetFSHandler();
+	                    SjInternetFSHandler ();
+	                    ~SjInternetFSHandler();
 
 	virtual bool        CanOpen             (const wxString& location);
 	virtual wxFSFile*   OpenFile            (wxFileSystem& fs, const wxString& location);

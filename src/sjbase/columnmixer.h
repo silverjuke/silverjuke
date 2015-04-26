@@ -90,7 +90,7 @@ public:
 	wxString        GetTrackCoverUrl    (const wxString& url);
 
 private:
-#define         SJ_COLUNMMIXER_MAX_MODULES 16
+	#define         SJ_COLUNMMIXER_MAX_MODULES 16
 	long            m_moduleCount;
 	SjColModule*    m_modules[SJ_COLUNMMIXER_MAX_MODULES];
 	SjColModule*    m_libraryModule; // may be NULL
@@ -113,7 +113,6 @@ private:
 
 	SjTrackInfo     m_tempInfo;
 };
-
 
 
 #endif // __SJ_COLUMN_MIXER_H__

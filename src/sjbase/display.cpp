@@ -209,10 +209,10 @@ void SjMainFrame::OnSkinDisplayEvent(int targetId, SjSkinValue& value, long acce
 			}
 			else if( value.value == SJ_SUBITEM_TEXT_DCLICK && IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 			{
-#ifdef DEBUG_DISPLAY
+				#ifdef DEBUG_DISPLAY
 				SjPlaylistEntry& urlInfo = m_player.m_queue.GetInfo(queuePos);
 				wxLogDebug("Line pos. %i: %s - %s", (int)queuePos, urlInfo.GetLeadArtistName().c_str(), urlInfo.GetTrackName().c_str());
-#endif
+				#endif
 
 				if( m_player.m_queue.GetCurrPos() == queuePos && IsPlaying() )
 				{
@@ -910,9 +910,9 @@ void SjMainFrame::OnElapsedTimeTimer(wxTimerEvent& event)
 	// or a modal system dialog is opened the events are not sent otherwise.
 	// this may change in future wxWidgets versions, and, however, for other
 	// OS this may not be necessary.
-#ifdef __WXMSW__
+	#ifdef __WXMSW__
 	m_mainApp->ProcessPendingEvents();
-#endif
+	#endif
 
 	// display stuff
 	unsigned long   thisTimestamp = SjTools::GetMsTicks();
@@ -1080,9 +1080,9 @@ void SjMainFrame::OnSkinTargetMotion(int clickTargetId, int requestedMotionAmoun
 		if( queueTrackCount > visLineCount && scrollPos > queueTrackCount-visLineCount )
 		{
 			scrollPos = queueTrackCount-visLineCount;
-#ifdef DEBUG_DISPLAY
+			#ifdef DEBUG_DISPLAY
 			wxLogDebug("          vv corrected vv");
-#endif
+			#endif
 		}
 		if( queueTrackCount <= visLineCount ) scrollPos = 0;
 
@@ -1091,9 +1091,9 @@ void SjMainFrame::OnSkinTargetMotion(int clickTargetId, int requestedMotionAmoun
 		int resumeTargetId = clickTargetId;
 		if( realMotionAmount )
 		{
-#ifdef DEBUG_DISPLAY
+			#ifdef DEBUG_DISPLAY
 			wxLogDebug("oldScrollPos=%i (oldDisplayScrollPos=%i, queuePlayingPos=%i)", (int)scrollPos, (int)m_display.m_scrollPos, (int)queuePlayingPos);
-#endif
+			#endif
 
 			resumeTargetId += realMotionAmount;
 			if( resumeTargetId < IDT_DISPLAY_LINE_FIRST )
@@ -1102,35 +1102,35 @@ void SjMainFrame::OnSkinTargetMotion(int clickTargetId, int requestedMotionAmoun
 				if( m_display.m_scrollPos < 0 ) m_display.m_scrollPos = 0;
 				resumeTargetId = IDT_DISPLAY_LINE_FIRST;
 
-#ifdef DEBUG_DISPLAY
+				#ifdef DEBUG_DISPLAY
 				wxLogDebug("  ^ newDisplayScrollPos=%i, resumeTargetLine=%i", (int)m_display.m_scrollPos, (int)resumeTargetId-IDT_DISPLAY_LINE_FIRST);
-#endif
+				#endif
 			}
 			else if( resumeTargetId >= IDT_DISPLAY_LINE_FIRST+visLineCount )
 			{
 				m_display.m_scrollPos = scrollPos + realMotionAmount;
 				resumeTargetId = (IDT_DISPLAY_LINE_FIRST+visLineCount)-1;
 
-#ifdef DEBUG_DISPLAY
+				#ifdef DEBUG_DISPLAY
 				wxLogDebug("  v newDisplayScrollPos=%i, resumeTargetLine=%i", (int)m_display.m_scrollPos, (int)resumeTargetId-IDT_DISPLAY_LINE_FIRST);
-#endif
+				#endif
 			}
 			else
 			{
 				m_display.m_scrollPos = scrollPos;
 
-#ifdef DEBUG_DISPLAY
+				#ifdef DEBUG_DISPLAY
 				wxLogDebug("  * newDisplayScrollPos=%i, resumeTargetLine=%i", (int)m_display.m_scrollPos, (int)resumeTargetId-IDT_DISPLAY_LINE_FIRST);
-#endif
+				#endif
 			}
 		}
 
 		ResumeSkinTargetMotion(clickTargetId, resumeTargetId);
 		UpdateDisplay();
 
-#ifdef DEBUG_DISPLAY
+		#ifdef DEBUG_DISPLAY
 		wxLogDebug("    resultingDisplayScrollPos=%i", (int)m_display.m_scrollPos);
-#endif
+		#endif
 
 		m_display.m_selectedIdsTimestamp = SjTools::GetMsTicks();
 		m_display.m_selectedIdsLockMs = SJ_DISPLAY_SELECTION_LOCK_MS;

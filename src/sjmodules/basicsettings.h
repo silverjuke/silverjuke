@@ -26,14 +26,11 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_BASICSETTINGS_H__
 #define __SJ_BASICSETTINGS_H__
 
 
-
 class SjBasicSettingsConfigPage;
-
 
 
 class SjBasicSettingsModule : public SjCommonModule
@@ -46,7 +43,6 @@ public:
 	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);
 	void            DoneConfigPage      (wxWindow* configPage, int action);
 };
-
 
 
 #endif // __SJ_BASICSETTINGS_H__

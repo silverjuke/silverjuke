@@ -33,10 +33,8 @@
 class SjCsvTokenizer
 {
 public:
-	SjCsvTokenizer          (const wxString& fieldsTerminatedBy,
-	                         const wxString& fieldsEnclosedBy,
-	                         const wxString& escapeBy);
-	~SjCsvTokenizer         ();
+	                SjCsvTokenizer          (const wxString& fieldsTerminatedBy, const wxString& fieldsEnclosedBy, const wxString& escapeBy);
+	                ~SjCsvTokenizer         ();
 	void            AddData                 (const unsigned char*, long bytes);
 
 	wxArrayString*  GetRecord               ();
@@ -45,7 +43,7 @@ private:
 	unsigned char*  m_data;
 	long            m_dataTotalBytes;
 	long            m_dataUsedBytes;
-#define         DATA_INCR_BYTES 0x20000L // 128K
+	#define         DATA_INCR_BYTES 0x20000L // 128K
 
 	unsigned char   m_sep;
 	unsigned char   m_quote;

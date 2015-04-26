@@ -26,8 +26,6 @@
  ******************************************************************************/
 
 
-
-
 #ifndef __SJ_NUMPADSEARCH_H___
 #define __SJ_NUMPADSEARCH_H___
 
@@ -38,11 +36,9 @@
 class SjNumpadSearchHandler : public SjNumpadTextEntryHandler
 {
 public:
-	SjNumpadSearchHandler
-	(SjNumpadInput*);
-	void            TextUpdate          (const wxString& text);
-	SjNumpadHandlerId
-	TextEntryDone       (const wxString& text);
+	                  SjNumpadSearchHandler (SjNumpadInput*);
+	void              TextUpdate            (const wxString& text);
+	SjNumpadHandlerId TextEntryDone         (const wxString& text);
 };
 
 

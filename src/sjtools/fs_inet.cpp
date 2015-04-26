@@ -100,7 +100,7 @@ private:
 	bool            m_dataComplete;     // have we all read that can be read?
 	// otherwise we won't add the stream to the cache.
 
-#define         DATA_INCR_BYTES 0x20000L // 128K
+	#define         DATA_INCR_BYTES 0x20000L // 128K
 
 	long            m_pos;
 };

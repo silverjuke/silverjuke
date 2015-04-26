@@ -26,36 +26,29 @@
  ******************************************************************************/
 
 
-
-
 #ifndef __SJ_NUMPADPLAY_H___
 #define __SJ_NUMPADPLAY_H___
 
 
-
 enum SjNumpadPlayReturn
 {
-    SJ_NUMPAD_WAITING
+     SJ_NUMPAD_WAITING
     ,SJ_NUMPAD_ENTER_MENU
     ,SJ_NUMPAD_ERROR
     ,SJ_NUMPAD_URL_PRESSED
 };
 
 
-
 class SjNumpadPlayHandler : public SjNumpadHandler
 {
 public:
-	SjNumpadPlayHandler (SjNumpadInput*);
-	SjNumpadHandlerId
-	KeyPressed          (int idt);
+	                   SjNumpadPlayHandler  (SjNumpadInput*);
+	SjNumpadHandlerId  KeyPressed           (int idt);
 
 private:
-	SjNumpadPlayReturn
-	GetPressedDigitsInfo(wxString& digits, wxArrayString& urls) const;
-	wxArrayLong     m_pressedDigits;
+	SjNumpadPlayReturn GetPressedDigitsInfo (wxString& digits, wxArrayString& urls) const;
+	wxArrayLong        m_pressedDigits;
 };
-
 
 
 #endif // __SJ_NUMPADPLAY_H___

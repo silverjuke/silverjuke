@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_SYNCTXT_RAW_H__
 #define __SJ_SYNCTXT_RAW_H__
-
 
 
 #define MAX_LINES_PER_PAGE           8
@@ -82,16 +80,14 @@ public:
 };
 
 
-
 WX_DECLARE_OBJARRAY(SjSyncTxtWord, SjArraySyncTxtWord);
-
 
 
 class SjSyncTxtRaw
 {
 public:
-	SjSyncTxtRaw        (const wxString& artist, const wxString& title);
-	~SjSyncTxtRaw       () {}
+	                    SjSyncTxtRaw        (const wxString& artist, const wxString& title);
+	                    ~SjSyncTxtRaw       () {}
 	void                ParseLrc            (const wxString& content);
 	void                Finalize            ();
 

@@ -118,7 +118,7 @@ private:
 	wxSlider*       m_fontPtSlider;
 	wxStaticText*   m_fontPtText;
 	wxCheckBox*     m_useViewFontInDlgCheckBox;
-#define         COLUMNWIDTH_DIVISOR 5
+	#define         COLUMNWIDTH_DIVISOR 5
 	wxSlider*       m_columnWidthSlider;
 	wxStaticText*   m_columnWidthText;
 	wxSlider*       m_coverHeightSlider;
@@ -485,7 +485,7 @@ wxPanel* SjViewSettingsPage::CreateFontPage(wxWindow* parent)
 	wxFlexGridSizer* sizer3 = new wxFlexGridSizer(2, SJ_DLG_SPACE/2, SJ_DLG_SPACE);
 	sizer1->Add(sizer3, 0, wxGROW|wxALL, SJ_DLG_SPACE);
 
-#define SLIDER_W 240
+	#define SLIDER_W 240
 
 	// font face
 	sizer3->Add(new wxStaticText(page, -1, _("Font:")), 0, wxALIGN_CENTER_VERTICAL);

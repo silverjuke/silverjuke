@@ -49,11 +49,11 @@ BEGIN_EVENT_TABLE(SjBrowserWindow, wxWindow)
 	EVT_ENTER_WINDOW        (   SjBrowserWindow::OnMouseEnter       )
 	EVT_MOTION              (   SjBrowserWindow::OnMouseMotion      )
 	EVT_MOUSEWHEEL          (   SjBrowserWindow::OnMouseWheel       )
-#ifdef __WXMAC__ // the context menu MUST be opened on down on MAC: TODO: we should use EVT_CONTEXT_MENU here
+	#ifdef __WXMAC__ // the context menu MUST be opened on down on MAC: TODO: we should use EVT_CONTEXT_MENU here
 	EVT_RIGHT_DOWN          (   SjBrowserWindow::OnMouseRight       )
-#else
+	#else
 	EVT_RIGHT_UP            (   SjBrowserWindow::OnMouseRight       )
-#endif
+	#endif
 	EVT_MIDDLE_UP           (   SjBrowserWindow::OnMouseMiddleUp    )
 	EVT_KEY_DOWN            (   SjBrowserWindow::OnKeyDown          )
 END_EVENT_TABLE()
@@ -68,9 +68,9 @@ void SjBrowserWindow::OnMouseLeftDown(wxMouseEvent& event)
 
 	/* capture mouse
 	 */
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ClearToolTipProvider();
+	#endif
 	SetFocus();
 	CaptureMouse();
 
@@ -166,18 +166,18 @@ void SjBrowserWindow::OnMouseMotion(wxMouseEvent& event)
 
 	if( !HasCapture() )
 	{
-#if SJ_USE_TOOLTIPS
-		m_toolTipProvider.m_xPos = event.GetX();
-		m_toolTipProvider.m_yPos = event.GetY();
-		g_tools->m_toolTipManager.SetToolTipProvider(&m_toolTipProvider);
-#endif
+		#if SJ_USE_TOOLTIPS
+			m_toolTipProvider.m_xPos = event.GetX();
+			m_toolTipProvider.m_yPos = event.GetY();
+			g_tools->m_toolTipManager.SetToolTipProvider(&m_toolTipProvider);
+		#endif
 		m_currView->OnMouseMotion(event);
 		return;
 	}
 
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ClearToolTipProvider();
+	#endif
 
 	g_mainFrame->GotBrowserInputFromUser();
 
@@ -204,9 +204,9 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 	if( g_accelModule == NULL || m_mouseAction == SJ_ACTION_DRAGNDROP
 	        || m_mouseAction == SJ_ACTION_COLUMNWIDTH || m_mouseAction == SJ_ACTION_COLUMNMOVE || m_currView == NULL ) return;
 
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ClearToolTipProvider();
+	#endif
 
 	long zDelta = event.GetWheelRotation();
 	long wheelDelta = event.GetWheelDelta();
@@ -310,9 +310,9 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 
 void SjBrowserWindow::OnMouseRight(wxMouseEvent& event)
 {
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ClearToolTipProvider();
+	#endif
 
 	if( m_mouseAction == SJ_ACTION_DRAGSCROLL || m_mouseAction == SJ_ACTION_DRAGNDROP || m_mouseAction == SJ_ACTION_COLUMNWIDTH || m_mouseAction == SJ_ACTION_COLUMNMOVE || m_currView == NULL ) { return;  }
 
@@ -337,9 +337,9 @@ void SjBrowserWindow::OnModuleUserId(int id)
 
 void SjBrowserWindow::OnMouseMiddleUp(wxMouseEvent& event)
 {
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ClearToolTipProvider();
+	#endif
 
 	if( m_mouseAction == SJ_ACTION_DRAGSCROLL || m_mouseAction == SJ_ACTION_DRAGNDROP || m_mouseAction == SJ_ACTION_COLUMNWIDTH || m_mouseAction == SJ_ACTION_COLUMNMOVE || m_currView == NULL ) { return;  }
 
@@ -355,9 +355,9 @@ void SjBrowserWindow::OnMouseMiddleUp(wxMouseEvent& event)
 void SjBrowserWindow::OnKeyDown(wxKeyEvent& event)
 {
 	if( g_accelModule == NULL || m_mouseAction == SJ_ACTION_DRAGNDROP || m_mouseAction == SJ_ACTION_COLUMNWIDTH || m_mouseAction == SJ_ACTION_COLUMNMOVE ) { return; }
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ClearToolTipProvider();
+	#endif
 
 	long accelFlags = (event.ShiftDown()? wxACCEL_SHIFT : 0);
 	int targetId = g_accelModule->KeyEvent2CmdId(event, SJA_MAIN);
@@ -852,9 +852,9 @@ SjBrowserWindow::SjBrowserWindow(SjMainFrame* mainFrame)
 	: wxWindow(mainFrame, -1, wxDefaultPosition, wxDefaultSize, 0)
 {
 	g_mainFrame = mainFrame;
-#if SJ_USE_TOOLTIPS
-	m_toolTipProvider.m_browserWindow = this;
-#endif
+	#if SJ_USE_TOOLTIPS
+		m_toolTipProvider.m_browserWindow = this;
+	#endif
 
 	m_clientW               = 0;
 	m_clientH               = 0;
@@ -904,10 +904,10 @@ static bool s_exitCalled = false;
 #endif
 void SjBrowserWindow::Exit()
 {
-#ifdef __WXDEBUG__
-	wxASSERT( !s_exitCalled );
-	s_exitCalled = true;
-#endif
+	#ifdef __WXDEBUG__
+		wxASSERT( !s_exitCalled );
+		s_exitCalled = true;
+	#endif
 
 	SjStringSerializer ser;
 	int i;
@@ -924,9 +924,9 @@ void SjBrowserWindow::Exit()
 }
 SjBrowserWindow::~SjBrowserWindow()
 {
-#ifdef __WXDEBUG__
-	wxASSERT( s_exitCalled );
-#endif
+	#ifdef __WXDEBUG__
+		wxASSERT( s_exitCalled );
+	#endif
 
 	for( int i = 0; i < SJ_BROWSER_VIEW_COUNT; i++ )
 		delete m_views[i];
@@ -998,41 +998,41 @@ void SjBrowserWindow::PaintCover(wxDC& dc, SjImgThreadObj* obj, long x, long y, 
 
 		if( bitmapWidth != coverW || bitmapHeight != coverH )
 		{
-#if 1
-			// Draw bitmap of incorrect size using borders aright and abottom.
-			if( bitmapWidth < (coverW/2) )
-			{
-				dc.DrawRectangle(x, y, coverW, coverH); // bitmap is too small, wait for correct bitmap
-			}
-			else
-			{
-				if( bitmapWidth > coverW || bitmapHeight > coverH )
+			#if 1
+				// Draw bitmap of incorrect size using borders aright and abottom.
+				if( bitmapWidth < (coverW/2) )
 				{
-					dc.SetClippingRegion(x, y, coverW, coverH);
-					clippingRegionSet = TRUE;
+					dc.DrawRectangle(x, y, coverW, coverH); // bitmap is too small, wait for correct bitmap
 				}
-
-				if( bitmapWidth < coverW ) // draw whitespace right of image (if any)
+				else
 				{
-					dc.DrawRectangle(x+bitmapWidth, y, coverW-bitmapWidth, coverH);
-				}
+					if( bitmapWidth > coverW || bitmapHeight > coverH )
+					{
+						dc.SetClippingRegion(x, y, coverW, coverH);
+						clippingRegionSet = TRUE;
+					}
 
-				if( bitmapHeight < coverH ) // draw whitespace abottom of image (if any)
-				{
-					dc.DrawRectangle(x, y+bitmapHeight, coverW, coverH-bitmapHeight);
-				}
+					if( bitmapWidth < coverW ) // draw whitespace right of image (if any)
+					{
+						dc.DrawRectangle(x+bitmapWidth, y, coverW-bitmapWidth, coverH);
+					}
 
-				dc.DrawBitmap(*bitmap, x, y, FALSE /*not transparent*/);
-			}
-#else
-			// Draw bitmap of incorrect size using resizing.
-			// This is no good idea as the resizing takes as much time
-			// as the correct bitmap arrives from the image thread.
-			wxImage image = bitmap->ConvertToImage();
-			image.Scale(width, height);
-			wxBitmap newBitmap(image);
-			dc.DrawBitmap(newBitmap, x, y, FALSE /*not transparent*/);
-#endif
+					if( bitmapHeight < coverH ) // draw whitespace abottom of image (if any)
+					{
+						dc.DrawRectangle(x, y+bitmapHeight, coverW, coverH-bitmapHeight);
+					}
+
+					dc.DrawBitmap(*bitmap, x, y, FALSE /*not transparent*/);
+				}
+			#else
+				// Draw bitmap of incorrect size using resizing.
+				// This is no good idea as the resizing takes as much time
+				// as the correct bitmap arrives from the image thread.
+				wxImage image = bitmap->ConvertToImage();
+				image.Scale(width, height);
+				wxBitmap newBitmap(image);
+				dc.DrawBitmap(newBitmap, x, y, FALSE /*not transparent*/);
+			#endif
 		}
 		else
 		{
@@ -1117,24 +1117,24 @@ void SjBrowserWindow::DrawUpText(wxDC& dc, const wxString& textup, long x, long 
 					dc.SetBrush(g_mainFrame->m_workspaceColours[SJ_COLOUR_NORMAL].bgBrush);
 					dc.SetPen(*wxTRANSPARENT_PEN);
 
-#if 0
-					// right-aligned
-					if( w > texth )
-						dc.DrawRectangle(x, y, w-texth, h);
+					#if 0
+						// right-aligned
+						if( w > texth )
+							dc.DrawRectangle(x, y, w-texth, h);
 
-					dc.DrawBitmap(memBitmap2, x+(w-texth), y);
-#else
-					// centered
-					long spaceRight = (w-texth)/2;
-					long spaceLeft  = (w-texth)-spaceRight;
-					if( spaceLeft > 0 )
-						dc.DrawRectangle(x, y, spaceLeft, h);
+						dc.DrawBitmap(memBitmap2, x+(w-texth), y);
+					#else
+						// centered
+						long spaceRight = (w-texth)/2;
+						long spaceLeft  = (w-texth)-spaceRight;
+						if( spaceLeft > 0 )
+							dc.DrawRectangle(x, y, spaceLeft, h);
 
-					dc.DrawBitmap(memBitmap2, x+spaceLeft, y);
+						dc.DrawBitmap(memBitmap2, x+spaceLeft, y);
 
-					if( spaceRight > 0 )
-						dc.DrawRectangle(x+spaceLeft+texth, y, spaceRight, h);
-#endif
+						if( spaceRight > 0 )
+							dc.DrawRectangle(x+spaceLeft+texth, y, spaceRight, h);
+					#endif
 
 					// space abottom
 					if( h > textw )

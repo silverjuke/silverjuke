@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_SYNCTXT_READER_H__
 #define __SJ_SYNCTXT_READER_H__
 
@@ -34,9 +33,7 @@
 #include "vis_karaoke_module.h"
 
 
-
 class SjSyncTxtRaw;
-
 
 
 enum SjSyncTxtFormat
@@ -45,11 +42,10 @@ enum SjSyncTxtFormat
 };
 
 
-
 class SjSyncTxtReader : public SjKaraokeReader
 {
 public:
-	SjSyncTxtReader     (wxFSFile* fsFile, SjSyncTxtFormat, const wxString& artist, const wxString& title);
+	                SjSyncTxtReader     (wxFSFile* fsFile, SjSyncTxtFormat, const wxString& artist, const wxString& title);
 	virtual         ~SjSyncTxtReader    ();
 	virtual bool    SetPosition         (long ms);
 	virtual void    Render              (wxDC&, SjVisBg&, bool pleaseUpdateAll);
@@ -74,8 +70,6 @@ private:
 	long            m_currMs;
 	long            m_currWord, m_currWord2;
 };
-
-
 
 
 #endif /*__SJ_SYNCTXT_READER_H__*/

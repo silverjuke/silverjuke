@@ -39,11 +39,11 @@
 class SjDisplay
 {
 public:
-	SjDisplay           ();
+	                SjDisplay           ();
 
-#define         SJ_DISPLAY_SCROLL_LOCK_MS          20000 /*20 seconds*/
-#define         SJ_DISPLAY_SELECTION_LOCK_MS       20000 /*20 seconds*/
-#define         SJ_DISPLAY_ENQUEUE_LOCK_MS          4000 /* 4 seconds*/
+	#define         SJ_DISPLAY_SCROLL_LOCK_MS          20000 /*20 seconds*/
+	#define         SJ_DISPLAY_SELECTION_LOCK_MS       20000 /*20 seconds*/
+	#define         SJ_DISPLAY_ENQUEUE_LOCK_MS          4000 /* 4 seconds*/
 
 	long            m_scrollPos;
 	long            m_firstLineQueuePos;
@@ -74,7 +74,7 @@ public:
 class SjDisplayEditDlg : public SjTagEditorDlg
 {
 public:
-	SjDisplayEditDlg    ();
+	                SjDisplayEditDlg    ();
 	bool            GetUrls             (wxArrayString&, int what);
 	void            OnUrlChanged        (const wxString& oldUrl, const wxString& newUrl);
 

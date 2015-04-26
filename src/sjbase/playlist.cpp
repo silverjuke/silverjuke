@@ -121,17 +121,17 @@ void SjPlaylistEntry::LoadAddInfo(long what)
 wxString SjPlaylistEntry::GetLocalUrl(const wxString& containerUrl)
 {
 	wxString temp = GetUrl();
-#ifdef __WXMSW__
-	temp.Replace(wxT("/"), wxT("\\"));
-#endif
+	#ifdef __WXMSW__
+		temp.Replace(wxT("/"), wxT("\\"));
+	#endif
 	wxFileName urlFn(temp, wxPATH_NATIVE);
 
 	if( !containerUrl.IsEmpty() )
 	{
 		temp = containerUrl;
-#ifdef __WXMSW__
-		temp.Replace(wxT("/"), wxT("\\"));
-#endif
+		#ifdef __WXMSW__
+			temp.Replace(wxT("/"), wxT("\\"));
+		#endif
 		wxFileName containerFn(temp, wxPATH_NATIVE);
 
 		urlFn.MakeRelativeTo(containerFn.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR));
@@ -194,9 +194,7 @@ void SjPlaylistEntry::SetRealtimeInfo(const wxString& info__)
 void SjPlaylistEntry::VerifyUrl()
 {
 	// as we're verifing, don't log any errors
-#ifndef __WXDEBUG__
 	wxLogNull null;
-#endif
 
 	// main frame available? without the main frame, we cannot verify any URLs.
 	if( g_mainFrame == NULL )
@@ -228,9 +226,9 @@ void SjPlaylistEntry::VerifyUrl()
 
 				// make urlFn absolute using MakeAbsolute(GetPath()) (GetPath() does not return the name, so this should work just fine)
 				wxString tempStr(containerUrls[containerIndex]);
-#ifdef __WXMSW__
-				tempStr.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
-#endif
+				#ifdef __WXMSW__
+					tempStr.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
+				#endif
 				wxFileName tempFn(tempStr, wxPATH_NATIVE);
 				urlFn.MakeAbsolute(tempFn.GetPath(wxPATH_GET_VOLUME));
 
@@ -259,11 +257,11 @@ void SjPlaylistEntry::VerifyUrl()
 	{
 		if(  url.Len()>2
 		        &&
-#ifdef __WXMSW__
+			#ifdef __WXMSW__
 		        url[1u]==wxT(':')
-#else
+			#else
 		        url[0]=='/'
-#endif
+			#endif
 		        && ::wxFileExists(url) )
 		{
 			// some speed improvements for "normal" files
@@ -313,7 +311,7 @@ void SjPlaylistEntry::VerifyUrl()
 
 	// make sure, we're using the correct case, see
 	// http://www.silverjuke.net/forum/topic-2406.html
-#ifdef __WXMSW__
+	#ifdef __WXMSW__
 	{
 		wxSqlt sql;
 		sql.Query(wxT("SELECT url FROM tracks WHERE url='") + sql.QParam(fsFileLocation) + wxT("';"));
@@ -331,7 +329,7 @@ void SjPlaylistEntry::VerifyUrl()
 			}
 		}
 	}
-#endif
+	#endif
 
 	// file opened - save the location as the verified URL
 	// and close the file
@@ -349,9 +347,9 @@ void SjPlaylistEntry::VerifyUrl()
 	}
 
 	// done
-#ifdef DEBUG_VERIFY
-	wxLogDebug(wxT("%s verified..."), m_url.c_str());
-#endif
+	#ifdef DEBUG_VERIFY
+		wxLogDebug(wxT("%s verified..."), m_url.c_str());
+	#endif
 }
 
 
@@ -951,13 +949,13 @@ wxString SjPlaylist::SaveAsCue(const wxString& containerUrl, long flags)
 
 		if( Item(i).IsUrlOk() )
 		{
-#ifdef __WXMSW__
-			if( flags & SJ_CUE_SHORTPATHS )
-			{
-				wxFileName fn(urlToSave);
-				urlToSave = fn.GetShortPath();
-			}
-#endif
+			#ifdef __WXMSW__
+				if( flags & SJ_CUE_SHORTPATHS )
+				{
+					wxFileName fn(urlToSave);
+					urlToSave = fn.GetShortPath();
+				}
+			#endif
 
 			ret << wxT("FILE \"") << urlToSave << wxT("\" WAVE") << linebreak;
 			ret << wxT("  TRACK ") << wxString::Format(i<=99? wxT("%02i") : wxT("%i"), (int)i+1) << wxT(" AUDIO") << linebreak;
@@ -1143,9 +1141,9 @@ wxString SjPlaylist::SaveAsXspf(const wxString& containerUrl, long flags)
 		        && !realUrl.StartsWith(wxT("https:"))
 		        && !realUrl.StartsWith(wxT("ftp:")) )
 		{
-#ifdef __WXMSW__
-			realUrl.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
-#endif
+			#ifdef __WXMSW__
+				realUrl.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
+			#endif
 			realUrl = wxFileSystem::FileNameToURL(wxFileName(realUrl, wxPATH_NATIVE));
 		}
 		realUrl.Replace(wxT(" "), wxT("%20"));

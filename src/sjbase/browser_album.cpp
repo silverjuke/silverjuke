@@ -932,8 +932,8 @@ bool SjAlbumBrowser::OnVScroll(int nScrollCode, int nPos, bool redraw)
 
 bool SjAlbumBrowser::DoChangeSelection(long dir, bool shiftSelection)
 {
-#define findSelectionFromTop  (dir==SJ_SEL_UP || dir==SJ_SEL_LEFT || dir==SJ_SEL_PREV)
-#define findBoundingFromTop   (dir!=SJ_SEL_RIGHT)
+	#define findSelectionFromTop  (dir==SJ_SEL_UP || dir==SJ_SEL_LEFT || dir==SJ_SEL_PREV)
+	#define findBoundingFromTop   (dir!=SJ_SEL_RIGHT)
 
 	SjCol   *oldCol, *newCol = NULL;
 	SjRow   *oldRow, *newRow = NULL;
@@ -1191,9 +1191,9 @@ bool SjAlbumBrowser::GotoUrl(const wxString& url)
 		// check index
 		delete col;
 
-#ifdef __WXDEBUG__
-		col = NULL;
-#endif
+		#ifdef __WXDEBUG__
+			col = NULL;
+		#endif
 		if( colIndex >= 0 )
 		{
 			// goto column
@@ -1291,15 +1291,15 @@ wxString SjAlbumBrowser::GetFirstVisiblePos()
 	if( m_allocatedColCount > 0
 	        && m_applCol[0] != NULL )
 	{
-#if 0
-		// use column url
-		return m_applCol[0]->m_url;
-#else
-		// use "real" url
-		SjRow* row = m_applCol[0]->FindSelectableRow();
-		if( row )
-			return row->m_url;
-#endif
+		#if 0
+			// use column url
+			return m_applCol[0]->m_url;
+		#else
+			// use "real" url
+			SjRow* row = m_applCol[0]->FindSelectableRow();
+			if( row )
+				return row->m_url;
+		#endif
 	}
 
 	return wxEmptyString;
@@ -1314,13 +1314,13 @@ wxString SjAlbumBrowser::GetFirstSelectedOrVisiblePos(long& retViewOffset)
 	{
 		wxASSERT( col );
 		retViewOffset |= (SJ_BROWSER_ALBUM_VIEW<<24);
-#if 0
-		// use column url
-		return col->m_url;
-#else
-		// use "real" url
-		return row->m_url;
-#endif
+		#if 0
+			// use column url
+			return col->m_url;
+		#else
+			// use "real" url
+			return row->m_url;
+		#endif
 	}
 	else
 	{
@@ -1332,18 +1332,18 @@ wxString SjAlbumBrowser::GetFirstSelectedOrVisiblePos(long& retViewOffset)
 
 void SjAlbumBrowser::GotoPos(const wxString& guid, long viewOffset_)
 {
-#if 0
-	long colOffset = g_mainFrame->m_columnMixer.GetMaskedColIndexByColUrl(guid);
-#else
-	long colOffset;
-	{
-		SjCol* col = g_mainFrame->m_columnMixer.GetMaskedCol(guid, colOffset);
-		if( col )
-			delete col;
-		else
-			colOffset = -1;
-	}
-#endif
+	#if 0
+		long colOffset = g_mainFrame->m_columnMixer.GetMaskedColIndexByColUrl(guid);
+	#else
+		long colOffset;
+		{
+			SjCol* col = g_mainFrame->m_columnMixer.GetMaskedCol(guid, colOffset);
+			if( col )
+				delete col;
+			else
+				colOffset = -1;
+		}
+	#endif
 
 	if( colOffset < 0 )
 	{
@@ -1841,8 +1841,8 @@ wxBitmap SjAlbumBrowser::GetDragNDropBitmap(int mouseX, int mouseY, wxPoint& ret
 	maskDc.SelectObject(wxNullBitmap);
 
 	// scale the bitmaps down if they are too large
-#define MAX_W 300
-#define MAX_H 300
+	#define MAX_W 300
+	#define MAX_H 300
 	if( dndWidth>MAX_W || dndHeight>MAX_H )
 	{
 		// calculate the new width and height

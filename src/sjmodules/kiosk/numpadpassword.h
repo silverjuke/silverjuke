@@ -26,8 +26,6 @@
  ******************************************************************************/
 
 
-
-
 #ifndef __SJ_NUMPADPASSWORD_H___
 #define __SJ_NUMPADPASSWORD_H___
 
@@ -43,8 +41,6 @@ public:
 	SjNumpadHandlerId
 	TextEntryDone       (const wxString& text);
 };
-
-
 
 
 #endif // __SJ_NUMPADPASSWORD_H___

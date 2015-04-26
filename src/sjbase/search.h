@@ -27,16 +27,13 @@
 
 
 
-
 #ifndef __SJ_SEARCHSJ_H__
 #define __SJ_SEARCHSJ_H__
 
 
-
 /*******************************************************************************
- *  Enums
+ * Enums
  ******************************************************************************/
-
 
 
 enum SjField
@@ -44,8 +41,8 @@ enum SjField
     // do not modify the order of this enum as the values are stored to disk!
     // add new values to the end (before SJ_FIELD_COUNT)!
 
-    SJ_PSEUDOFIELD_LIMIT = 0
-                           ,SJ_PSEUDOFIELD_RANDOM
+     SJ_PSEUDOFIELD_LIMIT = 0
+    ,SJ_PSEUDOFIELD_RANDOM
     ,SJ_PSEUDOFIELD_SQL
     ,SJ_PSEUDOFIELD_TRACKARTISTALBUM
     ,SJ_PSEUDOFIELD_FILETYPE
@@ -54,7 +51,7 @@ enum SjField
     ,SJ_PSEUDOFIELD_EXCLUDE
 
     ,SJ_FIELD_URL = 100
-                    ,SJ_FIELD_TIMEADDED
+    ,SJ_FIELD_TIMEADDED
     ,SJ_FIELD_TIMEMODIFIED
     ,SJ_FIELD_TIMESPLAYED
     ,SJ_FIELD_LASTPLAYED
@@ -66,19 +63,19 @@ enum SjField
     ,SJ_FIELD_AUTOVOL
 
     ,SJ_FIELD_TRACKNAME = 200
-                          ,SJ_FIELD_TRACKNR
+    ,SJ_FIELD_TRACKNR
     ,SJ_FIELD_TRACKCOUNT
     ,SJ_FIELD_DISKNR
     ,SJ_FIELD_DISKCOUNT
 
     ,SJ_FIELD_LEADARTISTNAME = 300
-                               ,SJ_FIELD_ORGARTISTNAME
+    ,SJ_FIELD_ORGARTISTNAME
     ,SJ_FIELD_COMPOSERNAME
 
     ,SJ_FIELD_ALBUMNAME = 400
 
-                          ,SJ_FIELD_GENRENAME = 500
-                                  ,SJ_FIELD_GROUPNAME
+    ,SJ_FIELD_GENRENAME = 500
+    ,SJ_FIELD_GROUPNAME
     ,SJ_FIELD_COMMENT
     ,SJ_FIELD_BEATSPERMINUTE
     ,SJ_FIELD_RATING
@@ -90,39 +87,29 @@ enum SjField
 };
 
 
-
 enum SjFieldOp
 {
     // do not modify the order or the values of this enum as the values are stored to disk!
     // add new values to the end (before SJ_FIELDOP_COUNT)!
 
-    SJ_FIELDOP_IS_EQUAL_TO = 0
-                             ,SJ_FIELDOP_IS_UNEQUAL_TO
-
+     SJ_FIELDOP_IS_EQUAL_TO = 0
+    ,SJ_FIELDOP_IS_UNEQUAL_TO
     ,SJ_FIELDOP_IS_SET
     ,SJ_FIELDOP_IS_UNSET
-
     ,SJ_FIELDOP_IS_GREATER_THAN
     ,SJ_FIELDOP_IS_GREATER_OR_EQUAL
-
     ,SJ_FIELDOP_IS_LESS_THAN
     ,SJ_FIELDOP_IS_LESS_OR_EQUAL
-
     ,SJ_FIELDOP_IS_IN_RANGE
     ,SJ_FIELDOP_IS_NOT_IN_RANGE
-
     ,SJ_FIELDOP_CONTAINS
     ,SJ_FIELDOP_DOES_NOT_CONTAIN
-
     ,SJ_FIELDOP_STARTS_WITH
     ,SJ_FIELDOP_DOES_NOT_START_WITH
-
     ,SJ_FIELDOP_ENDS_WITH
     ,SJ_FIELDOP_DOES_NOT_END_WITH
-
     ,SJ_FIELDOP_IS_IN_THE_LAST
     ,SJ_FIELDOP_IS_NOT_IN_THE_LAST
-
     ,SJ_FIELDOP_IS_SIMELAR_TO
     ,SJ_FIELDOP_STARTS_SIMELAR_TO
 
@@ -133,8 +120,8 @@ enum SjFieldOp
 
 enum SjFieldType
 {
-    SJ_FIELDTYPE_STRING    = 0
-                             ,SJ_FIELDTYPE_NUMBER
+     SJ_FIELDTYPE_STRING = 0
+    ,SJ_FIELDTYPE_NUMBER
     ,SJ_FIELDTYPE_DATE
     ,SJ_FIELDTYPE_LIST
 
@@ -148,20 +135,17 @@ enum SjUnit
     // do not modify the order of this enum as the values are stored to disk!
     // add new values to the end (before SJ_UNIT_COUNT)!
 
-    SJ_UNIT_NA = 0
-
-                 ,SJ_UNIT_SECONDS = 100
-                                    ,SJ_UNIT_MINUTES
+     SJ_UNIT_NA = 0
+    ,SJ_UNIT_SECONDS = 100
+    ,SJ_UNIT_MINUTES
     ,SJ_UNIT_HOURS
     ,SJ_UNIT_DAYS
-
     ,SJ_UNIT_BYTE = 200
-                    ,SJ_UNIT_KB
+    ,SJ_UNIT_KB
     ,SJ_UNIT_MB
     ,SJ_UNIT_GB
-
     ,SJ_UNIT_TRACKS = 300
-                      ,SJ_UNIT_ALBUMS
+    ,SJ_UNIT_ALBUMS
 
     ,SJ_UNIT_COUNT
 };
@@ -173,12 +157,11 @@ enum SjSelectScope
     // do not modify the order of this enum as the values are stored to disk!
     // add new values to the end (before SJ_SELECT_COUNT)!
 
-    SJ_SELECTSCOPE_ALBUMS = 0
-                            ,SJ_SELECTSCOPE_TRACKS
+     SJ_SELECTSCOPE_ALBUMS = 0
+    ,SJ_SELECTSCOPE_TRACKS
 
     ,SJ_SELECTSCOPE_COUNT
 };
-
 
 
 enum SjSelectOp
@@ -186,25 +169,22 @@ enum SjSelectOp
     // do not modify the order of this enum as the values are stored to disk!
     // add new values to the end (before SJ_SELECTOP_COUNT)!
 
-    SJ_SELECTOP_ALL = 0
-                      ,SJ_SELECTOP_ANY
+     SJ_SELECTOP_ALL = 0
+    ,SJ_SELECTOP_ANY
     ,SJ_SELECTOP_NONE
 
     ,SJ_SELECTOP_COUNT
 };
 
 
-
 enum SjSubset
 {
-    SJ_SUBSET_NONE = 0
-
-                     ,SJ_SUBSET_INCLUDED_TRACKS
+     SJ_SUBSET_NONE = 0
+    ,SJ_SUBSET_INCLUDED_TRACKS
     ,SJ_SUBSET_EXCLUDED_TRACKS
 
     ,SJ_SUBSET_COUNT
 };
-
 
 
 #define SJ_SELECTSCOPE_DEFAULT  SJ_SELECTSCOPE_TRACKS
@@ -279,10 +259,10 @@ public:
 	GetFieldType        (SjField);
 	static bool     IsValidFieldOp      (SjField field, SjFieldOp op);
 	static wxString GetFieldDbName      (SjField);
-#if 0
+	#if 0
 	static wxString GetFieldsAsHtml     ();
 	static wxString GetFunctionsAsHtml  ();
-#endif
+	#endif
 
 	// Convert the field or the operator of the rule.
 	// The function returns TRUE if the conversion does not change

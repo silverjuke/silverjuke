@@ -26,16 +26,14 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_WEBLINKS_H__
 #define __SJ_WEBLINKS_H__
-
 
 
 class SjWebLink
 {
 public:
-	SjWebLink           (const wxString& section, const wxString& url, const wxString& name) { m_section=section; m_url=url; m_name=name; }
+					SjWebLink           (const wxString& section, const wxString& url, const wxString& name) { m_section=section; m_url=url; m_name=name; }
 	wxString        GetUrl              () const { return m_url; }
 	wxString        GetSection          () const { return m_section; }
 	wxString        GetName             () const { return m_name; }
@@ -51,10 +49,9 @@ WX_DECLARE_OBJARRAY(SjWebLink, SjArrayWebLink);
 
 enum SjWebLinksType
 {
-    SJ_WEBLINK_COVERSEARCH
+     SJ_WEBLINK_COVERSEARCH
     ,SJ_WEBLINK_ARTISTINFO
 };
-
 
 
 class SjWebLinks
@@ -72,8 +69,6 @@ private:
 	SjWebLinksType  m_type;
 	SjArrayWebLink  m_urls;
 };
-
-
 
 
 #endif // __SJ_WEBLINKS_H__

@@ -26,14 +26,11 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_HELP_H__
 #define __SJ_HELP_H__
 
 
-
 class SjHelpDialog;
-
 
 
 enum SjHelpTopicId
@@ -71,9 +68,7 @@ private:
 };
 
 
-
 extern SjHelpModule* g_helpModule;
-
 
 
 #endif // __SJ_HELP_H__

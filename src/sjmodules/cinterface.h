@@ -26,8 +26,6 @@
  ******************************************************************************/
 
 
-
-
 #ifndef __SJ_C_INTERFACE_H__
 #define __SJ_C_INTERFACE_H__
 
@@ -37,7 +35,6 @@
 #include "../tools/bytevector.h"
 
 class SjSee;
-
 
 
 class SjCPlugin : public SjCommonModule
@@ -69,14 +66,13 @@ private:
 	bool                m_initError;
 
 	// string from/to plugin (the plugin uses UTF-8)
-#define             ENCODE_MAX_STACK    8
+	#define             ENCODE_MAX_STACK    8
 	SjByteVector        m_returnString[ENCODE_MAX_STACK];
 	long                m_returnStringStack;
 
 	// the SEE object
 	SjSee*              m_see;
 };
-
 
 
 class SjCInterface : public SjInterfaceBase

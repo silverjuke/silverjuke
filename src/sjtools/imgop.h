@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_IMGOP_H__
 #define __SJ_IMGOP_H__
-
 
 
 class SjImgOp
@@ -49,19 +47,19 @@ public:
 
 	// Available operations -- do not modify the flags
 	// as they're written eg. to the database
-#define         SJ_IMGOP_RESIZE          0x00000001L
-#define         SJ_IMGOP_SMOOTH          0x00000002L // used with SJ_IMGOP_RESIZE
-#define         SJ_IMGOP_ROTATE90        0x00000004L
-#define         SJ_IMGOP_ROTATE180       0x00000008L
-#define         SJ_IMGOP_ROTATE270       0x00000010L
-#define         SJ_IMGOP_FLIPHORZ        0x00000020L
-#define         SJ_IMGOP_FLIPVERT        0x00000040L
-#define         SJ_IMGOP_GRAYSCALE       0x00000080L
-#define         SJ_IMGOP_NEGATIVE        0x00000100L
-#define         SJ_IMGOP_CROP            0x00000200L
-#define         SJ_IMGOP_CONTRAST        0x00000400L
-#define         SJ_IMGOP_BORDER          0x00000800L
-#define         SJ_IMGOP_KEEPASPECT      0x00004000L // used with SJ_IMGOP_RESIZE
+	#define         SJ_IMGOP_RESIZE          0x00000001L
+	#define         SJ_IMGOP_SMOOTH          0x00000002L // used with SJ_IMGOP_RESIZE
+	#define         SJ_IMGOP_ROTATE90        0x00000004L
+	#define         SJ_IMGOP_ROTATE180       0x00000008L
+	#define         SJ_IMGOP_ROTATE270       0x00000010L
+	#define         SJ_IMGOP_FLIPHORZ        0x00000020L
+	#define         SJ_IMGOP_FLIPVERT        0x00000040L
+	#define         SJ_IMGOP_GRAYSCALE       0x00000080L
+	#define         SJ_IMGOP_NEGATIVE        0x00000100L
+	#define         SJ_IMGOP_CROP            0x00000200L
+	#define         SJ_IMGOP_CONTRAST        0x00000400L
+	#define         SJ_IMGOP_BORDER          0x00000800L
+	#define         SJ_IMGOP_KEEPASPECT      0x00004000L // used with SJ_IMGOP_RESIZE
 	long            m_flags;
 	long            m_cropX, m_cropY, m_cropW, m_cropH;
 	long            m_resizeW, m_resizeH;
@@ -139,7 +137,6 @@ public:
 private:
 	long            m_id;
 };
-
 
 
 #endif /* __SJ_IMGOP_H__ */

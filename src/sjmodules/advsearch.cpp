@@ -131,7 +131,7 @@ SjDateDialog::SjDateDialog(wxWindow* parent)
 	m_timeCheck = new wxCheckBox(this, IDC_TIMECHECK, _("Time")+wxString(wxT(":")));
 	sizer3->Add(m_timeCheck, 0/*grow*/, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-#define TIME_W 48
+	#define TIME_W 48
 	m_hourSpinCtrl = new wxSpinCtrl(this, IDC_HOURCTRL, wxT(""), wxDefaultPosition, wxSize(TIME_W, -1), wxSP_ARROW_KEYS, 0, 23, 0);
 	sizer3->Add(m_hourSpinCtrl, 0/*grow*/, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE/2);
 
@@ -466,7 +466,7 @@ long SjRuleControls::GetRuleInputType()
 
 void SjRuleControls::InitFieldChoice(SjField field)
 {
-#define __SJ_FIELD_SEP__ SJ_FIELD_COUNT
+	#define __SJ_FIELD_SEP__ SJ_FIELD_COUNT
 	if( field == __SJ_FIELD_SEP__ )
 	{
 		m_fieldChoice->Append(SJ_CHOICE_SEP, (void*)__SJ_FIELD_SEP__);
@@ -698,12 +698,12 @@ wxChoice* SjRuleControls::CreateValueChoice(long baseId, wxString& value)
 
 wxComboBox* SjRuleControls::CreateValueComboBox(long baseId, const wxString& value__)
 {
-#define     CB_SPECIAL_TODAY            _("Today")
-#define     CB_SPECIAL_YESTERDAY        _("Yesterday")
-#define     CB_SPECIAL_SELECT_DATE      _("Select...")
-#define     CB_SPECIAL_SHOW_TRACKS      _("Show tracks...")
-#define     CB_SPECIAL_OPEN_PLAYLIST    (_("Add tracks from playlist")+wxString(wxT("...")))
-#define     CB_SPECIAL_CURR_POS         _("Current position")
+	#define     CB_SPECIAL_TODAY            _("Today")
+	#define     CB_SPECIAL_YESTERDAY        _("Yesterday")
+	#define     CB_SPECIAL_SELECT_DATE      _("Select...")
+	#define     CB_SPECIAL_SHOW_TRACKS      _("Show tracks...")
+	#define     CB_SPECIAL_OPEN_PLAYLIST    (_("Add tracks from playlist")+wxString(wxT("...")))
+	#define     CB_SPECIAL_CURR_POS         _("Current position")
 
 	wxString    value(value__);
 	wxComboBox* c;
@@ -1171,12 +1171,12 @@ void SjRuleControls::OnTextChanged(int i, WXTYPE eventType)
 
 		m_inValueChange--;
 	}
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	else
 	{
 		wxLogDebug(wxT("RECURSIVE CALL TO SjRuleControls::OnTextChanged ?!"));
 	}
-#endif
+	#endif
 }
 
 
@@ -1582,9 +1582,9 @@ bool SjAdvSearchDialog::SaveSearchInEditIfNeeded(bool askUser)
 
 	// save the search
 	g_advSearchModule->SaveSearch(recentSearch);
-#if SJ_USE_PENDING_MUSIC_SEL
+	#if SJ_USE_PENDING_MUSIC_SEL
 	g_advSearchModule->Flush();
-#endif
+	#endif
 
 	// save done, update title
 	UpdateSearchTitle(recentSearch);
@@ -1932,9 +1932,9 @@ void SjAdvSearchDialog::OnSearchEndEditLabel(wxListEvent& event)
 
 		// save
 		g_advSearchModule->RenameSearch(searchInRename, newName);
-#if SJ_USE_PENDING_MUSIC_SEL
+		#if SJ_USE_PENDING_MUSIC_SEL
 		g_advSearchModule->Flush();
-#endif
+		#endif
 
 		// update controls
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_UPDATESEARCHLIST);
@@ -2365,9 +2365,9 @@ bool SjAdvSearchModule::FirstLoad()
 	g_advSearchModule = this;
 
 	// init pending state
-#if SJ_USE_PENDING_MUSIC_SEL
+	#if SJ_USE_PENDING_MUSIC_SEL
 	m_pendingNeedsSave = false;
-#endif
+	#endif
 
 	// create the table to save searches in
 	wxSqlt sql;
@@ -2452,9 +2452,9 @@ void SjAdvSearchModule::CloseDialog()
 	}
 
 	// save unsaved searches - even if the dialog was not opened
-#if SJ_USE_PENDING_MUSIC_SEL
+	#if SJ_USE_PENDING_MUSIC_SEL
 	Flush();
-#endif
+	#endif
 }
 
 
@@ -2666,14 +2666,14 @@ long SjAdvSearchModule::GetSearchCount() const
 SjAdvSearch SjAdvSearchModule::GetSearch__(long index__, long id__, const wxString& name__, bool getRules) const
 {
 	wxLogDebug(wxT("      used pending ? "));
-#if SJ_USE_PENDING_MUSIC_SEL
+	#if SJ_USE_PENDING_MUSIC_SEL
 	if( index__ == -1 && m_pendingSearch.m_id > 0 && m_pendingSearch.m_id == id__ )
 	{
 		wxLogDebug(wxT(" :-)) used pending ... "));
 		return m_pendingSearch;
 	}
 	else
-#endif
+	#endif
 	{
 		SjAdvSearch ret;
 		wxSqlt sql;
@@ -2697,14 +2697,14 @@ SjAdvSearch SjAdvSearchModule::GetSearch__(long index__, long id__, const wxStri
 		if( sql.Next() )
 		{
 			ret.m_id = sql.GetLong(0);
-#if SJ_USE_PENDING_MUSIC_SEL
+			#if SJ_USE_PENDING_MUSIC_SEL
 			if( m_pendingSearch.m_id > 0 && m_pendingSearch.m_id == ret.m_id )
 			{
 				wxLogDebug(wxT(" :-)  used pending ... "));
 				return m_pendingSearch;
 			}
 			else
-#endif
+			#endif
 			{
 				ret.m_name = sql.GetString(1);
 				if( getRules )
@@ -2871,23 +2871,23 @@ SjAdvSearch SjAdvSearchModule::NewSearch(const SjAdvSearch* pattern)
 
 void SjAdvSearchModule::SaveSearch(const SjAdvSearch& search)
 {
-#if SJ_USE_PENDING_MUSIC_SEL
-	if( m_pendingSearch.m_id != search.m_id )
-	{
-		Flush();
-	}
+	#if SJ_USE_PENDING_MUSIC_SEL
+		if( m_pendingSearch.m_id != search.m_id )
+		{
+			Flush();
+		}
 
-	m_pendingSearch = search;
-	m_pendingNeedsSave = true;
-#else
-	wxBusyCursor busy;
-	wxSqlt sql;
+		m_pendingSearch = search;
+		m_pendingNeedsSave = true;
+	#else
+		wxBusyCursor busy;
+		wxSqlt sql;
 
-	SjStringSerializer ser;
-	search.Serialize(ser);
+		SjStringSerializer ser;
+		search.Serialize(ser);
 
-	sql.Query(wxT("UPDATE advsearch SET name='") + sql.QParam(search.m_name) + wxT("', rules='") + sql.QParam(ser.GetResult()) + wxT("' WHERE id=") + sql.LParam(search.m_id) + wxT(";"));
-#endif
+		sql.Query(wxT("UPDATE advsearch SET name='") + sql.QParam(search.m_name) + wxT("', rules='") + sql.QParam(ser.GetResult()) + wxT("' WHERE id=") + sql.LParam(search.m_id) + wxT(";"));
+	#endif
 
 	// inform other modues about the new configuration
 	m_interface->m_moduleSystem->BroadcastMsg(IDMODMSG_ADV_SEARCH_CONFIG_CHANGED);
@@ -2950,13 +2950,13 @@ void SjAdvSearchModule::DeleteSearch(const SjAdvSearch& search)
 	wxSqlt sql;
 	sql.Query(wxString::Format(wxT("DELETE FROM advsearch WHERE id=%i;"), (int)search.m_id));
 
-#if SJ_USE_PENDING_MUSIC_SEL
-	if( m_pendingSearch.m_id == search.m_id )
-	{
-		m_pendingSearch.m_id = 0;
-		m_pendingNeedsSave = false;
-	}
-#endif
+	#if SJ_USE_PENDING_MUSIC_SEL
+		if( m_pendingSearch.m_id == search.m_id )
+		{
+			m_pendingSearch.m_id = 0;
+			m_pendingNeedsSave = false;
+		}
+	#endif
 
 	// re-add the predefined searches if the list of searches is empty
 	if( GetSearchCount() == 0 )
@@ -3027,7 +3027,7 @@ void SjAdvSearchModule::GetLittleOptions(SjArrayLittleOption& lo)
 {
 	SjLittleOption::SetSection(_("Search"));
 
-#define SEP wxString(wxT("|"))
+	#define SEP wxString(wxT("|"))
 	lo.Add( new SjLittleBit(_("Search single words"), wxT("yn"), &m_flags, 1L /*default:on*/, SJ_SEARCHFLAG_SEARCHSINGLEWORDS, wxT("advsearch/flags")));
 	lo.Add( new SjLittleBit(_("Lookup genre on simple search"), wxT("yn"), &m_flags, 0L /*default:off*/, SJ_SEARCHFLAG_SIMPLEGENRELOOKUP, wxT("advsearch/flags")));
 	lo.Add( new SjLittleBit(_("Search while typing"), wxT("yn"), &m_flags, 1L /*default: on*/, SJ_SEARCHFLAG_SEARCHWHILETYPING, wxT("advsearch/flags")));
@@ -3043,7 +3043,7 @@ void SjAdvSearchModule::GetLittleOptions(SjArrayLittleOption& lo)
 	lo.Add( new SjLittleBit(_("Max. history size"), options, &m_maxHistorySize, SJ_DEFAULT_HISTORY_SIZE, 0L, wxT("advsearch/maxHistorySize")));
 
 	SjLittleOption::ClearSection();
-#undef SEP
+	#undef SEP
 }
 
 

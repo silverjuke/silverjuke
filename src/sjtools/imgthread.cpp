@@ -566,9 +566,9 @@ SjImgThreadObjList::Node* SjImgThread::SearchImg( SjImgThreadObjList&   anchor,
 SjImgThread::SjImgThread()
 	: wxThread(wxTHREAD_JOINABLE)
 {
-#define SJ_IMGTHREAD_USE_DISK_CACHE     0x00010000L
-#define SJ_IMGTHREAD_DIRECT_DISK_CACHE  0x00020000L
-#define SJ_IMGTHREAD_REGARD_TIMESTAMP   0x00040000L
+	#define SJ_IMGTHREAD_USE_DISK_CACHE     0x00010000L
+	#define SJ_IMGTHREAD_DIRECT_DISK_CACHE  0x00020000L
+	#define SJ_IMGTHREAD_REGARD_TIMESTAMP   0x00040000L
 	long settings = g_tools->m_config->Read(wxT("main/imgThread"), 2L);
 
 	m_ramCacheMaxBytes      = (settings&0xFFFF) * SJ_ONE_MB;
@@ -652,29 +652,29 @@ void SjImgThread::Shutdown()
 		m_critsect.Leave();
 		m_condition->Signal();
 
-#if 0
-		Wait();
-#else
-		unsigned long startWaiting = SjTools::GetMsTicks();
-		while( 1 )
-		{
-			if( !IsRunning() )
+		#if 0
+			Wait();
+		#else
+			unsigned long startWaiting = SjTools::GetMsTicks();
+			while( 1 )
 			{
-				break;
-			}
+				if( !IsRunning() )
+				{
+					break;
+				}
 
-			if( SjTools::GetMsTicks()-startWaiting > 4000 )
-			{
-#ifdef __WXDEBUG__
-				::wxMessageBox(wxT("I'm waiting since 4 seconds for the image thread to terminate ... what's on? I will exit now."),
-				               SJ_PROGRAM_NAME);
-#endif
-				break;
-			}
+				if( SjTools::GetMsTicks()-startWaiting > 4000 )
+				{
+					#ifdef __WXDEBUG__
+						::wxMessageBox(wxT("I'm waiting since 4 seconds for the image thread to terminate ... what's on? I will exit now."),
+								   SJ_PROGRAM_NAME);
+					#endif
+					break;
+				}
 
-			wxThread::Sleep(50);
-		}
-#endif
+				wxThread::Sleep(50);
+			}
+		#endif
 	}
 }
 

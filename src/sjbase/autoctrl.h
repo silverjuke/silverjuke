@@ -41,49 +41,49 @@ class SjAutoCtrl
 {
 public:
 	// settings
-	~SjAutoCtrl         ();
-#define         SJ_AUTOCTRL_FOLLOW_PLAYLIST             0x00010000L
-#define         SJ_AUTOCTRL_RESET_VIEW                  0x00020000L
-#define         SJ_AUTOCTRL_START_VIS                   0x00100000L
-#define         SJ_AUTOCTRL_STOP_VIS                    0x00200000L
-#define         SJ_AUTOCTRL_AUTOPLAY_ENABLED            0x01000000L
-#define         SJ_AUTOCTRL_SLEEP                       0x02000000L
-#define         SJ_AUTOCTRL_SLEEP_FADE                  0x00000001L
-#define         SJ_AUTOCTRL_AUTOPLAY_MAN_ENQ_INTERRUPT  0x08000000L
-#define         SJ_AUTOCTRL_AUTOPLAY_IGNORE             0x10000000L
-#define         SJ_AUTOCTRL_DEF_FLAGS                   0x0000FFFFL
+	               ~SjAutoCtrl         ();
+	#define         SJ_AUTOCTRL_FOLLOW_PLAYLIST             0x00010000L
+	#define         SJ_AUTOCTRL_RESET_VIEW                  0x00020000L
+	#define         SJ_AUTOCTRL_START_VIS                   0x00100000L
+	#define         SJ_AUTOCTRL_STOP_VIS                    0x00200000L
+	#define         SJ_AUTOCTRL_AUTOPLAY_ENABLED            0x01000000L
+	#define         SJ_AUTOCTRL_SLEEP                       0x02000000L
+	#define         SJ_AUTOCTRL_SLEEP_FADE                  0x00000001L
+	#define         SJ_AUTOCTRL_AUTOPLAY_MAN_ENQ_INTERRUPT  0x08000000L
+	#define         SJ_AUTOCTRL_AUTOPLAY_IGNORE             0x10000000L
+	#define         SJ_AUTOCTRL_DEF_FLAGS                   0x0000FFFFL
 	long            m_flags;
 
-#define         SJ_AUTOCTRL_DEF_FOLLOWPLAYLISTMINUTES   5L
-#define         SJ_AUTOCTRL_MIN_FOLLOWPLAYLISTMINUTES   1L
-#define         SJ_AUTOCTRL_MAX_FOLLOWPLAYLISTMINUTES   999L
+	#define         SJ_AUTOCTRL_DEF_FOLLOWPLAYLISTMINUTES   5L
+	#define         SJ_AUTOCTRL_MIN_FOLLOWPLAYLISTMINUTES   1L
+	#define         SJ_AUTOCTRL_MAX_FOLLOWPLAYLISTMINUTES   999L
 	long            m_followPlaylistMinutes;
 
 
-#define         SJ_AUTOCTRL_DEF_RESETVIEWMINUTES        6L
-#define         SJ_AUTOCTRL_MIN_RESETVIEWMINUTES        1L
-#define         SJ_AUTOCTRL_MAX_RESETVIEWMINUTES        999L
+	#define         SJ_AUTOCTRL_DEF_RESETVIEWMINUTES        6L
+	#define         SJ_AUTOCTRL_MIN_RESETVIEWMINUTES        1L
+	#define         SJ_AUTOCTRL_MAX_RESETVIEWMINUTES        999L
 	long            m_resetViewMinutes;
 	long            m_resetViewTo;
 
-#define         SJ_AUTOCTRL_DEF_STARTVISMINUTES         10L
-#define         SJ_AUTOCTRL_MIN_STARTVISMINUTES         1L
-#define         SJ_AUTOCTRL_MAX_STARTVISMINUTES         999L
+	#define         SJ_AUTOCTRL_DEF_STARTVISMINUTES         10L
+	#define         SJ_AUTOCTRL_MIN_STARTVISMINUTES         1L
+	#define         SJ_AUTOCTRL_MAX_STARTVISMINUTES         999L
 	long            m_startVisMinutes;
 
-#define         SJ_AUTOCTRL_DEF_STOPVISMINUTES          10L
-#define         SJ_AUTOCTRL_MIN_STOPVISMINUTES          1L
-#define         SJ_AUTOCTRL_MAX_STOPVISMINUTES          999L
+	#define         SJ_AUTOCTRL_DEF_STOPVISMINUTES          10L
+	#define         SJ_AUTOCTRL_MIN_STOPVISMINUTES          1L
+	#define         SJ_AUTOCTRL_MAX_STOPVISMINUTES          999L
 	long            m_stopVisMinutes;
 
-#define         SJ_AUTOCTRL_DEF_AUTOPLAYWAITMINUTES     3L
-#define         SJ_AUTOCTRL_MIN_AUTOPLAYWAITMINUTES     0L
-#define         SJ_AUTOCTRL_MAX_AUTOPLAYWAITMINUTES     999L
+	#define         SJ_AUTOCTRL_DEF_AUTOPLAYWAITMINUTES     3L
+	#define         SJ_AUTOCTRL_MIN_AUTOPLAYWAITMINUTES     0L
+	#define         SJ_AUTOCTRL_MAX_AUTOPLAYWAITMINUTES     999L
 	long            m_autoPlayWaitMinutes;
 
-#define         SJ_AUTOCTRL_DEF_AUTOPLAYNUMTRACKS       2L
-#define         SJ_AUTOCTRL_MIN_AUTOPLAYNUMTRACKS       1L
-#define         SJ_AUTOCTRL_MAX_AUTOPLAYNUMTRACKS       999L
+	#define         SJ_AUTOCTRL_DEF_AUTOPLAYNUMTRACKS       2L
+	#define         SJ_AUTOCTRL_MIN_AUTOPLAYNUMTRACKS       1L
+	#define         SJ_AUTOCTRL_MAX_AUTOPLAYNUMTRACKS       999L
 	long            m_autoPlayNumTracks;
 	long            m_autoPlayMusicSelId;
 	long            m_autoPlayMusicSelIgnoreId;
@@ -100,26 +100,26 @@ public:
 	void            SetSleepSettings    (bool enabled, SjShutdownEtc action, long timemode, long minutes, bool doFade, long fadeSeconds);
 	bool            m_stateTriggerSleep;// public to SjAutoFader
 private:
-#define         SJ_SLEEPMODE_ACTION_MASK                0x000000FFL // see SJ_SHUTDOWN_*
-#define         SJ_SLEEPMODE_TIMEMODE_MASK              0x00000F00L
-#define         SJ_SLEEPMODE_TIMEMODE_IN                0x00000000L
-#define         SJ_SLEEPMODE_TIMEMODE_AFTER             0x00000100L
-#define         SJ_SLEEPMODE_TIMEMODE_AT                0x00000200L
-#define         SJ_SLEEPMODE_TIMEMODE_ALWAYS_IN         0x00000300L
-#define         SJ_SLEEPMODE_TIMEMODE_ALWAYS_AFTER      0x00000400L
-#define         SJ_SLEEPMODE_TIMEMODE_ALWAYS_AT         0x00000500L
-#define         SJ_SLEEPMODE_DEF_FLAGS                  0x00000000L
-#define         SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT       3
+	#define         SJ_SLEEPMODE_ACTION_MASK                0x000000FFL // see SJ_SHUTDOWN_*
+	#define         SJ_SLEEPMODE_TIMEMODE_MASK              0x00000F00L
+	#define         SJ_SLEEPMODE_TIMEMODE_IN                0x00000000L
+	#define         SJ_SLEEPMODE_TIMEMODE_AFTER             0x00000100L
+	#define         SJ_SLEEPMODE_TIMEMODE_AT                0x00000200L
+	#define         SJ_SLEEPMODE_TIMEMODE_ALWAYS_IN         0x00000300L
+	#define         SJ_SLEEPMODE_TIMEMODE_ALWAYS_AFTER      0x00000400L
+	#define         SJ_SLEEPMODE_TIMEMODE_ALWAYS_AT         0x00000500L
+	#define         SJ_SLEEPMODE_DEF_FLAGS                  0x00000000L
+	#define         SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT       3
 	SjShutdownEtc   m_sleepAction;
 	long            m_sleepTimemode;
-#define         SJ_SLEEPMODE_DEF_MINUTES                60 // 60 minutes or 01:00 o'clock
-#define         SJ_SLEEPMODE_MIN_MINUTES                1
-#define         SJ_SLEEPMODE_MAX_MINUTES                99999
+	#define         SJ_SLEEPMODE_DEF_MINUTES                60 // 60 minutes or 01:00 o'clock
+	#define         SJ_SLEEPMODE_MIN_MINUTES                1
+	#define         SJ_SLEEPMODE_MAX_MINUTES                99999
 	long            m_sleepMinutes;
 
-#define         SJ_SLEEPMODE_DEF_FADE_SECONDS           60L
-#define         SJ_SLEEPMODE_MIN_FADE_SECONDS           1L
-#define         SJ_SLEEPMODE_MAX_FADE_SECONDS           999L
+	#define         SJ_SLEEPMODE_DEF_FADE_SECONDS           60L
+	#define         SJ_SLEEPMODE_MIN_FADE_SECONDS           1L
+	#define         SJ_SLEEPMODE_MAX_FADE_SECONDS           999L
 	long            m_sleepFadeSeconds;
 
 	unsigned long   m_stateSleepWaitTimestamp;

@@ -42,37 +42,35 @@
 class SjPasswordDlg : public SjDialog
 {
 public:
-	SjPasswordDlg       (wxWindow*          parent,
-	                     long               flags /*SJ_PASSWORDDLG_*/,
-	                     const wxString&    title,
-	                     const wxString&    passwordHint,
-	                     const wxString&    correctPassword1,
-	                     const wxString&    correctPassword2=wxT(""));
+	                 SjPasswordDlg          (wxWindow* parent,
+	                                         long flags /*SJ_PASSWORDDLG_*/,
+	                                         const wxString& title,
+	                                         const wxString& passwordHint,
+	                                         const wxString& correctPassword1,
+	                                         const wxString& correctPassword2=wxT(""));
 
-	bool            IsOkClicked         () const { return m_okClicked; }
-	int             IsPasswordOk        () const { return m_passwordOk; }
+	bool             IsOkClicked            () const { return m_okClicked; }
+	int              IsPasswordOk           () const { return m_passwordOk; }
 
-	SjShutdownEtc   GetExitAction       () const;
-	wxString        GetEnteredPassword  () const { if(m_passwordTextCtrl) {return m_passwordTextCtrl->GetValue();} return wxT(""); }
+	SjShutdownEtc    GetExitAction          () const;
+	wxString         GetEnteredPassword     () const { if(m_passwordTextCtrl) {return m_passwordTextCtrl->GetValue();} return wxT(""); }
 
-	static void     InitExitActionChoice(wxChoice*);
-	static wxChoice* CreateExitActionChoice(wxWindow* parent, SjShutdownEtc sel, bool addAsk);
+	static void      InitExitActionChoice   (wxChoice*);
+	static wxChoice* CreateExitActionChoice (wxWindow* parent, SjShutdownEtc sel, bool addAsk);
 
 private:
-	wxString            m_correctPassword1, m_correctPassword2;
-	bool                m_okClicked;
-	int                 m_passwordOk; // 0=none, 1=password1, 2=password2
-	wxChoice*           m_passwordAction;
-	SjVirtKeybdTextCtrl*
-	m_passwordTextCtrl;
-	SjTimeoutWatcher    m_timeoutWatcher;
-	wxTimer             m_closeTimer;
-	long                m_flags;
-	void                OnPasswordInput     (wxCommandEvent&) { m_timeoutWatcher.Reset(); }
-	void                OnCloseByTimer      (wxTimerEvent&);
+	wxString             m_correctPassword1, m_correctPassword2;
+	bool                 m_okClicked;
+	int                  m_passwordOk; // 0=none, 1=password1, 2=password2
+	wxChoice*            m_passwordAction;
+	SjVirtKeybdTextCtrl* m_passwordTextCtrl;
+	SjTimeoutWatcher     m_timeoutWatcher;
+	wxTimer              m_closeTimer;
+	long                 m_flags;
+	void                 OnPasswordInput        (wxCommandEvent&) { m_timeoutWatcher.Reset(); }
+	void                 OnCloseByTimer         (wxTimerEvent&);
+	bool                 TransferDataFromWindow ();
 	DECLARE_EVENT_TABLE ()
-	bool                TransferDataFromWindow
-	();
 };
 
 

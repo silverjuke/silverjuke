@@ -37,7 +37,7 @@
 class SjFreedbPlugin : public SjTagEditorPlugin
 {
 public:
-	SjFreedbPlugin      (wxWindow* parent, SjTrackInfo* exampleTrackInfo, const wxArrayString& urls);
+	                SjFreedbPlugin      (wxWindow* parent, SjTrackInfo* exampleTrackInfo, const wxArrayString& urls);
 
 	bool            PrepareModify       ();
 	void            ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&);

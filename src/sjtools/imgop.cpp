@@ -73,7 +73,7 @@ void SjImgOp::CopyFrom(const SjImgOp& o)
 
 long SjImgOp::Cmp(const SjImgOp& o) const
 {
-#define CHECK_ELEM(a, b) if((a)!=(b)) { return (a)-(b); }
+	#define CHECK_ELEM(a, b) if((a)!=(b)) { return (a)-(b); }
 
 	CHECK_ELEM(m_flags, o.m_flags)
 
@@ -111,7 +111,7 @@ bool SjImgOp::Do(wxImage& orgImage)
 	int         resizeDone,
 	            swapResize = 0;
 
-#undef USE_WX_RESIZE // wx resize does not support antialiasing
+	#undef USE_WX_RESIZE // wx resize does not support antialiasing
 
 	/* first, crop the image for smaller image size and as
 	 * the crop coordinates are relative to the original size.
@@ -129,15 +129,15 @@ bool SjImgOp::Do(wxImage& orgImage)
 	{
 		if( (m_resizeW*m_resizeH) < (orgImage.GetWidth()*orgImage.GetHeight()) )
 		{
-#ifdef USE_WX_RESIZE
-			wxImage modImage = orgImage.Scale(m_resizeW, m_resizeH);
-			if( modImage.Ok() )
-			{
-				orgImage = modImage;
-			}
-#else
-			DoResize(orgImage, m_resizeW, m_resizeH, m_flags);
-#endif
+			#ifdef USE_WX_RESIZE
+				wxImage modImage = orgImage.Scale(m_resizeW, m_resizeH);
+				if( modImage.Ok() )
+				{
+					orgImage = modImage;
+				}
+			#else
+				DoResize(orgImage, m_resizeW, m_resizeH, m_flags);
+			#endif
 			resizeDone = 1;
 		}
 		else
@@ -207,15 +207,15 @@ bool SjImgOp::Do(wxImage& orgImage)
 			int temp = resizeW; resizeW = resizeH; resizeH = temp;
 		}
 
-#ifdef USE_WX_RESIZE
-		wxImage modImage = orgImage.Scale(resizeW, resizeH);
-		if( modImage.Ok() )
-		{
-			orgImage = modImage;
-		}
-#else
-		DoResize(orgImage, m_resizeW, m_resizeH, m_flags);
-#endif
+		#ifdef USE_WX_RESIZE
+			wxImage modImage = orgImage.Scale(resizeW, resizeH);
+			if( modImage.Ok() )
+			{
+				orgImage = modImage;
+			}
+		#else
+			DoResize(orgImage, m_resizeW, m_resizeH, m_flags);
+		#endif
 	}
 
 	/* add a border?
@@ -662,14 +662,14 @@ bool SjImgOp::DoGrayscale(wxImage& image)
 	 * (intensity factors: 0.2125, 0.7154, 0.0721 (ITU Rec. BT.709))
 	 */
 
-#define COEFF_RED   6968L
-#define COEFF_GREEN 23434L
-#define COEFF_BLUE  2366L
-#define COEFF_SUM   32768L
+	#define COEFF_RED   6968L
+	#define COEFF_GREEN 23434L
+	#define COEFF_BLUE  2366L
+	#define COEFF_SUM   32768L
 
-#if (COEFF_RED+COEFF_GREEN+COEFF_BLUE)!=COEFF_SUM
-#error The Sum of the RGB Coefficents is not correct!
-#endif
+	#if (COEFF_RED+COEFF_GREEN+COEFF_BLUE)!=COEFF_SUM
+	#error The Sum of the RGB Coefficents is not correct!
+	#endif
 
 	/*
 	 * grayscale image
@@ -816,9 +816,9 @@ bool SjImgOp::DoAddBorder(wxImage& image, long borderWidth)
 		cmapInitialized = 1;
 	}
 
-#define SET_BORDER  currSrcLinePtr[0] = cmap[currSrcLinePtr[0]]; \
-                     currSrcLinePtr[1] = cmap[currSrcLinePtr[1]]; \
-                     currSrcLinePtr[2] = cmap[currSrcLinePtr[2]];
+	#define SET_BORDER  currSrcLinePtr[0] = cmap[currSrcLinePtr[0]]; \
+						 currSrcLinePtr[1] = cmap[currSrcLinePtr[1]]; \
+						 currSrcLinePtr[2] = cmap[currSrcLinePtr[2]];
 
 	/* top/bottom border (without the pixels very left and very right) */
 	for( y=0; y<2; y++ )
@@ -1184,9 +1184,9 @@ wxImage SjImgOp::CreateDummyCover(const wxString& albumDummyUrl, int wh)
 	wxColour colourBg;
 	wxColour colourText;
 	int i = SjTools::PrivateRand(holdrandArtist, sizeof(g_colours)/(sizeof(long)*2)) * 2;
-#define GETR(a) ((a)>>16)
-#define GETG(a) (((a)>>8)&0xFF)
-#define GETB(a) ((a)&0xFF)
+	#define GETR(a) ((a)>>16)
+	#define GETG(a) (((a)>>8)&0xFF)
+	#define GETB(a) ((a)&0xFF)
 	colourBg = wxColour(GETR(g_colours[i]), GETG(g_colours[i]), GETB(g_colours[i]));
 	colourText = wxColour(GETR(g_colours[i+1]), GETG(g_colours[i+1]), GETB(g_colours[i+1]));
 

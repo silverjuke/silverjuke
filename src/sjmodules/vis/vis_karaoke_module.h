@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_KARAOKE_MODULE_H__
 #define __SJ_KARAOKE_MODULE_H__
-
 
 
 #include "vis_bg.h"
@@ -39,7 +37,6 @@ class SjKaraokeWindow;
 class SjKaraokeFrame;
 
 class SjVisImpl;
-
 
 
 enum SjKaraokeBgType
@@ -52,17 +49,16 @@ enum SjKaraokeBgType
 };
 
 
-
 class SjKaraokeReader
 {
 public:
-	SjKaraokeReader     () {}
+	                SjKaraokeReader     () {}
 	virtual         ~SjKaraokeReader    () {}
 
 	// return false if at end; however, the reader must allow seeking backward
 	virtual bool    SetPosition         (long ms) = 0;
 
-#define         KARAOKE_RENDER_SHRINK 0.95F // max. amount of the screen to take
+	#define         KARAOKE_RENDER_SHRINK 0.95F // max. amount of the screen to take
 	virtual void    Render              (wxDC&, SjVisBg&, bool pleaseUpdateAll) = 0;
 
 protected:
@@ -72,12 +68,11 @@ protected:
 };
 
 
-
 class SjKaraokeMaster
 {
 public:
-	SjKaraokeMaster     ();
-	~SjKaraokeMaster    () { Exit(); }
+	                    SjKaraokeMaster     ();
+	                    ~SjKaraokeMaster    () { Exit(); }
 	bool                Init                (const wxString& musicFile, const wxString& artist, const wxString& title);
 
 	bool                HasKaraoke          () { return (m_reader!=NULL); }
@@ -92,11 +87,10 @@ private:
 };
 
 
-
 class SjKaraokeModule : public SjVisRendererModule
 {
 public:
-	SjKaraokeModule     (SjInterfaceBase* interf);
+						SjKaraokeModule     (SjInterfaceBase* interf);
 
 	bool                Start               (SjVisImpl*, bool justContinue);
 	void                Stop                ();
@@ -129,12 +123,12 @@ private:
 	void                UpdateBg            (bool keepImage=false);
 
 	// more configurations
-#define             SJ_KAR_SMOOTH       0x00000100L
-#define             SJ_KAR_USEBGJPG     0x00000200L
-#define             SJ_KAR_BG_MASK      0x000000FFL
-#define             SJ_KAR_KEEPASPECT   0x00010000L
-#define             SJ_KAR_GRAYSCALE    0x00020000L
-#define             SJ_KAR_DEFAULT      0x0000FF01L // 01 = SJ_KARAOKE_BG_DEFAULT_IMAGES
+	#define             SJ_KAR_SMOOTH       0x00000100L
+	#define             SJ_KAR_USEBGJPG     0x00000200L
+	#define             SJ_KAR_BG_MASK      0x000000FFL
+	#define             SJ_KAR_KEEPASPECT   0x00010000L
+	#define             SJ_KAR_GRAYSCALE    0x00020000L
+	#define             SJ_KAR_DEFAULT      0x0000FF01L // 01 = SJ_KARAOKE_BG_DEFAULT_IMAGES
 	long                m_karFlags;
 	void                WriteKarConfig      ();
 
@@ -142,11 +136,9 @@ private:
 };
 
 
-
 // you should not change SLEEP_MS without reasons.
 // IF you change it, also check if really all time-depending calculations are still correct.
 #define SJ_KARAOKE_SLEEP_MS 100
-
 
 
 #endif // __SJ_KARAOKE_MODULE_H__

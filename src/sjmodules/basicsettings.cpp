@@ -927,7 +927,7 @@ private:
 void SjBasicSettingsConfigPage::GetLittleMiscOptions(SjArrayLittleOption& lo)
 {
 	// init special commands...
-#define SEP wxString(wxT("|"))
+	#define SEP wxString(wxT("|"))
 
 	// ...scripts
 	SjLittleOption::ClearSection();

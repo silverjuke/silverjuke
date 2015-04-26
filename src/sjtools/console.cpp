@@ -383,7 +383,7 @@ SjLogDialog::SjLogDialog(SjLogGui* logGui,
 	m_evalInput = new wxTextCtrl(this, IDC_EVAL_INPUT, wxT(""), wxDefaultPosition, wxSize(300, -1), wxTE_PROCESS_ENTER);
 	sizer4->Add(m_evalInput, 1, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
 
-#define TOOLBAR_BUTTON(id, name) new wxButton(this, id, name, wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT)
+	#define TOOLBAR_BUTTON(id, name) new wxButton(this, id, name, wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT)
 
 	m_evalButton = TOOLBAR_BUTTON(IDC_EVAL_BUTTON, _("Evaluate"));
 	sizer4->Add(m_evalButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
@@ -502,12 +502,12 @@ void SjLogDialog::OnDetails(wxCommandEvent& event)
 	// don't change the width when expanding/collapsing
 	SetSize(wxDefaultCoord, size.y);
 
-#ifdef __WXGTK__
-	// VS: this is necessary in order to force frame redraw under
-	// WindowMaker or fvwm2 (and probably other broken WMs).
-	// Otherwise, detailed list wouldn't be displayed.
-	Show();
-#endif // wxGTK
+	#ifdef __WXGTK__
+		// VS: this is necessary in order to force frame redraw under
+		// WindowMaker or fvwm2 (and probably other broken WMs).
+		// Otherwise, detailed list wouldn't be displayed.
+		Show();
+	#endif // wxGTK
 }
 
 
@@ -880,7 +880,7 @@ void SjLogGui::Flush()
 		// copy all messages to our "all time buffer"
 		m_bHasMessages = false;
 
-#define MAX_MESSAGES 1000
+		#define MAX_MESSAGES 1000
 		while( m_aPacked.GetCount() > MAX_MESSAGES*2 )
 			m_aPacked.RemoveAt(0, MAX_MESSAGES);
 

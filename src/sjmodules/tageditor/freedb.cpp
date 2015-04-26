@@ -405,7 +405,7 @@ bool SjFreedbQuery::SelectResultContinued()
 		while( (currLinePtr=tkz.GetNextLine()) )
 		{
 			if( currLinePtr[0]
-			        && currLinePtr[0] != '#' )
+			 && currLinePtr[0] != '#' )
 			{
 				currLine = currLinePtr;
 				if( firstLine )

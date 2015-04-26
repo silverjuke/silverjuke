@@ -26,16 +26,14 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_TAGEDITOR_RENAME_H__
 #define __SJ_TAGEDITOR_RENAME_H__
-
 
 
 class SjTrackInfoReplacer : public SjPlaceholdReplacer
 {
 public:
-	SjTrackInfoReplacer (SjTrackInfo* ti=NULL);
+	                SjTrackInfoReplacer (SjTrackInfo* ti=NULL);
 	void            ReplacePath         (wxString& text, SjTrackInfo* ti=NULL);
 
 protected:
@@ -51,23 +49,21 @@ private:
 class SjRenamePlugin : public SjTagEditorPlugin
 {
 public:
-	SjRenamePlugin      (wxWindow* parent, SjTrackInfo* exampleTrackInfo);
+	                SjRenamePlugin      (wxWindow* parent, SjTrackInfo* exampleTrackInfo);
 	bool            PrepareModify       ();
 	void            ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&);
 
 private:
 	// configuration
 	wxArrayString   m_pattern;
-	SjTrackInfoReplacer
-	m_tiReplacer;
+	SjTrackInfoReplacer m_tiReplacer;
 
 	// controls
 	SjInsertButton* m_insertButton;
 	wxStaticText*   m_exampleCtrl;
 	void            UpdateExample       ();
 
-	SjHistoryComboBox*
-	m_patternCtrl;
+	SjHistoryComboBox* m_patternCtrl;
 	void            OnInsert            (wxCommandEvent& e) { m_insertButton->OnOption(e, m_patternCtrl); UpdateExample(); }
 	void            OnPatternChange     (wxCommandEvent& e) { UpdateExample(); }
 	DECLARE_EVENT_TABLE ()

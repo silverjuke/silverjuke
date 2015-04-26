@@ -265,15 +265,15 @@ wxArrayString SjModuleSystem::GetStubImageExt() const
 
 	wxArrayString ret;
 
-#if wxUSE_LIBTIFF
-	ret.Add(wxT("tiff"));
-#endif
+	#if wxUSE_LIBTIFF
+		ret.Add(wxT("tiff"));
+	#endif
 
-#if wxUSE_LIBJPEG
-	ret.Add(wxT("jpe"));
-	ret.Add(wxT("jpeg"));
-	ret.Add(wxT("jif"));
-#endif
+	#if wxUSE_LIBJPEG
+		ret.Add(wxT("jpe"));
+		ret.Add(wxT("jpeg"));
+		ret.Add(wxT("jif"));
+	#endif
 
 	return ret;
 }
@@ -318,12 +318,12 @@ int SjModuleSystem_CmpModulesByName(const SjModule** m1, const SjModule** m2)
 void SjModuleSystem::LoadModules()
 {
 	// This function may only be called from the main thread.
-#ifdef __WXDEBUG__
-	wxASSERT( wxThread::IsMain() );
-	static bool s_functionCalled = false;
-	wxASSERT( !s_functionCalled );
-	s_functionCalled = true;
-#endif
+	#ifdef __WXDEBUG__
+		wxASSERT( wxThread::IsMain() );
+		static bool s_functionCalled = false;
+		wxASSERT( !s_functionCalled );
+		s_functionCalled = true;
+	#endif
 
 	// get modules
 	SjInterfaceList::Node* interfaceNode = m_listOfInterfaces.GetFirst();
@@ -640,11 +640,11 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 		// Do not log errors in this case.
 		SjLogString logToString(suppressNoAccessErrors);
 
-#ifdef __WXMSW__
-		entryStr = fs.FindFirst(wxT("*.*"), wxDIR);
-#else
-		entryStr = fs.FindFirst(wxT("*"), wxDIR);
-#endif
+		#ifdef __WXMSW__
+			entryStr = fs.FindFirst(wxT("*.*"), wxDIR);
+		#else
+			entryStr = fs.FindFirst(wxT("*"), wxDIR);
+		#endif
 	}
 
 	while( !entryStr.IsEmpty() )
@@ -677,13 +677,13 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 		// Do not log errors in this case.
 		SjLogString logToString(suppressNoAccessErrors);
 
-#if defined(__WXMSW__)
-		entryStr = fs.FindFirst(wxT("*.dll"), wxFILE);
-#elif defined(__WXMAC__)
-		entryStr = fs.FindFirst(wxT("*.dylib"), wxFILE);
-#else
-		entryStr = fs.FindFirst(wxT("*.so"), wxFILE);
-#endif
+		#if defined(__WXMSW__)
+			entryStr = fs.FindFirst(wxT("*.dll"), wxFILE);
+		#elif defined(__WXMAC__)
+			entryStr = fs.FindFirst(wxT("*.dylib"), wxFILE);
+		#else
+			entryStr = fs.FindFirst(wxT("*.so"), wxFILE);
+		#endif
 	}
 
 	while( !entryStr.IsEmpty() )
@@ -1191,7 +1191,7 @@ bool SjTrackInfo::AddMerge(const SjTrackInfo& o)
 {
 	bool sthModified = FALSE;
 
-#define DO_MERGE(f, n) \
+	#define DO_MERGE(f, n) \
      if( (o.m_validFields & (f)) && (n != o.n) ) \
      { \
          n = o.n; \
@@ -1298,9 +1298,9 @@ wxString SjTrackInfo::GetFormattedValue(long ti) const
 
 wxString SjTrackInfo::GetValue(long ti) const
 {
-#define RETURN_STRING(n) \
+	#define RETURN_STRING(n) \
          return (n);
-#define RETURN_LONG(n) \
+	#define RETURN_LONG(n) \
          return wxString::Format(wxT("%i"), (int)(n));
 
 	switch( ti )
@@ -1334,9 +1334,9 @@ wxString SjTrackInfo::GetValue(long ti) const
 void SjTrackInfo::SetValue(long ti, const wxString& value)
 {
 	long longValue;
-#define SET_STRING(n) \
+	#define SET_STRING(n) \
          (n) = value; return;
-#define SET_LONG(n) \
+	#define SET_LONG(n) \
          if( value.ToLong(&longValue) ) { (n) = longValue; } return;
 
 	switch( ti )
@@ -1491,7 +1491,7 @@ wxString SjTrackInfo::Diff(const SjTrackInfo& o) const
 {
 	wxString ret;
 
-#define DIFF_STRING(a) \
+	#define DIFF_STRING(a) \
      if( a != o.a ) \
      { \
          wxString t(a), o_t(o.a); \
@@ -1508,7 +1508,7 @@ wxString SjTrackInfo::Diff(const SjTrackInfo& o) const
          } \
      }
 
-#define DIFF_LONG(a) \
+	#define DIFF_LONG(a) \
      if( a != o.a ) \
          ret += wxString::Format(wxT("\n%s: %i != %i"), wxT(#a), (int)a, (int)o.a);
 

@@ -26,15 +26,11 @@
  ******************************************************************************/
 
 
-
 #ifndef __WX_SQLT_H__
 #define __WX_SQLT_H__
 
 
-// wx includes
 #include "wx/wx.h"
-
-// sqlite includes
 #include "sqlite/sqlite3.h"
 
 
@@ -56,23 +52,23 @@
 //   return strWxStr;
 #if wxUSE_UNICODE
 
-#define SQLITE3_TO_WXSTRING(a) \
-     wxString a##WxStr = wxString((a), wxConvUTF8);
+	#define SQLITE3_TO_WXSTRING(a) \
+		 wxString a##WxStr = wxString((a), wxConvUTF8);
 
-#define WXSTRING_TO_SQLITE3(a) \
-     wxCharBuffer a##__tempCharBuf = (a).mb_str(wxConvUTF8); \
-     const char* a##Sqlite3Str = a##__tempCharBuf.data();
+	#define WXSTRING_TO_SQLITE3(a) \
+		 wxCharBuffer a##__tempCharBuf = (a).mb_str(wxConvUTF8); \
+		 const char* a##Sqlite3Str = a##__tempCharBuf.data();
 
 #else
 
-#define SQLITE3_TO_WXSTRING(a) \
-     wxString a##WxStr = wxString(wxConvUTF8.cMB2WC((a)));
+	#define SQLITE3_TO_WXSTRING(a) \
+		 wxString a##WxStr = wxString(wxConvUTF8.cMB2WC((a)));
 
-#define WXSTRING_TO_SQLITE3(a) \
-     const char* a##Sqlite3Str; \
-     wxCharBuffer a##__tempCharBuf((size_t)0L); \
-	 a##__tempCharBuf = wxConvUTF8.cWC2MB((a).wc_str(wxConvLocal)); \
-	 a##Sqlite3Str = a##__tempCharBuf.data();
+	#define WXSTRING_TO_SQLITE3(a) \
+		 const char* a##Sqlite3Str; \
+		 wxCharBuffer a##__tempCharBuf((size_t)0L); \
+		 a##__tempCharBuf = wxConvUTF8.cWC2MB((a).wc_str(wxConvLocal)); \
+		 a##Sqlite3Str = a##__tempCharBuf.data();
 
 #endif
 
@@ -116,9 +112,9 @@ private:
 	sqlite3*            m_sqlite;
 	int                 m_transactionCount;
 	bool                m_transactionVacuumPending;
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	int                 m_instanceCount;
-#endif
+	#endif
 
 	long                Bytes2Pages         (long bytes);
 	long                Pages2Bytes         (long pages);
@@ -142,16 +138,16 @@ public:
 		m_db = db? db : wxSqltDb::s_defaultDb;
 		m_stmt = NULL;
 		wxASSERT(m_db);
-#ifdef __WXDEBUG__
-		m_db->m_instanceCount++;
-#endif
+		#ifdef __WXDEBUG__
+			m_db->m_instanceCount++;
+		#endif
 	}
 	~wxSqlt             ()
 	{
 		CloseQuery();
-#ifdef __WXDEBUG__
-		m_db->m_instanceCount--;
-#endif
+		#ifdef __WXDEBUG__
+			m_db->m_instanceCount--;
+		#endif
 	}
 
 	wxSqltDb*       GetDb               () const { return m_db; }

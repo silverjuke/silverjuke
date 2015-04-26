@@ -62,7 +62,7 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	}
 
 	// create dialog
-#define CTRL_W 260
+	#define CTRL_W 260
 
 	wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
 	SetSizer(sizer1);

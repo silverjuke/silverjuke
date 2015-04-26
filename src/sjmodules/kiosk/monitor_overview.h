@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_MONITOR_OVERVIEW__
 #define __SJ_MONITOR_OVERVIEW__
 
@@ -35,9 +34,9 @@ class SjMonitorOvItem
 {
 public:
 	wxRect          m_monitorGeom;
-#define         MONITOR_USAGE_DUMMY 0x01
-#define         MONITOR_USAGE_MAIN  0x02
-#define         MONITOR_USAGE_VIS   0x04
+	#define         MONITOR_USAGE_DUMMY 0x01
+	#define         MONITOR_USAGE_MAIN  0x02
+	#define         MONITOR_USAGE_VIS   0x04
 	long            m_monitorUsage;
 
 	wxRect          m_drawRect;
@@ -46,11 +45,10 @@ public:
 WX_DECLARE_OBJARRAY(SjMonitorOvItem, SjArrayMonitorOvItem);
 
 
-
 class SjMonitorOverview : public wxWindow
 {
 public:
-	SjMonitorOverview   (wxWindow* parent, int id, long style);
+	                SjMonitorOverview   (wxWindow* parent, int id, long style);
 
 	void            Clear               ();
 	void            AddMonitor          (const wxRect&);
@@ -58,8 +56,7 @@ public:
 	void            SetMonitorUsage     (long index, long flag, bool set);
 
 private:
-	SjArrayMonitorOvItem
-	m_monitors;
+	SjArrayMonitorOvItem m_monitors;
 	long            m_nonDummy;
 	wxSize          m_fontPxSize;
 	wxFont          m_fontNumber;

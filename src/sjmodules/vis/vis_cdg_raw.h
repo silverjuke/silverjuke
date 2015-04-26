@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_CDG_RAW_H__
 #define __SJ_CDG_RAW_H__
-
 
 
 struct SjCdgSubcode
@@ -40,8 +38,6 @@ struct SjCdgSubcode
 	unsigned char   data[16];       // only use CDG_MASK bits!
 	unsigned char   parityP[4];
 };
-
-
 
 
 // CDG Command Code
@@ -62,26 +58,25 @@ struct SjCdgSubcode
 #define CDG_MASK                    0x3F
 
 
-
 class SjCdgRaw
 {
 public:
-	SjCdgRaw            ();
+					SjCdgRaw            ();
 	void            Rewind              ();
 	void            AddSubcode          (const SjCdgSubcode* subcode);
 	static bool     IsDataSubcode       (const SjCdgSubcode* subcode);
-#define         CDG_IMAGE_W     294 // 294/6  = 49 tiles (+1 for the border)
-#define         CDG_IMAGE_H     204 // 204/12 = 17 tiles (+1 for the border)
+	#define         CDG_IMAGE_W     294 // 294/6  = 49 tiles (+1 for the border)
+	#define         CDG_IMAGE_H     204 // 204/12 = 17 tiles (+1 for the border)
 
-#define         CDG_SCREEN_W    300
-#define         CDG_SCREEN_H    216
+	#define         CDG_SCREEN_W    300
+	#define         CDG_SCREEN_H    216
 	unsigned char   m_screen[CDG_SCREEN_W * CDG_SCREEN_H];
 
-#define         PARTS_PER_ROW   6
-#define         PARTS_PER_COL   4
-#define         PART_WIDTH      (CDG_IMAGE_W / PARTS_PER_ROW)
-#define         PART_HEIGHT     (CDG_IMAGE_H / PARTS_PER_COL)
-#define         ALL_PARTS       0xFFFFFFL
+	#define         PARTS_PER_ROW   6
+	#define         PARTS_PER_COL   4
+	#define         PART_WIDTH      (CDG_IMAGE_W / PARTS_PER_ROW)
+	#define         PART_HEIGHT     (CDG_IMAGE_H / PARTS_PER_COL)
+	#define         ALL_PARTS       0xFFFFFFL
 	unsigned long   m_updatedParts;
 
 	unsigned char   m_colourTable[16 * 3];
@@ -97,7 +92,6 @@ private:
 	void            Scroll              (const SjCdgSubcode* subcode, bool scrollRotate);
 	unsigned char   m_scrollTempBuf     [CDG_SCREEN_W*12];
 };
-
 
 
 #endif /* __SJ_CDG_RAW_H__ */

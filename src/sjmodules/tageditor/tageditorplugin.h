@@ -35,7 +35,7 @@
 class SjInsertButton : public wxButton
 {
 public:
-	SjInsertButton      (wxWindow* parent, int idButton, int idFirstOption);
+	                SjInsertButton      (wxWindow* parent, int idButton, int idFirstOption);
 	void            AddOption           (const wxString& name, const wxString& descr);
 	void            AddCaseOption       (const wxString& name, const wxString& descr);
 	void            AddWidthOption      (const wxString& name, const wxString& descr);
@@ -54,9 +54,8 @@ private:
 class SjTrackInfoFieldChoice : public wxChoice
 {
 public:
-	SjTrackInfoFieldChoice
-	(wxWindow* parent, int id);
-	void            AppendFlags         (long tiFlags);
+					SjTrackInfoFieldChoice (wxWindow* parent, int id);
+	void            AppendFlags            (long tiFlags);
 };
 
 
@@ -95,17 +94,16 @@ protected:
 class SjModifyListCtrl : public wxListCtrl
 {
 public:
-	SjModifyListCtrl    (wxWindow* parent, wxWindowID id, SjModifyInfo&, bool showUrlsOnly);
+	                SjModifyListCtrl    (wxWindow* parent, wxWindowID id, SjModifyInfo&, bool showUrlsOnly);
 	void            SizeColumns         ();
 
+	#define         CONFIRM_COL1_OLDURL 0
+	#define         CONFIRM_COL1_NEWURL 1
 
-#define         CONFIRM_COL1_OLDURL 0
-#define         CONFIRM_COL1_NEWURL 1
-
-#define         CONFIRM_COL2_URL    0
-#define         CONFIRM_COL2_FIELD  1
-#define         CONFIRM_COL2_OLDVAL 2
-#define         CONFIRM_COL2_NEWVAL 3
+	#define         CONFIRM_COL2_URL    0
+	#define         CONFIRM_COL2_FIELD  1
+	#define         CONFIRM_COL2_OLDVAL 2
+	#define         CONFIRM_COL2_NEWVAL 3
 
 	wxString        OnGetItemText       (long item, long column) const;
 	int             OnGetItemImage      (long item) const;
@@ -122,14 +120,13 @@ private:
 class SjConfirmDlg : public SjTagEditorPlugin
 {
 public:
-	SjConfirmDlg        (wxWindow* parent, SjModifyInfo&, bool askWriteId3, bool askDelEmptyDir);
+	                SjConfirmDlg        (wxWindow* parent, SjModifyInfo&, bool askWriteId3, bool askDelEmptyDir);
 
 private:
 	// data
 	SjModifyInfo*   m_items;
 	bool            m_itemsEdited;
-	bool            TransferDataFromWindow
-	();
+	bool            TransferDataFromWindow ();
 	// controls
 	wxStaticText*   m_msgTextCtrl;
 	wxString        GetMsg              () const;
@@ -141,9 +138,9 @@ private:
 	m_listCtrl;
 
 	// events
-#define         IDC_CONFIRM_LIST    (IDM_FIRSTPRIVATE+1)
-#define         IDC_CONFIRM_EDIT    (IDM_FIRSTPRIVATE+2)
-#define         IDC_CONFIRM_DELETE  (IDM_FIRSTPRIVATE+3)
+	#define         IDC_CONFIRM_LIST    (IDM_FIRSTPRIVATE+1)
+	#define         IDC_CONFIRM_EDIT    (IDM_FIRSTPRIVATE+2)
+	#define         IDC_CONFIRM_DELETE  (IDM_FIRSTPRIVATE+3)
 	void            OnDoubleClick       (wxListEvent&) { wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_CONFIRM_EDIT); AddPendingEvent(fwd); }
 	void            OnContextMenu       (wxListEvent&);
 	void            OnKeyDown           (wxListEvent&);
@@ -152,7 +149,6 @@ private:
 	void            OnSize              (wxSizeEvent& event) { SjDialog::OnSize(event); if(m_listCtrl) { m_listCtrl->SizeColumns(); } }
 	DECLARE_EVENT_TABLE ()
 };
-
 
 
 #endif // __SJ_TAGEDITOR_PLUGIN_H__

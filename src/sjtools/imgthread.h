@@ -193,9 +193,9 @@ private:
 
 	void            SaveSettings        ();
 
-#ifdef SG_DEBUG_IMGTHREAD
+	#ifdef SG_DEBUG_IMGTHREAD
 	void           LogDebug            ();
-#endif
+	#endif
 };
 
 

@@ -200,16 +200,16 @@ void SjCoverBrowser::OnMouseLeftDown(wxMouseEvent& event)
 	/* perform selection
 	 */
 	m_mouseSelectionOnDown = FALSE;
-#ifdef USE_COVER_DND
-	SjCol* cover;
-	if(  g_accelModule->m_selDragNDrop == 1
-	        &&  (cover=FindCover(m_dragStartX, m_dragStartY))!=NULL
-	        /*&& !cover->IsAnyRowSelected() -- we preserve given selections but allow only one album selected by us*/ )
-	{
-		OnMouseSelect(event);
-		m_mouseSelectionOnDown = TRUE;
-	}
-#endif
+	#ifdef USE_COVER_DND
+		SjCol* cover;
+		if(  g_accelModule->m_selDragNDrop == 1
+				&&  (cover=FindCover(m_dragStartX, m_dragStartY))!=NULL
+				/*&& !cover->IsAnyRowSelected() -- we preserve given selections but allow only one album selected by us*/ )
+		{
+			OnMouseSelect(event);
+			m_mouseSelectionOnDown = TRUE;
+		}
+	#endif
 }
 
 
@@ -330,11 +330,11 @@ void SjCoverBrowser::OnMouseMotion(wxMouseEvent& event)
 		        || vDifference >  DRAGSCROLL_DELTA
 		        || vDifference < -DRAGSCROLL_DELTA )
 		{
-#ifdef USE_COVER_DND
+			#ifdef USE_COVER_DND
 			SjCol* cover;
 			if( g_accelModule->m_selDragNDrop
-			        && (cover=FindCover(m_dragStartX, m_dragStartY))!=NULL
-			        && cover->IsAnyRowSelected() )
+			 && (cover=FindCover(m_dragStartX, m_dragStartY))!=NULL
+			 && cover->IsAnyRowSelected() )
 			{
 				// do object dragging
 				m_window->m_dragUrls.Clear();
@@ -354,20 +354,20 @@ void SjCoverBrowser::OnMouseMotion(wxMouseEvent& event)
 				}
 			}
 			else
-#endif
-				if( g_accelModule->m_flags&SJ_ACCEL_CONTENT_DRAG
-				        && m_applRowCount )
-				{
-					// start dragscroll
-					m_window->m_mouseAction = SJ_ACTION_DRAGSCROLL;
-					m_dragscrollCurrY       = yPos;
-					m_window->SetCursor(g_tools->m_staticMovehandCursor);
-				}
+			#endif
+			if( g_accelModule->m_flags&SJ_ACCEL_CONTENT_DRAG
+			 && m_applRowCount )
+			{
+				// start dragscroll
+				m_window->m_mouseAction = SJ_ACTION_DRAGSCROLL;
+				m_dragscrollCurrY       = yPos;
+				m_window->SetCursor(g_tools->m_staticMovehandCursor);
+			}
 		}
 	}
 
 	// in drag'n'drop?
-#ifdef USE_COVER_DND
+	#ifdef USE_COVER_DND
 	if( m_window->m_mouseAction == SJ_ACTION_DRAGNDROP )
 	{
 		if( !g_mainFrame->DragNDrop(SJ_DND_MOVE, m_window, event.GetPosition(), NULL, &m_window->m_dragUrls) )
@@ -375,7 +375,7 @@ void SjCoverBrowser::OnMouseMotion(wxMouseEvent& event)
 			m_window->m_mouseAction = SJ_ACTION_NONE;
 		}
 	}
-#endif
+	#endif
 
 	// in dragscroll?
 	if( m_window->m_mouseAction == SJ_ACTION_DRAGSCROLL )
@@ -974,9 +974,9 @@ bool SjCoverBrowser::GotoUrl(const wxString& url)
 		delete col;
 
 		// check index
-#ifdef __WXDEBUG__
+		#ifdef __WXDEBUG__
 		col = NULL;
-#endif
+		#endif
 		if( colIndex >= 0 )
 		{
 			// goto column
@@ -1073,9 +1073,9 @@ void SjCoverBrowser::GotoPos(const wxString& guid, long viewOffset)
 		delete col;
 
 		// check index
-#ifdef __WXDEBUG__
+		#ifdef __WXDEBUG__
 		col = NULL;
-#endif
+		#endif
 		if( colIndex >= 0 )
 		{
 			// goto column
@@ -1266,12 +1266,10 @@ void SjCoverBrowser::OnImageThere(SjImageThereEvent& event)
 void SjCoverBrowser::DoPaint(wxDC& dc)
 {
 	long    x, y, w, h;
-#define SPACE_BRUSH g_mainFrame->m_workspaceColours[SJ_COLOUR_NORMAL].bgBrush
-
+	#define SPACE_BRUSH g_mainFrame->m_workspaceColours[SJ_COLOUR_NORMAL].bgBrush
 
 	// reset required and waiting images
 	g_mainFrame->m_imgThread->RequireStart(m_window);
-
 
 	// draw stuff very left (does not scroll)
 	dc.SetPen(*wxTRANSPARENT_PEN);
@@ -1291,13 +1289,11 @@ void SjCoverBrowser::DoPaint(wxDC& dc)
 		m_window->DrawUpText(dc, g_mainFrame->m_libraryModule->GetUpText(), 0, SPACE_TOP+m_fontHeight, SPACE_LEFT, m_window->m_clientH-(SPACE_TOP+m_fontHeight));
 	dc.DestroyClippingRegion();
 
-
 	// draw space atop of all covers
 	long currY = -m_scrollY;
 	dc.SetBrush(SPACE_BRUSH);
 	dc.SetPen(*wxTRANSPARENT_PEN);
 	dc.DrawRectangle(SPACE_LEFT, currY, m_window->m_clientW, g_mainFrame->m_currColumnYSpace);
-
 
 	// go through all cover rows
 	int coverIndex = 0;

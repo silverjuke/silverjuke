@@ -356,7 +356,7 @@ static int MmvStrCalcWldLimit   (   long currLen    )
 
 int levensthein (const unsigned char *wort__, const unsigned char *muster__, int limit__)
 {
-#define CHARBUF_SIZE 256
+	#define CHARBUF_SIZE 256
 	register int    spmin,
 	         p,q,r,
 	         lm,lw,

@@ -31,7 +31,7 @@
 
 
 /*******************************************************************************
- *  SjRuleControls
+ * SjRuleControls
  ******************************************************************************/
 
 
@@ -114,9 +114,7 @@ private:
 };
 
 
-
 WX_DECLARE_OBJARRAY(SjRuleControls, SjArrayRuleControls);
-
 
 
 /*******************************************************************************
@@ -241,15 +239,12 @@ private:
 WX_DECLARE_OBJARRAY(SjSearchHistory, SjArraySearchHistory);
 
 
-
 /*******************************************************************************
- *  SjAdvSearchModule
+ * SjAdvSearchModule
  ******************************************************************************/
 
 
-
 class SjAdvSearchDialog;
-
 
 
 class SjAdvSearchModule : public SjCommonModule
@@ -283,18 +278,18 @@ public:
 	static wxString FormatResultString  (long count, const wxString& advSearchName=wxT(""));
 
 	// some flags
-#define         SJ_SEARCHFLAG_SEARCHWHILETYPING     0x00000001L
-#define         SJ_SEARCHFLAG_SIMPLEGENRELOOKUP     0x00100000L // since version 3.0, this is no longer set by default
-#define         SJ_SEARCHFLAG_SEARCHSINGLEWORDS     0x00000004L
-#define         SJ_SEARCHFLAG_DEFAULTS              0x000FFFFFL
+	#define         SJ_SEARCHFLAG_SEARCHWHILETYPING     0x00000001L
+	#define         SJ_SEARCHFLAG_SIMPLEGENRELOOKUP     0x00100000L // since version 3.0, this is no longer set by default
+	#define         SJ_SEARCHFLAG_SEARCHSINGLEWORDS     0x00000004L
+	#define         SJ_SEARCHFLAG_DEFAULTS              0x000FFFFFL
 	long            m_flags;
 
-#define         SJ_SAVESEARCHES_ASK         0L
-#define         SJ_SAVESEARCHES_SAVE        1L
-#define         SJ_SAVESEARCHES_DONTSAVE    2L
+	#define         SJ_SAVESEARCHES_ASK         0L
+	#define         SJ_SAVESEARCHES_SAVE        1L
+	#define         SJ_SAVESEARCHES_DONTSAVE    2L
 	long            m_saveSearches;
 
-#define         SJ_DEFAULT_HISTORY_SIZE 10L
+	#define         SJ_DEFAULT_HISTORY_SIZE 10L
 	long            m_maxHistorySize;
 
 	// history stuff
@@ -304,9 +299,7 @@ public:
 	void            AddToHistory        (const SjSearch&);
 
 	// handling comboboxes with the adv. searches as options
-	static void     UpdateAdvSearchChoice
-	(wxChoice*, long searchIdToSelect,
-	 const wxString& format=wxT("%s"), const wxString& specialForId0=wxT(""));
+	static void     UpdateAdvSearchChoice (wxChoice*, long searchIdToSelect, const wxString& format=wxT("%s"), const wxString& specialForId0=wxT(""));
 
 
 protected:
@@ -330,14 +323,14 @@ private:
 	//    the GetSearch__() may be out of sync with the database if the database is modified eg. by a script ...
 	// -> for 2.52beta11, we have undefined SJ_USE_PENDING_MUSIC_SEL,
 	//    if there are no problems, we can remove this completely somewhen later
-#define SJ_USE_PENDING_MUSIC_SEL 0
-#if SJ_USE_PENDING_MUSIC_SEL
-	SjAdvSearch m_pendingSearch;
-	bool        m_pendingNeedsSave;
-public:
-	void        Flush               ();
-private:
-#endif
+	#define SJ_USE_PENDING_MUSIC_SEL 0
+	#if SJ_USE_PENDING_MUSIC_SEL
+		SjAdvSearch m_pendingSearch;
+		bool        m_pendingNeedsSave;
+	public:
+		void        Flush               ();
+	private:
+	#endif
 
 	// misc.
 	wxString        CheckName           (long skipId, const wxString&) const;

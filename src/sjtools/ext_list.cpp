@@ -119,11 +119,11 @@ void SjExtList::AddExt00(const char* p)
 	{
 		if( isExtensionNode )
 		{
-#if wxUSE_UNICODE
-			AddExt(wxString(p, wxConvUTF8));
-#else
-			AddExt(p);
-#endif
+			#if wxUSE_UNICODE
+				AddExt(wxString(p, wxConvUTF8));
+			#else
+				AddExt(p);
+			#endif
 		}
 
 		isExtensionNode = !isExtensionNode;

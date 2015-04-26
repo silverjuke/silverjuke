@@ -471,14 +471,14 @@ wxString SjLittleDirSel::NormalizeDir(const wxString& dir)
 
 	// finalize the result, make "long" paths, make sure the dir ends with a (back)slash
 	wxString ret = fn.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR);
-#ifdef __WXMSW__
-	fn.AssignDir(ret);
-	ret = fn.GetLongPath();
-	if( ret.Last() != '\\' && ret.Last() != '/' )
-	{
-		ret += wxT("\\");
-	}
-#endif
+	#ifdef __WXMSW__
+		fn.AssignDir(ret);
+		ret = fn.GetLongPath();
+		if( ret.Last() != '\\' && ret.Last() != '/' )
+		{
+			ret += wxT("\\");
+		}
+	#endif
 	return ret;
 }
 

@@ -35,7 +35,7 @@ WX_DEFINE_OBJARRAY(SjArrayModifyItem);
 
 
 /*******************************************************************************
- *  SjModifyInfo
+ * SjModifyInfo
  ******************************************************************************/
 
 
@@ -193,8 +193,8 @@ void SjModifyListCtrl::SizeColumns()
 	}
 	else
 	{
-#define FIELD_W 80
-#define VAL_W   140
+		#define FIELD_W 80
+		#define VAL_W   140
 		SetColumnWidth(CONFIRM_COL2_URL,    size.x-FIELD_W-VAL_W*2);
 		SetColumnWidth(CONFIRM_COL2_FIELD,  FIELD_W);
 		SetColumnWidth(CONFIRM_COL2_OLDVAL, VAL_W);
@@ -589,7 +589,7 @@ SjTrackInfoFieldChoice::SjTrackInfoFieldChoice(wxWindow* parent, int id)
 
 void SjTrackInfoFieldChoice::AppendFlags(long tiFlags)
 {
-#define ADD_TO_FIELD_CHOICE(f, t) \
+	#define ADD_TO_FIELD_CHOICE(f, t) \
      if( tiFlags & (f) ) \
      { \
          Append((t), (void*)(f)); \

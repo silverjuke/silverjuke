@@ -270,15 +270,13 @@ void SjSkinMlParserData::FreeStaticData()
 	// just let the OS free the memory, there is no advantage
 	// to do it here (but some disadvantages,  eg. speed)
 
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
+		if( s_targetHash )
+			delete s_targetHash;
 
-	if( s_targetHash )
-		delete s_targetHash;
-
-	if( s_colourHash )
-		delete s_colourHash;
-
-#endif
+		if( s_colourHash )
+			delete s_colourHash;
+	#endif
 
 	s_targetHash = NULL;
 	s_colourHash = NULL;
@@ -823,7 +821,7 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 		/* Handle <INCLUDE>
 		 ***********************************************************************************/
 
-#define MAX_INCLUDE_RECURSION 16
+		#define MAX_INCLUDE_RECURSION 16
 		if( m_skinMlParser->m_data->m_includeRecursion > MAX_INCLUDE_RECURSION )
 		{
 			m_skinMlParser->m_data->LogError(wxT("Too deep <include> recursion"), &tag);
@@ -1096,18 +1094,18 @@ void SjSkinMlTagHandler::ParseTarget(const wxHtmlTag& tag, SjSkinItem* item)
 		}
 	}
 
-#ifdef SJ_SKIN_USE_BELONGSTO
-	if( tag.HasParam(wxT("BELONGSTO")) )
-	{
-		wxString target = tag.GetParam(wxT("BELONGSTO"));
-		target.MakeLower();
-		unsigned long test = m_skinMlParser->m_data->s_targetHash->Lookup(target);
-		if( test )
+	#ifdef SJ_SKIN_USE_BELONGSTO
+		if( tag.HasParam(wxT("BELONGSTO")) )
 		{
-			item->m_belongsToId = test & 0x0000FFFFL;
+			wxString target = tag.GetParam(wxT("BELONGSTO"));
+			target.MakeLower();
+			unsigned long test = m_skinMlParser->m_data->s_targetHash->Lookup(target);
+			if( test )
+			{
+				item->m_belongsToId = test & 0x0000FFFFL;
+			}
 		}
-	}
-#endif
+	#endif
 }
 
 
@@ -1201,15 +1199,15 @@ SjSkinMlParser::SjSkinMlParser(SjSkinMlParserData* data, long conditions)
 
 		// init basic condition
 		m_data->m_currCond = (conditions&~SJ_OP_OS_MASK) |
-#if defined(__WXMSW__)
+						#if defined(__WXMSW__)
 		                     SJ_OP_OS_WIN
-#elif defined(__WXMAC__)
+						#elif defined(__WXMAC__)
 		                     SJ_OP_OS_MAC
-#elif defined(__WXGTK__)
+						#elif defined(__WXGTK__)
 		                     SJ_OP_OS_GTK
-#else
-#error "your OS here!"
-#endif
+						#else
+							#error "your OS here!"
+						#endif
 		                     ;
 
 		// add "toggle view" flag if more than one view is allowed
@@ -1779,9 +1777,9 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 	}
 
 	// check memory (we've done many pointer operations above ...)
-#ifdef __WXMSW__
-	wxASSERT( _CrtCheckMemory() );
-#endif
+	#ifdef __WXMSW__
+		wxASSERT( _CrtCheckMemory() );
+	#endif
 
 	// done
 	image->m_subimageXCount = subimageXCount;

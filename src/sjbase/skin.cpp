@@ -47,12 +47,12 @@ SjSkinItem::SjSkinItem()
 	m_itemType              = SJ_UNKNOWNITEM;
 	m_targetId              = IDT_NONE;
 	m_userId                = NULL;
-#ifdef SJ_SKIN_USE_HIDE
+	#ifdef SJ_SKIN_USE_HIDE
 	m_hidden                = FALSE;
-#endif
-#ifdef SJ_SKIN_USE_BELONGSTO
+	#endif
+	#ifdef SJ_SKIN_USE_BELONGSTO
 	m_belongsToId           = IDT_NONE;
-#endif
+	#endif
 	m_targetFlags           = 0;
 	m_targetName            = NULL;
 	m_doubleClickTargetId   = IDT_NONE;
@@ -243,7 +243,7 @@ void SjSkinItem::RedrawMe()
 
 	// anything to redraw?
 	if( m_rect.width == 0 || m_rect.height == 0
-	        || m_skinWindow == NULL || m_skinWindow->m_currLayout == NULL /*see https://mail.google.com/a/b44t.com/#all/11fa3299de85ce8f*/ )
+	 || m_skinWindow == NULL || m_skinWindow->m_currLayout == NULL /*see https://mail.google.com/a/b44t.com/#all/11fa3299de85ce8f*/ )
 	{
 		return;
 	}
@@ -279,10 +279,10 @@ void SjSkinItem::RedrawMe()
 
 	// draw...
 	if( m_alwaysRedrawBackground
-#ifdef SJ_SKIN_USE_HIDE
-	        || m_hidden
-#endif
-	        || m_hasOverlayingItems )
+	#ifdef SJ_SKIN_USE_HIDE
+	 || m_hidden
+	#endif
+	 || m_hasOverlayingItems )
 	{
 		// ...the item needs the background to be repainted first (maybe it
 		// uses a mask) or the item has overlaying items.  In any case, we'll
@@ -589,12 +589,12 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 	DrawBackground(dc);
 
 	// set clipping
-#ifdef SJ_BOXTEXT_WITH_CLIPPING
-	wxRect oldClipping;
-	dc.GetClippingBox(&oldClipping.x, &oldClipping.y, &oldClipping.width, &oldClipping.height);
-	dc.DestroyClippingRegion();
-	dc.SetClippingRegion(m_rect);
-#endif
+	#ifdef SJ_BOXTEXT_WITH_CLIPPING
+		wxRect oldClipping;
+		dc.GetClippingBox(&oldClipping.x, &oldClipping.y, &oldClipping.width, &oldClipping.height);
+		dc.DestroyClippingRegion();
+		dc.SetClippingRegion(m_rect);
+	#endif
 
 	// set font
 	dc.SetFont(m_font);
@@ -681,8 +681,8 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 	}
 
 	// draw image or text
-#define POINTS_STRING wxT("..")
-#define HIVENT_STRING wxT(" - ")
+	#define POINTS_STRING wxT("..")
+	#define HIVENT_STRING wxT(" - ")
 	if( m_flags & SJ_VFLAG_CENTER )
 	{
 		// draw centered text - you may give two alternative texts  as "longer text\tshort text"
@@ -795,13 +795,13 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 	}
 
 	// restore clipping/font
-#ifdef SJ_BOXTEXT_WITH_CLIPPING
-	dc.DestroyClippingRegion();
-	if( oldClipping.width && oldClipping.height )
-	{
-		dc.SetClippingRegion(oldClipping);
-	}
-#endif
+	#ifdef SJ_BOXTEXT_WITH_CLIPPING
+		dc.DestroyClippingRegion();
+		if( oldClipping.width && oldClipping.height )
+		{
+			dc.SetClippingRegion(oldClipping);
+		}
+	#endif
 
 	// set normal font, release our font from DC
 	dc.SetFont(*wxNORMAL_FONT);
@@ -982,7 +982,7 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 		if( leftDown )
 		{
 			SjSkinItem* motionItem = m_skinWindow->FindClickableItem(x, y); // may be NULL!
-#define         MOVESTART_DELTA 4
+			#define         MOVESTART_DELTA 4
 			long            hDifference = x - m_mouseDownX;
 			long            vDifference = y - m_mouseDownY;
 
@@ -1066,16 +1066,16 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 				m_mouseState    = SJ_MOUSE_STATE_HOVER;
 				RedrawMe();
 
-#if SJ_USE_TOOLTIPS
-				if( m_mouseSubitem )
-				{
-					g_tools->m_toolTipManager.SetToolTipProvider(m_skinWindow->GetToolTipProvider(m_targetId, m_mouseSubitem, subitemRect));
-				}
-				else
-				{
-					g_tools->m_toolTipManager.ClearToolTipProvider();
-				}
-#endif
+				#if SJ_USE_TOOLTIPS
+					if( m_mouseSubitem )
+					{
+						g_tools->m_toolTipManager.SetToolTipProvider(m_skinWindow->GetToolTipProvider(m_targetId, m_mouseSubitem, subitemRect));
+					}
+					else
+					{
+						g_tools->m_toolTipManager.ClearToolTipProvider();
+					}
+				#endif
 			}
 		}
 		inHere = FALSE;

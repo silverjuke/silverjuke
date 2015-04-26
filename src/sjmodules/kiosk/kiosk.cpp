@@ -133,7 +133,7 @@ private:
 	wxChoice*       m_limitToAdvSearchChoice;
 	wxButton*       m_limitToAdvSearchButton;
 
-#define         ADD_TRUNCATE_TEXT   0x01
+	#define         ADD_TRUNCATE_TEXT   0x01
 	wxSpinCtrl*     AddSpinCtrl         (wxSizer* sizer, long value, long min, long max, int id=-1);
 	void            AddStaticText       (wxSizer* sizer, const wxString&);
 	void            AddSpace            (wxSizer* sizer) { sizer->Add(SJ_DLG_SPACE, SJ_DLG_SPACE); }
@@ -325,22 +325,22 @@ SjKioskConfigPage::SjKioskConfigPage(wxWindow* parent, int selectedPage)
 
 	wxNotebook* notebookSizer = m_notebook;
 
-#define PAGE_START 0
+	#define PAGE_START 0
 	m_notebook->AddPage(CreateStartPage(m_notebook),  _("Start kiosk mode"));
 
-#define PAGE_FUNCTIONS 1
+	#define PAGE_FUNCTIONS 1
 	m_notebook->AddPage(CreateFunctionPage(m_notebook),  _("Functionality"));
 
-#define PAGE_MONITOR 2
+	#define PAGE_MONITOR 2
 	m_notebook->AddPage(CreateMonitorPage(m_notebook),  _("Monitors"));
 
-#define PAGE_VIRTKEYBD 3
+	#define PAGE_VIRTKEYBD 3
 	m_notebook->AddPage(CreateVirtKeybdPage(m_notebook),  _("Virtual keyboard"));
 
-#define PAGE_NUMPAD 4
+	#define PAGE_NUMPAD 4
 	m_notebook->AddPage(CreateNumpadPage(m_notebook),  _("Numpad"));
 
-#define PAGE_CREDIT 5
+	#define PAGE_CREDIT 5
 	m_notebook->AddPage(CreateCreditPage(m_notebook),  _("Credit system"));
 
 	CheckDependencies();
@@ -473,18 +473,18 @@ wxPanel* SjKioskConfigPage::CreateStartPage(wxWindow* parent)
 	AddOp(sizer2f, 2, SJ_KIOSKF_EXIT_CORNER, _("Exit by clicking into two different corners"));
 
 	wxString disableKey;
-#ifdef __WXMAC__
-	disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_CTRL, WXK_TAB, true) + wxT(" etc.");
-#else
-	disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_ALT, WXK_TAB);
-#endif
+	#ifdef __WXMAC__
+		disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_CTRL, WXK_TAB, true) + wxT(" etc.");
+	#else
+		disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_ALT, WXK_TAB);
+	#endif
 	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_AT, wxString::Format(_("Disable %s"), disableKey.c_str()));
 
 	disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_ALT|wxACCEL_CTRL, WXK_DELETE);
 	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_CAD, wxString::Format(_("Disable %s"), disableKey.c_str())
-#ifdef __WXDEBUG__
+		#ifdef __WXDEBUG__
 	      + wxT(" (not in debug-mode)")
-#endif
+		#endif
 	     );
 
 	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_SHUTDOWN, _("Disable shutdown"));
@@ -647,7 +647,7 @@ wxCheckBox* SjKioskConfigPage::AddOp(wxSizer* sizer, int field, long flag, const
 
 void SjKioskConfigPage::AddOp(wxSizer* sizer, int id, wxCheckBox** retCheckBox, const wxString& text__, long textFlags)
 {
-#define MAX_OP_TEXT_LEN 30
+	#define MAX_OP_TEXT_LEN 30
 	wxString text(text__);
 	bool addTooltip = false;
 	if( (textFlags&ADD_TRUNCATE_TEXT) && text.Length() > MAX_OP_TEXT_LEN )
@@ -946,17 +946,17 @@ wxPanel* SjKioskConfigPage::CreateMonitorPage(wxWindow* parent)
 
 	// diable screensaver?
 
-#if SJ_CAN_DISABLE_SCRSAVER || SJ_CAN_DISABLE_POWERMAN
-	sizer2 = new wxFlexGridSizer(2, SJ_DLG_SPACE, SJ_DLG_SPACE);
-	sizer1->Add(sizer2, 0, wxALL, SJ_DLG_SPACE);
+	#if SJ_CAN_DISABLE_SCRSAVER || SJ_CAN_DISABLE_POWERMAN
+		sizer2 = new wxFlexGridSizer(2, SJ_DLG_SPACE, SJ_DLG_SPACE);
+		sizer1->Add(sizer2, 0, wxALL, SJ_DLG_SPACE);
 
-#if SJ_CAN_DISABLE_SCRSAVER
-	AddOp(sizer2, 2, SJ_KIOSKF_DISABLE_SCRSAVER, _("Disable screensaver"), false);
-#endif
-#if SJ_CAN_DISABLE_POWERMAN
-	AddOp(sizer2, 2, SJ_KIOSKF_DISABLE_POWERMAN, _("Disable power management"), false);
-#endif
-#endif
+		#if SJ_CAN_DISABLE_SCRSAVER
+			AddOp(sizer2, 2, SJ_KIOSKF_DISABLE_SCRSAVER, _("Disable screensaver"), false);
+		#endif
+		#if SJ_CAN_DISABLE_POWERMAN
+			AddOp(sizer2, 2, SJ_KIOSKF_DISABLE_POWERMAN, _("Disable power management"), false);
+		#endif
+	#endif
 
 	return m_tempPanel;
 }
@@ -1910,7 +1910,7 @@ bool SjKioskModule::ExitRequest(long flag, const wxString* givenPassword, bool f
 			}
 			else if( m_configMaintenancePassword.Lower() == givenPassword->Lower() && !m_configMaintenancePassword.IsEmpty() )
 			{
-#define MAINTENANCE_ACTION SJ_SHUTDOWN_EXIT_KIOSK_MODE
+				#define MAINTENANCE_ACTION SJ_SHUTDOWN_EXIT_KIOSK_MODE
 				exitAction = MAINTENANCE_ACTION;
 			}
 			else
@@ -2065,15 +2065,15 @@ void SjKioskModule::DoStart()
 	{
 		m_backupAlwaysOnTop = g_mainFrame->IsAlwaysOnTop();
 
-#ifndef __WXDEBUG__
+		#ifndef __WXDEBUG__
 		g_mainFrame->SetWindowStyle(g_mainFrame->GetWindowStyle() | wxSTAY_ON_TOP);
-		// we don't do this in debug mode as an
-#endif                                  // always-on-top windows makes debugging almost impossible
+		// we don't do this in debug mode as an always-on-top windows makes debugging almost impossible
+		#endif
 	}
 
-#ifndef __WXMAC__ // on mac, this must be very last !
-	SetExclusive(true);
-#endif
+	#ifndef __WXMAC__ // on mac, this must be very last !
+		SetExclusive(true);
+	#endif
 
 	// (4)  set search / deselect all rows
 	if( g_mainFrame->m_columnMixer.IsAnythingSelected() )
@@ -2176,9 +2176,9 @@ void SjKioskModule::DoStart()
 
 			if( !g_mainFrame->IsAllAvailable() )
 			{
-#ifndef __WXDEBUG__
+				#ifndef __WXDEBUG__
 				ClipMouse(&geom); // makes debugging impossible ...
-#endif
+				#endif
 			}
 		}
 
@@ -2271,9 +2271,9 @@ void SjKioskModule::DoStart()
 	}
 
 	// (/) set exclusive on Mac (must be last, the flags are checked by SetExclusive())
-#ifdef __WXMAC__
+	#ifdef __WXMAC__
 	SetExclusive(true);
-#endif
+	#endif
 
 	m_interface->m_moduleSystem->BroadcastMsg(IDMODMSG_KIOSK_STARTED);
 }
@@ -2292,9 +2292,9 @@ void SjKioskModule::DoExit(bool restoreWindow)
 	wxASSERT( KioskStarted() );
 
 	// (X) reset exclusivity on OS X (must be first, the flags are checked by SetExclusive())
-#ifdef __WXMAC__
+	#ifdef __WXMAC__
 	SetExclusive(false);
-#endif
+	#endif
 
 	// (9) stop watching the time
 	m_uptime.StopWatching();
@@ -2334,9 +2334,9 @@ void SjKioskModule::DoExit(bool restoreWindow)
 	}
 
 	// (3b) restore exclusive / always on top
-#ifndef __WXMAC__
+	#ifndef __WXMAC__
 	SetExclusive(FALSE);
-#endif
+	#endif
 	if( m_configKioskf&(SJ_KIOSKF_DISABLE_AT|SJ_KIOSKF_DISABLE_CAD) )
 	{
 		if( !m_backupAlwaysOnTop )

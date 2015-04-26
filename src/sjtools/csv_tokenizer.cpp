@@ -100,7 +100,7 @@ wxArrayString* SjCsvTokenizer::GetRecord()
 	unsigned char*  data = m_data;
 	long            x = m_x;
 
-#define FIELD_BYTES 256000
+	#define FIELD_BYTES 256000
 	char   			temp[FIELD_BYTES+1 /*+1 for the nullbyte*/];
 	long            temp_pos = 0;
 

@@ -26,19 +26,16 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_NUMPAD_H__
 #define __SJ_NUMPAD_H__
-
 
 
 class SjNumpadInput;
 
 
-
 enum SjNumpadHandlerId
 {
-    SJ_NUMPAD_VOID         // can be returned from SjNumpadHandler::KeyPressed to leave the handler "as is"
+     SJ_NUMPAD_VOID         // can be returned from SjNumpadHandler::KeyPressed to leave the handler "as is"
     ,SJ_NUMPAD_DELETEME     // can be returned from SjNumpadHandler::KeyPressed
     ,SJ_NUMPAD_PLAY
     ,SJ_NUMPAD_MENU
@@ -99,11 +96,11 @@ public:
 	void            DisplayTimeout      ();
 
 	// Display hold settings
-#define         SJ_NUMPAD_HOLD_NORMAL       0L
-#define         SJ_NUMPAD_HOLD_ERROR        1L
-#define         SJ_NUMPAD_HOLD_TEXTENTRY    2L
-#define         SJ_NUMPAD_HOLD_CHARENTRY    3L
-#define         SJ_NUMPAD_HOLD_COUNT        4L
+	#define         SJ_NUMPAD_HOLD_NORMAL       0L
+	#define         SJ_NUMPAD_HOLD_ERROR        1L
+	#define         SJ_NUMPAD_HOLD_TEXTENTRY    2L
+	#define         SJ_NUMPAD_HOLD_CHARENTRY    3L
+	#define         SJ_NUMPAD_HOLD_COUNT        4L
 	long            GetHoldSeconds      (int i);
 	long            GetHoldMs           (int i) { return GetHoldSeconds(i)*1000; }
 	void            SetHoldSeconds      (int i, long);
@@ -114,7 +111,6 @@ private:
 	SjNumpadHandler*
 	m_currHandler;
 };
-
 
 
 #endif // __SJ_NUMPAD_H__

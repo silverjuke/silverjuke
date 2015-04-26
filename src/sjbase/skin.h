@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_SKIN_H__
 #define __SJ_SKIN_H__
 
@@ -102,9 +101,9 @@ private:
 	long            m_absPixels;
 
 	// 0 or one of  SKINPOS_*
-#define         SJ_SKINPOS_NEXT     'n'
-#define         SJ_SKINPOS_SAME     's'
-#define         SJ_SKINPOS_OPPOSITE 'o'
+	#define         SJ_SKINPOS_NEXT     'n'
+	#define         SJ_SKINPOS_SAME     's'
+	#define         SJ_SKINPOS_OPPOSITE 'o'
 	int             m_special;
 };
 
@@ -157,33 +156,33 @@ public:
 	long            value;              // - 0/1/2/... for <button> normal/selected/other/...
 	// - position for <scrollbar>
 	// - VFLAG_* for <box>
-#define         SJ_VFLAG_CENTER                 0x0000001
-#define         SJ_VFLAG_VMIN_IS_TIME           0x0000002
-#define         SJ_VFLAG_VMIN_MINUS             0x0000004
-#define         SJ_VFLAG_VMAX_IS_TIME           0x0000008
-#define         SJ_VFLAG_TIME_CLICKABLE         0x0000010
-#define         SJ_VFLAG_STRING_IS_IMAGE_URL    0x0000020
-#define         SJ_VFLAG_MOVABLE                0x0000100
-#define         SJ_VFLAG_BOLD                   0x0000400
-#define         SJ_VFLAG_IGNORECENTEROFFSET     0x0000800
-#define         SJ_VFLAG_ICONL_MASK             0x00FF000
-#define         SJ_VFLAG_ICONL_EMPTY            0x0001000
-#define         SJ_VFLAG_ICONL_PLAY             0x0002000
-#define         SJ_VFLAG_ICONL_PAUSE            0x0004000
-#define         SJ_VFLAG_ICONL_STOP             0x0008000
-#define         SJ_VFLAG_ICONL_PLAYED           0x0010000
-#define         SJ_VFLAG_ICONL_ERRONEOUS        0x0020000
-#define         SJ_VFLAG_ICONL_VOLDOWN          0x0040000
-#define         SJ_VFLAG_ICONL_MOVED_DOWN       0x0080000
-#define         SJ_VFLAG_ICONR_MASK             0xFF00000
-#define         SJ_VFLAG_ICONR_DELETE           0x0100000
-#define         SJ_VFLAG_ICONR_VOLDOWN          0x0200000
-#define         SJ_VFLAG_ICONR_VOLUP            0x0400000
+	#define         SJ_VFLAG_CENTER                 0x0000001
+	#define         SJ_VFLAG_VMIN_IS_TIME           0x0000002
+	#define         SJ_VFLAG_VMIN_MINUS             0x0000004
+	#define         SJ_VFLAG_VMAX_IS_TIME           0x0000008
+	#define         SJ_VFLAG_TIME_CLICKABLE         0x0000010
+	#define         SJ_VFLAG_STRING_IS_IMAGE_URL    0x0000020
+	#define         SJ_VFLAG_MOVABLE                0x0000100
+	#define         SJ_VFLAG_BOLD                   0x0000400
+	#define         SJ_VFLAG_IGNORECENTEROFFSET     0x0000800
+	#define         SJ_VFLAG_ICONL_MASK             0x00FF000
+	#define         SJ_VFLAG_ICONL_EMPTY            0x0001000
+	#define         SJ_VFLAG_ICONL_PLAY             0x0002000
+	#define         SJ_VFLAG_ICONL_PAUSE            0x0004000
+	#define         SJ_VFLAG_ICONL_STOP             0x0008000
+	#define         SJ_VFLAG_ICONL_PLAYED           0x0010000
+	#define         SJ_VFLAG_ICONL_ERRONEOUS        0x0020000
+	#define         SJ_VFLAG_ICONL_VOLDOWN          0x0040000
+	#define         SJ_VFLAG_ICONL_MOVED_DOWN       0x0080000
+	#define         SJ_VFLAG_ICONR_MASK             0xFF00000
+	#define         SJ_VFLAG_ICONR_DELETE           0x0100000
+	#define         SJ_VFLAG_ICONR_VOLDOWN          0x0200000
+	#define         SJ_VFLAG_ICONR_VOLUP            0x0400000
 
 	long            vmin, vmax;         // used by <scrollbar> and <box>;
 	// for events skin -> client, vmin are the accelerator flags
 	// buttons do blink if vmax ist set to SJ_VMAX_BLINK
-#define         SJ_VMAX_BLINK                   0x0000001
+	#define         SJ_VMAX_BLINK                   0x0000001
 
 	long            thumbSize;          // used by <scrollbar>, if != 0, the max. value decreases by thumbSize
 
@@ -237,9 +236,9 @@ public:
 	// the target ID, 0 (IDT_NONE) for unset (default)
 	int             m_targetId;
 	wxString*       m_targetName; // "layout:" etc
-#ifdef SJ_SKIN_USE_BELONGSTO
+	#ifdef SJ_SKIN_USE_BELONGSTO
 	int             m_belongsToId;
-#endif
+	#endif
 	int             m_doubleClickTargetId;
 	wxString*       m_doubleClickTargetName; // "layout:" etc
 	bool            CheckTarget         (wxString& error);
@@ -252,8 +251,8 @@ public:
 
 	// target flags, as they're stored together with the target ID,
 	// they should be larger than 0x0000FFFFL
-#define         SJ_TARGET_REPEATBUTTON  0x00010000L
-#define         SJ_TARGET_NULLISBOTTOM  0x00020000L
+	#define         SJ_TARGET_REPEATBUTTON  0x00010000L
+	#define         SJ_TARGET_NULLISBOTTOM  0x00020000L
 	long            m_targetFlags;
 
 	// create a new skin item
@@ -300,9 +299,9 @@ public:
 	// is the item clickable? does the item draw anything? defaults to TRUE
 	bool            m_usesMouse;
 	bool            m_usesPaint;
-#ifdef SJ_SKIN_USE_HIDE
+	#ifdef SJ_SKIN_USE_HIDE
 	bool            m_hidden;
-#endif
+	#endif
 
 	// the RELATIVE or absolute position as given in file "commands.sjs"
 	SjSkinPos   m_x, m_y;
@@ -312,16 +311,16 @@ public:
 	wxRect          m_rect;
 
 	// colours - each colour has a foreground, a background and a hilite
-#define         SJ_COLOUR_NORMAL            0
-#define         SJ_COLOUR_NORMALODD         1
-#define         SJ_COLOUR_SELECTION         2
-#define         SJ_COLOUR_SELECTIONODD      3
-#define         SJ_COLOUR_TITLE1            4
-#define         SJ_COLOUR_TITLE2            5
-#define         SJ_COLOUR_TITLE3            6
-#define         SJ_COLOUR_VERTTEXT          7
-#define         SJ_COLOUR_STUBTEXT          8
-#define         SJ_COLOUR_COUNT             9
+	#define         SJ_COLOUR_NORMAL            0
+	#define         SJ_COLOUR_NORMALODD         1
+	#define         SJ_COLOUR_SELECTION         2
+	#define         SJ_COLOUR_SELECTIONODD      3
+	#define         SJ_COLOUR_TITLE1            4
+	#define         SJ_COLOUR_TITLE2            5
+	#define         SJ_COLOUR_TITLE3            6
+	#define         SJ_COLOUR_VERTTEXT          7
+	#define         SJ_COLOUR_STUBTEXT          8
+	#define         SJ_COLOUR_COUNT             9
 	SjSkinColour* m_colours; // points to SjSkinSkin::m_dummyColours on default
 
 	// pointer to the skin window, NULL on Create()
@@ -334,8 +333,8 @@ public:
 	m_children;
 
 	// some special properties
-#define         SJ_SKIN_PROP_AUTO_START_VIS         0x01    // for SjSkinDivItem
-#define         SJ_SKIN_PROP_HIDE_CREDIT_IN_DISPLAY 0x01    // for SjSkinBoxItem
+	#define         SJ_SKIN_PROP_AUTO_START_VIS         0x01    // for SjSkinDivItem
+	#define         SJ_SKIN_PROP_HIDE_CREDIT_IN_DISPLAY 0x01    // for SjSkinBoxItem
 	long            m_prop;
 };
 
@@ -384,8 +383,7 @@ private:
 	                m_mouseResumeX,
 	                m_mouseResumeY;
 	bool            m_mouseMoveReported;
-	unsigned long   m_timerLastMoveMs,
-	         m_timerMoves;
+	unsigned long   m_timerLastMoveMs, m_timerMoves;
 	bool            CheckMovementTimer  ();
 
 	// drawing
@@ -396,14 +394,14 @@ private:
 	void            DrawIcon            (wxDC& dc, const wxRect&, long icon, bool hilite);
 
 	// the subitems
-#define         SJ_SUBITEM_NONE             0
-#define         SJ_SUBITEM_ICONLEFT         1
-#define         SJ_SUBITEM_TEXT             2
-#define         SJ_SUBITEM_TIME             3
-#define         SJ_SUBITEM_ICONRIGHT        4
-#define         SJ_SUBITEM_TEXT_MOUSEDOWN   665 // needed for passing events only
-#define         SJ_SUBITEM_TEXT_DCLICK      666 // needed for passing events only
-#define         SJ_SUBITEM_TEXT_MIDDLECLICK 667 // needed for passing events only
+	#define         SJ_SUBITEM_NONE             0
+	#define         SJ_SUBITEM_ICONLEFT         1
+	#define         SJ_SUBITEM_TEXT             2
+	#define         SJ_SUBITEM_TIME             3
+	#define         SJ_SUBITEM_ICONRIGHT        4
+	#define         SJ_SUBITEM_TEXT_MOUSEDOWN   665 // needed for passing events only
+	#define         SJ_SUBITEM_TEXT_DCLICK      666 // needed for passing events only
+	#define         SJ_SUBITEM_TEXT_MIDDLECLICK 667 // needed for passing events only
 	int             FindSubitem         (long x, long y, wxRect& subitemRect);
 
 	wxCoord         m_iconLeftW,
@@ -442,17 +440,17 @@ public:
 
 private:
 	// the button state
-#define         SJ_BUTTON_STATE_NORMAL      0
-#define         SJ_BUTTON_STATE_SELECTED    1
-#define         SJ_BUTTON_STATE_OTHER       2
-#define         SJ_BUTTON_STATE_COUNT       3
+	#define         SJ_BUTTON_STATE_NORMAL      0
+	#define         SJ_BUTTON_STATE_SELECTED    1
+	#define         SJ_BUTTON_STATE_OTHER       2
+	#define         SJ_BUTTON_STATE_COUNT       3
 	int             m_buttonState;
 
 	// the mouse state
-#define         SJ_MOUSE_STATE_NORMAL   0
-#define         SJ_MOUSE_STATE_HOVER    1
-#define         SJ_MOUSE_STATE_CLICKED  2
-#define         SJ_MOUSE_STATE_COUNT    3
+	#define         SJ_MOUSE_STATE_NORMAL   0
+	#define         SJ_MOUSE_STATE_HOVER    1
+	#define         SJ_MOUSE_STATE_CLICKED  2
+	#define         SJ_MOUSE_STATE_COUNT    3
 	int             m_mouseState;
 
 	// bitmaps - button/mouse state
@@ -505,8 +503,7 @@ private:
 class SjSkinScrollbarItem : public SjSkinItem
 {
 public:
-	SjSkinScrollbarItem
-	();
+	                SjSkinScrollbarItem ();
 	bool            Create              (const wxHtmlTag&, wxString& error);
 	void            SetValue            (const SjSkinValue&);
 	void            OnMouseLeftDown     (long x, long y, bool doubleClick, long accelFlags);
@@ -621,7 +618,7 @@ private:
 
 protected:
 	bool            m_cursorChanged;
-#define         SJ_DRAGMOVE_DELTA 2
+	#define         SJ_DRAGMOVE_DELTA 2
 };
 
 
@@ -630,9 +627,9 @@ class SjSkinTarget
 private:
 	SjSkinTarget        ()
 	{
-#ifdef SJ_SKIN_USE_HIDE
+		#ifdef SJ_SKIN_USE_HIDE
 		m_hidden = FALSE;
-#endif
+		#endif
 	}
 	// this list reflects the items handling the given target in the current layout
 	// (normally identified by the index in an array of targets)
@@ -641,9 +638,9 @@ private:
 
 	// the value of the target
 	SjSkinValue  m_value;
-#ifdef SJ_SKIN_USE_HIDE
+	#ifdef SJ_SKIN_USE_HIDE
 	bool            m_hidden;
-#endif
+	#endif
 
 	friend class    SjSkinWindow;
 };
@@ -661,7 +658,7 @@ public:
 	bool            HasMaskOrAlpha      () { return m_hasMaskOrAlpha; }
 
 private:
-#define         SJ_SKIN_SUBIMAGES_MAX 168 // 28 (A..Z + 0-9 + Curr) * 6
+	#define         SJ_SKIN_SUBIMAGES_MAX 168 // 28 (A..Z + 0-9 + Curr) * 6
 	wxBitmap*       m_subimages[SJ_SKIN_SUBIMAGES_MAX];
 	int             m_subimageWidths[SJ_SKIN_SUBIMAGES_MAX];
 	int             m_subimageHeights[SJ_SKIN_SUBIMAGES_MAX];
@@ -835,19 +832,18 @@ public:
 
 	// tooltip handling, using "data", the tooltips may also be
 	// used for child windows
-#if SJ_USE_TOOLTIPS
+	#if SJ_USE_TOOLTIPS
 	virtual SjToolTipProvider*
 	GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) = 0;
-#endif
+	#endif
 	bool            IsMouseInDisplayMove() const { return m_mouseInDisplayMove; }
 
 	// for setting values for skin targets, use the following
 	// function
-#ifdef SJ_SKIN_USE_HIDE
+	#ifdef SJ_SKIN_USE_HIDE
 	bool            HideSkinTarget      (int id, bool hide=TRUE, bool redraw=TRUE);
-	void            HidingSkinTargetsDone
-	(bool redraw=TRUE);
-#endif
+	void            HidingSkinTargetsDone (bool redraw=TRUE);
+	#endif
 	void            SetSkinTargetValue  (int id, const SjSkinValue&, bool onlyIfPossible=FALSE);
 	void            SetSkinTargetValueIfPossible(int id, const SjSkinValue& v) { SetSkinTargetValue(id, v, TRUE); }
 	void            SetSkinTargetValue  (int id, long v) { SjSkinValue vo; vo.value=v; SetSkinTargetValue(id, vo); }
@@ -858,12 +854,10 @@ public:
 	// retrieving events from the skin targets; for this purpose, you have
 	// to subclass SjSkin and implement OnSkinTargetEvent()
 	virtual void    OnSkinTargetEvent   (int targetId, SjSkinValue&, long accelFlags) = 0;
-	virtual void    OnSkinTargetContextMenu
-	(int targetId, long x, long y) = 0;
+	virtual void    OnSkinTargetContextMenu (int targetId, long x, long y) = 0;
 	virtual void    OnSkinTargetMotion  (int targetId, int motionAmount) = 0;
 	virtual void    UpdateMenuBarValue  (int targetId, const SjSkinValue&) {}
-	void            ResumeSkinTargetMotion
-	(int clickTargetId, int resumeTargetId);
+	void            ResumeSkinTargetMotion (int clickTargetId, int resumeTargetId);
 	wxWindow*       GetInputWindow      () const {return m_inputWindow;}
 
 	// find the target ID at a given postion,
@@ -878,13 +872,13 @@ public:
 	SjImgThread*    m_imgThread;
 
 	// Flags (public read)
-#define         SJ_SKIN_SHOW_DISPLAY_TRACKNR    0x00000008L
-#define         SJ_SKIN_SHOW_DISPLAY_ARTIST     0x00000010L
-#define         SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME 0x00000020L
-#define         SJ_SKIN_IMG_SMOOTH              0x00000080L
-#define         SJ_SKIN_SHOW_DISPLAY_AUTOPLAY   0x00010000L
-#define         SJ_SKIN_SHOW_TRACK_COVER        0x00020000L
-#define         SJ_SKIN_DEFAULT_FLAGS           0x0000FFFFL
+	#define         SJ_SKIN_SHOW_DISPLAY_TRACKNR    0x00000008L
+	#define         SJ_SKIN_SHOW_DISPLAY_ARTIST     0x00000010L
+	#define         SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME 0x00000020L
+	#define         SJ_SKIN_IMG_SMOOTH              0x00000080L
+	#define         SJ_SKIN_SHOW_DISPLAY_AUTOPLAY   0x00010000L
+	#define         SJ_SKIN_SHOW_TRACK_COVER        0x00020000L
+	#define         SJ_SKIN_DEFAULT_FLAGS           0x0000FFFFL
 	long            m_skinFlags;
 
 	// a drag'n'drop bitmat that may be used by any instance,
@@ -928,19 +922,17 @@ private:
 
 	// calculate all positions, working with positions
 	void            CalcItemRectangles  (long width, long height);
-	void            CalcChildItemRectangles
-	(SjSkinItem* parent);
+	void            CalcChildItemRectangles (SjSkinItem* parent);
 	SjSkinItem*  FindClickableItem  (long x, long y) const;
-	SjSkinItem*  FindFirstItemByTargetId
-	(int targetId) const;
+	SjSkinItem*  FindFirstItemByTargetId (int targetId) const;
 	void            SaveSizes           ();
 
 	// mouse handling
 	SjSkinItem*  m_mouseItem;
-#if SJ_USE_TOOLTIPS
+	#if SJ_USE_TOOLTIPS
 	SjSkinWindowToolTipProvider
 	m_skinWindowToolTipProvider;
-#endif
+	#endif
 	bool            m_mouseInDisplayMove;
 
 	// maximize handling

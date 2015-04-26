@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_VOLUMECALC_H__
 #define __SJ_VOLUMECALC_H__
 
@@ -35,7 +34,7 @@ class SjVolumeCalc
 {
 public:
 	// constructor
-	SjVolumeCalc        ();
+				    SjVolumeCalc        ();
 
 	// optionally you can set a loaded, precalculated gain;
 	// the gain applied to AdjustBuffer will never be larger
@@ -67,9 +66,9 @@ private:
 	double          m_maxLevel;
 	double          m_sums[SJ_WW_MAX_CH];
 
-#define MAX_GAIN        5.0F    // max. 500 % gain
+	#define MAX_GAIN        5.0F    // max. 500 % gain
 
-#define SMOOTH_SIZE     100     // we take max 100 probes per second...
+	#define SMOOTH_SIZE     100     // we take max 100 probes per second...
 	// so does xmms volnorm - little more gain;
 	// vorbisgain and mp3gain use only 20
 
@@ -81,13 +80,10 @@ private:
 };
 
 
-
 double  SjGain2Decibel      (double gain);
 double  SjDecibel2Gain      (double dB);
 long    SjGain2Long         (double gain);
 double  SjLong2Gain         (long lng);
-
-
 
 
 #endif // __SJ_VOLUMECALC_H__

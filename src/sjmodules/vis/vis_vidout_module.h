@@ -31,13 +31,11 @@
 #if SJ_USE_VIDEO
 
 
-
-
 class SjVidoutModule : public SjVisRendererModule
 {
 public:
-	SjVidoutModule      (SjInterfaceBase* interf);
-	~SjVidoutModule     ();
+	                SjVidoutModule      (SjInterfaceBase* interf);
+	                ~SjVidoutModule     ();
 
 	bool            Start               (SjVisImpl*, bool justContinue);
 	void            Stop                ();
@@ -56,7 +54,6 @@ private:
 
 	friend class SjVidoutWindow;
 };
-
 
 
 #endif // SJ_USE_VIDEO

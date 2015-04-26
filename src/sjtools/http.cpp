@@ -110,23 +110,23 @@ SjHttp::SjHttp()
 	m_httpStatusCode = 400; // Bad Request
 	m_responseHeader = NULL;
 
-#ifdef SJ_HTTP_THREAD
-	m_thread = NULL;
-#endif
+	#ifdef SJ_HTTP_THREAD
+		m_thread = NULL;
+	#endif
 }
 
 
 void SjHttp::Cleanup()
 {
-#ifdef SJ_HTTP_THREAD
-	SjHttpThread::s_critical.Enter();
-	if( m_thread )
-	{
-		m_thread->m_http = NULL;
-		m_thread = NULL;
-	}
-	SjHttpThread::s_critical.Leave();
-#endif
+	#ifdef SJ_HTTP_THREAD
+		SjHttpThread::s_critical.Enter();
+		if( m_thread )
+		{
+			m_thread->m_http = NULL;
+			m_thread = NULL;
+		}
+		SjHttpThread::s_critical.Leave();
+	#endif
 
 	m_content.Clear();
 	m_httpStatusCode = 400; // Bad Request
@@ -149,20 +149,20 @@ void SjHttp::OpenFile(const wxString& urlStr, wxMBConv* mbConv, const SjSSHash* 
 
 	Cleanup();
 
-#ifdef SJ_HTTP_THREAD
+	#ifdef SJ_HTTP_THREAD
 
-	SjHttpThread::s_critical.Enter();
-	SjHttpThread::s_httpThreadCount++;
-	SjHttpThread::s_critical.Leave();
+		SjHttpThread::s_critical.Enter();
+		SjHttpThread::s_httpThreadCount++;
+		SjHttpThread::s_critical.Leave();
 
-	m_thread = new SjHttpThread(this, urlStr, mbConv, requestHeader, postData);
+		m_thread = new SjHttpThread(this, urlStr, mbConv, requestHeader, postData);
 
-#else
+	#else
 
-	m_content = ReadFile_(urlStr, mbConv, requestHeader, postData, m_httpStatusCode);
-	ReadReady();
+		m_content = ReadFile_(urlStr, mbConv, requestHeader, postData, m_httpStatusCode);
+		ReadReady();
 
-#endif
+	#endif
 }
 
 
@@ -209,15 +209,15 @@ wxString SjHttp::ReadFile_(const wxString& urlStr, wxMBConv* mbConv, const SjSSH
 	// get the returned headers
 	SjSSHash* responseHeader = new SjSSHash();
 	{
-#if 0 // TODO: http->GetAllHeaders() was a hack by me ...
-		wxStringToStringHashMap* allHeaders = http->GetAllHeaders();
-		if( allHeaders )
-		{
-			typedef wxStringToStringHashMap::iterator iterator;
-			for (iterator it = allHeaders->begin(), en = allHeaders->end(); it != en; ++it )
-				responseHeader->Insert(it->first.Lower(), it->second);
-		}
-#endif
+		#if 0 // TODO: http->GetAllHeaders() was a hack by me ...
+			wxStringToStringHashMap* allHeaders = http->GetAllHeaders();
+			if( allHeaders )
+			{
+				typedef wxStringToStringHashMap::iterator iterator;
+				for (iterator it = allHeaders->begin(), en = allHeaders->end(); it != en; ++it )
+					responseHeader->Insert(it->first.Lower(), it->second);
+			}
+		#endif
 	}
 	*retResponseHeader = responseHeader;
 
@@ -253,30 +253,30 @@ void SjHttp::ReadReady()
 
 void SjHttp::OnSilverjukeStartup()
 {
-#ifdef SJ_HTTP_THREAD
-	if( !SjHttpThread::s_httpThreadInitialized )
-	{
-		// this is a little hack to allow using sockets (which are used by wxURL)
-		// from a thread, see http://wiki.wxwidgets.org/wiki.pl?WxSocket
-		// and http://www.litwindow.com/Knowhow/wxSocket/wxsocket.html
-		wxASSERT( wxThread::IsMain() );
-		wxSocketBase::Initialize();
-		SjHttpThread::s_httpThreadInitialized = TRUE;
-	}
-#endif
+	#ifdef SJ_HTTP_THREAD
+		if( !SjHttpThread::s_httpThreadInitialized )
+		{
+			// this is a little hack to allow using sockets (which are used by wxURL)
+			// from a thread, see http://wiki.wxwidgets.org/wiki.pl?WxSocket
+			// and http://www.litwindow.com/Knowhow/wxSocket/wxsocket.html
+			wxASSERT( wxThread::IsMain() );
+			wxSocketBase::Initialize();
+			SjHttpThread::s_httpThreadInitialized = TRUE;
+		}
+	#endif
 }
 
 
 void SjHttp::OnSilverjukeShutdown()
 {
-#ifdef SJ_HTTP_THREAD
-	if( SjHttpThread::s_httpThreadInitialized
-	        && SjHttpThread::s_httpThreadCount == 0 )
-	{
-		if( wxSocketBase::IsInitialized() )
-			wxSocketBase::Shutdown();
-	}
-#endif
+	#ifdef SJ_HTTP_THREAD
+		if( SjHttpThread::s_httpThreadInitialized
+				&& SjHttpThread::s_httpThreadCount == 0 )
+		{
+			if( wxSocketBase::IsInitialized() )
+				wxSocketBase::Shutdown();
+		}
+	#endif
 }
 
 

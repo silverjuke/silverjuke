@@ -28,16 +28,14 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_VIS_WINDOW_H__
 #define __SJ_VIS_WINDOW_H__
-
 
 
 class SjVisImpl
 {
 public:
-	SjVisImpl           ();
+	                SjVisImpl           ();
 	void            Init                (wxWindow* thisWindow, bool thisWindowIsFrame);
 	void            Exit                ();
 
@@ -84,8 +82,7 @@ private:
 	wxRect          m_triangleRect;
 	wxRect          m_closeRect;
 	wxRect          m_rendererRect;
-	SjVisRendererModule*
-	m_renderer;
+	SjVisRendererModule* m_renderer;
 };
 
 
@@ -93,10 +90,10 @@ private:
 class SjVisFrame : public wxFrame
 {
 public:
-	SjVisFrame          (wxWindow* parent, wxWindowID id, const wxString& title,
-	                     const wxPoint& pos, const wxSize& size,
-	                     long style);
-	~SjVisFrame         () { m_impl.Exit(); }
+					SjVisFrame          (wxWindow* parent, wxWindowID id, const wxString& title,
+	                                     const wxPoint& pos, const wxSize& size,
+	                                     long style);
+	                ~SjVisFrame         () { m_impl.Exit(); }
 	void            InitImpl            () { m_impl.Init(this, true); }
 	void            SetRenderer         (SjVisRendererModule* m, bool c) { m_impl.SetRenderer(m, c); }
 	SjVisRendererModule* GetRenderer    () const { return m_impl.GetRenderer(); }
@@ -126,19 +123,15 @@ private:
 class SjVisEmbed : public wxWindow
 {
 public:
-	SjVisEmbed          (wxWindow* parent, wxWindowID id,
-	                     const wxPoint& pos, const wxSize& size,
-	                     long style)
-		: wxWindow(parent, id, pos, size, style)
-	{
-	}
-	~SjVisEmbed         () { m_impl.Exit(); }
+	                SjVisEmbed          (wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style)
+	                                      : wxWindow(parent, id, pos, size, style) { }
+	                ~SjVisEmbed         () { m_impl.Exit(); }
 	void            InitImpl            () { m_impl.Init(this, false); }
 	void            SetRenderer         (SjVisRendererModule* m, bool c) { m_impl.SetRenderer(m, c); }
 	SjVisRendererModule* GetRenderer    () const { return m_impl.GetRenderer(); }
+
 private:
 	SjVisImpl       m_impl;
-
 	void            OnSize              (wxSizeEvent& e)    { m_impl.OnSize(e); }
 	void            OnEraseBackground   (wxEraseEvent& e)   { m_impl.OnEraseBackground(e); }
 	void            OnPaint             (wxPaintEvent& e)   { m_impl.OnPaint(e); }
@@ -153,7 +146,6 @@ private:
 
 	DECLARE_EVENT_TABLE ();
 };
-
 
 
 #endif // __SJ_VIS_WINDOW_H__

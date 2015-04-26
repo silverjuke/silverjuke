@@ -211,7 +211,7 @@ private:
 	void            EnableDisable       ();
 
 	// desired volume
-#define         DESVOL_MULTIPLIER   10.0F
+	#define         DESVOL_MULTIPLIER   10.0F
 	double          m_orgDesVol;
 	wxSlider*       m_desVolSlider;
 	wxStaticText*   m_desVolLabel;
@@ -220,7 +220,7 @@ private:
 	void            OnDesVolSlider      (wxScrollEvent&) { UpdateDesVol(TRUE); }
 
 	// max. gain
-#define         MAXGAIN_MULTIPLIER  10.0F
+	#define         MAXGAIN_MULTIPLIER  10.0F
 	double          m_orgMaxGain;
 	wxSlider*       m_maxGainSlider;
 	wxStaticText*   m_maxGainLabel;

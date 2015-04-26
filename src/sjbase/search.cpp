@@ -1259,11 +1259,11 @@ SjSearchStat SjAdvSearch::GetAsSql(SjLLHash* retHash, wxString& retSql) const
 
 	wxString        orderBy;
 
-#define         LIMIT_BYTES     0
-#define         LIMIT_MS        1
-#define         LIMIT_TRACKS    2
-#define         LIMIT_ALBUMS    3
-#define         LIMIT_COUNT     4
+	#define         LIMIT_BYTES     0
+	#define         LIMIT_MS        1
+	#define         LIMIT_TRACKS    2
+	#define         LIMIT_ALBUMS    3
+	#define         LIMIT_COUNT     4
 	LimitValues     limit[LIMIT_COUNT];
 
 	{
@@ -1409,27 +1409,27 @@ SjSearchStat SjAdvSearch::GetAsSql(SjLLHash* retHash, wxString& retSql) const
 	// limit macros for the select
 	//
 
-#define CHECK_LIMIT(i)      if( limit[(i)].m_fieldIndex ) \
-                             { \
-                                 limit[(i)].m_curr += innerSql.GetLong(limit[(i)].m_fieldIndex); \
-                                 if( limit[(i)].m_curr > limit[(i)].m_max ) \
-                                 { \
-                                     limit[(i)].m_curr -= innerSql.GetLong(limit[(i)].m_fieldIndex); \
-                                     limitReached = TRUE; \
-                                     break; \
-                                 } \
-                             }
+	#define CHECK_LIMIT(i)      if( limit[(i)].m_fieldIndex ) \
+								 { \
+									 limit[(i)].m_curr += innerSql.GetLong(limit[(i)].m_fieldIndex); \
+									 if( limit[(i)].m_curr > limit[(i)].m_max ) \
+									 { \
+										 limit[(i)].m_curr -= innerSql.GetLong(limit[(i)].m_fieldIndex); \
+										 limitReached = TRUE; \
+										 break; \
+									 } \
+								 }
 
-#define CHECK_LIMIT_INC(i)  if( limit[(i)].m_fieldIndex ) \
-                             { \
-                                 limit[(i)].m_curr++; \
-                                 if( limit[(i)].m_curr > limit[(i)].m_max ) \
-                                 { \
-                                     limit[(i)].m_curr--; \
-                                     limitReached = TRUE; \
-                                     break; \
-                                 } \
-                             }
+	#define CHECK_LIMIT_INC(i)  if( limit[(i)].m_fieldIndex ) \
+								 { \
+									 limit[(i)].m_curr++; \
+									 if( limit[(i)].m_curr > limit[(i)].m_max ) \
+									 { \
+										 limit[(i)].m_curr--; \
+										 limitReached = TRUE; \
+										 break; \
+									 } \
+								 }
 
 	//
 	// do the select
@@ -1454,9 +1454,9 @@ SjSearchStat SjAdvSearch::GetAsSql(SjLLHash* retHash, wxString& retSql) const
 			if( !orderBy.IsEmpty() )            { query += wxT(" ORDER BY ") + orderBy; }
 			if( limit[LIMIT_TRACKS].IsSet() )   { query += wxString::Format(wxT(" LIMIT %i"), (int)limit[LIMIT_TRACKS].m_max.GetLo()); }
 			query += wxT(";");
-#ifdef __WXDEBUG__
-			{ wxString queryDebug__(query); queryDebug__.Replace(wxT("%"), wxT("%%")); wxLogDebug(queryDebug__); }
-#endif
+			#ifdef __WXDEBUG__
+				{ wxString queryDebug__(query); queryDebug__.Replace(wxT("%"), wxT("%%")); wxLogDebug(queryDebug__); }
+			#endif
 
 			// query
 			innerSql.Query(query);
@@ -1510,9 +1510,9 @@ SjSearchStat SjAdvSearch::GetAsSql(SjLLHash* retHash, wxString& retSql) const
 			if( !where.IsEmpty() )            { outerQuery += wxT(" WHERE ") + where;       }
 			if( !orderBy.IsEmpty() )          { outerQuery += wxT(" ORDER BY ") + orderBy;  }
 			outerQuery += wxT(";");
-#ifdef __WXDEBUG__
-			{ wxString queryDebug__(outerQuery); queryDebug__.Replace(wxT("%"), wxT("%%")); wxLogDebug(queryDebug__); }
-#endif
+			#ifdef __WXDEBUG__
+				{ wxString queryDebug__(outerQuery); queryDebug__.Replace(wxT("%"), wxT("%%")); wxLogDebug(queryDebug__); }
+			#endif
 
 			// build inner query
 			wxString                            innerQuery =  wxT("SELECT ") + fields + wxT(" FROM tracks WHERE albumid=%i");
@@ -1604,7 +1604,7 @@ void SjSearchStat::Clear()
 
 void SjSearchStat::Add(const SjSearchStat& o)
 {
-#define ADD_ELEM(a,b) if( (a)!=-1 && (b)!=-1 ) { (a) += (b); }
+	#define ADD_ELEM(a,b) if( (a)!=-1 && (b)!=-1 ) { (a) += (b); }
 
 	ADD_ELEM(m_totalResultCount, o.m_totalResultCount);
 	ADD_ELEM(m_advResultCount,   o.m_advResultCount);

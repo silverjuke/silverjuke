@@ -188,15 +188,14 @@ class SjSLHash
 {
 public:
 	// constructs a string => long hash
-	               SjSLHash            () {
-		sjhashInit(&m_hash,
-#if wxUSE_UNICODE
-		           SJHASH_BINARY,
-#else
-		           SJHASH_STRING,
-#endif
-		           1 /* copyKey*/);
-	}
+	               SjSLHash            () { sjhashInit(&m_hash,
+											#if wxUSE_UNICODE
+												SJHASH_BINARY,
+											#else
+												SJHASH_STRING,
+											#endif
+											1 /* copyKey*/);
+										}
 	               ~SjSLHash           () { Clear(); }
 
 	// Insert into hash. Returns the old element or 0 if there is no
@@ -205,9 +204,9 @@ public:
 	{
 		wxASSERT(value != 0);
 		return (long)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+								#if wxUSE_UNICODE
 		                          *sizeof(wxChar)
-#endif
+								#endif
 		                          , (void*)value/*pData*/);
 	}
 
@@ -216,9 +215,9 @@ public:
 	long            Remove              (const wxString& key)
 	{
 		return (long)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+								#if wxUSE_UNICODE
 		                          *sizeof(wxChar)
-#endif
+								#endif
 		                          , NULL/*pData*/);
 	}
 
@@ -227,9 +226,9 @@ public:
 	long            Lookup              (const wxString& key) const
 	{
 		return (long)sjhashFind(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+								#if wxUSE_UNICODE
 		                        *sizeof(wxChar)
-#endif
+								#endif
 		                       );
 	}
 
@@ -264,14 +263,14 @@ class SjSPHash
 public:
 	// constructs a string => void* hash
 	                 SjSPHash            () {
-		sjhashInit(&m_hash,
-#if wxUSE_UNICODE
-		           SJHASH_BINARY,
-#else
-		           SJHASH_STRING,
-#endif
-		           1 /* copyKey*/);
-	}
+												sjhashInit(&m_hash,
+													#if wxUSE_UNICODE
+														   SJHASH_BINARY,
+													#else
+														   SJHASH_STRING,
+													#endif
+														   1 /* copyKey*/);
+											}
 	                 ~SjSPHash           () { Clear(); }
 
 	// Insert into hash. Returns the old element or 0 if there is no
@@ -280,9 +279,9 @@ public:
 	{
 		wxASSERT(value != 0);
 		return sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+							#if wxUSE_UNICODE
 		                    *sizeof(wxChar)
-#endif
+							#endif
 		                    , value/*pData*/);
 	}
 
@@ -291,9 +290,9 @@ public:
 	void*           Remove              (const wxString& key)
 	{
 		return sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+							#if wxUSE_UNICODE
 		                    *sizeof(wxChar)
-#endif
+							#endif
 		                    , NULL/*pData*/);
 	}
 
@@ -302,9 +301,9 @@ public:
 	void*           Lookup              (const wxString& key) const
 	{
 		return sjhashFind(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
-		                  *sizeof(wxChar)
-#endif
+							#if wxUSE_UNICODE
+							*sizeof(wxChar)
+							#endif
 		                 );
 	}
 
@@ -340,11 +339,11 @@ public:
 	// constructs a string => long hash
 	                 SjSSHash            () {
 		sjhashInit (&m_hash,
-#if wxUSE_UNICODE
+                    #if wxUSE_UNICODE
 		            SJHASH_BINARY,
-#else
+                    #else
 		            SJHASH_STRING,
-#endif
+					#endif
 		            1/* copyKey*/);
 	}
 	                 ~SjSSHash           () { Clear(); }
@@ -354,9 +353,9 @@ public:
 	void            Insert              (const wxString& key, const wxString& value)
 	{
 		wxString* oldValue = (wxString*)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+							#if wxUSE_UNICODE
 		                     *sizeof(wxChar)
-#endif
+							#endif
 		                     , (void*)new wxString(value));
 		if( oldValue )
 		{
@@ -366,9 +365,9 @@ public:
 	void            Remove              (const wxString& key)
 	{
 		wxString* oldValue = (wxString*)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+						#if wxUSE_UNICODE
 		                     *sizeof(wxChar)
-#endif
+						#endif
 		                     , NULL);
 		if( oldValue )
 		{
@@ -381,9 +380,9 @@ public:
 	wxString*        Lookup             (const wxString& key) const
 	{
 		return (wxString*)sjhashFind(&m_hash, key.c_str(), (int)(key.Len()+1)
-#if wxUSE_UNICODE
+								#if wxUSE_UNICODE
 		                             *sizeof(wxChar)
-#endif
+								#endif
 		                            );
 	}
 	/*wxString        Lookup            (const wxString& key, const wxString& defVal) const
@@ -437,9 +436,9 @@ private:
 enum SjIcon
 {
     // the order reflects the order in the bitmap!
-    SJ_ICON_EMPTY = 0
-                    // large icons
-                    ,SJ_ICON_MUSICLIB
+     SJ_ICON_EMPTY = 0
+    // large icons
+	,SJ_ICON_MUSICLIB
     ,SJ_ICON_PLAYBACK_SETTINGS
     ,SJ_ICON_FX
     ,SJ_ICON_SKIN
@@ -687,9 +686,9 @@ public:
 	static wxString FormatRect          (const wxRect&);
 	static wxRect   ParseRect           (const wxString&);
 
-#define         SJ_FT_ALLOW_ZERO    0x01L
-#define         SJ_FT_MIN_5_CHARS   0x02L
-#define         SJ_FT_PREPEND_MINUS 0x04L
+	#define         SJ_FT_ALLOW_ZERO    0x01L
+	#define         SJ_FT_MIN_5_CHARS   0x02L
+	#define         SJ_FT_PREPEND_MINUS 0x04L
 	static wxString FormatTime          (long seconds, long flags=0);
 	static bool     ParseTime           (const wxString& str, long* retSeconds=NULL);
 
@@ -699,18 +698,16 @@ public:
 	static wxString FormatGain          (double gain, bool addPercent=TRUE);
 	static bool     ParseDecibel        (const wxString&, double& ret);
 
-#define         SJ_FORMAT_ADDTIME   0x00000001L
-#define         SJ_FORMAT_EDITABLE  0x00000002L
+	#define         SJ_FORMAT_ADDTIME   0x00000001L
+	#define         SJ_FORMAT_EDITABLE  0x00000002L
 	static wxString FormatDate          (unsigned long timestamp, long flags);
 	static wxString FormatDate          (const wxDateTime& dt, long flags) { return FormatDate(dt.GetAsDOS(), flags); }
 	static bool     ParseDate_          (const wxString& str, bool keepItSimple=TRUE, wxDateTime* retDateTime=NULL, bool* retTimeSet=NULL);
 	static bool     ParseYear           (long year, long* retYear=NULL);
 	static bool     ParseYear           (const wxString& str, long* retYear=NULL);
 
-
-
-#define         SJ_FORMAT_ADDEXACT  0x00000001L
-#define         SJ_FORMAT_MB        0x00000004L
+	#define         SJ_FORMAT_ADDEXACT  0x00000001L
+	#define         SJ_FORMAT_MB        0x00000004L
 	static wxString FormatBytes         (long bytes, int flags = 0);
 
 	static wxString ShortenUrl          (const wxString&, long maxChars=0);
@@ -770,18 +767,18 @@ public:
 	static void     DrawRubberbox       (wxDC&, const wxPoint&, const wxPoint&);
 
 	// draw "icons"
-#define         SJ_DRAWICON_PLAY            0x001
-#define         SJ_DRAWICON_PAUSE           0x002
-#define         SJ_DRAWICON_STOP            0x004
-#define         SJ_DRAWICON_DELETE          0x008
-#define         SJ_DRAWICON_CHECK           0x010
-#define         SJ_DRAWICON_TRIANGLE_DOWN   0x020
-#define         SJ_DRAWICON_VOLUP           0x040
-#define         SJ_DRAWICON_VOLDOWN         0x080
-#define         SJ_DRAWICON_TRIANGLE_UP     0x100
-#define         SJ_DRAWICON_TRIANGLE_RIGHT  0x200
-#define         SJ_DRAWICON_TRIANGLE_LEFT   0x400
-#define         SJ_DRAWICON_MOVED_DOWN      0x800
+	#define         SJ_DRAWICON_PLAY            0x001
+	#define         SJ_DRAWICON_PAUSE           0x002
+	#define         SJ_DRAWICON_STOP            0x004
+	#define         SJ_DRAWICON_DELETE          0x008
+	#define         SJ_DRAWICON_CHECK           0x010
+	#define         SJ_DRAWICON_TRIANGLE_DOWN   0x020
+	#define         SJ_DRAWICON_VOLUP           0x040
+	#define         SJ_DRAWICON_VOLDOWN         0x080
+	#define         SJ_DRAWICON_TRIANGLE_UP     0x100
+	#define         SJ_DRAWICON_TRIANGLE_RIGHT  0x200
+	#define         SJ_DRAWICON_TRIANGLE_LEFT   0x400
+	#define         SJ_DRAWICON_MOVED_DOWN      0x800
 	static void     DrawIcon            (wxDC&, const wxRect&, long flags);
 
 	// find out some font face names
@@ -801,10 +798,9 @@ public:
 	wxBitmap        GetIconBitmap       (SjIcon index, bool large=false);
 	wxIcon          GetIconIcon         (SjIcon index, bool large=false);
 
-#if SJ_USE_TOOLTIPS
-	SjToolTipManager
-	m_toolTipManager;
-#endif
+	#if SJ_USE_TOOLTIPS
+	SjToolTipManager m_toolTipManager;
+	#endif
 
 	// transparent (alpah-blended or see-through windows)
 	bool            CanSetWindowTransparency    ();
@@ -1012,8 +1008,8 @@ public:
 	SjStrReplacer       () { m_compiled = FALSE; }
 	SjStrReplacer       (const wxString& pattern, const wxString& replacement, long flags=0) { Compile(pattern, replacement, flags); }
 
-#define         wxRE_WHOLEWORDS     0x10000000L
-#define         wxRE_REGEX          0x20000000L
+	#define         wxRE_WHOLEWORDS     0x10000000L
+	#define         wxRE_REGEX          0x20000000L
 	//also defined: wxRE_ICASE          and others
 	bool            Compile             (const wxString& pattern, const wxString& replacement, long flags=0);
 	bool            IsValid             () const { return m_compiled; }
@@ -1045,9 +1041,9 @@ public:
 	wxString        GetFinalPlaceholder () const { return m_finalPlaceholder; }
 
 protected:
-#define         SJ_PLR_WIDTH        0x000000FFL
-#define         SJ_PLR_MAKEUPPER    0x00000100L
-#define         SJ_PLR_MAKELOWER    0x00000200L
+	#define         SJ_PLR_WIDTH        0x000000FFL
+	#define         SJ_PLR_MAKEUPPER    0x00000100L
+	#define         SJ_PLR_MAKELOWER    0x00000200L
 	virtual bool    GetReplacement      (const wxString& placeholder, long flags, wxString& replacement) = 0;
 	wxString        ApplyFlags          (const wxString& replacement, long flags);
 	wxString        ApplyFlags          (long replacement, long flags);
@@ -1137,11 +1133,11 @@ public:
 	                SjProp              () { Init(); }
 	void            Init                ();
 
-#define         SJ_PROP_BOLD            0x10000000L
-#define         SJ_PROP_HEADLINE        0x20000000L
-#define         SJ_PROP_ID              0x40000000L // the lower 16 bit contain the ID
-#define         SJ_PROP_HTML            0x01000000L
-#define         SJ_PROP_EMPTYIFEMPTY    0x02000000L // show the grayed string <empty> if the value is empty; for longs, use the value 0 for "empty"
+	#define         SJ_PROP_BOLD            0x10000000L
+	#define         SJ_PROP_HEADLINE        0x20000000L
+	#define         SJ_PROP_ID              0x40000000L // the lower 16 bit contain the ID
+	#define         SJ_PROP_HTML            0x01000000L
+	#define         SJ_PROP_EMPTYIFEMPTY    0x02000000L // show the grayed string <empty> if the value is empty; for longs, use the value 0 for "empty"
 	void            Add                 (const wxString& name, const wxString& value, long flags=0);
 	void            Add                 (const wxString& name, long value, long flags=0);
 	void            AddHex              (const wxString& name, long value, long flags=0);

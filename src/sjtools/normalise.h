@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_NORMALISE_H__
 #define __SJ_NORMALISE_H__
-
 
 
 // String stuff
@@ -40,8 +38,6 @@
 #define     SJ_OMIT_ALBUM   16 //           - " -                   // VC2008: why was this missing?
 #define     SJ_NUM_TO_END_ZZZZZZZZZZ wxT("zzzzzzzzzz")
 wxString    SjNormaliseString   (const wxString&, long flags);
-
-
 
 
 #endif // __SJ_NORMALISE_H__

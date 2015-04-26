@@ -299,7 +299,7 @@ int SjMessageBox        (const wxString& message, const wxString& caption,
 			useViewFontInDlg = true;
 	}
 
-#ifndef __WXMAC__
+	#ifndef __WXMAC__
 	if( yesTitle.IsEmpty()
 	        && noTitle.IsEmpty()
 	        && options == NULL
@@ -310,7 +310,7 @@ int SjMessageBox        (const wxString& message, const wxString& caption,
 		userChoice = wxMessageBox(message, caption, style, parent);
 	}
 	else
-#endif
+	#endif
 	{
 		// use our message box
 		SjMessageDlg dlg(message, caption, style, parent, options, selOption,

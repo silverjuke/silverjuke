@@ -41,7 +41,7 @@ class SjListBrowser : public SjBrowserBase
 {
 public:
 	// this is a pure-virtual base class defining a browser view
-	SjListBrowser       (SjBrowserWindow*);
+	                SjListBrowser       (SjBrowserWindow*);
 
 	// Exit() is be called sooner than the destructor is called for save-freeing pointers.
 	void            Exit                ();
@@ -76,10 +76,7 @@ public:
 	// selection handling & scrolling
 	bool            OnSkinTargetEvent   (int targetId, SjSkinValue& value, long accelFlags); // return true if the key/the event was used
 	bool            DoChangeSelection   (long dir, bool shiftSelection);
-	void            RefreshSelection    ()
-	{
-		m_window->Refresh(false, &m_tracksRect);
-	}
+	void            RefreshSelection    () { m_window->Refresh(false, &m_tracksRect); }
 	bool            GotoUrl             (const wxString& url) { return GotoUrl__(url, 0, true/*select*/, true/*update*/); }
 	void            GotoPos             (const wxString& pos, long viewOffset) { GotoUrl__(pos, viewOffset, false/*select*/, true/*update*/); }
 	wxString        GetFirstVisiblePos  ();

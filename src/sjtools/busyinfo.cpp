@@ -72,7 +72,7 @@ SjBusyInfo::SjBusyInfo(wxWindow *parent, const wxString& title, bool canCancel, 
 	m_startTimeMs       = SjTools::GetMsTicks();
 	m_elapsedSeconds    = 0;
 
-#define TEXT_W 80
+	#define TEXT_W 80
 
 	wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
 	SetSizer(sizer1);
@@ -125,11 +125,11 @@ SjBusyInfo::SjBusyInfo(wxWindow *parent, const wxString& title, bool canCancel, 
 	}
 
 	Show(TRUE);
-#ifdef __WXMAC__
-	Update();
-#else
-	Refresh();
-#endif
+	#ifdef __WXMAC__
+		Update();
+	#else
+		Refresh();
+	#endif
 	Yield();
 }
 
@@ -147,7 +147,7 @@ SjBusyInfo::~SjBusyInfo()
 	s_busyInfo = NULL;
 
 	// wait at a little moment if the dialog will disappear too fast
-#define LITTE_MOMENT_MS 600
+	#define LITTE_MOMENT_MS 600
 	while( SjTools::GetMsTicks() < m_startTimeMs+LITTE_MOMENT_MS )
 	{
 		Yield();

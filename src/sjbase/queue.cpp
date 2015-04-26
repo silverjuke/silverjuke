@@ -570,7 +570,7 @@ void SjQueue::AddToHistory(long pos)
 	}
 
 	// Cleanup every ~ 100 tracks inserted ...
-#define MAX_HISTORY_SIZE 100
+	#define MAX_HISTORY_SIZE 100
 	if( historyCount > MAX_HISTORY_SIZE )   // decrease the history size if it is "too large"
 	{	// (i think goin' back 100 tracks is enough - remember this is only used in shuffle mode)
 		m_historyIds.RemoveAt(0, MAX_HISTORY_SIZE/10);

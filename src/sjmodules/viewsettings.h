@@ -26,23 +26,19 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_VIEWSETTINGS_H__
 #define __SJ_VIEWSETTINGS_H__
-
 
 
 class SjViewSettingsModule : public SjCommonModule
 {
 public:
-	SjViewSettingsModule(SjInterfaceBase*);
+	                SjViewSettingsModule (SjInterfaceBase*);
 
-	SjEmbedTo       EmbedTo             () { return SJ_EMBED_TO_MAIN; }
-	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);
-	void            DoneConfigPage      (wxWindow* configPage, int action);
+	SjEmbedTo       EmbedTo              () { return SJ_EMBED_TO_MAIN; }
+	wxWindow*       GetConfigPage        (wxWindow* parent, int selectedPage);
+	void            DoneConfigPage       (wxWindow* configPage, int action);
 };
-
-
 
 
 #endif // __SJ_VIEWSETTINGS_H__

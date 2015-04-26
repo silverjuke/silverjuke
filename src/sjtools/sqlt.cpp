@@ -43,9 +43,9 @@
 
 extern "C"
 {
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	long g_sortableCalls = 0;
-#endif
+	#endif
 
 	static void sqlite_timestamp(sqlite3_context* context, int argc, sqlite3_value** argv)
 	{
@@ -139,9 +139,9 @@ extern "C"
 
 	static void sqlite_sortable(sqlite3_context* context, int argc, sqlite3_value** argv)
 	{
-#ifdef __WXDEBUG__
+		#ifdef __WXDEBUG__
 		g_sortableCalls++;
-#endif
+		#endif
 		if( argc > 0 )
 		{
 			const char *arg0 = (const char*)sqlite3_value_text(argv[0]);
@@ -191,13 +191,13 @@ wxSqltDb::wxSqltDb(const wxString& file)
 	m_file                      = file;
 	m_dbExistsBeforeOpening     = ::wxFileExists(file);
 	m_sqlite                    = NULL;
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	m_instanceCount             = 0;
-#endif
+	#endif
 
 	// open database - this expects the filename to be UTF-8 ...
 	wxMBConv* mbConvFilename = &wxConvUTF8;
-#ifdef __WXMSW__
+	#ifdef __WXMSW__
 	{
 		// ... however, for windows < NT, sqlite
 		// forwards the given pointer to just to CreateFileA() without any conversions (is this a bug? see sqlite-3.2.8\src\os_win.h)
@@ -209,13 +209,13 @@ wxSqltDb::wxSqltDb(const wxString& file)
 			mbConvFilename = &wxConvISO8859_1;
 		}
 	}
-#endif
+	#endif
 
-#if wxUSE_UNICODE
+	#if wxUSE_UNICODE
 	wxCharBuffer fileCharBuf = file.mb_str(*mbConvFilename);
-#else
+	#else
 	wxCharBuffer fileCharBuf = mbConvFilename->cWC2MB(file.wc_str(wxConvLocal));;
-#endif
+	#endif
 	const char* fileSqlite3Str = fileCharBuf.data();
 
 	if( sqlite3_open(fileSqlite3Str, &m_sqlite) != SQLITE_OK )
@@ -266,18 +266,18 @@ wxSqltDb::~wxSqltDb()
 
 	if( m_sqlite )
 	{
-#ifdef __WXDEBUG__
+		#ifdef __WXDEBUG__
 		if( m_instanceCount != 0 )
 		{
 			wxLogError(wxT("%i instances left open for the database."), m_instanceCount);
 		}
-#endif
+		#endif
 
 		if( sqlite3_close(m_sqlite) != SQLITE_OK )
 		{
-#ifndef __WXDEBUG__
+			#ifndef __WXDEBUG__
 			if( !SjMainApp::IsInShutdown() )
-#endif
+			#endif
 			{
 				const char* err = sqlite3_errmsg(m_sqlite);
 				SQLITE3_TO_WXSTRING(err)
@@ -480,13 +480,13 @@ int wxSqlt::FetchQuery_()
 	{
 		// error - we do not log this as this error may occur under mysterious circumstances - see
 		// http://www.silverjuke.net/forum/viewtopic.php?t=900
-#ifdef __WXDEBUG__
+		#ifdef __WXDEBUG__
 		const char* err = sqlite3_errmsg(m_db->m_sqlite);
 		SQLITE3_TO_WXSTRING(err)
 		wxLogError(errWxStr);
 
 		wxLogError(wxT("Cannot get SQL row.")/*n/t*/);
-#endif
+		#endif
 		return SQLITE_ERROR;
 	}
 }

@@ -82,7 +82,7 @@ private:
 class SjLibraryModule : public SjColModule
 {
 public:
-	SjLibraryModule     (SjInterfaceBase*);
+	                SjLibraryModule     (SjInterfaceBase*);
 
 	SjSearchStat    SetSearch           (const SjSearch&, bool deepSearch);
 
@@ -148,7 +148,7 @@ public:
 	void            SavePendingData     () {}
 
 	// add an art image to use as cover to an album
-#define         SJ_DUMMY_COVER_ID   0x7FFFFFFFL
+	#define         SJ_DUMMY_COVER_ID   0x7FFFFFFFL
 	void            GetPossibleAlbumArts(long albumId, wxArrayLong& albumArtIds, wxArrayString* albumArtUrls, bool addAutoCover);
 	bool            AddArt__            (SjDataObject* data, long albumId, bool ask);
 
@@ -236,12 +236,9 @@ private:
 	void            LoadSettings        ();
 	void            SaveSettings        ();
 
-	bool            Callback_MarkAsUpdated
-	(const wxString& urlBegin, long checkTrackCount);
-	bool            Callback_CheckTrackInfo
-	(const wxString& url, unsigned long actualTimestamp);
-	bool            Callback_ReceiveTrackInfo
-	(SjTrackInfo*);
+	bool            Callback_MarkAsUpdated	(const wxString& urlBegin, long checkTrackCount);
+	bool            Callback_CheckTrackInfo	(const wxString& url, unsigned long actualTimestamp);
+	bool            Callback_ReceiveTrackInfo (SjTrackInfo*);
 
 	bool            WriteTrackInfo      (SjTrackInfo*, long trackId, bool writeArtIds=TRUE);
 
@@ -282,10 +279,7 @@ private:
 class SjAlbumCoverRow : public SjRow
 {
 public:
-	SjAlbumCoverRow     (long albumId)
-		: SjRow(SJ_RRTYPE_COVER)
-/*m_isPlaylistCover(false)*/
-	{ m_albumId = albumId; }
+	                SjAlbumCoverRow     (long albumId) : SjRow(SJ_RRTYPE_COVER) /*,m_isPlaylistCover(false)*/ { m_albumId = albumId; }
 	void            CreateContextMenu   (SjMenu&);
 	int             IsSelectable        () {return PlayOnDblClick()?1:0;}
 	void            Select              (bool select);
@@ -315,9 +309,7 @@ private:
 class SjAlbumAlbumRow : public SjRow
 {
 public:
-	SjAlbumAlbumRow     (int roughType, long albumId, const wxString& album)
-		: SjRow(roughType)
-	{ m_albumId = albumId; m_textm = album; }
+	                SjAlbumAlbumRow     (int roughType, long albumId, const wxString& album) : SjRow(roughType) { m_albumId = albumId; m_textm = album; }
 	void            CreateContextMenu   (SjMenu&);
 	int             IsSelectable        () {return 1;}
 	void            Select              (bool select);
@@ -337,9 +329,7 @@ private:
 class SjAlbumArtistRow : public SjRow
 {
 public:
-	SjAlbumArtistRow    (int roughType, long albumId, const wxString& artist)
-		: SjRow(roughType)
-	{ m_albumId = albumId; m_textm = artist; }
+	                SjAlbumArtistRow    (int roughType, long albumId, const wxString& artist) : SjRow(roughType) { m_albumId = albumId; m_textm = artist; }
 	void            CreateContextMenu   (SjMenu&);
 	int             IsSelectable        () { return 1; }
 	void            Select              (bool select);
@@ -359,9 +349,7 @@ private:
 class SjAlbumDiskRow : public SjRow
 {
 public:
-	SjAlbumDiskRow      (long albumId, long diskNr)
-		: SjRow(SJ_RRTYPE_TITLE3)
-	{ m_albumId = albumId; m_diskNr = diskNr; }
+					SjAlbumDiskRow      (long albumId, long diskNr) : SjRow(SJ_RRTYPE_TITLE3) { m_albumId = albumId; m_diskNr = diskNr; }
 	void            CreateContextMenu   (SjMenu&);
 	int             IsSelectable        () {return 1;}
 	void            Select              (bool select);
@@ -382,9 +370,8 @@ private:
 class SjAlbumTrackRow : public SjRow
 {
 public:
-	SjAlbumTrackRow     (SjLibraryModule* libraryModule, long trackId, const wxString& url)
-		: SjRow(SJ_RRTYPE_NORMAL)
-	{ m_libraryModule = libraryModule; m_trackId = trackId; m_url = url; }
+	                SjAlbumTrackRow     (SjLibraryModule* libraryModule, long trackId, const wxString& url)
+		                                  : SjRow(SJ_RRTYPE_NORMAL) { m_libraryModule = libraryModule; m_trackId = trackId; m_url = url; }
 	void            CreateContextMenu   (SjMenu&);
 	void            OnContextMenu       (int id);
 	wxString        GetToolTip          (long& flags);

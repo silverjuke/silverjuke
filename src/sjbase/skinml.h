@@ -33,9 +33,7 @@
 #define __SJ_SKINML_H__
 
 
-
 #include <wx/html/htmlwin.h>
-
 
 
 struct SjSkinMlParserRaw

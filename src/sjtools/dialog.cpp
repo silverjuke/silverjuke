@@ -82,7 +82,7 @@ wxSizer* SjDialog::CreateButtons(wxWindow* this_, long flags,
                                  const wxString& prevTitle, const wxString& nextTitle)
 {
 	/* the button order is ...
-	 * [help] [standard] [menu] [<<] [>>] --- [ok] [cancel]
+	 * [menu] [<<] [>>] --- [ok] [cancel]
 	 */
 	wxBoxSizer* buttonSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxButton*   buttonDefault = 0;
@@ -98,7 +98,7 @@ wxSizer* SjDialog::CreateButtons(wxWindow* this_, long flags,
 
 	if( flags & SJ_DLG_PREV_NEXT )
 	{
-#define BUTTON_W 32
+		#define BUTTON_W 32
 
 		b = new wxButton(this_, IDC_PREVDLGPAGE, wxT("<<"), wxDefaultPosition, wxSize(BUTTON_W, -1));
 		if( !prevTitle.IsEmpty() ) { b->SetToolTip(prevTitle); }
@@ -154,7 +154,7 @@ void SjDialog::SetCbWidth(wxWindow* window, long maxW)
 			if( w > reqW ) { reqW = w; }
 		}
 
-#define OVERHEAD_W 32
+		#define OVERHEAD_W 32
 		c->SetSize((reqW+OVERHEAD_W)>maxW? maxW : reqW+OVERHEAD_W, -1);
 	}
 }
@@ -433,12 +433,12 @@ void SjDialog::CenterOnDisplay(wxWindow* this_, wxWindow* parent_)
 
 void SjDialog::AddStateBox(wxSizer* parentSizer)
 {
-#if 1
-	wxSizer* sizer2 = new wxStaticBoxSizer(new wxStaticBox(this, -1, _("State")), wxVERTICAL);
-	parentSizer->Add(sizer2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
-#else
-	wxSizer* sizer2 = parentSizer;
-#endif
+	#if 1
+		wxSizer* sizer2 = new wxStaticBoxSizer(new wxStaticBox(this, -1, _("State")), wxVERTICAL);
+		parentSizer->Add(sizer2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
+	#else
+		wxSizer* sizer2 = parentSizer;
+	#endif
 
 	m_stateSizer = new wxFlexGridSizer(2, 0, 0);
 	m_stateSizer->AddGrowableCol(1);
@@ -698,7 +698,7 @@ wxString SjDlgSlider::RenderLabel(long val, long min, long max)
 	wxString minStr = RenderLabel(min);
 	wxString maxStr = RenderLabel(max);
 	while( valStr.Len() < minStr.Len()
-	        || valStr.Len() < maxStr.Len() )
+	    || valStr.Len() < maxStr.Len() )
 	{
 		valStr += wxT(" ");
 	}

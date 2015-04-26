@@ -33,8 +33,7 @@
 class SjPlaybackSettingsModule : public SjCommonModule
 {
 public:
-	SjPlaybackSettingsModule
-	(SjInterfaceBase*);
+	                SjPlaybackSettingsModule (SjInterfaceBase*);
 
 	SjEmbedTo       EmbedTo             () { return SJ_EMBED_TO_MAIN; }
 	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);

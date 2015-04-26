@@ -89,14 +89,14 @@ SjTools::SjTools()
 		m_config = new wxFileConfig(SJ_PROGRAM_NAME, SJ_PROGRAM_NAME, m_configDescr);
 		m_configIsDefault = FALSE;
 	}
-#ifdef __WXMSW__
+	#ifdef __WXMSW__
 	else if( ::wxFileExists( GetSilverjukeProgramDir() + wxT("globals.ini")) ) // don't use "silverjuke.ini" which will be created by some (winamp) plugins
 	{
 		m_configDescr = GetSilverjukeProgramDir() + wxT("globals.ini");
 		m_config = new wxFileConfig(SJ_PROGRAM_NAME, SJ_PROGRAM_NAME, m_configDescr);
 		m_configIsDefault = FALSE;
 	}
-#endif
+	#endif
 	else
 	{
 		wxFileName fn(GetUserAppDataDir(), wxT("globals.ini"));
@@ -197,9 +197,9 @@ void SjTools::InitCrashPrecaution()
 
 	m_crashInfoFileName = m_cache.AddToUnmanagedTemp(
 	                          wxString::Format(SJ_TEMP_PREFIX wxT("%08x-cp")
-#ifdef __WXDEBUG__
+								#ifdef __WXDEBUG__
 	                                  wxT("-db")
-#endif
+								#endif
 	                                  , crc)
 	                      );
 
@@ -210,11 +210,11 @@ void SjTools::InitCrashPrecaution()
 		char buffer[4096+1];
 		buffer[file.Read(buffer, 4096)] = 0;
 
-#if wxUSE_UNICODE
-		wxString info = wxString(buffer, wxConvUTF8);
-#else
-		wxString info = buffer;
-#endif
+		#if wxUSE_UNICODE
+			wxString info = wxString(buffer, wxConvUTF8);
+		#else
+			wxString info = buffer;
+		#endif
 
 		m_lastCrashModule = info.BeforeFirst('\n');
 		m_lastCrashFunc   = info.AfterFirst('\n').BeforeLast('\n');
@@ -284,10 +284,10 @@ bool SjTools::CrashPrecaution(const wxString& module, const wxString& func, cons
 		ret = FALSE; // the given objects are the possible reason for the last crash
 	}
 
-#ifndef __WXDEBUG__
+	#ifndef __WXDEBUG__
 	if(  s_doCrashLogging
 	        && !SjMainApp::IsInShutdown() ) // on shutdown, NotCrashed() may not be called in time if Windows kills us - so no crash precaution on shutdown
-#endif
+	#endif
 	{
 		wxString info = module;
 		info << wxT("\n") << func << wxT("\n") << object;
@@ -341,7 +341,7 @@ unsigned long SjTools::Crc32Init()
 	if( !m_crc32InitDone )
 	{
 		// This is the official polynomial used by CRC-32 in PKZip, WinZip and Ethernet.
-#define CRC32POLYNOMIAL 0x04c11db7
+		#define CRC32POLYNOMIAL 0x04c11db7
 		int i, j;
 
 		// 256 values representing ASCII character codes.
@@ -634,36 +634,36 @@ int SjTools::ReadFromCmdLineOrIni(const wxString& key, wxString& ret)
 #ifndef __WXMSW__
 wxString SjTools::GetUserAppDataDir()
 {
-#ifdef __WXMAC__
-	wxString userAppDataDir = wxStandardPaths::Get().GetUserDataDir();
-	if( userAppDataDir.Last() != wxT('/') )
-		userAppDataDir.Append(wxT('/'));
-	if( !::wxDirExists(userAppDataDir) )
-		::wxMkdir(userAppDataDir);
-	return userAppDataDir;
-#else
-	wxFileName tempFileName;
-	if( wxGetenv(wxT("XDG_CONFIG_HOME")) ) // see http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
-	{
-	    tempFileName = wxGetenv(wxT("XDG_CONFIG_HOME"));
-	}
-	else
-	{
-	    tempFileName.AssignHomeDir();
-	    tempFileName.AppendDir(wxT(".config"));
-	}
-	tempFileName.AppendDir(wxT("silverjuke"));
-	tempFileName.Normalize();
-	if( !::wxDirExists(tempFileName.GetFullPath()) )
-	{
-		if( !tempFileName.Mkdir() )
+	#ifdef __WXMAC__
+		wxString userAppDataDir = wxStandardPaths::Get().GetUserDataDir();
+		if( userAppDataDir.Last() != wxT('/') )
+			userAppDataDir.Append(wxT('/'));
+		if( !::wxDirExists(userAppDataDir) )
+			::wxMkdir(userAppDataDir);
+		return userAppDataDir;
+	#else
+		wxFileName tempFileName;
+		if( wxGetenv(wxT("XDG_CONFIG_HOME")) ) // see http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 		{
-			wxLogError(wxT("Cannot create directory \"%s\"."), tempFileName.GetFullPath().c_str());
+			tempFileName = wxGetenv(wxT("XDG_CONFIG_HOME"));
 		}
-	}
+		else
+		{
+			tempFileName.AssignHomeDir();
+			tempFileName.AppendDir(wxT(".config"));
+		}
+		tempFileName.AppendDir(wxT("silverjuke"));
+		tempFileName.Normalize();
+		if( !::wxDirExists(tempFileName.GetFullPath()) )
+		{
+			if( !tempFileName.Mkdir() )
+			{
+				wxLogError(wxT("Cannot create directory \"%s\"."), tempFileName.GetFullPath().c_str());
+			}
+		}
 
-	return tempFileName.GetFullPath();
-#endif
+		return tempFileName.GetFullPath();
+	#endif
 }
 #endif
 
@@ -742,26 +742,26 @@ void SjTools::LoadStaticObjects()
 {
 	/* create movehand cursors
 	 */
-#ifdef __WXMAC__
-	m_staticMovehandCursor = wxCursor(wxCURSOR_SIZING);
-#else
-	wxIcon iconHand(xpm_movehand_32);
+	#ifdef __WXMAC__
+		m_staticMovehandCursor = wxCursor(wxCURSOR_SIZING);
+	#else
+		wxIcon iconHand(xpm_movehand_32);
 
-	wxBitmap bitmap; bitmap.CopyFromIcon(iconHand);
-	wxImage image = bitmap.ConvertToImage();
-	if( image.GetWidth()==32 )
-	{
-		image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 4);
-		image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 1);
-	}
-	else
-	{
-		image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 2);
-		image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 1);
-	}
+		wxBitmap bitmap; bitmap.CopyFromIcon(iconHand);
+		wxImage image = bitmap.ConvertToImage();
+		if( image.GetWidth()==32 )
+		{
+			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 4);
+			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 1);
+		}
+		else
+		{
+			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 2);
+			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 1);
+		}
 
-	m_staticMovehandCursor = wxCursor(image);
-#endif
+		m_staticMovehandCursor = wxCursor(image);
+	#endif
 	if( !m_staticMovehandCursor.Ok() )
 	{
 		m_staticMovehandCursor = *wxSTANDARD_CURSOR;
@@ -797,20 +797,20 @@ void SjTools::LoadStaticObjects()
 unsigned long SjTools::GetFileSize(const wxString& name)
 {
 	wxLogNull null;
-#if 0
-	wxFile file(name);
-	if( file.IsOpened() )
-	{
-		file.SeekEnd();
-		return file.Tell();
-	}
-#else
-	wxStructStat buf;
-	if( wxStat(name, &buf) == 0 )
-	{
-		return buf.st_size;
-	}
-#endif
+	#if 0
+		wxFile file(name);
+		if( file.IsOpened() )
+		{
+			file.SeekEnd();
+			return file.Tell();
+		}
+	#else
+		wxStructStat buf;
+		if( wxStat(name, &buf) == 0 )
+		{
+			return buf.st_size;
+		}
+	#endif
 	return 0;
 }
 
@@ -833,35 +833,35 @@ wxString SjTools::GetFileContent(wxInputStream* inputStream, wxMBConv* mbConv)
 			bytes = inputStream->LastRead();
 			buf[bytes  ] = 0;
 
-#if wxUSE_UNICODE
-			if( ((unsigned char)buf[0]==0xFF && (unsigned char)buf[1]==0xFE)
-			        || ((unsigned char)buf[0]==0xFE && (unsigned char)buf[1]==0xFF) )
-			{
-				// UTF-16LE or UTF-16BE BOM (Byte order mark) detected: Force UTF-16 decoding.
-				// see http://www.silverjuke.net/forum/topic-3118.html
-				SjByteVector v((const unsigned char*)buf, bytes);
-				ret = v.toString(SJ_UTF16);
-			}
-			else
-			{
-				if( (unsigned char)buf[0]==0xEF && (unsigned char)buf[1]==0xBB && (unsigned char)buf[2]==0xBF )
+			#if wxUSE_UNICODE
+				if( ((unsigned char)buf[0]==0xFF && (unsigned char)buf[1]==0xFE)
+						|| ((unsigned char)buf[0]==0xFE && (unsigned char)buf[1]==0xFF) )
 				{
-					// UTF-8 BOM (Byte order mark) detected: Remove the mark and force UTF-8 decoding
-					buf += 3;
-					bytes -= 3;
-					mbConv = &wxConvUTF8;
+					// UTF-16LE or UTF-16BE BOM (Byte order mark) detected: Force UTF-16 decoding.
+					// see http://www.silverjuke.net/forum/topic-3118.html
+					SjByteVector v((const unsigned char*)buf, bytes);
+					ret = v.toString(SJ_UTF16);
 				}
+				else
+				{
+					if( (unsigned char)buf[0]==0xEF && (unsigned char)buf[1]==0xBB && (unsigned char)buf[2]==0xBF )
+					{
+						// UTF-8 BOM (Byte order mark) detected: Remove the mark and force UTF-8 decoding
+						buf += 3;
+						bytes -= 3;
+						mbConv = &wxConvUTF8;
+					}
 
-				ret = wxString(buf, *mbConv);
-				if( ret.IsEmpty() )
-				{
-					// corrupted UTF-8? try again with Latin-1/ISO8859-1
-					ret = wxString(buf, wxConvISO8859_1);
+					ret = wxString(buf, *mbConv);
+					if( ret.IsEmpty() )
+					{
+						// corrupted UTF-8? try again with Latin-1/ISO8859-1
+						ret = wxString(buf, wxConvISO8859_1);
+					}
 				}
-			}
-#else
-			ret = buf;
-#endif
+			#else
+				ret = buf;
+			#endif
 
 			free(buf__);
 		}
@@ -924,12 +924,12 @@ wxString SjTools::SetFileNameToUrl(const wxString& oldUrl, const wxString& fileN
 
 bool SjTools::IsAbsUrl(const wxString& url)
 {
-#ifdef __WXMSW__
-	if( url.Find(wxT(':')) != -1 )
-	{
-		return TRUE;
-	}
-#endif
+	#ifdef __WXMSW__
+		if( url.Find(wxT(':')) != -1 )
+		{
+			return TRUE;
+		}
+	#endif
 
 	if( url.Len() )
 	{
@@ -991,8 +991,8 @@ bool SjTools::CopyStreamToFile(wxInputStream& inputStream, wxFile& outputFile)
 	unsigned long   endMs;
 
 	// allocate memory
-#define TEMP_FILE_SLICE_BYTES   4*65536
-#define TEMP_FILE_MAX_COPY_MS   6000 // this should be enough -- streams may never end...
+	#define TEMP_FILE_SLICE_BYTES   4*65536
+	#define TEMP_FILE_MAX_COPY_MS   6000 // this should be enough -- streams may never end...
 	buffer = (char*)malloc(TEMP_FILE_SLICE_BYTES);
 	if( buffer == NULL )
 	{
@@ -1914,18 +1914,18 @@ wxString SjTools::Htmlentities(const wxString& str__)
 
 wxString SjTools::Menuencode(const wxString& str__)
 {
-#ifdef __WXMSW__
-	// In menus on Windows, a simple ampersand is used to underline the next character
-	// (eg. "&File" or "&Open..."). To avoid this and to display a single "&", the
-	// ampersand must be escaped by another ampersand.
-	wxString str(str__);
+	#ifdef __WXMSW__
+		// In menus on Windows, a simple ampersand is used to underline the next character
+		// (eg. "&File" or "&Open..."). To avoid this and to display a single "&", the
+		// ampersand must be escaped by another ampersand.
+		wxString str(str__);
 
-	str.Replace(wxT("&"), wxT("&&"));
+		str.Replace(wxT("&"), wxT("&&"));
 
-	return str;
-#else
-	return str__;
-#endif
+		return str;
+	#else
+		return str__;
+	#endif
 }
 
 
@@ -1959,55 +1959,55 @@ wxString SjTools::ShortenUrl(const wxString& url, long maxChars)
 	// get the result
 	if( dirs.GetCount() > 3 && maxChars < (long)url.Len() )
 	{
-#if 0
-		ret = dirs.Item(0) << wxT("/") << dirs.Item(1) << wxT("/.../") << dirs.Item(dirsCount-1);
-#else
-		wxString left        = dirs.Item(0) << wxT("/") << dirs.Item(1);
-		long     nextLeft    = 2;
-		wxString right       = dirs.Item(dirsCount-1);
-		long     nextRight   = dirsCount-2;
-		bool     nextIsRight = TRUE;
-		while( nextLeft  <  dirsCount
-		        && nextRight >= 0 )
-		{
-			bool sthAdded = FALSE;
-			long test = 0, newLen;
-			while( !sthAdded && test++ < 2 )
+		#if 0
+			ret = dirs.Item(0) << wxT("/") << dirs.Item(1) << wxT("/.../") << dirs.Item(dirsCount-1);
+		#else
+			wxString left        = dirs.Item(0) << wxT("/") << dirs.Item(1);
+			long     nextLeft    = 2;
+			wxString right       = dirs.Item(dirsCount-1);
+			long     nextRight   = dirsCount-2;
+			bool     nextIsRight = TRUE;
+			while( nextLeft  <  dirsCount
+					&& nextRight >= 0 )
 			{
-				if( nextIsRight )
+				bool sthAdded = FALSE;
+				long test = 0, newLen;
+				while( !sthAdded && test++ < 2 )
 				{
-					newLen = left.Len()+right.Len()+dirs.Item(nextRight).Len();
-					if( newLen <= maxChars )
+					if( nextIsRight )
 					{
-						right.Prepend(wxT("/"));
-						right.Prepend(dirs.Item(nextRight));
-						nextRight--;
-						sthAdded = TRUE;
-					}
+						newLen = left.Len()+right.Len()+dirs.Item(nextRight).Len();
+						if( newLen <= maxChars )
+						{
+							right.Prepend(wxT("/"));
+							right.Prepend(dirs.Item(nextRight));
+							nextRight--;
+							sthAdded = TRUE;
+						}
 
-				}
-				else
-				{
-					newLen = left.Len()+right.Len()+dirs.Item(nextLeft).Len();
-					if( newLen <= maxChars )
-					{
-						left.Append(wxT("/"));
-						left.Append(dirs.Item(nextLeft));
-						nextLeft++;
-						sthAdded = TRUE;
 					}
+					else
+					{
+						newLen = left.Len()+right.Len()+dirs.Item(nextLeft).Len();
+						if( newLen <= maxChars )
+						{
+							left.Append(wxT("/"));
+							left.Append(dirs.Item(nextLeft));
+							nextLeft++;
+							sthAdded = TRUE;
+						}
+					}
+					nextIsRight = !nextIsRight;
 				}
-				nextIsRight = !nextIsRight;
+
+				if( !sthAdded )
+				{
+					break;
+				}
 			}
 
-			if( !sthAdded )
-			{
-				break;
-			}
-		}
-
-		ret = left + (nextLeft <= nextRight? wxT("/.../") : wxT("/")) + right;
-#endif
+			ret = left + (nextLeft <= nextRight? wxT("/.../") : wxT("/")) + right;
+		#endif
 	}
 
 	// postprocess
@@ -2660,7 +2660,7 @@ bool SjTools::DrawSingleLineText(wxDC& dc, const wxString& givenText__, wxRect& 
 	dc.GetTextExtent(anyTabs? removeTabs(textToPrint) : textToPrint, &textW, &textH);
 	if( textW > rect.width )
 	{
-#define TWO_POINTS wxT("..")
+		#define TWO_POINTS wxT("..")
 		long tokenLen = textToPrint.Len(), i;
 		for( i=tokenLen; i>=0; i-- )
 		{
@@ -3663,8 +3663,8 @@ int SjStrReplacer::ReplaceAll(wxString& text, const wxString* replacement)
 
 void SjPlaceholdReplacer::ReplaceAll(wxString& text)
 {
-#define PLACEHOLDER_START '<'
-#define PLACEHOLDER_END   '>'
+	#define PLACEHOLDER_START '<'
+	#define PLACEHOLDER_END   '>'
 
 	wxString currPlaceholder, temp;
 	long     currFlags;
@@ -3795,9 +3795,9 @@ void SjPlaceholdMatcher::Compile(const wxString& pattern, const wxString& highPr
 {
 	// example pattern /<artist>/<album>/<nr> <title>.<ext>
 
-#ifdef __WXDEBUG__
-	m_pattern = pattern;
-#endif
+	#ifdef __WXDEBUG__
+		m_pattern = pattern;
+	#endif
 
 	m_parts.Clear();
 	m_highPriorityDelim = highPriorityDelim;
@@ -3914,19 +3914,19 @@ void SjPlaceholdMatcher::Match(const wxString& haystack, bool shortExt)
 		return;
 	}
 
-#ifdef __WXDEBUG__
-	wxLogDebug(wxT("----------------"));
-	wxLogDebug(wxT("pattern := %s"), m_pattern.c_str());
-	for( currPartIndex = 0; currPartIndex < (int)m_parts.GetCount(); currPartIndex++ )
-	{
-		currPart = &m_parts[currPartIndex  ];
-		wxLogDebug(wxT("%s := read %s characters until \"%s\""),
-		           currPart->m_placeholder.c_str(),
-		           (currPart->m_delimWidth? wxString::Format(wxT("%i"), (int)currPart->m_delimWidth).c_str() : wxT("n")),
-		           currPart->m_delimSepAfter.c_str());
-	}
-	wxLogDebug(wxT("----------------"));
-#endif
+	#ifdef __WXDEBUG__
+		wxLogDebug(wxT("----------------"));
+		wxLogDebug(wxT("pattern := %s"), m_pattern.c_str());
+		for( currPartIndex = 0; currPartIndex < (int)m_parts.GetCount(); currPartIndex++ )
+		{
+			currPart = &m_parts[currPartIndex  ];
+			wxLogDebug(wxT("%s := read %s characters until \"%s\""),
+					   currPart->m_placeholder.c_str(),
+					   (currPart->m_delimWidth? wxString::Format(wxT("%i"), (int)currPart->m_delimWidth).c_str() : wxT("n")),
+					   currPart->m_delimSepAfter.c_str());
+		}
+		wxLogDebug(wxT("----------------"));
+	#endif
 
 	// find out the starting position and save it to "startPos"
 
@@ -3955,9 +3955,9 @@ void SjPlaceholdMatcher::Match(const wxString& haystack, bool shortExt)
 		currPartIndex = 0;
 	}
 
-#ifdef __WXDEBUG__
-	wxLogDebug(wxT("interesting part starting at pos. %i := %s"), startPos, haystack.Mid(startPos).c_str());
-#endif
+	#ifdef __WXDEBUG__
+		wxLogDebug(wxT("interesting part starting at pos. %i := %s"), startPos, haystack.Mid(startPos).c_str());
+	#endif
 
 	// okay, "startPos" is the starting position of our first placeholder now
 	int endPos, nextPos;
@@ -4019,9 +4019,9 @@ void SjPlaceholdMatcher::Match(const wxString& haystack, bool shortExt)
 
 		// got match!
 		currMatch = haystack.Mid(startPos, (endPos-startPos)).Trim(TRUE).Trim(FALSE);
-#ifdef __WXDEBUG__
-		wxLogDebug(wxT("%s := %s"), currPart->m_placeholder.c_str(), currMatch.c_str());
-#endif
+		#ifdef __WXDEBUG__
+			wxLogDebug(wxT("%s := %s"), currPart->m_placeholder.c_str(), currMatch.c_str());
+		#endif
 
 		if(  (GotMatch(currPart->m_placeholder, currMatch) || currPart->m_delimWidth)
 		        && (m_highPriorityDelim.IsEmpty() || !haystack.Mid(startPos, (nextPos-startPos)).Contains(m_highPriorityDelim)) )

@@ -26,22 +26,18 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_VIS_BG_H__
 #define __SJ_VIS_BG_H__
-
-
 
 
 class SjVisBg
 {
 public:
-	SjVisBg             () { m_tempLine = NULL; m_tempLineWidth = 0; }
+							SjVisBg             () { m_tempLine = NULL; m_tempLineWidth = 0; }
 	virtual                 ~SjVisBg            () { if(m_tempLine) delete m_tempLine; }
 	virtual void            SetSize             (const wxSize&) = 0;
 	virtual void            DrawBackground      (wxDC&) = 0;
-	virtual const unsigned char*
-	GetBackgroundBits   (long x, long y, long desiredWidth) = 0;
+	virtual const unsigned char* GetBackgroundBits   (long x, long y, long desiredWidth) = 0;
 
 	// some tools
 	static wxCoord          SetFontPixelH       (wxDC& dc, wxFont& font, wxCoord pixelH, wxCoord startTestFontPtSize=64);
@@ -64,8 +60,6 @@ private:
 };
 
 
-
-
 class SjVisGrBg : public SjVisBg
 {
 public:
@@ -81,7 +75,6 @@ private:
 	unsigned char*          m_rgb;
 	long                    m_imgOpFlags;
 };
-
 
 
 class SjVisImgBg : public SjVisBg
@@ -101,14 +94,6 @@ private:
 	long                    m_scaledHeight;
 	long                    m_imgOpFlags;
 };
-
-
-
-
-
-
-
-
 
 
 #endif // __SJ_VIS_BG_H__

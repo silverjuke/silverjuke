@@ -117,10 +117,10 @@ public:
 	void            SeekRel             (long ms)   { SeekAbs(GetElapsedTime()+ms); }
 
 	// Automatic volume
-#define         SJ_AV_DEF_STATE             TRUE
-#define         SJ_AV_DEF_DESIRED_VOLUME    1.0F
-#define         SJ_AV_DEF_MAX_GAIN          5.0F
-#define         SJ_AV_DEF_USE_ALBUM_VOL     FALSE
+	#define         SJ_AV_DEF_STATE             TRUE
+	#define         SJ_AV_DEF_DESIRED_VOLUME    1.0F
+	#define         SJ_AV_DEF_MAX_GAIN          5.0F
+	#define         SJ_AV_DEF_USE_ALBUM_VOL     FALSE
 	void            AvEnable            (bool s) {  m_avEnabled = s; }
 	bool            AvIsEnabled         () const { return m_avEnabled; }
 	void            AvSetUseAlbumVol    (bool);
@@ -142,14 +142,14 @@ public:
 	bool            GetSkipSilence      () const { return m_skipSilence; }
 
 	// Crossfade & Other fadings: Time settings
-#define         SJ_DEF_CROSSFADE_MS 10000L
+	#define         SJ_DEF_CROSSFADE_MS 10000L
 	long            m_autoCrossfadeMs;
 	long            m_manCrossfadeMs;
 
-#define         SJ_FF_DEF_PAUSE2PLAY_MS 150
-#define         SJ_FF_DEF_PLAY2PAUSE_MS 300
-#define         SJ_FF_DEF_PLAY2EXIT_MS  500 // cannot be edited, we will always be "smart"
-#define         SJ_FF_DEF_GOTO_MS       1000
+	#define         SJ_FF_DEF_PAUSE2PLAY_MS 150
+	#define         SJ_FF_DEF_PLAY2PAUSE_MS 300
+	#define         SJ_FF_DEF_PLAY2EXIT_MS  500 // cannot be edited, we will always be "smart"
+	#define         SJ_FF_DEF_GOTO_MS       1000
 	long            m_ffPause2PlayMs;
 	long            m_ffPlay2PauseMs;
 	long            m_ffGotoMs;
@@ -210,7 +210,7 @@ public:
 	float           m_avCalculatedGain;
 
 	// crossfading etc.
-#define         SJ_DEF_AUTO_CROSSFADE_ENABLED   true
+	#define         SJ_DEF_AUTO_CROSSFADE_ENABLED   true
 	bool            m_autoCrossfade;
 	bool            m_autoCrossfadeSubseqDetect;
 	bool            m_skipSilence;

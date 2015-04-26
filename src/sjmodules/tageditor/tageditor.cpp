@@ -284,7 +284,7 @@ wxPanel* SjTagEditorDlg::CreateTitlePage(wxWindow* parent)
 {
 	wxSize  numberSize      (m_dlgLineHeight*3, -1);
 	wxSize  multilineSize   (-1,             (m_dlgLineHeight*2)+6);
-#define ADD_SPACE       ((SJ_DLG_SPACE/2)+1) // this additional space is added between a title and a control
+	#define ADD_SPACE       ((SJ_DLG_SPACE/2)+1) // this additional space is added between a title and a control
 
 	// create page and main page sizer
 	wxPanel* page = new wxPanel(parent, -1);
@@ -1049,12 +1049,12 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 		{
 			p.Add(_("Queue position"), SjTools::FormatNumbers(allQueuePositions, 1/*we want to show numbers starting at 1*/));
 
-#ifdef __WXDEBUG__
-			long playCount = g_mainFrame->m_player.m_queue.GetPlayCount(allQueuePositions[0]);
-			long repeatRound = g_mainFrame->m_player.m_queue.GetRepeatRound();
-			p.Add(wxT("Play count / repeat round"),
-			      wxString::Format(wxT("%i / %i"), (int)playCount, (int)repeatRound));
-#endif
+			#ifdef __WXDEBUG__
+				long playCount = g_mainFrame->m_player.m_queue.GetPlayCount(allQueuePositions[0]);
+				long repeatRound = g_mainFrame->m_player.m_queue.GetRepeatRound();
+				p.Add(wxT("Play count / repeat round"),
+					  wxString::Format(wxT("%i / %i"), (int)playCount, (int)repeatRound));
+			#endif
 		}
 	}
 

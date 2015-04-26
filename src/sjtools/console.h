@@ -26,18 +26,16 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_CONSOLE_H__
 #define __SJ_CONSOLE_H__
-
 
 
 class SjLogGui : public wxLogGui
 {
 public:
 	// it's up to the caller to clear the string if errors are shown!
-	SjLogGui            ();
-	~SjLogGui           ();
+	                SjLogGui            ();
+	                ~SjLogGui           ();
 	static void     DiscardAll          () { if(s_this) { s_this->Clear(); } }
 	static void     OpenManually        ();
 
@@ -58,8 +56,7 @@ protected:
 
 private:
 	// private
-	static SjLogGui*
-	s_this;
+	static SjLogGui* s_this;
 
 	wxArrayString   m_aPacked;
 
@@ -68,8 +65,7 @@ private:
 	wxString        m_catchedErrors;
 	static void     StartCatchErrors    ();
 	static void     EndCatchErrors      ();
-	static wxString GetAndClearCatchedErrors
-	();
+	static wxString GetAndClearCatchedErrors();
 
 	wxLog*          m_oldTarget;
 	wxLogLevel      m_oldLevel;
@@ -84,11 +80,10 @@ private:
 };
 
 
-
 class SjLogString
 {
 public:
-	                SjLogString         (bool logToString=TRUE) { m_logToString=logToString; if( m_logToString ) { SjLogGui::StartCatchErrors(); } }
+	               SjLogString         (bool logToString=TRUE) { m_logToString=logToString; if( m_logToString ) { SjLogGui::StartCatchErrors(); } }
 	               ~SjLogString        () { if( m_logToString ) { SjLogGui::EndCatchErrors(); } }
 	wxString       GetAndClearErrors   () { if( m_logToString ) { return SjLogGui::GetAndClearCatchedErrors(); } else { return wxT(""); } }
 

@@ -72,7 +72,7 @@ SjPasswordDlg::SjPasswordDlg(wxWindow*          parent,
 	sizer3->AddGrowableCol(1);
 	sizer2->Add(sizer3, 0, wxGROW|wxALL, SJ_DLG_SPACE);
 
-#define CTRL_W 180
+	#define CTRL_W 180
 	if( flags & SJ_PASSWORDDLG_ASK_FOR_PASSWORD )
 	{
 		sizer3->Add(new wxStaticText(this, -1, _("Password:")), 0, wxALIGN_CENTER_VERTICAL);

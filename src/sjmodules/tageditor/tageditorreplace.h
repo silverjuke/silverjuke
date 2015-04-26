@@ -26,16 +26,14 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_TAGEDITOR_REPLACE_H__
 #define __SJ_TAGEDITOR_REPLACE_H__
-
 
 
 class SjReplacePlugin : public SjTagEditorPlugin
 {
 public:
-	SjReplacePlugin     (wxWindow* parent, SjTrackInfo* exampleTrackInfo);
+	                SjReplacePlugin     (wxWindow* parent, SjTrackInfo* exampleTrackInfo);
 
 	bool            PrepareModify       ();
 	void            ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&);
@@ -53,25 +51,22 @@ private:
 	void            ModifyField         (SjTrackInfo& trackInfo, long field, SjModifyInfo& mod);
 
 	// controls
-	SjHistoryComboBox*
-	m_searchForTextCtrl;
-	SjTrackInfoFieldChoice*
-	m_searchInChoice;
-	SjHistoryComboBox*
-	m_replaceWithTextCtrl;
+	SjHistoryComboBox* m_searchForTextCtrl;
+	SjTrackInfoFieldChoice* m_searchInChoice;
+	SjHistoryComboBox* m_replaceWithTextCtrl;
 	wxCheckBox*     m_matchWholeWordsOnly;
 	wxCheckBox*     m_matchCase;
 	wxCheckBox*     m_matchRegEx;
 	SjStrReplacer   m_replacer;
-#define         REPL_FIELDS     (SJ_TI_TRACKNAME \
-                                      |SJ_TI_LEADARTISTNAME \
-                                      |SJ_TI_ORGARTISTNAME \
-                                      |SJ_TI_COMPOSERNAME \
-                                      |SJ_TI_ALBUMNAME \
-                                      |SJ_TI_GENRENAME \
-                                      |SJ_TI_GROUPNAME \
-                                      |SJ_TI_COMMENT)
-#define         REPL_FILENAME   0x101 // 2 bits set!
+	#define         REPL_FIELDS     (SJ_TI_TRACKNAME \
+									|SJ_TI_LEADARTISTNAME \
+                                    |SJ_TI_ORGARTISTNAME \
+                                    |SJ_TI_COMPOSERNAME \
+                                    |SJ_TI_ALBUMNAME \
+                                    |SJ_TI_GENRENAME \
+                                    |SJ_TI_GROUPNAME \
+                                    |SJ_TI_COMMENT)
+	#define         REPL_FILENAME   0x101 // 2 bits set!
 };
 
 

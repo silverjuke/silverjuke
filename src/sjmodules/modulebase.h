@@ -61,10 +61,10 @@ public:
 	// Flags that may be used by functions taking SjTrackInfo as arguments.
 	// They are not used by SjTrackInfo itself.
 
-#define         SJ_TI_QUICKINFO         0x01 // set only m_trackName, m_leadArtistName, m_albumName and m_playtimeMs
-#define         SJ_TI_ALBUMCOVERURL__   0x02 // set only m_arts to the TRACK cover url (by default, this is the ALBUM cover url)
-#define         SJ_TI_TRACKCOVERURL     0x04 // set only m_arts to the TRACK cover url (by default, this is the ALBUM cover url)
-#define         SJ_TI_FULLINFO          0x08 // set all but m_arts
+	#define         SJ_TI_QUICKINFO         0x01 // set only m_trackName, m_leadArtistName, m_albumName and m_playtimeMs
+	#define         SJ_TI_ALBUMCOVERURL__   0x02 // set only m_arts to the TRACK cover url (by default, this is the ALBUM cover url)
+	#define         SJ_TI_TRACKCOVERURL     0x04 // set only m_arts to the TRACK cover url (by default, this is the ALBUM cover url)
+	#define         SJ_TI_FULLINFO          0x08 // set all but m_arts
 
 	// information that should be set by the Music Track Scanner modules
 	// null or an empty string indicates missing information
@@ -107,34 +107,34 @@ public:
 	void            AddArt              (const wxString& lines) { if( !m_arts.IsEmpty() ) m_arts += wxT("\n"); m_arts += lines; }
 
 	// some functions use the m_validFields to determinate which fields are valid
-#define         SJ_TI_URL               0x00000001L
-#define         SJ_TI_TRACKNAME         0x00000002L
-#define         SJ_TI_TRACKNR           0x00000004L
-#define         SJ_TI_TRACKCOUNT        0x00000008L
-#define         SJ_TI_DISKNR            0x00000010L
-#define         SJ_TI_DISKCOUNT         0x00000020L
-#define         SJ_TI_LEADARTISTNAME    0x00000040L
-#define         SJ_TI_ORGARTISTNAME     0x00000080L
-#define         SJ_TI_COMPOSERNAME      0x00000100L
-#define         SJ_TI_ALBUMNAME         0x00000200L
-#define         SJ_TI_GENRENAME         0x00000400L
-#define         SJ_TI_GROUPNAME         0x00000800L
-#define         SJ_TI_COMMENT           0x00001000L
-#define         SJ_TI_BEATSPERMINUTE    0x00002000L
-#define         SJ_TI_RATING            0x00004000L
-#define         SJ_TI_YEAR              0x00008000L
-#define         SJ_TI_PLAYTIMEMS        0x00010000L
-#define         SJ_TI_X_TIMEADDED       0x0000001FL // the SJ_TI_X_* values are only used by the list view, but they're stored in the db, no bit-tests are possible!
-#define         SJ_TI_X_TIMEMODIFIED    0x0000002FL
-#define         SJ_TI_X_LASTPLAYED      0x0000003FL
-#define         SJ_TI_X_TIMESPLAYED     0x0000004FL
-#define         SJ_TI_X_DATABYTES       0x0000005FL
-#define         SJ_TI_X_BITRATE         0x0000006FL
-#define         SJ_TI_X_SAMPLERATE      0x0000007FL
-#define         SJ_TI_X_CHANNELS        0x0000008FL
-#define         SJ_TI_X_AUTOVOL         0x0000009FL
-#define         SJ_TI_Y_FILETYPE        0x000000AFL // the SJ_TI_Y_* are calculated by other values, no bit-tests are possible!
-#define         SJ_TI_Y_QUEUEPOS        0x000000BFL
+	#define         SJ_TI_URL               0x00000001L
+	#define         SJ_TI_TRACKNAME         0x00000002L
+	#define         SJ_TI_TRACKNR           0x00000004L
+	#define         SJ_TI_TRACKCOUNT        0x00000008L
+	#define         SJ_TI_DISKNR            0x00000010L
+	#define         SJ_TI_DISKCOUNT         0x00000020L
+	#define         SJ_TI_LEADARTISTNAME    0x00000040L
+	#define         SJ_TI_ORGARTISTNAME     0x00000080L
+	#define         SJ_TI_COMPOSERNAME      0x00000100L
+	#define         SJ_TI_ALBUMNAME         0x00000200L
+	#define         SJ_TI_GENRENAME         0x00000400L
+	#define         SJ_TI_GROUPNAME         0x00000800L
+	#define         SJ_TI_COMMENT           0x00001000L
+	#define         SJ_TI_BEATSPERMINUTE    0x00002000L
+	#define         SJ_TI_RATING            0x00004000L
+	#define         SJ_TI_YEAR              0x00008000L
+	#define         SJ_TI_PLAYTIMEMS        0x00010000L
+	#define         SJ_TI_X_TIMEADDED       0x0000001FL // the SJ_TI_X_* values are only used by the list view, but they're stored in the db, no bit-tests are possible!
+	#define         SJ_TI_X_TIMEMODIFIED    0x0000002FL
+	#define         SJ_TI_X_LASTPLAYED      0x0000003FL
+	#define         SJ_TI_X_TIMESPLAYED     0x0000004FL
+	#define         SJ_TI_X_DATABYTES       0x0000005FL
+	#define         SJ_TI_X_BITRATE         0x0000006FL
+	#define         SJ_TI_X_SAMPLERATE      0x0000007FL
+	#define         SJ_TI_X_CHANNELS        0x0000008FL
+	#define         SJ_TI_X_AUTOVOL         0x0000009FL
+	#define         SJ_TI_Y_FILETYPE        0x000000AFL // the SJ_TI_Y_* are calculated by other values, no bit-tests are possible!
+	#define         SJ_TI_Y_QUEUEPOS        0x000000BFL
 	long            m_validFields;
 
 	SjTrackInfo&    operator =          (const SjTrackInfo& o);
@@ -148,12 +148,12 @@ public:
 	static wxString GetFieldDbName      (long ti);
 
 	// compare two track information objects; currently only needed for debugging purposes
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	bool            operator ==         (const SjTrackInfo& o) const { return  IsEqualTo(o); }
 	bool            operator !=         (const SjTrackInfo& o) const { return !IsEqualTo(o); }
 	bool            IsEqualTo           (const SjTrackInfo& o) const;
 	wxString        Diff                (const SjTrackInfo& o) const;
-#endif
+	#endif
 
 private:
 	void            ClearLongs          ();
@@ -309,12 +309,11 @@ public:
 	virtual SjEmbedTo EmbedTo     () { return SJ_EMBED_NONE; }
 
 	// Still configuration.  Load the modules before using the following functions.
-	virtual wxWindow*
-	GetConfigPage       (wxWindow* parent, int selectedPage) { return NULL; }
+	virtual wxWindow* GetConfigPage       (wxWindow* parent, int selectedPage) { return NULL; }
 	virtual void    GetConfigButtons    (wxString& okText, wxString& cancelText, bool& okBold) { okText=_("OK"); cancelText=_("Cancel"); okBold=FALSE; }
-#define         SJ_CONFIGPAGE_DONE_GENERIC          0
-#define         SJ_CONFIGPAGE_DONE_OK_CLICKED       1
-#define         SJ_CONFIGPAGE_DONE_CANCEL_CLICKED   2
+	#define         SJ_CONFIGPAGE_DONE_GENERIC          0
+	#define         SJ_CONFIGPAGE_DONE_OK_CLICKED       1
+	#define         SJ_CONFIGPAGE_DONE_CANCEL_CLICKED   2
 	virtual void    DoneConfigPage      (wxWindow* configPage, int action) { }
 	int             m_notebookPage;     // used by the settings dialog to remember the current page if a notebook is present
 
@@ -401,8 +400,7 @@ public:
 class SjListView
 {
 public:
-	SjListView          (long order, bool desc, long minAlbumRows)
-	{ m_currOrderField=order; m_currOrderDesc=desc; m_minAlbumRows = minAlbumRows; }
+	SjListView          (long order, bool desc, long minAlbumRows) { m_currOrderField=order; m_currOrderDesc=desc; m_minAlbumRows = minAlbumRows; }
 	virtual         ~SjListView         () {}
 
 	// all stuff is always "masked" (regards music selections and searched)
@@ -415,10 +413,10 @@ public:
 	int             GetAzFromOffset     (long offset);
 
 	// get information about a row/a track
-#define         SJ_LISTVIEW_SPECIAL_FIRST_TRACK     0x01
-#define         SJ_LISTVIEW_SPECIAL_GAP             0x02
-#define         SJ_LISTVIEW_SPECIAL_LAST_GAP        0x04
-#define         SJ_LISTVIEW_SPECIAL_DARK            0x08
+	#define         SJ_LISTVIEW_SPECIAL_FIRST_TRACK     0x01
+	#define         SJ_LISTVIEW_SPECIAL_GAP             0x02
+	#define         SJ_LISTVIEW_SPECIAL_LAST_GAP        0x04
+	#define         SJ_LISTVIEW_SPECIAL_DARK            0x08
 	virtual void    GetTrack            (long offset, SjTrackInfo&, long& albumId, long& special) = 0;
 	virtual long    GetTrackSpecial     (long offset) = 0;
 
@@ -490,11 +488,11 @@ private:
 class SjRow
 {
 public:
-#define         SJ_RRTYPE_NORMAL    0
-#define         SJ_RRTYPE_TITLE1    1
-#define         SJ_RRTYPE_TITLE2    2
-#define         SJ_RRTYPE_TITLE3    3
-#define         SJ_RRTYPE_COVER     4
+	#define         SJ_RRTYPE_NORMAL    0
+	#define         SJ_RRTYPE_TITLE1    1
+	#define         SJ_RRTYPE_TITLE2    2
+	#define         SJ_RRTYPE_TITLE3    3
+	#define         SJ_RRTYPE_COVER     4
 
 	SjRow(int roughType = SJ_RRTYPE_NORMAL)     // constructor/destructor
 	{
@@ -702,15 +700,15 @@ public:
 	SjModuleList*   GetModules          (SjModuleType type);
 
 	// get assigned extensions
-#define         SJ_EXT_MUSICFILES           0x001
-#define         SJ_EXT_IMAGEFILES           0x002
-#define         SJ_EXT_ARCHIVES             0x004
-#define         SJ_EXT_SKINFILES            0x008
-#define         SJ_EXT_LANGUAGEFILES        0x010
-#define         SJ_EXT_DATABASES            0x020
-#define         SJ_EXT_PLAYLISTS_READ       0x040
-#define         SJ_EXT_PLAYLISTS_WRITE      0x080
-#define         SJ_EXT_KARAOKE              0x100
+	#define         SJ_EXT_MUSICFILES           0x001
+	#define         SJ_EXT_IMAGEFILES           0x002
+	#define         SJ_EXT_ARCHIVES             0x004
+	#define         SJ_EXT_SKINFILES            0x008
+	#define         SJ_EXT_LANGUAGEFILES        0x010
+	#define         SJ_EXT_DATABASES            0x020
+	#define         SJ_EXT_PLAYLISTS_READ       0x040
+	#define         SJ_EXT_PLAYLISTS_WRITE      0x080
+	#define         SJ_EXT_KARAOKE              0x100
 	SjExtList       GetAssignedExt              (long flags);
 
 	// searching modules

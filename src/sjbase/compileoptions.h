@@ -38,16 +38,16 @@
 
 // odd minor numbers and/or debug builds are treated as beta versions
 #if (SJ_VERSION_MINOR%2) || defined(__WXDEBUG__)
-#define SJ_BETA
+	#define SJ_BETA
 #else
-#undef SJ_BETA
+	#undef SJ_BETA
 #endif
 
 // createa a more informative version string as wxT("<major>.<minor> <free text hints>")
 #if defined(SJ_BETA)
-#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII) wxT(" Beta")
+	#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII) wxT(" Beta")
 #else
-#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII)
+	#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII)
 #endif
 
 #ifndef SJ_PROGRAM_NAME
@@ -103,13 +103,13 @@
 #endif
 
 #ifndef SJ_RATING_CHARS_DLG
-# if wxUSE_UNICODE
-#  define SJ_RATING_CHARS_DLG       wxT("\u2605") // "BLACK STAR"
-#  define SJ_RATING_CHARS_ELSEWHERE wxT("\u2605") // "BLACK STAR"
-# else
-#  define SJ_RATING_CHARS_DLG       wxT("*")
-#  define SJ_RATING_CHARS_ELSEWHERE wxT("*")
-# endif
+#if wxUSE_UNICODE
+	#define SJ_RATING_CHARS_DLG       wxT("\u2605") // "BLACK STAR"
+	#define SJ_RATING_CHARS_ELSEWHERE wxT("\u2605") // "BLACK STAR"
+#else
+	#define SJ_RATING_CHARS_DLG       wxT("*")
+	#define SJ_RATING_CHARS_ELSEWHERE wxT("*")
+#endif
 #endif
 
 #ifndef SJ_DEF_FONT_FACE

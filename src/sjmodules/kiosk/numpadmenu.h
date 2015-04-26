@@ -26,11 +26,8 @@
  ******************************************************************************/
 
 
-
-
 #ifndef __SJ_NUMPADMENU_H___
 #define __SJ_NUMPADMANU_H___
-
 
 
 class SjNumpadMenuEntry
@@ -38,12 +35,10 @@ class SjNumpadMenuEntry
 public:
 	                SjNumpadMenuEntry   () { m_action = 0; m_flags = 0; }
 	int             m_action;
-#define         SJ_ENTRY_HOLD   0x01
+	#define         SJ_ENTRY_HOLD   0x01
 	int             m_flags;
 	wxString        m_title;
 };
-
-
 
 
 class SjNumpadMenuPage
@@ -58,31 +53,24 @@ public:
 WX_DECLARE_OBJARRAY(SjNumpadMenuPage, SjArrayNumpadMenuPage);
 
 
-
-
 class SjNumpadMenuHandler : public SjNumpadHandler
 {
 public:
-	SjNumpadMenuHandler (SjNumpadInput*);
-	SjNumpadHandlerId
-	KeyPressed          (int idt);
+	                   SjNumpadMenuHandler (SjNumpadInput*);
+	SjNumpadHandlerId  KeyPressed          (int idt);
 
 private:
-	void            UpdatePages         ();
-	void            AddPage             (int pageId) { m_pages.Add(new SjNumpadMenuPage(pageId)); }
-	void            AddEntry            (int key, int action, int flags=0, const wxChar* title=NULL);
-	SjNumpadMenuPage*
-	FindPage            (int pageId, bool findNext=FALSE);
-	void            SetDisplayMsg       (int pageId, bool nullIsNext);
+	void               UpdatePages         ();
+	void               AddPage             (int pageId) { m_pages.Add(new SjNumpadMenuPage(pageId)); }
+	void               AddEntry            (int key, int action, int flags=0, const wxChar* title=NULL);
+	SjNumpadMenuPage*  FindPage            (int pageId, bool findNext=FALSE);
+	void               SetDisplayMsg       (int pageId, bool nullIsNext);
 
-	bool            m_0isNext;
-	SjArrayNumpadMenuPage
-	m_pages;
-	int             m_menuPage;
-	SjNumpadHandlerId
-	ExitMenu            ();
+	bool               m_0isNext;
+	SjArrayNumpadMenuPage m_pages;
+	int                m_menuPage;
+	SjNumpadHandlerId  ExitMenu            ();
 };
-
 
 
 #endif // __SJ_NUMPADMENU_H___

@@ -35,15 +35,14 @@ class SjVirtKeybdTextCtrl : public wxTextCtrl
 	// if you use SjVirtKeybdTextCtrl instead of wxTextCtrl, the user may
 	// use the virtual keyboard for this text control
 public:
-	SjVirtKeybdTextCtrl (wxWindow*, wxWindowID,
-	                     const wxString& value,
-	                     const wxPoint&, const wxSize&,
-	                     long style);
-	~SjVirtKeybdTextCtrl();
-	void            SetForceForTesting  (bool forceForTesting=TRUE) { m_forceForTesting = forceForTesting; }
-	void            DontCloseOn         (wxWindow* w) { m_dontCloseOn.Add(w); }
-	const wxArrayPtrVoid*
-	GetDontCloseOn      () const { return &m_dontCloseOn; }
+					SjVirtKeybdTextCtrl  (wxWindow*, wxWindowID,
+	                                      const wxString& value,
+	                                      const wxPoint&, const wxSize&,
+	                                      long style);
+	                ~SjVirtKeybdTextCtrl ();
+	void            SetForceForTesting   (bool forceForTesting=TRUE) { m_forceForTesting = forceForTesting; }
+	void            DontCloseOn          (wxWindow* w) { m_dontCloseOn.Add(w); }
+	const wxArrayPtrVoid* GetDontCloseOn () const { return &m_dontCloseOn; }
 
 private:
 	bool            m_forceForTesting;

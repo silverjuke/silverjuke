@@ -258,7 +258,7 @@ bool SjServerScannerModule::IterateCsvOverHttp(SjColModule* receiver, SjServerSc
 
 	wxString        busyInfoStr = wxString::Format(_("Loading %s"), currSource->m_serverName.c_str());
 
-#define         BUFFER_MAX_BYTES 4096
+	#define         BUFFER_MAX_BYTES 4096
 	unsigned char   buffer[BUFFER_MAX_BYTES];
 	long            bufferValidBytes;
 	long            bufferTotalBytesRead = 0;

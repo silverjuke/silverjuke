@@ -102,10 +102,9 @@ public:
 	//
 	// You may use AddToManagedTemp() also for files not allocated by
 	// AddToUnmanagedTemp() - in this case the file is just deleted (delayed).
-#define         SJ_TEMP_NO_PROTECT          FALSE
-#define         SJ_TEMP_PROTECT_TIL_EXIT    TRUE
-	wxString        AddToManagedTemp        (const wxString& ext,
-	        bool  protectTilExit);
+	#define         SJ_TEMP_NO_PROTECT          FALSE
+	#define         SJ_TEMP_PROTECT_TIL_EXIT    TRUE
+	wxString        AddToManagedTemp        (const wxString& ext, bool  protectTilExit);
 	void            RemoveFromManagedTemp   (const wxString& tempPath);
 
 

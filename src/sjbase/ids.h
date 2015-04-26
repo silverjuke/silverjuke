@@ -32,17 +32,14 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_IDS_H__
 #define __SJ_IDS_H__
-
 
 
 /* Take care, the identifiers should NOT be in the range of wxID_LOWEST (4999)
  * to wxID_HIGHEST (5999). Moreover, all IDs should only use 16 Bit as
  * the IDs may be used together with some flags in the high-order word.
  */
-
 
 
 /* First, we define the [T]arget [ID]s, IDT_*, as they're used in an zero-based
@@ -174,7 +171,6 @@
 #define IDT_LAST                 295 /* last relavant target ID */
 
 
-
 /* Here comes the [M]odules [ID]s, IDM_*, which are normally forwarded
  * to the current module. Most times these IDs are used in
  * context menus. Modules can define their own, private IDs in
@@ -222,7 +218,6 @@
 #define IDM_FIRSTPRIVATE        1500    /* range start, place for 1500 IDs */
 #define IDM_LASTPRIVATE         2999    /* range end */
 #define IDM_LAST                2999 /* range end */
-
 
 
 /* [O]ther (Menu) [ID]s, IDO_*, as they're not used as a target or
@@ -287,8 +282,6 @@
 #define IDPLAYER_LAST           8899 /* range end */
 
 
-
-
 /* [TIMER] [ID]s, IDTIMER_*
  */
 #define IDTIMER_SEARCHINPUT     8900
@@ -302,7 +295,6 @@
 
 #define ID_HTTP_SERVER          8980
 #define ID_HTTP_SOCKET          8981
-
 
 
 /* [C]ontrol [ID]s, IDC_*, used in dialogs, may be mixed with the
@@ -344,7 +336,6 @@
 #define IDC_PLUGIN_SPLIT        9228
 #define IDC_PLUGIN_FREEDB       9229
 #define IDC_PLUGIN_LAST         9250 /* range end */
-
 
 
 /* [MOD]ule [M]e[S]sa[G]e [ID]s, IDMODMSG_*
@@ -389,7 +380,6 @@
 #define IDMODMSG__SEE_PROGRAM_LOADED                11060
 
 #define IDMODMSG_LAST                               11999 /* range end */
-
 
 
 #endif /* __SJ_IDS_H__ */

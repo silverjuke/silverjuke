@@ -39,7 +39,7 @@ class SjOpenFilesDialog;
 class SjOpenFilesModule : public SjCommonModule
 {
 public:
-	SjOpenFilesModule   (SjInterfaceBase*);
+					SjOpenFilesModule   (SjInterfaceBase*);
 
 	void            OpenDialog          (bool checkAppend /*if set to FALSE, the checkbox stays as it is*/);
 	void            CloseDialog         ();

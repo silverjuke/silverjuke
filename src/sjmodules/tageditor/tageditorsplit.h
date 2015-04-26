@@ -26,16 +26,14 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_TAGEDITOR_SPLIT_H__
 #define __SJ_TAGEDITOR_SPLIT_H__
-
 
 
 class SjSplitPlugin : public SjTagEditorPlugin
 {
 public:
-	SjSplitPlugin       (wxWindow* parent, SjTrackInfo* exampleTrackInfo);
+	                SjSplitPlugin       (wxWindow* parent, SjTrackInfo* exampleTrackInfo);
 	bool            PrepareModify       ();
 	void            ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&);
 
@@ -43,18 +41,15 @@ private:
 	// configuration
 	long            m_splitIn;
 	wxArrayString   m_pattern;
-	SjTrackInfoMatcher
-	m_matcher;
+	SjTrackInfoMatcher m_matcher;
 
 	// controls
-	SjTrackInfoFieldChoice*
-	m_splitInChoice;
+	SjTrackInfoFieldChoice* m_splitInChoice;
 	SjInsertButton* m_insertButton;
 	wxStaticText*   m_exampleCtrl;
 	void            UpdateExample       ();
 
-	SjHistoryComboBox*
-	m_patternCtrl;
+	SjHistoryComboBox* m_patternCtrl;
 	void            OnInsert            (wxCommandEvent& e) { m_insertButton->OnOption(e, m_patternCtrl); UpdateExample(); }
 	void            OnFieldToSplitChange(wxCommandEvent& e) { UpdateExample(); }
 	void            OnPatternChange     (wxCommandEvent& e) { UpdateExample(); }

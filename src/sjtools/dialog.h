@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_DIALOG_H__
 #define __SJ_DIALOG_H__
 
@@ -69,7 +68,7 @@ enum SjDialogResizeType
 class SjDialogPos
 {
 public:
-	SjDialogPos         (const wxString& regKey);
+	                SjDialogPos         (const wxString& regKey);
 	void            Save                (wxTopLevelWindow*);
 	void            Restore             (wxTopLevelWindow*);
 
@@ -85,11 +84,7 @@ class SjDialog : public wxDialog
 {
 public:
 	// constructor
-	SjDialog            (wxWindow* parent,
-	                     const wxString& title,
-	                     SjDialogMode,
-	                     SjDialogResizeType,
-	                     long addStyle=0);
+	                SjDialog            (wxWindow* parent, const wxString& title, SjDialogMode, SjDialogResizeType, long addStyle=0);
 
 	// tools
 	#define         SJ_DLG_OK           0x01
@@ -109,8 +104,7 @@ public:
 
 	static bool     ApplyToBitfield     (wxCheckBox*, long& bitfield, long flagToApply);
 	static long     GetSelListCtrlItem  (wxListCtrl* listCtrl);
-	static long     EnsureSelListCtrlItemVisible
-	(wxListCtrl* listCtrl);
+	static long     EnsureSelListCtrlItemVisible (wxListCtrl* listCtrl);
 	static wxWindow*    FindTopLevel        (wxWindow*);
 	static void         PleaseRestartMsg    (wxWindow* parent);
 
@@ -146,8 +140,7 @@ public:
 	void            AddState            (const wxString& label, int id, const wxString& value=wxT(""));
 
 private:
-	wxFlexGridSizer*
-	m_stateSizer;
+	wxFlexGridSizer* m_stateSizer;
 };
 
 
@@ -172,9 +165,9 @@ public:
 	bool            IsChecked           ();
 	int             GetValue            ();
 
-#define     SJ_3DIG_SPINCTRL_W  58
-#define     SJ_4DIG_SPINCTRL_W  74
-#define     SJ_8DIG_SPINCTRL_W  94
+	#define     SJ_3DIG_SPINCTRL_W  58
+	#define     SJ_4DIG_SPINCTRL_W  74
+	#define     SJ_8DIG_SPINCTRL_W  94
 
 	int             GetSpinW            (int ctrlMin, int ctrlMax);
 	wxSizer*        m_sizer;
@@ -192,11 +185,12 @@ class SjDlgSlider
 {
 public:
 	// a slider plus a label
-	SjDlgSlider         ();
-#define         SJ_SLIDER_MS        0x10000000L
-#define         SJ_SLIDER_MS_SEC    0x20000000L // we use milliseconds internally but display seconds
-#define         SJ_SLIDER_SNAP      0x0000FFFFL
-#define         SJ_SLIDER_SNAP10            10L
+	                SjDlgSlider         ();
+
+	#define         SJ_SLIDER_MS        0x10000000L
+	#define         SJ_SLIDER_MS_SEC    0x20000000L // we use milliseconds internally but display seconds
+	#define         SJ_SLIDER_SNAP      0x0000FFFFL
+	#define         SJ_SLIDER_SNAP10            10L
 	void            Create              (wxWindow* parentWindow, wxSizer* parentSizer,
 	                                     int idSlider,
 	                                     long type,
@@ -220,9 +214,9 @@ public:
 class SjHistoryComboBox : public wxComboBox
 {
 public:
-	SjHistoryComboBox   (wxWindow* parent, int id, int w, const wxArrayString& history);
+	                SjHistoryComboBox   (wxWindow* parent, int id, int w, const wxArrayString& history);
 
-#define         HISTORY_MAX         16
+	#define         HISTORY_MAX         16
 	void            Init                (const wxArrayString& history);
 	wxArrayString   GetHistory          () const;
 };
@@ -241,10 +235,7 @@ enum SjDlgCtrlType
 class SjDlgCtrl
 {
 public:
-	SjDlgCtrl()
-	{
-		m_style = 0; m_wndLabel = NULL; m_wndCtrl = NULL;
-	}
+	                SjDlgCtrl() { m_style = 0; m_wndLabel = NULL; m_wndCtrl = NULL; }
 
 	SjDlgCtrlType   m_type;
 	wxString        m_id;
@@ -262,7 +253,7 @@ WX_DECLARE_OBJARRAY(SjDlgCtrl, SjArrayDlgCtrl);
 class SjDlgControls
 {
 public:
-	SjDlgControls       () {}
+	                SjDlgControls       () {}
 	SjDlgCtrl*      AddTextCtrl         (const wxString& id, const wxString& label, const wxString& value, const wxString& defaultValue, long style);
 	SjDlgCtrl*      AddSelectCtrl       (const wxString& id, const wxString& label, long value, long defaultValue, const wxArrayString& options);
 	SjDlgCtrl*      AddSelectCtrl       (const wxString& id, const wxString& label, long value, long defaultValue, const wxString& options /*use "|" as separator*/);

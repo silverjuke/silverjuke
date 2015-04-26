@@ -764,13 +764,13 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 	if( data->m_fileData )
 	{
 		filenames = data->m_fileData->GetFilenames();
-#ifdef __WXMAC__ // there seems to be a bug in the drag'n'drop handler of wx - the filenames contain lineend characters!?
+		#ifdef __WXMAC__ // there seems to be a bug in the drag'n'drop handler of wx - the filenames contain lineend characters!?
 		for( int i = filenames.GetCount()-1; i >= 0; i-- )
 		{
 			filenames[i].Replace(wxT("\n"), wxT(""));
 			filenames[i].Replace(wxT("\r"), wxT(""));
 		}
-#endif
+		#endif
 	}
 	long filenamesCount = filenames.GetCount();
 
@@ -1005,17 +1005,17 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		const wxLanguageInfo* langInfo = wxLocale::GetLanguageInfo(wxLocale::GetSystemLanguage());
 		langCanonicalName = langInfo? langInfo->CanonicalName : wxString(wxT("en_GB"));
 		langCanonicalName = g_tools->m_config->Read(wxT("main/language"), langCanonicalName);
-#ifdef __WXGTK__
+		#ifdef __WXGTK__
 		langCanonicalName = wxT("en_GB"); // TODO: make localization work for GTK
-#endif
+		#endif
 
 		// init wxLocale to use this language
 		langInfo = SjTools::FindLanguageInfo(langCanonicalName);
 		if( langInfo )
 		{
-#ifdef __WXGTK__
+			#ifdef __WXGTK__
 			wxLogNull null; // TODO: suspicious errors otherwise... why is there a message like "cannot set locale to ..."?
-#endif
+			#endif
 			m_locale.Init(langInfo->Language, wxLOCALE_CONV_ENCODING);
 		}
 
@@ -1115,21 +1115,21 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	m_simpleSearchInputFromUser = FALSE;
 
-#ifdef __WXMAC__
+	#ifdef __WXMAC__
 	// wxMAC_TEXTCONTROL_USE_MLTE supports using of background colours etc. but also has
 	// some disadvantages - so we use this flag only if needed - and here it is needed.
 	// see mac/carbon/textctrl.h for details.
 	wxSystemOptions::SetOption(wxMAC_TEXTCONTROL_USE_MLTE, 1);
-#endif
+	#endif
 
 	m_simpleSearchInputWindow = new SjVirtKeybdTextCtrl(this, IDO_SEARCHINPUT, wxT(""),
 	        wxDefaultPosition, wxDefaultSize,
 	        wxTE_LEFT | wxTE_PROCESS_ENTER | wxNO_BORDER);
 
-#ifdef __WXMAC__
+	#ifdef __WXMAC__
 	// switch back to the normal MAC controls
 	wxSystemOptions::SetOption(wxMAC_TEXTCONTROL_USE_MLTE, 0);
-#endif
+	#endif
 
 	SetInputWindow(m_simpleSearchInputWindow);
 
@@ -1180,15 +1180,15 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	// check whether to start minimized, some OS specials
 	bool startMinimized = (SjMainApp::s_cmdLine->Found(wxT("minimize")) || g_tools->m_config->Read(wxT("main/minimize"), 0L)!=0);
-#ifdef __WXMSW__
+	#ifdef __WXMSW__
 	if( mainApp->m_nCmdShow == SW_HIDE
-	        || mainApp->m_nCmdShow == SW_MINIMIZE
-	        || mainApp->m_nCmdShow == SW_SHOWMINIMIZED
-	        || mainApp->m_nCmdShow == SW_SHOWMINNOACTIVE )
+	 || mainApp->m_nCmdShow == SW_MINIMIZE
+	 || mainApp->m_nCmdShow == SW_SHOWMINIMIZED
+	 || mainApp->m_nCmdShow == SW_SHOWMINNOACTIVE )
 	{
 		startMinimized = true;
 	}
-#endif
+	#endif
 
 	// check whether to start in kiosk mode
 	bool startKiosk = (SjMainApp::s_cmdLine->Found(wxT("kiosk")) || g_tools->m_config->Read(wxT("main/kiosk"), 0L)!=0);
@@ -1204,17 +1204,17 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		Iconize(true);
 	}
 
-#ifndef __WXMAC__ // under MAC, the window is shown when the menu is complete (otherwise some def. entries as "about", "preferences" or "quit" are not catched
-	Show();
-	Update();
-#endif
+	#ifndef __WXMAC__ // under MAC, the window is shown when the menu is complete (otherwise some def. entries as "about", "preferences" or "quit" are not catched
+		Show();
+		Update();
+	#endif
 
-#ifdef __WXGTK__
+	#ifdef __WXGTK__
 	{
-		wxSizeEvent fwd; // this update window on GTK works (2015: is this still needed)
+		wxSizeEvent fwd; // this update window on GTK works (2015: is this still needed?)
 		OnSize(fwd);
 	}
-#endif
+	#endif
 
 	wxBusyCursor busy;
 	SjBusyInfo::SetMainFrame(this);
@@ -1243,9 +1243,9 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	 */
 	m_moduleSystem.Init();
 	m_moduleSystem.AddInterface(new SjInternalInterface());
-#if SJ_USE_C_INTERFACE
+	#if SJ_USE_C_INTERFACE
 	m_moduleSystem.AddInterface(new SjCInterface());
-#endif
+	#endif
 
 	m_moduleSystem.LoadModules();
 
@@ -1376,17 +1376,17 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	 */
 	InitMainMenu();
 
-#ifdef __WXMAC__
-	Show();
-	Update();
-#endif
+	#ifdef __WXMAC__
+		Show();
+		Update();
+	#endif
 
 	/* (/) Init Drag'n'Drop (don't wonder: this will start 2 threads under MSW)
 	 */
 	SetDropTarget(new SjDropTarget(this));
-#ifdef __WXMAC__
-	m_browser->SetDropTarget(new SjDropTarget(m_browser));
-#endif
+	#ifdef __WXMAC__
+		m_browser->SetDropTarget(new SjDropTarget(m_browser));
+	#endif
 
 	/* (/) Some Functionality Tests
 	 */
@@ -1492,9 +1492,9 @@ SjMainFrame::~SjMainFrame(void)
 	m_player.Pause();   // this will start fading the music out, the implementation may use a smart fading by regarding IsInShutdown()
 	g_visModule->StopVis();
 
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ExitForever();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ExitForever();
+	#endif
 
 	wxWindowList::Node *node;
 	for ( node = wxTopLevelWindows.GetFirst(); node; node = node->GetNext() )
@@ -2881,10 +2881,10 @@ void SjMainFrame::OnSimpleSearchInput(wxCommandEvent& event)
 	// text input (it reappaers on mouse move, and it does not disappear
 	// when typing controls as backspace... i don't know, however,
 	// using WarpPointer() makes it appearing again :-|
-#ifdef __WXMSW__
-	wxPoint mousePos = ScreenToClient(::wxGetMousePosition());
-	WarpPointer(mousePos.x, mousePos.y);
-#endif
+	#ifdef __WXMSW__
+		wxPoint mousePos = ScreenToClient(::wxGetMousePosition());
+		WarpPointer(mousePos.x, mousePos.y);
+	#endif
 
 	// set skin value if "search while typing" is disabled
 	// (a click on the magnifier will start the search)

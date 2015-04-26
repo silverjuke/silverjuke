@@ -70,8 +70,7 @@ typedef void (*SJ_GC_PROC)(void* userData1, void* ptr, void* userData2);
 #define SJ_GC_ZERO              0x00000004
 #define SJ_GC_FLAGS_MAGIC_MASK  0x7FFFFFF0
 #define SJ_GC_FLAGS_MAGIC       0x75CD89A0
-void*   SjGcAlloc           (unsigned long size, long flags=0,
-                             SJ_GC_PROC finalizeFn=0, void* userData1=0, void* userData2=0);
+void*   SjGcAlloc           (unsigned long size, long flags=0, SJ_GC_PROC finalizeFn=0, void* userData1=0, void* userData2=0);
 
 
 // With SjGcRef() you can bring any block into the "static" state after allocation.

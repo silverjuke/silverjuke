@@ -48,14 +48,13 @@ enum SjBrowserAction
 class SjBrowserToolTipProvider : public SjToolTipProvider
 {
 public:
-	SjBrowserToolTipProvider () { }
+	                SjBrowserToolTipProvider () { }
 	wxString        GetText             (long& flags);
 	wxWindow*       GetWindow           () { return (wxWindow*)m_browserWindow; }
 	wxRect          GetLocalRect        ();
 
 private:
-	SjBrowserWindow*
-	m_browserWindow;
+	SjBrowserWindow* m_browserWindow;
 	long            m_xPos, m_yPos;
 	friend class    SjBrowserWindow;
 };
@@ -71,8 +70,8 @@ class SjBrowserWindow : public wxWindow
 public:
 
 	// Constructor and destructor
-	SjBrowserWindow     (SjMainFrame* parent);
-	~SjBrowserWindow    ();
+	                SjBrowserWindow     (SjMainFrame* parent);
+	                ~SjBrowserWindow    ();
 
 	// Exit() is be called sooner than the destructor is called for save-freeing pointers.
 	void            Exit                ();
@@ -100,12 +99,12 @@ public:
 	wxString        GetFirstSelectedOrVisiblePos(long& retViewOffset);
 
 	// Change Selection
-#define         SJ_SEL_UP           1
-#define         SJ_SEL_DOWN         2
-#define         SJ_SEL_LEFT         3
-#define         SJ_SEL_RIGHT        4
-#define         SJ_SEL_PREV         5 // SJ_SEL_UP or SJ_SEL_LEFT if "up" is impossible
-#define         SJ_SEL_NEXT         6 // SJ_SEL_DOWN or SJ_SEL_RIGHT if "down" is impossible
+	#define         SJ_SEL_UP           1
+	#define         SJ_SEL_DOWN         2
+	#define         SJ_SEL_LEFT         3
+	#define         SJ_SEL_RIGHT        4
+	#define         SJ_SEL_PREV         5 // SJ_SEL_UP or SJ_SEL_LEFT if "up" is impossible
+	#define         SJ_SEL_NEXT         6 // SJ_SEL_DOWN or SJ_SEL_RIGHT if "down" is impossible
 	bool            ChangeSelection     (long dir, bool shiftSelection=FALSE);
 
 	// Dropping images onto the browser
@@ -113,10 +112,10 @@ public:
 	void            DropImage           (SjDataObject*, int mouseX, int mouseY);
 
 	// switching the views
-#define         SJ_BROWSER_ALBUM_VIEW   0L
-#define         SJ_BROWSER_COVER_VIEW   1L
-#define         SJ_BROWSER_LIST_VIEW    2L
-#define         SJ_BROWSER_VIEW_COUNT   3L
+	#define         SJ_BROWSER_ALBUM_VIEW   0L
+	#define         SJ_BROWSER_COVER_VIEW   1L
+	#define         SJ_BROWSER_LIST_VIEW    2L
+	#define         SJ_BROWSER_VIEW_COUNT   3L
 	int             GetView             () const;
 	void            SetView_            (int, bool keepPosition, bool redraw);
 	bool            IsViewAvailable     (int);
@@ -145,14 +144,14 @@ private:
 	// misc
 	long            m_clientW, m_clientH;
 
-#define         DRAGSCROLL_DELTA 8
+	#define         DRAGSCROLL_DELTA 8
 	SjBrowserAction m_mouseAction;
 	wxArrayString   m_dragUrls;
 
-#if SJ_USE_TOOLTIPS
+	#if SJ_USE_TOOLTIPS
 	SjBrowserToolTipProvider
 	m_toolTipProvider;
-#endif
+	#endif
 
 	SjBrowserBase*  m_views[SJ_BROWSER_VIEW_COUNT];
 	SjBrowserBase*  m_currView;
@@ -170,9 +169,9 @@ private:
 	                               int& fontVDiff, // this is the difference in height between the small and the normal font
 	                               int& fontSpace, // this is the space between the left/mid/right columns
 	                               int& fontStdHeight);
-#if 0
+	#if 0
 	wxDragImage*    GetCoverDragNDropBitmap(SjCol*, wxRect& retSize);
-#endif
+	#endif
 	bool            m_cursorChanged;
 	void            ResetCursor();
 	void            DrawUpText(wxDC& dc, const wxString& textup, long x, long y, long w, long h);
@@ -189,7 +188,7 @@ class SjBrowserBase
 public:
 	// this is a pure-virtual base class defining a browser view
 	// currently implemented classes are SjAlbumBrowser, SjCoverBrowser and SjListBrowser
-	SjBrowserBase       (SjBrowserWindow* b) { m_window = b; __needsColumnMixerReload = true; }
+	                SjBrowserBase       (SjBrowserWindow* b) { m_window = b; __needsColumnMixerReload = true; }
 	virtual         ~SjBrowserBase      () { }
 
 	// Exit() is be called sooner than the destructor is called for save-freeing pointers.
@@ -234,8 +233,8 @@ public:
 
 	// the following flags are mainly for SjBrowserBase derived classes
 	// which can check these values and decide eg. if covers should be shown or not
-#define         SJ_BROWSER_VIEW_COVER           0x00000001L
-#define         SJ_BROWSER_VIEW_DEFAULT_FLAGS   0x0000FFFFL
+	#define         SJ_BROWSER_VIEW_COVER           0x00000001L
+	#define         SJ_BROWSER_VIEW_DEFAULT_FLAGS   0x0000FFFFL
 	long            m_flags;
 	long            m_zoom;
 

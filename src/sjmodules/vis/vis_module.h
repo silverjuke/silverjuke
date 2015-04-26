@@ -26,7 +26,6 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_VIS_MODULE_H__
 #define __SJ_VIS_MODULE_H__
 
@@ -39,11 +38,10 @@ enum SjVisState
 };
 
 
-
 class SjVisModule : public SjCommonModule
 {
 public:
-	SjVisModule         (SjInterfaceBase*);
+	                SjVisModule         (SjInterfaceBase*);
 
 	// Open the vis. window; this does _not_ automatically start the vis.
 	//
@@ -55,8 +53,7 @@ public:
 	// and may be toggled by the user in the vis. window (menu or double-click)
 	//
 	// If the window is already opened, nothing happens.
-	void            PrepareWindow       (int           fullscreenDisplay,
-	                                     const wxRect* fullscreenVisRect);
+	void            PrepareWindow       (int fullscreenDisplay, const wxRect* fullscreenVisRect);
 
 	// Close any opened vis. window ans stops any running vis.
 	//
@@ -65,8 +62,8 @@ public:
 	void            UnprepareWindow     ();
 
 	// Start vis. If the window is not opened on start, this is done implicitly.
-#define         SJ_SET_FROM_m_temp1str__    ((SjVisRendererModule*)1)
-#define         SJ_SET_LAST_SELECTED        ((SjVisRendererModule*)2)
+	#define         SJ_SET_FROM_m_temp1str__    ((SjVisRendererModule*)1)
+	#define         SJ_SET_LAST_SELECTED        ((SjVisRendererModule*)2)
 	void            StartVis            ();
 
 	// Stop vis. If the window was opened implicitly by StartVis(), this function will
@@ -97,10 +94,10 @@ public:
 	void            AttachDetachRequest ();
 
 	// some settings - real by all, write please only for SjVisImpl
-#define         SJ_VIS_FLAGS_EMBEDDED                   0x00000001L
-#define         SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY  0x00000008L
-#define         SJ_VIS_FLAGS_HALF_SIZE                  0x00010000L
-#define         SJ_VIS_FLAGS_DEFAULT                    0x0000FFFFL
+	#define         SJ_VIS_FLAGS_EMBEDDED                   0x00000001L
+	#define         SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY  0x00000008L
+	#define         SJ_VIS_FLAGS_HALF_SIZE                  0x00010000L
+	#define         SJ_VIS_FLAGS_DEFAULT                    0x0000FFFFL
 	long            m_visFlags;
 	void            WriteVisFlags       ();
 
@@ -150,9 +147,7 @@ private:
 };
 
 
-
 extern SjVisModule* g_visModule;
-
 
 
 #endif // __SJ_VIS_MODULE_H__

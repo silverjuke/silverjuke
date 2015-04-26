@@ -65,8 +65,8 @@ void SjHtmlWindow::AddPropToPage(SjProp& prop)
 {
 	wxString    temp, code, value;
 
-#define TABLE_START     wxT("<table border=\"0\" cellpadding=\"1\" cellspacing=\"0\">")
-#define TABLE_END       wxT("</table>")
+	#define TABLE_START     wxT("<table border=\"0\" cellpadding=\"1\" cellspacing=\"0\">")
+	#define TABLE_END       wxT("</table>")
 	bool    tableStarted    = FALSE;
 
 	prop.InitIterator();

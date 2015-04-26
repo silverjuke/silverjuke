@@ -435,7 +435,7 @@ long SjPlayer::GetEnqueueTime()
 	// this function calculates the soonest time it can get played.
 	// (if shuffle is enabled, this may be directly after the current track, otherwise this is the end of the playlist)
 
-#define EST_AVG_TRACK_LENGTH_MS 180000L  // assume three minutes avg. length of a track
+	#define EST_AVG_TRACK_LENGTH_MS 180000L  // assume three minutes avg. length of a track
 
 	wxASSERT( wxThread::IsMain() );
 	long totalRemainingMs = 0, entryRemainingMs, i;

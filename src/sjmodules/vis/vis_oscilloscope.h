@@ -41,7 +41,7 @@ class SjVisImpl;
 class SjOscModule : public SjVisRendererModule
 {
 public:
-	SjOscModule         (SjInterfaceBase* interf);
+	                SjOscModule         (SjInterfaceBase* interf);
 
 	bool            Start               (SjVisImpl*, bool justContinue);
 	void            Stop                ();

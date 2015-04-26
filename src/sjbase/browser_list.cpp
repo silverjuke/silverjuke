@@ -224,10 +224,10 @@ void SjListBrowser::SetOrder(long sortField, bool desc)
 	wxString pos;
 	long posOffset = 0;
 
-#define KEEP_POSITION 1 // see http://www.silverjuke.net/forum/viewtopic.php?t=1350
-#if KEEP_POSITION
+	#define KEEP_POSITION 1 // see http://www.silverjuke.net/forum/viewtopic.php?t=1350
+	#if KEEP_POSITION
 	pos = GetFirstSelectedAndVisiblePos(posOffset);
-#endif
+	#endif
 
 	if( m_listView ) // if m_listView is NULL, the view is not yet realized
 	{
@@ -497,8 +497,8 @@ bool SjListBrowser::MouseInHeader(int x, int y, long& colIndex, bool& inSizer,
 	if( widths == NULL )
 		widths = &m_columnWidths;
 
-#define COLUMNDRAG_WIDTH    10L
-#define COLUMNDRAG_OVERHANG  2L // the number of pixels in the next column
+	#define COLUMNDRAG_WIDTH    10L
+	#define COLUMNDRAG_OVERHANG  2L // the number of pixels in the next column
 	colIndex = 0;
 	inSizer = false;
 	if( x >= m_headerRect.x
@@ -2299,12 +2299,12 @@ wxBitmap SjListBrowser::GetDragNDropBitmap(int mouseX, int mouseY, wxPoint& retH
 	maskDc.SelectObject(wxNullBitmap);
 
 	// scale the bitmaps down if they are too large
-#define MAX_W (m_window->m_clientW)
-#define MAX_H (m_window->m_clientH)
-#define MAX_PIXELS (250*250)
+	#define MAX_W (m_window->m_clientW)
+	#define MAX_H (m_window->m_clientH)
+	#define MAX_PIXELS (250*250)
 	if( (dndWidth*dndHeight) > MAX_PIXELS
-	        ||  dndWidth            > MAX_W
-	        ||  dndHeight           > MAX_H )
+     ||  dndWidth            > MAX_W
+     ||  dndHeight           > MAX_H )
 	{
 		// calculate the new width and height
 		long oldWidth = dndWidth, oldHeight = dndHeight;
