@@ -1968,6 +1968,12 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				 && !m_player.IsPlaying() )
 				{
 					OnSkinTargetEvent(IDT_ENQUEUE_LAST, value, 0); // recursive call
+					if( !(g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE) && m_player.m_queue.GetCount() && !m_player.IsPlaying() )
+					{
+						PlayOrPause(accelFlags != 0);// playback not started on enqueue, start it here
+						return;
+					}
+
 					if( !m_player.IsPlaying() )
 					{
 						m_autoCtrl.DoAutoPlayIfEnabled(true /*ignoreTimeouts*/);
