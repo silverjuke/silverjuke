@@ -91,16 +91,16 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Show covers"), IDT_WORKSPACE_SHOW_COVERS,SJA_MAIN); OrgKey(wxACCEL_ALT, 'C');
 
 	// common commands - not all commands have predefined shortcuts!
-	OrgCmd(_("Open playlist"),                  IDT_OPEN_FILES,            SJA_MAIN|SJA_3P); OrgKey(wxACCEL_CTRL, 'O');
+	OrgCmd(_("Open playlist..."),               IDT_OPEN_FILES,            SJA_MAIN); OrgKey(wxACCEL_CTRL, 'O');
 	OrgCmd(_("Unqueue marked tracks"),          IDO_UNQUEUE_MARKED,        SJA_MAIN);
 	OrgCmd(_("Unqueue all but marked tracks"),  IDO_UNQUEUE_ALL_BUT_MARKED,SJA_MAIN);
 	OrgCmd(_("Clear playlist"),                 IDT_UNQUEUE_ALL,           SJA_MAIN);
-	OrgCmd(_("Save playlist"),                  IDT_SAVE_PLAYLIST,         SJA_MAIN|SJA_3P); OrgKey(wxACCEL_CTRL, 'S');
+	OrgCmd(_("Save playlist..."),               IDT_SAVE_PLAYLIST,         SJA_MAIN); OrgKey(wxACCEL_CTRL, 'S');
 	OrgCmd(_("Paste"),                          IDO_PASTE,                 SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'V'); OrgKey(wxACCEL_SHIFT, WXK_INSERT);
 	OrgCmd(_("Paste"),                          IDO_PASTE_USING_COORD,     0, IDO_PASTE);
-	OrgCmd(_("Music selection"),                IDT_ADV_SEARCH,            SJA_MAIN|SJA_3P); OrgKey(wxACCEL_CTRL, 'F');
-	OrgCmd(_("Jukebox settings"),               IDT_SETTINGS_JUKEBOX,      SJA_MAIN|SJA_3P); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
-	OrgCmd(_("Advanced settings"),              IDO_SETTINGS_ADV,          SJA_MAIN|SJA_3P);
+	OrgCmd(_("Music selection..."),             IDT_ADV_SEARCH,            SJA_MAIN); OrgKey(wxACCEL_CTRL, 'F');
+	OrgCmd(_("Jukebox settings..."),            IDT_SETTINGS_JUKEBOX,      SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
+	OrgCmd(_("Advanced settings..."),           IDO_SETTINGS_ADV,          SJA_MAIN);
 	OrgCmd(wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME),
 	                                            IDT_QUIT,                  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'Q'); OrgKey(wxACCEL_ALT, 'X');
 	OrgCmd(_("Update music library"),           IDT_UPDATE_INDEX,          SJA_MAIN);        OrgKey(0, WXK_F5);
@@ -116,8 +116,7 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Unqueue tracks"),                 IDT_UNQUEUE,               SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'U');
 	OrgCmd(_("More from current album"),        IDT_MORE_FROM_CURR_ALBUM,  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'J');
 	OrgCmd(_("More from current artist"),       IDT_MORE_FROM_CURR_ARTIST, SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'K');
-	OrgCmd(_("Edit tracks/Get info"),           IDM_EDITSELECTION,         SJA_MAIN|SJA_EDIT|SJA_3P);
-																					         OrgKey(wxACCEL_CTRL, 'I');
+	OrgCmd(_("Edit tracks/Get info..."),        IDM_EDITSELECTION,         SJA_MAIN|SJA_EDIT);OrgKey(wxACCEL_CTRL, 'I');
 	OrgCmd(_("Play"),                           IDT_PLAY,                  SJA_MAIN);        OrgKey(0, WXK_PAUSE); OrgKey(0, WXK_SPACE); // if we move this above WXK_PAUSE, entering spaced in the search field will fail - why?
 	OrgCmd(_("Pause"),                          IDT_PAUSE, SJA_UNEDITABLE); // same shortcut as IDT_PLAY
 	OrgCmd(_("Stop"),                           IDT_STOP,                  SJA_MAIN);        OrgKey(wxACCEL_SHIFT, WXK_SPACE);
@@ -169,7 +168,7 @@ bool SjAccelModule::FirstLoad()
 	// tools shortcuts
 
 	{
-		OrgCmd(_("Console"), IDO_CONSOLE, SJA_MAIN | SJA_3P);
+		OrgCmd(_("Console..."), IDO_CONSOLE, SJA_MAIN);
 
 		// shortcuts for the scripting menu -
 		// all this is a little hack at the moment and has the following limitations:
@@ -189,27 +188,27 @@ bool SjAccelModule::FirstLoad()
 
 	// tag editor shortcuts
 
-	OrgCmd(_("Previous track"),       IDC_PREVDLGPAGE,   SJA_EDIT);        OrgKey(0, WXK_PAGEUP);
-	OrgCmd(_("Next track"),           IDC_NEXTDLGPAGE,   SJA_EDIT);        OrgKey(0, WXK_PAGEDOWN);
-	OrgCmd(_("Replace"),              IDC_PLUGIN_REPLACE,SJA_EDIT|SJA_3P); OrgKey(wxACCEL_CTRL, 'R');
-	OrgCmd(_("Split field"),          IDC_PLUGIN_SPLIT,  SJA_EDIT|SJA_3P);
-	OrgCmd(_("Rename files"),         IDC_PLUGIN_RENAME, SJA_EDIT|SJA_3P);
-	OrgCmd(_("Query online database"),IDC_PLUGIN_FREEDB, SJA_EDIT|SJA_3P); OrgKey(wxACCEL_CTRL, 'F');
+	OrgCmd(_("Previous track"),          IDC_PREVDLGPAGE,   SJA_EDIT); OrgKey(0, WXK_PAGEUP);
+	OrgCmd(_("Next track"),              IDC_NEXTDLGPAGE,   SJA_EDIT); OrgKey(0, WXK_PAGEDOWN);
+	OrgCmd(_("Replace..."),              IDC_PLUGIN_REPLACE,SJA_EDIT); OrgKey(wxACCEL_CTRL, 'R');
+	OrgCmd(_("Split field..."),          IDC_PLUGIN_SPLIT,  SJA_EDIT);
+	OrgCmd(_("Rename files..."),         IDC_PLUGIN_RENAME, SJA_EDIT);
+	OrgCmd(_("Query online database..."),IDC_PLUGIN_FREEDB, SJA_EDIT); OrgKey(wxACCEL_CTRL, 'F');
 
 	// adv. search shortcuts
 
-	OrgCmd(_("New music selection"), IDC_NEWSEARCH,    SJA_ADVSEARCH|SJA_3P); OrgKey(wxACCEL_CTRL, 'N');
-	OrgCmd(_("Save"),                IDC_SAVESEARCH,   SJA_ADVSEARCH);        OrgKey(wxACCEL_CTRL, 'S');
-	OrgCmd(_("Save as"),             IDC_SAVESEARCHAS, SJA_ADVSEARCH|SJA_3P); OrgKey(wxACCEL_CTRL, 'M');
-	OrgCmd(_("Rename"),              IDC_RENAMESEARCH, SJA_ADVSEARCH|SJA_3P); OrgKey(wxACCEL_CTRL, 'R');
-	OrgCmd(_("Delete"),              IDC_DELETESEARCH, SJA_ADVSEARCH);        OrgKey(wxACCEL_CTRL, 'D');
-	OrgCmd(_("Revert to saved"),     IDC_REVERTTOSAVEDSEARCH,SJA_ADVSEARCH);
-	OrgCmd(_("End search"),          IDC_ENDADVSEARCH, SJA_ADVSEARCH);
+	OrgCmd(_("New music selection..."),IDC_NEWSEARCH,    SJA_ADVSEARCH); OrgKey(wxACCEL_CTRL, 'N');
+	OrgCmd(_("Save"),                  IDC_SAVESEARCH,   SJA_ADVSEARCH); OrgKey(wxACCEL_CTRL, 'S');
+	OrgCmd(_("Save as..."),            IDC_SAVESEARCHAS, SJA_ADVSEARCH); OrgKey(wxACCEL_CTRL, 'M');
+	OrgCmd(_("Rename..."),             IDC_RENAMESEARCH, SJA_ADVSEARCH); OrgKey(wxACCEL_CTRL, 'R');
+	OrgCmd(_("Delete"),                IDC_DELETESEARCH, SJA_ADVSEARCH); OrgKey(wxACCEL_CTRL, 'D');
+	OrgCmd(_("Revert to saved"),       IDC_REVERTTOSAVEDSEARCH,SJA_ADVSEARCH);
+	OrgCmd(_("End search"),            IDC_ENDADVSEARCH, SJA_ADVSEARCH);
 
 	// art editor shortcuts
 
-	OrgCmd(_("Open file"),                 IDM_OPENCOVER,         SJA_ART|SJA_3P, IDT_OPEN_FILES); /*yeah, "File", not "Cover" as this appears in a submenu as "Open cover -> Open file" submenu*/
-	OrgCmd(_("Save cover"),                IDM_SAVECOVER,         SJA_ART|SJA_3P, IDT_SAVE_PLAYLIST);
+	OrgCmd(_("Open file..."),              IDM_OPENCOVER,         SJA_ART, IDT_OPEN_FILES); /*yeah, "File", not "Cover" as this appears in a submenu as "Open cover -> Open file" submenu*/
+	OrgCmd(_("Save cover..."),             IDM_SAVECOVER,         SJA_ART, IDT_SAVE_PLAYLIST);
 	OrgCmd(_("Rotate left"),               IDM_ROTATELEFT,        SJA_ART);         OrgKey(0, 'L');
 	OrgCmd(_("Rotate right"),              IDM_ROTATERIGHT,       SJA_ART);         OrgKey(0, 'R');
 	OrgCmd(_("Flip horizontally"),         IDM_FLIPHORZ,          SJA_ART);         OrgKey(0, 'H');
@@ -1297,10 +1296,6 @@ wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind ki
 		if( text.IsEmpty() )
 		{
 			text = cmd->m_name;
-			if( cmd->m_flags & SJA_3P )
-			{
-				text += wxT("...");
-			}
 		}
 
 		if( cmd->m_linkId )

@@ -61,7 +61,6 @@ public:
 	#define         SJA_MASK                    0xFFFF
 	#define         SJA_ADDNOMODIFIERKEYS   0x00010000  // even add simple keys as ENTER or SPACE when calling GetAccelTable() - this is only useful if there are not other (child-)controls taking keys in the window
 	#define         SJA_NOACCELTABLE        0x00020000  // may be used with KeyEvent2*() to return keys that are normally handled by the accelerator table
-	#define         SJA_3P                  0x00040000  // add "..." to m_name
 	#define         SJA_UNEDITABLE          0x00080000
 	long            m_flags;
 
