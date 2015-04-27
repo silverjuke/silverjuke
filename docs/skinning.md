@@ -646,6 +646,7 @@ Attributes:
     - "win"
     - "mac"
     - "gtk"
+  
   With the following strings you can check certain options:
     - "kiosk"
     - "creditsystem"
@@ -665,6 +666,7 @@ Attributes:
     - "zoom" 
     - "repeat" 
     - "all" 
+  
   If you use the comma to give several options, the condition is true if any of
   the options is set. You can also negate the list by using "!" as the first 
   character. If an older version of Silverjuke does not understand a condition,
@@ -673,9 +675,9 @@ Attributes:
 - version - check if Silverjuke runs at least with the given version
   number. The version number must be given as "major.minor.revision" where
   "revision" may be skipped.  
-  Example: To check against version 1.22, use 
+  Example: To check against version 15.1, use 
   
-        <if version="1.22">...</if>
+        <if version="15.1">...</if>
 
 You should not use if-tags to skip complete layouts or skins for options that 
 may change during Silverjuke is running (this is everything beside the 
@@ -728,7 +730,7 @@ Attributes:
   
 Example:
 
-    <script src="scripting.sj" />
+    <script src="scripting.js" />
 
 Alternatively, you can also write the script directly to in the XML-file of a
 skin:
@@ -754,12 +756,12 @@ doubleclick targets for layout- or div-tags.
 
 There is no need to support all targets in a layout, it is up to you to decide
 which functions you want to implement by the skin. Many - but not all -
-functions are also available by the context menus or by shortcuts.
+functions are also available by the menus or by shortcuts.
 
 - AlwaysOnTop
 
   A click onto this button will toggle the "Always on top" state of the
-  Silverjuke main winow. This target is used in the "small layout view" of the
+  Silverjuke main window. This target is used in the "small layout view" of the
   default skin.
 
 - AdvSearch, Settings, Help
