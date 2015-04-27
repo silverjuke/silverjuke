@@ -69,7 +69,7 @@ an image (eg. to reflect different button states). These subimages are divided
 from each other using horizontal and vertical lines of the colour of the first
 upper left pixel in the whole image. We call this colour the _control colour_.
 Even if an image has only one subimage, you have to surround the image by the
-control colour.  See the existing skins to get the idea.
+control colour. See the existing skins to get the idea.
 
 The second pixel in the first scanline defines the _mask colour_. Inside a
 subimage, you can use this colour to define a mask; for pixels with the mask
@@ -98,13 +98,6 @@ this file format is not recommended.
 **Supported tags and targets**
 
 See the chapters Tags and Targets for a complete list.
-
-
-**Releasing skins**
-
-If you have created a skin, you can post it in our Skins+Modules forum - it's
-free, and if you become a registered forum member, you have the possiblity to
-attach files to your topics as well as edit them later.
 
 
 Tags
@@ -136,7 +129,7 @@ Attributes:
   automatically enabled on errors.
 
 - debugcond - Override the system conditions using any testing settings.
-  May be usefull in combination with <if>.
+  May be usefull in combination with the if-tag.
 
 An example skin may look like the following:
 
@@ -160,10 +153,9 @@ layout. You can use several layouts for a single skin.
 Attributes:
 
 - name - The name of the layout. May be used as a target to allow switching
-  between different layouts. This attribute is always required.  
-  A special name is "kiosk": this layout is used as the default layout in
-  the kiosk mode. Note the remarks for if-tags when designing skins for the
-  kiosk mode.
+  between different layouts. This attribute is always required. A special name
+  is "kiosk": this layout is used as the default layout in the kiosk mode. Note
+  the remarks for if-tags when designing skins for the kiosk mode.
 
 - minh, maxw - The minimal size of the window in pixels.
 
@@ -230,7 +222,7 @@ epilogue may be skipped (replaced by the skip colour):
     CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 A **vertical image** looks like the following - again, prologue and epilogue may
-be skipped  (replaced by the skip colour):
+be skipped (replaced by the skip colour):
 
     CMSCCCCCCCCCCC
     C            C
@@ -460,7 +452,7 @@ Workspace-Tag
 
 Use this tag to specify the workspace. Currently, the workspace is always the
 list of all albums. Moreover, if no visualization-indent-rectangle is defined
-in any <div>-tag, the workspace may also be replaced by the visualization.
+in any div-tag, the workspace may also be replaced by the visualization.
 
 Attributes:
 
@@ -995,6 +987,6 @@ The following list shows possible targets for the div-tag.
   Moreover, you can use the button-targets from above as doubleclick targets
   for the div-tags.
 
-  
+
 Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
 

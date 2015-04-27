@@ -142,7 +142,7 @@ completely different alphabets to one keyboard layout.
 
 
 Embedding virtual keyboards to a locale
-================================================================================   
+================================================================================
 
 If you are also doing a localization to another language and this language needs 
 a special virtual keyboard layout, you can also embed a virtual keyboard 

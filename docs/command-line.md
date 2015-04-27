@@ -44,7 +44,7 @@ You may control Silverjuke by the command line with the following options:
   programs" is enabled in the kiosk mode settings.
 
 * --setcredit=NUM  
-  Sets the number of credits.  This option only work if the option "Credits may
+  Sets the number of credits. This option only work if the option "Credits may
   be added by external programs" is enabled in the kiosk mode settings.
 
 * --skiperrors  
@@ -96,9 +96,10 @@ You may control Silverjuke by the command line with the following options:
 
 * --execute=SCRIPT_OR_FILE 
   Execute the given script snippet or file. With this command line option you
-  are able to execute any little script by the  command line. For scripting 
+  are able to execute any little script by the command line. For scripting 
   details, please refer to the Silverjuke SDK. Instead of using the command line
-  for this purpose, you can also use DDE, which, however, is a little bit more tricky.
+  for this purpose, you can also use DDE, which, however, is a little bit more 
+  tricky.
 
 Although there is always only one instance of Silverjuke running, you may call
 Silverjuke with these commands which will then be forwarded to the running
