@@ -98,7 +98,8 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Save playlist..."),               IDT_SAVE_PLAYLIST,         SJA_MAIN); OrgKey(wxACCEL_CTRL, 'S');
 	OrgCmd(_("Paste"),                          IDO_PASTE,                 SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'V'); OrgKey(wxACCEL_SHIFT, WXK_INSERT);
 	OrgCmd(_("Paste"),                          IDO_PASTE_USING_COORD,     0, IDO_PASTE);
-	OrgCmd(_("Music selection..."),             IDT_ADV_SEARCH,            SJA_MAIN); OrgKey(wxACCEL_CTRL, 'F');
+	OrgCmd(_("Search"),                         IDT_SEARCH_BUTTON,         SJA_MAIN); OrgKey(wxACCEL_CTRL, 'F');
+	OrgCmd(_("Music selection..."),             IDT_ADV_SEARCH,            SJA_MAIN); OrgKey(wxACCEL_ALT, 'F');
 	OrgCmd(_("Jukebox settings..."),            IDT_SETTINGS_JUKEBOX,      SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
 	OrgCmd(_("Advanced settings..."),           IDO_SETTINGS_ADV,          SJA_MAIN);
 	OrgCmd(wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME),

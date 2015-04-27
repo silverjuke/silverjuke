@@ -119,6 +119,8 @@ void SjMainFrame::InitMainMenu()
 
 		m_editMenu->AppendSeparator();
 
+		m_editMenu->Append(IDT_SEARCH_BUTTON);
+
 		m_editMenu->Append(IDT_ADV_SEARCH);
 
 		m_editMenu->Append(IDO_REALLYENDSEARCH, _("End search"));
