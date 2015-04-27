@@ -57,10 +57,10 @@ void SjRule::CopyFrom(const SjRule& o)
 bool SjRule::IsEqualTo(const SjRule& o) const
 {
 	if( m_field  != o.m_field
-	        || m_op     != o.m_op
-	        || m_value[0] != o.m_value[0]
-	        || m_value[1] != o.m_value[1]
-	        || m_unit   != o.m_unit )
+	 || m_op     != o.m_op
+	 || m_value[0] != o.m_value[0]
+	 || m_value[1] != o.m_value[1]
+	 || m_unit   != o.m_unit )
 	{
 		return FALSE;
 	}
@@ -90,10 +90,10 @@ bool SjRule::Unserialize(SjStringSerializer& ser)
 	SjUnit      unit            = (SjUnit)ser.GetLong();
 
 	if( fieldsFollowing != 5
-	        || field >= SJ_FIELD_COUNT
-	        || op >= SJ_FIELDOP_COUNT
-	        || unit >= SJ_UNIT_COUNT
-	        || ser.HasErrors() )
+	 || field >= SJ_FIELD_COUNT
+	 || op >= SJ_FIELDOP_COUNT
+	 || unit >= SJ_UNIT_COUNT
+	 || ser.HasErrors() )
 	{
 		return FALSE;
 	}
@@ -154,7 +154,9 @@ bool SjRule::IsValidFieldOp(SjField field, SjFieldOp op)
 	{
 		return (op==SJ_FIELDOP_IS_SET || op==SJ_FIELDOP_IS_UNSET);
 	}
-	else switch( op )
+	else
+	{
+		switch( op )
 		{
 			case SJ_FIELDOP_IS_EQUAL_TO:
 			case SJ_FIELDOP_IS_UNEQUAL_TO:
@@ -189,6 +191,7 @@ bool SjRule::IsValidFieldOp(SjField field, SjFieldOp op)
 			default:
 				return FALSE;
 		}
+	}
 }
 
 
@@ -224,8 +227,7 @@ wxString SjRule::GetFieldDescr(SjField field)
 		case SJ_FIELD_TIMESPLAYED:      return _("Play count");
 		case SJ_PSEUDOFIELD_SQL:        return _("SQL expression");
 		case SJ_PSEUDOFIELD_LIMIT:      return _("Limit result to");
-		case SJ_PSEUDOFIELD_TRACKARTISTALBUM:
-			return _("Title/artist/album");
+		case SJ_PSEUDOFIELD_TRACKARTISTALBUM: return _("Title/artist/album");
 		case SJ_PSEUDOFIELD_FILETYPE:   return _("File type");
 		case SJ_PSEUDOFIELD_QUEUEPOS:   return _("Queue position");
 		case SJ_PSEUDOFIELD_INCLUDE:    return _("Include tracks");
@@ -334,7 +336,7 @@ wxString SjRule::IsValueOk(const wxString& valueStr__, bool* addCaseWarning) con
 		else if( m_field == SJ_PSEUDOFIELD_QUEUEPOS )
 		{
 			if( valueStr != SJ_QUEUEPOS_CURR_STR
-			        && !SjTools::ParseNumber(valueStr) )
+			 && !SjTools::ParseNumber(valueStr) )
 			{
 				errorPleaseEnterAValue = TRUE;
 			}
@@ -350,9 +352,9 @@ wxString SjRule::IsValueOk(const wxString& valueStr__, bool* addCaseWarning) con
 		error = _("Please enter the text.");
 	}
 	else if( addCaseWarning
-	         && m_field != SJ_PSEUDOFIELD_SQL
-	         && (m_op==SJ_FIELDOP_IS_EQUAL_TO || m_op==SJ_FIELDOP_IS_UNEQUAL_TO)
-	         && (valueStr.Lower()==valueStr || valueStr.Upper()==valueStr) )
+	      && m_field != SJ_PSEUDOFIELD_SQL
+	      && (m_op==SJ_FIELDOP_IS_EQUAL_TO || m_op==SJ_FIELDOP_IS_UNEQUAL_TO)
+	      && (valueStr.Lower()==valueStr || valueStr.Upper()==valueStr) )
 	{
 		*addCaseWarning = TRUE;
 	}
@@ -394,9 +396,9 @@ long SjRule::GetInclExclCount() const
 {
 	long count = m_value[0].Freq(',')-1;
 	if( count < 0
-	        || m_value[0].Len() < 3
-	        || m_value[0].GetChar(0) != ','
-	        || m_value[0].Last() != ',' )
+	 || m_value[0].Len() < 3
+	 || m_value[0].GetChar(0) != ','
+	 || m_value[0].Last() != ',' )
 	{
 		count = 0;
 	}
@@ -524,10 +526,11 @@ wxString SjRule::GetAsSql(SjField field, SjFieldOp op, bool forceNumberSet)
 		case SJ_FIELDOP_DOES_NOT_END_WITH:  return wxT("NOT($f LIKE '%$vu')");
 
 		case SJ_FIELDOP_IS_SIMELAR_TO:      return wxT("LEVENSTHEIN($f, $v)==1");
-			//return "SOUNDEX($f)=SOUNDEX('$vu')";
+		                                  //return "SOUNDEX($f)=SOUNDEX('$vu')";
 
 		case SJ_FIELDOP_STARTS_SIMELAR_TO:  return wxT("LEVENSTHEIN(SUBSTR($f, 1, $vl),$v)==1");
-			//return "SOUNDEX(SUBSTR($f,1,$vl))=SOUNDEX('$vu')";
+		                                  //return "SOUNDEX(SUBSTR($f,1,$vl))=SOUNDEX('$vu')";
+
 		default:                            return wxT("***");
 	}
 }
@@ -571,7 +574,7 @@ wxString SjRule::GetAsSql(const wxString& value__, SjField field, SjFieldOp op, 
 
 		long longValue;
 		SjTools::ParseNumber(value, &longValue);
-		if( unit == SJ_UNIT_KB ) { longValue *= 1024; }
+		     if( unit == SJ_UNIT_KB ) { longValue *= 1024; }
 		else if( unit == SJ_UNIT_MB ) { longValue *= 1024*1024; }
 		else if( unit == SJ_UNIT_GB ) { longValue *= 1024*1024*1024; }
 		value = wxString::Format(wxT("%i"), (int)longValue);
@@ -669,7 +672,7 @@ wxString SjRule::GetAsSql(const wxString& value__, SjField field, SjFieldOp op, 
 		}
 	}
 	else if( field == SJ_PSEUDOFIELD_QUEUEPOS
-	         && value == SJ_QUEUEPOS_CURR_STR )
+	      && value == SJ_QUEUEPOS_CURR_STR )
 	{
 
 		//
@@ -759,7 +762,9 @@ wxString SjRule::GetAsSql() const
 		          + wxT(" OR ") + GetAsSql(m_value[0], SJ_FIELD_ALBUMNAME,       m_op, m_unit, FALSE)
 		          +    wxT(")");
 	}
-	else switch( m_op )
+	else
+	{
+		switch( m_op )
 		{
 			case SJ_FIELDOP_IS_NOT_IN_RANGE:
 				return    wxT("(") + GetAsSql(m_value[0], m_field, SJ_FIELDOP_IS_LESS_THAN, m_unit, FALSE)
@@ -774,6 +779,7 @@ wxString SjRule::GetAsSql() const
 			default:
 				return  GetAsSql(m_value[0], m_field, m_op, m_unit, TRUE/*force that the value is set, if needed*/);
 		}
+	}
 }
 
 
@@ -815,12 +821,12 @@ bool SjRule::Convert(SjField newField)
 			initOperatorRequired = TRUE;
 		}
 		else if(  m_field == SJ_PSEUDOFIELD_SQL
-		          ||  newField == SJ_FIELD_GENRENAME
-		          ||  newField == SJ_FIELD_GROUPNAME
-		          ||  newField == SJ_PSEUDOFIELD_FILETYPE
-		          ||  newField == SJ_PSEUDOFIELD_QUEUEPOS
-		          ||  newFieldType != _m_FieldType
-		          || (newFieldType == SJ_FIELDTYPE_NUMBER && _m_FieldType == SJ_FIELDTYPE_NUMBER) )
+		      ||  newField == SJ_FIELD_GENRENAME
+		      ||  newField == SJ_FIELD_GROUPNAME
+		      ||  newField == SJ_PSEUDOFIELD_FILETYPE
+		      ||  newField == SJ_PSEUDOFIELD_QUEUEPOS
+		      ||  newFieldType != _m_FieldType
+		      || (newFieldType == SJ_FIELDTYPE_NUMBER && _m_FieldType == SJ_FIELDTYPE_NUMBER) )
 		{
 			// other fields that can never be converted sensefully
 			// to other fields
@@ -836,8 +842,8 @@ bool SjRule::Convert(SjField newField)
 			if( newFieldType == SJ_FIELDTYPE_STRING )
 			{
 				if( newField == SJ_FIELD_GENRENAME
-				        || newField == SJ_FIELD_GROUPNAME
-				        || newField == SJ_PSEUDOFIELD_FILETYPE )
+				 || newField == SJ_FIELD_GROUPNAME
+				 || newField == SJ_PSEUDOFIELD_FILETYPE )
 				{
 					m_op = SJ_FIELDOP_IS_EQUAL_TO;
 				}
@@ -851,17 +857,17 @@ bool SjRule::Convert(SjField newField)
 				m_op = SJ_FIELDOP_IS_IN_THE_LAST;
 			}
 			else switch( newField )
-				{
-					case SJ_FIELD_TIMESPLAYED:      m_op = SJ_FIELDOP_IS_GREATER_THAN;  break;
+			{
+				case SJ_FIELD_TIMESPLAYED:      m_op = SJ_FIELDOP_IS_GREATER_THAN;  break;
 
-					case SJ_FIELD_DATABYTES:
-					case SJ_FIELD_PLAYTIME:         m_op = SJ_FIELDOP_IS_IN_RANGE;      break;
+				case SJ_FIELD_DATABYTES:
+				case SJ_FIELD_PLAYTIME:         m_op = SJ_FIELDOP_IS_IN_RANGE;      break;
 
-					case SJ_FIELD_AUTOVOL:
-					case SJ_PSEUDOFIELD_QUEUEPOS:   m_op = SJ_FIELDOP_IS_SET;           break;
+				case SJ_FIELD_AUTOVOL:
+				case SJ_PSEUDOFIELD_QUEUEPOS:   m_op = SJ_FIELDOP_IS_SET;           break;
 
-					default:                        m_op = SJ_FIELDOP_IS_EQUAL_TO;      break;
-				}
+				default:                        m_op = SJ_FIELDOP_IS_EQUAL_TO;      break;
+			}
 			largerModifications = TRUE;
 		}
 
@@ -972,12 +978,12 @@ bool SjAdvSearch::IsEqualTo(const SjAdvSearch& o) const
 	int r, rulesCount = (int)m_rules.GetCount();
 
 	if(  m_id           != o.m_id
-	        ||  m_name         != o.m_name
-	        ||  rulesCount     != (int)o.m_rules.GetCount()
-	        ||  m_selectScope  != o.m_selectScope
-	        ||  m_selectOp     != o.m_selectOp
-	        ||  m_subset       != o.m_subset
-	        ||  m_subsetId     != o.m_subsetId )
+	 ||  m_name         != o.m_name
+	 ||  rulesCount     != (int)o.m_rules.GetCount()
+	 ||  m_selectScope  != o.m_selectScope
+	 ||  m_selectOp     != o.m_selectOp
+	 ||  m_subset       != o.m_subset
+	 ||  m_subsetId     != o.m_subsetId )
 	{
 		return FALSE;
 	}
@@ -1112,9 +1118,9 @@ bool SjAdvSearch::Unserialize(SjStringSerializer& ser)
 	long rulesFollowing =                ser.GetLong     ();
 
 	if( fieldsFollowing != 5
-	        || m_selectScope >= SJ_SELECTSCOPE_COUNT
-	        || m_selectOp >= SJ_SELECTOP_COUNT
-	        || ser.HasErrors() )
+	 || m_selectScope >= SJ_SELECTSCOPE_COUNT
+	 || m_selectOp >= SJ_SELECTOP_COUNT
+	 || ser.HasErrors() )
 	{
 		Clear();
 		return FALSE;
@@ -1620,5 +1626,3 @@ void SjSearchStat::CopyFrom(const SjSearchStat& o)
 	m_mbytes            = o.m_mbytes;
 	m_seconds           = o.m_seconds;
 }
-
-

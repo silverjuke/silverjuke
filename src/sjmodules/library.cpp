@@ -516,9 +516,7 @@ bool SjLibraryModule::FirstLoad()
 			    wxT("beatsperminute INTEGER, ")
 			    wxT("rating INTEGER, ")
 			    wxT("year INTEGER, ")
-			    wxT("extinfo TEXT, ")               // this field is deprecated on 28.02.2006; throw it away completely in some months - in between leave it to allow users to switch back to an old version
-			    wxT("karaoke TEXT, ")               // added in 2.10
-			    wxT("fx TEXT, ")                    // added in 2.10
+			    wxT("vis INTEGER, ")
 			    wxT("artids TEXT);")
 			);
 
@@ -539,15 +537,9 @@ bool SjLibraryModule::FirstLoad()
 		// any fields to add?
 		// this is only needed to ensure backward compatibility if new fields are needed
 		// in newer versions of Silverjuke.
-		if( !sql.ColumnExists(wxT("tracks"), wxT("karaoke")) )
+		if( !sql.ColumnExists(wxT("tracks"), wxT("vis")) )
 		{
-			sql.AddColumn(wxT("tracks"), wxT("karaoke TEXT DEFAULT ''"));
-			sql.AddColumn(wxT("tracks"), wxT("fx TEXT DEFAULT ''"));
-
-			if( !sql.ColumnExists(wxT("tracks"), wxT("autovol")) )
-			{
-				sql.AddColumn(wxT("tracks"), wxT("autovol INTEGER DEFAULT 0"));
-			}
+			sql.AddColumn(wxT("tracks"), wxT("vis INTEGER DEFAULT 0")); // added in 15.1beta, may be removed soon
 		}
 
 		// create album table, if not exists
