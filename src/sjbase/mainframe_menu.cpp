@@ -527,6 +527,7 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
                                      bool embedFastSearch)
 {
 	// prepend open/save items (reverse order!)
+	/* -- as we have a normal menu bar since 15.1, the context menu can be more focused
 	if( prependOpen && IsAllAvailable() )
 	{
 		if(  mainMenu.GetMenuItemCount() )
@@ -543,9 +544,11 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 
 		mainMenu.Insert(0, IDT_OPEN_FILES);
 	}
+	*/
 
 	// search
-	if( IsOpAvailable(SJ_OP_SEARCH) )
+	// -- as we have a normal menu bar since 15.1, the context menu can be more focused (search only added if embedFastSearch set, formally this was always the case)
+	if( embedFastSearch && IsOpAvailable(SJ_OP_SEARCH) )
 	{
 		// open adv. search dialog
 		if( mainMenu.GetMenuItemCount() )
@@ -570,6 +573,7 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 	}
 
 	// settings / view  / control
+	/* -- as we have a normal menu bar since 15.1, the context menu can be more focused
 	if( IsAllAvailable() )
 	{
 
@@ -592,6 +596,7 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 		CreatePlaybackMenu(playbackMenu, false);
 		mainMenu.Append(0, _("Playback"), playbackMenu);
 	}
+	*/
 
 	// help
 	if( IsKioskStarted() )
@@ -710,8 +715,8 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 	m_contextMenuClickedId = 0;
 
 	if( (targetId>=IDT_DISPLAY_LINE_FIRST && targetId<=IDT_DISPLAY_LINE_LAST)
-	        ||  targetId==IDT_CURR_TRACK
-	        ||  targetId==IDT_NEXT_TRACK )
+	 ||  targetId==IDT_CURR_TRACK
+	 ||  targetId==IDT_NEXT_TRACK )
 	{
 		// queue menu items
 		if(  IsAllAvailable()
@@ -837,7 +842,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 	}
 
 	if(  unmarkQueueId
-	        && !m_display.m_tagEditorJustOpened ) // if the tag editor is opened in between, the marked tracks in the display should stay
+	 && !m_display.m_tagEditorJustOpened ) // if the tag editor is opened in between, the marked tracks in the display should stay
 	{
 		m_display.m_selectedIds.Remove(unmarkQueueId);
 		UpdateDisplay();
