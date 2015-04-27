@@ -1453,14 +1453,14 @@ SjMouseUsed SjSkinButtonItem::OnMouseLeftUp(long x, long y, long accelFlags, boo
 			ret = SJ_MOUSE_USED;
 
 			if( (m_targetId >= IDT_WORKSPACE_GOTO_A && m_targetId <= IDT_WORKSPACE_GOTO_0_9)
-			        || m_targetId == IDT_PLAY
-			        || m_targetId == IDT_PAUSE
-			        || m_targetId == IDT_STOP
-			        || m_targetId == IDT_PREV
-			        || m_targetId == IDT_NEXT
-			        || m_targetId == IDT_WORKSPACE_ALBUM_VIEW
-			        || m_targetId == IDT_WORKSPACE_COVER_VIEW
-			        || m_targetId == IDT_WORKSPACE_LIST_VIEW )
+			  || m_targetId == IDT_PLAY
+			  || m_targetId == IDT_PAUSE
+			  || m_targetId == IDT_STOP
+			  || m_targetId == IDT_PREV
+			  || m_targetId == IDT_NEXT
+			  || m_targetId == IDT_WORKSPACE_ALBUM_VIEW
+			  || m_targetId == IDT_WORKSPACE_COVER_VIEW
+			  || m_targetId == IDT_WORKSPACE_LIST_VIEW )
 			{
 				m_delayedRedraw = TRUE; // Leave the button in the pressed state until the action
 				// (which may take a second) is performed. The derived class
@@ -1501,6 +1501,8 @@ SjMouseUsed SjSkinButtonItem::OnMouseLeftUp(long x, long y, long accelFlags, boo
 								RedrawMe();
 							}
 						}
+					#else
+                        wxLogError(wxT("Scripts are not supported in this build."));
 					#endif
 				}
 			}

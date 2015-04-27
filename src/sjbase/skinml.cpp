@@ -889,6 +889,8 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 					skin->m_see->Execute(scriptContent);
 				}
 			}
+		#else
+			wxLogError(wxT("Scripts are not supported in this build."));
 		#endif
 
 		return FALSE; // parse inner not called
