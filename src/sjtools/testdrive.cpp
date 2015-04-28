@@ -460,8 +460,8 @@ void SjTestdrive1()
 		see.Execute(wxT("2+2"));
 
 		if( see.GetResultString()!=wxT("4")
-		        || see.GetResultLong()!=4
-		        || see.GetResultDouble()!=4.0 )
+		  || see.GetResultLong()!=4
+		 || see.GetResultDouble()!=4.0 )
 		{
 			wxLogWarning(wxT("Testdrive: SjSee::Execute(\"2+2\") failed"));
 		}
@@ -472,9 +472,9 @@ void SjTestdrive1()
 
 		see.Execute(wxT("test();"));
 
-		if( see.GetResultString() != wxT("blablub") )
+		if( see.GetResultString() != wxT("blablub") ) {
 			wxLogWarning(wxT("Testdrive: SjSee::Execute(\"function test ...\") failed"));
-
+		}
 
 		wxString testStr;
 		testStr.Append(0xF6); // small german "o" with two points

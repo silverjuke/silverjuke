@@ -22,7 +22,6 @@
  * File:    columnmixer.cpp
  * Authors: Björn Petersen
  * Purpose: The column mixer
- * OS:      independent
  *
  ******************************************************************************/
 

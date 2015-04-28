@@ -22,7 +22,6 @@
  * File:    mainapp.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke main application class
- * OS:      independent
  *
  ******************************************************************************/
 

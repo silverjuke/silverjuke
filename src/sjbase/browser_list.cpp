@@ -22,7 +22,6 @@
  * File:    browser_list.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke list browser
- * OS:      independent
  *
  ******************************************************************************/
 

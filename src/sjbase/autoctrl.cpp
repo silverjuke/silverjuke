@@ -22,7 +22,6 @@
  * File:    autoctrl.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke
- * OS:      independent
  *
  ******************************************************************************/
 

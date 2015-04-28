@@ -22,7 +22,6 @@
  * File:    browser.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke main browser
- * OS:      independent
  *
  ******************************************************************************/
 

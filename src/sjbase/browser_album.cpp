@@ -22,7 +22,6 @@
  * File:    browser_album.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke album browser
- * OS:      independent
  *
  ******************************************************************************/
 

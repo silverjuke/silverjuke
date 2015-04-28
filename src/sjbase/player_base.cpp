@@ -1,18 +1,32 @@
 /*******************************************************************************
- * Silverjuke
+ *
+ *                                 Silverjuke
+ *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *                   Contact: r10s@b44t.com, http://b44t.com
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see http://www.gnu.org/licenses/ .
+ *
  *******************************************************************************
  *
  * File:    player_base.cpp
  * Authors: Björn Petersen
- * Purpose: Player base (user settings etc.) handling for the player;
- *          for a better overview, this file contains everything that is
- *          not directly needed for playback but, however, belongs to
- *          SjPlayer
- * OS:      independent
- *
- * (C) Björn Petersen Software Design and Development, http://b44t.com
+ * Purpose: Player basic handling for the player (user settings etc.)
  *
  *******************************************************************************
+ *
+ * For a better overview, this file contains everything that is not directly
+ * needed for playback but, however, belongs to SjPlayer.
  *
  * SjPlayer does a lot of parameter-range checking as it is also used
  * by some external modules and we don't know how they were programmed ;-)

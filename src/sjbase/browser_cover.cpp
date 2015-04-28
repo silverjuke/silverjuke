@@ -22,7 +22,6 @@
  * File:    browser_cover.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke cover browser
- * OS:      independent
  *
  ******************************************************************************/
 

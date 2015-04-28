@@ -22,7 +22,6 @@
  * File:    mainframe.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke main frame
- * OS:      independent
  *
  ******************************************************************************/
 
