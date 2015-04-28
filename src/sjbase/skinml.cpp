@@ -1,13 +1,27 @@
 /*******************************************************************************
- * Silverjuke
+ *
+ *                                 Silverjuke
+ *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *                   Contact: r10s@b44t.com, http://b44t.com
+ *
+ * This program is free software: you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see http://www.gnu.org/licenses/ .
+ *
  *******************************************************************************
  *
  * File:    skinml.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke skins - Skin [m]arkup [l]anguage parsing
- * OS:      independent
- *
- * (C) Björn Petersen Software Design and Development, http://b44t.com
  *
  *******************************************************************************
  *
@@ -383,18 +397,13 @@ long SjSkinMlParserData::ParseCond(const wxString& str__, bool& notFlag)
 		notFlag = TRUE;
 	}
 
-	// set some caclulated flags just-in-time
-
-
-
-
 	// go through all items and collect the flags
 	long flags = 0;
 	wxStringTokenizer tkz(str, wxT(","));
 	while ( tkz.HasMoreTokens() )
 	{
 		wxString token = tkz.GetNextToken();
-		if( token == wxT("win")                                )   { flags |= SJ_OP_OS_WIN;            }
+		     if( token == wxT("win")                                )   { flags |= SJ_OP_OS_WIN;            }
 		else if( token == wxT("mac")                                )   { flags |= SJ_OP_OS_MAC;            }
 		else if( token == wxT("gtk")                                )   { flags |= SJ_OP_OS_GTK;            }
 		else if( token == wxT("kiosk")                              )   { flags |= SJ_OP_KIOSKON;           }
@@ -1527,7 +1536,7 @@ long SjSkinPos::CalcAbs(long totalAbsPixels, long prevAbsPos, long prevAbsSize) 
 
 
 /*******************************************************************************
- *  SjSkinImage
+ * SjSkinImage
  ******************************************************************************/
 
 
@@ -1633,7 +1642,7 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 	for( x = 0; x < wBytes; x+=3 )
 	{
 		if( (x==0 || (data[x]==controlR && data[x+1]==controlG && data[x+2]==controlB))
-		        && subimageXCount < SJ_SKIN_SUBIMAGES_MAX )
+		 && subimageXCount < SJ_SKIN_SUBIMAGES_MAX )
 		{
 			controlX[subimageXCount++] = x / 3;
 		}
@@ -1658,8 +1667,8 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 
 	// check borders
 	if( subimageXCount < 1
-	        || subimageYCount < 1
-	        || subimageXCount*subimageYCount>SJ_SKIN_SUBIMAGES_MAX )
+	 || subimageYCount < 1
+	 || subimageXCount*subimageYCount>SJ_SKIN_SUBIMAGES_MAX )
 	{
 		if( subimageXCount < 0 ) subimageXCount = 0;
 		if( subimageYCount < 0 ) subimageYCount = 0;
@@ -1690,8 +1699,8 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 		unsigned char maskG = wimage.GetGreen(1, 0);
 		unsigned char maskB = wimage.GetBlue(1, 0);
 		if( maskR != controlR
-		        || maskG != controlG
-		        || maskB != controlB )
+		 || maskG != controlG
+		 || maskB != controlB )
 		{
 			wimage.SetMaskColour(maskR, maskG, maskB);
 			image->m_hasMaskOrAlpha = true;
@@ -1704,8 +1713,8 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 	unsigned char skipB = wimage.GetBlue(2, 0);
 	bool          skipOk = FALSE;
 	if( skipR != controlR
-	        || skipG != controlG
-	        || skipB != controlB )
+	 || skipG != controlG
+	 || skipB != controlB )
 	{
 		skipOk = TRUE;
 	}
@@ -1722,9 +1731,9 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 			if( rect.width > 0 && rect.height > 0 )
 			{
 				if( skipOk
-				        && data[rect.y*wBytes + rect.x*3    ] == skipR
-				        && data[rect.y*wBytes + rect.x*3 + 1] == skipG
-				        && data[rect.y*wBytes + rect.x*3 + 2] == skipB )
+				 && data[rect.y*wBytes + rect.x*3    ] == skipR
+				 && data[rect.y*wBytes + rect.x*3 + 1] == skipG
+				 && data[rect.y*wBytes + rect.x*3 + 2] == skipB )
 				{
 					skippedCount++;
 				}
@@ -1757,7 +1766,7 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 
 						wxBitmap* currBitmap = new wxBitmap(wsubimage);
 						if( currBitmap
-						        && currBitmap->Ok() )
+						 && currBitmap->Ok() )
 						{
 							image->m_subimages[y*subimageXCount + x] = currBitmap;
 						}
