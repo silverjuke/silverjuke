@@ -1393,6 +1393,7 @@ SjAdvSearchDialog::SjAdvSearchDialog(long preselectId)
 
 	// set accelerators
 	SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_ADVSEARCH));
+	SetFocus();
 }
 
 
