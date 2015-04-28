@@ -583,7 +583,7 @@ wxPanel* SjKioskConfigPage::CreateFunctionPage(wxWindow* parent)
 	AddOp(sizer2f, 1, SJ_OP_MULTI_ENQUEUE,                          _("Enqueue multiple tracks"), ADD_TRUNCATE_TEXT);
 	AddOp(sizer2f, 1, SJ_OP_ZOOM,                                                       _("Zoom in")+wxString(wxT("/"))+_("Zoom out"), ADD_TRUNCATE_TEXT);
 
-	AddOp(sizer2f, 1, SJ_OP_STARTVIS,                               _("Open video screen"), ADD_TRUNCATE_TEXT);
+	AddOp(sizer2f, 1, SJ_OP_STARTVIS,                               _("Video screen"), ADD_TRUNCATE_TEXT);
 	AddOp(sizer2f, 1, SJ_OP_ALL,                                                        _("All functions"), ADD_TRUNCATE_TEXT);
 
 	sizer1->Add(SJ_DLG_SPACE/2, SJ_DLG_SPACE/2); // some space

@@ -236,8 +236,9 @@ void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 			break;
 
 		case IDT_START_VIS:
-			if( g_visModule )
-				m_menuBar->SetLabel(IDT_START_VIS, g_visModule->GetVisMenuTitle());
+			if( g_visModule ) {
+				m_menuBar->Check(IDT_START_VIS, g_visModule->IsVisStarted());
+			}
 			break;
 	}
 }
@@ -322,7 +323,8 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool app
 
 	// add vis. toggle
 	if( g_visModule ) {
-		viewMenu->Append(IDT_START_VIS, g_visModule->GetVisMenuTitle());
+		viewMenu->AppendCheckItem(IDT_START_VIS, _("Video screen"));
+		viewMenu->Check(IDT_START_VIS, g_visModule->IsVisStarted());
 	}
 }
 

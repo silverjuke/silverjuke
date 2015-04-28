@@ -80,12 +80,6 @@ void SjVisModule::WriteVisFlags()
 }
 
 
-wxString SjVisModule::GetVisMenuTitle() const
-{
-	return IsVisStarted()? _("Close video screen") : _("Open video screen");
-}
-
-
 /*******************************************************************************
  * User Functions
  ******************************************************************************/

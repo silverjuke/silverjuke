@@ -2259,7 +2259,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 
 			case IDT_START_VIS: // okay, it toggles the vis. as the skins only have one button for it. however.
 				if(  IsOpAvailable(SJ_OP_STARTVIS)
-				        || (g_visModule->IsOverWorkspace() && g_visModule->IsVisStarted()) )
+				 || (g_visModule->IsOverWorkspace() && g_visModule->IsVisStarted()) )
 				{
 					if( g_visModule->IsVisStarted() )
 					{
@@ -2556,11 +2556,6 @@ wxString SjMainFrameToolTipProvider::GetText(long& flags)
 		{
 			case IDT_CURR_TIME:
 				hint = _("Toggle time mode");
-				break;
-
-			case IDT_START_VIS:
-				if( g_visModule )
-					hint = g_visModule->GetVisMenuTitle();
 				break;
 
 			case IDT_SEARCH_BUTTON:

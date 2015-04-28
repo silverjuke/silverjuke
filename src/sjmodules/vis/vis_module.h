@@ -79,9 +79,6 @@ public:
 	// menu entries.
 	bool            IsVisStarted        () const { return m_visIsStarted; }
 
-	// return a title depending on the open/close state of the vis. window
-	wxString        GetVisMenuTitle     () const;
-
 	// More state
 	bool            IsOverWorkspace     () const { return (m_visWindow!=NULL && m_visState==SJ_VIS_EMBEDDED && m_visIsOverWorkspace); }
 	bool            IsEmbedded          () const { return (m_visState==SJ_VIS_EMBEDDED); }

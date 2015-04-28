@@ -167,9 +167,9 @@ void SjNumpadMenuHandler::UpdatePages()
 	// end search / vis. / kiosk
 	AddPage (IDT_TOGGLE_KIOSK);
 	if(  g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)
-	        || (g_visModule->IsVisStarted() && g_visModule->IsOverWorkspace()) )
+	 || (g_visModule->IsVisStarted() && g_visModule->IsOverWorkspace()) )
 	{
-		AddEntry(1, IDT_START_VIS, 0, g_visModule->GetVisMenuTitle());
+		AddEntry(1, IDT_START_VIS, 0, _("Video screen"));
 	}
 	AddEntry(2, IDT_TOGGLE_KIOSK, 0, g_mainFrame->IsKioskStarted()? wxString(_("Exit kiosk mode")) : wxString(_("Start kiosk mode")));
 }
