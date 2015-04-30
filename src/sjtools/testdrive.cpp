@@ -80,26 +80,14 @@ void SjTestdrive1()
 		#error wxWidgets 3 will cause problems, use wxWidgets 2.8 instead
 	#endif
 
-
 	/* Make sure, HTTP Auhorization is added to http.cpp in all used releases (see remarks like EDIT BY ME in wx/http.cpp and wx/http.h) */
 	#if !wxCHECK_VERSION(2, 8, 7)
 		wxLogWarning(wxT("Testdrive: wxHTTP auhorization functionality missing."));
 	#endif
 
-
 	/* wxString::Replace() seems to be very inefficient for replacements of only one character, see modified wx source */
 	#if !wxCHECK_VERSION(2, 8, 10) // since 2.8.10, this is optimized by the wxWidgets team
 		wxLogWarning(wxT("Testdrive: wxString::Replace() may get some optimizations"));
-	#endif
-
-	/* Two things to fix for wxDisplay:
-	- on wxDisplay::GetCount(), the whole display array should  be reloaded (to reflect changes directly)
-	  in wx 2.6, we've fixed this in "src/msw/display.cpp", for wx 2.8 the file is "src/common/dpycmn.cpp"
-	  in wx 2.6, internally EnumDisplayMonitors() was used, not DirectX, same for 2.8
-	- note the changes in src/common/wincmn.cpp ("wxRect clientrect = wxGetClientDisplayRect();"
-	  must be replaced with the functionality from SjDialog::GetDisplayWorkspaceRect()) - in wx 2.8 this seems to be okay by default :-) */
-	#if !wxCHECK_VERSION(2, 8, 0)
-		wxLogWarning(wxT("Testdrive: wxDisplay may contain a bug, see testdrive.cpp for details."));
 	#endif
 
 	/* Debug-versions without Beta-code are suspicious */
@@ -115,7 +103,6 @@ void SjTestdrive1()
 
 	#ifdef SJ_BETA // (***)
 
-	SjBusyInfo::Set(wxT("Some testdrives (beta only) ..."), TRUE);
 	wxLogInfo(wxT("Testdrive: Some physical tests (beta only) ..."));
 
 	/* Test SjTools::AreFilesSame() */
@@ -125,7 +112,7 @@ void SjTestdrive1()
 		#define FILES_ZIP_ID3   wxT("d:\\mp3\\test.zip#zip:file1.mp3#id3:cover1.gif")
 		#define FILES_ZIP_ID3_S wxT("d:/mp3/test.zip#zip:file1.mp3#id3:cover1.gif")
 		if( !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3)
-		        || !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3) )
+		 || !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3) )
 			wxLogWarning(wxT("Testdrive: AreFilesSame() failed!"));
 
 		#if wxUSE_UNICODE
@@ -146,7 +133,7 @@ void SjTestdrive1()
 	{
 		wxLogInfo(wxT("Testdrive: String tests ..."));
 		if( wxURI::Unescape(wxT("%20")) != wxT(" ")
-		        || wxURI::Unescape(wxT("%25")) != wxT("%") )
+		 || wxURI::Unescape(wxT("%25")) != wxT("%") )
 		{
 			wxLogWarning(wxT("Testdrive: wxURI Tests failed"));
 		}
