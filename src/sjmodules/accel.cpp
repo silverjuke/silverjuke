@@ -1279,7 +1279,6 @@ void SjAccelModule::BuildHashes()
 SjMenu::SjMenu(long showShortcuts)
 	: wxMenu()
 {
-	memset(m_underscores, 0, 256*sizeof(bool));
 	m_showShortcuts = showShortcuts;
 }
 
@@ -1327,61 +1326,7 @@ wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind ki
 		}
 	}
 
-	// add accelerator to the text ("Open..." becomes "&Open..." etc.)
-	{
-		wxString        temp(text); // needed as we overwrite "text"
-		const wxChar*   s = temp.c_str();
-		wxChar*         d = text.GetWriteBuf((text.Len()*2+2)*sizeof(wxChar)/*worst case, string has only "&&&&&" */);
-		wxChar          c;
-		bool            accelAdded = false;
-		while( *s )
-		{
-			if( !accelAdded )
-			{
-				// get current char if a-z
-				c = 0;
-				if( *s >= wxT('A') && *s <= wxT('Z') )
-				{
-					c = *s;
-				}
-				else if( *s >= wxT('a') && *s <= wxT('z') )
-				{
-					c = *s - (wxT('a')-wxT('A'));
-				}
-
-				// character a-z found?
-				if( c )
-				{
-					if( !m_underscores[(int)c] )
-					{
-						// add accelerator
-						m_underscores[(int)c] = true;
-						accelAdded = true;
-						*d = wxT('&');
-						d++;
-					}
-				}
-			}
-
-			// mask & in source string
-			if( *s == wxT('&') )
-			{
-				*d = wxT('&');
-				d++;
-			}
-
-			// add character
-			*d = *s;
-
-			// next
-			s++;
-			d++;
-		}
-		*d = 0;
-		text.UngetWriteBuf();
-	}
-
-	// add shortcut to the text ("&Open..." becomes "&Open...\tCtrl+O")
+	// add shortcut to the text ("Open..." becomes "Open...\tCtrl+O")
 	if( m_showShortcuts )
 	{
 		wxString shortcut = g_accelModule->GetReadableShortcutByComprKey(key);

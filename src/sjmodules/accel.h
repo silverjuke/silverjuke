@@ -214,7 +214,6 @@ public:
 private:
 	wxMenuItem*     CreateMenuItem      (int id, const wxString& str, wxItemKind kind, wxMenu* subMenu);
 	long            m_showShortcuts;
-	bool            m_underscores[256];
 };
 
 
