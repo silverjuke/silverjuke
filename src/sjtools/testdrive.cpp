@@ -156,8 +156,8 @@ void SjTestdrive1()
 	/* test SjCsvTokenizer
 	*/
 	{
-		#define TEST_STR_AS_W_CHAR wxT("-abcÄÖÜ\x03B1\x1F82-")
-		#define TEST_STR_AS_UTF8   "\x2D\x61\x62\x63\xC3\x84\xC3\x96\xC3\x9C\xCE\xB1\xE1\xBE\x82\x2D"
+		#define TEST_STR_AS_W_CHAR wxT("-abc\x00C4\x00D6\x00DC\x03B1\x1F82-")
+		#define TEST_STR_AS_UTF8   "-abc\xC3\x84\xC3\x96\xC3\x9C\xCE\xB1\xE1\xBE\x82-"
 		wxString test1(TEST_STR_AS_W_CHAR);
 		wxASSERT( strcmp(test1.mb_str(wxConvUTF8), TEST_STR_AS_UTF8)==0 );
 		wxString test2(TEST_STR_AS_UTF8, wxConvUTF8);
