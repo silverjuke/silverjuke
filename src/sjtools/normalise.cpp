@@ -61,7 +61,7 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 
 	// prepare source string
 	if( flags&(SJ_OMIT_ARTIST|SJ_OMIT_ALBUM)
-	        && g_mainFrame && g_mainFrame->m_libraryModule )
+	 && g_mainFrame && g_mainFrame->m_libraryModule )
 	{
 		const SjOmitWords* omit = (flags&SJ_OMIT_ARTIST)? g_mainFrame->m_libraryModule->GetOmitArtist() : g_mainFrame->m_libraryModule->GetOmitAlbum();
 		srcString = omit->Apply(srcString);
@@ -70,12 +70,11 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 	const wxUChar*       srcPtr = (wxUChar*)srcString.c_str();
 
 	// prepare destination string
-	wxString             destString;
-	#define              destChars (16+srcString.Len()*6)   // The worst case of output length is sth. like "Ae1Ae1Ae",
-	// the numbers increase the string by 9 bytes and the
-	// umlauts by 1 byte; so 2 bytes may get 12 bytes. The
-	// "16" is for prependend "zzzzzzzzzz" and for the nullbyte.
-	wxUChar*             destStart = (wxUChar*)destString.GetWriteBuf(destChars * sizeof(wxChar));
+	#define              destChars (128+srcString.Len()*6)   // The worst case of output length is sth. like "Ae1Ae1Ae1",
+	// the numbers increase the string by 9 characters and the
+	// umlauts by 1 character; so 2 characters may become 12 characters. The
+	// "128" is for prependend "zzzzzzzzzz", for the nullcharacter and if the string is _only_ a number.
+	wxUChar*             destStart = (wxUChar*)malloc(destChars * sizeof(wxChar)); if( destStart == NULL ) { return wxEmptyString; }
 	#ifdef __WXDEBUG__
 	wxUChar*             destEnd = destStart + destChars;
 	#endif
@@ -174,7 +173,8 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 	wxASSERT( destPtr < destEnd );
 	wxASSERT( wxStrlen((wxChar*)destStart) == (size_t)(destPtr-destStart) );
 
-	destString.UngetWriteBuf((size_t)(destPtr-destStart));
+	wxString destString(destStart);
+	free(destStart);
 
 	if( (flags & SJ_EMPTY_TO_END) && destString.IsEmpty() )
 	{

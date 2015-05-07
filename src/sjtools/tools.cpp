@@ -1797,8 +1797,8 @@ bool SjTools::ParseDate_(const wxString& str__, bool keepItSimple,
 wxString SjTools::Urlencode(const wxString& in, bool encodeAsUtf8)
 {
 	const wxChar*   i = in.c_str();
-	wxString        out;
-	wxChar*         o = out.GetWriteBuf((in.Len()+1)*3*10*sizeof(wxChar) /*worst case*/);
+	wxChar*         o_base = (wxChar* )malloc((in.Len()+1)*3*10*sizeof(wxChar) /*worst case*/); if( o_base == NULL ) { return wxEmptyString; }
+	wxChar*         o = o_base;
 	wxChar          buffer2[32];
 	wxString        temp;
 
@@ -1846,25 +1846,26 @@ wxString SjTools::Urlencode(const wxString& in, bool encodeAsUtf8)
 	}
 
 	*o = 0;
-	out.UngetWriteBuf();
+	wxString out(o_base);
+	free(o_base);
 	return out;
 }
 
 
 static int hexChar2Int(wxChar c)
 {
-	if( c >= wxT('0') && c<=wxT('9') ) { return c-wxT('0');    }
+	     if( c >= wxT('0') && c<=wxT('9') ) { return c-wxT('0');    }
 	else if( c >= wxT('a') && c<=wxT('f') ) { return c-wxT('a')+10; }
 	else if( c >= wxT('A') && c<=wxT('F') ) { return c-wxT('A')+10; }
 	else                                    { return 0;             }
 }
 
 
-wxString SjTools::Urldecode(const wxString& in)
+wxString SjTools::Urldecode(const wxString& in) // always expects UTF-8
 {
 	const wxChar*   i = in.c_str();
-	wxString        out;
-	wxChar*         o = out.GetWriteBuf((in.Len()+1)*sizeof(wxChar)/*worst case*/);
+	unsigned char*  o_base = (unsigned char*)malloc((in.Len()+1)/*worst case*/); if( o_base == NULL ) { return wxEmptyString; }
+	unsigned char*  o = o_base;
 	int             v;
 
 	while( *i )
@@ -1877,24 +1878,25 @@ wxString SjTools::Urldecode(const wxString& in)
 				if( *++i )
 				{
 					v |= hexChar2Int(*i++);
-					*o++ = (wxChar)v;
+					*o++ = (unsigned char)v;
 				}
 			}
 		}
 		else if( *i == wxT('+') )
 		{
-			*o++ = wxT(' ');
+			*o++ = ' ';
 			i++;
 		}
 		else
 		{
-			*o++ = *i++;
+			*o++ = (unsigned char)*i++;
 		}
 
 	}
 
 	*o = 0;
-	out.UngetWriteBuf();
+	wxString out((const char*)o_base, wxConvUTF8);
+	free(o_base);
 	return out;
 }
 
@@ -2021,13 +2023,15 @@ wxString SjTools::ShortenUrl(const wxString& url, long maxChars)
 
 bool SjTools::ReplaceNonISO88591Characters(wxString& in, wxChar replacement)
 {
-	if( replacement > 0xFF )
+	if( replacement > 0xFF ) {
 		replacement = wxT('?');
+	}
 
 	bool            sthReplaced = false;
-	wxString        out;
+
 	const wxChar*   i = in.c_str();
-	wxChar*         o = out.GetWriteBuf((in.Len()+1)*sizeof(wxChar));
+	wxChar*         o_base = (wxChar*)malloc((in.Len()+1)*sizeof(wxChar)); if( o_base == NULL ) { in = replacement; return true; }
+	wxChar*         o = o_base;
 	while( *i )
 	{
 		if( *i > 0xFF )
@@ -2043,7 +2047,8 @@ bool SjTools::ReplaceNonISO88591Characters(wxString& in, wxChar replacement)
 		o++;
 	}
 	*o = 0;
-	out.UngetWriteBuf(in.Len());
+	wxString out(o_base);
+	free(o_base);
 	in = out;
 	return sthReplaced;
 }

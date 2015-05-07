@@ -699,8 +699,8 @@ public:
 
 	static wxString ShortenUrl          (const wxString&, long maxChars=0);
 
-	static wxString Urlencode           (const wxString&, bool encodeAsUtf8=false);
-	static wxString Urldecode           (const wxString&);
+	static wxString Urlencode           (const wxString&, bool encodeAsUtf8=true);
+	static wxString Urldecode           (const wxString&); // always decodes UTF-8
 	static wxString Htmlentities        (const wxString&);
 	static wxString Menuencode          (const wxString&);
 

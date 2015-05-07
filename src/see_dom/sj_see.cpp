@@ -618,12 +618,13 @@ wxString SeeValueToWxString(SEE_interpreter* interpr, SEE_value* value)
 #else
 		SEE_char_t* retPtr = ret->data;
 		long i, iCount = (long)ret->length;
-		wxString wx;
-		wxChar* wxPtr = wx.GetWriteBuf((iCount+1)*sizeof(wxChar));
+		wxChar* wxBase = (wxChar*)malloc((iCount+1)*sizeof(wxChar)); if( wxBase == NULL ) { return wxEmptyString; }
+		wxChar* wxPtr = wxBase;
 		for( i = 0; i < iCount; i++ )
 			wxPtr[i] = (wxChar)retPtr[i];
 		wxPtr[iCount] = 0;
-		wx.UngetWriteBuf(iCount);
+		wxString wx(wxBase);
+		free(wxBase);
 		return wx;
 #endif
 	}

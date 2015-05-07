@@ -150,13 +150,21 @@ void SjTestdrive1()
 		{
 			wxLogWarning(wxT("Testdrive: wxString::Lower()/wxString::Upper() does not work eg. for german umlauts."));
 		}
+
+		#define URLENCODE_TEST_W_CHAR wxT("+ urlencode test _-+ \x00C4\x00D6\x00DC\x03B1\x1F82") // umlaute and some greek characters
+		wxASSERT( SjTools::Urldecode(SjTools::Urlencode(URLENCODE_TEST_W_CHAR        /*encode as UTF-8*/)) == URLENCODE_TEST_W_CHAR );
+		wxASSERT( SjTools::Urldecode(SjTools::Urlencode(URLENCODE_TEST_W_CHAR, true  /*encode as UTF-8*/)) == URLENCODE_TEST_W_CHAR );
+		wxASSERT( SjTools::Urldecode(SjTools::Urlencode(URLENCODE_TEST_W_CHAR, false /*encode as ANSI */)) != URLENCODE_TEST_W_CHAR );
+
+		wxASSERT( SjNormaliseString(wxT("abc-def \x00C4,\x00D6.12345"), 0) == wxT("abcdefaeoe12345") );
+		wxASSERT( SjNormaliseString(wxT("abc-def \x00C4,\x00D6.12345"), SJ_NUM_SORTABLE) == wxT("abcdefaeoe0000012345") );
 	}
 
 
 	/* test SjCsvTokenizer
 	*/
 	{
-		#define TEST_STR_AS_W_CHAR wxT("-abc\x00C4\x00D6\x00DC\x03B1\x1F82-")
+		#define TEST_STR_AS_W_CHAR wxT("-abc\x00C4\x00D6\x00DC\x03B1\x1F82-") // umlaute and some greek characters
 		#define TEST_STR_AS_UTF8   "-abc\xC3\x84\xC3\x96\xC3\x9C\xCE\xB1\xE1\xBE\x82-"
 		wxString test1(TEST_STR_AS_W_CHAR);
 		wxASSERT( strcmp(test1.mb_str(wxConvUTF8), TEST_STR_AS_UTF8)==0 );
@@ -270,21 +278,12 @@ void SjTestdrive1()
 			wxInputStream* fsInputStream = fsFile->GetStream();
 			if( fsInputStream )
 			{
-				wxString buffer;
-				wxChar* buffer_ = buffer.GetWriteBuf(256);
-				if( buffer_ )
+				wxChar buffer_[512];
+				long bytesRead = fsInputStream->Read(buffer_, 100).LastRead(); // the test content was written using ASCII, UCS-2 or UCS-4, _not_ UTF-8!
+				buffer_[bytesRead / sizeof(wxChar)] = 0;
+				if( wxString(buffer_) != content )
 				{
-					long bytesRead = fsInputStream->Read(buffer_, 100).LastRead();
-					buffer_[bytesRead / sizeof(wxChar)] = 0;
-					buffer.UngetWriteBuf();
-					if( buffer != content )
-					{
-						wxLogWarning(wxT("Testdrive: wxFileSystem failed: Bad content in %s."), path.c_str());
-					}
-				}
-				else
-				{
-					wxLogWarning(wxT("Testdrive: wxFileSystem failed: Cannot get writebuf for %s."), path.c_str());
+					wxLogWarning(wxT("Testdrive: wxFileSystem failed: Bad content in %s."), path.c_str());
 				}
 			}
 			else
