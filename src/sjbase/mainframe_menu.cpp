@@ -274,7 +274,7 @@ void SjMainFrame::UpdateMenuBarQueue()
 
 void SjMainFrame::UpdateMenuBarView()
 {
-	m_viewMenu->Check(IDO_SAMEZOOMINALLVIEWS, g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS);
+	m_viewMenu->Check(IDO_SAMEZOOMINALLVIEWS, (g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS)!=0);
 }
 
 
@@ -309,7 +309,7 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool app
 		zoomMenu->Append(IDT_ZOOM_NORMAL);
 		zoomMenu->AppendSeparator();
 		zoomMenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
-		zoomMenu->Check(IDO_SAMEZOOMINALLVIEWS, g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS);
+		zoomMenu->Check(IDO_SAMEZOOMINALLVIEWS, (g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS)!=0);
 		viewMenu->Append(0, _("Zoom"), zoomMenu);
 	}
 

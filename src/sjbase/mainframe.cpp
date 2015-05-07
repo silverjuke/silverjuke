@@ -2029,7 +2029,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					SjTools::ToggleFlag(g_accelModule->m_flags, SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE);
 					g_tools->m_config->Write(wxT("main/accelFlags"), g_accelModule->m_flags);
 
-					m_playbackMenu->Check(IDO_START_PB_ON_ENQUEUE, g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE);
+					m_playbackMenu->Check(IDO_START_PB_ON_ENQUEUE, (g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)!=0);
 					SetDisplayMsg(_("Start playback on first enqueue")+wxString(wxT(": "))+((g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)? _("On") : _("Off")), SDM_STATE_CHANGE_MS);
 				}
 				break;

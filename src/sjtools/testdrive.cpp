@@ -199,7 +199,7 @@ void SjTestdrive1()
 			ser.AddString(TEST_STR_AS_W_CHAR);
 			ser.AddLong(666);
 			ser.AddLong(-1);
-			ser.AddFloat(123.456);
+			ser.AddFloat((float)123.456);
 			str = ser.GetResult();
 		}
 		{
