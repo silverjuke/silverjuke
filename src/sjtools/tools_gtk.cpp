@@ -42,12 +42,6 @@ wxString SjTools::GetSilverjukeProgramDir()
 }
 
 
-wxString SjTools::GetSystemProgramDir()
-{
-	return GetUserAppDataDir();
-}
-
-
 /*******************************************************************************
  * Explore - Showing Files
  ******************************************************************************/

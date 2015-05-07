@@ -599,7 +599,6 @@ public:
 	bool            IsStaticSearchPath  (const wxString& path) const { return IsStaticSearchPath(GetSearchPathIndex(path)); }
 	void            InitSearchPaths     ();
 	static wxString GetUserAppDataDir   (); // eg. c:/dokumente und einstellungen/benutzer/meinname/
-	static wxString GetSystemProgramDir (); // eg. c:/programs/
 	static wxString GetSilverjukeProgramDir
 	(); // eg. c:/programs/silverjuke/
 
