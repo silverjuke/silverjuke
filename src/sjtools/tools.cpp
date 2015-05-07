@@ -762,7 +762,7 @@ void SjTools::LoadStaticObjects()
 
 		m_staticMovehandCursor = wxCursor(image);
 	#endif
-	if( !m_staticMovehandCursor.Ok() )
+	if( !m_staticMovehandCursor.IsOk() )
 	{
 		m_staticMovehandCursor = *wxSTANDARD_CURSOR;
 	}
@@ -770,19 +770,19 @@ void SjTools::LoadStaticObjects()
 	/* create resize cursors
 	 */
 	m_staticResizeNWSECursor = wxCursor(wxCURSOR_SIZENWSE);
-	if( !m_staticResizeNWSECursor.Ok() )
+	if( !m_staticResizeNWSECursor.IsOk() )
 	{
 		m_staticResizeNWSECursor = *wxSTANDARD_CURSOR;
 	}
 
 	m_staticResizeWECursor = wxCursor(wxCURSOR_SIZEWE);
-	if( !m_staticResizeWECursor.Ok() )
+	if( !m_staticResizeWECursor.IsOk() )
 	{
 		m_staticResizeWECursor = *wxSTANDARD_CURSOR;
 	}
 
 	m_staticNoEntryCursor = wxCursor(wxCURSOR_NO_ENTRY);
-	if( !m_staticNoEntryCursor.Ok() )
+	if( !m_staticNoEntryCursor.IsOk() )
 	{
 		m_staticNoEntryCursor = *wxSTANDARD_CURSOR;
 	}
@@ -2560,7 +2560,7 @@ void SjTools::DrawText( wxDC&           dc,
 				 */
 				if( anyTabs && token.Find(wxT("\t"))!=-1 )
 				{
-					if( !normalColour.Ok() ) normalColour = dc.GetTextForeground();
+					if( !normalColour.IsOk() ) normalColour = dc.GetTextForeground();
 
 					wxStringTokenizer subtkz(token, wxT("\t"), wxTOKEN_RET_EMPTY_ALL);
 					int               subtokenX = rect.x+lineX,
@@ -2933,7 +2933,7 @@ wxImageList* SjTools::GetIconlist(bool large)
 			if( fsFile )
 			{
 				wxImage image(*(fsFile->GetStream()));
-				if( image.Ok() )
+				if( image.IsOk() )
 				{
 					int h = image.GetHeight(),
 					    w = image.GetWidth();
@@ -2967,14 +2967,14 @@ wxBitmap SjTools::GetIconBitmap(SjIcon index, bool large)
 {
 	wxBitmap& bitmaps = large? m_iconBitmapsLarge : m_iconBitmapsSmall;
 
-	if( !bitmaps.Ok() )
+	if( !bitmaps.IsOk() )
 	{
 		wxFileSystem fs;
 		wxFSFile* fsFile = fs.OpenFile(large? wxT("memory:icons32.png") : wxT("memory:icons16.png"));
 		if( fsFile )
 		{
 			wxImage image(*(fsFile->GetStream()));
-			if( image.Ok() )
+			if( image.IsOk() )
 			{
 				image.SetMaskColour(image.GetRed(0,0), image.GetGreen(0,0), image.GetBlue(0,0));
 				bitmaps = wxBitmap(image);
@@ -2986,7 +2986,7 @@ wxBitmap SjTools::GetIconBitmap(SjIcon index, bool large)
 
 	wxASSERT( index >= 0 && index < SJ_ICON_COUNT );
 
-	if( bitmaps.Ok() )
+	if( bitmaps.IsOk() )
 	{
 		int bitmapH = bitmaps.GetHeight();
 		return bitmaps.GetSubBitmap(wxRect(index*bitmapH, 0, bitmapH, bitmapH));

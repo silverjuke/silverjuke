@@ -658,7 +658,7 @@ void SjArtEditor::LoadImage(const wxString& url)
 		}
 	}
 
-	if( !m_currImage.Ok() )
+	if( !m_currImage.IsOk() )
 	{
 		wxLogError(_("Cannot open \"%s\"."), url.c_str());
 	}
@@ -688,7 +688,7 @@ void SjArtEditor::CreateBitmapFromImage()
 	GetMaxSize(maxW, maxH);
 
 	// calculate image size
-	if( m_currImage.Ok() )
+	if( m_currImage.IsOk() )
 	{
 		wxImage currImage = m_currImage.Copy(); // a simple assignment will share the data
 
@@ -733,7 +733,7 @@ void SjArtEditor::CreateBitmapFromImage()
 		m_currBitmap = new wxBitmap(currImage);
 		if( m_currBitmap )
 		{
-			if( !m_currBitmap->Ok() )
+			if( !m_currBitmap->IsOk() )
 			{
 				delete m_currBitmap;
 				m_currBitmap = NULL;

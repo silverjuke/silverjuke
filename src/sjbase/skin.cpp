@@ -307,7 +307,7 @@ void SjSkinItem::RedrawMe()
 		wxBitmap    memBitmap(m_rect.width, m_rect.height);
 		wxMemoryDC  memDc;
 		memDc.SelectObject(memBitmap);
-		if( memDc.Ok() )
+		if( memDc.IsOk() )
 		{
 			HideDragImage();
 			m_skinWindow->RedrawAll(memDc, &m_rect, 0-m_rect.x, 0-m_rect.y);
@@ -499,13 +499,13 @@ bool SjSkinBoxItem::OnImageThere(wxDC& dc, SjImgThreadObj* obj)
 	bool ret = false;
 
 	if( (m_flags & SJ_VFLAG_STRING_IS_IMAGE_URL)
-	        && obj->m_url == m_text )
+	 && obj->m_url == m_text )
 	{
 		bool drawBg = true;
 
-		if( obj->Ok()
-		        && obj->GetWidth() == m_rect.width
-		        && obj->GetHeight() == m_rect.height )
+		if( obj->IsOk()
+		 && obj->GetWidth() == m_rect.width
+		 && obj->GetHeight() == m_rect.height )
 		{
 			wxBitmap* bitmap = obj->CreateBitmap();
 			if( bitmap )
@@ -2373,12 +2373,12 @@ void SjSkinInputItem::OnSize()
 		// update font
 		if( m_skinWindow->m_inputWindowFontHeight != m_rect.height )
 		{
-			if( !m_skinWindow->m_inputWindowDefFont.Ok() )
+			if( !m_skinWindow->m_inputWindowDefFont.IsOk() )
 			{
 				m_skinWindow->m_inputWindowDefFont = iw->GetFont();
 			}
 
-			if( m_rect.height >= 18 || !m_skinWindow->m_inputWindowDefFont.Ok() )
+			if( m_rect.height >= 18 || !m_skinWindow->m_inputWindowDefFont.IsOk() )
 			{
 				wxClientDC dc(m_skinWindow);                        // use a larger font
 				wxFont iwFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
@@ -3700,7 +3700,7 @@ void SjSkinWindow::OnPaint(wxPaintEvent& event)
 	wxBitmap    memBitmap(size.x, size.y);
 	wxMemoryDC  memDc;
 	memDc.SelectObject(memBitmap);
-	if( memDc.Ok() )
+	if( memDc.IsOk() )
 	{
 		RedrawAll(memDc);
 		RedrawFinalLines(memDc);
@@ -3716,7 +3716,7 @@ void SjSkinWindow::OnPaint(wxPaintEvent& event)
 	wxBitmap    memBitmap(updateRect.width, updateRect.height);
 	wxMemoryDC  memDc;
 	memDc.SelectObject(memBitmap);
-	if( memDc.Ok() )
+	if( memDc.IsOk() )
 	{
 		RedrawAll(memDc, &updateRect, 0-updateRect.x, 0-updateRect.y);
 		RedrawFinalLines(memDc, 0-updateRect.x, 0-updateRect.y);

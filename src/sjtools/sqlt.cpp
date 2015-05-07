@@ -292,7 +292,7 @@ wxSqltDb::~wxSqltDb()
 
 void wxSqltDb::SetDefault()
 {
-	if( !Ok() )
+	if( !IsOk() )
 	{
 		wxLogError(wxT("Cannot set default database.")/*n/t*/);
 		return;

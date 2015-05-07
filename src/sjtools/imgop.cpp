@@ -131,7 +131,7 @@ bool SjImgOp::Do(wxImage& orgImage)
 		{
 			#ifdef USE_WX_RESIZE
 				wxImage modImage = orgImage.Scale(m_resizeW, m_resizeH);
-				if( modImage.Ok() )
+				if( modImage.IsOk() )
 				{
 					orgImage = modImage;
 				}
@@ -163,7 +163,7 @@ bool SjImgOp::Do(wxImage& orgImage)
 	if( m_flags & SJ_IMGOP_FLIPHORZ )
 	{
 		wxImage modImage = orgImage.Mirror(TRUE);
-		if( modImage.Ok() )
+		if( modImage.IsOk() )
 		{
 			orgImage = modImage;
 		}
@@ -172,7 +172,7 @@ bool SjImgOp::Do(wxImage& orgImage)
 	if( m_flags & SJ_IMGOP_FLIPVERT )
 	{
 		wxImage modImage = orgImage.Mirror(FALSE);
-		if( modImage.Ok() )
+		if( modImage.IsOk() )
 		{
 			orgImage = modImage;
 		}
@@ -209,7 +209,7 @@ bool SjImgOp::Do(wxImage& orgImage)
 
 		#ifdef USE_WX_RESIZE
 			wxImage modImage = orgImage.Scale(resizeW, resizeH);
-			if( modImage.Ok() )
+			if( modImage.IsOk() )
 			{
 				orgImage = modImage;
 			}
@@ -252,7 +252,7 @@ bool SjImgOp::DoCrop(wxImage& image, long cropX, long cropY, long cropW, long cr
 	if( cropW > 0 && cropH > 0 )
 	{
 		wxImage modImage = image.GetSubImage(wxRect(cropX, cropY, cropW, cropH));
-		if( modImage.Ok() )
+		if( modImage.IsOk() )
 		{
 			image = modImage;
 		}
@@ -267,7 +267,7 @@ bool SjImgOp::DoRotate(wxImage& image, long flags)
 	if( flags & SJ_IMGOP_ROTATE90 )
 	{
 		wxImage modImage = image.Rotate90(TRUE);
-		if( modImage.Ok() )
+		if( modImage.IsOk() )
 		{
 			image = modImage;
 		}
@@ -275,10 +275,10 @@ bool SjImgOp::DoRotate(wxImage& image, long flags)
 	else if( flags & SJ_IMGOP_ROTATE180 )
 	{
 		wxImage modImage = image.Mirror(TRUE);
-		if( modImage.Ok() )
+		if( modImage.IsOk() )
 		{
 			wxImage modImage2 = modImage.Mirror(FALSE);
-			if( modImage2.Ok() )
+			if( modImage2.IsOk() )
 			{
 				image = modImage2;
 			}
@@ -287,7 +287,7 @@ bool SjImgOp::DoRotate(wxImage& image, long flags)
 	else if( flags & SJ_IMGOP_ROTATE270 )
 	{
 		wxImage modImage = image.Rotate90(FALSE);
-		if( modImage.Ok() )
+		if( modImage.IsOk() )
 		{
 			image = modImage;
 		}
@@ -1152,7 +1152,7 @@ wxImage SjImgOp::CreateDummyCover(const wxString& albumDummyUrl, int wh)
 	wxBitmap    memBitmap(wh, wh);
 	wxMemoryDC  memDc;
 	memDc.SelectObject(memBitmap);
-	if( !memDc.Ok() )
+	if( !memDc.IsOk() )
 	{
 		memDc.SelectObject(wxNullBitmap);
 		return ret;

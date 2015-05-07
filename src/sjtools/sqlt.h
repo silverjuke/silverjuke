@@ -81,10 +81,10 @@ class wxSqlt;
 class wxSqltDb
 {
 public:
-	wxSqltDb                (const wxString& file);
+						wxSqltDb                (const wxString& file);
 	virtual             ~wxSqltDb               ();
 
-	bool                Ok                      () const {return m_sqlite? TRUE : FALSE; }
+	bool                IsOk                    () const {return m_sqlite? TRUE : FALSE; }
 	bool                ExistsBeforeOpening     () const {return m_dbExistsBeforeOpening;}
 	wxString            GetFile                 () const {return m_file;}
 	void                SetDefault              ();

@@ -242,9 +242,9 @@ void SjMonitorOverview::DoPaint(wxDC& dc__)
 	wxDC* drawDc = &dc__;
 
 	// prepare offscreen drawing
-	if( !m_offscreenBitmap.Ok()
-	        ||  m_offscreenBitmap.GetWidth() != clientSize.x
-	        ||  m_offscreenBitmap.GetHeight() != clientSize.y )
+	if( !m_offscreenBitmap.IsOk()
+	 ||  m_offscreenBitmap.GetWidth() != clientSize.x
+	 ||  m_offscreenBitmap.GetHeight() != clientSize.y )
 	{
 		m_offscreenBitmap.Create(clientSize.x, clientSize.y);
 		m_offscreenDc.SelectObject(m_offscreenBitmap);

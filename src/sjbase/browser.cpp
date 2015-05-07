@@ -1094,7 +1094,7 @@ void SjBrowserWindow::DrawUpText(wxDC& dc, const wxString& textup, long x, long 
 	wxBitmap memBitmap1(textw, texth);
 	wxMemoryDC memDc;
 	memDc.SelectObject(memBitmap1);
-	if( memDc.Ok() )
+	if( memDc.IsOk() )
 	{
 		memDc.SetBrush(g_mainFrame->m_workspaceColours[SJ_COLOUR_NORMAL].bgBrush);
 		memDc.SetPen(*wxTRANSPARENT_PEN);
@@ -1105,13 +1105,13 @@ void SjBrowserWindow::DrawUpText(wxDC& dc, const wxString& textup, long x, long 
 		memDc.DrawText(textup, 0, 0);
 
 		wxImage memImage = memBitmap1.ConvertToImage();
-		if( memImage.Ok() )
+		if( memImage.IsOk() )
 		{
 			memImage = memImage.Rotate90(FALSE/*not clockwise*/);
-			if( memImage.Ok() )
+			if( memImage.IsOk() )
 			{
 				wxBitmap memBitmap2(memImage);
-				if( memBitmap2.Ok() )
+				if( memBitmap2.IsOk() )
 				{
 					dc.SetBrush(g_mainFrame->m_workspaceColours[SJ_COLOUR_NORMAL].bgBrush);
 					dc.SetPen(*wxTRANSPARENT_PEN);
@@ -1175,7 +1175,7 @@ void SjBrowserWindow::GetFontPxSizes(wxDC& dc,
                                      int& fontSpace, // this is the space between the left/mid/right columns
                                      int& fontStdHeight)
 {
-	if( g_mainFrame->m_currStdFont.Ok() )
+	if( g_mainFrame->m_currStdFont.IsOk() )
 	{
 		wxCoord w1, w2, h2;
 		dc.SetFont(g_mainFrame->m_currStdFont);

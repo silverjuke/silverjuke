@@ -859,7 +859,7 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 		return true;
 	}
 	else if( (filenamesCount == 1 && m_moduleSystem.FindImageHandlerByExt(ext))
-	         || (data->m_bitmapData && data->m_bitmapData->GetBitmap().Ok()) )
+	         || (data->m_bitmapData && data->m_bitmapData->GetBitmap().IsOk()) )
 	{
 		// open an image - this should be handled by the browser
 		if( m_browser )

@@ -122,7 +122,7 @@ SjLogListCtrl::SjLogListCtrl(SjLogGui* logGui, wxWindow* parent, wxWindowID id, 
 	for ( size_t icon = 0; icon < WXSIZEOF(icons); icon++ )
 	{
 		wxBitmap bmp = wxArtProvider::GetBitmap(icons[icon], wxART_MESSAGE_BOX, wxSize(16, 16));
-		if ( bmp.Ok() )
+		if ( bmp.IsOk() )
 			imageList->Add(bmp);
 	}
 	wxBitmap bmp(empty_xpm);

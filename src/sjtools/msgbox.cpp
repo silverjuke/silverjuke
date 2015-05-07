@@ -98,7 +98,7 @@ SjMessageDlg::SjMessageDlg(const wxString& message, const wxString& caption,
 	sizer1->Add(sizer2, 0, wxALL, SJ_DLG_SPACE);
 
 	// icon
-	if( bitmap__ && bitmap__->Ok() )
+	if( bitmap__ && bitmap__->IsOk() )
 	{
 		wxStaticBitmap *icon = new wxStaticBitmap(this, -1, *bitmap__);
 		sizer2->Add(icon, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, SJ_DLG_SPACE);

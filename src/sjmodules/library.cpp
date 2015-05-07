@@ -1952,7 +1952,7 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 					}
 				}
 
-				if( tempImage.Ok() )
+				if( tempImage.IsOk() )
 				{
 					SjImgOp::DoResize(tempImage, THUMBNAIL_SIZE, THUMBNAIL_SIZE, SJ_IMGOP_SMOOTH);
 					thumbnailBitmap = wxBitmap(tempImage);
@@ -1967,7 +1967,7 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 			if( ask )
 			{
 				thumbnailBitmap = srcData->m_bitmapData->GetBitmap();
-				if( !thumbnailBitmap.Ok() )
+				if( !thumbnailBitmap.IsOk() )
 				{
 					wxLogError(wxT("AddArt(): Cannot create thumbnail.")/*n/t*/);
 					return FALSE;
@@ -2048,7 +2048,7 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 		else if( srcData->m_bitmapData )
 		{
 			wxBitmap bitmap = srcData->m_bitmapData->GetBitmap();
-			if( !bitmap.Ok() )
+			if( !bitmap.IsOk() )
 			{
 				wxLogError(wxT("AddArt(): Cannot create bitmap.")/*n/t*/);
 				return FALSE;

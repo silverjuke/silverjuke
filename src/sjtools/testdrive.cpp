@@ -412,7 +412,7 @@ void SjTestdrive1()
 
 		{	// re-open the test file
 			wxSqltDb db(path2);
-			if( db.Ok() )
+			if( db.IsOk() )
 			{
 				// check a query
 				wxSqlt sql(&db);

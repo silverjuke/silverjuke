@@ -1619,7 +1619,7 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 
 	// load image
 	wxImage wimage(*(fsFile->GetStream()));
-	if( !wimage.Ok() )
+	if( !wimage.IsOk() )
 	{
 		LogError(wxString::Format(wxT("Cannot read image data from \"%s\".")/*n/t*/, file.c_str()), tagPosition);
 		delete fsFile;
@@ -1740,7 +1740,7 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 				else
 				{
 					wxImage wsubimage = wimage.GetSubImage(rect);
-					if( wsubimage.Ok() )
+					if( wsubimage.IsOk() )
 					{
 						if( wimage.HasAlpha() && !wsubimage.HasAlpha() )
 						{
@@ -1766,7 +1766,7 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 
 						wxBitmap* currBitmap = new wxBitmap(wsubimage);
 						if( currBitmap
-						 && currBitmap->Ok() )
+						 && currBitmap->IsOk() )
 						{
 							image->m_subimages[y*subimageXCount + x] = currBitmap;
 						}

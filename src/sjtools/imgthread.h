@@ -41,7 +41,7 @@ public:
 	wxString        m_errors;
 
 
-	bool            Ok() const          { return m_image.Ok(); }
+	bool            IsOk() const        { return m_image.IsOk(); }
 	int             GetWidth() const    { return m_image.GetWidth(); }
 	int             GetHeight() const   { return m_image.GetHeight(); }
 

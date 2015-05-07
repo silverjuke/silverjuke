@@ -735,12 +735,12 @@ wxBitmap* SjImgThreadObj::CreateBitmap() const
 	// and non-main threads are not allowed to use GUI operations (deleting bitmaps is also a GUI operation as eg. some IDs and handles may be locked)
 
 	wxASSERT( wxThread::IsMain() ); // non-main threads may not draw nor use GUI operations!
-	if( m_image.Ok() )
+	if( m_image.IsOk() )
 	{
 		wxBitmap* bitmap = new wxBitmap(m_image);
 		if( bitmap )
 		{
-			if( bitmap->Ok() )
+			if( bitmap->IsOk() )
 			{
 				return bitmap; // success
 			}
@@ -761,7 +761,7 @@ wxString SjImgThreadObj::GetDiskCacheName() const
 
 long SjImgThreadObj::GetBytes() const
 {
-	if( m_image.Ok() )
+	if( m_image.IsOk() )
 	{
 		return m_image.GetWidth() * m_image.GetHeight() * 3;
 	}
@@ -802,7 +802,7 @@ bool SjImgThreadObj::LoadFromFile()
 		}
 	}
 
-	if( m_image.Ok() )
+	if( m_image.IsOk() )
 	{
 		objOk = TRUE;
 		m_op.Do(m_image);
@@ -832,7 +832,7 @@ void SjImgThreadObj::SaveToDiskCache()
 		wxString tempName = g_tools->m_cache.AddToCache(GetDiskCacheName());
 		if( !tempName.IsEmpty() )
 		{
-			if( m_image.Ok() )
+			if( m_image.IsOk() )
 			{
 				if( !m_image.SaveFile(tempName, wxBITMAP_TYPE_BMP) )
 				{

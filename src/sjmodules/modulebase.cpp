@@ -121,7 +121,7 @@ void SjModuleSystem::Init()
 
 		// ...open database
 		wxSqltDb* db = new wxSqltDb(g_tools->m_dbFile);
-		if( !db->Ok() ) { SjMainApp::FatalError(); }
+		if( !db->IsOk() ) { SjMainApp::FatalError(); }
 		db->SetDefault();
 
 		// ...the database version: if the major version of the database is

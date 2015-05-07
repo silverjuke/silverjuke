@@ -157,7 +157,7 @@ void SjVisImgBg::SetSize(const wxSize& newSize)
 	wxASSERT( wxThread::IsMain() );
 
 	if( (newSize.x == m_scaledWidth && newSize.y == m_scaledHeight)
-	        || !m_orgImage.Ok() )
+	 || !m_orgImage.IsOk() )
 		return;
 
 	m_scaledImage = m_orgImage.Copy();
@@ -182,14 +182,14 @@ void SjVisImgBg::DrawBackground(wxDC& dc)
 {
 	wxASSERT( wxThread::IsMain() );
 
-	if( m_scaledImage.Ok() )
+	if( m_scaledImage.IsOk() )
 	{
 		if( m_scaledBitmap == NULL )
 		{
 			m_scaledBitmap = new wxBitmap(m_scaledImage);
 		}
 
-		if( m_scaledBitmap->Ok() )
+		if( m_scaledBitmap->IsOk() )
 		{
 			dc.DrawBitmap(*m_scaledBitmap, 0, 0);
 			return;

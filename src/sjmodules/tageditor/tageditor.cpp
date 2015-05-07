@@ -126,7 +126,7 @@ SjTagEditorDlg::SjTagEditorDlg(wxWindow* parent, bool multiEdit)
 	// get line height
 	m_dlgLineHeight = 0;
 	wxFont font( GetFont() );
-	if (!font.Ok())
+	if (!font.IsOk())
 	{
 		font = *wxSWISS_FONT;
 	}
