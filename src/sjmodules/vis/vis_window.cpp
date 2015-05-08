@@ -345,7 +345,8 @@ void SjVisImpl::ShowContextMenu(int x, int y)
 		m.AppendSeparator();
 
 		// add renderer options
-		m.Append(IDC_RENDERER_TITLE, wxString::Format(_("Options for \"%s\""), m_renderer? m_renderer->m_name.c_str() : wxT("..."))+wxT(":"));
+		wxString rendererName = m_renderer? m_renderer->m_name : wxString(wxT("..."));
+		m.Append(IDC_RENDERER_TITLE, wxString::Format(_("Options for \"%s\""), rendererName.c_str()) + wxT(":"));
 		m.Enable(IDC_RENDERER_TITLE, false);
 		if( m_renderer )
 		{

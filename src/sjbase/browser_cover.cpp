@@ -1338,8 +1338,9 @@ void SjCoverBrowser::DoPaint(wxDC& dc)
 							}
 						}
 
-						if( texts[0].IsEmpty() )
+						if( texts[0].IsEmpty() ) {
 							texts[0].Printf(_("%s tracks"), SjTools::FormatNumber(trackCount).c_str());
+						}
 
 						// draw text
 						for( int i=0; i<m_linesBelowCover; i++ )

@@ -664,17 +664,17 @@ void SjByteVector::appendString(const wxString& s, SjStringType appendedEncoding
 	switch( appendedEncoding )
 	{
 		case SJ_LATIN1:
-#if wxUSE_UNICODE
-			iCount = s.Len();
-			for( i = 0; i < iCount; i++ )
-			{
-				wchar = s.GetChar(i);
-				d->appendChar(wchar>0xFF? '?' : wchar, 1);
-			}
-			// d->append((unsigned char)0, 1); -- no implicit null-characters!
-#else
-			append((unsigned char*)s.c_str());
-#endif
+			#if wxUSE_UNICODE
+				iCount = s.Len();
+				for( i = 0; i < iCount; i++ )
+				{
+					wchar = s.GetChar(i);
+					d->appendChar(wchar>0xFF? '?' : wchar, 1);
+				}
+				// d->append((unsigned char)0, 1); -- no implicit null-characters!
+			#else
+				append(static_cast<const wxChar*>(s.c_str()));
+			#endif
 			break;
 
 		case SJ_UTF16:
@@ -707,7 +707,7 @@ void SjByteVector::appendString(const wxString& s, SjStringType appendedEncoding
 		case SJ_UTF8:
 		{
 #if wxUSE_UNICODE
-			wxCharBuffer tempBuffer = s.mb_str(wxConvUTF8);
+			const wxCharBuffer tempBuffer = s.mb_str(wxConvUTF8);
 			const char* tempPtr = tempBuffer.data();
 			d->appendArray((const unsigned char*)tempPtr, strlen(tempPtr));
 #else

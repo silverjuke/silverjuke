@@ -96,11 +96,11 @@ bool SjByteFile::openForWriting()
 		if( !localFileName.IsEmpty() )
 		{
 			m_file__triedOpening = TRUE;
-#if defined(__WXMSW__) && wxUSE_UNICODE
-			m_file__ = _wfopen(getLocalFileName().c_str(), wxT("rb+")); // the "b" for BINARY is really important!!! at least on MSW
-#else
-			m_file__ = fopen(getLocalFileName().fn_str(), "rb+"); // the "b" for BINARY is really important!!! at least on MSW - is fn_str() wxConvLibc?
-#endif
+			#if defined(__WXMSW__) && wxUSE_UNICODE
+				m_file__ = _wfopen(static_cast<const wxChar*>(getLocalFileName().c_str()), wxT("rb+")); // the "b" for BINARY is really important!!! at least on MSW
+			#else
+				m_file__ = fopen(getLocalFileName().fn_str(), "rb+"); // the "b" for BINARY is really important!!! at least on MSW - is fn_str() wxConvLibc?
+			#endif
 			if( m_file__ )
 			{
 				off_t offset = m_inputStream__->TellI();

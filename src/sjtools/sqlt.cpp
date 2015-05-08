@@ -212,9 +212,9 @@ wxSqltDb::wxSqltDb(const wxString& file)
 	#endif
 
 	#if wxUSE_UNICODE
-	wxCharBuffer fileCharBuf = file.mb_str(*mbConvFilename);
+	const wxCharBuffer fileCharBuf = file.mb_str(*mbConvFilename);
 	#else
-	wxCharBuffer fileCharBuf = mbConvFilename->cWC2MB(file.wc_str(wxConvLocal));;
+	const wxCharBuffer fileCharBuf = mbConvFilename->cWC2MB(file.wc_str(wxConvLocal));;
 	#endif
 	const char* fileSqlite3Str = fileCharBuf.data();
 

@@ -56,7 +56,7 @@
 		 wxString a##WxStr = wxString((a), wxConvUTF8);
 
 	#define WXSTRING_TO_SQLITE3(a) \
-		 wxCharBuffer a##__tempCharBuf = (a).mb_str(wxConvUTF8); \
+		 const wxCharBuffer a##__tempCharBuf = (a).mb_str(wxConvUTF8); \
 		 const char* a##Sqlite3Str = a##__tempCharBuf.data();
 
 #else

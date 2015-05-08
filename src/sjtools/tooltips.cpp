@@ -175,7 +175,7 @@ void SjTipWindow::Adjust(const wxString& text, wxCoord maxLength)
 	m_heightLine = 0;
 
 	bool breakLine = false;
-	for ( const wxChar *p = text.c_str(); ; p++ )
+	for ( const wxChar *p = static_cast<const wxChar*>(text.c_str()); ; p++ )
 	{
 		if ( *p == _T('\n') || *p == _T('\0') )
 		{

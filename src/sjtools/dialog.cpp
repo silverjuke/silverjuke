@@ -115,13 +115,13 @@ wxSizer* SjDialog::CreateButtons(wxWindow* this_, long flags,
 
 	if( flags & SJ_DLG_OK )
 	{
-		buttonDefault = new wxButton(this_, wxID_OK, okTitle.IsEmpty()? _("OK") : okTitle.c_str());
+		buttonDefault = new wxButton(this_, wxID_OK, okTitle.IsEmpty()? wxString(_("OK")) : okTitle);
 		buttonSizer->Add(buttonDefault, 0, 0, SJ_DLG_SPACE);
 	}
 
 	if( flags & SJ_DLG_CANCEL )
 	{
-		b = new wxButton(this_, wxID_CANCEL,  cancelTitle.IsEmpty()? _("Cancel") : cancelTitle.c_str());
+		b = new wxButton(this_, wxID_CANCEL,  cancelTitle.IsEmpty()? wxString(_("Cancel")) : cancelTitle);
 		buttonSizer->Add(b, 0, wxLEFT, SJ_DLG_SPACE);
 	}
 

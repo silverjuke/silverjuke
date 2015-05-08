@@ -1605,7 +1605,7 @@ bool SjLibraryModule::CombineTracksToAlbums()
 			}
 
 			// get a-z
-			thisAz = (int)currAlbum->m_sort.c_str()[0];
+			thisAz = (int)(currAlbum->m_sort[0]);
 			if( thisAz < 'a' )
 			{
 				thisAz = (int)'a';
@@ -3996,8 +3996,8 @@ void SjLibraryModule::UpdateRatingMenu(SjMenu& m, int baseId, long rating, long 
 		}
 
 		m.SetLabel(baseId+6,    rating?
-		           wxString::Format(trackCount>1?_("Average rating: %s"):_("Rating: %s"), chars.c_str()).c_str()
-			           :   _("Rating") );
+		           wxString::Format(trackCount>1?_("Average rating: %s"):_("Rating: %s"), chars.c_str())
+			           :   wxString(_("Rating")) );
 	}
 	else
 	{

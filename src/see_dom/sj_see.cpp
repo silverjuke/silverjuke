@@ -695,7 +695,7 @@ double SeeValueToDouble(SEE_interpreter* interpr, SEE_value* value)
 SEE_string* WxStringToSeeString(SEE_interpreter* interpr, const wxString& src)
 {
 	long            srcLen = src.Len(), i;
-	const wxChar*   srcPtr = src.c_str();
+	const wxChar*   srcPtr = static_cast<const wxChar*>src.c_str();
 	SEE_string*     dest = SEE_string_new(interpr, srcLen); // the object is freed in the garbage collection
 	SEE_char_t*     destPtr = dest->data;
 

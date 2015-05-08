@@ -1796,7 +1796,7 @@ bool SjTools::ParseDate_(const wxString& str__, bool keepItSimple,
 
 wxString SjTools::Urlencode(const wxString& in, bool encodeAsUtf8)
 {
-	const wxChar*   i = in.c_str();
+	const wxChar*   i = static_cast<const wxChar*>(in.c_str());
 	wxChar*         o_base = (wxChar* )malloc((in.Len()+1)*3*10*sizeof(wxChar) /*worst case*/); if( o_base == NULL ) { return wxEmptyString; }
 	wxChar*         o = o_base;
 	wxChar          buffer2[32];
@@ -1822,7 +1822,7 @@ wxString SjTools::Urlencode(const wxString& in, bool encodeAsUtf8)
 			if( encodeAsUtf8 )
 			{
 				temp.Printf(wxT("%c"), *i);
-				wxCharBuffer            utf8Buf = temp.mb_str(wxConvUTF8);
+				const wxCharBuffer      utf8Buf = temp.mb_str(wxConvUTF8);
 				const unsigned char*    utf8Ptr = (unsigned char*)utf8Buf.data();
 				while( *utf8Ptr )
 				{
@@ -1863,7 +1863,7 @@ static int hexChar2Int(wxChar c)
 
 wxString SjTools::Urldecode(const wxString& in) // always expects UTF-8
 {
-	const wxChar*   i = in.c_str();
+	const wxChar*   i = static_cast<const wxChar*>(in.c_str());
 	unsigned char*  o_base = (unsigned char*)malloc((in.Len()+1)/*worst case*/); if( o_base == NULL ) { return wxEmptyString; }
 	unsigned char*  o = o_base;
 	int             v;
@@ -2029,7 +2029,7 @@ bool SjTools::ReplaceNonISO88591Characters(wxString& in, wxChar replacement)
 
 	bool            sthReplaced = false;
 
-	const wxChar*   i = in.c_str();
+	const wxChar*   i = static_cast<const wxChar*>(in.c_str());
 	wxChar*         o_base = (wxChar*)malloc((in.Len()+1)*sizeof(wxChar)); if( o_base == NULL ) { in = replacement; return true; }
 	wxChar*         o = o_base;
 	while( *i )
@@ -3346,7 +3346,7 @@ SjLineTokenizer::SjLineTokenizer(const wxString& str)
 	m_data = (wxChar*)malloc(charsInclNull * sizeof(wxChar));
 	if( m_data == NULL ) return;
 
-	memcpy(m_data, str.c_str(), charsInclNull * sizeof(wxChar));
+	memcpy(m_data, static_cast<const wxChar*>(str.c_str()), charsInclNull * sizeof(wxChar));
 	m_data[charsInclNull-1] = 0;
 
 	m_nextLineStart = m_data;

@@ -56,7 +56,7 @@ static wxString CreateTestFileUsingWxFile(const wxString& fileName, const wxStri
 
 	wxFile f;
 	f.Create(path, TRUE);
-	f.Write(content.c_str(), content.Len() * sizeof(wxChar));
+	f.Write(static_cast<const wxChar*>(content.c_str()), content.Len() * sizeof(wxChar));
 
 	return path;
 }
@@ -73,11 +73,6 @@ void SjTestdrive1()
 	/* older versions of wxWidgets are incompatible (in fact, the wxWidgets interface has changed) */
 	#if !wxCHECK_VERSION(2, 8, 0)
 		#error at least wxWidgets 2.8 required
-	#endif
-
-	/* for newer versions, we have to check the changelog first (eg. the behaviour of c_str() has changed ...) */
-	#if wxCHECK_VERSION(3, 0, 0)
-		#error wxWidgets 3 will cause problems, use wxWidgets 2.8 instead
 	#endif
 
 	/* Make sure, HTTP Auhorization is added to http.cpp in all used releases (see remarks like EDIT BY ME in wx/http.cpp and wx/http.h) */
@@ -158,6 +153,9 @@ void SjTestdrive1()
 
 		wxASSERT( SjNormaliseString(wxT("abc-def \x00C4,\x00D6.12345"), 0) == wxT("abcdefaeoe12345") );
 		wxASSERT( SjNormaliseString(wxT("abc-def \x00C4,\x00D6.12345"), SJ_NUM_SORTABLE) == wxT("abcdefaeoe0000012345") );
+
+		wxString testindex(wxT("ab"));
+		wxASSERT( testindex[0] == (wxChar)'a' && (int)testindex[1] == 98 ); // check if we can get a character from the string using the [] operator
 	}
 
 
@@ -167,7 +165,7 @@ void SjTestdrive1()
 		#define TEST_STR_AS_W_CHAR wxT("-abc\x00C4\x00D6\x00DC\x03B1\x1F82-") // umlaute and some greek characters
 		#define TEST_STR_AS_UTF8   "-abc\xC3\x84\xC3\x96\xC3\x9C\xCE\xB1\xE1\xBE\x82-"
 		wxString test1(TEST_STR_AS_W_CHAR);
-		wxASSERT( strcmp(test1.mb_str(wxConvUTF8), TEST_STR_AS_UTF8)==0 );
+		wxASSERT( strcmp(static_cast<const char*>(test1.mb_str(wxConvUTF8)), TEST_STR_AS_UTF8)==0 );
 		wxString test2(TEST_STR_AS_UTF8, wxConvUTF8);
 		wxASSERT( test2 == TEST_STR_AS_W_CHAR );
 

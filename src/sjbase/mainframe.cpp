@@ -2967,7 +2967,7 @@ void SjMainFrame::UpdateSearchInfo(long numTracksRemoved)
 		v.string = SjAdvSearchModule::FormatResultString(
 		               m_searchStat.m_totalResultCount,
 		               m_search.m_adv.IsSet()?
-		               m_search.m_adv.GetName().c_str() : wxT(""));
+		               m_search.m_adv.GetName() : wxString());
 	}
 
 	SetSkinTargetValue(IDT_SEARCH_INFO, v);

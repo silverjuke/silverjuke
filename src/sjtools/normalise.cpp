@@ -67,18 +67,18 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 		srcString = omit->Apply(srcString);
 	}
 
-	const wxUChar*       srcPtr = (wxUChar*)srcString.c_str();
+	const wxChar*        srcPtr = static_cast<const wxChar*>(srcString.c_str());
 
 	// prepare destination string
 	#define              destChars (128+srcString.Len()*6)   // The worst case of output length is sth. like "Ae1Ae1Ae1",
 	// the numbers increase the string by 9 characters and the
 	// umlauts by 1 character; so 2 characters may become 12 characters. The
 	// "128" is for prependend "zzzzzzzzzz", for the nullcharacter and if the string is _only_ a number.
-	wxUChar*             destStart = (wxUChar*)malloc(destChars * sizeof(wxChar)); if( destStart == NULL ) { return wxEmptyString; }
+	wxChar*              destStart = (wxChar*)malloc(destChars * sizeof(wxChar)); if( destStart == NULL ) { return wxEmptyString; }
 	#ifdef __WXDEBUG__
-	wxUChar*             destEnd = destStart + destChars;
+	wxChar*              destEnd = destStart + destChars;
 	#endif
-	wxUChar*             destPtr = destStart;
+	wxChar*              destPtr = destStart;
 
 	// start conversion
 	int                  numberLen, i;
@@ -112,7 +112,7 @@ wxString SjNormaliseString(const wxString& srcString__dontUse, long flags)
 					wxASSERT( destPtr < destEnd );
 				}
 
-				const wxUChar* numberStart = srcPtr;
+				const wxChar* numberStart = srcPtr;
 				numberLen = 0;
 				while(
 					#if wxUSE_UNICODE

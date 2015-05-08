@@ -153,7 +153,7 @@ private:
 	void            Data2Dlg_CopyAllData();
 	void            Data2Dlg_CopyInfo   (bool allUrls);
 	void            Data2Dlg_CopySingleData (int idEdit, const wxString&);
-	void            Data2Dlg_CopySingleData (int idEdit, long v) { Data2Dlg_CopySingleData(idEdit, v>0? wxString::Format(wxT("%lu"), v).c_str() : wxEmptyString); }
+	void            Data2Dlg_CopySingleData (int idEdit, long v) { Data2Dlg_CopySingleData(idEdit, v>0? wxString::Format(wxT("%lu"), v) : wxString()); }
 
 	// Transferring dialog -> data
 	void            Dlg2Data_CopyAll    (SjTagEditorPlugin*, bool& reloadData, bool& canceled);

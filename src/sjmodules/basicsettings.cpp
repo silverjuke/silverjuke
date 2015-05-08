@@ -959,7 +959,7 @@ void SjBasicSettingsConfigPage::GetLittleMiscOptions(SjArrayLittleOption& lo)
 		{
 			wxString currCanonicalName = langCanonicalNames[i];
 			const wxLanguageInfo* info = SjTools::FindLanguageInfo(currCanonicalName);
-			wxString txt(info? info->Description.c_str() : wxT("Unknown language")) /*n/t*/;
+			wxString txt(info? info->Description : wxString(wxT("Unknown language"))) /*n/t*/;
 			txt << wxT(" (") << currCanonicalName << wxT(")");
 			if( langCanonicalNames.Index(currCanonicalName) < i ) {
 				txt += wxT(" (") + SjTools::ShortenUrl(langFiles[i]) + wxT(")");

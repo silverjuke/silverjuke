@@ -263,7 +263,7 @@ public:
 		xine_event_create_listener_thread(m_event_queue, xine_event_listener_cb, (void*)this);
 
 		// open a URL for the stream
-		if( !xine_open(m_stream, m_url.mb_str(wxConvUTF8)) ) {
+		if( !xine_open(m_stream, static_cast<const char*>(m_url.mb_str(wxConvUTF8))) ) {
 			cleanup();
 			wxLogError(wxT("xine_open() failed."));
 			return false;
@@ -338,7 +338,7 @@ void SjPlayer::DoPlay(long ms, bool fadeToPlay) // press on play
 
 		// open xine output ports (currently audio only)
 		if( m_impl->m_ao_port == NULL ) {
-			m_impl->m_ao_port = xine_open_audio_driver(m_impl->m_xine , m_impl->m_iniDevice.mb_str(wxConvUTF8), NULL);
+			m_impl->m_ao_port = xine_open_audio_driver(m_impl->m_xine , static_cast<const char*>(m_impl->m_iniDevice.mb_str(wxConvUTF8)), NULL);
 			if( m_impl->m_ao_port == NULL ) {
 				wxLogError(wxT("Play()/xine_open_audio_driver() failed."));
 				return;

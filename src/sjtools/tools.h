@@ -203,33 +203,21 @@ public:
 	long           Insert              (const wxString& key, long value)
 	{
 		wxASSERT(value != 0);
-		return (long)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-								#if wxUSE_UNICODE
-		                          *sizeof(wxChar)
-								#endif
-		                          , (void*)value/*pData*/);
+		return (long)sjhashInsert(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar), (void*)value/*pData*/);
 	}
 
 	// Remove from hash. Returns the old element or 0 if there is no
 	// old element.
 	long            Remove              (const wxString& key)
 	{
-		return (long)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-								#if wxUSE_UNICODE
-		                          *sizeof(wxChar)
-								#endif
-		                          , NULL/*pData*/);
+		return (long)sjhashInsert(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar), NULL/*pData*/);
 	}
 
 	// Search a key and return its the value or 0 if there is no such
 	// key.
 	long            Lookup              (const wxString& key) const
 	{
-		return (long)sjhashFind(&m_hash, key.c_str(), (int)(key.Len()+1)
-								#if wxUSE_UNICODE
-		                        *sizeof(wxChar)
-								#endif
-		                       );
+		return (long)sjhashFind(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar));
 	}
 
 	// Iterate the elements, Iterate() returns one value after the other,
@@ -278,33 +266,21 @@ public:
 	void*           Insert              (const wxString& key, void* value)
 	{
 		wxASSERT(value != 0);
-		return sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-							#if wxUSE_UNICODE
-		                    *sizeof(wxChar)
-							#endif
-		                    , value/*pData*/);
+		return sjhashInsert(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar), value/*pData*/);
 	}
 
 	// Remove from hash. Returns the old element or 0 if there is no
 	// old element.
 	void*           Remove              (const wxString& key)
 	{
-		return sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-							#if wxUSE_UNICODE
-		                    *sizeof(wxChar)
-							#endif
-		                    , NULL/*pData*/);
+		return sjhashInsert(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar), NULL/*pData*/);
 	}
 
 	// Search a key and return its the value or 0 if there is no such
 	// key.
 	void*           Lookup              (const wxString& key) const
 	{
-		return sjhashFind(&m_hash, key.c_str(), (int)(key.Len()+1)
-							#if wxUSE_UNICODE
-							*sizeof(wxChar)
-							#endif
-		                 );
+		return sjhashFind(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar));
 	}
 
 	// Iterate the elements, Iterate() returns one value after the other,
@@ -352,11 +328,7 @@ public:
 	// old element so Null-values cannot be inserted.
 	void            Insert              (const wxString& key, const wxString& value)
 	{
-		wxString* oldValue = (wxString*)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-							#if wxUSE_UNICODE
-		                     *sizeof(wxChar)
-							#endif
-		                     , (void*)new wxString(value));
+		wxString* oldValue = (wxString*)sjhashInsert(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar), (void*)new wxString(value));
 		if( oldValue )
 		{
 			delete oldValue;
@@ -364,11 +336,7 @@ public:
 	}
 	void            Remove              (const wxString& key)
 	{
-		wxString* oldValue = (wxString*)sjhashInsert(&m_hash, key.c_str(), (int)(key.Len()+1)
-						#if wxUSE_UNICODE
-		                     *sizeof(wxChar)
-						#endif
-		                     , NULL);
+		wxString* oldValue = (wxString*)sjhashInsert(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar), NULL);
 		if( oldValue )
 		{
 			delete oldValue;
@@ -379,11 +347,7 @@ public:
 	// key.
 	wxString*        Lookup             (const wxString& key) const
 	{
-		return (wxString*)sjhashFind(&m_hash, key.c_str(), (int)(key.Len()+1)
-								#if wxUSE_UNICODE
-		                             *sizeof(wxChar)
-								#endif
-		                            );
+		return (wxString*)sjhashFind(&m_hash, static_cast<const wxChar*>(key.c_str()), (int)(key.Len()+1)*sizeof(wxChar));
 	}
 	/*wxString        Lookup            (const wxString& key, const wxString& defVal) const
 	                                    {
@@ -539,7 +503,7 @@ public:
 	static unsigned long	Crc32Init           ();
 	static unsigned long	Crc32Add            (unsigned long crc32, const char* buffer, int bufferBytes);
 	static unsigned long	Crc32AddLong        (unsigned long crc32, long lng)	{ return Crc32Add(crc32, (const char*)&lng, sizeof(long)); }
-	static unsigned long	Crc32AddString      (unsigned long crc32, const wxString& string) { wxCharBuffer stringBuffer = string.mb_str(wxConvUTF8); const char* stringPtr = stringBuffer.data();	return Crc32Add(crc32, stringPtr, strlen(stringPtr)); }
+	static unsigned long	Crc32AddString      (unsigned long crc32, const wxString& string) { const wxCharBuffer stringBuffer = string.mb_str(wxConvUTF8); const char* stringPtr = stringBuffer.data();	return Crc32Add(crc32, stringPtr, strlen(stringPtr)); }
 	static void     ToggleFlag          (long& bitfield, long flag) { if(bitfield&flag) {bitfield&=~flag;} else {bitfield|=flag;} }
 	static void     SetFlag             (long& bitfield, long flag, bool set) { if(set) {bitfield|=flag;} else {bitfield&=~flag;} }
 	static bool     SetFlagRetChanged   (long& bitfield, long flag, bool set) { long old=bitfield; SetFlag(bitfield, flag, set); return (old!=bitfield)/*return TRUE if changed*/; }

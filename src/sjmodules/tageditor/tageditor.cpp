@@ -1058,7 +1058,7 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 	}
 
 	// playtime
-	temp = m_dataStat.m_playtimeMs? SjTools::FormatTime(m_dataStat.m_playtimeMs>0? m_dataStat.m_playtimeMs/1000 : m_dataStat.m_playtimeMs*-1).c_str() : wxT("");
+	temp = m_dataStat.m_playtimeMs? SjTools::FormatTime(m_dataStat.m_playtimeMs>0? m_dataStat.m_playtimeMs/1000 : m_dataStat.m_playtimeMs*-1) : wxString();
 	p.Add(_("Duration"), temp, SJ_PROP_BOLD|SJ_PROP_EMPTYIFEMPTY);
 
 	// volume

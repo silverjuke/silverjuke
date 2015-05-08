@@ -394,7 +394,7 @@ bool SjMainApp::OnInit()
 				wxConnectionBase* connection = client->MakeConnection(wxT("localhost"), serviceName, topic);
 				if( connection )
 				{
-					executedSuccessfully = connection->Execute(data.c_str(), -1);
+					executedSuccessfully = connection->Execute(static_cast<const wxChar*>(data.c_str()), -1);
 					connection->Disconnect();
 					delete connection;
 				}

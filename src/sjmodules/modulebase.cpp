@@ -285,8 +285,8 @@ int SjModuleSystem_CmpModulesByAll(const SjModule** m1, const SjModule** m2)
 
 	// in versions before 1.23beta1, the internal interface was compared by a name of " ".
 	// why? to put it up in the list?
-	wxString interf1 = (*m1)->m_interface->GetName().c_str();
-	wxString interf2 = (*m2)->m_interface->GetName().c_str();
+	wxString interf1 = (*m1)->m_interface->GetName();
+	wxString interf2 = (*m2)->m_interface->GetName();
 
 	if( (*m1)->m_type == (*m2)->m_type )
 	{
@@ -308,8 +308,8 @@ int SjModuleSystem_CmpModulesByName(const SjModule** m1, const SjModule** m2)
 
 	// in versions before 1.23beta1, the internal interface was compared by a name of " ".
 	// why? to put it up in the list?
-	wxString interf1 = (*m1)->m_interface->GetName().c_str();
-	wxString interf2 = (*m2)->m_interface->GetName().c_str();
+	wxString interf1 = (*m1)->m_interface->GetName();
+	wxString interf2 = (*m2)->m_interface->GetName();
 
 	return (*m1)->m_name.CmpNoCase((*m2)->m_name);
 }
@@ -845,7 +845,7 @@ wxString SjInterfaceBase::ReadFromCache(const wxString& file, unsigned long file
 {
 	wxArrayString a;
 	ReadFromCache(file, a, fileTimestamp);
-	return a.GetCount()? a.Item(0).c_str() : wxT("");
+	return a.GetCount()? a.Item(0) : wxString();
 }
 
 
