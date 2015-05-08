@@ -35,7 +35,7 @@ AC_CHECK_HEADER([zlib.h], [], [AC_MSG_ERROR([zlib.h not found. Try eg. apt-get i
 
 # check for xine 
 # (do not define HAVE_XINE_H on success as this would disturb the include wrapper which uses the same define...)
-AC_CHECK_HEADER([xine.h], [], [AC_MSG_ERROR([xine.h not found. Try eg. apt-get install libxine-dev])])
+AC_CHECK_HEADER([xine.h], [], [AC_MSG_ERROR([xine.h not found. Try eg. apt-get install libxine2-dev])])
 
 # wxWidgets -- we assume that if wx-config is found, wxWidgets is successfully installed.
 AC_PATH_PROG(WX_CONFIG, wx-config, no, $PATH:/usr/local/bin )
