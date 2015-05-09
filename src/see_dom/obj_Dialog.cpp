@@ -374,7 +374,7 @@ IMPLEMENT_FUNCTION(dialog, alert)
 	wxWindow* parent = SjDialog::GetSuitableDlgParent();
 
 	wxWindowDisabler disabler(parent);
-	::SjMessageBox(ARG_STRING(0), HOST_DATA->GetFineName(), wxOK, parent);
+	SjMessageBox(ARG_STRING(0), HOST_DATA->GetFineName(), wxOK, parent);
 
 	RETURN_UNDEFINED;
 }
@@ -384,7 +384,7 @@ IMPLEMENT_FUNCTION(dialog, confirm)
 	wxWindow* parent = SjDialog::GetSuitableDlgParent();
 
 	wxWindowDisabler disabler(parent);
-	bool ret = ::SjMessageBox(ARG_STRING(0), HOST_DATA->GetFineName(), wxYES_NO, parent)==wxYES;
+	bool ret = SjMessageBox(ARG_STRING(0), HOST_DATA->GetFineName(), wxYES_NO, parent)==wxYES;
 
 	RETURN_BOOL( ret );
 }

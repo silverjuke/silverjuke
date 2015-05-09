@@ -95,19 +95,15 @@
 class SjSkinMlTagHandler : public wxHtmlTagHandler
 {
 public:
-	SjSkinMlTagHandler
-	(SjSkinMlParser* parser);
-	~SjSkinMlTagHandler
-	();
-	virtual wxString
-	GetSupportedTags    ();
-	virtual bool    HandleTag           (const wxHtmlTag& tag);
-	static wxString GetFormattedTag     (const wxHtmlTag& tag, bool emptyOnNoParam);
+					 SjSkinMlTagHandler  (SjSkinMlParser* parser);
+	                 ~SjSkinMlTagHandler ();
+	virtual wxString GetSupportedTags    ();
+	virtual bool     HandleTag           (const wxHtmlTag& tag);
+	static wxString  GetFormattedTag     (const wxHtmlTag& tag, bool emptyOnNoParam);
 
 private:
 	SjLLHash        m_elseStack;
-	SjSkinMlParser*
-	m_skinMlParser;
+	SjSkinMlParser* m_skinMlParser;
 	long            ParseLong           (const wxHtmlTag& tag, const wxString& paramName, long def);
 	void            ParsePos            (const wxHtmlTag& tag, const wxString& paramName, SjSkinPos& pos);
 	void            ParseImgSrc         (const wxHtmlTag& tag, SjSkinItem* item);

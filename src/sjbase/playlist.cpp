@@ -1101,7 +1101,7 @@ bool SjPlaylist::AddFromXspfOrXmlOrWpl(wxFSFile* fsFile, long addMax, long flags
 			// flush
 			if( lastLocation.IsEmpty() && !lastTrackName.IsEmpty() && !lastArtistName.IsEmpty() )
 			{
-				lastLocation = wxT("stub://") + SjTools::EnsureValidFileNameChars(lastArtistName) + wxT("-") + SjTools::EnsureValidFileNameChars(lastAlbumName) + wxT("-") + ::SjNormaliseString(lastTrackName, 0) + wxT(".mp3");
+				lastLocation = wxT("stub://") + SjTools::EnsureValidFileNameChars(lastArtistName) + wxT("-") + SjTools::EnsureValidFileNameChars(lastAlbumName) + wxT("-") + SjNormaliseString(lastTrackName, 0) + wxT(".mp3");
 				// in 99.99% of all cases, this stub location will fail, however, this creates a fine entry in the playlist
 			}
 

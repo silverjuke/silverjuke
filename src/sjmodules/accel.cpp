@@ -362,7 +362,7 @@ private:
 		m_key = (modifiers << 16) | keycode;
 
 		wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, IDC_NEWKEY);
-		GetParent()->AddPendingEvent(evt);
+		GetParent()->GetEventHandler()->AddPendingEvent(evt);
 	}
 	DECLARE_EVENT_TABLE ();
 };
@@ -595,7 +595,7 @@ bool SjLittleAccelOption::AddKey(long newKey, wxWindow* parent)
 					// if the parent is NOT set, this is a global reset action
 					// wheras we do NOT modify other keys
 					wxWindowDisabler disabler(parent);
-					if( ::SjMessageBox(
+					if( SjMessageBox(
 					            wxString::Format(_("The shortcut \"%s\" is currently assigned to the command \"%s\".\n\nDo you want to assign it to the shortcut \"%s\" now?"),
 					                             g_accelModule->GetReadableShortcutByComprKey(newKey).c_str(),
 					                             GetShortName(g_accelModule->GetCmdNameByIndex(cmdIndex)).c_str(),

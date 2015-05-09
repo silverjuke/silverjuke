@@ -383,7 +383,7 @@ private:
 	wxNotebook*     m_notebook;
 	bool            m_constructorDone;
 	void            OnNotebookChange    (wxNotebookEvent&);
-	void            OnSize              (wxSizeEvent& e) { wxPanel::OnSize(e); UpdateLittleColWidth(); }
+	void            OnSize              (wxSizeEvent& e) { UpdateLittleColWidth(); e.Skip(); }
 	DECLARE_EVENT_TABLE ()
 
 	friend class    SjBasicSettingsModule;
@@ -562,11 +562,11 @@ static int wxCALLBACK LittleCompareFunction(long item1__, long item2__, long sor
 			// sort by name
 			str1 = option1->GetName();
 			str1.Replace(wxT(":"), wxT("aaa"));
-			str1 = ::SjNormaliseString(str1, SJ_NUM_SORTABLE);
+			str1 = SjNormaliseString(str1, SJ_NUM_SORTABLE);
 
 			str2 = option2->GetName();
 			str2.Replace(wxT(":"), wxT("aaa"));
-			str2 = ::SjNormaliseString(str2, SJ_NUM_SORTABLE);
+			str2 = SjNormaliseString(str2, SJ_NUM_SORTABLE);
 
 			ret = str1.Cmp(str2);
 		}
@@ -821,7 +821,7 @@ void SjBasicSettingsConfigPage::OnLittleReset(wxCommandEvent&)
 	{
 		wxWindowDisabler disabler(topLevelWindow);
 
-		if( ::SjMessageBox(
+		if( SjMessageBox(
 		            wxString::Format(_("Do you really want to reset all %i selected commands and options to their default values?"), selectedOptionsCount),
 		            SJ_PROGRAM_NAME,
 		            wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, topLevelWindow) == wxNO )

@@ -257,8 +257,8 @@ wxString ID3v2_Tag::genre() const
 			int i, iCount = fields.GetCount();
 			for( i = 0; i < iCount; i++ )
 			{
-				wxString it = fields.Item(i);
-				int j, jCount = it.Len();
+				wxString itStr = fields.Item(i);
+				int j, jCount = itStr.Len();
 				if( jCount > 0 ) // skip empty strings as they're converted to "Blues" otherwise
 				{
 					bool isNumber = true;
@@ -271,7 +271,7 @@ wxString ID3v2_Tag::genre() const
 
 					for( j = 0; j < jCount; j++ )
 					{
-						char charIt = it.GetChar(j);
+						char charIt = itStr.GetChar(j);
 						if( charIt < '0' || charIt > '9' )
 						{
 							isNumber = false;
@@ -284,9 +284,9 @@ wxString ID3v2_Tag::genre() const
 
 					if(isNumber)
 					{
-						//int number = (*it).toInt();
+						//int number = (*itStr).toInt();
 						long number;
-						it.ToLong(&number);
+						itStr.ToLong(&number);
 						if(number >= 0 && number <= 255)
 						{
 							hasNumber = true;
@@ -295,7 +295,7 @@ wxString ID3v2_Tag::genre() const
 					}
 					else
 					{
-						genreString.append(*it);
+						genreString.append(itStr);
 					}
 				}
 			} // for

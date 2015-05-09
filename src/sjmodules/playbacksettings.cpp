@@ -928,8 +928,8 @@ static wxString SjModuleNames_GetName(const wxString& packedFileName)
 }
 static int SjModuleNames_SortNames(const wxString& s1, const wxString& s2)
 {
-	return ::SjNormaliseString(SjModuleNames_GetName(s1), SJ_NUM_SORTABLE)
-	       .Cmp(::SjNormaliseString(SjModuleNames_GetName(s2), SJ_NUM_SORTABLE));
+	return SjNormaliseString(SjModuleNames_GetName(s1), SJ_NUM_SORTABLE)
+	       .Cmp(SjNormaliseString(SjModuleNames_GetName(s2), SJ_NUM_SORTABLE));
 }
 void SjModuleNames::SortNames()
 {
@@ -1006,7 +1006,6 @@ private:
 
 	void            CloseAll            (bool apply);
 	void            Cancel              ();
-	void            OnSize              (wxSizeEvent&);
 
 	wxString        ShortenModuleName   (const wxString& str);
 
@@ -1039,7 +1038,6 @@ private:
 
 
 BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
-	EVT_SIZE                    (                               SjPlaybackSettingsConfigPage::OnSize                    )
 	EVT_COMMAND_SCROLL          (IDC_SHUFFLESLIDER,             SjPlaybackSettingsConfigPage::OnShuffleSlider           )
 	EVT_BUTTON                  (IDC_QUEUERESET,                SjPlaybackSettingsConfigPage::OnQueueReset              )
 	EVT_CHECKBOX                (IDC_TRACKSINQUEUECHECK,        SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
@@ -1123,13 +1121,6 @@ wxString SjPlaybackSettingsConfigPage::ShortenModuleName(const wxString& str__)
 	}
 
 	return str;
-}
-
-
-void SjPlaybackSettingsConfigPage::OnSize(wxSizeEvent& event)
-{
-	wxSize size;
-	wxPanel::OnSize(event);
 }
 
 

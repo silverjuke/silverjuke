@@ -282,11 +282,12 @@ SjMyMusicConfigPage::SjMyMusicConfigPage(SjMyMusicModule* myMusicModule, wxWindo
 void SjMyMusicConfigPage::OnSize(wxSizeEvent& event)
 {
 	wxSize size;
-	wxPanel::OnSize(event);
 
 	size = m_listCtrl->GetClientSize();
 	m_listCtrl->SetColumnWidth(0, size.x-8);
 	SjDialog::EnsureSelListCtrlItemVisible(m_listCtrl);
+
+	event.Skip(); // forward event to the next handler
 }
 
 

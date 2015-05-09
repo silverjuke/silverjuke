@@ -53,16 +53,14 @@ static void SjSee_abort(SEE_interpreter* interpr_, const char* msgPtr)
 
 static void* SjSee_malloc(SEE_interpreter* interpr, SEE_size_t size)
 {
-	return ::SjGcAlloc(size,
-	                   (interpr?0:SJ_GC_ALLOC_STATIC));
+	return SjGcAlloc(size, (interpr?0:SJ_GC_ALLOC_STATIC));
 }
 
 
 
 static void* SjSee_malloc_string(SEE_interpreter* interpr, SEE_size_t size)
 {
-	return ::SjGcAlloc(size,
-	                   (interpr?0:SJ_GC_ALLOC_STATIC) | SJ_GC_ALLOC_STRING);
+	return SjGcAlloc(size, (interpr?0:SJ_GC_ALLOC_STATIC) | SJ_GC_ALLOC_STRING);
 }
 
 
@@ -71,7 +69,7 @@ static void* SjSee_malloc_string(SEE_interpreter* interpr, SEE_size_t size)
 static void* SjSee_malloc_finalize(SEE_interpreter* interpr, SEE_size_t size,
                                    void (*finalizefn)(SEE_interpreter*, void*, void*), void* closure)
 {
-	return ::SjGcAlloc(size,
+	return SjGcAlloc(size,
 	                   (interpr?0:SJ_GC_ALLOC_STATIC),
 	                   (SJ_GC_PROC)finalizefn, interpr, closure);
 }
@@ -80,7 +78,7 @@ static void* SjSee_malloc_finalize(SEE_interpreter* interpr, SEE_size_t size,
 
 static void SjSee_free(SEE_interpreter* interpr, void* ptr)
 {
-	::SjGcUnref(ptr);
+	SjGcUnref(ptr);
 }
 
 
@@ -102,11 +100,11 @@ SjSee::SjSee()
 	// (initialization is delayed to the first call to Execute() - this allows us
 	// to create SjSee objects very fast even if they may be not needed.
 	m_plugin                    = NULL;
-	m_interpr                   = (SEE_interpreter*)::SjGcAlloc(sizeof(SEE_interpreter), SJ_GC_ALLOC_STATIC|SJ_GC_ZERO);
+	m_interpr                   = (SEE_interpreter*)SjGcAlloc(sizeof(SEE_interpreter), SJ_GC_ALLOC_STATIC|SJ_GC_ZERO);
 	m_interpr->host_data        = this;
 	m_interprInitialized        = false;
-	m_executeResult             = (SEE_value*)::SjGcAlloc(sizeof(SEE_value), SJ_GC_ALLOC_STATIC|SJ_GC_ZERO);
-	m_persistentAnchor          = (persistent_object*)::SjGcAlloc(sizeof(persistent_object), SJ_GC_ALLOC_STATIC|SJ_GC_ZERO);
+	m_executeResult             = (SEE_value*)SjGcAlloc(sizeof(SEE_value), SJ_GC_ALLOC_STATIC|SJ_GC_ZERO);
+	m_persistentAnchor          = (persistent_object*)SjGcAlloc(sizeof(persistent_object), SJ_GC_ALLOC_STATIC|SJ_GC_ZERO);
 	m_persistentAnchor->m_object= (SEE_object*)m_persistentAnchor;
 
 	m_timer                     = NULL;
@@ -147,9 +145,9 @@ SjSee::~SjSee()
 	}
 
 	// free interpreter structure
-	::SjGcUnref(m_interpr);
-	::SjGcUnref(m_executeResult);
-	::SjGcUnref(m_persistentAnchor);
+	SjGcUnref(m_interpr);
+	SjGcUnref(m_executeResult);
+	SjGcUnref(m_persistentAnchor);
 
 	// remove from list
 	{
@@ -363,9 +361,9 @@ bool SjSee::Execute(const wxString& script__)
 
 	// very first, do some garbarge collection (if needed)
 	// this must be done _before_ we create SjGcLocker
-	/*if( ::SjGcNeedsCleanup() )
+	/*if( SjGcNeedsCleanup() )
 	{
-	    ::SjGcCleanup(); -- done in SjGcLocker
+	    SjGcCleanup(); -- done in SjGcLocker
 	}*/
 
 	// lock the garbage collector
@@ -811,7 +809,7 @@ void SjSee::AddPersistentObject(SEE_object* newObj, SjSeePersistent scope, SEE_v
 {
 	if( newObj )
 	{
-		persistent_object* cur = (persistent_object*)::SjGcAlloc(sizeof(persistent_object), SJ_GC_ZERO);
+		persistent_object* cur = (persistent_object*)SjGcAlloc(sizeof(persistent_object), SJ_GC_ZERO);
 		cur->m_object                   = newObj;
 		cur->m_scope                    = scope;
 		cur->m_param2                   = param2;

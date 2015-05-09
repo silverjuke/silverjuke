@@ -1195,7 +1195,7 @@ void SjVirtKeybdFrame::OnMouseUp(wxMouseEvent& event)
 				// see http://www.silverjuke.net/forum/topic-1432.html
 				wxCommandEvent fwd(wxEVT_COMMAND_TEXT_ENTER, inputReceiver->GetId());
 				fwd.SetEventObject(inputReceiver);
-				inputReceiver->AddPendingEvent(fwd);
+				inputReceiver->GetEventHandler()->AddPendingEvent(fwd);
 			}
 
 			return;

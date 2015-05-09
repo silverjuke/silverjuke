@@ -158,7 +158,7 @@ extern "C"
 				SQLITE3_TO_WXSTRING(arg0)
 
 				// normalize the string regarding the given flags
-				wxString sortable = ::SjNormaliseString( arg0WxStr, flags);
+				wxString sortable = SjNormaliseString( arg0WxStr, flags);
 
 				// convert the wxString back to a sqlite string and set the result
 				WXSTRING_TO_SQLITE3(sortable)

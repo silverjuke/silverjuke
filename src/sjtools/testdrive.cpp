@@ -217,7 +217,8 @@ void SjTestdrive1()
 			float test_float = ser.GetFloat(); wxASSERT( test_float >= 123.455 && test_float <= 123.457 );
 			wxASSERT( !ser.HasErrors() );
 			// some tests behind the data ...
-			test_long = ser.GetLong(); wxASSERT( test_long == 0 );
+			test_long = ser.GetLong();
+			wxASSERT( test_long == 0 );
 			wxASSERT( ser.HasErrors() );
 		}
 	}

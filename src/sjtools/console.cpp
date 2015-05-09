@@ -118,15 +118,10 @@ SjLogListCtrl::SjLogListCtrl(SjLogGui* logGui, wxWindow* parent, wxWindowID id, 
 		"                "
 	};
 	wxImageList* imageList = new wxImageList(16, 16);
-	static const wxChar* icons[] = {wxART_ERROR, wxART_WARNING, wxART_INFORMATION };
-	for ( size_t icon = 0; icon < WXSIZEOF(icons); icon++ )
-	{
-		wxBitmap bmp = wxArtProvider::GetBitmap(icons[icon], wxART_MESSAGE_BOX, wxSize(16, 16));
-		if ( bmp.IsOk() )
-			imageList->Add(bmp);
-	}
-	wxBitmap bmp(empty_xpm);
-	imageList->Add(bmp);
+	imageList->Add( wxArtProvider::GetBitmap(wxART_ERROR,       wxART_MESSAGE_BOX, wxSize(16, 16)) );
+	imageList->Add( wxArtProvider::GetBitmap(wxART_WARNING,     wxART_MESSAGE_BOX, wxSize(16, 16)) );
+	imageList->Add( wxArtProvider::GetBitmap(wxART_INFORMATION, wxART_MESSAGE_BOX, wxSize(16, 16)) );
+	imageList->Add( wxBitmap(empty_xpm) );
 	AssignImageList(imageList, wxIMAGE_LIST_SMALL);
 
 	// init control
@@ -703,7 +698,9 @@ SjLogGui::SjLogGui()
 
 	// set active logging target to this
 	m_oldTarget = wxLog::SetActiveTarget(this);
-	//m_oldLevel  = wxLog::GetLogLevel(); wxLog::SetLogLevel(wxLOG_Info);
+	wxASSERT( wxLog::GetLogLevel() >= wxLOG_Info ); // true for wx 2.x and 3.x (we want wxLogInfo to work)
+	wxLog::SetVerbose(true); // verbose defaults to false on wx 3.x and wxLogInfo won't work therefore
+
 
 	// remember the global logging target
 	s_this = this;
@@ -901,8 +898,10 @@ void SjLogGui::Flush()
 
 		Clear();
 
-		// any errors, warnings or messages? (for "info/verbose" we do not open the dialog)
-		if( errorIndex==-1 && warningIndex==-1 && messageIndex==-1 && s_dlg==NULL )
+		// any errors or warnings? (for "info/verbose" we do not open the dialog
+		// - even not for messages in wx 3.x as they are equal to info/verbose and we use them for logging)
+		// (wxLogInfo and wxLogMessage both results in a message, however, wxLogInfo is not executed if verbose is not set)
+		if( errorIndex==-1 && warningIndex==-1 /*&& messageIndex==-1*/ && s_dlg==NULL )
 			return;
 
 		// check if we should open the dialog
@@ -981,7 +980,7 @@ void SjLogGui::OpenManually()
 			if( !s_dlg->m_showingDetails )
 			{
 				wxCommandEvent fwd(wxEVT_COMMAND_BUTTON_CLICKED, IDC_DETAILS_BUTTON);
-				s_dlg->AddPendingEvent(fwd);
+				s_dlg->GetEventHandler()->AddPendingEvent(fwd);
 			}
 			s_dlg->Raise();
 		}

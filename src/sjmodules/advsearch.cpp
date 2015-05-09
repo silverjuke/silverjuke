@@ -1140,7 +1140,7 @@ void SjRuleControls::OnTextChanged(int i, WXTYPE eventType)
 					// include/exclude a playlist
 					wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_OPENPLAYLISTDO);
 					fwd.SetExtraLong(incl? 1 : 0);
-					m_dialog->AddPendingEvent(fwd);
+					m_dialog->GetEventHandler()->AddPendingEvent(fwd);
 				}
 				else if( newValue == wxT("") )
 				{
@@ -1562,7 +1562,7 @@ bool SjAdvSearchDialog::SaveSearchInEditIfNeeded(bool askUser)
 			default:
 			{
 				wxWindowDisabler disabler(this);
-				int confirm = ::SjMessageBox(
+				int confirm = SjMessageBox(
 				                  wxString::Format(_("Do you want to save your modifications to the music selection \"%s\"?"),
 				                                   recentSearch.m_name.c_str()),
 				                  _("Music selection modified"),
@@ -2009,7 +2009,7 @@ void SjAdvSearchDialog::OnDeleteSearch(wxCommandEvent&)
 
 	{
 		wxWindowDisabler disabler(this);
-		if( ::SjMessageBox(msg, title,
+		if( SjMessageBox(msg, title,
 		                   wxYES_NO | wxICON_QUESTION | wxNO_DEFAULT, this) == wxNO )
 		{
 			return;
@@ -2054,7 +2054,7 @@ bool SjAdvSearchDialog::OnSearchCheckObviousErrors(const SjAdvSearch& advSearch,
 	if( !advSearch.IsOk(errors, warnings) )
 	{
 		wxWindowDisabler disabler(this);
-		::SjMessageBox(errors, GetTitle(), wxOK | wxICON_WARNING, this);
+		SjMessageBox(errors, GetTitle(), wxOK | wxICON_WARNING, this);
 		return FALSE;
 	}
 	return TRUE;
@@ -2071,13 +2071,13 @@ void SjAdvSearchDialog::OnSearchShowErrors(const SjAdvSearch& advSearch, wxStrin
 	{
 		// ...there are already some errors logged (mostly by a bad SQL syntax
 		// for user-defined SQL-Expressions) -> log our warning
-		::wxLogMessage(warnings);
+		wxLogWarning(warnings);
 	}
 	else
 	{
 		// ...there are no errors logged -> print our warning directly (looks better)
 		wxWindowDisabler disabler(this);
-		::SjMessageBox(warnings, GetTitle(), wxOK | wxICON_INFORMATION, this);
+		SjMessageBox(warnings, GetTitle(), wxOK | wxICON_INFORMATION, this);
 	}
 }
 
@@ -2401,7 +2401,7 @@ void SjAdvSearchModule::ReceiveMsg(int msg)
 		if( m_dialog )
 		{
 			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_SEARCHINMAINCHANGED);
-			m_dialog->AddPendingEvent(fwd);
+			m_dialog->GetEventHandler()->AddPendingEvent(fwd);
 		}
 	}
 	else if( msg == IDMODMSG_KIOSK_STARTING || msg == IDMODMSG_WINDOW_CLOSE )
@@ -2527,7 +2527,7 @@ bool SjAdvSearchModule::IncludeExclude(SjLLHash* ids, bool delPressed)
 			        || s_askedDelTime+180*1000 < thisTime )
 			{
 				wxWindowDisabler disabler(g_mainFrame);
-				if( ::SjMessageBox(
+				if( SjMessageBox(
 				            wxString::Format(_("Do you want to remove the selected track(s) from the music selection \"%s\"?"),
 				                             searchToChange.m_name.c_str()),
 				            m_name, wxYES_NO | wxICON_QUESTION | wxYES_DEFAULT, g_mainFrame) == wxNO )
@@ -2582,7 +2582,7 @@ bool SjAdvSearchModule::IncludeExclude(SjLLHash* ids, bool delPressed)
 		        || s_askedInsTime+180*1000 < thisTime )
 		{
 			wxWindowDisabler disabler(g_mainFrame);
-			if( ::SjMessageBox(
+			if( SjMessageBox(
 			            wxString::Format(_("Do you want to add the selected track(s) to the music selection \"%s\"?"),
 			                             searchToChange.m_name.c_str()),
 			            m_name, wxYES_NO | wxICON_QUESTION | wxYES_DEFAULT, g_mainFrame) == wxNO )
@@ -2804,7 +2804,7 @@ wxString SjAdvSearchModule::CheckName(long skipId, const wxString& name) const
 
 
 	// make sure, the name is empty
-	if( ::SjNormaliseString(name, 0).IsEmpty() )
+	if( SjNormaliseString(name, 0).IsEmpty() )
 	{
 		base = _("Untitled Music selection");
 	}
@@ -2831,7 +2831,7 @@ wxString SjAdvSearchModule::CheckName(long skipId, const wxString& name) const
 		{
 			testSearch = GetSearchByIndex(i, FALSE/*rules not needed*/);
 			if( testSearch.m_id != skipId
-			        && ::SjNormaliseString(testSearch.m_name, 0).Cmp(::SjNormaliseString(testName, 0)) == 0 )
+			 && SjNormaliseString(testSearch.m_name, 0).Cmp(SjNormaliseString(testName, 0)) == 0 )
 			{
 				nameOk = FALSE;
 				break;

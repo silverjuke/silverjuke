@@ -1100,7 +1100,7 @@ wxString SjModule::GetUniqueStrId(const wxString& file, int fileIndex)
 	str.Replace(wxT("/"),  wxT("X"));
 	str.Replace(wxT("\\"), wxT("X"));
 
-	return ::SjNormaliseString(str, 0);
+	return SjNormaliseString(str, 0);
 }
 
 

@@ -127,7 +127,7 @@ void SjTools::ExploreUrl(const wxString& url)
 	}
 	else
 	{
-		::wxLogError(_("Cannot open \"%s\"."), url.c_str());
+		wxLogError(_("Cannot open \"%s\"."), url.c_str());
 	}
 }
 

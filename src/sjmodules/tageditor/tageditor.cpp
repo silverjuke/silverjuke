@@ -1384,7 +1384,7 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 			if( plugin && !postModifyMsg.IsEmpty() )
 			{
 				wxWindowDisabler disabler(this);
-				::SjMessageBox(postModifyMsg, plugin->GetTitle(), wxOK|wxICON_INFORMATION, this);
+				SjMessageBox(postModifyMsg, plugin->GetTitle(), wxOK|wxICON_INFORMATION, this);
 				canceled = TRUE;
 			}
 

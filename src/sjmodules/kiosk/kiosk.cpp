@@ -75,7 +75,7 @@ private:
 	}
 	void            OnFwdToMainFrame    (wxCommandEvent& e)
 	{
-		g_mainFrame->ProcessEvent(e);
+		g_mainFrame->GetEventHandler()->ProcessEvent(e);
 	}
 
 	void            OnKeyUp             (wxKeyEvent& e)
@@ -84,7 +84,8 @@ private:
 		if( targetId )
 		{
 			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, targetId);
-			g_mainFrame->ProcessEvent(fwd);
+			g_mainFrame->GetEventHandler()->
+			ProcessEvent(fwd);
 		}
 		else
 		{

@@ -83,7 +83,7 @@ private:
 	void            SkinInfo            ();
 	void            OnSkinExplore       (wxCommandEvent&);
 	void            OnSkinWWW           (wxCommandEvent&);
-	void            OnSize(wxSizeEvent&);
+	void            OnSize              (wxSizeEvent&);
 	void            OnSearchPaths       (wxCommandEvent&);
 	void            ShowContextMenu     (wxWindow* window, const wxPoint& pt);
 
@@ -249,12 +249,11 @@ SjViewSettingsPage::~SjViewSettingsPage()
 
 void SjViewSettingsPage::OnSize(wxSizeEvent& event)
 {
-	wxSize size;
-	wxPanel::OnSize(event);
-
-	size = m_listCtrl->GetClientSize();
+	wxSize size = m_listCtrl->GetClientSize();
 	m_listCtrl->SetColumnWidth(0, size.x-8);
 	SjDialog::EnsureSelListCtrlItemVisible(m_listCtrl);
+
+	event.Skip(); // forward event to the next handler
 }
 
 
@@ -402,7 +401,7 @@ void SjViewSettingsPage::SkinInfo()
 	wxWindow* parent = SjDialog::FindTopLevel(this);
 	wxWindowDisabler disabled(parent);
 
-	::SjMessageBox(g_mainFrame->GetSkinName()
+	SjMessageBox(g_mainFrame->GetSkinName()
 	               + wxT("\n(") + g_mainFrame->GetSkinUrl() + wxT(")\n\n") + g_mainFrame->GetSkinAbout(),
 	               g_mainFrame->GetSkinName(), wxOK, parent);
 }

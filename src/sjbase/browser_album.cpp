@@ -159,7 +159,7 @@ void SjAlbumBrowser::OnMouseSelect(wxMouseEvent& event)
 	else if( found == FOUND_COVER_ARROW )
 	{
 		wxCommandEvent cmd(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_SHOW_COVERS);
-		g_mainFrame->AddPendingEvent(cmd);
+		g_mainFrame->GetEventHandler()->AddPendingEvent(cmd);
 	}
 	else if( !event.ShiftDown() && !event.ControlDown() && g_mainFrame->m_columnMixer.IsAnythingSelected() )
 	{

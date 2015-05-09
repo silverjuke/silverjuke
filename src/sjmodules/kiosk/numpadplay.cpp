@@ -61,7 +61,7 @@ SjNumpadPlayReturn SjNumpadPlayHandler::GetPressedDigitsInfo(wxString& digits, w
 	iCount = m_pressedDigits.GetCount();
 	for( i = 0; i < iCount; i++ )
 	{
-		digits.Append('0'+m_pressedDigits[i]);
+		digits.Append((wxChar)((long)'0'+m_pressedDigits[i]));
 	}
 
 	// get album and track number (if complete)

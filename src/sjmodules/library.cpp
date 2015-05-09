@@ -1002,7 +1002,7 @@ wxString SjUpdateAlbum::GetSortStr(const wxString& year) const
 	{
 		if( !m_leadArtistName.IsEmpty() )
 		{
-			return ::SjNormaliseString
+			return SjNormaliseString
 			       (
 			           lib->m_omitArtist.Apply(m_leadArtistName)
 			           +   year
@@ -1011,7 +1011,7 @@ wxString SjUpdateAlbum::GetSortStr(const wxString& year) const
 		}
 		else if( !m_albumName.IsEmpty() )
 		{
-			return ::SjNormaliseString
+			return SjNormaliseString
 			       (
 			           lib->m_omitAlbum.Apply(m_albumName)
 			           +   year
@@ -1025,43 +1025,43 @@ wxString SjUpdateAlbum::GetSortStr(const wxString& year) const
 	}
 	else if( lib->m_sort == SJ_LIBSORT_ARTIST_ALBUM_YEAR )
 	{
-		return ::SjNormaliseString
+		return SjNormaliseString
 		       (
 		           lib->m_omitArtist.Apply(m_leadArtistName)
 		           +   SORT_SEP
-		           +   ::SjNormaliseString(lib->m_omitAlbum.Apply(m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
+		           +   SjNormaliseString(lib->m_omitAlbum.Apply(m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
 		           +   year
 		           ,   SJ_NUM_SORTABLE|SJ_NUM_TO_END
 		       );
 	}
 	else if( lib->m_sort == SJ_LIBSORT_ALBUM_YEAR_ARTIST )
 	{
-		return ::SjNormaliseString
+		return SjNormaliseString
 		       (
 		           lib->m_omitAlbum.Apply(m_albumName)
 		           +   year
-		           +   ::SjNormaliseString(lib->m_omitArtist.Apply(m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
+		           +   SjNormaliseString(lib->m_omitArtist.Apply(m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
 		           ,   SJ_NUM_SORTABLE|SJ_NUM_TO_END
 		       );
 	}
 	else if( lib->m_sort == SJ_LIBSORT_ALBUM_ARTIST_YEAR )
 	{
-		return ::SjNormaliseString
+		return SjNormaliseString
 		       (
 		           lib->m_omitAlbum.Apply(m_albumName)
 		           +   SORT_SEP
-		           +   ::SjNormaliseString(lib->m_omitArtist.Apply(m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
+		           +   SjNormaliseString(lib->m_omitArtist.Apply(m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
 		           +   year
 		           ,   SJ_NUM_SORTABLE|SJ_NUM_TO_END
 		       );
 	}
 	else // lib->m_sort == SJ_LIBSORT_ARTIST_YEAR_ALBUM
 	{
-		return ::SjNormaliseString
+		return SjNormaliseString
 		       (
 		           lib->m_omitArtist.Apply(m_leadArtistName)
 		           +   year
-		           +   ::SjNormaliseString(lib->m_omitAlbum.Apply(m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
+		           +   SjNormaliseString(lib->m_omitAlbum.Apply(m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
 		           ,   SJ_NUM_SORTABLE|SJ_NUM_TO_END
 		       );
 	}
@@ -1075,7 +1075,7 @@ wxString SjUpdateAlbum::GetUrlAsHash(const wxString& url)
 	ret.Replace(wxT(":"), wxT("x"));
 	ret.Replace(wxT("/"), wxT("x"));
 	ret.Replace(wxT("\\"), wxT("x"));
-	return ::SjNormaliseString(ret, SJ_NUM_SORTABLE);
+	return SjNormaliseString(ret, SJ_NUM_SORTABLE);
 }
 
 
@@ -1303,8 +1303,8 @@ bool SjLibraryModule::CombineTracksToAlbums()
 					else if( step == 0 )
 					{
 						// "artist-album"
-						currTrackHash  = ::SjNormaliseString(m_omitArtist.Apply(currTrack->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
-						currTrackHash2 = ::SjNormaliseString(m_omitAlbum.Apply(currTrack->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
+						currTrackHash  = SjNormaliseString(m_omitArtist.Apply(currTrack->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
+						currTrackHash2 = SjNormaliseString(m_omitAlbum.Apply(currTrack->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
 						if( currTrackHash.IsEmpty() || currTrackHash2.IsEmpty() )
 						{
 							continue;
@@ -1314,7 +1314,7 @@ bool SjLibraryModule::CombineTracksToAlbums()
 					else if( step == 1 )
 					{
 						// "album" - compilations
-						currTrackHash = ::SjNormaliseString(m_omitAlbum.Apply(currTrack->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
+						currTrackHash = SjNormaliseString(m_omitAlbum.Apply(currTrack->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
 						if( currTrackHash.IsEmpty() )
 						{
 							continue;
@@ -1323,7 +1323,7 @@ bool SjLibraryModule::CombineTracksToAlbums()
 					else if( step == 2 )
 					{
 						// "artist"
-						currTrackHash = ::SjNormaliseString(m_omitArtist.Apply(currTrack->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
+						currTrackHash = SjNormaliseString(m_omitArtist.Apply(currTrack->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
 						if( currTrackHash.IsEmpty() )
 						{
 							continue;
@@ -1332,7 +1332,7 @@ bool SjLibraryModule::CombineTracksToAlbums()
 					else if( step == 3 )
 					{
 						// "genre"
-						currTrackHash = ::SjNormaliseString(m_omitArtist.Apply(currTrack->m_genreName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
+						currTrackHash = SjNormaliseString(m_omitArtist.Apply(currTrack->m_genreName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
 						if( !(m_flags&SJ_LIB_CREATEALBUMSBY_GENRE) || currTrackHash.IsEmpty() )
 						{
 							continue;
@@ -1415,8 +1415,8 @@ bool SjLibraryModule::CombineTracksToAlbums()
 							for( i = 1; i < trackIdsCount; i++ )
 							{
 								currTrack = (SjUpdateAlbumTrack*)allTracks.Lookup(trackIds->Item(i));
-								if( ::SjNormaliseString(currAlbum->m_leadArtistName, 0)
-								        != ::SjNormaliseString(currTrack->m_leadArtistName, 0) )
+								if( SjNormaliseString(currAlbum->m_leadArtistName, 0)
+								 != SjNormaliseString(currTrack->m_leadArtistName, 0) )
 								{
 									currAlbum->m_leadArtistName.Clear();
 								}
@@ -1466,27 +1466,27 @@ bool SjLibraryModule::CombineTracksToAlbums()
 							wxASSERT(!currAlbum->m_leadArtistName.IsEmpty());
 							wxASSERT(!currAlbum->m_albumName.IsEmpty());
 							currAlbum->m_url  = wxT("album:")
-							                    + ::SjNormaliseString(m_omitArtist.Apply(currAlbum->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
+							                    + SjNormaliseString(m_omitArtist.Apply(currAlbum->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
 							                    + wxT("/")
-							                    + (currAlbum->m_albumName.IsEmpty()? wxString(wxT("-")) : ::SjNormaliseString(m_omitAlbum.Apply(currAlbum->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END));
+							                    + (currAlbum->m_albumName.IsEmpty()? wxString(wxT("-")) : SjNormaliseString(m_omitAlbum.Apply(currAlbum->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END));
 						}
 						else if( step == 1 )
 						{
 							wxASSERT(!currAlbum->m_albumName.IsEmpty());
 							currAlbum->m_url  = wxT("album:-/")
-							                    + ::SjNormaliseString(m_omitAlbum.Apply(currAlbum->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
+							                    + SjNormaliseString(m_omitAlbum.Apply(currAlbum->m_albumName), SJ_NUM_SORTABLE|SJ_NUM_TO_END);
 						}
 						else if( step == 2 )
 						{
 							wxASSERT(!currAlbum->m_leadArtistName.IsEmpty());
 							currAlbum->m_url  = wxT("album:")
-							                    + ::SjNormaliseString(m_omitAlbum.Apply(currAlbum->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
+							                    + SjNormaliseString(m_omitAlbum.Apply(currAlbum->m_leadArtistName), SJ_NUM_SORTABLE|SJ_NUM_TO_END)
 							                    + wxT("/-");
 						}
 						else if( step == 3 )
 						{
 							currAlbum->m_url  = wxT("album:-/")
-							                    + ::SjNormaliseString(currAlbum->m_albumName, SJ_NUM_SORTABLE|SJ_NUM_TO_END)
+							                    + SjNormaliseString(currAlbum->m_albumName, SJ_NUM_SORTABLE|SJ_NUM_TO_END)
 							                    + wxT("-genre");
 							// (***) hier koennen die URLs doppeldeutig sein, wenn ein albumname dem eines genrenamens entspricht!
 							// daher wird "genre-" vorangestellt!
@@ -1748,7 +1748,7 @@ bool SjLibraryModule::AddFolders(const wxArrayString& folders)
 
 	{
 		wxWindowDisabler disabler(g_mainFrame);
-		if( ::SjMessageBox(msg, SJ_PROGRAM_NAME, wxYES_NO|wxICON_QUESTION, g_mainFrame)!=wxYES )
+		if( SjMessageBox(msg, SJ_PROGRAM_NAME, wxYES_NO|wxICON_QUESTION, g_mainFrame)!=wxYES )
 		{
 			return FALSE; // no, the user canceled
 		}
@@ -2004,7 +2004,7 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 		destOptions.Add(wxString::Format(_("Yes, copy the image to \"%s\""), SjTools::ShortenUrl(destDir, SHORTEN_LEN).c_str()));
 
 		int destOptionSelIndex = copyImage? 1 : 0;
-		if( ::SjMessageBox(wxString::Format(_("Do you want to use the given image as the cover for \"%s\"?"), albumName.c_str()),
+		if( SjMessageBox(wxString::Format(_("Do you want to use the given image as the cover for \"%s\"?"), albumName.c_str()),
 		                   SJ_PROGRAM_NAME,
 		                   wxOK|wxCANCEL|wxICON_QUESTION,
 		                   g_mainFrame,
@@ -4200,7 +4200,7 @@ void SjLibraryModule::PlaybackDone(const wxString& url, unsigned long newStartin
 				g_mainFrame->UpdateEnqueuedUrl(url, TRUE, newPlaytimeMs);
 
 				wxCommandEvent pendEvt(wxEVT_COMMAND_MENU_SELECTED, IDO_BROWSER_RELOAD_VIEW);
-				g_mainFrame->AddPendingEvent(pendEvt);
+				g_mainFrame->GetEventHandler()->AddPendingEvent(pendEvt);
 			}
 		}
 	}
@@ -4261,13 +4261,13 @@ void SjLibraryModule::GetAutoVol(const wxString& url, double* trackGain, double*
 			// (we assume albums with different artists not to have the same gain)
 			if( firstArtistName.IsEmpty() )
 			{
-				firstArtistName = ::SjNormaliseString(sql.GetString(1), 0);
+				firstArtistName = SjNormaliseString(sql.GetString(1), 0);
 				if( firstArtistName.IsEmpty() )
 				{
 					return;
 				}
 			}
-			else if( firstArtistName != ::SjNormaliseString(sql.GetString(1), 0) )
+			else if( firstArtistName != SjNormaliseString(sql.GetString(1), 0) )
 			{
 				return;
 			}
@@ -4981,7 +4981,7 @@ void SjLibraryModule::AskToAddSelection()
 	}
 
 	wxCommandEvent fwdEvent(wxEVT_COMMAND_MENU_SELECTED, action);
-	g_mainFrame->AddPendingEvent(fwdEvent);
+	g_mainFrame->GetEventHandler()->AddPendingEvent(fwdEvent);
 }
 
 
@@ -5369,7 +5369,7 @@ int SjListView::GetAzFromOffset(long offset)
 	SjTrackInfo ti;
 	long dummyAlbumId, dummySpecial;
 	GetTrack(offset, ti, dummyAlbumId, dummySpecial);
-	wxString str = ::SjNormaliseString(ti.GetFormattedValue(m_currOrderField), 0);
+	wxString str = SjNormaliseString(ti.GetFormattedValue(m_currOrderField), 0);
 	int azCurr = str[0];
 	if( azCurr < 'a' || azCurr > 'z' )
 		azCurr = 'z'+1;

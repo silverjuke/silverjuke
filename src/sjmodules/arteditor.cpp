@@ -301,7 +301,7 @@ void SjArtEditor::ShowCropMessage()
 	m_stay++;
 	wxWindowDisabler disabler(this);
 
-	::SjMessageBox(_("Please press and hold the left mouse button. Then, select the area to crop by moving the mouse."),
+	SjMessageBox(_("Please press and hold the left mouse button. Then, select the area to crop by moving the mouse."),
 	               SJ_PROGRAM_NAME, wxOK|wxICON_INFORMATION, this);
 
 	m_stay--;
@@ -1223,7 +1223,7 @@ bool SjArtEditorModule::OnArtMenu(
 					if( artEditor ) { artEditor->m_stay++; }
 					wxWindowDisabler disabler(parent);
 
-					if( ::SjMessageBox(_("Reset all selected alternative images to their default value?"),
+					if( SjMessageBox(_("Reset all selected alternative images to their default value?"),
 					                   SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent) == wxYES )
 					{
 						wxBusyCursor busy;

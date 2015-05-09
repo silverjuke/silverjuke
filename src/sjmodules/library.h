@@ -175,7 +175,7 @@ public:
 	// you should use m_textup
 	wxString        GetUpText();
 
-	// get omitting information, used by ::SjNormaliseString()
+	// get omitting information, used by SjNormaliseString()
 	const SjOmitWords* GetOmitArtist   () const {return &m_omitArtist;}
 	const SjOmitWords* GetOmitAlbum    () const {return &m_omitAlbum;}
 

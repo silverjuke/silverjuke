@@ -535,7 +535,7 @@ bool SjLittleReadOnly::OnOption(wxWindow* parent, long optionIndex)
 		{
 			msg << wxT("\n\n") << m_dblClickComment;
 		}
-		::SjMessageBox(msg, GetName(), wxOK, parent);
+		SjMessageBox(msg, GetName(), wxOK, parent);
 	}
 	else
 	{

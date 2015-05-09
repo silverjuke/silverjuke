@@ -725,7 +725,9 @@ void SjHistoryComboBox::Init(const wxArrayString& history)
 	int i, iCount = (int)history.GetCount(), realCount = 0;
 	for( i = 0; i < iCount; i++ )
 	{
-		if( !history[i].Trim().Trim(FALSE).IsEmpty() )
+		wxString test = history[i];
+		test.Trim().Trim(false);
+		if( !test.IsEmpty() )
 		{
 			Append(history[i]);
 			realCount++;

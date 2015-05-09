@@ -241,7 +241,7 @@ void SjVisImpl::OnKeyUp(wxKeyEvent& event)
 		// some keystrokes are forwarded to the parent
 		// (the parent should have NEVER the focus, so it doesn't receive key events itself)
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, targetId);
-		g_mainFrame->ProcessEvent(fwd);
+		g_mainFrame->GetEventHandler()->ProcessEvent(fwd);
 	}
 	else if( m_keyDown
 	         && event.GetKeyCode() == WXK_ESCAPE )
@@ -264,7 +264,7 @@ void SjVisImpl::OnMouseEnter(wxWindow* from, wxMouseEvent& event)
 	if( !m_thisWindowIsFrame )
 	{
 		wxASSERT( m_thisWindow->GetParent() );
-		m_thisWindow->GetParent()->AddPendingEvent(pendEvt);
+		m_thisWindow->GetParent()->GetEventHandler()->AddPendingEvent(pendEvt);
 	}
 }
 
@@ -312,7 +312,7 @@ void SjVisImpl::OnMouseRightUp(wxWindow* from, wxMouseEvent& event)
 void SjVisImpl::OnMouseLeftDClick(wxWindow* from, wxMouseEvent& event)
 {
 	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_EMBED_WINDOW);
-	m_thisWindow->AddPendingEvent(fwd);
+	m_thisWindow->GetEventHandler()->AddPendingEvent(fwd);
 }
 
 
@@ -535,7 +535,7 @@ SjVisFrame::SjVisFrame( wxWindow* parent, wxWindowID id, const wxString& title,
 
 void SjVisFrame::OnFwdToMainFrame(wxCommandEvent& e)
 {
-	g_mainFrame->ProcessEvent(e);
+	g_mainFrame->GetEventHandler()->ProcessEvent(e);
 }
 
 

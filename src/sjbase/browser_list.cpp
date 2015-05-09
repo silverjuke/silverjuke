@@ -772,7 +772,7 @@ void SjListBrowser::OnMouseLeftUp(wxMouseEvent& event)
 	else if( m_toggleCoversRect.Contains(event.GetX(), event.GetY()) )
 	{
 		wxCommandEvent cmd(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_SHOW_COVERS);
-		g_mainFrame->AddPendingEvent(cmd);
+		g_mainFrame->GetEventHandler()->AddPendingEvent(cmd);
 		return;
 	}
 
@@ -1881,7 +1881,7 @@ void SjListBrowser::DoPaintTrack(wxDC& dc, long x, long y, long w, long h, long 
 	int thisAz = 0;
 	if( isAzPossibleForCol(m_sortField) ) // can sort by A-Z?
 	{
-		str = ::SjNormaliseString(ti.GetFormattedValue(m_sortField), 0);
+		str = SjNormaliseString(ti.GetFormattedValue(m_sortField), 0);
 		thisAz = str[0];
 		if( thisAz < 'a' || thisAz > 'z' )
 		{
@@ -2025,7 +2025,7 @@ void SjListBrowser::DoPaintHeaderNTracks(wxDC& dc, long x, long y_, long w, long
 		long         tiAlbumId, tiSpecial;
 		m_listView->GetTrack(m_scrollPos-1, ti, tiAlbumId, tiSpecial);
 
-		wxString str = ::SjNormaliseString(ti.GetFormattedValue(m_sortField), 0);
+		wxString str = SjNormaliseString(ti.GetFormattedValue(m_sortField), 0);
 		lastAz = str[0];
 		if( lastAz < 'a' || lastAz > 'z' )
 		{

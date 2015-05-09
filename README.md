@@ -28,7 +28,7 @@ Linux/Unix:  With chance, Silverjuke is available in your favorite packet
 manager.  If it is not there, please contact your linux distributor - we cannot
 help on this point.
 Alternatively, more experienced users can build Silverjuke theirself.  The
-source code from https://github.com/r10s/silverjuke plus a simple 
+source code from https://github.com/r10s/silverjuke plus a simple
 `./autogen.sh`, `make` and `make install` should do the job. If you want to run
 silverjuke from your build dir, run `./silverjuke` instead of `make install`.
 
@@ -41,6 +41,9 @@ you'll also need the following, less common stuff:
 (note that your distro's default wxwidgets package might contain the
 stl version, which does *not* work with silverjuke. Check for
 something with wxcontainer in the name)
+
+Since May 2015, Silverjuke compiles with both, wxWidgets 2.8 and 3.0, however,
+wxWidgets 2.8 is far more tested at the moment and may result in less issues.
 
 Windows:  For Windows, an installation program with the most recent version is
 available at http://silverjuke.net .  Note, that the windows binaries are not

@@ -526,7 +526,7 @@ IMPLEMENT_FUNCTION(program, shutdown)
 
 IMPLEMENT_FUNCTION(program, gc)
 {
-	::SjGcDoCleanup();
+	SjGcDoCleanup();
 	RETURN_UNDEFINED;
 }
 
@@ -755,7 +755,7 @@ IMPLEMENT_GET(program)
 	{
 		if( g_mainFrame )
 		{
-			RETURN_LONG( ::SjTimestampDiff(g_mainFrame->LastInputFromUser(), SjTools::GetMsTicks()) );
+			RETURN_LONG( SjTimestampDiff(g_mainFrame->LastInputFromUser(), SjTools::GetMsTicks()) );
 		}
 		else
 		{

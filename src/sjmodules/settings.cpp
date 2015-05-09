@@ -562,7 +562,7 @@ void SjSettingsModule::OpenSettingsAsync(const wxString& module, int moduleIndex
 		g_settingsDlg->m_asyncModule = module;
 		g_settingsDlg->m_asyncModuleIndex = moduleIndex;
 		g_settingsDlg->m_asyncPageIndex = pageIndex;
-		g_settingsDlg->AddPendingEvent(fwd);
+		g_settingsDlg->GetEventHandler()->AddPendingEvent(fwd);
 	}
 }
 void SjSettingsDlg::OnOpenSettingsAsync(wxCommandEvent& e)

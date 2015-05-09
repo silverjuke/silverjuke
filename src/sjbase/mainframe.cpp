@@ -452,7 +452,7 @@ public:
 
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_DND_ONDATA);
 		fwd.SetClientData((void*)this);
-		g_mainFrame->AddPendingEvent(fwd);
+		g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 
 		return def;
 	}
@@ -820,7 +820,7 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 				wxArrayString options;
 				options.Add(wxString::Format(_("Also install the script to \"%s\" for permanent use"), destfile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR).c_str()));
 				int selOption = 0;
-				if( ::SjMessageBox(wxString::Format(_("Execute the script \"%s\"?"), srcfile.GetFullPath().c_str()),
+				if( SjMessageBox(wxString::Format(_("Execute the script \"%s\"?"), srcfile.GetFullPath().c_str()),
 								   SJ_PROGRAM_NAME,
 								   wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this,
 								   &options, &selOption) != wxYES )
@@ -1013,7 +1013,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 			#ifdef __WXGTK__
 			wxLogNull null; // TODO: suspicious errors otherwise... why is there a message like "cannot set locale to ..."?
 			#endif
-			m_locale.Init(langInfo->Language, wxLOCALE_CONV_ENCODING);
+			m_locale.Init(langInfo->Language, 0);
 		}
 
 		// load strings for this language (if available)
@@ -1025,7 +1025,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 			wxString langSelectedFile = g_tools->m_config->Read(wxT("main/languageFile"), wxT(""));
 			if( !langSelectedFile.IsEmpty()
-			        && ::wxFileExists(langSelectedFile) )
+			 && ::wxFileExists(langSelectedFile) )
 			{
 				// load a concrete file selected by the user
 				langPathNFile = langSelectedFile;
@@ -1455,7 +1455,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	if( m_updateIndexAfterConstruction )
 	{
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDT_UPDATE_INDEX);
-		g_mainFrame->AddPendingEvent(fwd);
+		g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 	}
 
 	/* start the timer - this should be VERY last as the timer

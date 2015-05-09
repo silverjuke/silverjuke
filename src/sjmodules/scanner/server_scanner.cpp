@@ -178,7 +178,7 @@ bool SjServerScannerModule::DeleteSource(long index, wxWindow* parent)
 {
 	if( index >= 0 && index < GetSourceCount() )
 	{
-		if( ::SjMessageBox(wxString::Format(_("Remove \"%s\" from the music library?"), m_sources[index].m_serverName.c_str()),
+		if( SjMessageBox(wxString::Format(_("Remove \"%s\" from the music library?"), m_sources[index].m_serverName.c_str()),
 		                   SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent) == wxYES )
 		{
 			m_sources.RemoveAt(index);

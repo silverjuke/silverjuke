@@ -186,7 +186,7 @@ void SjHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link)
 		long id;
 		rest.ToLong(&id);
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, id);
-		SjDialog::FindTopLevel(this)->AddPendingEvent(fwd);
+		SjDialog::FindTopLevel(this)->GetEventHandler()->AddPendingEvent(fwd);
 		return;
 	}
 	else if( href.StartsWith(wxT("page:"), &m_clickedLink) )
@@ -194,7 +194,7 @@ void SjHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link)
 		// go to another page, used by the help window;
 		// needed at least for "more..." in the page after buying silverjuke
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_LINKCLICKED);
-		SjDialog::FindTopLevel(this)->AddPendingEvent(fwd);
+		SjDialog::FindTopLevel(this)->GetEventHandler()->AddPendingEvent(fwd);
 		return;
 	}
 

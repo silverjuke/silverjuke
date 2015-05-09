@@ -251,7 +251,7 @@ void SjPlayer::SendSignalToMainThread(int id, uintptr_t extraLong) const
 	        &&  m_isInitialized
 	        && !SjMainApp::IsInShutdown() ) // do not send the message on shutdown - it won't be received and there will be no memory leak as the OS normally free all program memory
 	{
-		g_mainFrame->AddPendingEvent(evt);
+		g_mainFrame->GetEventHandler()->AddPendingEvent(evt);
 	}
 }
 
@@ -341,7 +341,7 @@ void SjPlayer::SaveSettings() const
 
 	if( m_queue.GetRepeat()!=1 )
 	{
-		c->Write(wxT("player/repeat"), m_queue.GetRepeat());
+		c->Write(wxT("player/repeat"), (long)m_queue.GetRepeat());
 	}
 }
 

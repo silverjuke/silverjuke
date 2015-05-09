@@ -616,7 +616,7 @@ bool SjFolderScannerModule::DeleteSource(long index, wxWindow* parent)
 		return FALSE;
 	}
 
-	if( ::SjMessageBox(wxString::Format(_("Remove \"%s\" from the music library?"), currSourceObj->UrlPlusFile().c_str()),
+	if( SjMessageBox(wxString::Format(_("Remove \"%s\" from the music library?"), currSourceObj->UrlPlusFile().c_str()),
 	                   SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent) == wxYES )
 	{
 		m_listOfSources.DeleteObject(currSourceObj); // searchDir is deleted automatically as we use DeleteContents()

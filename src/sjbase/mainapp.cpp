@@ -81,7 +81,7 @@ void SjConnection::Raise()
 		g_mainFrame->Show();
 		g_mainFrame->Iconize(FALSE);
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_WINDOW_UNICONIZED);
-		g_mainFrame->AddPendingEvent(fwd);
+		g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 		g_mainFrame->Raise();
 	}
 }
@@ -283,33 +283,33 @@ bool SjMainApp::OnInit()
 		// so please move things as "instance" down after "play", "pause" etc, see http://www.silverjuke.net/forum/post.php?p=10433#10433
 
 		// player commands
-		{ wxCMD_LINE_SWITCH, NULL, wxT("play"),         wxT("Play") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("pause"),        wxT("Pause") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("toggle"),       wxT("Toggle play/pause") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("togglevis"),    wxT("Toggle vis.") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("volup"),        wxT("Increase volume") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("voldown"),      wxT("Decrease volume") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("prev"),         wxT("Go to previous track") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("next"),         wxT("Go to next track") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("kiosk"),        wxT("Start kiosk mode") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("update"),       wxT("Update index on startup") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("raise"),        wxT("Show and raise the Silverjuke window") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("open"),         wxT("Open the given file(s) (default)") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("enqueue"),      wxT("Enqueue the given file(s)") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("setcredit"),    wxT("Set the number of credits in the credit system"), wxCMD_LINE_VAL_NUMBER },
-		{ wxCMD_LINE_OPTION, NULL, wxT("addcredit"),    wxT("Add the number of credits to the credit system"), wxCMD_LINE_VAL_NUMBER },
-		{ wxCMD_LINE_OPTION, NULL, wxT("execute"),      wxT("Execute the given scripting commands") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("play"),        wxT_2("Play") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("pause"),       wxT_2("Pause") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("toggle"),      wxT_2("Toggle play/pause") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("togglevis"),   wxT_2("Toggle vis.") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("volup"),       wxT_2("Increase volume") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("voldown"),     wxT_2("Decrease volume") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("prev"),        wxT_2("Go to previous track") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("next"),        wxT_2("Go to next track") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("kiosk"),       wxT_2("Start kiosk mode") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("update"),      wxT_2("Update index on startup") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("raise"),       wxT_2("Show and raise the Silverjuke window") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("open"),        wxT_2("Open the given file(s) (default)") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("enqueue"),     wxT_2("Enqueue the given file(s)") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("setcredit"),   wxT_2("Set the number of credits in the credit system"), wxCMD_LINE_VAL_NUMBER },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("addcredit"),   wxT_2("Add the number of credits to the credit system"), wxCMD_LINE_VAL_NUMBER },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("execute"),     wxT_2("Execute the given scripting commands") },
 		// environment settings
-		{ wxCMD_LINE_SWITCH, NULL, wxT("skiperrors"),   wxT("Do not show startup errors") },
-		{ wxCMD_LINE_SWITCH, NULL, wxT("minimize"),     wxT("Start minimized") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("kioskrect"),    wxT("The window rectangle for the kiosk mode as [<x>,<y>,]<w>,<h>[,clipmouse]") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("visrect"),      wxT("The window rectangle for the vis. in kiosk mode as [<x>,<y>,]<w>,<h>") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("instance"),     wxT("Set the configuration file and the instance to use") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("ini"),          wxT("Set the configuration file to use") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("jukebox"),      wxT("Set the jukebox file to use") },
-		{ wxCMD_LINE_OPTION, NULL, wxT("temp"),         wxT("Set the temporary directory to use") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("skiperrors"),  wxT_2("Do not show startup errors") },
+		{ wxCMD_LINE_SWITCH, NULL, wxT_2("minimize"),    wxT_2("Start minimized") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("kioskrect"),   wxT_2("The window rectangle for the kiosk mode as [<x>,<y>,]<w>,<h>[,clipmouse]") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("visrect"),     wxT_2("The window rectangle for the vis. in kiosk mode as [<x>,<y>,]<w>,<h>") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("instance"),    wxT_2("Set the configuration file and the instance to use") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("ini"),         wxT_2("Set the configuration file to use") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("jukebox"),     wxT_2("Set the jukebox file to use") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("temp"),        wxT_2("Set the temporary directory to use") },
 		// addional parameters
-		{ wxCMD_LINE_PARAM,  NULL, NULL,                wxT("File(s)"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL|wxCMD_LINE_PARAM_MULTIPLE },
+		{ wxCMD_LINE_PARAM,  NULL, NULL,                 wxT_2("File(s)"),  wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL|wxCMD_LINE_PARAM_MULTIPLE },
 		{ wxCMD_LINE_NONE }
 	};
 	s_cmdLine = new wxCmdLineParser(s_cmdLineDesc, argc, argv);

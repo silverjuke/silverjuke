@@ -32,6 +32,11 @@
 #ifdef __cplusplus  // Needed as Xcode includes this file for C-Sources as a precompiled header
 
 
+/*******************************************************************************
+ * standard and wxWidgets includes
+ ******************************************************************************/
+
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -47,6 +52,29 @@
 #include <wx/dnd.h>
 #include <wx/dragimag.h>
 #include <wx/display.h>
+
+
+/*******************************************************************************
+ * compatibility macros
+ ******************************************************************************/
+
+
+#ifndef wxT_2 // the wxT_2 macro is available since wxWidgets 2.8.12, define it if we're using an older or very new version
+	#if wxCHECK_VERSION(3,0,0)
+		#define wxT_2(x) x
+	#else
+		#define wxT_2(x) wxT(x)
+	#endif
+#endif
+#if !wxCHECK_VERSION(3,0,0) // not really sure about the version, in 2.8.12, wxRasterOperationMode is missing, in 3.0.2 it is defined
+	#define wxRasterOperationMode int
+#endif
+
+
+/*******************************************************************************
+ * basic silverjuke includes
+ ******************************************************************************/
+
 
 #include <sjbase/compileoptions.h>
 #include <sjtools/sqlt.h>

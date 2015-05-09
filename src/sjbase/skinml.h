@@ -88,21 +88,21 @@ public:
 class SjSkinMlParser : public wxHtmlParser
 {
 public:
-	SjSkinMlParser  (SjSkinMlParserData* data, long conditions);
-	~SjSkinMlParser ();
-	SjSkinSkin* ParseFile           (const wxString& givenPath, bool loadNameOnly = false
-	                                #if SJ_USE_SCRIPTS
-	                                 , SjSee* see=NULL
-									#endif
-	                                );
+	                SjSkinMlParser      (SjSkinMlParserData* data, long conditions);
+	                ~SjSkinMlParser     ();
+	SjSkinSkin*     ParseFile           (const wxString& givenPath, bool loadNameOnly = false
+	                                      #if SJ_USE_SCRIPTS
+	                                         , SjSee* see=NULL
+									      #endif
+	                                    );
 
 	void            InitParser          (const wxString& source);
 	void            AddText             (const wxChar* txt);
+	void            AddText             (const wxString& txt) { AddText( static_cast<const wxChar*>(txt.c_str()) ); } // needed for wx 3.x
 	wxObject*       GetProduct          ();
 
 private:
-	SjSkinMlParserData*
-	m_data;
+	SjSkinMlParserData* m_data;
 	bool            m_deleteData;
 	friend class    SjSkinMlTagHandler;
 };

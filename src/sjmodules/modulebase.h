@@ -664,7 +664,7 @@ protected:
 
 private:
 	wxString        m_name;
-	wxString        GetUniqueStrId      () const { return ::SjNormaliseString(m_name, 0); }
+	wxString        GetUniqueStrId      () const { return SjNormaliseString(m_name, 0); }
 
 	friend class    SjModuleSystem;
 };

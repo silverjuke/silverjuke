@@ -36,7 +36,7 @@
 class SjImgThreadObj
 {
 public:
-	SjImgThreadObj      (wxEvtHandler* evtHandler, const wxString& url, unsigned long timestamp, const SjImgOp& op);
+					SjImgThreadObj      (wxEvtHandler* evtHandler, const wxString& url, unsigned long timestamp, const SjImgOp& op);
 	wxString        m_url;
 	wxString        m_errors;
 
@@ -85,7 +85,7 @@ extern const wxEventType wxEVT_IMAGE_THERE;
 class SjImageThereEvent : public wxEvent
 {
 public:
-	SjImageThereEvent   (SjImgThreadObj* obj) : wxEvent(0, wxEVT_IMAGE_THERE) { m_obj = obj; }
+	                SjImageThereEvent   (SjImgThreadObj* obj) : wxEvent(0, wxEVT_IMAGE_THERE) { m_obj = obj; }
 	SjImgThreadObj* GetObj              () const { return m_obj; }
 
 	wxEvent*        Clone               () const { return new SjImageThereEvent(m_obj); }
@@ -101,8 +101,8 @@ public:
 	/* Construct an SjImgThread object. The thread is started implicit at the
 	 * first call of RequireStart().
 	 */
-	SjImgThread         ();
-	~SjImgThread        ();
+	                SjImgThread         ();
+	                ~SjImgThread        ();
 
 	/* Start requiring images.  The event handler is used to identify waiting
 	 * images from the last "require round" that are still waiting but may
@@ -165,14 +165,11 @@ private:
 
 	/* needed members
 	 */
-	wxCriticalSection
-	m_critsect;
-	wxMutex         m_mutex;
-	wxCondition*    m_condition; // use this to check if all other objets are okay
-	SjImgThreadObjList
-	m_anchorWaiting;
-	SjImgThreadObjList
-	m_anchorCached;
+	wxCriticalSection  m_critsect;
+	wxMutex            m_mutex;
+	wxCondition*       m_condition; // use this to check if all other objets are okay
+	SjImgThreadObjList m_anchorWaiting;
+	SjImgThreadObjList m_anchorCached;
 
 	long            m_ramCacheMaxBytes;
 	long            m_ramCacheUsedBytes;
@@ -183,8 +180,7 @@ private:
 	bool            m_shutdownCalled;
 
 	void            CleanupRamCache     (long cacheLeaveBytes);
-	SjImgThreadObjList::Node*
-	SearchImg           (SjImgThreadObjList& list, const wxString& url, unsigned long timestamp, const SjImgOp&, bool matchOp);
+	SjImgThreadObjList::Node* SearchImg (SjImgThreadObjList& list, const wxString& url, unsigned long timestamp, const SjImgOp&, bool matchOp);
 
 	bool            m_triedCreation;
 	bool            m_doExitThread;

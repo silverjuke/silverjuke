@@ -80,7 +80,7 @@ SjTools::SjTools()
 	m_configIsDefault = TRUE;
 	if( SjMainApp::s_cmdLine->Found(wxT("instance"), &m_configDescr) )
 	{
-		m_instance = ::SjNormaliseString(m_configDescr, 0);
+		m_instance = SjNormaliseString(m_configDescr, 0);
 		m_config = new wxFileConfig(SJ_PROGRAM_NAME, SJ_PROGRAM_NAME, m_configDescr);
 		m_configIsDefault = FALSE;
 	}
@@ -232,7 +232,11 @@ void SjTools::NotCrashed(bool stopLogging)
 	}
 
 	m_crashPrecautionLocker.Enter();
-	::wxRemoveFile(m_crashInfoFileName);
+	if( wxFileExists(m_crashInfoFileName) )
+	{
+		wxLogNull null;
+		wxRemoveFile(m_crashInfoFileName);
+	}
 	m_crashPrecautionLocker.Leave();
 }
 
@@ -2147,7 +2151,7 @@ wxString SjTools::Implode(const wxArrayLong& a, const wxString& delim)
 
 void SjTools::DrawRubberbox(wxDC& dc, const wxPoint& start, const wxPoint& end)
 {
-	int oldLogicalFunction = dc.GetLogicalFunction();
+	wxRasterOperationMode oldLogicalFunction = dc.GetLogicalFunction();
 	dc.SetLogicalFunction(wxINVERT);
 
 	dc.SetPen(*wxBLACK_PEN);
@@ -3184,7 +3188,7 @@ void SjCoverFinder::Init(const wxString& words)
 long SjCoverFinder::Apply(const wxArrayString& inPaths__, const wxString& inAlbumName__)
 {
 	// normalize the album name
-	wxString inAlbumName = ::SjNormaliseString(inAlbumName__, 0);
+	wxString inAlbumName = SjNormaliseString(inAlbumName__, 0);
 
 	// get all input names
 	long            uniqueAlbumNameIndex = 0, uniqueAlbumNameIndexCount = 0;
@@ -3212,7 +3216,7 @@ long SjCoverFinder::Apply(const wxArrayString& inPaths__, const wxString& inAlbu
 		// (we only regard album names with at least 3 characters, remember
 		// album names as "Lenny Kravitz - 5" or "H. Groenemeyer - Oe"
 		if( inAlbumName.Len() >= 3
-		        && ::SjNormaliseString(currInName, 0).Find(inAlbumName) != -1 )
+		 && SjNormaliseString(currInName, 0).Find(inAlbumName) != -1 )
 		{
 			uniqueAlbumNameIndex = i;
 			uniqueAlbumNameIndexCount++;
@@ -3542,6 +3546,7 @@ long SjStringSerializer::GetLong()
 	if( !s.ToLong(&l, 10) )
 	{
 		m_hasErrors = TRUE;
+		l = 0;
 	}
 	return l;
 }
@@ -3557,6 +3562,7 @@ float SjStringSerializer::GetFloat()
 		if( !s.ToDouble(&f) )   // may expect a ","
 		{
 			m_hasErrors = TRUE;
+			f = 0.0;
 		}
 	}
 	return (float)f;

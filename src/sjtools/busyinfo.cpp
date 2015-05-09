@@ -175,7 +175,7 @@ void SjBusyInfo::AskToClose()
 	if( m_canCancel )
 	{
 		if( m_questionOnCancel.IsEmpty()
-		        || ::SjMessageBox(m_questionOnCancel, GetTitle(), wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this) == wxYES )
+		 || SjMessageBox(m_questionOnCancel, GetTitle(), wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this) == wxYES )
 		{
 			m_cancelPressed = TRUE;
 		}

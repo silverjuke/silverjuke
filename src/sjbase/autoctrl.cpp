@@ -110,8 +110,8 @@ void SjAutoFader::Notify()
 		}
 
 		// calculate the total fading time
-		unsigned long totalFadingMs = ::SjTimestampDiff(m_startFadingTimestamp, m_endFadingTimestamp);
-		unsigned long doneFadingMs = ::SjTimestampDiff(m_startFadingTimestamp, thisTimestamp);
+		unsigned long totalFadingMs = SjTimestampDiff(m_startFadingTimestamp, m_endFadingTimestamp);
+		unsigned long doneFadingMs = SjTimestampDiff(m_startFadingTimestamp, thisTimestamp);
 
 		// calculate the available volume steps
 		long totalSteps = m_startFadingVol;
@@ -401,16 +401,15 @@ void SjAutoCtrl::OnOneSecondTimer()
 			#define IDLE_MINUTES 2
 			#define MIN_IN_BETWEEN_MINUTES 15
 			#define MAX_IN_BETWEEN_MINUTES 120
-			if(     (    thisTimestamp > refTimestamp+IDLE_MINUTES*60*1000
+			if(     (       thisTimestamp > refTimestamp+IDLE_MINUTES*60*1000
 			             && thisTimestamp > m_lastCleanupTimestamp+MIN_IN_BETWEEN_MINUTES*60*1000
 			        )
-
-			        ||       thisTimestamp > m_lastCleanupTimestamp+MAX_IN_BETWEEN_MINUTES*60*1000
+			        ||      thisTimestamp > m_lastCleanupTimestamp+MAX_IN_BETWEEN_MINUTES*60*1000
 			  )
 			{
 				if( !g_mainFrame->m_mainApp->IsInShutdown()
-				        &&  g_mainFrame->IsEnabled()
-				        && !SjBusyInfo::InYield() )
+				 &&  g_mainFrame->IsEnabled()
+				 && !SjBusyInfo::InYield() )
 				{
 					g_tools->m_cache.CleanupOldFiles();
 				}
@@ -445,7 +444,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 						m_stateFollowPlaylistUrlFollowed = currUrl;
 
 						wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_GOTOCURRAUTO);
-						g_mainFrame->AddPendingEvent(fwd);
+						g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 					}
 				}
 			}
@@ -711,7 +710,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 				wxEvent* event = (wxEvent*)m_pendingEvents[i];
 				if( event )
 				{
-					g_mainFrame->AddPendingEvent(*event);
+					g_mainFrame->GetEventHandler()->AddPendingEvent(*event);
 					delete event;
 				}
 			}

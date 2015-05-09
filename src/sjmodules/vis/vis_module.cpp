@@ -349,7 +349,7 @@ bool SjVisModule::IsCloseMenuEntryNeeded() const
 void SjVisModule::StopOrCloseRequest()
 {
 	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_CLOSE);
-	g_mainFrame->AddPendingEvent(fwd);
+	g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 }
 
 
@@ -373,7 +373,7 @@ void SjVisModule::AttachDetachRequest()
 	WriteVisFlags();
 
 	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_ATTACH_DETACH);
-	g_mainFrame->AddPendingEvent(fwd);
+	g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 }
 
 
@@ -499,7 +499,7 @@ void SjVisModule::ReceiveMsg(int msg)
 					{
 						m_temp1str__ = realNextRenderer;
 						wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_SWITCH_RENDERER);
-						g_mainFrame->AddPendingEvent(fwd);
+						g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 					}
 				}
 			}
@@ -584,5 +584,5 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 
 	// inform all others
 	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_STATE_CHANGED);
-	g_mainFrame->AddPendingEvent(fwd);
+	g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
 }

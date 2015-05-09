@@ -2,7 +2,7 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.1 (08.04.2015)
+V15.1 (09.05.2015)
 ================================================================================
 
 - Silverjuke core made open source, see github.com/r10s/silverjuke
@@ -20,6 +20,7 @@ V15.1 (08.04.2015)
 - New: New AutoPlay feature: Ignore tracks from music selection (eg. from "Worst
   rated")
 - New: New "Change password" button at "Settings/Kiosk mode/Start"
+- New: Covers may contain unicode characters
 - Playlists handling on network drives improved
 - Using the default font for the Video/Karaoke/Visualization title
 - Search: No longer searching for genre names by default; please use the context
