@@ -1053,10 +1053,9 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 			if( !langPathNFile.IsEmpty() )
 			{
 				// load the language file, if found above
-				if( deleteLangPathNFile )
-					wxLogInfo(wxT("Loading %s"), wxString(wxT("memory:")+shortCanonicalName+wxT(".mo")).c_str());
-				else
+				if( !deleteLangPathNFile ) {
 					wxLogInfo(wxT("Loading %s"), langPathNFile.c_str());
+				}
 
 				wxString langPath, langFile;
 				langFile = g_tools->GetFileNameFromUrl(langPathNFile, &langPath, FALSE, TRUE);
@@ -1075,14 +1074,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 					g_tools->m_cache.RemoveFromUnmanagedTemp(langPathNFile);
 				}
 			}
-			else
-			{
-				wxLogInfo(wxT("Loading %s"), wxT("memory:en.mo"));
-			}
-		}
-		else
-		{
-			wxLogInfo(wxT("Loading %s"), wxT("memory:en.mo"));
 		}
 	}
 
@@ -1150,12 +1141,15 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		wxString defaultSkin(wxT("memory:defaultskin.xml"));
 		wxString skin = g_tools->m_config->Read(wxT("main/skinFile"), defaultSkin);
 
-		wxLogInfo(wxT("Loading %s"), skin.c_str());
+		if( skin != defaultSkin ) {
+			wxLogInfo(wxT("Loading %s"), skin.c_str());
+		}
+
 		SjBusyInfo::Set(skin, TRUE);
 
 		if( !LoadSkin(skin, SJ_OP_DEF_NONKIOSK, g_tools->m_config->Read(wxT("main/skinSettings"), wxT(""))) )
 		{
-			wxLogInfo(wxT("Loading %s"), defaultSkin.c_str());
+			wxLogError(wxT("Cannot load %s, falling back to default skin"), skin.c_str());
 			SjBusyInfo::Set(defaultSkin, TRUE);
 
 			LoadSkin(defaultSkin, SJ_OP_DEF_NONKIOSK);

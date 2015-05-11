@@ -102,13 +102,12 @@ void SjTestdrive1()
 
 	/* Test SjTools::AreFilesSame() */
 	{
-		wxLogInfo(wxT("Testdrive: SjTools tests ..."));
-
 		#define FILES_ZIP_ID3   wxT("d:\\mp3\\test.zip#zip:file1.mp3#id3:cover1.gif")
 		#define FILES_ZIP_ID3_S wxT("d:/mp3/test.zip#zip:file1.mp3#id3:cover1.gif")
 		if( !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3)
-		 || !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3) )
+		 || !SjTools::AreFilesSame(FILES_ZIP_ID3, FILES_ZIP_ID3) ) {
 			wxLogWarning(wxT("Testdrive: AreFilesSame() failed!"));
+		}
 
 		#if wxUSE_UNICODE
 		#define ORG_SCRAMBLE_STR wxT("Kalim\x00E9ra - \x039a\x03b1\x03bb\x03b7\x03bc\x03b5\x03c1\x03b1")
@@ -117,8 +116,9 @@ void SjTestdrive1()
 		#endif
 		wxString scrStr = SjTools::ScrambleString(ORG_SCRAMBLE_STR);
 		wxString unscrStr = SjTools::UnscrambleString(scrStr);
-		if( unscrStr != ORG_SCRAMBLE_STR )
+		if( unscrStr != ORG_SCRAMBLE_STR ) {
 			wxLogWarning(wxT("Testdrive: ScrambleString() failed"));
+		}
 	}
 
 
@@ -126,7 +126,6 @@ void SjTestdrive1()
 	if one is a little bit lazy on paths, this may cause problems.
 	*/
 	{
-		wxLogInfo(wxT("Testdrive: String tests ..."));
 		if( wxURI::Unescape(wxT("%20")) != wxT(" ")
 		 || wxURI::Unescape(wxT("%25")) != wxT("%") )
 		{
@@ -261,8 +260,6 @@ void SjTestdrive1()
 	This is very fine, however, the character "#" must be masked which is done
 	eg. by wxFileSystem::FileNameToURL()  */
 	{
-		wxLogInfo(wxT("Testdrive: File tests ..."));
-
 		// create a file with a "#" in its name using wxFile
 		wxString name = wxT("test #1 100% hard.test");
 		wxString content = wxT("test content");
@@ -366,8 +363,6 @@ void SjTestdrive1()
 
 	/* Check the sqlite "file open bug" by a functionality test (force testing unicode in sqlite) */
 	{
-		wxLogInfo(wxT("Testdrive: sqlite tests ..."));
-
 		wxString path1 = GetTestFilePath(wxT("test1.db")); // get the path for the test file
 		wxString path2 = GetTestFilePath(wxT("test2-\xE4\xF6\xFC\xC4\xD6\xDC\xDF...db"));
 		{	// create the test file (note the "{" here, which ensures, the db-object gets destroyed before the file is deleted)
@@ -437,8 +432,6 @@ void SjTestdrive1()
 	/* Scripting tests */
 	#if SJ_USE_SCRIPTS
 	{
-		wxLogInfo(wxT("Testdrive: Scripting tests ..."));
-
 		SjSee see;
 		see.SetExecutionScope(wxT("Testdrive"));
 
@@ -470,8 +463,6 @@ void SjTestdrive1()
 			wxLogWarning(wxT("Testdrive: encodeURI()/decodeURI() failed, see http://www.silverjuke.net/forum/topic-3234.html"));
 		}
 	}
-	#else
-		wxLogInfo(wxT("Testdrive: Script tests skipped - scripts are not supported in this build."));
 	#endif
 
 	// Check if the floating point library is loaded and working well.
@@ -480,9 +471,8 @@ void SjTestdrive1()
 	{
 		double dummyfloat;
 		dummyfloat = 17.5f;
-		wxString dummystring = wxString::Format(wxT("%f"), dummyfloat);
-		dummystring.Clear();
-		wxLogInfo(wxT("Testdrive: Floating point tests ...") + dummystring /*make sure, it is referenced*/);
+		wxString floatingpointstring = wxString::Format(wxT("%f"), dummyfloat);
+		wxASSERT(!floatingpointstring.IsEmpty());
 	}
 
 	/* Done */
