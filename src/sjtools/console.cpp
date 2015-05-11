@@ -71,7 +71,7 @@ static wxString TimeStamp(const wxChar *format, time_t t)
 class SjLogListCtrl : public wxListCtrl
 {
 public:
-	SjLogListCtrl       (SjLogGui* logGui, wxWindow* parent, wxWindowID id, long aIndex);
+	                SjLogListCtrl       (SjLogGui* logGui, wxWindow* parent, wxWindowID id, long aIndex);
 	void            MessagesChanged     (long firstNewIndex);
 	void            SizeChanged         ();
 
@@ -93,35 +93,10 @@ SjLogListCtrl::SjLogListCtrl(SjLogGui* logGui, wxWindow* parent, wxWindowID id, 
 	m_logGui = logGui;
 
 	// assign the imagelist
-	/* XPM */
-	static const char *empty_xpm[] = {
-		/* columns rows colors chars-per-pixel */
-		"16 16 2 1",
-		"x c #0000F0",
-		"  c None",
-		/* pixels */
-		"                ",
-		"                ",
-		"                ",
-		"                ",
-		"                ",
-		"      xx        ",
-		"       xx       ",
-		"        xx      ",
-		"         xx     ",
-		"        xx      ",
-		"       xx       ",
-		"      xx        ",
-		"                ",
-		"                ",
-		"                ",
-		"                "
-	};
 	wxImageList* imageList = new wxImageList(16, 16);
 	imageList->Add( wxArtProvider::GetBitmap(wxART_ERROR,       wxART_MESSAGE_BOX, wxSize(16, 16)) );
 	imageList->Add( wxArtProvider::GetBitmap(wxART_WARNING,     wxART_MESSAGE_BOX, wxSize(16, 16)) );
 	imageList->Add( wxArtProvider::GetBitmap(wxART_INFORMATION, wxART_MESSAGE_BOX, wxSize(16, 16)) );
-	imageList->Add( wxBitmap(empty_xpm) );
 	AssignImageList(imageList, wxIMAGE_LIST_SMALL);
 
 	// init control
@@ -177,8 +152,7 @@ int SjLogListCtrl::GetSeverityImage(long severity)
 	{
 		case wxLOG_Error:       return 0;
 		case wxLOG_Warning:     return 1;
-		case wxLOG_Message:     return 2;
-		default:                return 3;
+		default:     			return 2; // Message/Info/Verbose etc.
 	}
 }
 
@@ -210,8 +184,9 @@ void SjLogListCtrl::ScrollDownTo(long aIndex)
 	long count = m_logGui->m_aPacked.GetCount();
 	if( count > 0 )
 	{
-		if( aIndex < 0 || aIndex >= count )
+		if( aIndex < 0 || aIndex >= count ) {
 			aIndex = count-1;
+		}
 		EnsureVisible(aIndex);
 	}
 }
@@ -238,8 +213,8 @@ void SjLogListCtrl::SizeChanged()
 class SjLogDialog : public SjDialog
 {
 public:
-	SjLogDialog         (SjLogGui* logGui, wxWindow *parent, long style, long aIndex);
-	~SjLogDialog        ();
+	                    SjLogDialog         (SjLogGui* logGui, wxWindow *parent, long style, long aIndex);
+	                    ~SjLogDialog        ();
 
 	void                MessagesChanged     (long firstNewIndex);
 
@@ -429,8 +404,9 @@ SjLogDialog::~SjLogDialog()
 	if( s_dlg == this )
 		s_dlg = NULL;
 
-	if( !m_sizerDetailsAttached )
+	if( !m_sizerDetailsAttached ) {
 		delete m_sizerDetails;
+	}
 }
 
 
@@ -448,16 +424,18 @@ void SjLogDialog::ShowDetails(bool show)
 	{
 		detailsButton->SetLabel(wxT("<< ") + wxString(_("Details")));
 
-		if( !m_sizerDetailsAttached )
+		if( !m_sizerDetailsAttached ) {
 			m_sizerAddRemoveParent->Add(m_sizerDetails, 1, wxGROW|wxTOP, SJ_DLG_SPACE);
+		}
 		m_sizerDetailsAttached = true;
 	}
 	else
 	{
 		detailsButton->SetLabel(wxString(_("Details")) + wxT(" >>"));
 
-		if( m_sizerDetailsAttached )
+		if( m_sizerDetailsAttached ) {
 			m_sizerAddRemoveParent->Detach(m_sizerDetails);
+		}
 		m_sizerDetailsAttached = false;
 	}
 }
@@ -475,8 +453,7 @@ void SjLogDialog::OnDetails(wxCommandEvent& event)
 	// dialog size when collapsing it and we have to reset max constraint
 	// because it wouldn't expand it otherwise
 
-	m_minHeight =
-	    m_maxHeight = -1;
+	m_minHeight = m_maxHeight = -1;
 
 	// wxSizer::FitSize() is private, otherwise we might use it directly...
 	wxSize sizeTotal = GetSize(),
@@ -489,8 +466,9 @@ void SjLogDialog::OnDetails(wxCommandEvent& event)
 	// we don't want to allow expanding the dialog in vertical direction as
 	// this would show the "hidden" details but we can resize the dialog
 	// vertically while the details are shown
-	if ( !m_showingDetails )
+	if ( !m_showingDetails ) {
 		m_maxHeight = size.y;
+	}
 
 	SetSizeHints(size.x, size.y, m_maxWidth, m_maxHeight);
 
@@ -516,8 +494,9 @@ void SjLogDialog::OnEval(wxCommandEvent& event)
 	{
 		// create a "printable" excerpt of the script
 		wxString scriptShortened(script);
-		if( scriptShortened.Len()>110 )
+		if( scriptShortened.Len()>110 ) {
 			scriptShortened = scriptShortened.Left(100).Trim()+wxT("..");
+		}
 
 		// prepare execute
 		#if SJ_USE_SCRIPTS
@@ -533,10 +512,12 @@ void SjLogDialog::OnEval(wxCommandEvent& event)
 				wxString result = m_see.GetResultString();
 				if( !sthLogged || !result.IsEmpty() )
 				{
-					if( result.IsEmpty() )
+					if( result.IsEmpty() ) {
 						result = wxT("undefined");
-					else if( result.Len()>110 )
+					}
+					else if( result.Len()>110 ) {
 						result = result.Left(100).Trim()+wxT("..");
+					}
 
 					wxLogInfo(wxT("%s=%s [%s]"), scriptShortened.c_str(), result.c_str(), m_see.m_executionScope.c_str());
 				}
@@ -572,7 +553,7 @@ int SjLogDialog::OpenLogFile(wxFile& file, wxString& retFilename)
 	// -----------------
 	SjExtList extList; extList.AddExt(wxT("txt"));
 	wxFileDialog dlg(this, _("Save"), wxT(""), wxT("log.txt"), extList.GetFileDlgStr(wxFD_SAVE), wxFD_SAVE|wxFD_CHANGE_DIR);
-	if( dlg.ShowModal() != wxID_OK ) return -1;
+	if( dlg.ShowModal() != wxID_OK ) { return -1; }
 	wxString filename = dlg.GetPath();
 
 	// open file
@@ -651,13 +632,16 @@ void SjLogDialog::OnSave(wxCommandEvent& event)
 		ok = file.Write(line);
 	}
 
-	if ( ok )
+	if ( ok ) {
 		ok = file.Close();
+	}
 
-	if ( !ok )
+	if ( !ok ) {
 		wxLogError(wxT("Can't save log contents to \"%s\"."), fileName.c_str());
-	else
+	}
+	else {
 		wxLogInfo(wxT("Log saved to \"%s\"."), fileName.c_str());
+	}
 }
 
 
@@ -862,8 +846,9 @@ wxString SjLogGui::SingleLine(const wxString& s)
 	ret.Replace(wxT("\r"), wxT(" "));
 	ret.Replace(wxT("\r"), wxT(""));
 	ret.Trim();
-	while( ret.Find(wxT("  ")) != -1 )
+	while( ret.Find(wxT("  ")) != -1 ) {
 		ret.Replace(wxT("  "), wxT(" "));
+	}
 	return ret;
 }
 
@@ -878,8 +863,9 @@ void SjLogGui::Flush()
 		m_bHasMessages = false;
 
 		#define MAX_MESSAGES 1000
-		while( m_aPacked.GetCount() > MAX_MESSAGES*2 )
+		while( m_aPacked.GetCount() > MAX_MESSAGES*2 ) {
 			m_aPacked.RemoveAt(0, MAX_MESSAGES);
+		}
 
 		long firstNewIndex = m_aPacked.GetCount();
 		long i, iCount = m_aMessages.GetCount();
@@ -901,22 +887,25 @@ void SjLogGui::Flush()
 		// any errors or warnings? (for "info/verbose" we do not open the dialog
 		// - even not for messages in wx 3.x as they are equal to info/verbose and we use them for logging)
 		// (wxLogInfo and wxLogMessage both results in a message, however, wxLogInfo is not executed if verbose is not set)
-		if( errorIndex==-1 && warningIndex==-1 /*&& messageIndex==-1*/ && s_dlg==NULL )
+		if( errorIndex==-1 && warningIndex==-1 /*&& messageIndex==-1*/ && s_dlg==NULL ) {
 			return;
+		}
 
 		// check if we should open the dialog
 		bool autoOpenNow = GetAutoOpen();
 
-		if( g_mainFrame && !g_mainFrame->IsAllAvailable() )
+		if( g_mainFrame && !g_mainFrame->IsAllAvailable() ) {
 			autoOpenNow = false;
+		}
 
-		if( s_dlg )
+		if( s_dlg ) {
 			autoOpenNow = true;
+		}
 
 		// get dialog icon
 		long aIndex;
 		long style;
-		if ( errorIndex!=-1 )      { style = wxICON_STOP;        aIndex = errorIndex;              }
+		     if ( errorIndex!=-1 )      { style = wxICON_STOP;        aIndex = errorIndex;              }
 		else if ( warningIndex!=-1 )    { style = wxICON_EXCLAMATION; aIndex = warningIndex;            }
 		else if ( messageIndex!=-1 )    { style = wxICON_INFORMATION; aIndex = messageIndex;            }
 		else                            { style = wxICON_INFORMATION; aIndex = m_aPacked.GetCount()-1;  }
@@ -995,14 +984,17 @@ void SjLogGui::OpenManually()
 
 bool SjLogGui::GetAutoOpen()
 {
-	if( s_this == NULL )
+	if( s_this == NULL ) {
 		return true; // wxLogGui is assumed
+	}
 
-	if( g_tools == NULL || g_tools->m_config == NULL )
+	if( g_tools == NULL || g_tools->m_config == NULL ) {
 		return true; // can't read settings, default is true.
+	}
 
-	if( s_this->m_autoOpen == -1 )
+	if( s_this->m_autoOpen == -1 ) {
 		s_this->m_autoOpen = g_tools->m_config->Read(wxT("main/autoOpenConsole"), 1L)? 1L : 0L;
+	}
 
 	return (s_this->m_autoOpen!=0);
 }
@@ -1010,11 +1002,13 @@ bool SjLogGui::GetAutoOpen()
 
 void SjLogGui::SetAutoOpen(bool autoOpen)
 {
-	if( s_this == NULL )
+	if( s_this == NULL ) {
 		return;
+	}
 
 	s_this->m_autoOpen = autoOpen? 1L : 0L;
 
-	if( g_tools && g_tools->m_config )
+	if( g_tools && g_tools->m_config ) {
 		g_tools->m_config->Write(wxT("main/autoOpenConsole"), s_this->m_autoOpen);
+	}
 }
