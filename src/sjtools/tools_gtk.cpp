@@ -49,7 +49,29 @@ wxString SjTools::GetSilverjukeProgramDir()
 
 void SjTools::ExploreFile_(const wxString& location__, const wxString& program__)
 {
-	wxLogError(wxT("SjTools::ExploreFile_() not yet implemented for GTK."));
+    // convert file to directory
+    wxString location = location__;
+    if( !::wxDirExists(location__) )
+    {
+        location = location.BeforeLast(wxT('/'));
+    }
+
+    // does the file or the directory exist?
+    if( !::wxFileExists(location) && !wxDirExists(location) )
+    {
+        wxLogError(_("The file \"%s\" does not exist."), location.c_str());
+        return;
+    }
+
+    wxString xdg_open;
+    if ( wxGetenv(wxT("PATH")) &&
+         wxFindFileInPath(&xdg_open, wxGetenv(wxT("PATH")), wxT("xdg-open")) )
+    {
+		wxString cmd = xdg_open + wxT(" \"") + location + wxT("\"");
+        if( wxExecute(cmd, wxEXEC_ASYNC) == 0 ) { // the window may not be focused, however, this is an issue with the environment, not a problem of Silverjuke
+			wxLogError(_("Cannot execute \"%s\"."), cmd.c_str());
+        }
+    }
 }
 
 
