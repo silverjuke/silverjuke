@@ -40,9 +40,24 @@ SjCsvTokenizer::SjCsvTokenizer(const wxString& fieldsTerminatedBy,
 	m_dataTotalBytes = DATA_INCR_BYTES;
 	m_dataUsedBytes = 0;
 
-	m_sep   = fieldsTerminatedBy.IsEmpty()  ? ','   : fieldsTerminatedBy[0];
-	m_quote = fieldsEnclosedBy.IsEmpty()    ? '\"'  : fieldsEnclosedBy[0];
-	m_esc   = escapeBy.IsEmpty()            ? '\"'  : escapeBy[0];
+	/* Provide default values */
+	m_sep   = ',';
+	m_quote = '\"';
+	m_esc   = '\"';
+
+	/* Make sure that the provided characters are plain ASCII */
+	if( !fieldsTerminatedBy.IsEmpty() && fieldsTerminatedBy[0].IsAscii() )
+	{
+		m_sep = (unsigned char) fieldsTerminatedBy[0];
+	}
+	if( !fieldsEnclosedBy.IsEmpty() && fieldsEnclosedBy[0].IsAscii() )
+	{
+		m_quote = (unsigned char) fieldsEnclosedBy[0];
+	}
+	if( !escapeBy.IsEmpty() && escapeBy[0].IsAscii() )
+	{
+		m_esc = (unsigned char) escapeBy[0];
+	}
 
 	m_x = 0;
 }
