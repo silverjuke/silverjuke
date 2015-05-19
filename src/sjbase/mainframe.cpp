@@ -2434,7 +2434,7 @@ void SjMainFrame::OnIconizeWindow(wxIconizeEvent& event)
 	the System Tray). We do not send this message directly to make sure the
 	window is really iconized when the IDMODMSG_* is send. */
 
-	if( event.Iconized() )
+	if( event.IsIconized() )
 	{
 		if( g_visModule )   // g_visModule may be NULL if the program should be minimized initially
 		{	// eg. using the command line option --minimize; 2.10beta1-beta7 crashed here
@@ -2442,7 +2442,7 @@ void SjMainFrame::OnIconizeWindow(wxIconizeEvent& event)
 		}
 	}
 
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, event.Iconized()? IDMODMSG_WINDOW_ICONIZED : IDMODMSG_WINDOW_UNICONIZED);
+	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, event.IsIconized()? IDMODMSG_WINDOW_ICONIZED : IDMODMSG_WINDOW_UNICONIZED);
 	AddPendingEvent(fwd);
 
 	event.Skip();
