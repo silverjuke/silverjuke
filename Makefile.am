@@ -24,6 +24,9 @@ dist_doc_DATA = \
 	docs/skinning.md \
 	docs/virtual-keyboards.md
 
+desktopdir = $(datadir)/applications
+dist_desktop_DATA = silverjuke.desktop
+
 bin_PROGRAMS = silverjuke
 
 silverjuke_SOURCES = \
@@ -149,11 +152,3 @@ silverjuke_SOURCES = \
 	
 silverjuke_LDADD = \
 	$(WX_LIBS) -lz -lxine
-	
-	
-	
-	
-	
-	
-	
-	

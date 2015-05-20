@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Silverjuke
+GenericName=Music Player
+GenericName[de]=Musikabspieler
+Comment=Play and organize music.
+Comment[de]=Abspielen und sortieren von Musik.
+Keywords=player;mp3;audio;cd;podcast;playlist;
+Keywords[de]=abspieler;mp3;audio;cd;podcast;playlist;
+TryExec=silverjuke
+Exec=silverjuke
+Categories=AudioVideo;Audio;Player;Music
