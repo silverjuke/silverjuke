@@ -31,6 +31,7 @@
 #include <sjbase/base.h>
 #include <sjtools/csv_tokenizer.h>
 
+//#define IsAscii() test
 
 SjCsvTokenizer::SjCsvTokenizer(const wxString& fieldsTerminatedBy,
                                const wxString& fieldsEnclosedBy,
@@ -45,16 +46,16 @@ SjCsvTokenizer::SjCsvTokenizer(const wxString& fieldsTerminatedBy,
 	m_quote = '\"';
 	m_esc   = '\"';
 
-	/* Make sure that the provided characters are plain ASCII */
-	if( !fieldsTerminatedBy.IsEmpty() && fieldsTerminatedBy[0].IsAscii() )
+	/* Make sure that the provided characters are plain ASCII (avoid wxUniChar::IsAscii() to stay compatible with wx 2.8 for the moment) */
+	if( !fieldsTerminatedBy.IsEmpty() && fieldsTerminatedBy[0] < 0x80 )
 	{
 		m_sep = (unsigned char) fieldsTerminatedBy[0];
 	}
-	if( !fieldsEnclosedBy.IsEmpty() && fieldsEnclosedBy[0].IsAscii() )
+	if( !fieldsEnclosedBy.IsEmpty() && fieldsEnclosedBy[0] < 0x80 )
 	{
 		m_quote = (unsigned char) fieldsEnclosedBy[0];
 	}
-	if( !escapeBy.IsEmpty() && escapeBy[0].IsAscii() )
+	if( !escapeBy.IsEmpty() && escapeBy[0] < 0x80 )
 	{
 		m_esc = (unsigned char) escapeBy[0];
 	}
