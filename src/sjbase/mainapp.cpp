@@ -258,7 +258,7 @@ bool SjMainApp::OnInit()
 	s_logGui = new SjLogGui();
 
 	// log silverjuke and platform version and release information
-	wxLogInfo(wxT("Silverjuke %s Rev. %i (%i Bit%s%s%s) on %s (%i Bit) using %s stated"),
+	wxLogInfo(wxT("Silverjuke %s Rev. %i (%i Bit%s%s%s) on %s (%i Bit) using %s started"),
 	          SJ_VERSION_STR, SJ_VERSION_REVISION, sizeof(void*)*8,
 	          #ifdef wxUSE_UNICODE
 	              wxT(" Unicode"),

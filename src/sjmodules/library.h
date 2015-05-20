@@ -226,7 +226,7 @@ private:
 	long            m_flags;
 
 	bool            m_deepUpdate;
-	unsigned long   m_updateStartingTime; // the DOS timestamp the update process stated
+	unsigned long   m_updateStartingTime; // the DOS timestamp the update process started
 	SjIdCollector   m_updatedTracks;
 
 	SjCoverFinder   m_coverFinder;
