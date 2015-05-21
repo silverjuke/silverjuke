@@ -1,0 +1,4210 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-04 14:30+0100\n"
+"PO-Revision-Date: 2011-06-30 20:39+0100\n"
+"Last-Translator: David Minář <antro@pb.cz>\n"
+"Language-Team: David Minar <antro@pb.cz>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\\..\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-Country: CZECH REPUBLIC\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: autoctrl.cpp:221
+#: autoctrl.cpp:673
+msgid "Sleep mode activated."
+msgstr "Režim spánku aktivován."
+
+#: autoctrl.cpp:221
+#: autoctrl.cpp:718
+msgid "Sleep mode deactivated."
+msgstr "Režim spánku deaktivován."
+
+#: browser_list.cpp:1121
+msgid "Reset to default values"
+msgstr "Reset na výchozí hodnoty"
+
+#: browser_list.cpp:1825
+msgid "Nr."
+msgstr "Nr."
+
+# Zkratka "bitů za sekundu"
+#: browser_list.cpp:1829
+msgid "bit/s"
+msgstr "bit/s"
+
+#: browser_list.cpp:1833
+msgid "Samplerate"
+msgstr "Vzorkovací frekvence"
+
+# Zkratka "Hertz"
+#: browser_list.cpp:1833
+msgid "Hz"
+msgstr "Hz"
+
+#: browser_list.cpp:2145
+#: browser_album.cpp:632
+msgid "Show covers"
+msgstr "Zobrazit obaly"
+
+# Nesmíme zapomenout na ":" na konci řetězce.
+#: busyinfo.cpp:105
+msgid "Object count:"
+msgstr "Počet objektů:"
+
+# Nesmíme zapomenout na ":" na konci řetězce.
+#: busyinfo.cpp:114
+msgid "Elapsed time:"
+msgstr "Uplynulý čas:"
+
+#: busyinfo.cpp:127
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: littleoption.cpp:107
+msgid "No"
+msgstr "Ne"
+
+#: littleoption.cpp:107
+msgid "Yes"
+msgstr "Ano"
+
+#: littleoption.cpp:111
+msgid "Off"
+msgstr "Vypnuto"
+
+#: littleoption.cpp:111
+msgid "On"
+msgstr "Zapnuto"
+
+# %s budou nahrazeny názvem souboru
+#: littleoption.cpp:529
+#, c-format
+msgid "Cannot open \"%s\"."
+msgstr "Nelze otevřít \"%s\"."
+
+#: littleoption.cpp:634
+msgid "Select..."
+msgstr "Vyberte..."
+
+#: littleoption.cpp:638
+msgid "Edit..."
+msgstr "Upravit..."
+
+#: littleoption.cpp:642
+msgid "Test..."
+msgstr "Test..."
+
+#: littleoption.cpp:703
+msgid "Programs"
+msgstr "Programy"
+
+#: littleoption.cpp:717
+msgid "Placeholders:"
+msgstr "Symboly:"
+
+#: playeruser.cpp:846
+#, c-format
+msgid "Initializing %s..."
+msgstr "Inicializuju %s..."
+
+#: playeruser.cpp:846
+#: mainframe.cpp:2957
+msgid "Microphone"
+msgstr "Mikrofon"
+
+#: searchsj.cpp:215
+msgid "Title"
+msgstr "Titul"
+
+#: searchsj.cpp:216
+msgid "Track number"
+msgstr "Číslo skladby"
+
+#: searchsj.cpp:217
+msgid "Track count"
+msgstr "Počet skladeb"
+
+#: searchsj.cpp:218
+msgid "Disk number"
+msgstr "Číslo disku"
+
+#: searchsj.cpp:219
+msgid "Disk count"
+msgstr "Počet disků"
+
+#: searchsj.cpp:220
+msgid "Artist"
+msgstr "Interpret"
+
+#: searchsj.cpp:221
+msgid "Original artist"
+msgstr "Původní interpret"
+
+#: searchsj.cpp:222
+msgid "Composer"
+msgstr "Skladatel"
+
+#: searchsj.cpp:223
+msgid "Album"
+msgstr "Album"
+
+#: searchsj.cpp:224
+msgid "Genre"
+msgstr "Žánr"
+
+#: searchsj.cpp:225
+msgid "Group"
+msgstr "Skupina"
+
+#: searchsj.cpp:226
+msgid "Comment"
+msgstr "Komentář"
+
+#: searchsj.cpp:227
+msgid "BPM"
+msgstr "BPM"
+
+#: searchsj.cpp:228
+msgid "My rating"
+msgstr "Hodnocení"
+
+#: searchsj.cpp:229
+msgid "Year"
+msgstr "Rok"
+
+#: searchsj.cpp:230
+msgid "Duration"
+msgstr "Délka"
+
+#: searchsj.cpp:231
+#: mainframe_menu.cpp:438
+#: mainframe.cpp:2952
+#: mainframe.cpp:2957
+#: displaysj.cpp:865
+msgid "Volume"
+msgstr "Hlasitost"
+
+#: searchsj.cpp:232
+msgid "Channels"
+msgstr "Kanály"
+
+#: searchsj.cpp:234
+msgid "Bitrate"
+msgstr "Datový tok"
+
+#: searchsj.cpp:235
+msgid "File name"
+msgstr "Název souboru"
+
+#: searchsj.cpp:236
+msgid "File size"
+msgstr "Velikost souboru"
+
+#: searchsj.cpp:237
+msgid "Date added"
+msgstr "Datum vložení"
+
+#: searchsj.cpp:238
+msgid "Date modified"
+msgstr "Datum změny"
+
+#: searchsj.cpp:239
+msgid "Last played"
+msgstr "Naposledy přehráno"
+
+#: searchsj.cpp:240
+msgid "Play count"
+msgstr "Počet přehrání"
+
+#: searchsj.cpp:241
+msgid "SQL expression"
+msgstr "SQL výraz"
+
+#: searchsj.cpp:242
+msgid "Limit result to"
+msgstr "Omezit výsledek na"
+
+#: searchsj.cpp:244
+msgid "Title/artist/album"
+msgstr "Název/interpret/album"
+
+#: searchsj.cpp:245
+msgid "File type"
+msgstr "Typ souboru"
+
+#: searchsj.cpp:246
+msgid "Queue position"
+msgstr "Pořadí ve frontě"
+
+#: searchsj.cpp:247
+msgid "Include tracks"
+msgstr "Obsah skladeb"
+
+#: searchsj.cpp:248
+msgid "Exclude tracks"
+msgstr "Vyloučit skladby"
+
+#: searchsj.cpp:249
+msgid "Random"
+msgstr "Náhodné přehrávání"
+
+# %s bude nahrazeno zkratkou, např. "Ins" nebo "Del"
+#: searchsj.cpp:369
+#: searchsj.cpp:491
+#, c-format
+msgid "Press \"%s\" in the main window"
+msgstr "Stiskni \"%s\" v hlavním okně"
+
+#: searchsj.cpp:370
+#: searchsj.cpp:492
+msgid "Insert"
+msgstr "Vložit"
+
+#: searchsj.cpp:370
+#: searchsj.cpp:492
+msgid "Del"
+msgstr "Del"
+
+# Use the same date/time format as specified in __DATE_TIME_EDITABLE__ and __DATE_EDITABLE__ - however, you may use a more readable way here.
+#: searchsj.cpp:386
+msgid "Please enter the date as \"dd.mm.yyyy\", you can also add \"hh:mm\" for the time."
+msgstr "Zadejte prosím datum \"dd.mm.yyyy\", můžete také zadat čas \"hh: mm\"."
+
+#: searchsj.cpp:424
+msgid "Please enter the text."
+msgstr "Zadejte prosím text."
+
+#: searchsj.cpp:436
+msgid "Please enter a value."
+msgstr "Zadejte prosím hodnotu."
+
+#: searchsj.cpp:436
+msgid "Please enter a valid value."
+msgstr "Zadejte prosím platnou hodnotu."
+
+# %s will be reaplaced by a decimal-point-formatted number
+#: searchsj.cpp:519
+#: browser_cover.cpp:1380
+#, c-format
+msgid "%s tracks"
+msgstr "%s skladeb"
+
+#: searchsj.cpp:1267
+msgid "(second field)"
+msgstr "(Druhé pole)"
+
+#: searchsj.cpp:1276
+msgid "No valid criteria defined."
+msgstr "Žádná platná kritéria stanovená."
+
+#: searchsj.cpp:1281
+msgid "The search cannot be started; please check the following fields:"
+msgstr "Hledání nelze spustit, zkontrolujte následující oblasti:"
+
+#: searchsj.cpp:1286
+msgid "Note: The operators \"equal\" and \"unequal\" are case-sensitive."
+msgstr "Poznámka: Operátory \"stejné\" a \"nerovné\" jsou citlivý na velikost písmen."
+
+# %s will be replaced by a filename
+#: imgop.cpp:1452
+#, c-format
+msgid "Cannot write \"%s\"."
+msgstr "Nelze zapsat \"%s\"."
+
+#: imgop.cpp:1585
+msgid "Unsorted tracks"
+msgstr "Netříděné skladby"
+
+#: browser_cover.cpp:608
+#: mainframe_menu.cpp:238
+#: mainframe_menu.cpp:310
+msgid "Show album name"
+msgstr "Zobrazit název alba"
+
+#: mainframe_menu.cpp:53
+msgid "File"
+msgstr "Soubor"
+
+#: mainframe_menu.cpp:56
+msgid "Edit"
+msgstr "Upravit"
+
+#: mainframe_menu.cpp:59
+#: mainframe_menu.cpp:636
+msgid "View"
+msgstr "Zobrazit"
+
+#: mainframe_menu.cpp:62
+#: mainframe_menu.cpp:641
+msgid "Playback"
+msgstr "Přehrávání"
+
+#: mainframe_menu.cpp:65
+#: mainframe_menu.cpp:84
+msgid "Help"
+msgstr "Pomoc"
+
+#: mainframe_menu.cpp:96
+msgid "My music library"
+msgstr "Hudební knihovny"
+
+#: mainframe_menu.cpp:115
+#: mainframe_menu.cpp:646
+msgid "Tools"
+msgstr "Nástroje"
+
+#: mainframe_menu.cpp:138
+#: mainframe_menu.cpp:600
+#: mainframe.cpp:2946
+msgid "End search"
+msgstr "Konec hledání"
+
+# This is the name of the "First steps" button. Do not add "..." to the string!
+#: mainframe_menu.cpp:157
+msgid "First steps"
+msgstr "První kroky"
+
+#: mainframe_menu.cpp:158
+msgid "Online help"
+msgstr "Online nápověda"
+
+# %s will be replaced by the program name, usually "Silverjuke", the string is used for the menu to open the about dialog. Note that "..." is added by Silverjuke, if needed.
+#: mainframe_menu.cpp:163
+#: mainframe_menu.cpp:660
+#, c-format
+msgid "About %s"
+msgstr "O %s"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: mainframe_menu.cpp:170
+#: mainframe_menu.cpp:664
+#, c-format
+msgid "Buy %s..."
+msgstr "Koupit %s..."
+
+#: mainframe_menu.cpp:231
+#: mainframe_menu.cpp:448
+#: mainframe.cpp:2263
+msgid "Repeat one"
+msgstr "Opakovat všechny skladby pouze jednou"
+
+#: mainframe_menu.cpp:232
+#: mainframe_menu.cpp:449
+#: mainframe.cpp:2264
+msgid "Repeat all"
+msgstr "Opakovat všechny skladby"
+
+#: mainframe_menu.cpp:233
+#: mainframe.cpp:2259
+msgid "Repeat playlist"
+msgstr "Opakování playlistu"
+
+#: mainframe_menu.cpp:265
+#: mainframe_menu.cpp:315
+msgid "Show elapsed time"
+msgstr "Zobrazit uplynulý čas"
+
+#: mainframe_menu.cpp:265
+#: mainframe_menu.cpp:315
+msgid "Show remaining time"
+msgstr "Zobrazit zbývající čas"
+
+#: mainframe_menu.cpp:304
+msgid "Zoom"
+msgstr "Přiblížení"
+
+#: mainframe_menu.cpp:347
+msgid "Exit kiosk mode"
+msgstr "Ukončit kiosk režim"
+
+#: mainframe_menu.cpp:351
+msgid "Start kiosk mode"
+msgstr "Start kiosk režimu"
+
+#: mainframe_menu.cpp:524
+msgid "Current view"
+msgstr "Aktuální zobrazení"
+
+#: mainframe_menu.cpp:532
+#, c-format
+msgid "Next track from \"%s\""
+msgstr "Další skladba z \"%s\""
+
+#: mainframe_menu.cpp:536
+msgid "Next track"
+msgstr "Další skladba"
+
+#: mainframe_menu.cpp:678
+#: displaysj.cpp:872
+msgid "Prelisten"
+msgstr "Odposlech"
+
+#: mainframe_menu.cpp:685
+#: mainframe.cpp:2874
+msgid "Stop prelistening"
+msgstr "Konec odposlechu"
+
+#: mainframe_menu.cpp:693
+#, c-format
+msgid "Prelisten \"%s\""
+msgstr "Odposlech \"%s\""
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: mainframe_menu.cpp:722
+#, c-format
+msgid "Hide %s"
+msgstr "Skrýt %s"
+
+#: mainframe_menu.cpp:742
+msgid "Pause"
+msgstr "Pauza"
+
+#: mainframe_menu.cpp:742
+msgid "Play"
+msgstr "Přehrát"
+
+#: mainframe_menu.cpp:816
+msgid "Search for genre"
+msgstr "Vyhledat podle žánru"
+
+#: mainframe_menu.cpp:840
+msgid "Search for music selection"
+msgstr "Vyhledat podle výběru hudby"
+
+#: mainframe_menu.cpp:925
+msgid "Edit tracks/Get info"
+msgstr "Úpravy skladeb/Více info"
+
+#: mainframe_menu.cpp:940
+msgid "Cover editor"
+msgstr "Editor obalů"
+
+#: skinner.cpp:4643
+#: displaysj.cpp:753
+#: displaysj.cpp:755
+#: displaysj.cpp:825
+#: displaysj.cpp:827
+msgid "Unlicenced version"
+msgstr "Neregistrovaná verze"
+
+#: browser.cpp:545
+msgid "Drag folders with music here."
+msgstr "Sem přetáhněte složky s hudbou."
+
+#: mainframe.cpp:355
+msgid "Recreating music library"
+msgstr "Vytvořit hudební knihovnu"
+
+#: mainframe.cpp:355
+msgid "Updating music library"
+msgstr "Aktualizace hudební knihovny"
+
+#: mainframe.cpp:357
+msgid ""
+"If you cancel the update process, your music library may not be up to date.\n"
+"\n"
+"Cancel the update process?"
+msgstr ""
+"Pokud zrušíte proces aktualizace, nebude seznam hudby aktuální.\n"
+"\n"
+"Zrušit proces aktualizace?"
+
+#: mainframe.cpp:417
+#, c-format
+msgid "%s is currently playing. Do you want to stop the playing track and exit %s?"
+msgstr "%s momentálně přehrává skladbu. Chcete zastavit přehrávání skladby a ukončit %s?"
+
+#: mainframe.cpp:420
+#, c-format
+msgid "Exit %s"
+msgstr "Ukončit %s"
+
+#: mainframe.cpp:872
+#, c-format
+msgid "Also install the script to \"%s\" for permanent use"
+msgstr "Nainstalovat skript \"%s\" pro trvalé použití"
+
+#: mainframe.cpp:874
+#, c-format
+msgid "Execute the script \"%s\"?"
+msgstr "Spustit skript \"%s\"?"
+
+#: mainframe.cpp:1026
+msgid "These options are available if you buy Silverjuke."
+msgstr "Tyto možnosti jsou k dispozici v registrované verzi Silverjuke."
+
+#: mainframe.cpp:1249
+#: mainframe.cpp:2946
+#: mainframe.cpp:3357
+msgid "Search"
+msgstr "Hledání"
+
+#: mainframe.cpp:1353
+#: mainframe.cpp:1381
+#: mainframe.cpp:1463
+#, c-format
+msgid "Loading %s"
+msgstr "Načtení %s"
+
+# The first %s will be replaced by the program name (usually "Silverjuke"), the second and third %s will be replaced by a file type (eg. "MP3"), the fourth %s will be replaced by the URL to search for modules (eg. "http://www.silverjuke.net/en/modules.html".
+#: mainframe.cpp:1560
+#, c-format
+msgid ""
+"%s has not found an %s-decoder on your system. If you want to play %s-files, you should install a module for this purpose.\n"
+"\n"
+"Open %s and search for modules now?"
+msgstr ""
+"%s nebyl nalezen %s-dekodér v systému. Pokud chcete přehrát %s-soubory, musíte si nainstalovat modul pro tento účel.\n"
+"\n"
+"Otevřít %s a vyhledat moduly?"
+
+# %s will be replaced by the program name (usually "Silverjuke")
+#: mainframe.cpp:1572
+#, c-format
+msgid "Do you want %s to check for missing decoders in future?"
+msgstr "Chcete kontrolovat %s chybějící dekodéry v budoucnu?"
+
+#: mainframe.cpp:2251
+#: displaysj.cpp:1083
+msgid "Shuffle"
+msgstr "Náhodný výběr"
+
+#: mainframe.cpp:2295
+msgid "Select a track, then start playback."
+msgstr "Vybrat skladbu, spustit přehrávání."
+
+#: mainframe.cpp:2318
+msgid "Stop after this track"
+msgstr "Stop po této skladbě"
+
+#: mainframe.cpp:2326
+msgid "Stop after each track"
+msgstr "Stop po každé skladbě"
+
+# This is a context-menu option that is placed in the "Playback" submenu
+#: mainframe.cpp:2337
+msgid "Play tracks at once on double click"
+msgstr "Přehrát skladby okamžitě po výběru"
+
+#: mainframe.cpp:2350
+msgid "Remove played tracks from queue"
+msgstr "Odstranit přehrané skladby z playlistu"
+
+#: mainframe.cpp:2414
+msgid "More from current album"
+msgstr "Více z aktuálního alba"
+
+#: mainframe.cpp:2414
+msgid "More from current artist"
+msgstr "Více z aktuálního interpreta"
+
+#: mainframe.cpp:2416
+msgid "No more tracks."
+msgstr "Žádné další skladby."
+
+# %i will be replaced by the number of tracks
+#: mainframe.cpp:2456
+#, c-format
+msgid "Remove all %i tracks from the queue and stop playback?"
+msgstr "Zastavit přehrávání a odstranit všechny %i skladby z playlistu?"
+
+#: mainframe.cpp:2457
+msgid "Clear playlist"
+msgstr "Vymazat playlist"
+
+#: mainframe.cpp:2878
+#: mainframe.cpp:2918
+#: mainframe.cpp:2936
+msgid "Toggle time mode"
+msgstr "Přepnout časový režim"
+
+#: mainframe.cpp:2885
+msgid "Volume up"
+msgstr "Zesílení"
+
+#: mainframe.cpp:2889
+msgid "Volume down"
+msgstr "Zeslabení"
+
+#: mainframe.cpp:2905
+msgid "Track played, click to reset"
+msgstr "Skladba přehrána, klikněte na reset"
+
+#: mainframe.cpp:2909
+msgid "Boredom avoided: Track moved down"
+msgstr "Skladba přesunuta nakonec"
+
+#: mainframe.cpp:2914
+msgid "Remove this track"
+msgstr "Odstranit tuto skladbu"
+
+#: mainframe.cpp:2925
+#, c-format
+msgid "Go to \"%s\""
+msgstr "Přejít na \"%s\""
+
+#: mainframe.cpp:2948
+msgid "click right for options"
+msgstr "klikněte pravým tlačítkem pro možnosti"
+
+#: mainframe.cpp:2964
+msgid "Double-click to enlarge the cover"
+msgstr "Dvojklikem zvětšíte obal"
+
+#: mainframe.cpp:2979
+#, c-format
+msgid "Close this window and exit %s"
+msgstr "Ukončit %s"
+
+#: mainframe.cpp:2980
+msgid "Open main menu"
+msgstr "Otevřít hlavní menu"
+
+#: mainframe.cpp:2981
+msgid "Toggle shuffle mode"
+msgstr "Přepnout režim náhodného přehrávání"
+
+#: mainframe.cpp:2982
+msgid "Repeat all/repeat current"
+msgstr "Opakování všech/opakování aktuálních"
+
+# %s will be replaced by the name of a music selection
+#: mainframe.cpp:3353
+#, c-format
+msgid "Search in \"%s\""
+msgstr "Hledat v \"%s\""
+
+#: mainframe.cpp:3647
+msgid "Fatal error"
+msgstr "Fatální chyba"
+
+#: mainframe.cpp:3653
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: mainframe.cpp:3654
+msgid "Alt"
+msgstr "Alt"
+
+#: mainframe.cpp:3655
+msgid "Shift"
+msgstr "Shift"
+
+#: mainframe.cpp:3659
+msgid "Enlarge window"
+msgstr "Zvětšit okno"
+
+#: mainframe.cpp:3660
+msgid "Shrink window"
+msgstr "Zmenšit okno"
+
+#: mainframe.cpp:3661
+msgid "Enlarge display"
+msgstr "Zvětšit zobrazení"
+
+#: mainframe.cpp:3662
+msgid "Shrink display"
+msgstr "Zmenšit zobrazení"
+
+#: mainframe.cpp:3666
+msgid "Full screen"
+msgstr "Celá obrazovka"
+
+#: mainframe.cpp:3667
+msgid "Show file"
+msgstr "Zobrazit soubor"
+
+#: mainframe.cpp:3668
+msgid "Explore"
+msgstr "Prozkoumat"
+
+#: mainframe.cpp:3669
+msgid "Reveal in Finder"
+msgstr "Najít ve vyhledávači"
+
+#: mainframe.cpp:3670
+msgid "Info..."
+msgstr "Info..."
+
+#: mainframe.cpp:3671
+msgid "State"
+msgstr "Stav"
+
+#: mainframe.cpp:3672
+msgid "Modules on the web..."
+msgstr "Moduly na webu..."
+
+# The first %s will be replaced by the program name, the second by the name of the licence holder.
+#: displaysj.cpp:818
+#, c-format
+msgid "%s licenced to %s"
+msgstr "%s, vlastník licence: %s"
+
+# %s will be replaced by the name of the licence holder
+#: displaysj.cpp:820
+#, c-format
+msgid "Licenced to %s"
+msgstr "Licencován na %s"
+
+#: displaysj.cpp:954
+msgid "AutoPlay"
+msgstr "Přehrát automaticky"
+
+#: playlistsj.cpp:660
+msgid "Several artists"
+msgstr "Několik interpretů"
+
+#: playlistsj.cpp:661
+msgid "Unknown title"
+msgstr "Neznámá skladba"
+
+#: playlistsj.cpp:1053
+#: playlistsj.cpp:1077
+msgid "Save playlist"
+msgstr "Uložit playlist"
+
+#: playlistsj.cpp:1163
+msgid "Open playlist"
+msgstr "Otevřít playlist"
+
+#: sqlt.cpp:205
+#: sqlt.cpp:911
+msgid "Cleanup index..."
+msgstr "Vyčištění indexu..."
+
+#: msw/mswkiosk.cpp:135
+msgid ""
+"To disable Ctrl+Alt+Del you have to install a special keyboard driver once.\n"
+"\n"
+"Do you want to install the driver and reboot?"
+msgstr ""
+"Chcete-li zakázat Ctrl+Alt+Del, je třeba nainstalovat speciální ovladač klávesnice.\n"
+"\n"
+"Chcete nainstalovat ovladač a restartovat?"
+
+# %i will be replaced by the error number
+#: msw/mswtools.cpp:79
+#, c-format
+msgid "Error %i"
+msgstr "Chyba %i"
+
+# %s will be replaced by the file name
+#: msw/mswtools.cpp:613
+#, c-format
+msgid "The file \"%s\" does not exist."
+msgstr "Soubor \"%s\" neexistuje."
+
+# %s will be replaced by the shortcut
+#: msw/mswtools.cpp:925
+#, c-format
+msgid "Cannot register system-wide shortcut \"%s\"."
+msgstr "Nelze registrovat klávesovou zkratku pro celý systém \"%s\"."
+
+#: tools/temp_n_cache.cpp:334
+msgid "max. size"
+msgstr "Maximální velikost"
+
+#: tools/temp_n_cache.cpp:413
+msgid "Temporary directory"
+msgstr "Dočasný adresář"
+
+# %s will be replaced by the file type, eg. "MP3" or "JPG"
+#: tools/ext_list.cpp:163
+#: tools/ext_list.cpp:172
+#: tools/ext_list.cpp:187
+#: tools/ext_list.cpp:220
+#, c-format
+msgid "%s-files"
+msgstr "%s-souborů"
+
+# %s will be replaced by the file type, eg. "MP3"
+#: tools/ext_list.cpp:164
+#: tools/ext_list.cpp:166
+#: tools/ext_list.cpp:168
+#: tools/ext_list.cpp:173
+#: tools/ext_list.cpp:174
+#: tools/ext_list.cpp:175
+#: tools/ext_list.cpp:176
+#: tools/ext_list.cpp:177
+#: tools/ext_list.cpp:178
+#: tools/ext_list.cpp:181
+#: tools/ext_list.cpp:188
+#, c-format
+msgid "%s-audio"
+msgstr "%s-audio"
+
+# %s will be replaced by the file type, eg. "JPG"
+#: tools/ext_list.cpp:165
+#: tools/ext_list.cpp:169
+#: tools/ext_list.cpp:186
+#, c-format
+msgid "%s-images"
+msgstr "%s-obrázků"
+
+# %s will be replaced by the file type, eg. "M3U"  or "CUE"
+#: tools/ext_list.cpp:170
+#: tools/ext_list.cpp:171
+#: tools/ext_list.cpp:179
+#: tools/ext_list.cpp:182
+#, c-format
+msgid "%s-playlists"
+msgstr "%s-playlistů"
+
+#: tools/ext_list.cpp:183
+msgid "Silverjuke language-files"
+msgstr "Silverjuke jazykové soubory"
+
+#: tools/ext_list.cpp:185
+msgid "Silverjuke skin-files"
+msgstr "Silverjuke skin soubory"
+
+#: tools/ext_list.cpp:189
+msgid "Archive-files"
+msgstr "Archiv souborů"
+
+#: tools/ext_list.cpp:279
+msgid "Supported file-types"
+msgstr "Podporované typy souborů"
+
+#: tools/ext_list.cpp:295
+msgid "All files"
+msgstr "Všechny soubory"
+
+#: tools/dialogsj.cpp:148
+msgid "Menu"
+msgstr "Menu"
+
+#: tools/dialogsj.cpp:186
+#: tools/dialogsj.cpp:192
+msgid "OK"
+msgstr "OK"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: tools/dialogsj.cpp:424
+#, c-format
+msgid "Please restart %s so that the changes can take effect."
+msgstr "Změny %s se projeví po restartu Silverjuke"
+
+#: tools/dialogsj.cpp:789
+msgid "seconds"
+msgstr "sekund"
+
+# The first %s is replaces with the program name (usually "Silverjuke"), the seconds %s is replaced by a (maybe complex) error description
+#: tools/tools.cpp:278
+#, c-format
+msgid ""
+"Last time %s did not terminate normally.\n"
+"The following - maybe errorous - objects were in use just before the abnormal termination:\n"
+"\n"
+"%s\n"
+"\n"
+"On continuous problems, try to avoid using these objects.\n"
+"Do you want to use the objects this time?"
+msgstr ""
+"Naposledy %s nebyl korektně ukončen.\n"
+"Následující (pravděpodobně chybné) objekty byly používány těsně před ukončením programu:\n"
+"\n"
+"%s\n"
+"\n"
+"Pro zamezení těchto problémů se zkuste vyhnout používáním těchto objektů.\n"
+"Chcete i nadále používat tyto objekty?"
+
+#: tools/tools.cpp:284
+msgid "Use maybe errorous objects?"
+msgstr "Použít pravděpodobně chybné objekty?"
+
+# How should the DATE PLUS TIME be formatted in this locate (long format)? You can use the following placeholders:
+# -----
+# %a = weekday abbreviation  (Mon, Tue ...)
+# %d = day in month (1-31)
+# %b = month name (January, ...)
+# %Y = year (4 characters)
+# %H = hour (00-23)
+# %I = hour (01-12)
+# %M = minute (0-59)
+# %p = "am" or "pm"
+# -----
+# Eg. we use "%a %b %d %Y, %I:%M:%S %p" for english and "%a, %d. %b. %Y, %H:%M:%S" or german here.
+#: tools/tools.cpp:472
+msgid "__DATE_TIME_LONG__"
+msgstr ""
+
+# Please use only "%d.%m.%Y %H:%M:%S" or "%m/%d/%Y %H:%M:%S" (without the quotes) here as Silverjuke cannot parse other date/time formats.
+#: tools/tools.cpp:473
+msgid "__DATE_TIME_EDITABLE__"
+msgstr ""
+
+# How should the DATE WITHOUT TIME be formatted in this locate (long format)? See __DATE_TIME_LONG__ for a brief overview about the placeholders available.
+# -----
+# Eg. we use "%a %b %d %Y" for english and "%a, %d. %b. %Y" or german here.
+#: tools/tools.cpp:474
+msgid "__DATE_LONG__"
+msgstr ""
+
+# Please use only "%d.%m.%Y" or "%m/%d/%Y" (without the quotes) here as Silverjuke cannot parse other date formats.
+#: tools/tools.cpp:475
+msgid "__DATE_EDITABLE__"
+msgstr ""
+
+# Set this value to "1" (with out the quotes) if sunday should be the first day in the week; otherwise, use "0".
+#: tools/tools.cpp:476
+msgid "__DATE_SUNDAY_FIRST__"
+msgstr ""
+
+# __THIS_LANG__ defines the languge of this locale, use strings as "de", "en", "fr", "es", "dk" etc. here
+#: tools/tools.cpp:477
+msgid "__THIS_LANG__"
+msgstr ""
+
+# Here you can add additional cover-search URLs for your locale or for your country. If you are already lucky with the predifined URLs, leave this field empty. Otherwise the value should look like:
+# -----
+# [search]
+# Google.com=http://images.google.com/images?q=%artistutf8%+%albumutf8%
+# AllMusic.com=http://www.allmusic.com/cg/amg.dll?P=amg&sql=%album%&opt1=2
+# -----
+# Do not forget to let the value begin with [search]. You can use the following placeholders for the URL:
+# %artist%
+# %artistutf8%
+# %album%
+# %albumutf8%
+# %track%
+# %trackutf8%
+# -----
+# Again, if you are unsure, just leave this field blank.
+#: tools/tools.cpp:478
+msgid "__COVER_SEARCH_URLS__"
+msgstr ""
+
+# Here you can add additional artist-info URLs for your locale or for your country. If you are already lucky with the predifined URLs, leave this field empty. Otherwise the value should look simelar to __COVER_SEARCH_URLS__ but has the following sections:
+# -----
+# [homepage]
+# [info]
+# [lyrics]
+# [search]
+# -----
+# Again, if you are unsure, just leave this field blank.
+#: tools/tools.cpp:479
+msgid "__ARTIST_INFO_URLS__"
+msgstr ""
+
+# Locale-dependent default stop-words to omit at the beginning of an artist. However, you should also include the english stop words here.
+# -----
+# The predefined stop words are: the, der, die, die happy, das
+#: tools/tools.cpp:480
+msgid "__STOP_ARTISTS__"
+msgstr ""
+
+# Locale-dependent default stop-words to omit at the beginning of an artist.
+# -----
+# There are no predefined album stopwords, so you may also decide to leave this field blank or enter "0" here.
+#: tools/tools.cpp:481
+msgid "__STOP_ALBUMS__"
+msgstr ""
+
+# Default cover keywords for your locale. The predefined cover keywords for english are: front, vorn, outside, cover
+#: tools/tools.cpp:482
+msgid "__COVER_KEYWORDS__"
+msgstr ""
+
+#: tools/tools.cpp:483
+msgid "__VIRT_KEYBD__"
+msgstr ""
+
+# This is the help topic for the "First steps" that are opened if Silverjuke is started the first time. The topic is also reachable through the "About" dialog. You can use _simple_ HTML here: <h1>, <p>, <b>, <i> and <a>. Please refer to one of the example files in the developer network.
+#: tools/tools.cpp:484
+msgid "__HELP__"
+msgstr ""
+
+#: tools/tools.cpp:485
+msgid "Apply"
+msgstr "Použít"
+
+# thousands separator - usually this is a comma or a point
+#: tools/tools.cpp:1300
+msgid ","
+msgstr ","
+
+# decimal point - usually this is a comma or a point
+#: tools/tools.cpp:1445
+#: tools/tools.cpp:1475
+msgid "."
+msgstr "."
+
+# %i will be replaced by a number
+#: tools/tools.cpp:1537
+#, c-format
+msgid "%i days"
+msgstr "%i dní"
+
+# Abbreviation of "Milliseconds"
+#: tools/tools.cpp:1610
+msgid "ms"
+msgstr "ms"
+
+# String for "Don't know" or "unset"
+#: tools/tools.cpp:1675
+msgid "n/a"
+msgstr "Nedostupný"
+
+# %s will be replaced by the text of the invalid reguar expression
+#: tools/tools.cpp:3875
+#, c-format
+msgid "Invalid regular expression \"%s\"."
+msgstr "Neplatný regulární výraz \"%s\"."
+
+#: tools/versioncheck.cpp:108
+msgid "Check for new Silverjuke version..."
+msgstr "Zkontrolujte, je-li k dispozici nová verze Silverjuke..."
+
+# The first %s will be replaces by the new version, the others %s will be replaced by the URL for downloading it.
+#: tools/versioncheck.cpp:144
+#, c-format
+msgid ""
+"A new version of Silverjuke (%s) is available for download on %s.\n"
+"\n"
+"Do you want to open %s now?"
+msgstr ""
+"Nová verze Silverjuke (%s) je k dispozici ke stažení na %s.\n"
+"\n"
+"Chcete %s otevřít?"
+
+#: tools/consolesj.cpp:126
+msgid "Message"
+msgstr "Zpráva"
+
+#: tools/consolesj.cpp:127
+msgid "Scope"
+msgstr "Rozsah"
+
+#: tools/consolesj.cpp:128
+#: modules/burn.cpp:680
+msgid "Time"
+msgstr "Čas"
+
+#: tools/consolesj.cpp:317
+#: tools/consolesj.cpp:549
+#: modules/accelsj.cpp:481
+msgid "Console"
+msgstr "Konzole"
+
+#: tools/consolesj.cpp:355
+#: tools/consolesj.cpp:425
+#, c-format
+msgid "%i message(s)"
+msgstr "%i zpráv(a, y)"
+
+#: tools/consolesj.cpp:388
+msgid "Evaluate"
+msgstr "Posoudit"
+
+#: tools/consolesj.cpp:391
+msgid "Clear"
+msgstr "Vymazat"
+
+#: tools/consolesj.cpp:394
+#: tools/consolesj.cpp:597
+#: modules/accelsj.cpp:550
+msgid "Save"
+msgstr "Uložit"
+
+#: tools/consolesj.cpp:397
+msgid "Open console on errors and warnings"
+msgstr "Otevřít konzoly chyb a varování"
+
+#: tools/consolesj.cpp:402
+msgid "Close"
+msgstr "Zavřít"
+
+#: tools/consolesj.cpp:454
+#: tools/consolesj.cpp:462
+msgid "Details"
+msgstr "Detaily"
+
+#: tools/consolesj.cpp:578
+msgid "Clear all messages?"
+msgstr "Smazat všechny zprávy?"
+
+#: tools/consolesj.cpp:609
+#, c-format
+msgid "Overwrite \"%s\"?"
+msgstr "Přepsat \"%s\"?"
+
+#: tools/consolesj.cpp:610
+msgid "Append"
+msgstr "Připojit"
+
+#: modules/internalinterface.cpp:62
+msgid "Internal"
+msgstr "Interní"
+
+#: modules/openfiles.cpp:77
+msgid "Please select a playlist, some files or enter a streaming URL"
+msgstr "Vyberte prosím seznam skladeb, hudební soubory, nebo zadejte URL streamu"
+
+#: modules/openfiles.cpp:88
+#: modules/openfiles.cpp:111
+msgid "Browse"
+msgstr "Prohlížet"
+
+#: modules/openfiles.cpp:91
+msgid "Append to current playlist"
+msgstr "Připojit k aktuálnímu playlistu"
+
+#: modules/burn.cpp:98
+msgid "Other program"
+msgstr "Jiný program"
+
+# %s will the replaced by the program-file that cannot be executed.
+#: modules/burn.cpp:305
+#, c-format
+msgid "Cannot execute \"%s\"."
+msgstr "Nelze spustit \"%s\"."
+
+#: modules/burn.cpp:337
+msgid "Set markers"
+msgstr "Nastavit značky"
+
+# %i will be replaced by the number of the marker, %s will be replaced by the marker position or by a control to select the marker position
+#: modules/burn.cpp:354
+#, c-format
+msgid "Show marker %i at %s."
+msgstr "Zobrazit značku %i na %s."
+
+#: modules/burn.cpp:365
+msgid "Minutes"
+msgstr "Minut"
+
+#: modules/burn.cpp:370
+msgid "Warn if marker is crossed"
+msgstr "Upozornit při překročení značek"
+
+#: modules/burn.cpp:610
+#: modules/burn.cpp:1076
+msgid "Set markers..."
+msgstr "Nastavit značky"
+
+#: modules/burn.cpp:649
+#: modules/burn.cpp:699
+#: modules/burn.cpp:785
+#: modules/burn.cpp:1170
+#: modules/burn.cpp:1178
+#: modules/burn.cpp:1206
+#: modules/accelsj.cpp:475
+msgid "Burn CD"
+msgstr "Vypálit CD"
+
+#: modules/burn.cpp:679
+msgid "Tracks to burn:"
+msgstr "Skladby k vypálení"
+
+#: modules/burn.cpp:681
+msgid "Size"
+msgstr "Velikost"
+
+#: modules/burn.cpp:689
+msgid "Recorder:"
+msgstr "Vypálit pomocí:"
+
+#: modules/burn.cpp:784
+#: modules/burn.cpp:1169
+msgid "Please select an installed and available program"
+msgstr "Vyberte prosím z nainstalovaných a dostupných programů"
+
+# %s will be replaced by the name of a program
+#: modules/burn.cpp:803
+#, c-format
+msgid "Please locate \"%s\""
+msgstr "Lokalizujte prosím \"%s\""
+
+# %s will be replaced by the name of a program
+#: modules/burn.cpp:826
+#, c-format
+msgid "Arguments for \"%s\""
+msgstr "Argumenty pro \"%s\""
+
+#: modules/burn.cpp:1012
+msgid "Total time"
+msgstr "Celkový čas"
+
+#: modules/burn.cpp:1059
+msgid "Cannot calculate the total time"
+msgstr "Nelze spočítat celkový čas"
+
+#: modules/burn.cpp:1073
+#: modules/accelsj.cpp:176
+#: modules/accelsj.cpp:565
+msgid "Delete"
+msgstr "Vymazat"
+
+#: modules/burn.cpp:1177
+msgid ""
+"The size of the selected tracks is larger than the assumed capacity of the disk to burn.\n"
+"\n"
+"Continue anyway?"
+msgstr ""
+"Velikost vybraných skladeb je větší, než je předpokládaná kapacita média pro vypálení.\n"
+"\n"
+"Chcete pokračovat?"
+
+#: modules/mymusic.cpp:172
+msgid "Read music-files from the following folders and sources:"
+msgstr "Načíst hudební soubory z těchto složek a zdrojů:"
+
+#: modules/mymusic.cpp:181
+msgid "Read music-files from the following sources:"
+msgstr "Načíst hudební soubory z těchto zdrojů:"
+
+#: modules/mymusic.cpp:187
+msgid "Add source"
+msgstr "Přidat zdroj"
+
+#: modules/mymusic.cpp:190
+#: modules/mymusic.cpp:614
+msgid "Remove source"
+msgstr "Odstranit zdroj"
+
+#: modules/mymusic.cpp:193
+msgid "Options"
+msgstr "Možnosti"
+
+#: modules/mymusic.cpp:196
+#: modules/mymusic.cpp:326
+#: modules/accelsj.cpp:246
+msgid "Update music library"
+msgstr "Aktualizovat hudební knihovnu"
+
+#: modules/mymusic.cpp:211
+msgid "Currently, the following files are supported:"
+msgstr "V současné době jsou podporovány následující typy souborů:"
+
+# %s will be replaced eg. by a module- or a filename
+#: modules/mymusic.cpp:627
+#, c-format
+msgid "Options for \"%s\""
+msgstr "Možnosti pro \"%s\""
+
+#: modules/mymusic.cpp:631
+msgid "Options..."
+msgstr "Možnosti..."
+
+#: modules/accelsj.cpp:58
+#: modules/accelsj.cpp:1592
+msgid "Esc"
+msgstr "Esc"
+
+#: modules/accelsj.cpp:62
+#: modules/accelsj.cpp:1590
+msgid "Tab"
+msgstr "Tab"
+
+#: modules/accelsj.cpp:81
+#: modules/accelsj.cpp:134
+msgid "Page left"
+msgstr "Page left"
+
+#: modules/accelsj.cpp:85
+#: modules/accelsj.cpp:137
+msgid "Page right"
+msgstr "Page right"
+
+#: modules/accelsj.cpp:89
+#: modules/accelsj.cpp:140
+#: modules/accelsj.cpp:1601
+msgid "Page up"
+msgstr "Page up"
+
+#: modules/accelsj.cpp:92
+#: modules/accelsj.cpp:148
+#: modules/accelsj.cpp:1606
+msgid "Page down"
+msgstr "Page down"
+
+#: modules/accelsj.cpp:104
+msgid "Cursor left"
+msgstr "Cursor left"
+
+#: modules/accelsj.cpp:108
+msgid "Cursor right"
+msgstr "Cursor right"
+
+#: modules/accelsj.cpp:112
+msgid "Cursor up"
+msgstr "Cursor up"
+
+#: modules/accelsj.cpp:116
+msgid "Cursor down"
+msgstr "Cursor down"
+
+#: modules/accelsj.cpp:121
+msgid "Line left"
+msgstr "Line left"
+
+#: modules/accelsj.cpp:124
+msgid "Line right"
+msgstr "Line right"
+
+#: modules/accelsj.cpp:127
+msgid "Line up"
+msgstr "Line up"
+
+#: modules/accelsj.cpp:130
+msgid "Line down"
+msgstr "Line down"
+
+#: modules/accelsj.cpp:157
+#: modules/accelsj.cpp:1609
+msgid "Home"
+msgstr "Home"
+
+#: modules/accelsj.cpp:161
+#: modules/accelsj.cpp:1608
+msgid "End"
+msgstr "End"
+
+#: modules/accelsj.cpp:166
+#: modules/accelsj.cpp:1591
+msgid "Enter"
+msgstr "Enter"
+
+#: modules/accelsj.cpp:181
+msgid "Album view"
+msgstr "Zobrazit album"
+
+#: modules/accelsj.cpp:185
+msgid "Cover view"
+msgstr "Zobrazit obal"
+
+#: modules/accelsj.cpp:189
+msgid "List view"
+msgstr "Zobrazit seznam"
+
+#: modules/accelsj.cpp:193
+msgid "Toggle view"
+msgstr "Přepnout zobrazení"
+
+#: modules/accelsj.cpp:209
+msgid "Unqueue marked tracks"
+msgstr "Odstranit z playlistu označené skladby"
+
+#: modules/accelsj.cpp:212
+msgid "Unqueue all but marked tracks"
+msgstr "Odstranit z playlistu všechny skladby kromě označených"
+
+#: modules/accelsj.cpp:222
+#: modules/accelsj.cpp:227
+msgid "Paste"
+msgstr "Vložit"
+
+#: modules/accelsj.cpp:230
+#: modules/accelsj.cpp:1717
+msgid "Music selection"
+msgstr "Výběr hudby"
+
+#: modules/accelsj.cpp:234
+#: modules/accelsj.cpp:239
+msgid "Settings"
+msgstr "Nastavení"
+
+#: modules/accelsj.cpp:250
+msgid "Recreate music library"
+msgstr "Vytvořit hudební knihovnu"
+
+#: modules/accelsj.cpp:254
+msgid "Enqueue tracks"
+msgstr "Vložit skladby do playlistu"
+
+#: modules/accelsj.cpp:258
+msgid "Play tracks next"
+msgstr "Přehrát další skladby"
+
+#: modules/accelsj.cpp:262
+msgid "Play tracks now"
+msgstr "Přehrát skladby okamžitě"
+
+#: modules/accelsj.cpp:273
+msgid "Unqueue tracks"
+msgstr "Odstranění skladeb z playlistu"
+
+#: modules/accelsj.cpp:309
+msgid "Stop"
+msgstr "Stop"
+
+#: modules/accelsj.cpp:319
+#: modules/accelsj.cpp:505
+msgid "Previous track"
+msgstr "Předchozí skladba"
+
+#: modules/accelsj.cpp:327
+msgid "Seek backward"
+msgstr "Posun zpět"
+
+#: modules/accelsj.cpp:330
+msgid "Seek forward"
+msgstr "Posun vpřed"
+
+#: modules/accelsj.cpp:333
+msgid "Fade to next"
+msgstr "Plynule přejít na další"
+
+#: modules/accelsj.cpp:344
+#: modules/accelsj.cpp:353
+msgid "Mute"
+msgstr "Ztlumit"
+
+#: modules/accelsj.cpp:362
+msgid "Reaload skin"
+msgstr "Znovunačíst skin"
+
+#: modules/accelsj.cpp:370
+msgid "Smooth"
+msgstr "Hladký"
+
+#: modules/accelsj.cpp:376
+msgid "Select all"
+msgstr "Vybrat vše"
+
+#: modules/accelsj.cpp:380
+msgid "Zoom in"
+msgstr "Přiblížit"
+
+#: modules/accelsj.cpp:384
+msgid "Zoom out"
+msgstr "Oddálit"
+
+#: modules/accelsj.cpp:388
+msgid "Normal zoom"
+msgstr "Normální přiblížení"
+
+#: modules/accelsj.cpp:393
+msgid "Always on top"
+msgstr "Vždy napovrchu"
+
+#: modules/accelsj.cpp:397
+msgid "Minimize window"
+msgstr "Minimalizovat okno"
+
+#: modules/accelsj.cpp:400
+msgid "Maximize window"
+msgstr "Maximalizovat okno"
+
+#: modules/accelsj.cpp:403
+msgid "Center window"
+msgstr "Vycentrovat okno"
+
+#: modules/accelsj.cpp:409
+msgid "Kiosk mode"
+msgstr "Kiosk režim"
+
+# %s will be replaced by the program name (usually "Silverjuke")
+#: modules/accelsj.cpp:417
+#: modules/accelsj.cpp:420
+#, c-format
+msgid "Show %s"
+msgstr "Zobrazit %s"
+
+#: modules/accelsj.cpp:424
+msgid "Go to current track"
+msgstr "Přejít na aktuální skladby"
+
+#: modules/accelsj.cpp:428
+msgid "Go to marked track"
+msgstr "Přejít na označený skladby"
+
+#: modules/accelsj.cpp:431
+msgid "Go to random album"
+msgstr "Přejít na náhodné album"
+
+#: modules/accelsj.cpp:436
+msgid "System tray"
+msgstr "Systémová lišta"
+
+#: modules/accelsj.cpp:436
+msgid "Show current track"
+msgstr "Zobrazit aktuální skladby"
+
+#: modules/accelsj.cpp:452
+msgid "Go to previous letter"
+msgstr "Přejít na předchozí písmeno"
+
+#: modules/accelsj.cpp:456
+msgid "Go to next letter"
+msgstr "Přejít na další písmeno"
+
+#: modules/accelsj.cpp:465
+msgid "Add credit"
+msgstr "Dobít kredit"
+
+#: modules/accelsj.cpp:523
+msgid "Replace"
+msgstr "Nahradit"
+
+#: modules/accelsj.cpp:528
+msgid "Split field"
+msgstr "Rozdělit oblast"
+
+#: modules/accelsj.cpp:532
+msgid "Rename files"
+msgstr "Přejmenování souborů"
+
+#: modules/accelsj.cpp:537
+msgid "Query online database"
+msgstr "Dotaz na on-line databázi"
+
+#: modules/accelsj.cpp:545
+msgid "New music selection"
+msgstr "Nový výběr hudby"
+
+#: modules/accelsj.cpp:555
+msgid "Save as"
+msgstr "Uložit jako"
+
+#: modules/accelsj.cpp:560
+msgid "Rename"
+msgstr "Přejmenovat"
+
+#: modules/accelsj.cpp:570
+msgid "Revert to saved"
+msgstr "Vrátit se k uloženému"
+
+#: modules/accelsj.cpp:580
+msgid "Open file"
+msgstr "Otevřít soubor"
+
+#: modules/accelsj.cpp:583
+msgid "Save cover"
+msgstr "Uložit obal"
+
+#: modules/accelsj.cpp:586
+msgid "Rotate left"
+msgstr "Otočit vlevo"
+
+#: modules/accelsj.cpp:590
+msgid "Rotate right"
+msgstr "Otočit vpravo"
+
+#: modules/accelsj.cpp:594
+msgid "Flip horizontally"
+msgstr "Překlopit vodorovně"
+
+#: modules/accelsj.cpp:598
+msgid "Flip vertically"
+msgstr "Překlopit svisle"
+
+#: modules/accelsj.cpp:602
+msgid "Grayscale"
+msgstr "Ve stupních šedi"
+
+#: modules/accelsj.cpp:606
+msgid "Negative"
+msgstr "Negativní"
+
+#: modules/accelsj.cpp:610
+msgid "Fit to screen"
+msgstr "Přizpůsobit obrazovce"
+
+#: modules/accelsj.cpp:614
+msgid "Decrease brightness"
+msgstr "Snížení jasu"
+
+#: modules/accelsj.cpp:618
+msgid "Increase brightness"
+msgstr "Zvýšení jasu"
+
+#: modules/accelsj.cpp:622
+msgid "Decrease contrast"
+msgstr "Snížení kontrastu"
+
+#: modules/accelsj.cpp:626
+msgid "Increase contrast"
+msgstr "Zvýšení kontrastu"
+
+#: modules/accelsj.cpp:630
+msgid "Normal brightness/contrast"
+msgstr "Normální jas/kontrast"
+
+#: modules/accelsj.cpp:634
+msgid "Crop"
+msgstr "Oříznout"
+
+#: modules/accelsj.cpp:794
+msgid "Please press the shortcut to add."
+msgstr "Stiskněte prosím klávesovou zkratku pro přidání."
+
+#: modules/accelsj.cpp:962
+msgid "System-wide:"
+msgstr "Pro celý systém:"
+
+# %s will be replaced by a shortcut, eg. "CTRL-S"
+#: modules/accelsj.cpp:1012
+#, c-format
+msgid "Remove shortcut \"%s\""
+msgstr "Odstranit klávesovou zkratku \"%s\""
+
+#: modules/accelsj.cpp:1017
+msgid "Add system-wide shortcut..."
+msgstr "Přidat klávesovou zkratku pro celý systém..."
+
+# %s will be replaced by the name of the command, eg. "Edit tracks" or "Enqueue track"
+#: modules/accelsj.cpp:1022
+#, c-format
+msgid "Add shortcut to \"%s\"..."
+msgstr "Přidat klavesovou zkratku na \"%s\"..."
+
+# The first %s will be replaced by a shortcut, eg. "CTRL-S". The second %s will be replaced by the name of the command, eg. "Edit tracks" or "Enqueue track"
+#: modules/accelsj.cpp:1060
+#, c-format
+msgid ""
+"The shortcut \"%s\" is currently assigned to the command \"%s\".\n"
+"\n"
+"Do you want to assign it to the shortcut \"%s\" now?"
+msgstr ""
+"Klávesová zkratka \"%s\" je aktuálně přiřazena k příkazu \"%s\".\n"
+"\n"
+"Chcete přiřadit klávesovou zkratku na \"%s\"?"
+
+#: modules/accelsj.cpp:1223
+msgid "Menus"
+msgstr "Menu"
+
+#: modules/accelsj.cpp:1226
+msgid "Show shortcuts"
+msgstr "Zobrazit klávesové zkratky"
+
+#: modules/accelsj.cpp:1233
+msgid "Show icons"
+msgstr "Zobrazit ikony"
+
+#: modules/accelsj.cpp:1241
+msgid "Same zoom in all views"
+msgstr "Stejné přiblížení ve všech pohledech"
+
+#: modules/accelsj.cpp:1246
+msgid "Mouse"
+msgstr "Myš"
+
+#: modules/accelsj.cpp:1248
+msgid "Drag window content"
+msgstr "Přetáhněte obsah okna"
+
+#: modules/accelsj.cpp:1248
+#: modules/accelsj.cpp:1250
+msgid "Left mouse button"
+msgstr "Levé tlačítko myši"
+
+#: modules/accelsj.cpp:1250
+msgid "Drag selected tracks"
+msgstr "Přetáhněte vybrané skladby"
+
+#: modules/accelsj.cpp:1250
+msgid "Second click with the left mouse button"
+msgstr "Druhým kliknutím levým tlačítkem myši"
+
+#: modules/accelsj.cpp:1252
+msgid "Show icons beside mouse cursor"
+msgstr "Zobrazit ikony vedle kurzoru myši"
+
+#: modules/accelsj.cpp:1254
+msgid "Middle mouse button"
+msgstr "Prostřední tlačítko myši"
+
+#: modules/accelsj.cpp:1255
+msgid "Edit tracks"
+msgstr "Úpravy skladeb"
+
+#: modules/accelsj.cpp:1259
+msgid "Tooltips"
+msgstr "Popisy"
+
+#: modules/accelsj.cpp:1265
+#: modules/accelsj.cpp:1267
+msgid "Mouse wheel"
+msgstr "Kolečko myši"
+
+#: modules/accelsj.cpp:1265
+msgid "Scroll vertically"
+msgstr "Rolovat vertikálně"
+
+#: modules/accelsj.cpp:1265
+msgid "Scroll horizontally"
+msgstr "Rolovat vodorovně"
+
+#: modules/accelsj.cpp:1268
+msgid "Context sensitive"
+msgstr "Kontextová citlivost"
+
+#: modules/accelsj.cpp:1273
+msgid "Start playback on enqueue"
+msgstr "Spustit přehrávání na zařadit"
+
+#: modules/accelsj.cpp:1281
+msgid "Shortcut"
+msgstr "Zkratka"
+
+#: modules/accelsj.cpp:1353
+msgid "Use multimedia keyboard keys"
+msgstr "Použijte multimediální klávesy"
+
+#: modules/accelsj.cpp:1358
+#: modules/accelsj.cpp:2093
+msgid "Ask on close if playing"
+msgstr "Zeptat se příště na ukončení při přehrávání."
+
+#: modules/accelsj.cpp:1361
+#: modules/accelsj.cpp:2091
+msgid "Ask before enqueuing multiple tracks"
+msgstr "Zeptat se před přidáním více stop"
+
+#: modules/accelsj.cpp:1364
+#: modules/accelsj.cpp:2092
+msgid "Ask before clearing the playlist"
+msgstr "Zeptat se před vymazáním playlistu"
+
+#: modules/accelsj.cpp:1367
+#: modules/accelsj.cpp:2094
+msgid "Ask before changing my rating"
+msgstr "Zeptat se na hodnocení před změnou"
+
+#: modules/accelsj.cpp:1387
+msgid "Further options"
+msgstr "Další možnosti"
+
+# This string should be set to the abbreviation used for "num" on the numpad area of the keyboard. %s is replaced by a digit or a character.
+#: modules/accelsj.cpp:1585
+#: modules/accelsj.cpp:1617
+#: modules/accelsj.cpp:1620
+#: modules/accelsj.cpp:1623
+#: modules/accelsj.cpp:1626
+#: modules/accelsj.cpp:1629
+#, c-format
+msgid "Num%s"
+msgstr "Num%s"
+
+#: modules/accelsj.cpp:1589
+msgid "Backspace"
+msgstr "Backspace"
+
+#: modules/accelsj.cpp:1593
+msgid "Space"
+msgstr "Space"
+
+#: modules/accelsj.cpp:1610
+msgid "Up"
+msgstr "Up"
+
+#: modules/accelsj.cpp:1611
+msgid "Left"
+msgstr "Left"
+
+#: modules/accelsj.cpp:1612
+msgid "Right"
+msgstr "Right"
+
+#: modules/accelsj.cpp:1613
+msgid "Down"
+msgstr "Down"
+
+#: modules/accelsj.cpp:1614
+msgid "Print"
+msgstr "Print"
+
+#: modules/accelsj.cpp:1615
+msgid "Ins"
+msgstr "Ins"
+
+#: modules/accelsj.cpp:1707
+msgid "Workspace"
+msgstr "Pracovní plocha"
+
+#: modules/accelsj.cpp:1719
+msgid "Numpad"
+msgstr "Numpad"
+
+#: modules/weblinks.cpp:194
+msgid "Search homepage"
+msgstr "Vyhledat domovskou stránku"
+
+# %s will be replaced by the name of the website
+#: modules/weblinks.cpp:198
+#, c-format
+msgid "Lyrics on %s"
+msgstr "Texty na %s"
+
+# %s will be replaced by the name of the website
+#: modules/weblinks.cpp:202
+#, c-format
+msgid "Search with %s"
+msgstr "Vyhledat pomocí %s"
+
+# %s will be replaced by the name of the website
+#: modules/weblinks.cpp:206
+#, c-format
+msgid "Information on %s"
+msgstr "Informace na %s"
+
+#: modules/advsearch.cpp:121
+msgid "Select date and time"
+msgstr "Zvolte datum a čas"
+
+#: modules/advsearch.cpp:578
+msgid "contains"
+msgstr "Obsahuje"
+
+#: modules/advsearch.cpp:579
+msgid "does not contain"
+msgstr "neobsahuje"
+
+#: modules/advsearch.cpp:580
+msgid "starts with"
+msgstr "začíná"
+
+#: modules/advsearch.cpp:581
+msgid "does not start with"
+msgstr "nezačíná"
+
+#: modules/advsearch.cpp:582
+msgid "starts simelar to"
+msgstr "začíná na simelar do"
+
+#: modules/advsearch.cpp:583
+msgid "ends with"
+msgstr "končí"
+
+#: modules/advsearch.cpp:584
+msgid "does not end with"
+msgstr "nekončí"
+
+#: modules/advsearch.cpp:585
+msgid "on"
+msgstr "na"
+
+#: modules/advsearch.cpp:585
+msgid "is equal to"
+msgstr "je rovno"
+
+#: modules/advsearch.cpp:586
+msgid "not on"
+msgstr "ne na"
+
+#: modules/advsearch.cpp:586
+msgid "is unequal to"
+msgstr "není rovno"
+
+#: modules/advsearch.cpp:587
+msgid "is simelar to"
+msgstr "Je simelar na"
+
+#: modules/advsearch.cpp:588
+msgid "is after"
+msgstr "je po"
+
+#: modules/advsearch.cpp:588
+msgid "is greater than"
+msgstr "je větší než"
+
+#: modules/advsearch.cpp:589
+msgid "is on or after"
+msgstr "je na nebo po"
+
+#: modules/advsearch.cpp:589
+msgid "is greater or equal"
+msgstr "je větší nebo rovno"
+
+#: modules/advsearch.cpp:590
+msgid "is before"
+msgstr "je před"
+
+#: modules/advsearch.cpp:590
+msgid "is less than"
+msgstr "je menší než"
+
+#: modules/advsearch.cpp:591
+msgid "is on or before"
+msgstr "je na nebo před"
+
+#: modules/advsearch.cpp:591
+msgid "is less or equal"
+msgstr "je menší nebo roven"
+
+#: modules/advsearch.cpp:592
+msgid "is in the last"
+msgstr "je v posledním"
+
+#: modules/advsearch.cpp:593
+msgid "is not in the last"
+msgstr "není v posledním"
+
+#: modules/advsearch.cpp:594
+msgid "is in the period"
+msgstr "je v období"
+
+#: modules/advsearch.cpp:594
+msgid "is in range"
+msgstr "je v rozsahu"
+
+#: modules/advsearch.cpp:595
+msgid "is not in the period"
+msgstr "není v období"
+
+#: modules/advsearch.cpp:595
+msgid "is not in range"
+msgstr "není v rosahu"
+
+#: modules/advsearch.cpp:596
+msgid "is set"
+msgstr "je nastaven"
+
+#: modules/advsearch.cpp:597
+msgid "is unset"
+msgstr "není nastaven"
+
+#: modules/advsearch.cpp:618
+msgid "tracks"
+msgstr "skladby"
+
+#: modules/advsearch.cpp:619
+msgid "albums"
+msgstr "alba"
+
+#: modules/advsearch.cpp:620
+#: modules/advsearch.cpp:629
+#: modules/advsearch.cpp:634
+msgid "minutes"
+msgstr "minut"
+
+#: modules/advsearch.cpp:621
+#: modules/advsearch.cpp:635
+msgid "hours"
+msgstr "hodin"
+
+#: modules/advsearch.cpp:636
+msgid "days"
+msgstr "dnů"
+
+#: modules/advsearch.cpp:706
+#: modules/library.cpp:4169
+msgid "No rating"
+msgstr "Bez hodnocení"
+
+#: modules/advsearch.cpp:711
+msgid "random"
+msgstr "náhodně"
+
+#: modules/advsearch.cpp:712
+msgid "highest rating"
+msgstr "nejvyšší hodnocení"
+
+#: modules/advsearch.cpp:713
+msgid "lowest rating"
+msgstr "nejnižší hodnocení"
+
+#: modules/advsearch.cpp:714
+msgid "most often played"
+msgstr "nejčastěji hrála"
+
+#: modules/advsearch.cpp:715
+msgid "least often played"
+msgstr "nejméně hrála"
+
+#: modules/advsearch.cpp:716
+msgid "most recently played"
+msgstr "naposledy hrála"
+
+#: modules/advsearch.cpp:717
+msgid "least recently played"
+msgstr "alespoň v poslední době hrála"
+
+#: modules/advsearch.cpp:718
+msgid "most recently added"
+msgstr "naposledy přidané"
+
+#: modules/advsearch.cpp:719
+msgid "least recently added"
+msgstr "alespoň v poslední době přidané"
+
+#: modules/advsearch.cpp:720
+msgid "most recently modified"
+msgstr "naposledy upravené"
+
+#: modules/advsearch.cpp:721
+msgid "least recently modified"
+msgstr "alespoň v poslední době upravené"
+
+#: modules/advsearch.cpp:722
+msgid "most recently released"
+msgstr "nedávno uvolněn"
+
+#: modules/advsearch.cpp:723
+msgid "least recently released"
+msgstr "alespoň nedávno vydala"
+
+#: modules/advsearch.cpp:724
+msgid "low queue position"
+msgstr "nízké pořadí v playlistu"
+
+#: modules/advsearch.cpp:725
+msgid "high queue position"
+msgstr "vysoké pořadí v playlistu"
+
+#: modules/advsearch.cpp:744
+msgid "Today"
+msgstr "Dnes"
+
+#: modules/advsearch.cpp:745
+msgid "Yesterday"
+msgstr "Včera"
+
+#: modules/advsearch.cpp:747
+msgid "Show tracks..."
+msgstr "Seznam skladeb..."
+
+#: modules/advsearch.cpp:748
+msgid "Add tracks from playlist"
+msgstr "Přidat skladeby z playlistu"
+
+#: modules/advsearch.cpp:749
+msgid "Current position"
+msgstr "Aktuální pozice"
+
+# This is "by" used eg. in the sentence "Limit tesult to 2 tracks by "Recently played"
+#: modules/advsearch.cpp:873
+msgid "by"
+msgstr "od"
+
+# This "to" is used for range definitions, eg, "12 to 16 tracks"
+#: modules/advsearch.cpp:917
+msgid "to"
+msgstr "do"
+
+#: modules/advsearch.cpp:978
+msgid "Remove criterion"
+msgstr "Odstranit kritérium"
+
+#: modules/advsearch.cpp:983
+msgid "Add criterion"
+msgstr "Přidat kritérium"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1178
+#, c-format
+msgid "Tracks included to \"%s\""
+msgstr "Skladby obsahují na \"%s\""
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1178
+#, c-format
+msgid "Tracks excluded from \"%s\""
+msgstr "Skladby vyloučeny z \"%s\""
+
+#: modules/advsearch.cpp:1336
+msgid "Saved selections"
+msgstr "Uložené výběry"
+
+# The first %s will be replaced with one of "tracks|albums". The second %s will be replaced by one of "all|any|none".
+#: modules/advsearch.cpp:1347
+#, c-format
+msgid "Search for %s matching %s of the following criteria:"
+msgstr "Hledat %s %s odpovídající z následujících kritérií:"
+
+# This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the two values by the pipe character, "|".
+#: modules/advsearch.cpp:1348
+msgid "tracks|albums"
+msgstr "skladby|alba"
+
+# This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the three values by the pipe character, "|".
+#: modules/advsearch.cpp:1349
+msgid "all|any|none"
+msgstr "všechny|nějaké|žádné"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1650
+#, c-format
+msgid "Do you want to save your modifications to the music selection \"%s\"?"
+msgstr "Přejete si uložit změny v hudebním výběru \"%s\"?"
+
+#: modules/advsearch.cpp:1652
+msgid "Music selection modified"
+msgstr "Výběr hudby upravené"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1687
+#, c-format
+msgid "Edit music selection \"%s\""
+msgstr "Upravit výběr hudby \"%s\""
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2102
+#, c-format
+msgid "Do you really want to delete the music selection \"%s\"?"
+msgstr "Opravdu chcete odstranit výběr hudby \"%s\"?"
+
+#: modules/advsearch.cpp:2104
+msgid "Delete music selection"
+msgstr "Smazat výběr hudby"
+
+# %i will be replaced by the number of music selections
+#: modules/advsearch.cpp:2108
+#, c-format
+msgid "Do you really want to delete the %i selected music selections?"
+msgstr "Opravdu chcete odstranit %i označený hudební výběr?"
+
+#: modules/advsearch.cpp:2109
+msgid "Delete music selections"
+msgstr "Smazat výběr hudby"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2173
+#, c-format
+msgid "No matches found for \"%s\"."
+msgstr "Nebyl nalezen záznam pro \"%s\"."
+
+#: modules/advsearch.cpp:2521
+#: modules/advsearch.cpp:2524
+#: modules/advsearch.cpp:2908
+#: modules/playbacksettings.cpp:2190
+msgid "Worst rated"
+msgstr "Nejhůře hodnocený"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2680
+#, c-format
+msgid "Do you want to remove the selected track(s) from the music selection \"%s\"?"
+msgstr "Přejete si odstranit vybranou skladbu(y) z hudebního výběr \"%s\"?"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2735
+#, c-format
+msgid "Do you want to add the selected track(s) to the music selection \"%s\"?"
+msgstr "Chcete přidat vybranou skladbu(y) do výběru hudby \"%s\"?"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2904
+msgid "70's music"
+msgstr "70's music"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2912
+msgid "Top rated"
+msgstr "Nejlépe hodnocené"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2917
+msgid "Top 20"
+msgstr "Top 20"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2922
+msgid "Recently played"
+msgstr "V poslední době přehrané"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2926
+msgid "Played today"
+msgstr "Přehrané dnes"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2930
+msgid "Random selection"
+msgstr "Náhodný výběr"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2934
+msgid "Tracks in queue"
+msgstr "Skladby v playlistu"
+
+#: modules/advsearch.cpp:2965
+msgid "Untitled Music selection"
+msgstr "Výběr hudby bez názvu"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:3155
+#, c-format
+msgid "No matches in \"%s\""
+msgstr "Žádné záznamy v \"%s\""
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:3159
+#, c-format
+msgid "1 match in \"%s\""
+msgstr "1 záznam v \"%s\""
+
+# The first %s will be replaced by the decima-point-formatted number of matched, the seconds %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:3163
+#, c-format
+msgid "%s matches in \"%s\""
+msgstr "%s záznam(y) v \"%s\""
+
+#: modules/advsearch.cpp:3170
+msgid "No matches"
+msgstr "Žádné záznamy"
+
+#: modules/advsearch.cpp:3174
+msgid "1 match"
+msgstr "1 záznam"
+
+# %s will be replaced by a decimal-point-formatted number
+#: modules/advsearch.cpp:3178
+#, c-format
+msgid "%s matches"
+msgstr "%s záznamů"
+
+#: modules/advsearch.cpp:3197
+msgid "Search single words"
+msgstr "Hledání samostatného slova"
+
+#: modules/advsearch.cpp:3198
+msgid "Lookup genre on simple search"
+msgstr "Vyhledání žánru jednoduchým vyhledáváním"
+
+#: modules/advsearch.cpp:3199
+msgid "Search while typing"
+msgstr "Hledat při psaní"
+
+#: modules/advsearch.cpp:3200
+msgid "Save modified music selections"
+msgstr "Uložit upravený hudební výběr"
+
+# One option for the setting "Save modified music selections"
+#: modules/advsearch.cpp:3200
+msgid "Ask"
+msgstr "Zeptat se"
+
+#: modules/advsearch.cpp:3209
+msgid "Max. history size"
+msgstr "Maximální historická velikost"
+
+# The first %s will be replaced by the search text as entered in the simple search field, the second %s will be replaced by the name of a music selection.
+#: modules/advsearch.cpp:3323
+#, c-format
+msgid "Search for \"%s\" in \"%s\""
+msgstr "Hledat \"%s\" v \"%s\""
+
+# %s will be replaced by the search text as entered in the simple search field
+#: modules/advsearch.cpp:3331
+#, c-format
+msgid "Search for \"%s\""
+msgstr "Hledat \"%s\""
+
+#: modules/basicsettings.cpp:105
+#: modules/basicsettings.cpp:124
+#: modules/basicsettings.cpp:1452
+#: modules/basicsettings.cpp:1456
+msgid "Search paths"
+msgstr "Hledat cestu"
+
+#: modules/basicsettings.cpp:113
+msgid "The search paths are used for skins, language files and modules."
+msgstr "Hledat cestu použité pro skiny, jazykové soubory a moduly."
+
+#: modules/basicsettings.cpp:145
+#: modules/basicsettings.cpp:203
+#: modules/playbacksettings.cpp:1786
+#: modules/playbacksettings.cpp:1968
+msgid "Add..."
+msgstr "Přidat..."
+
+#: modules/basicsettings.cpp:148
+#: modules/basicsettings.cpp:204
+#: modules/playbacksettings.cpp:1789
+#: modules/playbacksettings.cpp:1969
+msgid "Remove"
+msgstr "Odstranit"
+
+#: modules/basicsettings.cpp:228
+msgid "Please select the folder to add to the search paths."
+msgstr "Vyberte prosím složku pro přidání do vyhledávací cesty."
+
+#: modules/basicsettings.cpp:480
+#: modules/basicsettings.cpp:758
+msgid "Licence key"
+msgstr "Licenční klíč"
+
+#: modules/basicsettings.cpp:481
+msgid "Language"
+msgstr "Jazyk"
+
+#: modules/basicsettings.cpp:582
+msgid "Select the language for the user-interface from the following list:"
+msgstr "Vyberte jazyk uživatelského rozhraní z následujícího seznamu:"
+
+#: modules/basicsettings.cpp:603
+msgid "Unknown language"
+msgstr "Neznámy jazyk"
+
+#: modules/basicsettings.cpp:652
+msgid "More languages on the web..."
+msgstr "Více jazyků na webu ..."
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/basicsettings.cpp:655
+#, c-format
+msgid "Note: Changing the language requires to restart %s."
+msgstr "Poznámka: Změna jazyka vyžaduje restart %s."
+
+# %s will be replaced by the program name, usually"Silverjuke"
+#: modules/basicsettings.cpp:735
+#, c-format
+msgid "This is an unlicenced copy of %s!"
+msgstr "Toto je neregistrovaná kopie %s!"
+
+#: modules/basicsettings.cpp:742
+#, c-format
+msgid ""
+"Please enter your name or your company's name and the licence key\n"
+"you received when purchasing or updating your %s-licence:"
+msgstr ""
+"Zadejte prosím své jméno, nebo název firmy a licenční klíč,\n"
+"který jste obdrželi při koupi programu, nebo při aktualizaci váší %s licence:"
+
+#: modules/basicsettings.cpp:750
+msgid "Your name/company:"
+msgstr "Vaše jméno/společnost:"
+
+# The first %s will be replaced by the program name, usually "Silverjuke". The second %i will be replaced by the number of evaluation days. The last %s, again, will be replaced by the program name.
+#: modules/basicsettings.cpp:771
+#, c-format
+msgid ""
+"If you haven't bought a %s-licence, you may test this program %i days for free.\n"
+"After this period, you have to buy a licence for %s if you want to continue using\n"
+"this program."
+msgstr ""
+"Pokud nemáte zakoupenou %s licenci, můžete si program vyzkoušet po dobu %i dní zdarma.\n"
+"Po uplynutí této doby musíte zakoupit licenci pro %s, pokud chcete nadále používat \n"
+"tento program."
+
+# The first %s will be replaced by the program name, usually "Silverjuke". The second %s will be replaced by the name of the website, eg. www.silverjuke.net
+#: modules/basicsettings.cpp:778
+#, c-format
+msgid ""
+"Further information about purchasing %s licences\n"
+"are available at %s."
+msgstr ""
+"Další informace o nákupu %s licencí\n"
+"je k dispozici na adrese %s."
+
+# %s will be replaced by the name of a website, eg. www.silverjuke.net
+#: modules/basicsettings.cpp:785
+#, c-format
+msgid "Open %s..."
+msgstr "Otevřít %s..."
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/basicsettings.cpp:841
+#, c-format
+msgid "Thank you for buying a %s-licence!"
+msgstr "Děkujeme, že jste si zakoupili licenci %s!"
+
+#: modules/basicsettings.cpp:843
+msgid "This copy is licenced to:"
+msgstr "Vlastník této licence:"
+
+#: modules/basicsettings.cpp:847
+msgid "If this is not your name or the name of your company, you are not using a legal licence!"
+msgstr "Pokud to není vaše jméno, nebo název vaší společnosti, používáte  nelegální licenci!"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/basicsettings.cpp:890
+#, c-format
+msgid ""
+"Beside several options, you can change the shortcuts to use in %s here. You can\n"
+"also define system-wide shortcuts. To modify an option, select the option from the list\n"
+"and click on \"Customize\". This page is for experienced users only."
+msgstr ""
+"Kromě několika možností můžete měnit zkratky k ovládání %s.\n"
+"Můžete také definovat klávesové zkratky pro celý systém. Chcete-li změnit volby, zvolte možnost ze seznamu\n"
+"a klikněte na \"Vlastní \". Tato stránka je pouze pro zkušené uživatele."
+
+#: modules/basicsettings.cpp:897
+msgid "Command or option"
+msgstr "Příkaz nebo možnost"
+
+#: modules/basicsettings.cpp:898
+msgid "Setting"
+msgstr "Nastavení"
+
+#: modules/basicsettings.cpp:903
+msgid "Customize"
+msgstr "Vlastní"
+
+#: modules/basicsettings.cpp:1177
+msgid "Reset selection"
+msgstr "Reset výběru"
+
+# %i will be replaced by the number of the selected command or options
+#: modules/basicsettings.cpp:1228
+#, c-format
+msgid "Do you really want to reset all %i selected commands and options to their default values?"
+msgstr "Opravdu chcete obnovit všechny %i vybrané nástroje a možnosti, na jejich výchozí hodnoty?"
+
+#: modules/basicsettings.cpp:1369
+msgid "Configuration file"
+msgstr "Konfigurační soubor"
+
+# %s will be replaced by the name of the option.
+#: modules/basicsettings.cpp:1372
+#: modules/basicsettings.cpp:1383
+#: modules/basicsettings.cpp:1393
+#, c-format
+msgid "Use the command-line option --%s=<file> to change this."
+msgstr "Použití příkazového řádku --%s=<file> změnit."
+
+#: modules/basicsettings.cpp:1375
+msgid "Show files with"
+msgstr "Ukázat soubory s"
+
+#: modules/basicsettings.cpp:1380
+msgid "Instance"
+msgstr "Příklad"
+
+#: modules/basicsettings.cpp:1387
+msgid "Index file"
+msgstr "Index souboru"
+
+#: modules/basicsettings.cpp:1402
+#: modules/basicsettings.cpp:1431
+msgid "RAM cache"
+msgstr "RAM cache"
+
+# %s will be replaced by a formatted time
+#: modules/basicsettings.cpp:1404
+#, c-format
+msgid "avg. query time: %s"
+msgstr "Dotaz - průměrný čas: %s"
+
+#: modules/basicsettings.cpp:1409
+msgid "Synchronity"
+msgstr "Synchronity"
+
+#: modules/basicsettings.cpp:1410
+msgid "Fast"
+msgstr "Rychle"
+
+#: modules/basicsettings.cpp:1410
+msgid "Save but slower"
+msgstr "Uložit ale pomalejší"
+
+#: modules/basicsettings.cpp:1410
+msgid "Very save and slow"
+msgstr "Velmi pomalé ukládání"
+
+#: modules/basicsettings.cpp:1419
+msgid "Image cache"
+msgstr "Obrázky cache"
+
+#: modules/basicsettings.cpp:1422
+msgid "Use temporary directory"
+msgstr "Použití dočasného adresáře"
+
+#: modules/basicsettings.cpp:1424
+msgid "Yes, load images asynchrony"
+msgstr "Ano, načíst obrázky asynchroně"
+
+#: modules/basicsettings.cpp:1425
+msgid "Yes, load images directly and avoid flickering"
+msgstr "Ano, načíst obrázky přímo a vyhnout se blikání"
+
+# The first %i will be replaced by the used percentage, the seconds %i will be replaced by the number of images. Note the two percent signs "%%" which will be converted to a single one.
+#: modules/basicsettings.cpp:1432
+#, c-format
+msgid "%i%% used for %i images"
+msgstr "%i%% využito pro %i obrázky"
+
+#: modules/basicsettings.cpp:1440
+msgid "Regard file changes"
+msgstr "Přečíst soubor změn"
+
+#: modules/basicsettings.cpp:1457
+msgid "Load external modules"
+msgstr "Otevřít externí moduly"
+
+#: modules/basicsettings.cpp:1464
+msgid "\"Magnetic\" window borders"
+msgstr "\"Magnetické\" okraje oken"
+
+#: modules/basicsettings.cpp:1468
+msgid "Display"
+msgstr "Zobrazení"
+
+#: modules/basicsettings.cpp:1469
+msgid "Show total time"
+msgstr "Zobrazit celkový čas"
+
+#: modules/basicsettings.cpp:1471
+#: modules/library.cpp:445
+msgid "Show track number"
+msgstr "Zobrazit číslo skladby"
+
+#: modules/basicsettings.cpp:1473
+#: modules/library.cpp:448
+msgid "Show artist name"
+msgstr "Zobrazit jméno interpreta"
+
+#: modules/basicsettings.cpp:1475
+msgid "Show AutoPlay"
+msgstr "Zobrazit automatického přehrávání"
+
+#: modules/basicsettings.cpp:1477
+msgid "Preferred cover"
+msgstr "Preferovaný obal"
+
+#: modules/basicsettings.cpp:1477
+msgid "Album cover"
+msgstr "Obal alba"
+
+#: modules/basicsettings.cpp:1477
+msgid "Track cover"
+msgstr "Obal skladby"
+
+#: modules/basicsettings.cpp:1483
+msgid "Window"
+msgstr "Okno"
+
+#: modules/basicsettings.cpp:1486
+msgid "Use shaped windows"
+msgstr "Použití tvarovaného okna"
+
+#: modules/basicsettings.cpp:1494
+msgid "Automatic version check"
+msgstr "Automatická kontrola nové verze"
+
+# %i will be replaced by the number of days
+#: modules/basicsettings.cpp:1496
+#, c-format
+msgid "Every %i days"
+msgstr "Každý %i den"
+
+#: modules/basicsettings.cpp:1551
+msgid "Advanced"
+msgstr "Pokročilé"
+
+#: modules/arteditor.cpp:310
+msgid "Please press and hold the left mouse button. Then, select the area to crop by moving the mouse."
+msgstr "Stiskněte a držte levé tlačítko myši. Pak vyberte plochu k oříznutí pohybem myši."
+
+#: modules/arteditor.cpp:896
+msgid "<Abstract>"
+msgstr "<Obal vytvořený z názvu alba>"
+
+# This string is added to some options in menus,  do not forget to surround the value with brackets.
+#: modules/arteditor.cpp:902
+#: modules/playbacksettings.cpp:1427
+#: modules/playbacksettings.cpp:1476
+#: modules/playbacksettings.cpp:1492
+#: modules/playbacksettings.cpp:1512
+#: modules/playbacksettings.cpp:1541
+msgid "(Default)"
+msgstr "(Výchozí)"
+
+#: modules/arteditor.cpp:946
+msgid "Paste image from clipboard"
+msgstr "Vložit obrázek ze schránky"
+
+#: modules/arteditor.cpp:954
+msgid "Select cover"
+msgstr "Vybrat obal"
+
+#: modules/arteditor.cpp:963
+msgid "Search covers on the web"
+msgstr "Hledat obaly na webu"
+
+#: modules/arteditor.cpp:1005
+msgid "Don't rotate"
+msgstr "Neotáčet"
+
+#: modules/arteditor.cpp:1015
+msgid "Rotate/flip"
+msgstr "Otočit / převrátit"
+
+#: modules/arteditor.cpp:1064
+msgid "Use default images..."
+msgstr "Použít výchozí obrázky..."
+
+#: modules/arteditor.cpp:1066
+msgid "Effects/options"
+msgstr "Efekty/možnosti"
+
+#: modules/arteditor.cpp:1175
+msgid "Select image"
+msgstr "Vybrat obrázek"
+
+#: modules/arteditor.cpp:1265
+msgid "Reset all selected alternative images to their default value?"
+msgstr "Reset všechny označené alternativní obrázky na jejich výchozí hodnoty?"
+
+#: modules/viewsettings.cpp:174
+#: modules/viewsettings.cpp:728
+msgid "Skins"
+msgstr "Skiny"
+
+#: modules/viewsettings.cpp:175
+msgid "Fonts and covers"
+msgstr "Písma a obaly"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/viewsettings.cpp:216
+#, c-format
+msgid ""
+"With different skins you can change the \"look and feel\" of %s. Just\n"
+"select the skin to use from the list above. You'll find more skins on the web."
+msgstr ""
+"S různými skiny můžete změnit \"vzhled\" %s.\n"
+"Stačí vybrat skin z výše uvedeného seznamu. Další skiny naleznete na webu."
+
+#: modules/viewsettings.cpp:227
+msgid "Name"
+msgstr "Jméno"
+
+#: modules/viewsettings.cpp:237
+#: modules/viewsettings.cpp:464
+msgid "More skins on the web..."
+msgstr "Další skiny na webu ..."
+
+#: modules/viewsettings.cpp:463
+msgid "Update list"
+msgstr "Aktualizace seznamu"
+
+#: modules/viewsettings.cpp:494
+msgid ""
+"You can set independent font and cover sizes to use in the main window. The sizes\n"
+"refer to a zoom of 100%. If you zoom in or out (eg. by using the \"+\" or \"-\" keys), both\n"
+"sizes will grow or shrink proportionally."
+msgstr ""
+"Můžete nastavit nezávisle písmo a velikost obalu pro použití v hlavním okně.\n"
+"Rozměry se vztahují ke 100% velikosti. Pokud budete zvětšovat, nebo zmenšovat\n"
+"(např. pomocí klávesy \"+\" nebo \"-\"), oba rozměry se budou měnit úměrně."
+
+#: modules/viewsettings.cpp:510
+msgid "Font:"
+msgstr "Písmo:"
+
+#: modules/viewsettings.cpp:537
+msgid "Font size:"
+msgstr "Velikost písma:"
+
+#: modules/viewsettings.cpp:553
+msgid "Use this font for dialogs, too"
+msgstr "Použít nastavení písma i pro dialogy"
+
+#: modules/viewsettings.cpp:558
+msgid "Column width:"
+msgstr "Šířka sloupce:"
+
+#: modules/viewsettings.cpp:572
+msgid "Cover size:"
+msgstr "Velikost obalu:"
+
+#: modules/playbacksettings.cpp:83
+#: modules/playbacksettings.cpp:1268
+msgid "Automatic control"
+msgstr "Automatické řízení"
+
+#: modules/playbacksettings.cpp:98
+#, c-format
+msgid "Go to current track after %i minutes of inactivity"
+msgstr "Přejít na aktuální skladby po %i minutách nečinnosti"
+
+# The string will be followed by "Album view", "Cover view" or "List view"
+#: modules/playbacksettings.cpp:103
+#, c-format
+msgid "Reset view after %i minutes of inactivity to"
+msgstr "Reset zobrazení po %i minutách nečinnosti"
+
+#: modules/playbacksettings.cpp:114
+#, c-format
+msgid "Open %s after %i minutes of inactivity"
+msgstr "Otevřít %s po %i minutách nečinnosti"
+
+#: modules/playbacksettings.cpp:121
+#, c-format
+msgid "Close %s after %i minutes"
+msgstr "Zavřít %s po %i minutách"
+
+#: modules/playbacksettings.cpp:346
+#: modules/playbacksettings.cpp:367
+#: modules/playbacksettings.cpp:2393
+msgid "Volume control"
+msgstr "Ovládání hlasitosti"
+
+#: modules/playbacksettings.cpp:372
+msgid "Play all tracks of an album with the same volume"
+msgstr "Přehrát všechny skladby ze stejného alba se stejnou hlasitostí"
+
+#: modules/playbacksettings.cpp:381
+msgid "Desired volume:"
+msgstr "Požadované zesílení:"
+
+#: modules/playbacksettings.cpp:397
+msgid "Max. gain:"
+msgstr "Max. zisk:"
+
+#: modules/playbacksettings.cpp:420
+msgid "Current volume:"
+msgstr "Aktuální hlasitost:"
+
+#: modules/playbacksettings.cpp:421
+msgid "Calculated volumes:"
+msgstr "Vypočítaná hlasitost:"
+
+#: modules/playbacksettings.cpp:696
+#: modules/playbacksettings.cpp:2390
+msgid "Fading"
+msgstr "Prolínání"
+
+#: modules/playbacksettings.cpp:725
+msgid "Crossfading"
+msgstr "Prolínání"
+
+#: modules/playbacksettings.cpp:735
+msgid "Manual crossfades:"
+msgstr "Manuální prolínání:"
+
+#: modules/playbacksettings.cpp:740
+msgid "Automatic crossfades:"
+msgstr "Automatická prolínání:"
+
+#: modules/playbacksettings.cpp:750
+msgid "No crossfades between subsequent tracks of the same album"
+msgstr "Zakázat prolínání mezi skladbami ze stejného alba"
+
+#: modules/playbacksettings.cpp:755
+msgid "Only fade out the old track, the new track starts with full volume"
+msgstr "Jakmile dohraje  stará skladba, nová skladba začíná s plným zesílením"
+
+#: modules/playbacksettings.cpp:760
+msgid "Skip silence between tracks"
+msgstr "Přeskočit ticho mezi skladbami"
+
+#: modules/playbacksettings.cpp:770
+msgid "Other fadings"
+msgstr "Ostatní volby prolínání"
+
+#: modules/playbacksettings.cpp:1259
+msgid "Devices"
+msgstr "Zařízení"
+
+#: modules/playbacksettings.cpp:1262
+msgid "Jingles"
+msgstr "Znělky"
+
+#: modules/playbacksettings.cpp:1265
+msgid "Queue"
+msgstr "Playlist"
+
+#: modules/playbacksettings.cpp:1355
+msgid "FX"
+msgstr "FX"
+
+#: modules/playbacksettings.cpp:1376
+msgid ""
+"Please select the input and output devices to use. If you encounter any problems,\n"
+"please try a different buffer size and the \"Use hardware\" option."
+msgstr ""
+"Vyberte prosím vstupní a výstupní zařízení. Pokud narazíte na nějaké problémy se zvukem, \n"
+"zkuste změnit velikost vyrovnávací paměti a vyzkoušejte volbu \"Použít hardwarovou akceleraci\"."
+
+#: modules/playbacksettings.cpp:1387
+#: modules/playbacksettings.cpp:2738
+msgid "Audio-output"
+msgstr "Audio-výstup"
+
+#: modules/playbacksettings.cpp:1401
+msgid "Prelisten audio-output"
+msgstr "Odposlech audio-výstup"
+
+#: modules/playbacksettings.cpp:1486
+msgid "Buffer"
+msgstr "Vyrovnávací paměť"
+
+#: modules/playbacksettings.cpp:1498
+msgid "Use hardware"
+msgstr "Použít hardwarovou akceleraci"
+
+#: modules/playbacksettings.cpp:1751
+msgid ""
+"With these options, you can add jingles (small pieces of sound) between tracks.\n"
+"Add the jingles as normal music-files and decide how often they should be played."
+msgstr ""
+"Tato volba umožnuje vložit znělky mezi skladbami.\n"
+"Přidejte znělky jako normální hudební soubory a zvolte, jak často budou přehrávány."
+
+#: modules/playbacksettings.cpp:1769
+msgid "Use jingles"
+msgstr "Použít znělky"
+
+#: modules/playbacksettings.cpp:1778
+msgid "Jingles:"
+msgstr "Znělky:"
+
+# %s will be replaced by a control to select the number of tracks
+#: modules/playbacksettings.cpp:1794
+#, c-format
+msgid "Play a jingle about every %s tracks."
+msgstr "Přehrát znělku po každé %s skladbě."
+
+#: modules/playbacksettings.cpp:1904
+msgid "Select jingle(s)"
+msgstr "Vybrat znělku(y)"
+
+#: modules/playbacksettings.cpp:2023
+msgid ""
+"The following options define the behaviour of the queue. For the \"shuffle intensity\",\n"
+"small values create only slight variations of the queue order, whereas large values\n"
+"cause major variations."
+msgstr ""
+"Následující volby definují chování playlistu. Pro \"shuffle intenzitu\"\n"
+"nízká hodnota vytváří pouze slabé variace z nabídky playlistu (dosud nehraných skladeb),\n"
+"zatímco velká hodnota vytváří velké variace."
+
+# %i will be replaced by a number
+#: modules/playbacksettings.cpp:2033
+#, c-format
+msgid "Allow max. %i tracks waiting in queue"
+msgstr "Povolit max. %i skladeb čekajících ve frontě"
+
+#: modules/playbacksettings.cpp:2041
+msgid "Avoid double tracks waiting in queue"
+msgstr "Zamezit přidání duplicitních skladeb do playlistu, které již čekájí ve frontě"
+
+# %i will be replaced by a control to select the number of minutes
+#: modules/playbacksettings.cpp:2059
+#, c-format
+msgid "Avoid boredom: No track repetition within %i minutes"
+msgstr "Neopakovat stejné skladby během %i minut"
+
+#: modules/playbacksettings.cpp:2066
+#, c-format
+msgid "Avoid boredom: No artist repetition within %i minutes"
+msgstr "Neopakovat stejného interpreta během %i minut"
+
+#: modules/playbacksettings.cpp:2077
+msgid "Shuffle intensity:"
+msgstr "Shuffle intenzita:"
+
+#: modules/playbacksettings.cpp:2202
+msgid ""
+"Use the following options to define which actions should be done automatically\n"
+"after given timeouts."
+msgstr ""
+"Použijte následující volby k nastavení akcí, které budou automaticky provedeny\n"
+"po určitém čase."
+
+#: modules/playbacksettings.cpp:2211
+#, c-format
+msgid "AutoPlay: If the playlist is empty, wait %i minutes;"
+msgstr "Automatické přehrávání: Pokud je playlist prázdný, počkat %i minut"
+
+#: modules/playbacksettings.cpp:2223
+#, c-format
+msgid "then, play %i tracks from the %s"
+msgstr "a pak přehrát %i skladby z %s"
+
+#: modules/playbacksettings.cpp:2270
+msgid "Use separate FX settings"
+msgstr "Používat oddělené nastavení efektů"
+
+#: modules/playbacksettings.cpp:2287
+msgid "Ignore tracks from the music selection"
+msgstr "Ignorovat skladby z hudebního výběru"
+
+#: modules/playbacksettings.cpp:2311
+msgid "Manually enqueued tracks interrupt AutoPlay immediately"
+msgstr "Po vložení skladby do playlistu okamžitě přerušit přehrávání skladby z automatického přehrávání"
+
+#: modules/playbacksettings.cpp:2329
+msgid "Sleep mode:"
+msgstr "Režim spánku:"
+
+#: modules/playbacksettings.cpp:2334
+msgid "Stop playback"
+msgstr "Zastavit přehrávání"
+
+#: modules/playbacksettings.cpp:2342
+msgid "in|after|at|always in|always after|always at"
+msgstr "za|po|v|vždy za|vždy po|pokaždé v"
+
+#: modules/playbacksettings.cpp:2359
+msgid "minutes|minutes of inactivity|o'clock"
+msgstr "minut|minutách nečinnosti|hodin"
+
+#: modules/playbacksettings.cpp:2377
+#, c-format
+msgid "Before this, fade out %i seconds"
+msgstr "Před tím postupně zeslabovat %i sekund(y)"
+
+#: modules/playbacksettings.cpp:2684
+msgid "Use system volume"
+msgstr "Použít systémovou hlasitost"
+
+#: modules/playbacksettings.cpp:2685
+msgid "Only initalize system volume"
+msgstr "Pouze inicializace hlasitosti systému"
+
+#: modules/systray.cpp:364
+msgid ""
+"The \"system tray\" is an area normally placed at the edge of the screen.\n"
+"With the following options, you can add a little symbol with frequently\n"
+"used functions to this area."
+msgstr ""
+"\"Systémová lišta\" je oblast, obvykle umístěna na okraji obrazovky v pravo dole (tray lišta).\n"
+"Z následujících možností můžete\n"
+"nastavit použití systémové lišty."
+
+#: modules/systray.cpp:367
+msgid "Never use system tray"
+msgstr "Nikdy nepoužívat systémovou lištu"
+
+#: modules/systray.cpp:371
+msgid "Use system tray for the minimized window"
+msgstr "Použít systémovou lištu při minimalizaci okna"
+
+#: modules/systray.cpp:375
+msgid "Always use system tray"
+msgstr "Vždy použít systémovou lištu"
+
+#: modules/systray.cpp:392
+#, c-format
+msgid "Show current track tooltip for %i seconds"
+msgstr "Zobrazit aktuální popis skladby v systémové liště po dobu %i sekund(y)"
+
+#: modules/systray.cpp:396
+msgid "Only if inactive"
+msgstr "Pouze v případě neaktivity"
+
+#: modules/modulebase.cpp:1347
+msgid "Use this module for the following file extensions:"
+msgstr "Použít tento modul pro tyto přípony souborů:"
+
+#: modules/modulebase.cpp:1357
+msgid "(separate the extensions using the comma, case is ignored)"
+msgstr "(Oddělte pomocí čárky)"
+
+#: modules/modulebase.cpp:1374
+msgid "Further options..."
+msgstr "Další možnosti..."
+
+# %s will be replaced by a list of extensions, eg. "MP3, MP2, MP1"
+#: modules/modulebase.cpp:1380
+#, c-format
+msgid ""
+"If you disable this module or change the file types, make sure,\n"
+"you don't need \"%s\" or they are supported by another module.\n"
+"\n"
+"Note: Remember that not every module can play every file type."
+msgstr ""
+"Pokud zakážete tento modul, nebo změníte typy souborů, ujistěte se,\n"
+"Chcete nepotřebují \"%s\" nebo jsou podporovány další modul.\n"
+"\n"
+"Poznámka:. Pamatujte, že ne každý modul přehraje každý typ souboru."
+
+#: modules/modulebase.cpp:1862
+msgid "Gain"
+msgstr "Zisk"
+
+#: modules/library.cpp:196
+msgid "The following settings are for experienced users only."
+msgstr "Následující nastavení je pouze pro zkušené uživatele."
+
+#: modules/library.cpp:205
+#, c-format
+msgid "An album must have at least %s tracks with corresponding %s."
+msgstr "Album musí obsahovat alespoň %s skladby s příslušným %s."
+
+#: modules/library.cpp:216
+msgid "artist/album"
+msgstr "interpret/album"
+
+#: modules/library.cpp:217
+msgid "artist/album or genre"
+msgstr "interpret/album nebo žánr"
+
+#: modules/library.cpp:218
+msgid "directory"
+msgstr "adresář"
+
+# %s will be replaced by a control to select the number of tracks
+#: modules/library.cpp:232
+#, c-format
+msgid "Compilations may contain up to %s tracks of the same artist."
+msgstr "Kompilace může obsahovat až %s skladby téhož interpreta."
+
+#: modules/library.cpp:246
+msgid "Separate the words using commas, case is ignored"
+msgstr "Ignorovat samostatná slova s čárkami"
+
+#: modules/library.cpp:249
+msgid "Sort by:"
+msgstr "Řadit podle:"
+
+#: modules/library.cpp:261
+msgid "Stop-words for sorting artists:"
+msgstr "Záchytná slova pro třídění interpretů:"
+
+#: modules/library.cpp:267
+msgid "Stop-words for sorting albums:"
+msgstr "Záchytná slova pro třídění alb:"
+
+#: modules/library.cpp:274
+msgid "Show stop-words words at end"
+msgstr "Zobrazit záchytná slova na konci"
+
+#: modules/library.cpp:277
+msgid ""
+"If selected, eg. \"The Rolling Stones\" becomes \"Rolling Stones, The\";\n"
+"sorting itself is not affected by this option"
+msgstr ""
+"Je-li vybrán, např. \"The Rolling Stones\" s \"Rolling Stones, The\";\n"
+"řadit sám není touto volbou"
+
+#: modules/library.cpp:284
+msgid "Keywords to identify cover image for an album:"
+msgstr "Klíčová slova pro identifikaci obalu albumu:"
+
+#: modules/library.cpp:439
+msgid "Track list"
+msgstr "Seznam skladeb"
+
+# %s will be replaced by the string an abbreviation should be entered for, eg. "Composer" or "Original artist"
+#: modules/library.cpp:441
+#: modules/library.cpp:442
+#, c-format
+msgid "Abbreviation for \"%s\""
+msgstr "Zkratka pro \"%s\""
+
+# Enter the default abbreviation for "Composer" here, do not use more than 2 characters plus eg. ":". The abbreviation is used in the browser window if a composer is set for a track.
+#: modules/library.cpp:441
+#: modules/library.cpp:502
+msgid "C:"
+msgstr "C:"
+
+# Enter the default abbreviation for "Original artist" here, do not use more than 2 characters plus eg. ":". The abbreviation is used in the browser window if an original artist is set for a track.
+#: modules/library.cpp:442
+#: modules/library.cpp:503
+msgid "O:"
+msgstr "O:"
+
+#: modules/library.cpp:444
+msgid "Show double tracks"
+msgstr "Zobrazit dvojité skladby"
+
+#: modules/library.cpp:446
+msgid "Automatic track number"
+msgstr "Automatické číslo skladby"
+
+#: modules/library.cpp:447
+msgid "Show disk number"
+msgstr "Zobrazit číslo disku"
+
+#: modules/library.cpp:449
+msgid "Show different artist names"
+msgstr "Zobrazit různá jména umělců"
+
+#: modules/library.cpp:450
+msgid "Show original artist"
+msgstr "Zobrazit originálního umělce"
+
+#: modules/library.cpp:451
+msgid "Show composer"
+msgstr "Zobrazit skladatele"
+
+#: modules/library.cpp:453
+msgid "Show different album names"
+msgstr "Zobrazit různé názvy alb"
+
+#: modules/library.cpp:454
+msgid "Show time"
+msgstr "Zobrazit čas"
+
+#: modules/library.cpp:455
+msgid "Show year"
+msgstr "Zobrazit rok"
+
+#: modules/library.cpp:456
+msgid "Show comment"
+msgstr "Zobrazit komentář"
+
+#: modules/library.cpp:457
+msgid "Show genre"
+msgstr "Zobrazit žánr"
+
+#: modules/library.cpp:458
+msgid "Show rating"
+msgstr "Zobrazit hodnocení"
+
+#: modules/library.cpp:462
+msgid "Double click on covers"
+msgstr "Poklikat na obaly"
+
+#: modules/library.cpp:464
+msgid "Select/play album"
+msgstr "Vybrat/přehrát album"
+
+#: modules/library.cpp:479
+msgid "Combine tracks to albums"
+msgstr "Zkombinovat skladby do alb"
+
+#: modules/library.cpp:1057
+msgid "Updating genres..."
+msgstr "Aktualizuju žánry..."
+
+#: modules/library.cpp:1057
+msgid "Updating groups..."
+msgstr "Aktualizuju skupiny..."
+
+#: modules/library.cpp:1409
+msgid "Combining tracks to albums..."
+msgstr "Kombinuju skladby do alb..."
+
+#: modules/library.cpp:1902
+msgid "Do you want to add the following folder(s) to your music library?"
+msgstr "Chcete přidat následující složku(y) do hudební knihovny?"
+
+# This is one of the possible answers eg. if the user drags an image to an album row
+#: modules/library.cpp:2171
+#, c-format
+msgid "Yes, leave the image in \"%s\""
+msgstr "Ano, nechat obrázek v \"%s\""
+
+# This is one of the possible answers eg. if the user drags an image to an album row
+#: modules/library.cpp:2174
+#, c-format
+msgid "Yes, copy the image to \"%s\""
+msgstr "Ano, obrázek zkopírovat do \"%s\""
+
+#: modules/library.cpp:2177
+#, c-format
+msgid "Do you want to use the given image as the cover for \"%s\"?"
+msgstr "Chcete použít danou podobu jako obal pro \"%s\"?"
+
+# %s will be replaced by a filename
+#: modules/library.cpp:2892
+#: modules/library.cpp:4249
+#, c-format
+msgid "\"%s\" is not in your music library and cannot be edited therefore."
+msgstr "\"%s\" není ve vaší hudební knihovně, proto nemohla být upravena."
+
+# The first %s will be replaced b the number of tracks, the second %s will be replaced by the number of albums, the third %s will be replaced by the search text or by the name of a music selection.
+#: modules/library.cpp:3196
+#: modules/library.cpp:3275
+#, c-format
+msgid "%s tracks on %s albums found for \"%s\""
+msgstr "%s skladeb z %s alb nalezeno pro \"%s\""
+
+# The first %s will be replaced b the number of tracks, the second %s will be replaced by the number of albums.
+#: modules/library.cpp:3208
+#: modules/library.cpp:3214
+#: modules/library.cpp:3292
+#: modules/library.cpp:3330
+#, c-format
+msgid "%s tracks on %s albums"
+msgstr "%s skladeb v %s albech"
+
+#: modules/library.cpp:3313
+msgid "Albums"
+msgstr "Alba"
+
+#: modules/library.cpp:3336
+msgid "All albums"
+msgstr "Všechna alba"
+
+# %i will be replaced by the disk number
+#: modules/library.cpp:3545
+#, c-format
+msgid "Disk %i"
+msgstr "Disk %i"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3974
+#, c-format
+msgid "Enqueue \"%s\""
+msgstr "Přidat \"%s\" do playlistu"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3979
+#, c-format
+msgid "Play \"%s\" now"
+msgstr "Přehrát \"%s\" okamžitě"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3982
+#, c-format
+msgid "Play \"%s\" next"
+msgstr "Přehrát \"%s\" jako další v pořadí"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3988
+#, c-format
+msgid "Unqueue \"%s\""
+msgstr "Unqueue \"%s\""
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:3994
+#: modules/library.cpp:5240
+#, c-format
+msgid "Enqueue %i tracks"
+msgstr "Zařadít %i skladby"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:3999
+#, c-format
+msgid "Play %i tracks now"
+msgstr "Přehrát %i skladby okamžitě"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:4002
+#, c-format
+msgid "Play %i tracks next"
+msgstr "Přehrát %i skladby jako další"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:4008
+#, c-format
+msgid "Unqueue %i tracks"
+msgstr "Unqueue %i skladeb"
+
+# %s will be replaced by the name of an artist
+#: modules/library.cpp:4095
+#: modules/library.cpp:4113
+#: modules/library.cpp:4117
+#, c-format
+msgid "\"%s\" on the web"
+msgstr "\"%s\" na webu"
+
+# %s will be replaced eg. by a number of "+" which represent the user's rating
+#: modules/library.cpp:4174
+#: modules/library.cpp:4205
+#, c-format
+msgid "Average rating: %s"
+msgstr "Průměrné hodnocení: %s"
+
+# %s will be replaced eg. by a number of "+" which represent the user's rating
+#: modules/library.cpp:4174
+#: modules/library.cpp:4205
+#: modules/library.cpp:5027
+#, c-format
+msgid "My rating: %s"
+msgstr "Hodnocení: %s"
+
+#: modules/library.cpp:4225
+#: modules/library.cpp:4285
+#, c-format
+msgid "Do you want to change the rating for all %i selected tracks?"
+msgstr "Chcete změnit hodnocení všech %i vybraných skladeb?"
+
+# This is the button in the confirmation dialog when changing the rating for multiple tracks.
+#: modules/library.cpp:4226
+#: modules/library.cpp:4286
+msgid "Change rating"
+msgstr "Změna hodnocení"
+
+#: modules/library.cpp:4681
+#: modules/library.cpp:4777
+msgid "Click to select all tracks of this album, double-click to play them"
+msgstr "Kliknutím označíte všechny skladby tohoto alba, dvojklikem vložíte do playlistu"
+
+#: modules/library.cpp:4847
+msgid "Click to select all tracks of this artists, double-click to play them"
+msgstr "Kliknutím označíte všechny skladby tohoto interpreta, dvojklikem vložíte do playlistu"
+
+#: modules/library.cpp:4929
+msgid "Click to select all tracks of this disk, double-click to play them"
+msgstr "Kliknutím označíte všechny skladby tohoto disku, dvojklikem vložíte do playlistu"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:5057
+#, c-format
+msgid "Double-click to enqueue \"%s\""
+msgstr "Vložit \"%s\" do playlistu"
+
+#: modules/library.cpp:5239
+#, c-format
+msgid "Do you want to enqueue all %i selected tracks?"
+msgstr "Chcete vložit do playlistu %i vybrané skladby?"
+
+#: modules/vis/vis_window.cpp:358
+msgid "If appropriate, switch over automatically"
+msgstr "V případě potřeby přepínat automaticky"
+
+#: modules/vis/vis_window.cpp:374
+msgid "Attached window"
+msgstr "Přiložené okna"
+
+#: modules/vis/vis_window.cpp:378
+msgid "Half size"
+msgstr "Poloviční velikost"
+
+#: modules/vis/vidout_module.cpp:150
+msgid "Video output"
+msgstr "Video výstup"
+
+#: modules/vis/vis_module.cpp:119
+#, c-format
+msgid "Close %s"
+msgstr "Zavřít %s"
+
+#: modules/vis/vis_module.cpp:119
+#, c-format
+msgid "Open %s"
+msgstr "Otevřít %s"
+
+#: modules/vis/oscilloscope.cpp:1790
+msgid "Spectrum Monitor"
+msgstr "Spektrum Monitor"
+
+#: modules/vis/oscilloscope.cpp:1896
+msgid "Show spectrum"
+msgstr "Zobrazit spektrum"
+
+#: modules/vis/oscilloscope.cpp:1899
+msgid "Show oscilloscope"
+msgstr "Zobrazit osciloskop"
+
+#: modules/vis/oscilloscope.cpp:1902
+msgid "Show starfield"
+msgstr "Zobrazit hvězdné pole"
+
+#: modules/vis/sfx_module.cpp:148
+msgid "Visualization"
+msgstr "Vizualizace"
+
+#: modules/vis/sfx_module.cpp:309
+#: modules/vis/sfx_module.cpp:313
+#, c-format
+msgid "Selection: %s"
+msgstr "Výběr: %s"
+
+#: modules/vis/sfx_module.cpp:318
+#: modules/vis/sfx_module.cpp:352
+msgid "Select another visualization"
+msgstr "Zvolit další vizualizaci"
+
+#: modules/vis/synctxt_raw.cpp:121
+#: modules/vis/karaoke_module.cpp:483
+msgid "No lyrics found."
+msgstr "Text pisně nenalezen."
+
+#: modules/vis/karaoke_module.cpp:521
+msgid "Karaoke Prompt"
+msgstr "Karaoke řádek"
+
+#: modules/vis/karaoke_module.cpp:592
+#, c-format
+msgid "No images found in \"%s\"."
+msgstr "Nebyly nalezeny žádné obrázky v \"%s\"."
+
+#: modules/vis/karaoke_module.cpp:797
+msgid "Default"
+msgstr "Výchozí"
+
+#: modules/vis/karaoke_module.cpp:800
+msgid "Black"
+msgstr "Černá"
+
+#: modules/vis/karaoke_module.cpp:813
+#, c-format
+msgid "Use %s-files"
+msgstr "Použít %s-soubory"
+
+#: modules/vis/karaoke_module.cpp:825
+msgid "Background"
+msgstr "Pozadí"
+
+#: modules/vis/karaoke_module.cpp:852
+msgid "Please select a directory with images"
+msgstr "Vyberte prosím adresář s obrázky"
+
+#: modules/bass/bass_decoder.cpp:459
+msgid "Playback mode:"
+msgstr "Mód přehrávání:"
+
+#: modules/bass/bass_decoder.cpp:459
+#: modules/bass/bass_decoder.cpp:465
+msgid "Normal"
+msgstr "Normální"
+
+#: modules/bass/bass_decoder.cpp:462
+msgid "Interpolation:"
+msgstr "Interpolace:"
+
+#: modules/bass/bass_decoder.cpp:462
+#: modules/bass/bass_decoder.cpp:468
+msgid "Linear"
+msgstr "Lineární"
+
+#: modules/bass/bass_decoder.cpp:465
+msgid "Sensitive"
+msgstr "Citlivost"
+
+#: modules/kiosk/creditbase.cpp:113
+msgid "No credit."
+msgstr "Žádný kredit."
+
+#: modules/kiosk/creditbase.cpp:148
+#, c-format
+msgid "Credit: %i"
+msgstr "Kredit: %i"
+
+#: modules/kiosk/kiosk.cpp:355
+msgid "Functionality"
+msgstr "Funkčnost"
+
+#: modules/kiosk/kiosk.cpp:358
+msgid "Monitors"
+msgstr "Monitory"
+
+#: modules/kiosk/kiosk.cpp:361
+#: modules/kiosk/virtkeybd.cpp:1261
+#: modules/kiosk/virtkeybd.cpp:1374
+msgid "Virtual keyboard"
+msgstr "Virtuální klávesnice"
+
+#: modules/kiosk/kiosk.cpp:372
+msgid "Credit system"
+msgstr "Kreditní systém"
+
+#: modules/kiosk/kiosk.cpp:500
+msgid ""
+"Silverjuke provides a so called \"kiosk mode\" which allows you to run the program\n"
+"full screen with a defined functionality."
+msgstr ""
+"Silverjuke nabízí tzv. \"kiosk režim\", který umožňuje spustit program \n"
+"v celoobrazovém režimu s definovanými funkcemi."
+
+#: modules/kiosk/kiosk.cpp:506
+msgid ""
+"Before you enter the kiosk mode by clicking on \"Start\", make sure, you know how\n"
+"to exit again:"
+msgstr ""
+"Před vstupem do KIOSK režimu (kliknutím na \"Start\") se ujistěte,\n"
+"že víte, jak tento režim opustit:"
+
+#: modules/kiosk/kiosk.cpp:516
+#, c-format
+msgid "Exit by hitting %s"
+msgstr "Ukončit stiskem klávesy %s"
+
+#: modules/kiosk/kiosk.cpp:518
+msgid "Exit by clicking into two different corners"
+msgstr "Ukončit kliknutím do obou horních rohů obrazovky"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#: modules/kiosk/kiosk.cpp:526
+#: modules/kiosk/kiosk.cpp:530
+#, c-format
+msgid "Disable %s"
+msgstr "Zakázat %s"
+
+#: modules/kiosk/kiosk.cpp:537
+msgid "Disable shutdown"
+msgstr "Zakázat vypnutí"
+
+#: modules/kiosk/kiosk.cpp:539
+msgid "Query settings before start"
+msgstr "Dotaz nastavení před startem"
+
+#: modules/kiosk/kiosk.cpp:544
+msgid "Ask for a password on exit"
+msgstr "Při ukončení požádat o heslo"
+
+#: modules/kiosk/kiosk.cpp:546
+msgid "Change password..."
+msgstr "Změnit heslo..."
+
+#: modules/kiosk/kiosk.cpp:553
+msgid "Exit action:"
+msgstr "Konec akce:"
+
+#: modules/kiosk/kiosk.cpp:606
+msgid "Start the kiosk mode with the following functionality:"
+msgstr "Start kiosk režimu s následujícími funkcemi:"
+
+#: modules/kiosk/kiosk.cpp:619
+msgid "Play/pause"
+msgstr "Přehrát/Pauza"
+
+#: modules/kiosk/kiosk.cpp:624
+msgid "Edit queue"
+msgstr "Upravit pořadí ve frontě"
+
+#: modules/kiosk/kiosk.cpp:630
+msgid "Toggle elements"
+msgstr "Přepnout prvky"
+
+#: modules/kiosk/kiosk.cpp:637
+msgid "Enqueue multiple tracks"
+msgstr "Hromadné vložení skladeb"
+
+#: modules/kiosk/kiosk.cpp:641
+msgid "All functions"
+msgstr "Všechny funkce"
+
+# %s will be replaced by the name of a music selection
+#: modules/kiosk/kiosk.cpp:650
+#, c-format
+msgid "Limit tracks to the music selection %s"
+msgstr "Omezit výběr hudby na %s"
+
+#: modules/kiosk/kiosk.cpp:813
+#: modules/kiosk/kiosk.cpp:2717
+msgid "Please enter the password again for verification."
+msgstr "Zadejte prosím heslo pro ověření."
+
+#: modules/kiosk/kiosk.cpp:961
+msgid ""
+"If you have more than one monitor connected to your computer,\n"
+"you can assign the different Silverjuke windows to different monitors here."
+msgstr ""
+"Pokud máte připojeno více monitorů,\n"
+"můžete nastavit, kde co zobrazovat."
+
+#: modules/kiosk/kiosk.cpp:967
+msgid "Overview:"
+msgstr "Přehled:"
+
+#: modules/kiosk/kiosk.cpp:983
+#: modules/kiosk/monitor_overview.cpp:396
+#: modules/kiosk/monitor_overview.cpp:397
+msgid "Monitor for"
+msgstr "Monitor pro"
+
+#: modules/kiosk/kiosk.cpp:994
+#: modules/kiosk/monitor_overview.cpp:396
+msgid "Main window"
+msgstr "Hlavní okno"
+
+#: modules/kiosk/kiosk.cpp:1001
+#: modules/kiosk/kiosk.cpp:1092
+msgid "Monitor"
+msgstr "Monitor"
+
+#: modules/kiosk/kiosk.cpp:1005
+#, c-format
+msgid "Switch resolution to %s"
+msgstr "Přepnout rozlišení na %s"
+
+#: modules/kiosk/kiosk.cpp:1026
+msgid "Disable screensaver"
+msgstr "Zakázat spořič obrazovky"
+
+#: modules/kiosk/kiosk.cpp:1029
+msgid "Disable power management"
+msgstr "Zakázat správu napájení"
+
+#: modules/kiosk/kiosk.cpp:1278
+msgid ""
+"If no physical keyboard is present, you can use our virtual keyboard;\n"
+"the virtual keyboard then is shown whenever you click into a text control."
+msgstr ""
+"Není-li fyzická klávesnice k dispozici, můžete využít virtuální klávesnice.\n"
+"Virtuální klávesnice se zobrazí vždy po kliknutí do textového pole (hledání)."
+
+#: modules/kiosk/kiosk.cpp:1284
+msgid "Use the virtual keyboard"
+msgstr "Použít virtuální klávesnici v kios režimu"
+
+#: modules/kiosk/kiosk.cpp:1289
+msgid "Also use the virtual keyboard outside the kiosk mode"
+msgstr "Použít virtuální klávesnici i mimo kios režim"
+
+#: modules/kiosk/kiosk.cpp:1297
+msgid "Test:"
+msgstr "Test:"
+
+#: modules/kiosk/kiosk.cpp:1308
+msgid "(please click into the text control)"
+msgstr "(Klikněte prosím do textového pole)"
+
+#: modules/kiosk/kiosk.cpp:1315
+msgid "Virtual keyboard layout:"
+msgstr "Virtuální klávesnice k dispozici:"
+
+#: modules/kiosk/kiosk.cpp:1336
+msgid "More layouts on the web..."
+msgstr "Další k dipozici na webu ..."
+
+#: modules/kiosk/kiosk.cpp:1342
+msgid "Colour:"
+msgstr "Barva:"
+
+#: modules/kiosk/kiosk.cpp:1347
+msgid "White"
+msgstr "Bílá"
+
+#: modules/kiosk/kiosk.cpp:1355
+msgid "Transparency:"
+msgstr "Průhlednost:"
+
+#: modules/kiosk/kiosk.cpp:1379
+msgid "Hide cursor"
+msgstr "Skrýt kurzor"
+
+#: modules/kiosk/kiosk.cpp:1576
+msgid ""
+"Using the Numpad plus some other special keys, you can control Silverjuke completely\n"
+"by the keyboard or some other hardware buttons. In this case, you'll enqueue new\n"
+"tracks by entering the unique numbers shown beside the album and track names."
+msgstr ""
+"Silverjuke je možné ovládat pomocí numerické klávesnice, nebo pomocí\n"
+"speciálních harwarových tlačítek. V tomto případě se skladby do playlistu\n"
+"vkládají zadáním unikátního čísla uvedeného vedle názvu alba a skladby."
+
+#: modules/kiosk/kiosk.cpp:1582
+msgid "Use Numpad controls"
+msgstr "Použít ovládací prvky numerické klávesnice v kiosk režimu"
+
+#: modules/kiosk/kiosk.cpp:1587
+msgid "Also use Numpad controls outside the kiosk mode"
+msgstr "Použít ovládací prvky numerické klávesnice i mimo kiosk režim"
+
+#: modules/kiosk/kiosk.cpp:1598
+#: modules/kiosk/kiosk.cpp:1604
+msgid "Keys:"
+msgstr "Klávesy:"
+
+#: modules/kiosk/kiosk.cpp:1746
+msgid ""
+"With the credit system, users must eg. add coins before tracks can be enqueued. Please\n"
+"refer to the online help for details about the possibilities and the supported hardware."
+msgstr ""
+"S kreditním systémem musí nejdřív uživatel vhodit mince před přidáním skladby do fronty, nebo použít klavesovou zkratku.\n"
+"V online nápovědě naleznete informace o možnostech kreditního systému a podporovaný hardware."
+
+#: modules/kiosk/kiosk.cpp:1752
+msgid "Use credit system"
+msgstr "Použít kreditní systém"
+
+#: modules/kiosk/kiosk.cpp:1760
+msgid "Credits may be added by DDE, command line or shortcuts"
+msgstr "Kredit může být doplněn DDE příkazového řádku, nebo klávesovou zkratkou"
+
+#: modules/kiosk/kiosk.cpp:1767
+msgid "Keys..."
+msgstr "Klávesy..."
+
+#: modules/kiosk/kiosk.cpp:1772
+msgid "Remember credits between program starts"
+msgstr "Pamatuje si vložený kredit po spuštění programu"
+
+#: modules/kiosk/kiosk.cpp:1780
+msgid "Current credit:"
+msgstr "Aktuální kredit:"
+
+#: modules/kiosk/kiosk.cpp:1951
+msgid "Start"
+msgstr "Start"
+
+#: modules/kiosk/kiosk.cpp:2134
+msgid "Please enter your password to exit the kiosk mode."
+msgstr "Zadejte své heslo pro ukončení kiosk režimu."
+
+#: modules/kiosk/kiosk.cpp:2628
+msgid ""
+"Too many tracks in queue,\n"
+"please try again later."
+msgstr ""
+"Příliš mnoho skladeb ve frontě,\n"
+"Zkuste to později."
+
+#: modules/kiosk/kiosk.cpp:2647
+msgid ""
+"This track is already in queue,\n"
+"please try again later."
+msgstr ""
+"Tato skladba je již v playlistu,\n"
+"zkuste to později."
+
+#: modules/kiosk/kiosk.cpp:2653
+msgid ""
+"This track or artist was just played,\n"
+"please try again later."
+msgstr ""
+"Tato skladba, nebo interpret se zrovna přehrává,\n"
+"zkuste to později."
+
+#: modules/kiosk/kiosk.cpp:2738
+msgid "Maintenance password"
+msgstr "Údržba hesla"
+
+#: modules/kiosk/virtkeybd.cpp:252
+msgid ""
+"Shift|AltGr|Delete|Clear\n"
+"all|OK"
+msgstr ""
+"Shift|AltGr|Delete|Clear\n"
+"všechno|OK"
+
+#: modules/kiosk/numpadplay.cpp:195
+msgid "Invalid track number"
+msgstr "Neplatné číslo skladby"
+
+#: modules/kiosk/password_dlg.cpp:85
+#: modules/kiosk/numpadpassword.cpp:33
+msgid "Password:"
+msgstr "Heslo:"
+
+#: modules/kiosk/password_dlg.cpp:93
+msgid "Action:"
+msgstr "Akce:"
+
+#: modules/kiosk/password_dlg.cpp:118
+msgid "Shutdown computer"
+msgstr "Vypnout počítač"
+
+#: modules/kiosk/password_dlg.cpp:121
+msgid "Reboot computer"
+msgstr "Restartovat počítač"
+
+#: modules/kiosk/password_dlg.cpp:164
+#: modules/kiosk/numpadpassword.cpp:48
+msgid "Invalid password. Please try again."
+msgstr "Neplatné heslo. Zkuste to znovu prosím."
+
+#: modules/daap/daapclient.cpp:39
+msgid "DAAP-/iTunes-client"
+msgstr "DAAP-/iTunes-client"
+
+#: modules/daap/daapclient.cpp:41
+msgid "Add a DAAP-/iTunes-server"
+msgstr "Add a DAAP-/iTunes-server"
+
+#: modules/server/server_module_config.cpp:53
+msgid ""
+"With Silverjuke's HTTP server you can access the program and your music library from any\n"
+"browser or other Silverjuke instances in your network."
+msgstr ""
+"Se serverem Silverjuke HTTP máte přístup k programu a hudební knihovnu z jakéhokoliv\n"
+"prohližeče nebo jiné Silverjuke případy ve vaší síti."
+
+#: modules/server/server_module_config.cpp:59
+#, c-format
+msgid "Enable HTTP server on port %s"
+msgstr "Povolit HTTP server na portu %s"
+
+#: modules/server/server_module_config.cpp:64
+msgid "Share my music library over HTTP"
+msgstr "Sdílet své hudební knihovny pomocí protokolu HTTP"
+
+#: modules/server/server_module_config.cpp:70
+msgid "Enable web interface access over HTTP"
+msgstr "Povolit přístup přes webové rozhraní HTTP"
+
+#: modules/server/web_interface.cpp:213
+msgid "Playlist"
+msgstr "Playlist"
+
+#: modules/server/web_interface.cpp:240
+msgid "Empty"
+msgstr "Prázdný"
+
+#: modules/server/web_interface.cpp:249
+msgid "Update"
+msgstr "Aktualizovat"
+
+#: modules/server/server_module.cpp:79
+msgid "Sharing/Web interface"
+msgstr "Sdílení/webové rozhraní"
+
+#: modules/tageditor/tageditorplugin.cpp:167
+msgid "Old file name"
+msgstr "Starý název souboru"
+
+#: modules/tageditor/tageditorplugin.cpp:168
+msgid "New file name"
+msgstr "Nový název souboru"
+
+#: modules/tageditor/tageditorplugin.cpp:173
+msgid "Field"
+msgstr "Oblast"
+
+#: modules/tageditor/tageditorplugin.cpp:174
+msgid "Old value"
+msgstr "Staré hodnoty"
+
+#: modules/tageditor/tageditorplugin.cpp:175
+#: modules/tageditor/tageditorplugin.cpp:417
+msgid "New value"
+msgstr "Nové hodnoty"
+
+# This string is used eg. for unused effect slots, please surround the string by "<" and ">"
+#: modules/tageditor/tageditorplugin.cpp:215
+msgid "<empty>"
+msgstr "<prázdný>"
+
+#: modules/tageditor/tageditorplugin.cpp:292
+msgid "Confirm modifications"
+msgstr "Potvrdit změny"
+
+#: modules/tageditor/tageditorplugin.cpp:313
+#: modules/tageditor/tageditor.cpp:492
+msgid "Write (ID3-)tags"
+msgstr "Zapsat (ID3-) tagy"
+
+#: modules/tageditor/tageditorplugin.cpp:320
+msgid "Delete empty folders"
+msgstr "Odstranit prázdné složky"
+
+#: modules/tageditor/tageditorplugin.cpp:352
+msgid "Please confirm or edit the following modification:"
+msgstr "Prosím potvrďte nebo upravte následující změny:"
+
+# %s will be replaced by the number of modifications
+#: modules/tageditor/tageditorplugin.cpp:356
+#, c-format
+msgid "Please confirm or edit the following %s modifications:"
+msgstr "Prosím potvrďte nebo upravte následující %s úpravy:"
+
+#: modules/tageditor/tageditorplugin.cpp:545
+msgid "(lower case)"
+msgstr "(Malá písmena)"
+
+#: modules/tageditor/tageditorplugin.cpp:546
+msgid "(upper case)"
+msgstr "(Velká písmena)"
+
+#: modules/tageditor/tageditorplugin.cpp:555
+msgid "(n characters)"
+msgstr "(n znaků)"
+
+#: modules/tageditor/tageditor.cpp:143
+#: modules/tageditor/tageditor.cpp:1921
+msgid "Edit track"
+msgstr "Upravit skladbu"
+
+#: modules/tageditor/tageditor.cpp:144
+#: modules/helpnabout/help.cpp:273
+msgid "Info"
+msgstr "Info"
+
+#: modules/tageditor/tageditor.cpp:361
+#: modules/tageditor/tageditor.cpp:377
+msgid "of"
+msgstr "z"
+
+#: modules/tageditor/tageditor.cpp:1056
+msgid "File names"
+msgstr "Názvy souborů"
+
+# %s will be replaced by the decimal-point-formatted number of files
+#: modules/tageditor/tageditor.cpp:1060
+#, c-format
+msgid "Show all %s file names..."
+msgstr "Zobrazit všechny %s názvy souborů ..."
+
+#: modules/tageditor/tageditor.cpp:1065
+msgid "The shown values are the sum or the average of all single values in the given files."
+msgstr "Uvedené hodnoty jsou součtem nebo průměr všech jednotlivých hodnot v daném souboru."
+
+#: modules/tageditor/tageditor.cpp:1126
+#: modules/tageditor/tageditor.cpp:1130
+msgid "Track"
+msgstr "Skladba"
+
+#: modules/tageditor/tageditor.cpp:1172
+msgid "Further information"
+msgstr "Další informace"
+
+#: modules/tageditor/tageditor.cpp:1194
+msgid "Audio-decoder"
+msgstr "Audio-dekodér"
+
+#: modules/tageditor/tageditor.cpp:1218
+msgid "Further information..."
+msgstr "Další informace..."
+
+# The first %s will be replaced by the source file name, the second %s will be replaced by the destination file name
+#: modules/tageditor/tageditor.cpp:1855
+#, c-format
+msgid "Cannot rename \"%s\" to \"%s\"."
+msgstr "Nelze přejmenovat \"%s\" na \"%s\"."
+
+#: modules/tageditor/tageditor.cpp:2052
+msgid "Online database"
+msgstr "Online databáze"
+
+#: modules/tageditor/tageditor.cpp:2056
+msgid "Server name"
+msgstr "Název serveru"
+
+#: modules/tageditor/tageditorreplace.cpp:51
+msgid "Search for:"
+msgstr "Hledat:"
+
+#: modules/tageditor/tageditorreplace.cpp:57
+msgid "in:"
+msgstr "v:"
+
+#: modules/tageditor/tageditorreplace.cpp:61
+msgid "All fields"
+msgstr "Všechna pole"
+
+#: modules/tageditor/tageditorreplace.cpp:64
+#: modules/tageditor/tageditorsplit.cpp:84
+msgid "Path and file name"
+msgstr "Cesta a název souboru"
+
+#: modules/tageditor/tageditorreplace.cpp:69
+msgid "Replace with:"
+msgstr "Nahradit s:"
+
+#: modules/tageditor/tageditorreplace.cpp:77
+msgid "Match whole words only"
+msgstr "Pouze celá slova"
+
+#: modules/tageditor/tageditorreplace.cpp:86
+msgid "Match case"
+msgstr "Část výrazu"
+
+#: modules/tageditor/tageditorreplace.cpp:95
+msgid "Regular expression"
+msgstr "Regulární výraz"
+
+# %s will be replaced by a text the user tried to search for
+#: modules/tageditor/tageditorreplace.cpp:187
+#, c-format
+msgid "\"%s\" not found."
+msgstr "\"%s\" nebyl nalezen."
+
+#: modules/tageditor/tageditorsplit.cpp:72
+msgid "Field to split:"
+msgstr "Pole k rozdělení:"
+
+#: modules/tageditor/tageditorsplit.cpp:89
+msgid "Destination fields and pattern:"
+msgstr "Cíl polí a vzor:"
+
+# %i will be replaced by the number of characters
+#: modules/tageditor/tageditorsplit.cpp:101
+#: modules/tageditor/tageditorsplit.cpp:102
+#: modules/tageditor/tageditorsplit.cpp:104
+#: modules/tageditor/tageditorsplit.cpp:105
+#: modules/tageditor/tageditorsplit.cpp:118
+#: modules/tageditor/tageditorsplit.cpp:119
+#: modules/tageditor/tageditorrename.cpp:223
+#: modules/tageditor/tageditorrename.cpp:224
+#: modules/tageditor/tageditorrename.cpp:227
+#: modules/tageditor/tageditorrename.cpp:231
+#, c-format
+msgid "(%i characters)"
+msgstr "(%i znaků)"
+
+#: modules/tageditor/tageditorsplit.cpp:121
+#: modules/tageditor/tageditorrename.cpp:229
+msgid "Directory change"
+msgstr "Adresář změny"
+
+#: modules/tageditor/tageditorsplit.cpp:122
+msgid "Void information"
+msgstr "Void informace"
+
+#: modules/tageditor/tageditorsplit.cpp:126
+#: modules/tageditor/tageditorrename.cpp:236
+msgid "Example:"
+msgstr "Příklad:"
+
+#: modules/tageditor/tageditorrename.cpp:194
+msgid "Pattern:"
+msgstr "Vzor:"
+
+#: modules/tageditor/tageditorrename.cpp:211
+#: modules/tageditor/tageditorrename.cpp:216
+#: modules/tageditor/tageditorrename.cpp:219
+#: modules/tageditor/tageditorrename.cpp:221
+msgid "(first character)"
+msgstr "(první znak)"
+
+#: modules/tageditor/tageditorrename.cpp:232
+msgid "File extension"
+msgstr "Přípona souboru"
+
+#: modules/tageditor/tageditorfreedb.cpp:155
+msgid "more..."
+msgstr "více ..."
+
+#: modules/tageditor/tageditorfreedb.cpp:183
+msgid "Please select one of the following albums:"
+msgstr "Vyberte prosím jedno z těchto alb:"
+
+#: modules/scanner/folder_scanner.cpp:136
+msgid "Read folders:"
+msgstr "Načíst složky:"
+
+#: modules/scanner/folder_scanner.cpp:136
+msgid "Read file:"
+msgstr "Načíst soubor"
+
+#: modules/scanner/folder_scanner.cpp:148
+msgid "Ignore music-files and images with the following extensions:"
+msgstr "Ignorovat hudební soubory a obrázky s těmito příponami:"
+
+#: modules/scanner/folder_scanner.cpp:158
+msgid "Include folder to the update process"
+msgstr "Obsah složky zahrnout do procesu aktualizace"
+
+#: modules/scanner/folder_scanner.cpp:166
+msgid "Read hidden files"
+msgstr "Načíst skryté soubory"
+
+#: modules/scanner/folder_scanner.cpp:172
+msgid "Read inside ZIP-/TAR-archives"
+msgstr "Načíst  ZIP-/TAR-archivy"
+
+#: modules/scanner/folder_scanner.cpp:183
+msgid "Read (ID3)-tags"
+msgstr "Načíst (ID3)-tagy"
+
+#: modules/scanner/folder_scanner.cpp:190
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgstr "Cesta ke složce a souboru je vzorem pro informaci skladby, je-li ID3 tag nedostupný:"
+
+#: modules/scanner/folder_scanner.cpp:406
+msgid "Read files and folders"
+msgstr "Načísti soubory a složky"
+
+#: modules/scanner/folder_scanner.cpp:408
+msgid "Add a folder to search for music-files"
+msgstr "Přidat složky hudebních souborů"
+
+#: modules/scanner/folder_scanner.cpp:411
+msgid "Add a single music-file"
+msgstr "Přidat hudební soubor"
+
+#: modules/scanner/folder_scanner.cpp:613
+#: modules/scanner/server_scanner.cpp:226
+msgid "Disabled"
+msgstr "Zakázáno"
+
+# If "Include folder to the update process" is disabled, this hint is shown in brackets in the list of sources in the "My music" dialog.
+#: modules/scanner/folder_scanner.cpp:617
+#: modules/scanner/server_scanner.cpp:231
+msgid "No update"
+msgstr "Žádná aktualizace"
+
+# %s will be replaced by the name of a source, eg. a folder, a file or an URL
+#: modules/scanner/folder_scanner.cpp:633
+#: modules/scanner/server_scanner.cpp:182
+#, c-format
+msgid "Remove \"%s\" from the music library?"
+msgstr "Odstranit \"%s\" z hudební knihovny?"
+
+#: modules/scanner/folder_scanner.cpp:657
+msgid "Select a folder with music-files"
+msgstr "Vyberte složku s hudebními soubory"
+
+#: modules/scanner/folder_scanner.cpp:672
+msgid "Select music-file"
+msgstr "Zvolte hudební soubor"
+
+#: modules/scanner/folder_scanner.cpp:837
+msgid "Unknown track"
+msgstr "Neznámá skladba"
+
+#: modules/scanner/folder_scanner.cpp:842
+msgid "Unknown artist"
+msgstr "Neznámý interpret"
+
+#: modules/scanner/server_scanner_config.cpp:52
+#: modules/scanner/server_scanner.cpp:55
+msgid "Add a server containing music-files"
+msgstr "Přidat server obsahující hudební soubory"
+
+#: modules/scanner/server_scanner_config.cpp:78
+#: modules/scanner/server_scanner_config.cpp:82
+msgid "Use server:"
+msgstr "Použít server:"
+
+#: modules/scanner/server_scanner_config.cpp:92
+msgid "Server:"
+msgstr "Server:"
+
+#: modules/scanner/server_scanner_config.cpp:98
+msgid "Type"
+msgstr "Typ"
+
+#: modules/scanner/server_scanner_config.cpp:106
+msgid "Login name:"
+msgstr "Přihlašovací jméno:"
+
+#: modules/scanner/server_scanner_config.cpp:120
+msgid "Include server to the update process"
+msgstr "Patří server procesu aktualizace"
+
+# The first %i will be replaced by the current day number in the evaluation period, the second %i will be replaced by the total number of days of the evaluation period (currently 14).
+#: modules/helpnabout/help.cpp:340
+#, c-format
+msgid "You are on day %i of the %i-days testing period."
+msgstr "Nacházíte se v den %i z %i denní zkušební období."
+
+# This string is shown as a link the the "About" dialog.
+#: modules/helpnabout/help.cpp:366
+msgid "Enter licence key now..."
+msgstr "Zadejte nyní licenční klíč..."
+
+#: modules/helpnabout/help.cpp:550
+msgid "Help-system"
+msgstr "Nápověda systému"
+
+#: modules/fx/fx_setup.cpp:34
+msgid "Setup"
+msgstr "Nastavení"
+
+#: modules/fx/fx_setup.cpp:42
+msgid "Show the following effects:"
+msgstr "Zobrazit následující efekty:"
+
+#: modules/fx/fx_setup.cpp:85
+msgid ""
+"To install further effects, just copy the\n"
+"VST-plugins to one of the search paths."
+msgstr ""
+"Chcete-li nainstalovat další efekty, stačí zkopírovat \n"
+"VST-plugins do jedné z cest pro vyhledávání."
+
+#: modules/fx/fx_config_page.cpp:123
+#, c-format
+msgid "FX settings for %s :"
+msgstr "FX nastavení pro %s:"
+
+#: modules/fx/fx_config_page.cpp:133
+msgid "Normal playback"
+msgstr "Normální přehrávání"
+
+#: modules/fx/fx_config_page.cpp:323
+#, c-format
+msgid "Enable %s"
+msgstr "Povolit %s"
+
+#: modules/fx/fx_config_page.cpp:542
+#: modules/fx/fx_config_page.cpp:638
+#, c-format
+msgid "%s parameters"
+msgstr "%s parametr(y)"
+
+#: modules/fx/fx_config_page.cpp:543
+#: modules/fx/fx_config_page.cpp:648
+#: modules/fx/fx_config_page.cpp:663
+#, c-format
+msgid "Load %s"
+msgstr "Načíst %s"
+
+#: modules/fx/fx_config_page.cpp:544
+#: modules/fx/fx_config_page.cpp:657
+#: modules/fx/fx_config_page.cpp:667
+#, c-format
+msgid "Save %s"
+msgstr "Uložit %s"
+
+#: modules/fx/fx_config_page.cpp:559
+#, c-format
+msgid "%s priority"
+msgstr "%s priorita"
+
+#: modules/fx/fx_config_page.cpp:583
+msgid "Load all"
+msgstr "Načtení všech"
+
+#: modules/fx/fx_config_page.cpp:584
+msgid "Save all"
+msgstr "Uložit vše"

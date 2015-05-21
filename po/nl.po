@@ -1,0 +1,4288 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Silverjuke\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-10-04 14:49+0100\n"
+"PO-Revision-Date: 2010-10-04 14:49+0100\n"
+"Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
+"Language-Team:  <drsilver@silverjuke.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Dutch\n"
+"X-Poedit-Country: NETHERLANDS\n"
+"X-Poedit-Basepath: ..\\..\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: autoctrl.cpp:221
+#: autoctrl.cpp:673
+msgid "Sleep mode activated."
+msgstr "Slaapmodus geactiveerd."
+
+#: autoctrl.cpp:221
+#: autoctrl.cpp:718
+msgid "Sleep mode deactivated."
+msgstr "Slaapmodus niet actief."
+
+#: browser_list.cpp:1121
+msgid "Reset to default values"
+msgstr "Standaardinstellingen terugzetten"
+
+#: browser_list.cpp:1825
+msgid "Nr."
+msgstr "Nr."
+
+# Abbreviation of "Bits per second"
+#: browser_list.cpp:1829
+msgid "bit/s"
+msgstr "bit/s"
+
+#: browser_list.cpp:1833
+msgid "Samplerate"
+msgstr "Samplerate"
+
+# Abbreviation of "Hertz"
+#: browser_list.cpp:1833
+msgid "Hz"
+msgstr "Hz"
+
+#: browser_list.cpp:2145
+#: browser_album.cpp:632
+msgid "Show covers"
+msgstr "Covers weergeven"
+
+# Do not forget the ":" at the end of the string.
+#: busyinfo.cpp:105
+msgid "Object count:"
+msgstr "Aantal Objekten:"
+
+# Do not forget the ":" at the end of the string.
+#: busyinfo.cpp:114
+msgid "Elapsed time:"
+msgstr "Verstreken tijd:"
+
+#: busyinfo.cpp:127
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: littleoption.cpp:107
+msgid "No"
+msgstr "Nee"
+
+#: littleoption.cpp:107
+msgid "Yes"
+msgstr "Ja"
+
+#: littleoption.cpp:111
+msgid "Off"
+msgstr "Uit"
+
+#: littleoption.cpp:111
+msgid "On"
+msgstr "Aan"
+
+# %s will be replaced by a filename
+#: littleoption.cpp:529
+#, c-format
+msgid "Cannot open \"%s\"."
+msgstr "Kan \"%s\" niet openen."
+
+#: littleoption.cpp:634
+msgid "Select..."
+msgstr "Selecterenl..."
+
+#: littleoption.cpp:638
+msgid "Edit..."
+msgstr "Wijzigen..."
+
+#: littleoption.cpp:642
+msgid "Test..."
+msgstr "Test..."
+
+#: littleoption.cpp:703
+msgid "Programs"
+msgstr "Programma's"
+
+# This string is used as a headline before a list of placeholders, see eg. "Settings/My music library/Options for <source>". The placeholders may then be used by the user in the corresponding text field and Silverjuke will replace them by something else afterwards.
+#: littleoption.cpp:717
+msgid "Placeholders:"
+msgstr "Plaatshouders:"
+
+# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
+#: playeruser.cpp:846
+#, c-format
+msgid "Initializing %s..."
+msgstr "Initialiseren %s..."
+
+#: playeruser.cpp:846
+#: mainframe.cpp:2957
+msgid "Microphone"
+msgstr "Microfoon"
+
+#: searchsj.cpp:215
+msgid "Title"
+msgstr "Titel"
+
+#: searchsj.cpp:216
+msgid "Track number"
+msgstr "Track nummer"
+
+#: searchsj.cpp:217
+msgid "Track count"
+msgstr "Track aantal"
+
+#: searchsj.cpp:218
+msgid "Disk number"
+msgstr "Disknummer"
+
+#: searchsj.cpp:219
+msgid "Disk count"
+msgstr "Disk aantal"
+
+#: searchsj.cpp:220
+msgid "Artist"
+msgstr "Artiest"
+
+#: searchsj.cpp:221
+msgid "Original artist"
+msgstr "Originele artiest"
+
+#: searchsj.cpp:222
+msgid "Composer"
+msgstr "Componist"
+
+#: searchsj.cpp:223
+msgid "Album"
+msgstr "Album"
+
+#: searchsj.cpp:224
+msgid "Genre"
+msgstr "Genre"
+
+#: searchsj.cpp:225
+msgid "Group"
+msgstr "Groep"
+
+#: searchsj.cpp:226
+msgid "Comment"
+msgstr "Commentaar"
+
+# This is the abbreviation for "beats per minute" (the number of "quarter notes" per minute which defines the tempo of a track). The string is used in the dailog "Edit tracks/Get info...". If in doubt, just enter "BPM" here.
+#: searchsj.cpp:227
+msgid "BPM"
+msgstr "BPM"
+
+#: searchsj.cpp:228
+msgid "My rating"
+msgstr "Mijn Waardering"
+
+#: searchsj.cpp:229
+msgid "Year"
+msgstr "Jaar"
+
+#: searchsj.cpp:230
+msgid "Duration"
+msgstr "Tijdsduur"
+
+#: searchsj.cpp:231
+#: mainframe_menu.cpp:438
+#: mainframe.cpp:2952
+#: mainframe.cpp:2957
+#: displaysj.cpp:865
+msgid "Volume"
+msgstr "Volume"
+
+#: searchsj.cpp:232
+msgid "Channels"
+msgstr "Kanalen"
+
+#: searchsj.cpp:234
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: searchsj.cpp:235
+msgid "File name"
+msgstr "Bestandsnaam"
+
+#: searchsj.cpp:236
+msgid "File size"
+msgstr "Bestandsgrootte"
+
+#: searchsj.cpp:237
+msgid "Date added"
+msgstr "Toegevoegd"
+
+#: searchsj.cpp:238
+msgid "Date modified"
+msgstr "Veranderd"
+
+#: searchsj.cpp:239
+msgid "Last played"
+msgstr "Laatst afgespeeld"
+
+#: searchsj.cpp:240
+msgid "Play count"
+msgstr "Aantal keren afgespeeld"
+
+#: searchsj.cpp:241
+msgid "SQL expression"
+msgstr "SQL expression"
+
+#: searchsj.cpp:242
+msgid "Limit result to"
+msgstr "Beperken tot"
+
+#: searchsj.cpp:244
+msgid "Title/artist/album"
+msgstr "Titel/Artiest/Album"
+
+#: searchsj.cpp:245
+msgid "File type"
+msgstr "Bestandstype"
+
+#: searchsj.cpp:246
+msgid "Queue position"
+msgstr "Positie in de lijst"
+
+#: searchsj.cpp:247
+msgid "Include tracks"
+msgstr "Tracks toevoegen"
+
+#: searchsj.cpp:248
+msgid "Exclude tracks"
+msgstr "Tracks uitsluiten"
+
+#: searchsj.cpp:249
+msgid "Random"
+msgstr "Willekeurig"
+
+# %s will be replaced by a shortcut, eg. "Ins" or "Del"
+#: searchsj.cpp:369
+#: searchsj.cpp:491
+#, c-format
+msgid "Press \"%s\" in the main window"
+msgstr "Klikken op \"%s\" in het hoofdvenster"
+
+#: searchsj.cpp:370
+#: searchsj.cpp:492
+msgid "Insert"
+msgstr "Invoegen"
+
+#: searchsj.cpp:370
+#: searchsj.cpp:492
+msgid "Del"
+msgstr "Wissen"
+
+# Use the same date/time format as specified in __DATE_TIME_EDITABLE__ and __DATE_EDITABLE__ - however, you may use a more readable way here.
+#: searchsj.cpp:386
+msgid "Please enter the date as \"dd.mm.yyyy\", you can also add \"hh:mm\" for the time."
+msgstr "Datum invoeren als \"dd.mm.jjjj\" ; je kunt \"hh:mm\" toevoegen voor de tijd."
+
+#: searchsj.cpp:424
+msgid "Please enter the text."
+msgstr "Voer de tekst in"
+
+#: searchsj.cpp:436
+msgid "Please enter a value."
+msgstr "Voer de waarde in"
+
+#: searchsj.cpp:436
+msgid "Please enter a valid value."
+msgstr "Voer een geldige waarde in."
+
+# %s will be reaplaced by a decimal-point-formatted number
+#: searchsj.cpp:519
+#: browser_cover.cpp:1380
+#, c-format
+msgid "%s tracks"
+msgstr "%s Tracks"
+
+#: searchsj.cpp:1267
+msgid "(second field)"
+msgstr "(Tweede Veld)"
+
+#: searchsj.cpp:1276
+msgid "No valid criteria defined."
+msgstr "Geen geldige criteria gedefinieerd."
+
+#: searchsj.cpp:1281
+msgid "The search cannot be started; please check the following fields:"
+msgstr "Het zoeken kan niet starten; Controleer de volgende velden:"
+
+#: searchsj.cpp:1286
+msgid "Note: The operators \"equal\" and \"unequal\" are case-sensitive."
+msgstr "Let Op: \"gelijk\" und \"ongelijk\" maakt onderscheid tussen Hoofd en kleine letters."
+
+# %s will be replaced by a filename
+#: imgop.cpp:1452
+#, c-format
+msgid "Cannot write \"%s\"."
+msgstr "Kan \"%s\" niet opslaan."
+
+#: imgop.cpp:1585
+msgid "Unsorted tracks"
+msgstr "Ongesorteerde Tracks"
+
+#: browser_cover.cpp:608
+#: mainframe_menu.cpp:238
+#: mainframe_menu.cpp:310
+msgid "Show album name"
+msgstr "Albumnaam weergeven"
+
+#: mainframe_menu.cpp:53
+msgid "File"
+msgstr "Bestand"
+
+# Menu Title (eg. if "Settings/Basic settings/Further options/Window: Use shaped windows" is disabled or on Mac OS X
+#: mainframe_menu.cpp:56
+msgid "Edit"
+msgstr "Bewerken"
+
+# "View" menu title with - optionally - different translations for Microsoft Windows and Mac OS X
+#: mainframe_menu.cpp:59
+#: mainframe_menu.cpp:636
+msgid "View"
+msgstr "Beeld"
+
+#: mainframe_menu.cpp:62
+#: mainframe_menu.cpp:641
+msgid "Playback"
+msgstr "Afspelen"
+
+#: mainframe_menu.cpp:65
+#: mainframe_menu.cpp:84
+msgid "Help"
+msgstr "Help"
+
+#: mainframe_menu.cpp:96
+msgid "My music library"
+msgstr "Mijn Muziekarchief"
+
+#: mainframe_menu.cpp:115
+#: mainframe_menu.cpp:646
+msgid "Tools"
+msgstr "Tools"
+
+#: mainframe_menu.cpp:138
+#: mainframe_menu.cpp:600
+#: mainframe.cpp:2946
+msgid "End search"
+msgstr "Zoeken stoppen"
+
+# This is the name of the "First steps" button. Do not add "..." to the string!
+#: mainframe_menu.cpp:157
+msgid "First steps"
+msgstr "Eerste stappen"
+
+#: mainframe_menu.cpp:158
+msgid "Online help"
+msgstr "Online-Help"
+
+# %s will be replaced by the program name, usually "Silverjuke", the string is used for the menu to open the about dialog. Note that "..." is added by Silverjuke, if needed.
+#: mainframe_menu.cpp:163
+#: mainframe_menu.cpp:660
+#, c-format
+msgid "About %s"
+msgstr "Over %s"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: mainframe_menu.cpp:170
+#: mainframe_menu.cpp:664
+#, c-format
+msgid "Buy %s..."
+msgstr "%s kopen..."
+
+#: mainframe_menu.cpp:231
+#: mainframe_menu.cpp:448
+#: mainframe.cpp:2263
+msgid "Repeat one"
+msgstr "Een track herhalen"
+
+#: mainframe_menu.cpp:232
+#: mainframe_menu.cpp:449
+#: mainframe.cpp:2264
+msgid "Repeat all"
+msgstr "Alles herhalen"
+
+#: mainframe_menu.cpp:233
+#: mainframe.cpp:2259
+msgid "Repeat playlist"
+msgstr "Afspeellijst herhalen"
+
+#: mainframe_menu.cpp:265
+#: mainframe_menu.cpp:315
+msgid "Show elapsed time"
+msgstr "Verstreken tijd weergeven"
+
+#: mainframe_menu.cpp:265
+#: mainframe_menu.cpp:315
+msgid "Show remaining time"
+msgstr "Resterende tijd weergeven"
+
+#: mainframe_menu.cpp:304
+msgid "Zoom"
+msgstr "Zoom"
+
+#: mainframe_menu.cpp:347
+msgid "Exit kiosk mode"
+msgstr "Kiosk mode stoppen"
+
+#: mainframe_menu.cpp:351
+msgid "Start kiosk mode"
+msgstr "Kiosk mode starten"
+
+#: mainframe_menu.cpp:524
+msgid "Current view"
+msgstr "Huidige weergave"
+
+#: mainframe_menu.cpp:532
+#, c-format
+msgid "Next track from \"%s\""
+msgstr "Volgende Track uit \"%s\""
+
+#: mainframe_menu.cpp:536
+msgid "Next track"
+msgstr "Volgende Track"
+
+#: mainframe_menu.cpp:678
+#: displaysj.cpp:872
+msgid "Prelisten"
+msgstr "Voorluisteren"
+
+#: mainframe_menu.cpp:685
+#: mainframe.cpp:2874
+msgid "Stop prelistening"
+msgstr "Voorluisteren stoppen"
+
+# %s will be replaced by the track selected for prelistening
+#: mainframe_menu.cpp:693
+#, c-format
+msgid "Prelisten \"%s\""
+msgstr "\"%s\" voorluisteren"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: mainframe_menu.cpp:722
+#, c-format
+msgid "Hide %s"
+msgstr "%s verbergen"
+
+#: mainframe_menu.cpp:742
+msgid "Pause"
+msgstr "Pauze"
+
+#: mainframe_menu.cpp:742
+msgid "Play"
+msgstr "Afspelen"
+
+#: mainframe_menu.cpp:816
+msgid "Search for genre"
+msgstr "Zoeken op genre"
+
+#: mainframe_menu.cpp:840
+msgid "Search for music selection"
+msgstr "Zoeken op muziekselectie"
+
+#: mainframe_menu.cpp:925
+msgid "Edit tracks/Get info"
+msgstr "Track bewerken/Info"
+
+#: mainframe_menu.cpp:940
+msgid "Cover editor"
+msgstr "Cover-Editor"
+
+#: skinner.cpp:4643
+#: displaysj.cpp:753
+#: displaysj.cpp:755
+#: displaysj.cpp:825
+#: displaysj.cpp:827
+msgid "Unlicenced version"
+msgstr "Ongeregistreerde Versie"
+
+#: browser.cpp:545
+msgid "Drag folders with music here."
+msgstr "Mappen met muziek hierin slepen."
+
+#: mainframe.cpp:355
+msgid "Recreating music library"
+msgstr "Opnieuw het muziekarchief samenstellen"
+
+#: mainframe.cpp:355
+msgid "Updating music library"
+msgstr "Muziekarchief bijwerken"
+
+#: mainframe.cpp:357
+msgid ""
+"If you cancel the update process, your music library may not be up to date.\n"
+"\n"
+"Cancel the update process?"
+msgstr ""
+"Wanneer het bijwerken wordt geannuleerd, is het muziekarchief mogelijk niet aktueel.\n"
+"\n"
+"Bijwerken annuleren?"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: mainframe.cpp:417
+#, c-format
+msgid "%s is currently playing. Do you want to stop the playing track and exit %s?"
+msgstr "%s wordt afgespeeld. Wilt u het afspelen stoppen en %s beeindigen?"
+
+#: mainframe.cpp:420
+#, c-format
+msgid "Exit %s"
+msgstr "%s beeindigen"
+
+#: mainframe.cpp:872
+#, c-format
+msgid "Also install the script to \"%s\" for permanent use"
+msgstr ""
+
+#: mainframe.cpp:874
+#, c-format
+msgid "Execute the script \"%s\"?"
+msgstr ""
+
+#: mainframe.cpp:1026
+msgid "These options are available if you buy Silverjuke."
+msgstr "Deze opties zijn beschikbaar als Silverjuke wordt gekocht"
+
+#: mainframe.cpp:1249
+#: mainframe.cpp:2946
+#: mainframe.cpp:3357
+msgid "Search"
+msgstr "Zoeken"
+
+# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
+#: mainframe.cpp:1353
+#: mainframe.cpp:1381
+#: mainframe.cpp:1463
+#, c-format
+msgid "Loading %s"
+msgstr "Inlezen van %s"
+
+# The first %s will be replaced by the program name (usually "Silverjuke"), the second and third %s will be replaced by a file type (eg. "MP3"), the fourth %s will be replaced by the URL to search for modules (eg. "http://www.silverjuke.net/en/modules.html".
+#: mainframe.cpp:1560
+#, c-format
+msgid ""
+"%s has not found an %s-decoder on your system. If you want to play %s-files, you should install a module for this purpose.\n"
+"\n"
+"Open %s and search for modules now?"
+msgstr ""
+"%s heeft geen %s-Decoder op uw system gevonden. Wilt u %s-bestanden afspelen, dan moet een module geinstalleerd worden.\n"
+"\n"
+"Open %s om naar Modules te zoeken?"
+
+# %s will be replaced by the program name (usually "Silverjuke")
+#: mainframe.cpp:1572
+#, c-format
+msgid "Do you want %s to check for missing decoders in future?"
+msgstr "Wilt u dat %s voortaan naar ontbrekende modules zoekt?"
+
+#: mainframe.cpp:2251
+#: displaysj.cpp:1083
+msgid "Shuffle"
+msgstr "Willekeurig afspelen"
+
+#: mainframe.cpp:2295
+msgid "Select a track, then start playback."
+msgstr "Selecteer een track en start het afspelen."
+
+#: mainframe.cpp:2318
+msgid "Stop after this track"
+msgstr "Stop na deze track"
+
+#: mainframe.cpp:2326
+msgid "Stop after each track"
+msgstr ""
+
+# This is a context-menu option that is placed in the "Playback" submenu
+#: mainframe.cpp:2337
+msgid "Play tracks at once on double click"
+msgstr "Direct een Track afspelen bij dubbelklikken"
+
+# %s will be replaced by the name of a music selection
+#: mainframe.cpp:2350
+msgid "Remove played tracks from queue"
+msgstr ""
+
+#: mainframe.cpp:2414
+msgid "More from current album"
+msgstr "Meer van huidige album"
+
+#: mainframe.cpp:2414
+msgid "More from current artist"
+msgstr "Meer van huidige artiest"
+
+#: mainframe.cpp:2416
+msgid "No more tracks."
+msgstr "Geen tracks meer"
+
+# %i will be replaced by the number of tracks
+#: mainframe.cpp:2456
+#, c-format
+msgid "Remove all %i tracks from the queue and stop playback?"
+msgstr "Wilt u alle %i Tracks uit de afspeellijst verwijderen en het afspelen stoppen?"
+
+#: mainframe.cpp:2457
+msgid "Clear playlist"
+msgstr "Afspeellijst wissen"
+
+#: mainframe.cpp:2878
+#: mainframe.cpp:2918
+#: mainframe.cpp:2936
+msgid "Toggle time mode"
+msgstr "Verstreken / Resterend tijd weergeven"
+
+#: mainframe.cpp:2885
+msgid "Volume up"
+msgstr "Harder"
+
+#: mainframe.cpp:2889
+msgid "Volume down"
+msgstr "Zachter"
+
+#: mainframe.cpp:2905
+msgid "Track played, click to reset"
+msgstr ""
+
+#: mainframe.cpp:2909
+msgid "Boredom avoided: Track moved down"
+msgstr ""
+
+#: mainframe.cpp:2914
+msgid "Remove this track"
+msgstr "Track verwijderen"
+
+# %s will be replaced eg. by a module- or a filename
+#: mainframe.cpp:2925
+#, c-format
+msgid "Go to \"%s\""
+msgstr "Ga naar \"%s\""
+
+#: mainframe.cpp:2948
+msgid "click right for options"
+msgstr "Klik rechtermuisknop voor opties"
+
+#: mainframe.cpp:2964
+msgid "Double-click to enlarge the cover"
+msgstr "Dubbelklikken om cover te vergroten"
+
+#: mainframe.cpp:2979
+#, c-format
+msgid "Close this window and exit %s"
+msgstr "Venster sluiten en %s stoppen"
+
+#: mainframe.cpp:2980
+msgid "Open main menu"
+msgstr "Hoofdmenu openen"
+
+#: mainframe.cpp:2981
+msgid "Toggle shuffle mode"
+msgstr "Willekeurig afspelen"
+
+#: mainframe.cpp:2982
+msgid "Repeat all/repeat current"
+msgstr "Herhaal alles / huidige track"
+
+# %s will be replaced by the name of a music selection
+#: mainframe.cpp:3353
+#, c-format
+msgid "Search in \"%s\""
+msgstr "Zoeken in \"%s\""
+
+#: mainframe.cpp:3647
+msgid "Fatal error"
+msgstr "Fatale Fout"
+
+#: mainframe.cpp:3653
+msgid "Ctrl"
+msgstr "Ctrl"
+
+#: mainframe.cpp:3654
+msgid "Alt"
+msgstr "Alt"
+
+#: mainframe.cpp:3655
+msgid "Shift"
+msgstr "Shift"
+
+#: mainframe.cpp:3659
+msgid "Enlarge window"
+msgstr "Venster vergroten"
+
+#: mainframe.cpp:3660
+msgid "Shrink window"
+msgstr "Venster verkleinen"
+
+#: mainframe.cpp:3661
+msgid "Enlarge display"
+msgstr "Display vergroten"
+
+#: mainframe.cpp:3662
+msgid "Shrink display"
+msgstr "Display verkleinen"
+
+#: mainframe.cpp:3666
+msgid "Full screen"
+msgstr "Volledig scherm"
+
+#: mainframe.cpp:3667
+msgid "Show file"
+msgstr "Bestand weergeven"
+
+#: mainframe.cpp:3668
+msgid "Explore"
+msgstr "Verkennen"
+
+#: mainframe.cpp:3669
+msgid "Reveal in Finder"
+msgstr "In Finder weergeven"
+
+#: mainframe.cpp:3670
+msgid "Info..."
+msgstr "Info..."
+
+#: mainframe.cpp:3671
+msgid "State"
+msgstr "Status"
+
+#: mainframe.cpp:3672
+msgid "Modules on the web..."
+msgstr "Module op Internet..."
+
+# The first %s will be replaced by the program name, the second by the name of the licence holder.
+#: displaysj.cpp:818
+#, c-format
+msgid "%s licenced to %s"
+msgstr "%s geregistreerd door %s"
+
+# %s will be replaced by the name of the licence holder
+#: displaysj.cpp:820
+#, c-format
+msgid "Licenced to %s"
+msgstr "Geregistreerd door %s"
+
+#: displaysj.cpp:954
+msgid "AutoPlay"
+msgstr "Automatisch afspelen"
+
+#: playlistsj.cpp:660
+msgid "Several artists"
+msgstr "Verschiedene Artiesten"
+
+#: playlistsj.cpp:661
+msgid "Unknown title"
+msgstr "Onbekende Titel"
+
+#: playlistsj.cpp:1053
+#: playlistsj.cpp:1077
+msgid "Save playlist"
+msgstr "Afspeellijst opslaan"
+
+#: playlistsj.cpp:1163
+msgid "Open playlist"
+msgstr "Open afspeellijst"
+
+#: sqlt.cpp:205
+#: sqlt.cpp:911
+msgid "Cleanup index..."
+msgstr "Index opschonen..."
+
+#: msw/mswkiosk.cpp:135
+msgid ""
+"To disable Ctrl+Alt+Del you have to install a special keyboard driver once.\n"
+"\n"
+"Do you want to install the driver and reboot?"
+msgstr ""
+
+# %i will be replaced by the error number
+#: msw/mswtools.cpp:79
+#, c-format
+msgid "Error %i"
+msgstr "Fout %i"
+
+# %s will be replaced by the file name
+#: msw/mswtools.cpp:613
+#, c-format
+msgid "The file \"%s\" does not exist."
+msgstr "Het bestand \"%s\" bestaat niet."
+
+# %s will be replaced by the shortcut
+#: msw/mswtools.cpp:925
+#, c-format
+msgid "Cannot register system-wide shortcut \"%s\"."
+msgstr "Kan systembrede sneltoets \"%s\" niet toewijzen."
+
+#: tools/temp_n_cache.cpp:334
+msgid "max. size"
+msgstr "max. grootte"
+
+#: tools/temp_n_cache.cpp:413
+msgid "Temporary directory"
+msgstr "Tijdelijke map"
+
+# %s will be replaced by the file type, eg. "MP3" or "JPG"
+#: tools/ext_list.cpp:163
+#: tools/ext_list.cpp:172
+#: tools/ext_list.cpp:187
+#: tools/ext_list.cpp:220
+#, c-format
+msgid "%s-files"
+msgstr "%s-bestanden"
+
+# %s will be replaced by the file type, eg. "MP3"
+#: tools/ext_list.cpp:164
+#: tools/ext_list.cpp:166
+#: tools/ext_list.cpp:168
+#: tools/ext_list.cpp:173
+#: tools/ext_list.cpp:174
+#: tools/ext_list.cpp:175
+#: tools/ext_list.cpp:176
+#: tools/ext_list.cpp:177
+#: tools/ext_list.cpp:178
+#: tools/ext_list.cpp:181
+#: tools/ext_list.cpp:188
+#, c-format
+msgid "%s-audio"
+msgstr "%s-audio"
+
+# %s will be replaced by the file type, eg. "JPG"
+#: tools/ext_list.cpp:165
+#: tools/ext_list.cpp:169
+#: tools/ext_list.cpp:186
+#, c-format
+msgid "%s-images"
+msgstr "%s-afbeeldingen"
+
+# %s will be replaced by the file type, eg. "M3U"  or "CUE"
+#: tools/ext_list.cpp:170
+#: tools/ext_list.cpp:171
+#: tools/ext_list.cpp:179
+#: tools/ext_list.cpp:182
+#, c-format
+msgid "%s-playlists"
+msgstr "%s-afspeellijsten"
+
+#: tools/ext_list.cpp:183
+msgid "Silverjuke language-files"
+msgstr "Silverjuke taalbestanden"
+
+#: tools/ext_list.cpp:185
+msgid "Silverjuke skin-files"
+msgstr "Silverjuke Skin-bestanden"
+
+#: tools/ext_list.cpp:189
+msgid "Archive-files"
+msgstr "Archief bestanden"
+
+#: tools/ext_list.cpp:279
+msgid "Supported file-types"
+msgstr "Ondersteunde bestandstypen"
+
+#: tools/ext_list.cpp:295
+msgid "All files"
+msgstr "Alle bestanden"
+
+#: tools/dialogsj.cpp:148
+msgid "Menu"
+msgstr "Menu"
+
+#: tools/dialogsj.cpp:186
+#: tools/dialogsj.cpp:192
+msgid "OK"
+msgstr "OK"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: tools/dialogsj.cpp:424
+#, c-format
+msgid "Please restart %s so that the changes can take effect."
+msgstr "U moet %s opnieuw starten om de veranderingen door te voeren."
+
+#: tools/dialogsj.cpp:789
+msgid "seconds"
+msgstr "Seconden"
+
+# The first %s is replaces with the program name (usually "Silverjuke"), the seconds %s is replaced by a (maybe complex) error description
+#: tools/tools.cpp:278
+#, c-format
+msgid ""
+"Last time %s did not terminate normally.\n"
+"The following - maybe errorous - objects were in use just before the abnormal termination:\n"
+"\n"
+"%s\n"
+"\n"
+"On continuous problems, try to avoid using these objects.\n"
+"Do you want to use the objects this time?"
+msgstr ""
+"De laatste keer is %s niet op normale wijze afgesloten.\n"
+"De volgende - eventueel foutieve - Objecten werden gebruikt kort voordat het niet normale afsluiten:\n"
+"\n"
+"%s\n"
+"\n"
+"Bij terugkerende problemen kunt u proberen om deze objecten niet meer te gebruiken.\n"
+"Wilt u deze objecten deze keer blijven gebruiken?"
+
+#: tools/tools.cpp:284
+msgid "Use maybe errorous objects?"
+msgstr "Eventueel foutieve objecten gebruiken?"
+
+# How should the DATE PLUS TIME be formatted in this locate (long format)? You can use the following placeholders:
+# -----
+# %a = weekday abbreviation  (Mon, Tue ...)
+# %d = day in month (1-31)
+# %b = month name (January, ...)
+# %Y = year (4 characters)
+# %H = hour (00-23)
+# %I = hour (01-12)
+# %M = minute (0-59)
+# %p = "am" or "pm"
+# -----
+# Eg. we use "%a %b %d %Y, %I:%M:%S %p" for english and "%a, %d. %b. %Y, %H:%M:%S" or german here.
+#: tools/tools.cpp:472
+msgid "__DATE_TIME_LONG__"
+msgstr "%a, %d. %b. %Y, %H:%M:%S"
+
+# Please use only "%d.%m.%Y %H:%M:%S" or "%m/%d/%Y %H:%M:%S" (without the quotes) here as Silverjuke cannot parse other date/time formats.
+#: tools/tools.cpp:473
+msgid "__DATE_TIME_EDITABLE__"
+msgstr "%d.%m.%Y %H:%M:%S"
+
+# How should the DATE WITHOUT TIME be formatted in this locate (long format)? See __DATE_TIME_LONG__ for a brief overview about the placeholders available.
+# -----
+# Eg. we use "%a %b %d %Y" for english and "%a, %d. %b. %Y" or german here.
+#: tools/tools.cpp:474
+msgid "__DATE_LONG__"
+msgstr "%a, %d. %b. %Y"
+
+# Please use only "%d.%m.%Y" or "%m/%d/%Y" (without the quotes) here as Silverjuke cannot parse other date formats.
+#: tools/tools.cpp:475
+msgid "__DATE_EDITABLE__"
+msgstr "%d.%m.%Y"
+
+# Set this value to "1" (with out the quotes) if sunday should be the first day in the week; otherwise, use "0".
+#: tools/tools.cpp:476
+msgid "__DATE_SUNDAY_FIRST__"
+msgstr "0"
+
+# __THIS_LANG__ defines the languge of this locale, use strings as "de", "en", "fr", "es", "dk" etc. here
+#: tools/tools.cpp:477
+msgid "__THIS_LANG__"
+msgstr "nl"
+
+# Here you can add additional cover-search URLs for your locale or for your country. If you are already lucky with the predifined URLs, leave this field empty. Otherwise the value should look like:
+# -----
+# [search]
+# Google.com=http://images.google.com/images?q=%artistutf8%+%albumutf8%
+# AllMusic.com=http://www.allmusic.com/cg/amg.dll?P=amg&sql=%album%&opt1=2
+# -----
+# Do not forget to let the value begin with [search]. You can use the following placeholders for the URL:
+# %artist%
+# %artistutf8%
+# %album%
+# %albumutf8%
+# %track%
+# %trackutf8%
+# -----
+# Again, if you are unsure, just leave this field blank.
+#: tools/tools.cpp:478
+msgid "__COVER_SEARCH_URLS__"
+msgstr ""
+"[search]\n"
+"Amazon.nl=http://www.amazon.nl/exec/obidos/external-search?index=music&keyword=%artist%+%album%\n"
+"eBay.nl=http://search.ebay.nl/search/search.dll?MfcISAPICommand=GetResult&krd=1&ht=1&shortcut=4&SortProperty=MetaEndSort&cgiurl=http%3A%2F%2Fcgi.ebay.de%2Fws%2F&maxRecordsPerPage=50&st=2&ebaytag1code=77&query=%artist%+%album%&x=4&y=15"
+
+# Here you can add additional artist-info URLs for your locale or for your country. If you are already lucky with the predifined URLs, leave this field empty. Otherwise the value should look simelar to __COVER_SEARCH_URLS__ but has the following sections:
+# -----
+# [homepage]
+# [info]
+# [lyrics]
+# [search]
+# -----
+# Again, if you are unsure, just leave this field blank.
+#: tools/tools.cpp:479
+msgid "__ARTIST_INFO_URLS__"
+msgstr ""
+"[info]\n"
+"Wikipedia.nl=http://nl.wikipedia.org/wiki/%artist%\n"
+"[lyrics]\n"
+"Lyrix.at=http://www.google.nl/search?q=%22%artistutf8%%22+site:www.lyrix.at&btnI=1"
+
+# Locale-dependent default stop-words to omit at the beginning of an artist. However, you should also include the english stop words here.
+# -----
+# The predefined stop words are: the, der, die, die happy, das
+#: tools/tools.cpp:480
+msgid "__STOP_ARTISTS__"
+msgstr "0"
+
+# Locale-dependent default stop-words to omit at the beginning of an artist.
+# -----
+# There are no predefined album stopwords, so you may also decide to leave this field blank or enter "0" here.
+#: tools/tools.cpp:481
+msgid "__STOP_ALBUMS__"
+msgstr "0"
+
+# Default cover keywords for your locale. The predefined cover keywords for english are: front, vorn, outside, cover
+#: tools/tools.cpp:482
+msgid "__COVER_KEYWORDS__"
+msgstr "0"
+
+# Virtual keyboard layout definitions here. See our Developer Network for more information. To use the layout "US International", enter "0" here.
+#: tools/tools.cpp:483
+msgid "__VIRT_KEYBD__"
+msgstr "0"
+
+# This is the help topic for the "First steps" that are opened if Silverjuke is started the first time. The topic is also reachable through the "About" dialog. You can use _simple_ HTML here: <h1>, <p>, <b>, <i> and <a>. Please refer to one of the example files in the developer network.
+#: tools/tools.cpp:484
+msgid "__HELP__"
+msgstr "<h1>Eerste stappen</h1><p>\t<b>Welkom bij Silverjuke!</b> Nadat je het programma hebt gedownload en opgestart, \tmoeten je muziekbestanden toegevoegd worden aan het muziekarchief. Dit \tkun je eenvoudig doen door de map met muziekbestanden bijvoorbeeld vanuit de \tWindows Verkenner in het hoofdvenster van Silverjuke te slepen.</p><p>\tSilverjuke doorzoekt na het klikken op \"OK\" de betreffende map op muziekbestanden en voegt alle gevonden muziekbestanden toe aan het muziekarchief.</p><p>\t<b>Dat is alles!</b> We hebben geprobeerd om het gebruik van Silverjuke zo gemakkelijk mogelijk te maken - misschien kun je zelfs nu al stoppen met lezen en het programma gewoon gaan uitproberen... </p><h1>Mijn muziekarchief</h1><p>\tDe mappen die je hebt toegevoegd zoals hierboven beschreven, vindt je terug in \thet <a href=\"dialog:mymusic.lib\">muziekarchief</a>. Hier kun je nog andere bronnen toevoegen of weer verwijderen. Wanneer je bronnen verwijdert, zullen alleen de verwijzingen uit Silverjuke worden verwijderd. De muziekbestanden zelf worden niet gewist. </p><h1>Muziek afspelen</h1><p>\tIn het hoofdscherm vindt je al je muziek gesorteerd op album. Wanneer Silverjuke covers vindt in de mappen of ID3-tags zullen deze afgebeeld worden. Je kunt deze covers bewerken of verschillende covers bijvoorbeeld van Internet halen - klik hiervoor met de rechtermuisknop op de cover of sleep een afbeelding van bijvoorbeeld de verkenner naar een album. </p><p>\tEen track afspelen kun je doen door op de naam te klikken. Wanneer je dit voor meerdere tracks doet, dan worden deze na elkaar afgespeeld. Je kunt ook meerdere tracks tegelijk selecteren (door gebruik van de shift-toets of door op de albumnaam te klikken) en sleep deze samen naar het scherm voor de afspeellijst. </p><h1>Zoeken</h1><p>\tVoor het zoeken naar een artiest, album of track kun je gewoon de naam in het zoekveld (rechtsboven) intikken - mogelijk zijn de eerste letters van de naam al voldoende. Silverjuke begint tijdens het intikken al met zoeken en geeft de resultaten direct weer. </p><p>\tWanneer je het zoeken wilt stoppen en weer alle albums wilt zien, kun je het zoekveld leegmaken door klikken op het kruisje ernaast of gebruik de \"Esc\" toets. </p><p>\tVoor meer complexe zoekopdrachten, die je ook kunt gebruiken om binnen het muziekarchief te filteren, \tkun je de <a href=\"dialog:advsearch.lib\">dialoog muziekselectie</a> gebruiken (klik op het driehoekje in het zoekveld). Probeer de verschillende standaardinstellingen gewoon uit om een idee te krijgen van de mogelijkheden. </p><h1>Kiosk mode</h1><p>\tIn de <a href=\"dialog:kiosk.lib,0\">kiosk mode</a> kun je Silverjuke met volledige \tschermgrootte gebruiken en met beperkte functionaliteit. Hierdoor kun je \tSilverjuke bijvoorbeeld gebruiken als jukebox op een feestje. \tNaast diverse andere opties kun je een <a href=\"dialog:kiosk.lib,3\">virtueel toetsenbord</a> gebruiken of je kunt \tSilverjuke volledig bedienen met een <a href=\"dialog:kiosk.lib,4\">numerieke toetsenbord</a>. </p><h1>Silverjuke uitbreiden</h1><p>\tTot slot, kun je Silverjuke uitbreiden met <a href=\"dialog:basicsettings.lib,666\">modules</a> voor het gebruik van verschillende \tbestandsformaten of het toevoegen van nieuwe visualisering. Een overzicht van de beschikbare \tmodules kan worden gevonden op <a href=\"web:3\">www.silverjuke.net</a>. </p><h1>Meer informatie</h1><p>\tDeze tekst geeft alleen een algemene indruk van de mogelijkheden van Silverjuke. Meer gedetailleerde informatie kan worden gevonden in de context-gevoelige online help, die kan worden geopend door de \t<a href=\"web:9\">\"online help\"</a> knop te gebruiken in de diverse schermen. </p><p>\tRest ons alleen nog - je veel plezier te wensen met het gebruik van Silverjuke!<br />\t<i>Het Silverjuke Team</i></p>"
+
+#: tools/tools.cpp:485
+msgid "Apply"
+msgstr "Toepassen"
+
+# thousands separator - usually this is a comma or a point
+#: tools/tools.cpp:1300
+msgid ","
+msgstr "."
+
+# decimal point - usually this is a comma or a point
+#: tools/tools.cpp:1445
+#: tools/tools.cpp:1475
+msgid "."
+msgstr ","
+
+# %i will be replaced by a number
+#: tools/tools.cpp:1537
+#, c-format
+msgid "%i days"
+msgstr "%i dagen"
+
+# Abbreviation of "Milliseconds"
+#: tools/tools.cpp:1610
+msgid "ms"
+msgstr "ms"
+
+# String for "Don't know" or "unset"
+#: tools/tools.cpp:1675
+msgid "n/a"
+msgstr "n/a"
+
+# %s will be replaced by the text of the invalid reguar expression
+#: tools/tools.cpp:3875
+#, c-format
+msgid "Invalid regular expression \"%s\"."
+msgstr "Ongeldige normale uitdrukking \"%s\""
+
+#: tools/versioncheck.cpp:108
+msgid "Check for new Silverjuke version..."
+msgstr "Controleer op een nieuwe versie van Silverjuke..."
+
+# The first %s will be replaces by the new version, the others %s will be replaced by the URL for downloading it.
+#: tools/versioncheck.cpp:144
+#, c-format
+msgid ""
+"A new version of Silverjuke (%s) is available for download on %s.\n"
+"\n"
+"Do you want to open %s now?"
+msgstr ""
+"Er is een nieuwe versie van Silverjuke (%s) beschikbaar.\n"
+"Deze is te downloaden op%s.\n"
+"\n"
+"Wilt u %s nu openen?"
+
+#: tools/consolesj.cpp:126
+msgid "Message"
+msgstr "Bericht"
+
+#: tools/consolesj.cpp:127
+msgid "Scope"
+msgstr "Scope"
+
+#: tools/consolesj.cpp:128
+#: modules/burn.cpp:680
+msgid "Time"
+msgstr "Tijd"
+
+#: tools/consolesj.cpp:317
+#: tools/consolesj.cpp:549
+#: modules/accelsj.cpp:481
+msgid "Console"
+msgstr "Console"
+
+#: tools/consolesj.cpp:355
+#: tools/consolesj.cpp:425
+#, c-format
+msgid "%i message(s)"
+msgstr "%i bericht(en)"
+
+#: tools/consolesj.cpp:388
+msgid "Evaluate"
+msgstr "Evalueren"
+
+#: tools/consolesj.cpp:391
+msgid "Clear"
+msgstr "Wissen"
+
+#: tools/consolesj.cpp:394
+#: tools/consolesj.cpp:597
+#: modules/accelsj.cpp:550
+msgid "Save"
+msgstr "Opslaan"
+
+#: tools/consolesj.cpp:397
+msgid "Open console on errors and warnings"
+msgstr "Open console bij fouten en waarschuwingen"
+
+#: tools/consolesj.cpp:402
+msgid "Close"
+msgstr "Sluiten"
+
+#: tools/consolesj.cpp:454
+#: tools/consolesj.cpp:462
+msgid "Details"
+msgstr "Details"
+
+#: tools/consolesj.cpp:578
+msgid "Clear all messages?"
+msgstr "Alle berichten wissen?"
+
+#: tools/consolesj.cpp:609
+#, c-format
+msgid "Overwrite \"%s\"?"
+msgstr "\"%s\" overschrijven?"
+
+#: tools/consolesj.cpp:610
+msgid "Append"
+msgstr "Voeg toe"
+
+#: modules/internalinterface.cpp:62
+msgid "Internal"
+msgstr "Intern"
+
+#: modules/openfiles.cpp:77
+msgid "Please select a playlist, some files or enter a streaming URL"
+msgstr "Selecteer een afspeellijst, bestanden of geef een streaming URL"
+
+#: modules/openfiles.cpp:88
+#: modules/openfiles.cpp:111
+msgid "Browse"
+msgstr "Bladeren"
+
+#: modules/openfiles.cpp:91
+msgid "Append to current playlist"
+msgstr "Naar huidige afspeellijst"
+
+#: modules/burn.cpp:98
+msgid "Other program"
+msgstr "Ander Programma"
+
+# %s will the replaced by the program-file that cannot be executed.
+#: modules/burn.cpp:305
+#, c-format
+msgid "Cannot execute \"%s\"."
+msgstr "Kan \"%s\" niet uitvoeren."
+
+#: modules/burn.cpp:337
+msgid "Set markers"
+msgstr "Markers plaatsen"
+
+# %i will be replaced by the number of the marker, %s will be replaced by the marker position or by a control to select the marker position
+#: modules/burn.cpp:354
+#, c-format
+msgid "Show marker %i at %s."
+msgstr "Marker %i op %s tonen"
+
+#: modules/burn.cpp:365
+msgid "Minutes"
+msgstr "Minuten"
+
+#: modules/burn.cpp:370
+msgid "Warn if marker is crossed"
+msgstr "Waarschuwen, als de marker wordt overschreden"
+
+#: modules/burn.cpp:610
+#: modules/burn.cpp:1076
+msgid "Set markers..."
+msgstr "Markeringen instellen..."
+
+#: modules/burn.cpp:649
+#: modules/burn.cpp:699
+#: modules/burn.cpp:785
+#: modules/burn.cpp:1170
+#: modules/burn.cpp:1178
+#: modules/burn.cpp:1206
+#: modules/accelsj.cpp:475
+msgid "Burn CD"
+msgstr "CD branden"
+
+#: modules/burn.cpp:679
+msgid "Tracks to burn:"
+msgstr "Te branden tracks:"
+
+#: modules/burn.cpp:681
+msgid "Size"
+msgstr "grootte"
+
+#: modules/burn.cpp:689
+msgid "Recorder:"
+msgstr "Recorder:"
+
+#: modules/burn.cpp:784
+#: modules/burn.cpp:1169
+msgid "Please select an installed and available program"
+msgstr "Selecteer een geinstalleerd en beschikbaar programma"
+
+# %s will be replaced by the name of a program
+#: modules/burn.cpp:803
+#, c-format
+msgid "Please locate \"%s\""
+msgstr "Geef aan waar  \"%s\" staat"
+
+# %s will be replaced by the name of a program
+#: modules/burn.cpp:826
+#, c-format
+msgid "Arguments for \"%s\""
+msgstr "Argumenten voor \"%s\""
+
+#: modules/burn.cpp:1012
+msgid "Total time"
+msgstr "Totale tijd"
+
+#: modules/burn.cpp:1059
+msgid "Cannot calculate the total time"
+msgstr "Totale tijd kan niet worden berekend"
+
+#: modules/burn.cpp:1073
+#: modules/accelsj.cpp:176
+#: modules/accelsj.cpp:565
+msgid "Delete"
+msgstr "Wissen"
+
+#: modules/burn.cpp:1177
+msgid ""
+"The size of the selected tracks is larger than the assumed capacity of the disk to burn.\n"
+"\n"
+"Continue anyway?"
+msgstr ""
+"De geselecteerde tracks passen naar verwachting niet op de te branden schijf.\n"
+"\n"
+"Wilt u toch doorgaan?"
+
+#: modules/mymusic.cpp:172
+msgid "Read music-files from the following folders and sources:"
+msgstr "Muziekbestanden lezen in de volgende mappen en bronnen:"
+
+#: modules/mymusic.cpp:181
+msgid "Read music-files from the following sources:"
+msgstr "Muziekbestanden lezen in de volgende bronnen:"
+
+#: modules/mymusic.cpp:187
+msgid "Add source"
+msgstr "Bron toevoegen"
+
+#: modules/mymusic.cpp:190
+#: modules/mymusic.cpp:614
+msgid "Remove source"
+msgstr "Bron verwijderen"
+
+#: modules/mymusic.cpp:193
+msgid "Options"
+msgstr "Opties"
+
+#: modules/mymusic.cpp:196
+#: modules/mymusic.cpp:326
+#: modules/accelsj.cpp:246
+msgid "Update music library"
+msgstr "Muziekarchief bijwerken"
+
+#: modules/mymusic.cpp:211
+msgid "Currently, the following files are supported:"
+msgstr "Momenteel worden de volgende bestandsformaten ondersteund:"
+
+# %s will be replaced eg. by a module- or a filename
+#: modules/mymusic.cpp:627
+#, c-format
+msgid "Options for \"%s\""
+msgstr "Opties voor \"%s\""
+
+#: modules/mymusic.cpp:631
+msgid "Options..."
+msgstr "Opties..."
+
+#: modules/accelsj.cpp:58
+#: modules/accelsj.cpp:1592
+msgid "Esc"
+msgstr "Esc"
+
+#: modules/accelsj.cpp:62
+#: modules/accelsj.cpp:1590
+msgid "Tab"
+msgstr "Tab"
+
+#: modules/accelsj.cpp:81
+#: modules/accelsj.cpp:134
+msgid "Page left"
+msgstr "Pagina links"
+
+#: modules/accelsj.cpp:85
+#: modules/accelsj.cpp:137
+msgid "Page right"
+msgstr "Pagina rechts"
+
+#: modules/accelsj.cpp:89
+#: modules/accelsj.cpp:140
+#: modules/accelsj.cpp:1601
+msgid "Page up"
+msgstr "Pagina omhoog"
+
+#: modules/accelsj.cpp:92
+#: modules/accelsj.cpp:148
+#: modules/accelsj.cpp:1606
+msgid "Page down"
+msgstr "Pagina omlaag"
+
+#: modules/accelsj.cpp:104
+msgid "Cursor left"
+msgstr "Cursor links"
+
+#: modules/accelsj.cpp:108
+msgid "Cursor right"
+msgstr "Cursor rechts"
+
+#: modules/accelsj.cpp:112
+msgid "Cursor up"
+msgstr "Cursor omhoog"
+
+#: modules/accelsj.cpp:116
+msgid "Cursor down"
+msgstr "Cursur omlaag"
+
+#: modules/accelsj.cpp:121
+msgid "Line left"
+msgstr "Regel links"
+
+#: modules/accelsj.cpp:124
+msgid "Line right"
+msgstr "Regel rechts"
+
+#: modules/accelsj.cpp:127
+msgid "Line up"
+msgstr "Regel omhoog"
+
+#: modules/accelsj.cpp:130
+msgid "Line down"
+msgstr "Regel omlaag"
+
+#: modules/accelsj.cpp:157
+#: modules/accelsj.cpp:1609
+msgid "Home"
+msgstr "Home"
+
+#: modules/accelsj.cpp:161
+#: modules/accelsj.cpp:1608
+msgid "End"
+msgstr "Einde"
+
+#: modules/accelsj.cpp:166
+#: modules/accelsj.cpp:1591
+msgid "Enter"
+msgstr "Enter"
+
+#: modules/accelsj.cpp:181
+msgid "Album view"
+msgstr "Album scherm"
+
+#: modules/accelsj.cpp:185
+msgid "Cover view"
+msgstr "Cover scherm"
+
+#: modules/accelsj.cpp:189
+msgid "List view"
+msgstr "Lijst scherm"
+
+#: modules/accelsj.cpp:193
+msgid "Toggle view"
+msgstr "scherm wisselen"
+
+#: modules/accelsj.cpp:209
+msgid "Unqueue marked tracks"
+msgstr "Gemarkeerde tracks uit afspeellijst verwijderen"
+
+#: modules/accelsj.cpp:212
+msgid "Unqueue all but marked tracks"
+msgstr "Alle tracks, behalve de gemarkeerde, uit afspeellijst verwijderen"
+
+#: modules/accelsj.cpp:222
+#: modules/accelsj.cpp:227
+msgid "Paste"
+msgstr "Plakken"
+
+#: modules/accelsj.cpp:230
+#: modules/accelsj.cpp:1717
+msgid "Music selection"
+msgstr "Muziekselectie"
+
+#: modules/accelsj.cpp:234
+#: modules/accelsj.cpp:239
+msgid "Settings"
+msgstr "Instellingen"
+
+#: modules/accelsj.cpp:250
+msgid "Recreate music library"
+msgstr "Opnieuw het muziekarchief samenstellen"
+
+#: modules/accelsj.cpp:254
+msgid "Enqueue tracks"
+msgstr "Track in afspeellijst plaatsen"
+
+#: modules/accelsj.cpp:258
+msgid "Play tracks next"
+msgstr "Tracks als eerstvolgeden afspelen"
+
+#: modules/accelsj.cpp:262
+msgid "Play tracks now"
+msgstr "Tracks nu afspelen"
+
+#: modules/accelsj.cpp:273
+msgid "Unqueue tracks"
+msgstr "Track uit afspeellijst verwijderen"
+
+#: modules/accelsj.cpp:309
+msgid "Stop"
+msgstr "Stop"
+
+#: modules/accelsj.cpp:319
+#: modules/accelsj.cpp:505
+msgid "Previous track"
+msgstr "Vorige track"
+
+#: modules/accelsj.cpp:327
+msgid "Seek backward"
+msgstr "achteruit zoeken"
+
+#: modules/accelsj.cpp:330
+msgid "Seek forward"
+msgstr "Vooruit zoeken"
+
+#: modules/accelsj.cpp:333
+msgid "Fade to next"
+msgstr "Met mixeffect naar de volgende"
+
+#: modules/accelsj.cpp:344
+#: modules/accelsj.cpp:353
+msgid "Mute"
+msgstr "Mute"
+
+#: modules/accelsj.cpp:362
+msgid "Reaload skin"
+msgstr "Skin opnieuw laden"
+
+#: modules/accelsj.cpp:370
+msgid "Smooth"
+msgstr "zacht"
+
+#: modules/accelsj.cpp:376
+msgid "Select all"
+msgstr "Alles selecteren"
+
+#: modules/accelsj.cpp:380
+msgid "Zoom in"
+msgstr "Zoom in"
+
+#: modules/accelsj.cpp:384
+msgid "Zoom out"
+msgstr "Zoom uit"
+
+#: modules/accelsj.cpp:388
+msgid "Normal zoom"
+msgstr "Normale zoom"
+
+#: modules/accelsj.cpp:393
+msgid "Always on top"
+msgstr "Altijd op de voorgrond"
+
+#: modules/accelsj.cpp:397
+msgid "Minimize window"
+msgstr "Venster minimaliseren"
+
+#: modules/accelsj.cpp:400
+msgid "Maximize window"
+msgstr "Venster maximaliseren"
+
+#: modules/accelsj.cpp:403
+msgid "Center window"
+msgstr "Venster centeren"
+
+#: modules/accelsj.cpp:409
+msgid "Kiosk mode"
+msgstr "Kiosk mode"
+
+# %s will be replaced by the program name (usually "Silverjuke")
+#: modules/accelsj.cpp:417
+#: modules/accelsj.cpp:420
+#, c-format
+msgid "Show %s"
+msgstr "%s weergeven"
+
+#: modules/accelsj.cpp:424
+msgid "Go to current track"
+msgstr "Ga naar huidige track"
+
+#: modules/accelsj.cpp:428
+msgid "Go to marked track"
+msgstr "Ga naar gemarkeerde track"
+
+#: modules/accelsj.cpp:431
+msgid "Go to random album"
+msgstr "Ga naar willekeurig album"
+
+#: modules/accelsj.cpp:436
+msgid "System tray"
+msgstr "Systeemvak"
+
+#: modules/accelsj.cpp:436
+msgid "Show current track"
+msgstr "Huidig track weergeven"
+
+#: modules/accelsj.cpp:452
+msgid "Go to previous letter"
+msgstr "Ga naar de vorige brief"
+
+#: modules/accelsj.cpp:456
+msgid "Go to next letter"
+msgstr "Ga naar de volgende brief"
+
+#: modules/accelsj.cpp:465
+msgid "Add credit"
+msgstr "Tegoed toevoegen"
+
+#: modules/accelsj.cpp:523
+msgid "Replace"
+msgstr "Vervangen"
+
+#: modules/accelsj.cpp:528
+msgid "Split field"
+msgstr "Veld splitsen"
+
+#: modules/accelsj.cpp:532
+msgid "Rename files"
+msgstr "Bestanden hernoemen"
+
+#: modules/accelsj.cpp:537
+msgid "Query online database"
+msgstr "Online-Database doorzoeken"
+
+#: modules/accelsj.cpp:545
+msgid "New music selection"
+msgstr "Nieuwe muziekselectie"
+
+#: modules/accelsj.cpp:555
+msgid "Save as"
+msgstr "Opslaan als"
+
+#: modules/accelsj.cpp:560
+msgid "Rename"
+msgstr "Hernoemen"
+
+#: modules/accelsj.cpp:570
+msgid "Revert to saved"
+msgstr "Veranderingen ongedaan maken"
+
+#: modules/accelsj.cpp:580
+msgid "Open file"
+msgstr "Bestand openen"
+
+#: modules/accelsj.cpp:583
+msgid "Save cover"
+msgstr "Cover opslaan"
+
+#: modules/accelsj.cpp:586
+msgid "Rotate left"
+msgstr "Linksom roteren"
+
+#: modules/accelsj.cpp:590
+msgid "Rotate right"
+msgstr "Rechtsom roteren"
+
+#: modules/accelsj.cpp:594
+msgid "Flip horizontally"
+msgstr "Horizontaal spiegelen"
+
+#: modules/accelsj.cpp:598
+msgid "Flip vertically"
+msgstr "Vertikaal spiegelen"
+
+#: modules/accelsj.cpp:602
+msgid "Grayscale"
+msgstr "Grijswaarden"
+
+#: modules/accelsj.cpp:606
+msgid "Negative"
+msgstr "Negatief"
+
+#: modules/accelsj.cpp:610
+msgid "Fit to screen"
+msgstr "Aanpassen aan Beeldschermgrootte"
+
+#: modules/accelsj.cpp:614
+msgid "Decrease brightness"
+msgstr "Helderheid verlagen"
+
+#: modules/accelsj.cpp:618
+msgid "Increase brightness"
+msgstr "Helderheid verhogen"
+
+#: modules/accelsj.cpp:622
+msgid "Decrease contrast"
+msgstr "Contrast verlagen"
+
+#: modules/accelsj.cpp:626
+msgid "Increase contrast"
+msgstr "Contrast verhogen"
+
+#: modules/accelsj.cpp:630
+msgid "Normal brightness/contrast"
+msgstr "Normale Helderheid/Contrast"
+
+#: modules/accelsj.cpp:634
+msgid "Crop"
+msgstr "Uitsnede"
+
+#: modules/accelsj.cpp:794
+msgid "Please press the shortcut to add."
+msgstr "Op de Sneltoetsen klikken om toe te voegen."
+
+#: modules/accelsj.cpp:962
+msgid "System-wide:"
+msgstr "Systeembreed:"
+
+# %s will be replaced by a shortcut, eg. "CTRL-S"
+#: modules/accelsj.cpp:1012
+#, c-format
+msgid "Remove shortcut \"%s\""
+msgstr "Sneltoetsen \"%s\" verwijderen"
+
+#: modules/accelsj.cpp:1017
+msgid "Add system-wide shortcut..."
+msgstr "Systeenbrede sneltoetsen toevoegen..."
+
+# %s will be replaced by the name of the command, eg. "Edit tracks" or "Enqueue track"
+#: modules/accelsj.cpp:1022
+#, c-format
+msgid "Add shortcut to \"%s\"..."
+msgstr "Sneltoetsen \"%s\" toevoegen..."
+
+# The first %s will be replaced by a shortcut, eg. "CTRL-S". The second %s will be replaced by the name of the command, eg. "Edit tracks" or "Enqueue track"
+#: modules/accelsj.cpp:1060
+#, c-format
+msgid ""
+"The shortcut \"%s\" is currently assigned to the command \"%s\".\n"
+"\n"
+"Do you want to assign it to the shortcut \"%s\" now?"
+msgstr ""
+"De sneltoetsen \"%s\" zijn momenteel toegewezen aan de opdracht \"%s\" .\n"
+"\n"
+"Toewijzen aan de sneltoetsen \"%s\"?"
+
+#: modules/accelsj.cpp:1223
+msgid "Menus"
+msgstr "Menus"
+
+#: modules/accelsj.cpp:1226
+msgid "Show shortcuts"
+msgstr "Sneltoetsen weergeven"
+
+#: modules/accelsj.cpp:1233
+msgid "Show icons"
+msgstr "Symbolen weergeven"
+
+#: modules/accelsj.cpp:1241
+msgid "Same zoom in all views"
+msgstr "Zelfde beeldgrootte in alle schermen"
+
+#: modules/accelsj.cpp:1246
+#, fuzzy
+msgid "Mouse"
+msgstr "Mute"
+
+#: modules/accelsj.cpp:1248
+msgid "Drag window content"
+msgstr "Vensterinhoud verslepen"
+
+#: modules/accelsj.cpp:1248
+#: modules/accelsj.cpp:1250
+msgid "Left mouse button"
+msgstr "Linker muistknop"
+
+#: modules/accelsj.cpp:1250
+msgid "Drag selected tracks"
+msgstr "Geselecteerde tracks verslepen"
+
+#: modules/accelsj.cpp:1250
+msgid "Second click with the left mouse button"
+msgstr "Tweede klik met de linkermuisknop"
+
+#: modules/accelsj.cpp:1252
+msgid "Show icons beside mouse cursor"
+msgstr "Symbolen naast de muispijl weergeven"
+
+#: modules/accelsj.cpp:1254
+msgid "Middle mouse button"
+msgstr "Middelste muisknop"
+
+#: modules/accelsj.cpp:1255
+msgid "Edit tracks"
+msgstr "Tracks bewerken"
+
+#: modules/accelsj.cpp:1259
+msgid "Tooltips"
+msgstr "Tooltips"
+
+#: modules/accelsj.cpp:1265
+#: modules/accelsj.cpp:1267
+msgid "Mouse wheel"
+msgstr "Muiswiel"
+
+#: modules/accelsj.cpp:1265
+msgid "Scroll vertically"
+msgstr "Vertikaal scrollen"
+
+#: modules/accelsj.cpp:1265
+msgid "Scroll horizontally"
+msgstr "Horizontaal scrollen"
+
+#: modules/accelsj.cpp:1268
+msgid "Context sensitive"
+msgstr "Context gevoelig"
+
+#: modules/accelsj.cpp:1273
+msgid "Start playback on enqueue"
+msgstr "Start afspelen wanneer tracks in afspeellijst worden geplaats"
+
+#: modules/accelsj.cpp:1281
+msgid "Shortcut"
+msgstr "Sneltoetsen"
+
+#: modules/accelsj.cpp:1353
+msgid "Use multimedia keyboard keys"
+msgstr "Multimedia-toetsenbord gebruiken"
+
+#: modules/accelsj.cpp:1358
+#: modules/accelsj.cpp:2093
+msgid "Ask on close if playing"
+msgstr "Bij afsluiten bevestigen, wanneer afgespeeld wordt"
+
+#: modules/accelsj.cpp:1361
+#: modules/accelsj.cpp:2091
+msgid "Ask before enqueuing multiple tracks"
+msgstr "Navragen wanneer meerdere tracks worden toegevoegd aan de afspeellijst"
+
+#: modules/accelsj.cpp:1364
+#: modules/accelsj.cpp:2092
+msgid "Ask before clearing the playlist"
+msgstr "Navragen voordat de afspeellijst wordt geschoond"
+
+#: modules/accelsj.cpp:1367
+#: modules/accelsj.cpp:2094
+msgid "Ask before changing my rating"
+msgstr "Navragen voordat waardering wordt gewijzigd"
+
+#: modules/accelsj.cpp:1387
+msgid "Further options"
+msgstr "Verdere Opties"
+
+# This string should be set to the abbreviation used for "num" on the numpad area of the keyboard. %s is replaced by a digit or a character.
+#: modules/accelsj.cpp:1585
+#: modules/accelsj.cpp:1617
+#: modules/accelsj.cpp:1620
+#: modules/accelsj.cpp:1623
+#: modules/accelsj.cpp:1626
+#: modules/accelsj.cpp:1629
+#, c-format
+msgid "Num%s"
+msgstr "Num%s"
+
+#: modules/accelsj.cpp:1589
+msgid "Backspace"
+msgstr "Backspace"
+
+#: modules/accelsj.cpp:1593
+msgid "Space"
+msgstr "Spatie"
+
+#: modules/accelsj.cpp:1610
+msgid "Up"
+msgstr "Omhoog"
+
+#: modules/accelsj.cpp:1611
+msgid "Left"
+msgstr "Links"
+
+#: modules/accelsj.cpp:1612
+msgid "Right"
+msgstr "Rechts"
+
+#: modules/accelsj.cpp:1613
+msgid "Down"
+msgstr "Omlaag"
+
+#: modules/accelsj.cpp:1614
+msgid "Print"
+msgstr "Afdrukken"
+
+#: modules/accelsj.cpp:1615
+msgid "Ins"
+msgstr "Inv"
+
+#: modules/accelsj.cpp:1707
+msgid "Workspace"
+msgstr "Werkruimte"
+
+#: modules/accelsj.cpp:1719
+msgid "Numpad"
+msgstr "Nummeriek toetsenbord"
+
+#: modules/weblinks.cpp:194
+msgid "Search homepage"
+msgstr "Homepage zoeken"
+
+# %s will be replaced by the name of the website
+#: modules/weblinks.cpp:198
+#, c-format
+msgid "Lyrics on %s"
+msgstr "Songtekst op %s"
+
+# %s will be replaced by the name of the website
+#: modules/weblinks.cpp:202
+#, c-format
+msgid "Search with %s"
+msgstr "Zoeken met %s"
+
+# %s will be replaced by the name of the website
+#: modules/weblinks.cpp:206
+#, c-format
+msgid "Information on %s"
+msgstr "Informatie op %s"
+
+#: modules/advsearch.cpp:121
+msgid "Select date and time"
+msgstr "Datum en tijd selecteren"
+
+#: modules/advsearch.cpp:578
+msgid "contains"
+msgstr "bevat"
+
+#: modules/advsearch.cpp:579
+msgid "does not contain"
+msgstr "bevat niet"
+
+#: modules/advsearch.cpp:580
+msgid "starts with"
+msgstr "begint met"
+
+#: modules/advsearch.cpp:581
+msgid "does not start with"
+msgstr "begint niet met"
+
+#: modules/advsearch.cpp:582
+msgid "starts simelar to"
+msgstr "begint zoals"
+
+#: modules/advsearch.cpp:583
+msgid "ends with"
+msgstr "eindigt met"
+
+#: modules/advsearch.cpp:584
+msgid "does not end with"
+msgstr "eindigt niet met"
+
+#: modules/advsearch.cpp:585
+msgid "on"
+msgstr "op"
+
+#: modules/advsearch.cpp:585
+msgid "is equal to"
+msgstr "is gelijk aan"
+
+#: modules/advsearch.cpp:586
+msgid "not on"
+msgstr "niet op"
+
+#: modules/advsearch.cpp:586
+msgid "is unequal to"
+msgstr "is ongelijk aan"
+
+#: modules/advsearch.cpp:587
+msgid "is simelar to"
+msgstr "is zoals"
+
+#: modules/advsearch.cpp:588
+msgid "is after"
+msgstr "is na"
+
+#: modules/advsearch.cpp:588
+msgid "is greater than"
+msgstr "is groter dan"
+
+#: modules/advsearch.cpp:589
+msgid "is on or after"
+msgstr "is op of na"
+
+#: modules/advsearch.cpp:589
+msgid "is greater or equal"
+msgstr "is groter of gelijk"
+
+#: modules/advsearch.cpp:590
+msgid "is before"
+msgstr "is voor"
+
+#: modules/advsearch.cpp:590
+msgid "is less than"
+msgstr "is kleiner dan"
+
+#: modules/advsearch.cpp:591
+msgid "is on or before"
+msgstr "is op of voor"
+
+#: modules/advsearch.cpp:591
+msgid "is less or equal"
+msgstr "is minder of gelijk"
+
+#: modules/advsearch.cpp:592
+msgid "is in the last"
+msgstr "is in het laatste"
+
+#: modules/advsearch.cpp:593
+msgid "is not in the last"
+msgstr "is niet in de laatste"
+
+#: modules/advsearch.cpp:594
+msgid "is in the period"
+msgstr "is in de periode"
+
+#: modules/advsearch.cpp:594
+msgid "is in range"
+msgstr "is in het bereik"
+
+#: modules/advsearch.cpp:595
+msgid "is not in the period"
+msgstr "is niet in de periode"
+
+#: modules/advsearch.cpp:595
+msgid "is not in range"
+msgstr "is niet in het bereik"
+
+#: modules/advsearch.cpp:596
+msgid "is set"
+msgstr "is gezet"
+
+#: modules/advsearch.cpp:597
+msgid "is unset"
+msgstr "ist niet gezet"
+
+#: modules/advsearch.cpp:618
+msgid "tracks"
+msgstr "tracks"
+
+#: modules/advsearch.cpp:619
+msgid "albums"
+msgstr "albums"
+
+#: modules/advsearch.cpp:620
+#: modules/advsearch.cpp:629
+#: modules/advsearch.cpp:634
+msgid "minutes"
+msgstr "Minuten"
+
+#: modules/advsearch.cpp:621
+#: modules/advsearch.cpp:635
+msgid "hours"
+msgstr "uren"
+
+#: modules/advsearch.cpp:636
+msgid "days"
+msgstr "dagen"
+
+#: modules/advsearch.cpp:706
+#: modules/library.cpp:4169
+msgid "No rating"
+msgstr "Geen waardering"
+
+#: modules/advsearch.cpp:711
+msgid "random"
+msgstr "willekeurig"
+
+#: modules/advsearch.cpp:712
+msgid "highest rating"
+msgstr "hoogste waardering"
+
+#: modules/advsearch.cpp:713
+msgid "lowest rating"
+msgstr "laagste waardering"
+
+#: modules/advsearch.cpp:714
+msgid "most often played"
+msgstr "meeste keren gespeeld"
+
+#: modules/advsearch.cpp:715
+msgid "least often played"
+msgstr "minste keren gespeeld"
+
+#: modules/advsearch.cpp:716
+msgid "most recently played"
+msgstr "meest recent gespeeld"
+
+#: modules/advsearch.cpp:717
+msgid "least recently played"
+msgstr "minst recente gespeeld"
+
+#: modules/advsearch.cpp:718
+msgid "most recently added"
+msgstr "kortst geleden toegevoegd"
+
+#: modules/advsearch.cpp:719
+msgid "least recently added"
+msgstr "langst geleden toegevoegd"
+
+#: modules/advsearch.cpp:720
+msgid "most recently modified"
+msgstr "kortst geleden gewijzigd"
+
+#: modules/advsearch.cpp:721
+msgid "least recently modified"
+msgstr "langst geleden gewijzigd"
+
+#: modules/advsearch.cpp:722
+msgid "most recently released"
+msgstr "kortst geleden uitgegeven"
+
+#: modules/advsearch.cpp:723
+msgid "least recently released"
+msgstr "kortst geleden uitgegeven"
+
+#: modules/advsearch.cpp:724
+msgid "low queue position"
+msgstr "lage afspeellijst-positie"
+
+#: modules/advsearch.cpp:725
+msgid "high queue position"
+msgstr "hoge afspeellijst-positie"
+
+#: modules/advsearch.cpp:744
+msgid "Today"
+msgstr "Vandaag"
+
+#: modules/advsearch.cpp:745
+msgid "Yesterday"
+msgstr "Gisteren"
+
+#: modules/advsearch.cpp:747
+msgid "Show tracks..."
+msgstr "Tracks weergeven..."
+
+#: modules/advsearch.cpp:748
+#, fuzzy
+msgid "Add tracks from playlist"
+msgstr "Naar huidige afspeellijst"
+
+#: modules/advsearch.cpp:749
+msgid "Current position"
+msgstr "Huidige positie"
+
+# This is "by" used eg. in the sentence "Limit tesult to 2 tracks by "Recently played"
+#: modules/advsearch.cpp:873
+msgid "by"
+msgstr "door"
+
+# This "to" is used for range definitions, eg, "12 to 16 tracks"
+#: modules/advsearch.cpp:917
+msgid "to"
+msgstr "tot"
+
+#: modules/advsearch.cpp:978
+msgid "Remove criterion"
+msgstr "Criterium verwijderen"
+
+#: modules/advsearch.cpp:983
+msgid "Add criterion"
+msgstr "Criterium toevoegen"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1178
+#, c-format
+msgid "Tracks included to \"%s\""
+msgstr "Tracks in \"%s\" "
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1178
+#, c-format
+msgid "Tracks excluded from \"%s\""
+msgstr "Tracks niet in \"%s\" "
+
+#: modules/advsearch.cpp:1336
+msgid "Saved selections"
+msgstr "Opgeslagen selectie"
+
+# The first %s will be replaced with one of "tracks|albums". The second %s will be replaced by one of "all|any|none".
+#: modules/advsearch.cpp:1347
+#, c-format
+msgid "Search for %s matching %s of the following criteria:"
+msgstr "Zoeken naar %s met %s van de volgende kriteria:"
+
+# This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the two values by the pipe character, "|".
+#: modules/advsearch.cpp:1348
+msgid "tracks|albums"
+msgstr "Tracks|Albums"
+
+# This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the three values by the pipe character, "|".
+#: modules/advsearch.cpp:1349
+msgid "all|any|none"
+msgstr "allen|sommigen|geen"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1650
+#, c-format
+msgid "Do you want to save your modifications to the music selection \"%s\"?"
+msgstr "Aanpassingen in muziekselectie \"%s\" opslaan?"
+
+#: modules/advsearch.cpp:1652
+msgid "Music selection modified"
+msgstr "Muziekselectie aangepast"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:1687
+#, c-format
+msgid "Edit music selection \"%s\""
+msgstr "Muziekselectie \"%s\" bewerken"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2102
+#, c-format
+msgid "Do you really want to delete the music selection \"%s\"?"
+msgstr "Muziekselectie \"%s\" wissen?"
+
+#: modules/advsearch.cpp:2104
+msgid "Delete music selection"
+msgstr "Muziekselectiewissen"
+
+# %i will be replaced by the number of music selections
+#: modules/advsearch.cpp:2108
+#, c-format
+msgid "Do you really want to delete the %i selected music selections?"
+msgstr "Alle %i geselecteerde muziekselecties wissen?"
+
+#: modules/advsearch.cpp:2109
+msgid "Delete music selections"
+msgstr "Muziekselecties wissen?"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2173
+#, c-format
+msgid "No matches found for \"%s\"."
+msgstr "Geen zoekresultaten gevonden voor \"%s\" ."
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2521
+#: modules/advsearch.cpp:2524
+#: modules/advsearch.cpp:2908
+#: modules/playbacksettings.cpp:2190
+#, fuzzy
+msgid "Worst rated"
+msgstr "Hoogste waardering"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2680
+#, c-format
+msgid "Do you want to remove the selected track(s) from the music selection \"%s\"?"
+msgstr "Geselecteerde tracks verwijderen uit de muziekselectiel \"%s\"?"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:2735
+#, c-format
+msgid "Do you want to add the selected track(s) to the music selection \"%s\"?"
+msgstr "Geselecteerde tracks toevoegen aan de muziekselectiel \"%s\"?"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2904
+msgid "70's music"
+msgstr "70's muziek"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2912
+msgid "Top rated"
+msgstr "Hoogste waardering"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2917
+msgid "Top 20"
+msgstr "Top 20"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2922
+msgid "Recently played"
+msgstr "Recent afgespeeld"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2926
+msgid "Played today"
+msgstr "Vandaag afgespeeld"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2930
+msgid "Random selection"
+msgstr "Willekeurige selectie"
+
+# This is the name of a predefined music selection
+#: modules/advsearch.cpp:2934
+msgid "Tracks in queue"
+msgstr "Tracks in afspeellijst"
+
+#: modules/advsearch.cpp:2965
+msgid "Untitled Music selection"
+msgstr "Unbekende muziekselectie"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:3155
+#, c-format
+msgid "No matches in \"%s\""
+msgstr "Geen zoekresultaten in \"%s\""
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:3159
+#, c-format
+msgid "1 match in \"%s\""
+msgstr "1 Treffer in \"%s\""
+
+# The first %s will be replaced by the decima-point-formatted number of matched, the seconds %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:3163
+#, c-format
+msgid "%s matches in \"%s\""
+msgstr "%s Treffers in \"%s\""
+
+#: modules/advsearch.cpp:3170
+msgid "No matches"
+msgstr "Geen zoekresultaten"
+
+#: modules/advsearch.cpp:3174
+msgid "1 match"
+msgstr "1 treffer"
+
+# %s will be replaced by a decimal-point-formatted number
+#: modules/advsearch.cpp:3178
+#, c-format
+msgid "%s matches"
+msgstr "%s treffers"
+
+# %s will be replaced by the name of a music selection
+#: modules/advsearch.cpp:3197
+#, fuzzy
+msgid "Search single words"
+msgstr "Zoeken in \"%s\""
+
+#: modules/advsearch.cpp:3198
+msgid "Lookup genre on simple search"
+msgstr "Genre zoeken door eenvoudig zoeken"
+
+#: modules/advsearch.cpp:3199
+msgid "Search while typing"
+msgstr "Zoeken tijdens intypen"
+
+#: modules/advsearch.cpp:3200
+msgid "Save modified music selections"
+msgstr "Aangepaste muziekselecties opslaan"
+
+# One option for the setting "Save modified music selections"
+#: modules/advsearch.cpp:3200
+msgid "Ask"
+msgstr "vragen"
+
+#: modules/advsearch.cpp:3209
+msgid "Max. history size"
+msgstr "Maximale grootte in het verleden"
+
+# The first %s will be replaced by the search text as entered in the simple search field, the second %s will be replaced by the name of a music selection.
+#: modules/advsearch.cpp:3323
+#, c-format
+msgid "Search for \"%s\" in \"%s\""
+msgstr "Zoek naar \"%s\" in \"%s\""
+
+# %s will be replaced by the search text as entered in the simple search field
+#: modules/advsearch.cpp:3331
+#, c-format
+msgid "Search for \"%s\""
+msgstr "Zoek naar \"%s\""
+
+#: modules/basicsettings.cpp:105
+#: modules/basicsettings.cpp:124
+#: modules/basicsettings.cpp:1452
+#: modules/basicsettings.cpp:1456
+msgid "Search paths"
+msgstr "Zoekpad"
+
+#: modules/basicsettings.cpp:113
+msgid "The search paths are used for skins, language files and modules."
+msgstr "De zoekpaden worden voor skins, talen, en modules gebruikt:"
+
+#: modules/basicsettings.cpp:145
+#: modules/basicsettings.cpp:203
+#: modules/playbacksettings.cpp:1786
+#: modules/playbacksettings.cpp:1968
+msgid "Add..."
+msgstr "Toevoegen..."
+
+#: modules/basicsettings.cpp:148
+#: modules/basicsettings.cpp:204
+#: modules/playbacksettings.cpp:1789
+#: modules/playbacksettings.cpp:1969
+msgid "Remove"
+msgstr "Verwijderen"
+
+#: modules/basicsettings.cpp:228
+msgid "Please select the folder to add to the search paths."
+msgstr "Selecteer de map die toegevoegd moet worden aan de zoekpaden."
+
+#: modules/basicsettings.cpp:480
+#: modules/basicsettings.cpp:758
+msgid "Licence key"
+msgstr "Licentie code"
+
+#: modules/basicsettings.cpp:481
+msgid "Language"
+msgstr "Taal"
+
+#: modules/basicsettings.cpp:582
+msgid "Select the language for the user-interface from the following list:"
+msgstr "Selecteer de taal uit de volgende lijst:"
+
+#: modules/basicsettings.cpp:603
+msgid "Unknown language"
+msgstr "Onbekende taal"
+
+#: modules/basicsettings.cpp:652
+msgid "More languages on the web..."
+msgstr "Meer talen op internet..."
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/basicsettings.cpp:655
+#, c-format
+msgid "Note: Changing the language requires to restart %s."
+msgstr "Let op: Na het wijzigen van de taal moet %s opnieuw worden gestart om de taal te laden."
+
+# %s will be replaced by the program name, usually"Silverjuke"
+#: modules/basicsettings.cpp:735
+#, c-format
+msgid "This is an unlicenced copy of %s!"
+msgstr "Dit is een ongeregistreerde kopie van %s!"
+
+#: modules/basicsettings.cpp:742
+#, c-format
+msgid ""
+"Please enter your name or your company's name and the licence key\n"
+"you received when purchasing or updating your %s-licence:"
+msgstr ""
+"Voer uw naam en de licentie code die u heeft ontvangen bij aanschaf van uw\n"
+"%s licentie:"
+
+#: modules/basicsettings.cpp:750
+msgid "Your name/company:"
+msgstr "Uw naam:"
+
+# The first %s will be replaced by the program name, usually "Silverjuke". The second %i will be replaced by the number of evaluation days. The last %s, again, will be replaced by the program name.
+#: modules/basicsettings.cpp:771
+#, c-format
+msgid ""
+"If you haven't bought a %s-licence, you may test this program %i days for free.\n"
+"After this period, you have to buy a licence for %s if you want to continue using\n"
+"this program."
+msgstr ""
+"Wanneer u nog geen %s-Licentie heeft gekocht, mag u dit programma\n"
+"%i dagen gratis uitproberen. Na afloop van deze periode moet u een licentie\n"
+" aanschaffen wanneer u %s wilt blijven gebruiken."
+
+# The first %s will be replaced by the program name, usually "Silverjuke". The second %s will be replaced by the name of the website, eg. www.silverjuke.net
+#: modules/basicsettings.cpp:778
+#, c-format
+msgid ""
+"Further information about purchasing %s licences\n"
+"are available at %s."
+msgstr ""
+"Meer informatie over de aanschaf van een %s-licentie\n"
+"kunt u vinden op %s."
+
+# %s will be replaced by the name of a website, eg. www.silverjuke.net
+#: modules/basicsettings.cpp:785
+#, c-format
+msgid "Open %s..."
+msgstr "Open %s..."
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/basicsettings.cpp:841
+#, c-format
+msgid "Thank you for buying a %s-licence!"
+msgstr "Bedankt voor de aanschaf van een %s-licentie !"
+
+#: modules/basicsettings.cpp:843
+msgid "This copy is licenced to:"
+msgstr "Deze kopie is geregistreerd door:"
+
+#: modules/basicsettings.cpp:847
+msgid "If this is not your name or the name of your company, you are not using a legal licence!"
+msgstr "Wanneer dit niet uw naam is, gebruikt u geen legale licentie!"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/basicsettings.cpp:890
+#, c-format
+msgid ""
+"Beside several options, you can change the shortcuts to use in %s here. You can\n"
+"also define system-wide shortcuts. To modify an option, select the option from the list\n"
+"and click on \"Customize\". This page is for experienced users only."
+msgstr ""
+"Naast verschillende opties, kun je de sneltoetsen voor %s hier wijzigen.\n"
+"Ook kunnen systeembrede sneltoetsen worden ingesteld. Om een optie te wijzigen,\n"
+"selecteer de optie in de lijst en klik op \"Wijzigen\". Deze pagina is voor gevorderde gebruikers."
+
+#: modules/basicsettings.cpp:897
+msgid "Command or option"
+msgstr "Commando of optie"
+
+#: modules/basicsettings.cpp:898
+msgid "Setting"
+msgstr "instelling"
+
+#: modules/basicsettings.cpp:903
+msgid "Customize"
+msgstr "Wijzigen"
+
+#: modules/basicsettings.cpp:1177
+msgid "Reset selection"
+msgstr "selectie resetten"
+
+# %i will be replaced by the number of the selected command or options
+#: modules/basicsettings.cpp:1228
+#, c-format
+msgid "Do you really want to reset all %i selected commands and options to their default values?"
+msgstr "Wilt u alle %i geselecteerde commando's of opties resetten naar de algemene waarden?"
+
+#: modules/basicsettings.cpp:1369
+msgid "Configuration file"
+msgstr "Configuratiebestand"
+
+# %s will be replaced by the name of the option.
+#: modules/basicsettings.cpp:1372
+#: modules/basicsettings.cpp:1383
+#: modules/basicsettings.cpp:1393
+#, c-format
+msgid "Use the command-line option --%s=<file> to change this."
+msgstr "Gebruik de commando-regel optie --%s=<bestand> om dit te wijzigen."
+
+#: modules/basicsettings.cpp:1375
+msgid "Show files with"
+msgstr "Toon bestanden met"
+
+#: modules/basicsettings.cpp:1380
+msgid "Instance"
+msgstr "Instance"
+
+#: modules/basicsettings.cpp:1387
+msgid "Index file"
+msgstr "Index-bestand"
+
+#: modules/basicsettings.cpp:1402
+#: modules/basicsettings.cpp:1431
+msgid "RAM cache"
+msgstr "RAM-Cache"
+
+# %s will be replaced by a formatted time
+#: modules/basicsettings.cpp:1404
+#, c-format
+msgid "avg. query time: %s"
+msgstr "gemiddelde zoektijd: %s"
+
+#: modules/basicsettings.cpp:1409
+msgid "Synchronity"
+msgstr "Synchroniteit"
+
+#: modules/basicsettings.cpp:1410
+msgid "Fast"
+msgstr "Snel"
+
+#: modules/basicsettings.cpp:1410
+msgid "Save but slower"
+msgstr "Veilig maar langzamer"
+
+#: modules/basicsettings.cpp:1410
+msgid "Very save and slow"
+msgstr "erg veilig en langzaam"
+
+#: modules/basicsettings.cpp:1419
+msgid "Image cache"
+msgstr "Afbeeldings-cache"
+
+#: modules/basicsettings.cpp:1422
+msgid "Use temporary directory"
+msgstr "Gebruik tijdelijke directory"
+
+#: modules/basicsettings.cpp:1424
+msgid "Yes, load images asynchrony"
+msgstr "Ja, afbeeldingen asynchroon laden"
+
+#: modules/basicsettings.cpp:1425
+msgid "Yes, load images directly and avoid flickering"
+msgstr "Ja, afbeeldingen direct laden en flikkering vermijden"
+
+# The first %i will be replaced by the used percentage, the seconds %i will be replaced by the number of images. Note the two percent signs "%%" which will be converted to a single one.
+#: modules/basicsettings.cpp:1432
+#, c-format
+msgid "%i%% used for %i images"
+msgstr "%i%% voor %i afbeeldingen gebruikt"
+
+#: modules/basicsettings.cpp:1440
+#, fuzzy
+msgid "Regard file changes"
+msgstr "Bestanden en mappen lezen"
+
+#: modules/basicsettings.cpp:1457
+msgid "Load external modules"
+msgstr "externe modules laden"
+
+#: modules/basicsettings.cpp:1464
+msgid "\"Magnetic\" window borders"
+msgstr "\"Magnetische\" vensterranden"
+
+#: modules/basicsettings.cpp:1468
+msgid "Display"
+msgstr "Display"
+
+#: modules/basicsettings.cpp:1469
+msgid "Show total time"
+msgstr "Totale tijd tonen"
+
+#: modules/basicsettings.cpp:1471
+#: modules/library.cpp:445
+msgid "Show track number"
+msgstr "Tracknummer weergeven"
+
+#: modules/basicsettings.cpp:1473
+#: modules/library.cpp:448
+msgid "Show artist name"
+msgstr "Artiestnaam weergeven"
+
+#: modules/basicsettings.cpp:1475
+msgid "Show AutoPlay"
+msgstr "Toon automatisch afspelen"
+
+#: modules/basicsettings.cpp:1477
+msgid "Preferred cover"
+msgstr ""
+
+#: modules/basicsettings.cpp:1477
+#, fuzzy
+msgid "Album cover"
+msgstr "Album scherm"
+
+#: modules/basicsettings.cpp:1477
+#, fuzzy
+msgid "Track cover"
+msgstr "Track aantal"
+
+#: modules/basicsettings.cpp:1483
+msgid "Window"
+msgstr "Venster"
+
+#: modules/basicsettings.cpp:1486
+msgid "Use shaped windows"
+msgstr "gebruik gevormde vensters"
+
+#: modules/basicsettings.cpp:1494
+msgid "Automatic version check"
+msgstr "Automatische versiecontrole"
+
+# %i will be replaced by the number of days
+#: modules/basicsettings.cpp:1496
+#, c-format
+msgid "Every %i days"
+msgstr "Iedere %i dagen"
+
+#: modules/basicsettings.cpp:1551
+msgid "Advanced"
+msgstr "Gevorderden"
+
+#: modules/arteditor.cpp:310
+msgid "Please press and hold the left mouse button. Then, select the area to crop by moving the mouse."
+msgstr "Linker muisknop indrukken en vasthouden. Vervolgens muis bewegen en gewenste uitsnede bepalen."
+
+#: modules/arteditor.cpp:896
+msgid "<Abstract>"
+msgstr "<Abstract>"
+
+# This string is added to some options in menus,  do not forget to surround the value with brackets.
+#: modules/arteditor.cpp:902
+#: modules/playbacksettings.cpp:1427
+#: modules/playbacksettings.cpp:1476
+#: modules/playbacksettings.cpp:1492
+#: modules/playbacksettings.cpp:1512
+#: modules/playbacksettings.cpp:1541
+msgid "(Default)"
+msgstr "(Standaard)"
+
+#: modules/arteditor.cpp:946
+msgid "Paste image from clipboard"
+msgstr "Afbeelding plakken vanuit het klembord"
+
+#: modules/arteditor.cpp:954
+msgid "Select cover"
+msgstr "Selecteer een cover"
+
+#: modules/arteditor.cpp:963
+msgid "Search covers on the web"
+msgstr "Cover zoeken op internet"
+
+#: modules/arteditor.cpp:1005
+msgid "Don't rotate"
+msgstr "Niet roteren"
+
+#: modules/arteditor.cpp:1015
+msgid "Rotate/flip"
+msgstr "Roteren/Spiegelen"
+
+#: modules/arteditor.cpp:1064
+msgid "Use default images..."
+msgstr "Standaardafbeeldingen gebruiken..."
+
+#: modules/arteditor.cpp:1066
+msgid "Effects/options"
+msgstr "Effecten/Opties"
+
+#: modules/arteditor.cpp:1175
+msgid "Select image"
+msgstr "Afbeelding selecteren"
+
+#: modules/arteditor.cpp:1265
+msgid "Reset all selected alternative images to their default value?"
+msgstr "Alle alternatieve afbeeldingen resetten naar de standaard instelling?"
+
+#: modules/viewsettings.cpp:174
+#: modules/viewsettings.cpp:728
+msgid "Skins"
+msgstr "Skins"
+
+#: modules/viewsettings.cpp:175
+msgid "Fonts and covers"
+msgstr "Lettertypes en Covers"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#: modules/viewsettings.cpp:216
+#, c-format
+msgid ""
+"With different skins you can change the \"look and feel\" of %s. Just\n"
+"select the skin to use from the list above. You'll find more skins on the web."
+msgstr ""
+"Door verschillende skins kan het uiterlijk van %s worden veranderd.\n"
+"Selecteer een skin uit bovenstaande lijst. Meer skins zijn op internet te vinden."
+
+#: modules/viewsettings.cpp:227
+msgid "Name"
+msgstr "Naam"
+
+#: modules/viewsettings.cpp:237
+#: modules/viewsettings.cpp:464
+msgid "More skins on the web..."
+msgstr "Meer skins zijn op internet te vinden..."
+
+#: modules/viewsettings.cpp:463
+msgid "Update list"
+msgstr "Lijst bijwerken"
+
+#: modules/viewsettings.cpp:494
+msgid ""
+"You can set independent font and cover sizes to use in the main window. The sizes\n"
+"refer to a zoom of 100%. If you zoom in or out (eg. by using the \"+\" or \"-\" keys), both\n"
+"sizes will grow or shrink proportionally."
+msgstr ""
+"Lettertype en Cover grootte kan onafhankelijk worden ingesteld voor het hoofdvenster.\n"
+"De grootte komt overeen met een zoom van 100%. Bij in of uitzoomen (door gebruik van de  \"+\" or \"-\" toetsen)\n"
+"zullen beide groottes evenveel toe of afnemen."
+
+#: modules/viewsettings.cpp:510
+msgid "Font:"
+msgstr "Lettertype:"
+
+#: modules/viewsettings.cpp:537
+msgid "Font size:"
+msgstr ""
+
+#: modules/viewsettings.cpp:553
+msgid "Use this font for dialogs, too"
+msgstr "Gebruik dit lettertype ook voor dialogen"
+
+#: modules/viewsettings.cpp:558
+msgid "Column width:"
+msgstr "Kollombreedte"
+
+#: modules/viewsettings.cpp:572
+msgid "Cover size:"
+msgstr "Covergrootte"
+
+#: modules/playbacksettings.cpp:83
+#: modules/playbacksettings.cpp:1268
+msgid "Automatic control"
+msgstr "Automatisch uitvoeren"
+
+#: modules/playbacksettings.cpp:98
+#, c-format
+msgid "Go to current track after %i minutes of inactivity"
+msgstr "Ga naar huidige track na %i minuten geen activiteit"
+
+#: modules/playbacksettings.cpp:103
+#, c-format
+msgid "Reset view after %i minutes of inactivity to"
+msgstr ""
+
+#: modules/playbacksettings.cpp:114
+#, fuzzy, c-format
+msgid "Open %s after %i minutes of inactivity"
+msgstr "Ga naar huidige track na %i minuten geen activiteit"
+
+# %s will be replaced by the name of a visualization
+#: modules/playbacksettings.cpp:121
+#, fuzzy, c-format
+msgid "Close %s after %i minutes"
+msgstr "Stop visualisering na %i minuten"
+
+#: modules/playbacksettings.cpp:346
+#: modules/playbacksettings.cpp:367
+#: modules/playbacksettings.cpp:2393
+msgid "Volume control"
+msgstr "Volume controle"
+
+#: modules/playbacksettings.cpp:372
+msgid "Play all tracks of an album with the same volume"
+msgstr "Alle Tracks van een album met hetzelfde volume afspelen"
+
+#: modules/playbacksettings.cpp:381
+msgid "Desired volume:"
+msgstr "Gewenste volume:"
+
+#: modules/playbacksettings.cpp:397
+msgid "Max. gain:"
+msgstr "Max. Volume:"
+
+#: modules/playbacksettings.cpp:420
+msgid "Current volume:"
+msgstr "Huidig volume:"
+
+#: modules/playbacksettings.cpp:421
+msgid "Calculated volumes:"
+msgstr "Berekende volume:"
+
+#: modules/playbacksettings.cpp:696
+#: modules/playbacksettings.cpp:2390
+msgid "Fading"
+msgstr "Mixen"
+
+#: modules/playbacksettings.cpp:725
+msgid "Crossfading"
+msgstr "mixen"
+
+#: modules/playbacksettings.cpp:735
+msgid "Manual crossfades:"
+msgstr "Handmatig mix-effect"
+
+#: modules/playbacksettings.cpp:740
+msgid "Automatic crossfades:"
+msgstr "Automatisch mix-effect"
+
+#: modules/playbacksettings.cpp:750
+msgid "No crossfades between subsequent tracks of the same album"
+msgstr "Geen mixeffect tussen twee opvolgende tracks van hetzelfde album"
+
+#: modules/playbacksettings.cpp:755
+msgid "Only fade out the old track, the new track starts with full volume"
+msgstr "Alleen oude track uitmixen, nieuwe track begint met normaal volume"
+
+#: modules/playbacksettings.cpp:760
+msgid "Skip silence between tracks"
+msgstr "Stilte tussen twee tracks overslaan"
+
+#: modules/playbacksettings.cpp:770
+msgid "Other fadings"
+msgstr "Andere mix-effecten"
+
+#: modules/playbacksettings.cpp:1259
+msgid "Devices"
+msgstr "Apparaten"
+
+#: modules/playbacksettings.cpp:1262
+msgid "Jingles"
+msgstr "Jingles"
+
+#: modules/playbacksettings.cpp:1265
+msgid "Queue"
+msgstr ""
+
+#: modules/playbacksettings.cpp:1355
+msgid "FX"
+msgstr "Effecten"
+
+#: modules/playbacksettings.cpp:1376
+msgid ""
+"Please select the input and output devices to use. If you encounter any problems,\n"
+"please try a different buffer size and the \"Use hardware\" option."
+msgstr ""
+"Selecteer een ingangs- en uitgangsapparaat. Probeer bij problemen een andere\n"
+" buffergrootte en gebruik de \"Gebruik hardware\" optie."
+
+#: modules/playbacksettings.cpp:1387
+#: modules/playbacksettings.cpp:2738
+msgid "Audio-output"
+msgstr "Audio-uitgang"
+
+#: modules/playbacksettings.cpp:1401
+msgid "Prelisten audio-output"
+msgstr "Voorluister audiouitgang"
+
+#: modules/playbacksettings.cpp:1486
+msgid "Buffer"
+msgstr "Buffer"
+
+#: modules/playbacksettings.cpp:1498
+msgid "Use hardware"
+msgstr "Gebruik hardware"
+
+#: modules/playbacksettings.cpp:1751
+msgid ""
+"With these options, you can add jingles (small pieces of sound) between tracks.\n"
+"Add the jingles as normal music-files and decide how often they should be played."
+msgstr ""
+"Met deze Optie kunnen Jingles tussen de tracks worden afgespeeld\n"
+"Voeg de jingles toe als normale muziekbestanden en geef aan hoe vaak ze afgespeeld moeten worden."
+
+#: modules/playbacksettings.cpp:1769
+msgid "Use jingles"
+msgstr "Jingles gebruiken"
+
+#: modules/playbacksettings.cpp:1778
+msgid "Jingles:"
+msgstr "Jingles:"
+
+# %s will be replaced by a control to select the number of tracks
+#: modules/playbacksettings.cpp:1794
+#, c-format
+msgid "Play a jingle about every %s tracks."
+msgstr "Ongeveer iedere %s Tracks een jingle afspelen."
+
+#: modules/playbacksettings.cpp:1904
+msgid "Select jingle(s)"
+msgstr "Jingle(s) selecteren"
+
+#: modules/playbacksettings.cpp:2023
+msgid ""
+"The following options define the behaviour of the queue. For the \"shuffle intensity\",\n"
+"small values create only slight variations of the queue order, whereas large values\n"
+"cause major variations."
+msgstr ""
+
+# %i will be replaced by a number
+#: modules/playbacksettings.cpp:2033
+#, c-format
+msgid "Allow max. %i tracks waiting in queue"
+msgstr "Max. %i tracks in de afspeellijst toestaan"
+
+# %i will be replaced by a number
+#: modules/playbacksettings.cpp:2041
+msgid "Avoid double tracks waiting in queue"
+msgstr "Dubbele tracks in afspeellijst weigeren"
+
+# %i will be replaced by a control to select the number of minutes
+#: modules/playbacksettings.cpp:2059
+#, c-format
+msgid "Avoid boredom: No track repetition within %i minutes"
+msgstr "Saaiheid voorkomen: Geen track meerdere keren afspelen binnen %i minuten"
+
+# %i will be replaced by a control to select the number of minutes
+#: modules/playbacksettings.cpp:2066
+#, c-format
+msgid "Avoid boredom: No artist repetition within %i minutes"
+msgstr ""
+
+#: modules/playbacksettings.cpp:2077
+msgid "Shuffle intensity:"
+msgstr "Variatie willekeurig afspelen"
+
+#: modules/playbacksettings.cpp:2202
+msgid ""
+"Use the following options to define which actions should be done automatically\n"
+"after given timeouts."
+msgstr "Gebruik de volgende opties om te bepalen welke acties automatisch worden uitgevoerd na een bepaalde tijd."
+
+#: modules/playbacksettings.cpp:2211
+#, c-format
+msgid "AutoPlay: If the playlist is empty, wait %i minutes;"
+msgstr "Automatisch afspelen: Als de afspeellijst leeg is, %i minuten wachten;"
+
+# %s will be replaced by the name of a music selection
+#: modules/playbacksettings.cpp:2223
+#, c-format
+msgid "then, play %i tracks from the %s"
+msgstr "daarna %i Tracks afspelen uit %s"
+
+#: modules/playbacksettings.cpp:2270
+msgid "Use separate FX settings"
+msgstr "Gebruik afzonderlijke effectinstellingen"
+
+# %s will be replaced by the name of a music selection
+#: modules/playbacksettings.cpp:2287
+#, fuzzy
+msgid "Ignore tracks from the music selection"
+msgstr "Alleen tracks toestaan uit muziekselectie %s"
+
+#: modules/playbacksettings.cpp:2311
+msgid "Manually enqueued tracks interrupt AutoPlay immediately"
+msgstr "Handmatig toevoegen van tracks aan de afspeellijst onderbreekt direct het automatisch afspelen"
+
+#: modules/playbacksettings.cpp:2329
+msgid "Sleep mode:"
+msgstr "Slaapmode:"
+
+#: modules/playbacksettings.cpp:2334
+msgid "Stop playback"
+msgstr "Stop afspelen"
+
+#: modules/playbacksettings.cpp:2342
+msgid "in|after|at|always in|always after|always at"
+msgstr "in|na|om|altijd in|altijd na|altijd om"
+
+#: modules/playbacksettings.cpp:2359
+msgid "minutes|minutes of inactivity|o'clock"
+msgstr "minuten|minuten Inactief|uur"
+
+#: modules/playbacksettings.cpp:2377
+#, c-format
+msgid "Before this, fade out %i seconds"
+msgstr "Aan het eind in %i seconden geluid uitfaden"
+
+#: modules/playbacksettings.cpp:2684
+msgid "Use system volume"
+msgstr "Gebruik systeem volume"
+
+#: modules/playbacksettings.cpp:2685
+msgid "Only initalize system volume"
+msgstr "Alleen het systeem volume instellen"
+
+#: modules/systray.cpp:364
+msgid ""
+"The \"system tray\" is an area normally placed at the edge of the screen.\n"
+"With the following options, you can add a little symbol with frequently\n"
+"used functions to this area."
+msgstr ""
+"Het \"Systeemvak\" is een klein gebied rechtsonder aan de rand van het scherm.\n"
+"Met de volgende Opties kan een klein symbool aan de system Trayl\n"
+"worden toegevoegd met vaak gebruikte functies."
+
+#: modules/systray.cpp:367
+msgid "Never use system tray"
+msgstr "Systeemvak nooit gebruiken"
+
+#: modules/systray.cpp:371
+msgid "Use system tray for the minimized window"
+msgstr "Systeemvak bij geminimaliseerd venster gebruiken"
+
+#: modules/systray.cpp:375
+msgid "Always use system tray"
+msgstr "Systeemvak altijd gebruiken"
+
+#: modules/systray.cpp:392
+#, c-format
+msgid "Show current track tooltip for %i seconds"
+msgstr "Tooltip van huidige Track %i seconden tonen"
+
+#: modules/systray.cpp:396
+msgid "Only if inactive"
+msgstr "alleen wanneer niet actief"
+
+#: modules/modulebase.cpp:1347
+msgid "Use this module for the following file extensions:"
+msgstr "Deze module voor de volgende bestands-extenties gebruiken:"
+
+#: modules/modulebase.cpp:1357
+msgid "(separate the extensions using the comma, case is ignored)"
+msgstr "(extenties scheiden door een komma, hoofd of kleine letters is niet belangrijk)"
+
+#: modules/modulebase.cpp:1374
+msgid "Further options..."
+msgstr "Verdere opties..."
+
+# %s will be replaced by a list of extensions, eg. "MP3, MP2, MP1"
+#: modules/modulebase.cpp:1380
+#, c-format
+msgid ""
+"If you disable this module or change the file types, make sure,\n"
+"you don't need \"%s\" or they are supported by another module.\n"
+"\n"
+"Note: Remember that not every module can play every file type."
+msgstr ""
+"Wanneer u deze module uitschakelt of de bestandsformaat verandert, \n"
+"let dan op dat u  \"%s\" niet gebruikt of dat deze ondersteund zijn door\n"
+"een andere module.\n"
+"\n"
+"Let op: Niet iedere module kan ieder bestandsformaat afspelen."
+
+#: modules/modulebase.cpp:1862
+msgid "Gain"
+msgstr "Versterking"
+
+#: modules/library.cpp:196
+msgid "The following settings are for experienced users only."
+msgstr "De volgende instellingen zijn alleen voor ervaren gebruikers."
+
+#: modules/library.cpp:205
+#, c-format
+msgid "An album must have at least %s tracks with corresponding %s."
+msgstr "Een album moet minimaal %s Tracks bevatten met %s."
+
+#: modules/library.cpp:216
+msgid "artist/album"
+msgstr "Artiest/Album"
+
+#: modules/library.cpp:217
+msgid "artist/album or genre"
+msgstr "Artiest/Abum of Genre"
+
+#: modules/library.cpp:218
+msgid "directory"
+msgstr "map"
+
+# %s will be replaced by a control to select the number of tracks
+#: modules/library.cpp:232
+#, c-format
+msgid "Compilations may contain up to %s tracks of the same artist."
+msgstr "Compilaties mogen tot %s Tracks bevatten van dezelfde artiest."
+
+#: modules/library.cpp:246
+msgid "Separate the words using commas, case is ignored"
+msgstr ""
+"Woorden scheiden door komma's,\n"
+"Hoofd of kleine letters maakt niet uit"
+
+#: modules/library.cpp:249
+msgid "Sort by:"
+msgstr "Sorteren op:"
+
+#: modules/library.cpp:261
+msgid "Stop-words for sorting artists:"
+msgstr "Stop-woorden bij het sorteren van artiesten:"
+
+#: modules/library.cpp:267
+msgid "Stop-words for sorting albums:"
+msgstr "Stop-woorden bij het sorteren van albums:"
+
+#: modules/library.cpp:274
+msgid "Show stop-words words at end"
+msgstr "Stop woorden tonen"
+
+#: modules/library.cpp:277
+msgid ""
+"If selected, eg. \"The Rolling Stones\" becomes \"Rolling Stones, The\";\n"
+"sorting itself is not affected by this option"
+msgstr ""
+"Bij selectie wordt bijvoorbeeld \"The Rolling Stones\" als \"Rolling Stones, The\" weergegeven;\n"
+"Het sorteren wordt hierdoor niet beinvloed."
+
+#: modules/library.cpp:284
+msgid "Keywords to identify cover image for an album:"
+msgstr "Zoekterm, om de cover voor een album te vinden:"
+
+#: modules/library.cpp:439
+msgid "Track list"
+msgstr "Track lijst"
+
+# %s will be replaced by the string an abbreviation should be entered for, eg. "Composer" or "Original artist"
+#: modules/library.cpp:441
+#: modules/library.cpp:442
+#, c-format
+msgid "Abbreviation for \"%s\""
+msgstr "Afkorting voor \"%s\""
+
+# Enter the default abbreviation for "Composer" here, do not use more than 2 characters plus eg. ":". The abbreviation is used in the browser window if a composer is set for a track.
+#: modules/library.cpp:441
+#: modules/library.cpp:502
+msgid "C:"
+msgstr "C:"
+
+# Enter the default abbreviation for "Original artist" here, do not use more than 2 characters plus eg. ":". The abbreviation is used in the browser window if an original artist is set for a track.
+#: modules/library.cpp:442
+#: modules/library.cpp:503
+msgid "O:"
+msgstr "O:"
+
+#: modules/library.cpp:444
+msgid "Show double tracks"
+msgstr "Dubbele tracks weergeven"
+
+#: modules/library.cpp:446
+msgid "Automatic track number"
+msgstr "Automatisch Tracknummer"
+
+#: modules/library.cpp:447
+msgid "Show disk number"
+msgstr "Disknummer weergeven"
+
+#: modules/library.cpp:449
+msgid "Show different artist names"
+msgstr "Verschillende artiestnamen weergeven"
+
+#: modules/library.cpp:450
+msgid "Show original artist"
+msgstr "Originele artiest weergeven"
+
+#: modules/library.cpp:451
+msgid "Show composer"
+msgstr "Componist weergeven"
+
+#: modules/library.cpp:453
+msgid "Show different album names"
+msgstr "Verschillende albumnamen weergeven"
+
+#: modules/library.cpp:454
+msgid "Show time"
+msgstr "Tijd weergeven"
+
+#: modules/library.cpp:455
+msgid "Show year"
+msgstr "Jaar weergeven"
+
+#: modules/library.cpp:456
+msgid "Show comment"
+msgstr ""
+
+#: modules/library.cpp:457
+msgid "Show genre"
+msgstr ""
+
+#: modules/library.cpp:458
+msgid "Show rating"
+msgstr ""
+
+#: modules/library.cpp:462
+msgid "Double click on covers"
+msgstr "Dubbelklik op covers"
+
+#: modules/library.cpp:464
+msgid "Select/play album"
+msgstr "Album selecteren/afspelen"
+
+#: modules/library.cpp:479
+msgid "Combine tracks to albums"
+msgstr "Tracks tot albums combineren"
+
+#: modules/library.cpp:1057
+msgid "Updating genres..."
+msgstr "Genres bijwerken..."
+
+#: modules/library.cpp:1057
+msgid "Updating groups..."
+msgstr "Groepen bijwerken..."
+
+#: modules/library.cpp:1409
+msgid "Combining tracks to albums..."
+msgstr "Tracks tot albums combineren..."
+
+#: modules/library.cpp:1902
+msgid "Do you want to add the following folder(s) to your music library?"
+msgstr "Wilt u deze map(pen) aan het muziekarchief toevoegen?"
+
+# This is one of the possible answers eg. if the user drags an image to an album row
+#: modules/library.cpp:2171
+#, c-format
+msgid "Yes, leave the image in \"%s\""
+msgstr "Ja, afbeelding in \"%s\" laten staan"
+
+# This is one of the possible answers eg. if the user drags an image to an album row
+#: modules/library.cpp:2174
+#, c-format
+msgid "Yes, copy the image to \"%s\""
+msgstr "Ja, afbeelding naar \"%s\" kopieren"
+
+# %s will be replaced by the album name
+#: modules/library.cpp:2177
+#, c-format
+msgid "Do you want to use the given image as the cover for \"%s\"?"
+msgstr "Wilt u deze afbeelding als Cover voor \"%s\" gebruiken?"
+
+# %s will be replaced by a filename
+#: modules/library.cpp:2892
+#: modules/library.cpp:4249
+#, c-format
+msgid "\"%s\" is not in your music library and cannot be edited therefore."
+msgstr "\"%s\" komt niet voor in uw muziekarchief en kan daardoor niet bewerkt worden."
+
+# The first %s will be replaced b the number of tracks, the second %s will be replaced by the number of albums, the third %s will be replaced by the search text or by the name of a music selection.
+#: modules/library.cpp:3196
+#: modules/library.cpp:3275
+#, c-format
+msgid "%s tracks on %s albums found for \"%s\""
+msgstr "%s Tracks op %s Albums voor \"%s\" gevonden"
+
+# The first %s will be replaced b the number of tracks, the second %s will be replaced by the number of albums.
+#: modules/library.cpp:3208
+#: modules/library.cpp:3214
+#: modules/library.cpp:3292
+#: modules/library.cpp:3330
+#, c-format
+msgid "%s tracks on %s albums"
+msgstr "%s Tracks op %s Albums"
+
+#: modules/library.cpp:3313
+msgid "Albums"
+msgstr "Albums"
+
+#: modules/library.cpp:3336
+msgid "All albums"
+msgstr "Alle Albums"
+
+# %i will be replaced by the disk number. This string is used as headlines in the album browser if an album has several disks (CDs, records and so on).
+#: modules/library.cpp:3545
+#, c-format
+msgid "Disk %i"
+msgstr "Disk %i"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3974
+#, c-format
+msgid "Enqueue \"%s\""
+msgstr "\"%s\" in afspeellijst"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3979
+#, c-format
+msgid "Play \"%s\" now"
+msgstr "\"%s\" nu afspelen"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3982
+#, c-format
+msgid "Play \"%s\" next"
+msgstr "\"%s\" als eerstvolgende afspelen"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:3988
+#, c-format
+msgid "Unqueue \"%s\""
+msgstr "\"%s\" uit afspeellijst verwijderen"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:3994
+#: modules/library.cpp:5240
+#, c-format
+msgid "Enqueue %i tracks"
+msgstr "%i Tracks in afspeellijst plaatsen"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:3999
+#, c-format
+msgid "Play %i tracks now"
+msgstr "%i Tracks nu afspelen"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:4002
+#, c-format
+msgid "Play %i tracks next"
+msgstr "%i Tracks als eerstvolgende afspelen"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:4008
+#, c-format
+msgid "Unqueue %i tracks"
+msgstr "%i Tracks uit afspeellijst verwijderen"
+
+# %s will be replaced by the name of an artist
+#: modules/library.cpp:4095
+#: modules/library.cpp:4113
+#: modules/library.cpp:4117
+#, c-format
+msgid "\"%s\" on the web"
+msgstr "\"%s\" op het Internet"
+
+# %s will be replaced eg. by a number of "+" which represent the user's rating
+#: modules/library.cpp:4174
+#: modules/library.cpp:4205
+#, c-format
+msgid "Average rating: %s"
+msgstr "Gemiddelde waardering: %s"
+
+# %s will be replaced eg. by a number of "+" which represent the user's rating
+#: modules/library.cpp:4174
+#: modules/library.cpp:4205
+#: modules/library.cpp:5027
+#, c-format
+msgid "My rating: %s"
+msgstr "Mijn waardering: %s"
+
+# %i will be replaced by the number of tracks
+#: modules/library.cpp:4225
+#: modules/library.cpp:4285
+#, c-format
+msgid "Do you want to change the rating for all %i selected tracks?"
+msgstr "De waardering voor alle %i geselecteerde tracks wijzigen?"
+
+# This is the button in the confirmation dialog when changing the rating for multiple tracks.
+#: modules/library.cpp:4226
+#: modules/library.cpp:4286
+msgid "Change rating"
+msgstr "Waardering wijzigen"
+
+#: modules/library.cpp:4681
+#: modules/library.cpp:4777
+msgid "Click to select all tracks of this album, double-click to play them"
+msgstr "Klikken om alle tracks van dit album te selecteren, Dubbelklikken om ze af te spelen"
+
+#: modules/library.cpp:4847
+msgid "Click to select all tracks of this artists, double-click to play them"
+msgstr "Klikken om alle tracks van deze artiest te selecteren, Dubbelklikken om ze af te spelen"
+
+#: modules/library.cpp:4929
+msgid "Click to select all tracks of this disk, double-click to play them"
+msgstr "Klikken om alle tracks van deze disk te selecteren, Dubbelklikken om ze af te spelen"
+
+# %s will be replaced by the name of the track
+#: modules/library.cpp:5057
+#, c-format
+msgid "Double-click to enqueue \"%s\""
+msgstr "Dubbelklikken om \"%s\" in de afspeellijst te plaatsen"
+
+#: modules/library.cpp:5239
+#, c-format
+msgid "Do you want to enqueue all %i selected tracks?"
+msgstr "Alle %i geselecteerde tracks in de afspeellijst plaatsen?"
+
+#: modules/vis/vis_window.cpp:358
+msgid "If appropriate, switch over automatically"
+msgstr "Schakel automatisch over indien mogelijk"
+
+#: modules/vis/vis_window.cpp:374
+msgid "Attached window"
+msgstr "Gekoppeld scherm"
+
+#: modules/vis/vis_window.cpp:378
+msgid "Half size"
+msgstr "Halve grootte"
+
+#: modules/vis/vidout_module.cpp:150
+#, fuzzy
+msgid "Video output"
+msgstr "Audio-uitgang"
+
+#: modules/vis/vis_module.cpp:119
+#, fuzzy, c-format
+msgid "Close %s"
+msgstr "Sluiten"
+
+# %s will be replaced by the name of a website, eg. www.silverjuke.net
+#: modules/vis/vis_module.cpp:119
+#, fuzzy, c-format
+msgid "Open %s"
+msgstr "Open %s..."
+
+#: modules/vis/oscilloscope.cpp:1790
+msgid "Spectrum Monitor"
+msgstr "Spectrum monitor"
+
+#: modules/vis/oscilloscope.cpp:1896
+msgid "Show spectrum"
+msgstr "Spectrum weergeven"
+
+#: modules/vis/oscilloscope.cpp:1899
+msgid "Show oscilloscope"
+msgstr "Oscilloscope weergeven"
+
+#: modules/vis/oscilloscope.cpp:1902
+msgid "Show starfield"
+msgstr "Toon sterrenhemel"
+
+#: modules/vis/sfx_module.cpp:148
+#, fuzzy
+msgid "Visualization"
+msgstr "Visualisering starten"
+
+#: modules/vis/sfx_module.cpp:309
+#: modules/vis/sfx_module.cpp:313
+#, fuzzy, c-format
+msgid "Selection: %s"
+msgstr "Opgeslagen selectie"
+
+#: modules/vis/sfx_module.cpp:318
+#: modules/vis/sfx_module.cpp:352
+#, fuzzy
+msgid "Select another visualization"
+msgstr "Visualisering starten"
+
+#: modules/vis/synctxt_raw.cpp:121
+#: modules/vis/karaoke_module.cpp:483
+msgid "No lyrics found."
+msgstr "Geen songteksten gevonden"
+
+#: modules/vis/karaoke_module.cpp:521
+msgid "Karaoke Prompt"
+msgstr "Karaoke prompt"
+
+# %s will be replaced by the name of a music selection
+#: modules/vis/karaoke_module.cpp:592
+#, c-format
+msgid "No images found in \"%s\"."
+msgstr "Geen afbeeldingen gevonden in \"%s\"."
+
+# This string is added to some options in menus,  do not forget to surround the value with brackets.
+#: modules/vis/karaoke_module.cpp:797
+msgid "Default"
+msgstr "Standaard"
+
+#: modules/vis/karaoke_module.cpp:800
+msgid "Black"
+msgstr "Zwart"
+
+# %s will be replaced by the file type, eg. "MP3" or "JPG"
+#: modules/vis/karaoke_module.cpp:813
+#, c-format
+msgid "Use %s-files"
+msgstr ""
+
+#: modules/vis/karaoke_module.cpp:825
+msgid "Background"
+msgstr "Achtergrond"
+
+#: modules/vis/karaoke_module.cpp:852
+msgid "Please select a directory with images"
+msgstr "Selecteer een map met afbeeldingen"
+
+#: modules/bass/bass_decoder.cpp:459
+msgid "Playback mode:"
+msgstr "Afspeel modus:"
+
+#: modules/bass/bass_decoder.cpp:459
+#: modules/bass/bass_decoder.cpp:465
+msgid "Normal"
+msgstr "Normal"
+
+#: modules/bass/bass_decoder.cpp:462
+msgid "Interpolation:"
+msgstr "Interpolatie:"
+
+#: modules/bass/bass_decoder.cpp:462
+#: modules/bass/bass_decoder.cpp:468
+msgid "Linear"
+msgstr "Linear"
+
+#: modules/bass/bass_decoder.cpp:465
+msgid "Sensitive"
+msgstr "Gevoelig"
+
+#: modules/kiosk/creditbase.cpp:113
+msgid "No credit."
+msgstr "Geen Credits."
+
+#: modules/kiosk/creditbase.cpp:148
+#, c-format
+msgid "Credit: %i"
+msgstr "Credits: %i"
+
+#: modules/kiosk/kiosk.cpp:355
+msgid "Functionality"
+msgstr "Functionaliteit"
+
+#: modules/kiosk/kiosk.cpp:358
+msgid "Monitors"
+msgstr "Monitors"
+
+#: modules/kiosk/kiosk.cpp:361
+#: modules/kiosk/virtkeybd.cpp:1261
+#: modules/kiosk/virtkeybd.cpp:1374
+msgid "Virtual keyboard"
+msgstr "Virtueel toetsenbord"
+
+#: modules/kiosk/kiosk.cpp:372
+msgid "Credit system"
+msgstr "Credietsystem"
+
+#: modules/kiosk/kiosk.cpp:500
+msgid ""
+"Silverjuke provides a so called \"kiosk mode\" which allows you to run the program\n"
+"full screen with a defined functionality."
+msgstr ""
+"Silverjuke heeft een zo genaamde \"Kiosk mode\", die mogelijk maakt dat het programma\n"
+"in volledig scherm wordt weergegeven met vooraf ingestelde functionaliteit."
+
+#: modules/kiosk/kiosk.cpp:506
+msgid ""
+"Before you enter the kiosk mode by clicking on \"Start\", make sure, you know how\n"
+"to exit again:"
+msgstr ""
+"Let op: Voordat u de Kiosk mode start door op \"Start\"  te klikken, moet zeker weten hoe\n"
+" u de kiosk-mode weer moet verlaten:"
+
+# %s will be replaced by a shortcut, eg. "F11"
+#: modules/kiosk/kiosk.cpp:516
+#, c-format
+msgid "Exit by hitting %s"
+msgstr "Verlaten door %s"
+
+#: modules/kiosk/kiosk.cpp:518
+msgid "Exit by clicking into two different corners"
+msgstr "Verlaten door in twee verschillende hoeken te klikken"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#: modules/kiosk/kiosk.cpp:526
+#: modules/kiosk/kiosk.cpp:530
+#, c-format
+msgid "Disable %s"
+msgstr "%s uitschakelen"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#: modules/kiosk/kiosk.cpp:537
+msgid "Disable shutdown"
+msgstr "Afsluiten uitschakelen"
+
+#: modules/kiosk/kiosk.cpp:539
+msgid "Query settings before start"
+msgstr "Instellingen bevestigen voor het starten"
+
+#: modules/kiosk/kiosk.cpp:544
+#, fuzzy
+msgid "Ask for a password on exit"
+msgstr "Bij beeindigen om password vragen:"
+
+#: modules/kiosk/kiosk.cpp:546
+#, fuzzy
+msgid "Change password..."
+msgstr "Password verifiëren"
+
+# Eg. the title of the popup for "shutdown", "reboot" etc.
+#: modules/kiosk/kiosk.cpp:553
+msgid "Exit action:"
+msgstr "Actie beeindigen"
+
+#: modules/kiosk/kiosk.cpp:606
+msgid "Start the kiosk mode with the following functionality:"
+msgstr "Kiosk mode starten met de volgende functionaliteit:"
+
+#: modules/kiosk/kiosk.cpp:619
+msgid "Play/pause"
+msgstr "Afspelen/pauzeren"
+
+#: modules/kiosk/kiosk.cpp:624
+msgid "Edit queue"
+msgstr "Afspeellijst wijzigen"
+
+#: modules/kiosk/kiosk.cpp:630
+msgid "Toggle elements"
+msgstr ""
+
+# %i will be replaced by the number of tracks
+#: modules/kiosk/kiosk.cpp:637
+msgid "Enqueue multiple tracks"
+msgstr "Meerdere tracks in de afspeellijst plaatsen"
+
+#: modules/kiosk/kiosk.cpp:641
+msgid "All functions"
+msgstr "Alle functies"
+
+# %s will be replaced by the name of a music selection
+#: modules/kiosk/kiosk.cpp:650
+#, c-format
+msgid "Limit tracks to the music selection %s"
+msgstr "Alleen tracks toestaan uit muziekselectie %s"
+
+#: modules/kiosk/kiosk.cpp:813
+#: modules/kiosk/kiosk.cpp:2717
+msgid "Please enter the password again for verification."
+msgstr "Toets nogmaals het password in voor controle."
+
+#: modules/kiosk/kiosk.cpp:961
+msgid ""
+"If you have more than one monitor connected to your computer,\n"
+"you can assign the different Silverjuke windows to different monitors here."
+msgstr ""
+"Wanneer meerdere monitoren zijn aangesloten op de computer,\n"
+" kunnen verschillende Silverjuke schermen toegewezen worden aan verschillende monitoren."
+
+#: modules/kiosk/kiosk.cpp:967
+msgid "Overview:"
+msgstr "Overzicht"
+
+#: modules/kiosk/kiosk.cpp:983
+#: modules/kiosk/monitor_overview.cpp:396
+#: modules/kiosk/monitor_overview.cpp:397
+msgid "Monitor for"
+msgstr "Monitor voor"
+
+#: modules/kiosk/kiosk.cpp:994
+#: modules/kiosk/monitor_overview.cpp:396
+msgid "Main window"
+msgstr "Hoofdscherm"
+
+#: modules/kiosk/kiosk.cpp:1001
+#: modules/kiosk/kiosk.cpp:1092
+msgid "Monitor"
+msgstr "Monitor"
+
+# %s will be replaced by a control for selecting the display resolution
+#: modules/kiosk/kiosk.cpp:1005
+#, c-format
+msgid "Switch resolution to %s"
+msgstr "Schakel resolutie naar %s"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#: modules/kiosk/kiosk.cpp:1026
+msgid "Disable screensaver"
+msgstr "Screensaver uitschakelen"
+
+#: modules/kiosk/kiosk.cpp:1029
+msgid "Disable power management"
+msgstr "Energiebeheer uitschakelen"
+
+#: modules/kiosk/kiosk.cpp:1278
+msgid ""
+"If no physical keyboard is present, you can use our virtual keyboard;\n"
+"the virtual keyboard then is shown whenever you click into a text control."
+msgstr ""
+"Wanneer geen fysiek toetsenbord aanwezig is, kan een virtueel toetsenbord worden gebruikt\n"
+"Het virtueel toetsenbord wordt weergegeven zodra een tekstveld wordt aangeklikt."
+
+#: modules/kiosk/kiosk.cpp:1284
+msgid "Use the virtual keyboard"
+msgstr "Het virtueel toetsenbord gebruiken"
+
+#: modules/kiosk/kiosk.cpp:1289
+msgid "Also use the virtual keyboard outside the kiosk mode"
+msgstr "Het virtueel toetsenbord ook in Kiosk mode gebruiken"
+
+#: modules/kiosk/kiosk.cpp:1297
+msgid "Test:"
+msgstr "Test:"
+
+#: modules/kiosk/kiosk.cpp:1308
+msgid "(please click into the text control)"
+msgstr "(in het tekstveld klikken)"
+
+#: modules/kiosk/kiosk.cpp:1315
+msgid "Virtual keyboard layout:"
+msgstr "Indeling van het virtueel toetsenbord:"
+
+#: modules/kiosk/kiosk.cpp:1336
+msgid "More layouts on the web..."
+msgstr "Meer indelingen op Internet..."
+
+#: modules/kiosk/kiosk.cpp:1342
+msgid "Colour:"
+msgstr "Kleur:"
+
+#: modules/kiosk/kiosk.cpp:1347
+msgid "White"
+msgstr "Wit"
+
+#: modules/kiosk/kiosk.cpp:1355
+msgid "Transparency:"
+msgstr "Transparantie:"
+
+#: modules/kiosk/kiosk.cpp:1379
+msgid "Hide cursor"
+msgstr "Cursor verbergen"
+
+#: modules/kiosk/kiosk.cpp:1576
+msgid ""
+"Using the Numpad plus some other special keys, you can control Silverjuke completely\n"
+"by the keyboard or some other hardware buttons. In this case, you'll enqueue new\n"
+"tracks by entering the unique numbers shown beside the album and track names."
+msgstr ""
+"Met het nummerieke deel van het toetsenbord  en een paar andere speciale toetsen, kan Silverjuke\n"
+"volledig worden bediend. In dit geval kunnen er nieuwe tracks aan de afspeellijst worden toegevoegd\n"
+"door unieke nummers in te toetsen, die weergegeven worden naast album en tracks."
+
+#: modules/kiosk/kiosk.cpp:1582
+msgid "Use Numpad controls"
+msgstr "Gebruik het nummerieke deel van het toetsenbord"
+
+#: modules/kiosk/kiosk.cpp:1587
+msgid "Also use Numpad controls outside the kiosk mode"
+msgstr "Nummerieke deel ook buiten Kiosk mode gebruiken"
+
+#: modules/kiosk/kiosk.cpp:1598
+#: modules/kiosk/kiosk.cpp:1604
+msgid "Keys:"
+msgstr "Toetsen:"
+
+#: modules/kiosk/kiosk.cpp:1746
+msgid ""
+"With the credit system, users must eg. add coins before tracks can be enqueued. Please\n"
+"refer to the online help for details about the possibilities and the supported hardware."
+msgstr ""
+"Met het Credit systeem kan het programma zo worden ingesteld dat bijvoorbeeld\n"
+"voor het kiezen van een tracks een munt in een muntautomaat moet worden geworpen.\n"
+"Bekijk de informatie in de online-help voor de mogelijkheden en ondersteunde hardware."
+
+#: modules/kiosk/kiosk.cpp:1752
+msgid "Use credit system"
+msgstr "Credit systeem gebruiken"
+
+#: modules/kiosk/kiosk.cpp:1760
+msgid "Credits may be added by DDE, command line or shortcuts"
+msgstr "Credits kunnen worden toegevoegd door DDE, commandline of sneltoetsen"
+
+#: modules/kiosk/kiosk.cpp:1767
+msgid "Keys..."
+msgstr "Toetsen..."
+
+#: modules/kiosk/kiosk.cpp:1772
+msgid "Remember credits between program starts"
+msgstr "Credits bewaren bij opnieuw opstarten van het programma"
+
+#: modules/kiosk/kiosk.cpp:1780
+msgid "Current credit:"
+msgstr "Huidige Credits:"
+
+#: modules/kiosk/kiosk.cpp:1951
+msgid "Start"
+msgstr "Start"
+
+#: modules/kiosk/kiosk.cpp:2134
+msgid "Please enter your password to exit the kiosk mode."
+msgstr "Voer uw password in om de kiosk mode te verlaten."
+
+#: modules/kiosk/kiosk.cpp:2628
+msgid ""
+"Too many tracks in queue,\n"
+"please try again later."
+msgstr ""
+"Teveel tracks in de afspeellijst,\n"
+"probeert u het later nog eens."
+
+#: modules/kiosk/kiosk.cpp:2647
+msgid ""
+"This track is already in queue,\n"
+"please try again later."
+msgstr ""
+"Deze track komt al voor in de afspeellijst,\n"
+"probeer het later nog eens."
+
+#: modules/kiosk/kiosk.cpp:2653
+#, fuzzy
+msgid ""
+"This track or artist was just played,\n"
+"please try again later."
+msgstr ""
+"Deze track komt al voor in de afspeellijst,\n"
+"probeer het later nog eens."
+
+#: modules/kiosk/kiosk.cpp:2738
+msgid "Maintenance password"
+msgstr ""
+
+#: modules/kiosk/virtkeybd.cpp:252
+msgid ""
+"Shift|AltGr|Delete|Clear\n"
+"all|OK"
+msgstr ""
+"Shift|AltGr|Delete|Clear\n"
+"all|OK"
+
+#: modules/kiosk/numpadplay.cpp:195
+msgid "Invalid track number"
+msgstr "Ongeldig tracknummer"
+
+#: modules/kiosk/password_dlg.cpp:85
+#: modules/kiosk/numpadpassword.cpp:33
+msgid "Password:"
+msgstr "Passwort:"
+
+# Eg. the title of the popup for "shutdown", "reboot" etc.
+#: modules/kiosk/password_dlg.cpp:93
+msgid "Action:"
+msgstr "Aktie:"
+
+#: modules/kiosk/password_dlg.cpp:118
+msgid "Shutdown computer"
+msgstr "Computer afsluiten"
+
+#: modules/kiosk/password_dlg.cpp:121
+msgid "Reboot computer"
+msgstr "Computer herstarten"
+
+#: modules/kiosk/password_dlg.cpp:164
+#: modules/kiosk/numpadpassword.cpp:48
+msgid "Invalid password. Please try again."
+msgstr "Ongeldig password, probeer nogmaals."
+
+#: modules/daap/daapclient.cpp:39
+msgid "DAAP-/iTunes-client"
+msgstr "DAAP-/iTunes-Client"
+
+#: modules/daap/daapclient.cpp:41
+msgid "Add a DAAP-/iTunes-server"
+msgstr "DAAP-/iTunes-Server toevoegen"
+
+#: modules/server/server_module_config.cpp:53
+msgid ""
+"With Silverjuke's HTTP server you can access the program and your music library from any\n"
+"browser or other Silverjuke instances in your network."
+msgstr ""
+"Met Silverjuke's HTTP-Server kan het programma en het muziekarchief vanuit iedere\n"
+"browser of Silverjuke-locatie in het netwerk worden benaderd."
+
+#: modules/server/server_module_config.cpp:59
+#, c-format
+msgid "Enable HTTP server on port %s"
+msgstr "HTTP-Server op poort %s inschakelen"
+
+#: modules/server/server_module_config.cpp:64
+msgid "Share my music library over HTTP"
+msgstr "Mijnn Muziekarchief over HTTP delen"
+
+#: modules/server/server_module_config.cpp:70
+msgid "Enable web interface access over HTTP"
+msgstr "Web-Interface over HTTP inschakelen"
+
+# %s will be replaced by the file type, eg. "M3U"  or "CUE"
+#: modules/server/web_interface.cpp:213
+msgid "Playlist"
+msgstr "Afspeellijst"
+
+# This string is used eg. for unused effect slots, please surround the string by "<" and ">"
+#: modules/server/web_interface.cpp:240
+msgid "Empty"
+msgstr "Leeg"
+
+#: modules/server/web_interface.cpp:249
+msgid "Update"
+msgstr "Bijwerken"
+
+#: modules/server/server_module.cpp:79
+msgid "Sharing/Web interface"
+msgstr "Sharing/Web interface"
+
+#: modules/tageditor/tageditorplugin.cpp:167
+msgid "Old file name"
+msgstr "Oude bestandsnaam"
+
+#: modules/tageditor/tageditorplugin.cpp:168
+msgid "New file name"
+msgstr "Nieuwe bestandsnaam"
+
+#: modules/tageditor/tageditorplugin.cpp:173
+msgid "Field"
+msgstr "Veld"
+
+#: modules/tageditor/tageditorplugin.cpp:174
+msgid "Old value"
+msgstr "Oude waarde"
+
+#: modules/tageditor/tageditorplugin.cpp:175
+#: modules/tageditor/tageditorplugin.cpp:417
+msgid "New value"
+msgstr "Nieuwe waarde"
+
+# This string is used eg. for unused effect slots, please surround the string by "<" and ">"
+#: modules/tageditor/tageditorplugin.cpp:215
+msgid "<empty>"
+msgstr "<leeg>"
+
+#: modules/tageditor/tageditorplugin.cpp:292
+msgid "Confirm modifications"
+msgstr "Wijzigingen bevestigen"
+
+#: modules/tageditor/tageditorplugin.cpp:313
+#: modules/tageditor/tageditor.cpp:492
+msgid "Write (ID3-)tags"
+msgstr "(ID3-)Tags bewaren"
+
+#: modules/tageditor/tageditorplugin.cpp:320
+msgid "Delete empty folders"
+msgstr "Lege mappen verwijderen"
+
+#: modules/tageditor/tageditorplugin.cpp:352
+msgid "Please confirm or edit the following modification:"
+msgstr "Bevestig of wijzig de volgende verandering:"
+
+# %s will be replaced by the number of modifications
+#: modules/tageditor/tageditorplugin.cpp:356
+#, c-format
+msgid "Please confirm or edit the following %s modifications:"
+msgstr "Bevestig of wijzig de volgende %s verandering:"
+
+#: modules/tageditor/tageditorplugin.cpp:545
+msgid "(lower case)"
+msgstr "(Kleine letters)"
+
+#: modules/tageditor/tageditorplugin.cpp:546
+msgid "(upper case)"
+msgstr "(Hoofdletters)"
+
+#: modules/tageditor/tageditorplugin.cpp:555
+msgid "(n characters)"
+msgstr "(n tekens)"
+
+#: modules/tageditor/tageditor.cpp:143
+#: modules/tageditor/tageditor.cpp:1921
+msgid "Edit track"
+msgstr "Track bewerken"
+
+#: modules/tageditor/tageditor.cpp:144
+#: modules/helpnabout/help.cpp:273
+msgid "Info"
+msgstr "Info"
+
+#: modules/tageditor/tageditor.cpp:361
+#: modules/tageditor/tageditor.cpp:377
+msgid "of"
+msgstr "van"
+
+#: modules/tageditor/tageditor.cpp:1056
+msgid "File names"
+msgstr "Bestandsnamen"
+
+# %s will be replaced by the decimal-point-formatted number of files
+#: modules/tageditor/tageditor.cpp:1060
+#, c-format
+msgid "Show all %s file names..."
+msgstr "Toon alle %s bestandsnamen..."
+
+#: modules/tageditor/tageditor.cpp:1065
+msgid "The shown values are the sum or the average of all single values in the given files."
+msgstr "De getoonde waarden zijn de som of het gemiddelde van alle gegeven bestanden."
+
+#: modules/tageditor/tageditor.cpp:1126
+#: modules/tageditor/tageditor.cpp:1130
+msgid "Track"
+msgstr "Track"
+
+#: modules/tageditor/tageditor.cpp:1172
+msgid "Further information"
+msgstr "Verdere informatie"
+
+#: modules/tageditor/tageditor.cpp:1194
+msgid "Audio-decoder"
+msgstr "Audio-decoder"
+
+#: modules/tageditor/tageditor.cpp:1218
+msgid "Further information..."
+msgstr "Verdere informatie..."
+
+# The first %s will be replaced by the source file name, the second %s will be replaced by the destination file name
+#: modules/tageditor/tageditor.cpp:1855
+#, c-format
+msgid "Cannot rename \"%s\" to \"%s\"."
+msgstr "Kan de naam van \"%s\" niet wijzigen in \"%s\"."
+
+#: modules/tageditor/tageditor.cpp:2052
+msgid "Online database"
+msgstr "Online database"
+
+#: modules/tageditor/tageditor.cpp:2056
+msgid "Server name"
+msgstr "Server naam"
+
+#: modules/tageditor/tageditorreplace.cpp:51
+msgid "Search for:"
+msgstr "Zoeken naar:"
+
+#: modules/tageditor/tageditorreplace.cpp:57
+msgid "in:"
+msgstr "in:"
+
+#: modules/tageditor/tageditorreplace.cpp:61
+msgid "All fields"
+msgstr "Alle Velden"
+
+#: modules/tageditor/tageditorreplace.cpp:64
+#: modules/tageditor/tageditorsplit.cpp:84
+msgid "Path and file name"
+msgstr "Pad en bestandsnaam"
+
+#: modules/tageditor/tageditorreplace.cpp:69
+msgid "Replace with:"
+msgstr "Vervangen door:"
+
+#: modules/tageditor/tageditorreplace.cpp:77
+msgid "Match whole words only"
+msgstr "Alleen hele woorden"
+
+#: modules/tageditor/tageditorreplace.cpp:86
+msgid "Match case"
+msgstr "Hoofd-/Kleine letters moeten overeenkomen"
+
+#: modules/tageditor/tageditorreplace.cpp:95
+msgid "Regular expression"
+msgstr "Regular expression"
+
+# %s will be replaced by a text the user tried to search for
+#: modules/tageditor/tageditorreplace.cpp:187
+#, c-format
+msgid "\"%s\" not found."
+msgstr "\"%s\" niet gevonden."
+
+#: modules/tageditor/tageditorsplit.cpp:72
+msgid "Field to split:"
+msgstr "Te splitsen veld:"
+
+#: modules/tageditor/tageditorsplit.cpp:89
+msgid "Destination fields and pattern:"
+msgstr "Doelveld en patroon:"
+
+# %i will be replaced by the number of characters
+#: modules/tageditor/tageditorsplit.cpp:101
+#: modules/tageditor/tageditorsplit.cpp:102
+#: modules/tageditor/tageditorsplit.cpp:104
+#: modules/tageditor/tageditorsplit.cpp:105
+#: modules/tageditor/tageditorsplit.cpp:118
+#: modules/tageditor/tageditorsplit.cpp:119
+#: modules/tageditor/tageditorrename.cpp:223
+#: modules/tageditor/tageditorrename.cpp:224
+#: modules/tageditor/tageditorrename.cpp:227
+#: modules/tageditor/tageditorrename.cpp:231
+#, c-format
+msgid "(%i characters)"
+msgstr "(%i-tekens)"
+
+#: modules/tageditor/tageditorsplit.cpp:121
+#: modules/tageditor/tageditorrename.cpp:229
+msgid "Directory change"
+msgstr "Map-wissel"
+
+#: modules/tageditor/tageditorsplit.cpp:122
+msgid "Void information"
+msgstr "Lege informatie"
+
+#: modules/tageditor/tageditorsplit.cpp:126
+#: modules/tageditor/tageditorrename.cpp:236
+msgid "Example:"
+msgstr "Voorbeeld:"
+
+#: modules/tageditor/tageditorrename.cpp:194
+msgid "Pattern:"
+msgstr "Patroon:"
+
+#: modules/tageditor/tageditorrename.cpp:211
+#: modules/tageditor/tageditorrename.cpp:216
+#: modules/tageditor/tageditorrename.cpp:219
+#: modules/tageditor/tageditorrename.cpp:221
+msgid "(first character)"
+msgstr "(eerste teken)"
+
+#: modules/tageditor/tageditorrename.cpp:232
+msgid "File extension"
+msgstr "Bestandstype"
+
+#: modules/tageditor/tageditorfreedb.cpp:155
+msgid "more..."
+msgstr "meer..."
+
+#: modules/tageditor/tageditorfreedb.cpp:183
+msgid "Please select one of the following albums:"
+msgstr "Selecteer een van de volgende albums:"
+
+#: modules/scanner/folder_scanner.cpp:136
+msgid "Read folders:"
+msgstr "Mappen doorzoeken:"
+
+#: modules/scanner/folder_scanner.cpp:136
+msgid "Read file:"
+msgstr "Bestand lezen:"
+
+#: modules/scanner/folder_scanner.cpp:148
+msgid "Ignore music-files and images with the following extensions:"
+msgstr "Muziek- en afbeeldingsbestanden met de volgende extensies negeren:"
+
+#: modules/scanner/folder_scanner.cpp:158
+msgid "Include folder to the update process"
+msgstr "Map doorzoeken tijdens het bijwerken van het muziekarchef"
+
+#: modules/scanner/folder_scanner.cpp:166
+msgid "Read hidden files"
+msgstr "Lees verborgen bestanden"
+
+#: modules/scanner/folder_scanner.cpp:172
+#, fuzzy
+msgid "Read inside ZIP-/TAR-archives"
+msgstr "Binnen ZIP-bestanden zoeken"
+
+#: modules/scanner/folder_scanner.cpp:183
+msgid "Read (ID3)-tags"
+msgstr "Lees (ID3)-tags"
+
+#: modules/scanner/folder_scanner.cpp:190
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgstr "Pad en bestandpatroon voor bestandinformatie, wanneer (ID3-)Tags ontbreken:"
+
+#: modules/scanner/folder_scanner.cpp:406
+msgid "Read files and folders"
+msgstr "Bestanden en mappen lezen"
+
+#: modules/scanner/folder_scanner.cpp:408
+msgid "Add a folder to search for music-files"
+msgstr "Map met muziekbestanden toevoegen"
+
+#: modules/scanner/folder_scanner.cpp:411
+msgid "Add a single music-file"
+msgstr "één muziekbestand toevoegen"
+
+# This string is eg. added to disabled sources
+#: modules/scanner/folder_scanner.cpp:613
+#: modules/scanner/server_scanner.cpp:226
+msgid "Disabled"
+msgstr "Uitgeschakeld"
+
+# If "Include folder to the update process" is disabled, this hint is shown in brackets in the list of sources in the "My music" dialog.
+#: modules/scanner/folder_scanner.cpp:617
+#: modules/scanner/server_scanner.cpp:231
+msgid "No update"
+msgstr "Niet bijwerken"
+
+# %s will be replaced by the name of a source, eg. a folder, a file or an URL
+#: modules/scanner/folder_scanner.cpp:633
+#: modules/scanner/server_scanner.cpp:182
+#, c-format
+msgid "Remove \"%s\" from the music library?"
+msgstr "\"%s\" uit het muziekarchief verwijderen?"
+
+#: modules/scanner/folder_scanner.cpp:657
+msgid "Select a folder with music-files"
+msgstr "Map met muziekbestanden selecteren"
+
+#: modules/scanner/folder_scanner.cpp:672
+msgid "Select music-file"
+msgstr "Muziekbestand selecteren"
+
+#: modules/scanner/folder_scanner.cpp:837
+msgid "Unknown track"
+msgstr "Onbekende track"
+
+#: modules/scanner/folder_scanner.cpp:842
+msgid "Unknown artist"
+msgstr "Onbekende artiest"
+
+#: modules/scanner/server_scanner_config.cpp:52
+#: modules/scanner/server_scanner.cpp:55
+msgid "Add a server containing music-files"
+msgstr "Server met muziekbestanden toevoegen"
+
+#: modules/scanner/server_scanner_config.cpp:78
+#: modules/scanner/server_scanner_config.cpp:82
+msgid "Use server:"
+msgstr "Server gebruiken:"
+
+#: modules/scanner/server_scanner_config.cpp:92
+msgid "Server:"
+msgstr "Server:"
+
+#: modules/scanner/server_scanner_config.cpp:98
+msgid "Type"
+msgstr "Type"
+
+#: modules/scanner/server_scanner_config.cpp:106
+msgid "Login name:"
+msgstr "Loginnaam:"
+
+#: modules/scanner/server_scanner_config.cpp:120
+msgid "Include server to the update process"
+msgstr "Server meenemen in het bijwerken van het muziekarchief"
+
+# The first %i will be replaced by the current day number in the evaluation period, the second %i will be replaced by the total number of days of the evaluation period (currently 14).
+#: modules/helpnabout/help.cpp:340
+#, c-format
+msgid "You are on day %i of the %i-days testing period."
+msgstr "Dit is dag %i  van totaal %i dagen van uw testperiode."
+
+# This string is shown as a link the the "About" dialog.
+#: modules/helpnabout/help.cpp:366
+msgid "Enter licence key now..."
+msgstr "Toets uw licentie code in..."
+
+#: modules/helpnabout/help.cpp:550
+msgid "Help-system"
+msgstr "Helpsysteem"
+
+#: modules/fx/fx_setup.cpp:34
+msgid "Setup"
+msgstr "Setup"
+
+#: modules/fx/fx_setup.cpp:42
+msgid "Show the following effects:"
+msgstr "Toon de volgende effecten:"
+
+#: modules/fx/fx_setup.cpp:85
+msgid ""
+"To install further effects, just copy the\n"
+"VST-plugins to one of the search paths."
+msgstr ""
+"Om overige effecten te installeren, kopier de \n"
+" VST-plugins naar een van de zoekpaden."
+
+#: modules/fx/fx_config_page.cpp:123
+#, c-format
+msgid "FX settings for %s :"
+msgstr "Effecten instellingen voor %s"
+
+#: modules/fx/fx_config_page.cpp:133
+msgid "Normal playback"
+msgstr "Normaal afspelen"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#: modules/fx/fx_config_page.cpp:323
+#, c-format
+msgid "Enable %s"
+msgstr "%s inschakelen"
+
+# %i will be replaced by the number of characters
+#: modules/fx/fx_config_page.cpp:542
+#: modules/fx/fx_config_page.cpp:638
+#, c-format
+msgid "%s parameters"
+msgstr "%s parameters"
+
+#: modules/fx/fx_config_page.cpp:543
+#: modules/fx/fx_config_page.cpp:648
+#: modules/fx/fx_config_page.cpp:663
+#, c-format
+msgid "Load %s"
+msgstr "%s laden"
+
+#: modules/fx/fx_config_page.cpp:544
+#: modules/fx/fx_config_page.cpp:657
+#: modules/fx/fx_config_page.cpp:667
+#, c-format
+msgid "Save %s"
+msgstr "%s opslaan"
+
+#: modules/fx/fx_config_page.cpp:559
+#, c-format
+msgid "%s priority"
+msgstr "%s prioriteit"
+
+#: modules/fx/fx_config_page.cpp:583
+msgid "Load all"
+msgstr "Alles laden"
+
+#: modules/fx/fx_config_page.cpp:584
+msgid "Save all"
+msgstr "Alles opslaan"
+
+#~ msgid "Start visualization/karaoke prompt"
+#~ msgstr "Start visualisatie/karaoke prompt"
+
+#~ msgid "Stop visualization/karaoke prompt"
+#~ msgstr "Stop visualisatie/karaoke prompt"
+
+#~ msgid "Drag'n'drop"
+#~ msgstr "Drag'n'Drop"
+
+#~ msgid "Start visualization after %i minutes of inactivity"
+#~ msgstr "Start visualisering na %i minuten geen activiteit"
+
+#~ msgid "Password not set."
+#~ msgstr "Password niet ingesteld"
+
+#~ msgid "Karaoke, Vis. etc"
+#~ msgstr "Karaoke, Vis, etc."
+
+#~ msgid "Visualization/Karaoke Prompt"
+#~ msgstr "Visualisatie/karaoke prompt"
+
+#~ msgid "Please close the \"%s\" configuration window before continuing."
+#~ msgstr "Sluit het \"%s\" instellingen scherm voordat u verder gaat."
