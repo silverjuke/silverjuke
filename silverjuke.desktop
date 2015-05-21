@@ -10,4 +10,5 @@ Keywords=player;mp3;audio;cd;podcast;playlist;karaoke;kiosk mode;musicbox;party;
 Keywords[de]=abspieler;mp3;audio;cd;podcast;playlist;karaoke;kiosk modus;musicbox;party;
 TryExec=silverjuke
 Exec=silverjuke
+Icon=silverjuke
 Categories=AudioVideo;Audio;Player;Music

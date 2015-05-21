@@ -27,6 +27,15 @@ dist_doc_DATA = \
 desktopdir = $(datadir)/applications
 dist_desktop_DATA = silverjuke.desktop
 
+iconsdatadir = $(datadir)/icons/hicolor
+icons48dir = $(iconsdatadir)/48x48/apps
+icons64dir = $(iconsdatadir)/64x64/apps
+icons128dir = $(iconsdatadir)/128x128/apps
+
+dist_icons48_DATA = src/sjdata/icons/48x48/silverjuke.png
+dist_icons64_DATA = src/sjdata/icons/64x64/silverjuke.png
+dist_icons128_DATA = src/sjdata/icons/128x128/silverjuke.png
+
 bin_PROGRAMS = silverjuke
 
 silverjuke_SOURCES = \
