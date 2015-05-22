@@ -1,4 +1,9 @@
 
+# This is needed for gettext, it is too much work to rewrite
+# po/Makefile.in.in for a non-recursive approach.
+SUBDIRS = po
+ACLOCAL_AMFLAGS = --install -I m4
+
 AUTOMAKE_OPTIONS = subdir-objects
 
 AM_CPPFLAGS = \

@@ -15,7 +15,10 @@ AC_CONFIG_SRCDIR([src/sjbase/mainapp.cpp])
 # prepare for using automake, `foreign` is needed as we have not used `automake --add-missing`
 # (add [foreign] to AM_INIT_AUTOMAKE to skip ChangeLog, NEWS etc.)
 AM_INIT_AUTOMAKE([no-dependencies foreign])
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([
+	Makefile
+	po/Makefile.in
+])
 
 # Checks for programs
 AC_PROG_CXX
@@ -50,6 +53,11 @@ AC_SUBST(WX_CPPFLAGS)
 AC_SUBST(WX_CXXFLAGS)
 AC_SUBST(WX_LIBS)
 
+# Set up gettext
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.18])
+#AC_DEFINE([GETTEXT_PACKAGE], ["silverjuke"], [Gettext package name.])
+
 # Checks for typedefs, structures, and compiler characteristics.
 #AC_CHECK_HEADER_STDBOOL
 #AC_TYPE_INT32_T
@@ -74,5 +82,3 @@ AC_SUBST(WX_LIBS)
 #AC_CHECK_FUNCS([clock_gettime fdatasync floor ftruncate getcwd gettimeofday localeconv localtime_r memmove memset mkdir munmap pow rint sqrt strchr strerror])
 
 AC_OUTPUT
-
-
