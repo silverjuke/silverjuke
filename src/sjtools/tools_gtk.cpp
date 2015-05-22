@@ -51,7 +51,7 @@ void SjTools::ExploreFile_(const wxString& location__, const wxString& program__
 {
     // convert file to directory
     wxString location = location__;
-    if( !::wxDirExists(location__) )
+    if( !::wxDirExists(location) )
     {
         location = location.BeforeLast(wxT('/'));
     }
@@ -63,15 +63,28 @@ void SjTools::ExploreFile_(const wxString& location__, const wxString& program__
         return;
     }
 
-    wxString xdg_open;
-    if ( wxGetenv(wxT("PATH")) &&
-         wxFindFileInPath(&xdg_open, wxGetenv(wxT("PATH")), wxT("xdg-open")) )
-    {
-		wxString cmd = xdg_open + wxT(" \"") + location + wxT("\"");
-        if( wxExecute(cmd, wxEXEC_ASYNC) == 0 ) { // the window may not be focused, however, this is an issue with the environment, not a problem of Silverjuke
-			wxLogError(_("Cannot execute \"%s\"."), cmd.c_str());
-        }
-    }
+	// create command line
+	wxString cmd;
+	if( program__ == wxT("xdg-open") )
+	{
+		wxString xdg_open;
+		if ( wxGetenv(wxT("PATH")) &&
+			 wxFindFileInPath(&xdg_open, wxGetenv(wxT("PATH")), wxT("xdg-open")) )
+		{
+			cmd = xdg_open + wxT(" \"") + location + wxT("\"");
+		}
+	}
+	else
+	{
+		cmd = program__;
+		cmd.Replace(wxT("<folder>"), location);
+	}
+
+	// execute command
+	if( wxExecute(cmd, wxEXEC_ASYNC) == 0 ) { // the window may not be focused, however, this is an issue with the environment, not a problem of Silverjuke
+		wxLogError(_("Cannot execute \"%s\"."), cmd.c_str());
+		return;
+	}
 }
 
 

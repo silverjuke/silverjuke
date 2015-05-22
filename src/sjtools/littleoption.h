@@ -297,7 +297,6 @@ public:
 	wxString        GetOption               (long i) const;
 	bool            IsOptionChecked         (long i) const;
 	long            IsOptionCheckable       (long i) const;
-	bool            IsOptionEnabled         (long i) const;
 	bool            OnOption                (wxWindow* parent, long i);
 	bool            OnDoubleClick           (wxWindow* parent) { return OnOption(parent, GetOptionCount()-3); }
 	bool            OnDefault               (wxWindow* parent) { return OnOption(parent, 0); }

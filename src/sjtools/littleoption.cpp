@@ -552,11 +552,13 @@ bool SjLittleReadOnly::OnOption(wxWindow* parent, long optionIndex)
 
 
 const wxChar* SjLittleExploreSetting::s_explorePrograms[] = {
-#ifdef __WXMAC__
+#if defined(__WXMAC__)
 	wxT("Finder"),
-#else
+#elif defined(__WXMSW__)
 	wxT("Explore"), /* first is default */
 	wxT("Open"),
+#else
+	wxT("xdg-open"),
 #endif
 	NULL
 };
@@ -656,21 +658,6 @@ long SjLittleExploreSetting::IsOptionCheckable(long i) const
 }
 
 
-bool SjLittleExploreSetting::IsOptionEnabled(long i) const
-{
-	if( i==GetOptionCount()-2 )
-	{
-		// edit...
-		return !IsPredefined(m_value);
-	}
-	else
-	{
-		// other
-		return TRUE;
-	}
-}
-
-
 bool SjLittleExploreSetting::OnOption(wxWindow* parent, long i)
 {
 	if( i>=0 && i<(int)m_options.GetCount() )
@@ -697,7 +684,7 @@ bool SjLittleExploreSetting::OnOption(wxWindow* parent, long i)
 		wxWindowDisabler disabler(parent);
 
 		wxTextEntryDialog textEntry(parent,
-		                            wxString(_("Placeholders:"))+wxT(" <folder>, <file>"),
+		                            wxString(_("Placeholders:"))+wxT(" <folder>"),
 		                            GetName(), m_value);
 		if( textEntry.ShowModal() == wxID_OK )
 		{
