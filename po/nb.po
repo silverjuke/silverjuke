@@ -1,18 +1,15 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Norwegian\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: Silverjuke\n"
+"Report-Msgid-Bugs-To: r10s@b44t.com\n"
 "POT-Creation-Date: 2010-10-04 14:47+0100\n"
 "PO-Revision-Date: 2010-10-04 14:47+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
-"Language-Team: \n"
+"Language-Team: Norwegian Bokmal\n"
+"Language: nb\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Basepath: ..\\..\n"
-"X-Poedit-Language: Norwegian Bokmal\n"
-"X-Poedit-Country: NORWAY\n"
-"X-Poedit-SearchPath-0: .\n"
 
 #: autoctrl.cpp:221
 #: autoctrl.cpp:673
