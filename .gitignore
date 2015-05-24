@@ -35,3 +35,8 @@ Makefile.in
 /configure
 /install-sh
 /missing
+po/*\.gmo
+po/stamp-po
+po/POTFILES
+po/remove-potcdate.sed
+po/*.gmo
