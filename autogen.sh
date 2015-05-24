@@ -1,4 +1,4 @@
 #! /bin/sh
 
-aclocal && automake --gnu --add-missing \
+aclocal --install -I m4 && automake --gnu --add-missing \
 	&& autoconf && ./configure $@
