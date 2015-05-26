@@ -1093,7 +1093,9 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 
 	if( m_dataStat.m_samplerate )
 	{
-		p.Add(_("Samplerate"), SjTools::FormatNumber(m_dataStat.m_samplerate)+wxT(" ")+_("Hz"));
+		p.Add(_("Samplerate"), SjTools::FormatNumber(m_dataStat.m_samplerate)+wxT(" ")+
+		// TRANSLATORS: Abbreviation of "Hertz"
+		_("Hz"));
 	}
 	else
 	{
@@ -1102,7 +1104,9 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 
 	if( m_dataStat.m_bitrate )
 	{
-		p.Add(_("Bitrate"), SjTools::FormatNumber(m_dataStat.m_bitrate)+wxT(" ")+_("bit/s"));
+		p.Add(_("Bitrate"), SjTools::FormatNumber(m_dataStat.m_bitrate)+wxT(" ")+
+		// TRANSLATORS: Abbreviation of "Bits per second"
+		_("bit/s"));
 	}
 	else
 	{

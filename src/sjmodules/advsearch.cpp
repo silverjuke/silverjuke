@@ -901,8 +901,16 @@ SjRuleControls::SjRuleControls(const SjRule& rule__, SjAdvSearchDialog* dialog, 
 		{
 			wxASSERT( m_staticText[1] == NULL );
 			wxString unit;
-			if( m_inputType & INPUTTYPE_UNITS_STATIC_HZ   ) { unit = _("Hz");   }
-			else                                                 { unit = _("bit/s"); }
+			if( m_inputType & INPUTTYPE_UNITS_STATIC_HZ )
+			{
+				// TRANSLATORS: Abbreviation of "Hertz"
+				unit = _("Hz");
+			}
+			else
+			{
+				// TRANSLATORS: Abbreviation of "Bits per second"
+				unit = _("bit/s");
+			}
 			m_staticText[1] = new wxStaticText(dialog, -1, unit);
 			m_sizer1->Add(m_staticText[1], 0, align|wxLEFT, RULE_SPACE);
 		}

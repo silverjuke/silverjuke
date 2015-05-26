@@ -1788,11 +1788,14 @@ void SjListBrowser::DoPaintHeader(wxDC& dc, long x, long y, long w, long h, bool
 		}
 		else if( m_columns[col] == SJ_TI_X_BITRATE )
 		{
+			// TRANSLATORS: Abbreviation of "Bits per second"
 			str = _("bit/s");
 		}
 		else if( m_columns[col] == SJ_TI_X_SAMPLERATE )
 		{
-			str = _("Samplerate") + wxString(wxT("/")) + _("Hz");
+			str = _("Samplerate") + wxString(wxT("/")) +
+			      // TRANSLATORS: Abbreviation of "Hertz"
+			      _("Hz");
 		}
 		else
 		{
