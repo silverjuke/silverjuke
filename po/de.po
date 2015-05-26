@@ -2,9 +2,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-26 22:25+0200\n"
-"PO-Revision-Date: 2011-01-10 22:29+0100\n"
-"Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
+"POT-Creation-Date: 2015-05-26 23:13+0200\n"
+"PO-Revision-Date: 2015-05-26 23:21+0200\n"
+"Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
@@ -211,10 +211,8 @@ msgid "Stop after each track"
 msgstr "Stop nach jedem Titel"
 
 #: src/sjbase/mainframe.cpp:2016 src/sjmodules/accel.cpp:114
-#, fuzzy
-#| msgid "Double click on covers"
 msgid "Double click play tracks at once"
-msgstr "Doppelklick auf Cover"
+msgstr "Doppelklick spielt Titel sofort ab"
 
 #: src/sjbase/mainframe.cpp:2027 src/sjbase/mainframe_menu.cpp:433
 #, fuzzy
@@ -412,7 +410,7 @@ msgstr "Kiosk-Modus"
 
 #: src/sjbase/mainframe_menu.cpp:70
 msgid "Extras"
-msgstr ""
+msgstr "Extras"
 
 #: src/sjbase/mainframe_menu.cpp:73 src/sjbase/mainframe_menu.cpp:90
 #: src/sjmodules/accel.cpp:1074 src/sjmodules/help/help.cpp:78
@@ -420,17 +418,14 @@ msgid "Help"
 msgstr "Hilfe"
 
 #: src/sjbase/mainframe_menu.cpp:101
-#, fuzzy
-#| msgid "Read files and folders"
 msgid "Add folders and files"
-msgstr "Dateien und Ordner lesen"
+msgstr "Ordner und Dateien hinzufügen"
 
 # %s will be replaced by the name of an artist
 #: src/sjbase/mainframe_menu.cpp:173 src/sjmodules/help/help.cpp:178
-#, fuzzy, c-format
-#| msgid "\"%s\" on the web"
+#, c-format
 msgid "%s on the web"
-msgstr "\"%s\" im Internet"
+msgstr "%s im Internet"
 
 #: src/sjbase/mainframe_menu.cpp:174
 msgid "Online help"
@@ -472,10 +467,8 @@ msgid "Queue"
 msgstr "Warteschlange"
 
 #: src/sjbase/mainframe_menu.cpp:457
-#, fuzzy
-#| msgid "Start kiosk mode"
 msgid "Start kiosk mode..."
-msgstr "Kiosk-Modus starten"
+msgstr "Kiosk-Modus starten ..."
 
 #: src/sjbase/mainframe_menu.cpp:526 src/sjmodules/playbacksettings.cpp:1379
 #: src/sjmodules/playbacksettings.cpp:1810
@@ -513,8 +506,6 @@ msgid "Cover editor"
 msgstr "Cover-Editor"
 
 #: src/sjbase/player_base.cpp:86
-#, fuzzy
-#| msgid "Supported file-types"
 msgid "Supported file types"
 msgstr "Unterstützte Dateitypen"
 
@@ -525,10 +516,8 @@ msgid "Default"
 msgstr "Standard"
 
 #: src/sjbase/player_impl_xine.cpp:192
-#, fuzzy
-#| msgid "Devices"
 msgid "Device"
-msgstr "Geräte"
+msgstr "Gerät"
 
 #: src/sjbase/playlist.cpp:620
 msgid "Several artists"
@@ -668,10 +657,8 @@ msgstr "BPM"
 #: src/sjbase/search.cpp:229 src/sjmodules/library.cpp:3970
 #: src/sjmodules/library.cpp:4000 src/sjmodules/library.cpp:4004
 #: src/sjmodules/modulebase.cpp:1385 src/sjmodules/tageditor/tageditor.cpp:409
-#, fuzzy
-#| msgid "My rating"
 msgid "Rating"
-msgstr "Meine Wertung"
+msgstr "Wertung"
 
 #: src/sjbase/search.cpp:230 src/sjmodules/library.cpp:230
 #: src/sjmodules/library.cpp:231 src/sjmodules/library.cpp:232
@@ -939,10 +926,8 @@ msgid "Toggle view"
 msgstr "Ansicht umschalten"
 
 #: src/sjmodules/accel.cpp:94
-#, fuzzy
-#| msgid "Open playlist"
 msgid "Open playlist..."
-msgstr "Wiedergabeliste öffnen"
+msgstr "Wiedergabeliste öffnen ..."
 
 #: src/sjmodules/accel.cpp:95
 msgid "Unqueue marked tracks"
@@ -953,24 +938,20 @@ msgid "Unqueue all but marked tracks"
 msgstr "Alles außer Markierung entfernen"
 
 #: src/sjmodules/accel.cpp:98
-#, fuzzy
-#| msgid "Save playlist"
 msgid "Save playlist..."
-msgstr "Wiedergabeliste speichern"
+msgstr "Wiedergabeliste speichern ..."
 
 #: src/sjmodules/accel.cpp:99 src/sjmodules/accel.cpp:100
 msgid "Paste"
 msgstr "Einfügen"
 
 #: src/sjmodules/accel.cpp:102
-#, fuzzy
-#| msgid "Music selection"
 msgid "Music selection..."
-msgstr "Musikauswahl"
+msgstr "Musikauswahl ..."
 
 #: src/sjmodules/accel.cpp:103
 msgid "Jukebox settings..."
-msgstr ""
+msgstr "Jukebox-Einstellungen ..."
 
 #: src/sjmodules/accel.cpp:104
 msgid "Advanced settings..."
@@ -1003,10 +984,8 @@ msgid "Unqueue tracks"
 msgstr "Titel aus Warteschlange entfernen"
 
 #: src/sjmodules/accel.cpp:120
-#, fuzzy
-#| msgid "Edit tracks/Get info"
 msgid "Edit tracks/Get info..."
-msgstr "Titel bearbeiten/Info"
+msgstr "Titel bearbeiten/Info ..."
 
 #: src/sjmodules/accel.cpp:121 src/sjmodules/kiosk/numpadmenu.cpp:135
 #: src/sjmodules/playbacksettings.cpp:680
@@ -1110,44 +1089,32 @@ msgid "Add credit"
 msgstr "Kredit hinzufügen"
 
 #: src/sjmodules/accel.cpp:172
-#, fuzzy
-#| msgid "Console"
 msgid "Console..."
-msgstr "Konsole"
+msgstr "Konsole ..."
 
 #: src/sjmodules/accel.cpp:185 src/sjmodules/accel.cpp:826
 msgid "Tools"
 msgstr "Extras"
 
 #: src/sjmodules/accel.cpp:194
-#, fuzzy
-#| msgid "Replace"
 msgid "Replace..."
-msgstr "Ersetzen"
+msgstr "Ersetzen ..."
 
 #: src/sjmodules/accel.cpp:195
-#, fuzzy
-#| msgid "Split field"
 msgid "Split field..."
-msgstr "Feld aufteilen"
+msgstr "Feld aufteilen ..."
 
 #: src/sjmodules/accel.cpp:196
-#, fuzzy
-#| msgid "Rename files"
 msgid "Rename files..."
-msgstr "Dateien umbenennen"
+msgstr "Dateien umbenennen ..."
 
 #: src/sjmodules/accel.cpp:197
-#, fuzzy
-#| msgid "Query online database"
 msgid "Query online database..."
-msgstr "Online-Datenbank abfragen"
+msgstr "Online-Datenbank abfragen ..."
 
 #: src/sjmodules/accel.cpp:201
-#, fuzzy
-#| msgid "New music selection"
 msgid "New music selection..."
-msgstr "Neue Musikauswahl"
+msgstr "Neue Musikauswahl ..."
 
 #: src/sjmodules/accel.cpp:202 src/sjtools/console.cpp:364
 #: src/sjtools/console.cpp:555
@@ -1155,32 +1122,24 @@ msgid "Save"
 msgstr "Speichern"
 
 #: src/sjmodules/accel.cpp:203
-#, fuzzy
-#| msgid "Save as"
 msgid "Save as..."
-msgstr "Speichern unter"
+msgstr "Speichern unter ..."
 
 #: src/sjmodules/accel.cpp:204
-#, fuzzy
-#| msgid "Rename"
 msgid "Rename..."
-msgstr "Umbenennen"
+msgstr "Umbenennen ..."
 
 #: src/sjmodules/accel.cpp:206
 msgid "Revert to saved"
 msgstr "Änderungen verwerfen"
 
 #: src/sjmodules/accel.cpp:211
-#, fuzzy
-#| msgid "Open file"
 msgid "Open file..."
-msgstr "Datei öffnen"
+msgstr "Datei öffnen ..."
 
 #: src/sjmodules/accel.cpp:212
-#, fuzzy
-#| msgid "Save cover"
 msgid "Save cover..."
-msgstr "Cover speichern"
+msgstr "Cover speichern ..."
 
 #: src/sjmodules/accel.cpp:213
 msgid "Rotate left"
@@ -1345,10 +1304,8 @@ msgid "Ask before clearing the playlist"
 msgstr "Beim Leeren der Wiedergabeliste nachfragen"
 
 #: src/sjmodules/accel.cpp:860 src/sjmodules/accel.cpp:1430
-#, fuzzy
-#| msgid "Ask before changing my rating"
 msgid "Ask before changing the rating"
-msgstr "Beim Ändern meiner Wertung nachfragen"
+msgstr "Vor dem Ändern der Wertung nachfragen"
 
 #: src/sjmodules/accel.cpp:877 src/sjmodules/basicsettings.cpp:439
 #: src/sjmodules/playbacksettings.cpp:87
@@ -1984,23 +1941,12 @@ msgstr "Bearbeiten..."
 
 # %s will be replaced by the program name, usually "Silverjuke"
 #: src/sjmodules/basicsettings.cpp:522
-#, fuzzy
-#| msgid ""
-#| "Beside several options, you can change the shortcuts to use in %s here. "
-#| "You can\n"
-#| "also define system-wide shortcuts. To modify an option, select the option "
-#| "from the list\n"
-#| "and click on \"Customize\". This page is for experienced users only."
 msgid ""
 "Beside several options, you can change the shortcuts to use here.\n"
 "This page is for experienced users only."
 msgstr ""
-"Neben verschiedenen Optionen können Sie hier die Tastaturbelegung von %s "
-"ändern.\n"
-"Sie können auch systemweite Tastaturkürzel definieren. Um eine Option zu "
-"ändern, wählen\n"
-"Sie sie aus und klicken auf \"Anpassen\". Diese Seite ist erfahreneren "
-"Anwendern vorbehalten."
+"Neben verschiedenen Optionen können Sie hier die Tastaturkürzel ändern.\n"
+"Diese Seite ist erfahreneren Anwendern vorbehalten."
 
 #: src/sjmodules/basicsettings.cpp:527
 msgid "Command or option"
@@ -2484,10 +2430,8 @@ msgid "Maintenance password"
 msgstr "Wartungspasswort"
 
 #: src/sjmodules/kiosk/monitor_overview.cpp:390
-#, fuzzy
-#| msgid "Monitor for"
 msgid "Monitor for main window"
-msgstr "Monitor für"
+msgstr "Monitor für das Hauptfenster"
 
 #: src/sjmodules/kiosk/monitor_overview.cpp:391
 msgid "Monitor vor video screen"
@@ -2812,10 +2756,9 @@ msgstr "Durchschnittl. Wertung: %s"
 
 # %s will be replaced eg. by a number of "+" which represent the user's rating
 #: src/sjmodules/library.cpp:3999 src/sjmodules/library.cpp:4765
-#, fuzzy, c-format
-#| msgid "My rating: %s"
+#, c-format
 msgid "Rating: %s"
-msgstr "Meine Wertung: %s"
+msgstr "Wertung: %s"
 
 # %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4018 src/sjmodules/library.cpp:4077
@@ -2882,16 +2825,12 @@ msgid "Options"
 msgstr "Optionen"
 
 #: src/sjmodules/mymusic.cpp:212
-#, fuzzy
-#| msgid "Currently, the following files are supported:"
 msgid "Currently, the following file types are read:"
-msgstr "Momentan werden die folgenden Dateitypen unterstützt:"
+msgstr "Momentan werden die folgenden Dateitypen gelesen:"
 
 #: src/sjmodules/mymusic.cpp:247
-#, fuzzy
-#| msgid "My music library"
 msgid "Music library"
-msgstr "Mein Musikarchiv"
+msgstr "Musikarchiv"
 
 # %s will be replaced eg. by a module- or a filename
 #: src/sjmodules/mymusic.cpp:600 src/sjmodules/scanner/folder_scanner.cpp:119
@@ -2907,7 +2846,7 @@ msgstr "Optionen..."
 
 #: src/sjmodules/mymusic.cpp:646
 msgid "Jukebox"
-msgstr ""
+msgstr "Jukebox"
 
 #: src/sjmodules/openfiles.cpp:80
 msgid "Please select a playlist, some files or enter a streaming URL"
