@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-24 20:54+0200\n"
+"POT-Creation-Date: 2015-05-26 22:25+0200\n"
 "PO-Revision-Date: 2010-11-14 10:21+0100\n"
 "Last-Translator: Dan Larsen <dvl@privat.dk>\n"
 "Language-Team: Danish\n"
@@ -23,7 +23,7 @@ msgstr "Dvaletilstand deaktiveret."
 msgid "Drag folders with music here."
 msgstr "Træk mapper med musik her."
 
-#: src/sjbase/browser_album.cpp:624 src/sjbase/browser_list.cpp:2100
+#: src/sjbase/browser_album.cpp:624 src/sjbase/browser_list.cpp:2103
 #: src/sjbase/mainframe_menu.cpp:241 src/sjmodules/accel.cpp:91
 msgid "Show covers"
 msgstr "Vis omslag"
@@ -55,22 +55,22 @@ msgstr "Nulstil til standardværdier"
 msgid "Nr."
 msgstr "Nr."
 
-# Abbreviation of "Bits per second"
-#: src/sjbase/browser_list.cpp:1791 src/sjmodules/advsearch.cpp:905
-#: src/sjmodules/tageditor/tageditor.cpp:1105
+#. TRANSLATORS: Abbreviation of "Bits per second"
+#: src/sjbase/browser_list.cpp:1792 src/sjmodules/advsearch.cpp:912
+#: src/sjmodules/tageditor/tageditor.cpp:1109
 msgid "bit/s"
 msgstr "bit/s"
 
-#: src/sjbase/browser_list.cpp:1795 src/sjbase/search.cpp:234
+#: src/sjbase/browser_list.cpp:1796 src/sjbase/search.cpp:234
 #: src/sjmodules/modulebase.cpp:1395
 #: src/sjmodules/tageditor/tageditor.cpp:1096
-#: src/sjmodules/tageditor/tageditor.cpp:1100
+#: src/sjmodules/tageditor/tageditor.cpp:1102
 msgid "Samplerate"
 msgstr "Samplerate"
 
-# Abbreviation of "Hertz"
-#: src/sjbase/browser_list.cpp:1795 src/sjmodules/advsearch.cpp:904
-#: src/sjmodules/tageditor/tageditor.cpp:1096
+#. TRANSLATORS: Abbreviation of "Hertz"
+#: src/sjbase/browser_list.cpp:1798 src/sjmodules/advsearch.cpp:907
+#: src/sjmodules/tageditor/tageditor.cpp:1098
 msgid "Hz"
 msgstr "Hz"
 
@@ -88,12 +88,12 @@ msgid "Recreating music library"
 msgstr "Genskab musikbibliotek"
 
 #: src/sjbase/mainframe.cpp:303 src/sjmodules/library.cpp:348
-#: src/sjmodules/library.cpp:854 src/sjmodules/tageditor/tageditor.cpp:1528
+#: src/sjmodules/library.cpp:854 src/sjmodules/tageditor/tageditor.cpp:1532
 msgid "Updating music library"
 msgstr "Opdater musikbibiotek"
 
 #: src/sjbase/mainframe.cpp:305 src/sjmodules/library.cpp:350
-#: src/sjmodules/tageditor/tageditor.cpp:1530
+#: src/sjmodules/tageditor/tageditor.cpp:1534
 msgid ""
 "If you cancel the update process, your music library may not be up to date.\n"
 "\n"
@@ -148,8 +148,8 @@ msgstr "Kør scriptet \"%s\"?"
 
 #: src/sjbase/mainframe.cpp:1133 src/sjbase/mainframe.cpp:2554
 #: src/sjbase/mainframe.cpp:2956 src/sjmodules/accel.cpp:101
-#: src/sjmodules/advsearch.cpp:1335 src/sjmodules/advsearch.cpp:1833
-#: src/sjmodules/advsearch.cpp:3029 src/sjmodules/kiosk/kiosk.cpp:566
+#: src/sjmodules/advsearch.cpp:1343 src/sjmodules/advsearch.cpp:1841
+#: src/sjmodules/advsearch.cpp:3037 src/sjmodules/kiosk/kiosk.cpp:566
 #: src/sjmodules/kiosk/numpadmenu.cpp:96
 #: src/sjmodules/kiosk/numpadsearch.cpp:35
 msgid "Search"
@@ -272,7 +272,7 @@ msgstr "Gå til \"%s\""
 
 #: src/sjbase/mainframe.cpp:2554 src/sjbase/mainframe_menu.cpp:140
 #: src/sjbase/mainframe_menu.cpp:589 src/sjmodules/accel.cpp:207
-#: src/sjmodules/advsearch.cpp:1338 src/sjmodules/advsearch.cpp:1834
+#: src/sjmodules/advsearch.cpp:1346 src/sjmodules/advsearch.cpp:1842
 #: src/sjmodules/kiosk/numpadmenu.cpp:98
 msgid "End search"
 msgstr "Stop Søgningen"
@@ -308,7 +308,7 @@ msgid "Repeat all/repeat current"
 msgstr "Gentag alle/gentag nuværende"
 
 # %s will be replaced by the name of a music selection
-#: src/sjbase/mainframe.cpp:2952 src/sjmodules/advsearch.cpp:3150
+#: src/sjbase/mainframe.cpp:2952 src/sjmodules/advsearch.cpp:3158
 #, c-format
 msgid "Search in \"%s\""
 msgstr "Søg i \"%s\""
@@ -693,8 +693,8 @@ msgid "Channels"
 msgstr "Kanaler"
 
 #: src/sjbase/search.cpp:235 src/sjmodules/modulebase.cpp:1394
-#: src/sjmodules/tageditor/tageditor.cpp:1105
-#: src/sjmodules/tageditor/tageditor.cpp:1109
+#: src/sjmodules/tageditor/tageditor.cpp:1107
+#: src/sjmodules/tageditor/tageditor.cpp:1113
 msgid "Bitrate"
 msgstr "Bitrate"
 
@@ -745,7 +745,7 @@ msgid "Title/artist/album"
 msgstr "Titel/kunstner/album"
 
 #: src/sjbase/search.cpp:245 src/sjmodules/modulebase.cpp:1398
-#: src/sjmodules/tageditor/tageditor.cpp:1121
+#: src/sjmodules/tageditor/tageditor.cpp:1125
 msgid "File type"
 msgstr "Fil type"
 
@@ -854,7 +854,7 @@ msgstr "Side op"
 msgid "Page down"
 msgstr "Side ned"
 
-#: src/sjmodules/accel.cpp:67 src/sjmodules/advsearch.cpp:1328
+#: src/sjmodules/accel.cpp:67 src/sjmodules/advsearch.cpp:1336
 #: src/sjtools/dialog.cpp:95
 msgid "Menu"
 msgstr "Menu"
@@ -1388,8 +1388,8 @@ msgstr "Ins"
 msgid "Workspace"
 msgstr "Arbejdsfelt"
 
-#: src/sjmodules/accel.cpp:1174 src/sjmodules/advsearch.cpp:1267
-#: src/sjmodules/advsearch.cpp:2342 src/sjmodules/playbacksettings.cpp:1379
+#: src/sjmodules/accel.cpp:1174 src/sjmodules/advsearch.cpp:1275
+#: src/sjmodules/advsearch.cpp:2350 src/sjmodules/playbacksettings.cpp:1379
 #: src/sjmodules/playbacksettings.cpp:1810
 msgid "Music selection"
 msgstr "Musik valg"
@@ -1645,229 +1645,229 @@ msgstr "af"
 msgid "to"
 msgstr "til"
 
-#: src/sjmodules/advsearch.cpp:933
+#: src/sjmodules/advsearch.cpp:941
 msgid "Remove criterion"
 msgstr "Fjern kriteria"
 
-#: src/sjmodules/advsearch.cpp:937
+#: src/sjmodules/advsearch.cpp:945
 msgid "Add criterion"
 msgstr "Tilføj kriteria"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1128
+#: src/sjmodules/advsearch.cpp:1136
 #, c-format
 msgid "Tracks included to \"%s\""
 msgstr "Numre tilføjet till \"%s\""
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1128
+#: src/sjmodules/advsearch.cpp:1136
 #, c-format
 msgid "Tracks excluded from \"%s\""
 msgstr "Numre fjernet fra \"%s\""
 
-#: src/sjmodules/advsearch.cpp:1281
+#: src/sjmodules/advsearch.cpp:1289
 msgid "Saved selections"
 msgstr "Gemte lister"
 
 # The first %s will be replaced with one of "tracks|albums". The second %s will be replaced by one of "all|any|none".
-#: src/sjmodules/advsearch.cpp:1292
+#: src/sjmodules/advsearch.cpp:1300
 #, c-format
 msgid "Search for %s matching %s of the following criteria:"
 msgstr "Søg efter %s matchende %s af følgende kriterier:"
 
 # This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the two values by the pipe character, "|".
-#: src/sjmodules/advsearch.cpp:1293
+#: src/sjmodules/advsearch.cpp:1301
 msgid "tracks|albums"
 msgstr "numrer|album"
 
 # This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the three values by the pipe character, "|".
-#: src/sjmodules/advsearch.cpp:1294
+#: src/sjmodules/advsearch.cpp:1302
 msgid "all|any|none"
 msgstr "Alle|nogen|ingen"
 
-#: src/sjmodules/advsearch.cpp:1341 src/sjmodules/help/help.cpp:97
+#: src/sjmodules/advsearch.cpp:1349 src/sjmodules/help/help.cpp:97
 #: src/sjmodules/kiosk/kiosk.cpp:1808 src/sjmodules/vis/vis_window.cpp:371
 #: src/sjtools/console.cpp:372
 msgid "Close"
 msgstr "Luk"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1566
+#: src/sjmodules/advsearch.cpp:1574
 #, c-format
 msgid "Do you want to save your modifications to the music selection \"%s\"?"
 msgstr "Ønsker du at gemme dine ændringer til musikbiblliotek \"%s\"?"
 
-#: src/sjmodules/advsearch.cpp:1568
+#: src/sjmodules/advsearch.cpp:1576
 msgid "Music selection modified"
 msgstr "Musik bibliotek ændret"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1602
+#: src/sjmodules/advsearch.cpp:1610
 #, c-format
 msgid "Edit music selection \"%s\""
 msgstr "Rediger musik biblotek \"%s\""
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2000
+#: src/sjmodules/advsearch.cpp:2008
 #, c-format
 msgid "Do you really want to delete the music selection \"%s\"?"
 msgstr "Vil du slette musik biblioteket \"%s\"?"
 
-#: src/sjmodules/advsearch.cpp:2002
+#: src/sjmodules/advsearch.cpp:2010
 msgid "Delete music selection"
 msgstr "Slet musik bibliotek"
 
 # %i will be replaced by the number of music selections
-#: src/sjmodules/advsearch.cpp:2006
+#: src/sjmodules/advsearch.cpp:2014
 #, c-format
 msgid "Do you really want to delete the %i selected music selections?"
 msgstr "Vil du virkelig fjerne %i valgte musikbiblotek?"
 
-#: src/sjmodules/advsearch.cpp:2007
+#: src/sjmodules/advsearch.cpp:2015
 msgid "Delete music selections"
 msgstr "Slet musik biblotek"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2068
+#: src/sjmodules/advsearch.cpp:2076
 #, c-format
 msgid "No matches found for \"%s\"."
 msgstr "Intet fundet for \"%s\"."
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2531
+#: src/sjmodules/advsearch.cpp:2539
 #, c-format
 msgid ""
 "Do you want to remove the selected track(s) from the music selection \"%s\"?"
 msgstr "Vil du fjerne de valgte numre fra musik bibloteket \"%s\"?"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2586
+#: src/sjmodules/advsearch.cpp:2594
 #, c-format
 msgid "Do you want to add the selected track(s) to the music selection \"%s\"?"
 msgstr "Ønsker du at tilføje det valgte nummer til musikbiblioteket \"%s\"?"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2750
+#: src/sjmodules/advsearch.cpp:2758
 msgid "70's music"
 msgstr "70's musik"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2754 src/sjmodules/playbacksettings.cpp:1319
+#: src/sjmodules/advsearch.cpp:2762 src/sjmodules/playbacksettings.cpp:1319
 msgid "Worst rated"
 msgstr "Værst bedømt"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2758
+#: src/sjmodules/advsearch.cpp:2766
 msgid "Top rated"
 msgstr "Højeste karakter"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2763
+#: src/sjmodules/advsearch.cpp:2771
 msgid "Top 20"
 msgstr "Top 20"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2768
+#: src/sjmodules/advsearch.cpp:2776
 msgid "Recently played"
 msgstr "Senste spillet"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2772
+#: src/sjmodules/advsearch.cpp:2780
 msgid "Played today"
 msgstr "Spillet i dag"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2776
+#: src/sjmodules/advsearch.cpp:2784
 msgid "Random selection"
 msgstr "Tilfældig valgt"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2780
+#: src/sjmodules/advsearch.cpp:2788
 msgid "Tracks in queue"
 msgstr "Numre i kø"
 
-#: src/sjmodules/advsearch.cpp:2809
+#: src/sjmodules/advsearch.cpp:2817
 msgid "Untitled Music selection"
 msgstr "Unavngivet musik bibliotek"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2992
+#: src/sjmodules/advsearch.cpp:3000
 #, c-format
 msgid "No matches in \"%s\""
 msgstr "Intet fundet i \"%s\""
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2996
+#: src/sjmodules/advsearch.cpp:3004
 #, c-format
 msgid "1 match in \"%s\""
 msgstr "1 fundet i \"%s\""
 
 # The first %s will be replaced by the decima-point-formatted number of matched, the seconds %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:3000
+#: src/sjmodules/advsearch.cpp:3008
 #, c-format
 msgid "%s matches in \"%s\""
 msgstr "%s fundet i \"%s\""
 
-#: src/sjmodules/advsearch.cpp:3007 src/sjmodules/tageditor/freedb.cpp:145
+#: src/sjmodules/advsearch.cpp:3015 src/sjmodules/tageditor/freedb.cpp:145
 #: src/sjmodules/tageditor/freedb.cpp:252
 #: src/sjmodules/tageditor/freedb.cpp:286
 msgid "No matches"
 msgstr "Ingen fundet"
 
-#: src/sjmodules/advsearch.cpp:3011
+#: src/sjmodules/advsearch.cpp:3019
 msgid "1 match"
 msgstr "1 fundet"
 
 # %s will be replaced by a decimal-point-formatted number
-#: src/sjmodules/advsearch.cpp:3015
+#: src/sjmodules/advsearch.cpp:3023
 #, c-format
 msgid "%s matches"
 msgstr "%s fundet"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:3032
+#: src/sjmodules/advsearch.cpp:3040
 msgid "Search single words"
 msgstr "Søg efter enkelt ord"
 
-#: src/sjmodules/advsearch.cpp:3033
+#: src/sjmodules/advsearch.cpp:3041
 msgid "Lookup genre on simple search"
 msgstr "Opslag genre på simpel søgning"
 
-#: src/sjmodules/advsearch.cpp:3034
+#: src/sjmodules/advsearch.cpp:3042
 msgid "Search while typing"
 msgstr "Søg mens der skrives"
 
-#: src/sjmodules/advsearch.cpp:3035
+#: src/sjmodules/advsearch.cpp:3043
 msgid "Save modified music selections"
 msgstr "Gem ændret musik biblotek"
 
 # One option for the setting "Save modified music selections"
-#: src/sjmodules/advsearch.cpp:3035 src/sjmodules/kiosk/password_dlg.cpp:127
+#: src/sjmodules/advsearch.cpp:3043 src/sjmodules/kiosk/password_dlg.cpp:127
 msgid "Ask"
 msgstr "Spørg"
 
-#: src/sjmodules/advsearch.cpp:3035 src/sjtools/console.cpp:568
+#: src/sjmodules/advsearch.cpp:3043 src/sjtools/console.cpp:568
 #: src/sjtools/littleoption.cpp:106 src/sjtools/msgbox.cpp:90
 msgid "Yes"
 msgstr "Ja"
 
-#: src/sjmodules/advsearch.cpp:3035 src/sjmodules/basicsettings.cpp:1040
+#: src/sjmodules/advsearch.cpp:3043 src/sjmodules/basicsettings.cpp:1040
 #: src/sjtools/littleoption.cpp:106 src/sjtools/msgbox.cpp:91
 msgid "No"
 msgstr "Nej"
 
-#: src/sjmodules/advsearch.cpp:3044
+#: src/sjmodules/advsearch.cpp:3052
 msgid "Max. history size"
 msgstr "Maks historiestørrelse"
 
 # The first %s will be replaced by the search text as entered in the simple search field, the second %s will be replaced by the name of a music selection.
-#: src/sjmodules/advsearch.cpp:3154
+#: src/sjmodules/advsearch.cpp:3162
 #, c-format
 msgid "Search for \"%s\" in \"%s\""
 msgstr "Søg efter \"%s\" i \"%s\""
 
 # %s will be replaced by the search text as entered in the simple search field
-#: src/sjmodules/advsearch.cpp:3162
+#: src/sjmodules/advsearch.cpp:3170
 #, c-format
 msgid "Search for \"%s\""
 msgstr "Søg efter \"%s\""
@@ -3194,7 +3194,7 @@ msgid "Error %i"
 msgstr "Fejl %i"
 
 #: src/sjmodules/tageditor/tageditor.cpp:145
-#: src/sjmodules/tageditor/tageditor.cpp:1857
+#: src/sjmodules/tageditor/tageditor.cpp:1861
 msgid "Edit track"
 msgstr "Rediger nummer"
 
@@ -3231,25 +3231,25 @@ msgstr ""
 msgid "Track"
 msgstr "Nummer"
 
-#: src/sjmodules/tageditor/tageditor.cpp:1118
+#: src/sjmodules/tageditor/tageditor.cpp:1122
 msgid "Further information"
 msgstr "Yderlig information"
 
-#: src/sjmodules/tageditor/tageditor.cpp:1137 src/sjtools/temp_n_cache.cpp:407
+#: src/sjmodules/tageditor/tageditor.cpp:1141 src/sjtools/temp_n_cache.cpp:407
 msgid "Temporary directory"
 msgstr "Midlertidlig mappe"
 
-#: src/sjmodules/tageditor/tageditor.cpp:1144
+#: src/sjmodules/tageditor/tageditor.cpp:1148
 msgid "Further information..."
 msgstr "Yderlig information..."
 
 # The first %s will be replaced by the source file name, the second %s will be replaced by the destination file name
-#: src/sjmodules/tageditor/tageditor.cpp:1794
+#: src/sjmodules/tageditor/tageditor.cpp:1798
 #, c-format
 msgid "Cannot rename \"%s\" to \"%s\"."
 msgstr "Kan ikke omdøbe \"%s\" til \"%s\"."
 
-#: src/sjmodules/tageditor/tageditor.cpp:1978
+#: src/sjmodules/tageditor/tageditor.cpp:1982
 msgid "Server name"
 msgstr "Server navn"
 
