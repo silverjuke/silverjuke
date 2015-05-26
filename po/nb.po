@@ -1046,7 +1046,7 @@ msgid "Mute"
 msgstr "Demp"
 
 #: src/sjmodules/accel.cpp:136
-msgid "Reaload skin"
+msgid "Reload skin"
 msgstr "Last inn utseende"
 
 #: src/sjmodules/accel.cpp:138 src/sjmodules/vis/vis_karaoke_module.cpp:810

@@ -133,7 +133,7 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Mute"),                           IDT_MAIN_VOL_MUTE,         SJA_MAIN);
 	OrgCmd(_("Shuffle"),                        IDT_SHUFFLE,               SJA_MAIN);
 	OrgCmd(_("Repeat playlist"),                IDT_REPEAT,                SJA_MAIN);
-	OrgCmd(_("Reaload skin"),                   IDO_DEBUGSKIN_RELOAD,      SJA_MAIN);        OrgKey(wxACCEL_CTRL|wxACCEL_SHIFT, 'R');
+	OrgCmd(_("Reload skin"),                    IDO_DEBUGSKIN_RELOAD,      SJA_MAIN);        OrgKey(wxACCEL_CTRL|wxACCEL_SHIFT, 'R');
 	OrgCmd(_("Video screen"),                   IDT_START_VIS,             SJA_MAIN);        OrgKey(0, WXK_F2);
 	OrgCmd(_("Smooth"),                         IDO_SMOOTH,                SJA_MAIN|SJA_ART);
 	OrgCmd(_("Toggle time mode"),               IDT_TOGGLE_TIME_MODE,      SJA_MAIN);

@@ -1058,7 +1058,7 @@ msgid "Mute"
 msgstr "Ton aus"
 
 #: src/sjmodules/accel.cpp:136
-msgid "Reaload skin"
+msgid "Reload skin"
 msgstr "Skin neu laden"
 
 #: src/sjmodules/accel.cpp:138 src/sjmodules/vis/vis_karaoke_module.cpp:810
