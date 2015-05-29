@@ -2079,8 +2079,11 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					if(  m_player.m_queue.GetCount() > 1 )
 					{
 						// wxWindowDisabler disabler(this); -- done by YesNo()
-						if( g_accelModule->YesNo(wxString::Format(_("Remove all %i tracks from the queue and stop playback?"), (int)m_player.m_queue.GetCount()),
-						                         _("Clear playlist"), this, SJ_ACCEL_ASK_ON_CLEAR_PLAYLIST) != wxYES )
+						if( g_accelModule->YesNo(wxString::Format(
+						  // TRANSLATORS: %i will be replaced by the number of tracks
+						  wxPLURAL("Remove %i track from the queue and stop playback?", "Remove %i tracks from the queue and stop playback?", m_player.m_queue.GetCount()),
+						  (int)m_player.m_queue.GetCount()),
+						  _("Clear playlist"), this, SJ_ACCEL_ASK_ON_CLEAR_PLAYLIST) != wxYES )
 						{
 							doClear = FALSE;
 						}
