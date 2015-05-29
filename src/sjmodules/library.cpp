@@ -3805,16 +3805,25 @@ void SjLibraryModule::UpdateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool upd
 		if( g_mainFrame->IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 		{
 			enqueueMenu->Enable(IDT_ENQUEUE_NOW, TRUE);
-			enqueueMenu->SetLabel(IDT_ENQUEUE_NOW, wxString::Format(_("Play %i tracks now"), (int)trackCount));
+			enqueueMenu->SetLabel(IDT_ENQUEUE_NOW, wxString::Format(
+			  // TRANSLATORS: %i will be replaced by the number of tracks
+			  wxPLURAL("Play %i track now", "Play %i tracks now", trackCount),
+			  (int)trackCount));
 
 			enqueueMenu->Enable(IDT_ENQUEUE_NEXT, TRUE);
-			enqueueMenu->SetLabel(IDT_ENQUEUE_NEXT, wxString::Format(_("Play %i tracks next"), (int)trackCount));
+			enqueueMenu->SetLabel(IDT_ENQUEUE_NEXT, wxString::Format(
+			  // TRANSLATORS: %i will be replaced by the number of tracks
+			  wxPLURAL("Play %i track next", "Play %i tracks next", trackCount),
+			  (int)trackCount));
 		}
 
 		if( enqueuedCount>0 && g_mainFrame->IsOpAvailable(SJ_OP_UNQUEUE) )
 		{
 			enqueueMenu->Enable(IDT_UNQUEUE, TRUE);
-			enqueueMenu->SetLabel(IDT_UNQUEUE, wxString::Format(_("Unqueue %i tracks"), (int)enqueuedCount));
+			enqueueMenu->SetLabel(IDT_UNQUEUE, wxString::Format(
+			  // TRANSLATORS: %i will be replaced by the number of tracks
+			  wxPLURAL("Unqueue %i track", "Unqueue %i tracks", enqueuedCount),
+			  (int)enqueuedCount));
 		}
 	}
 
