@@ -2998,7 +2998,6 @@ msgstr ""
 "Små variasjoner gir små variasjoner i køen, mens store verdier \n"
 "lager store variasjoner."
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1172
 #, fuzzy, c-format
@@ -3008,7 +3007,6 @@ msgid_plural "Kiosk mode: Allow max. %i tracks waiting in queue"
 msgstr[0] "Ha maks. %i spor i køen"
 msgstr[1] "Ha maks. %i spor i køen"
 
-# %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1181
 #, fuzzy
 #| msgid "Avoid double tracks waiting in queue"
@@ -3881,7 +3879,6 @@ msgstr ","
 msgid "."
 msgstr "."
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjtools/tools.cpp:1381
 #, fuzzy, c-format

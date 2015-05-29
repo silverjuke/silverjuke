@@ -3051,7 +3051,6 @@ msgstr ""
 "Une valeur faible engendre des petites variations dans la playlist,\n"
 "une valeur importante des variations plus conséquentes."
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1172
 #, fuzzy, c-format
@@ -3973,7 +3972,6 @@ msgstr "."
 msgid "."
 msgstr ","
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjtools/tools.cpp:1381
 #, fuzzy, c-format

@@ -2994,7 +2994,6 @@ msgstr ""
 "nehraných skladeb),\n"
 "zatímco velká hodnota vytváří velké variace."
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1172
 #, fuzzy, c-format
@@ -3873,7 +3872,6 @@ msgstr ","
 msgid "."
 msgstr "."
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjtools/tools.cpp:1381
 #, fuzzy, c-format

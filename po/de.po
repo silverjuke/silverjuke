@@ -2965,7 +2965,6 @@ msgstr ""
 "große Werte\n"
 "bewirken starke Änderungen."
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1172
 #, fuzzy, c-format
@@ -2975,7 +2974,6 @@ msgid_plural "Kiosk mode: Allow max. %i tracks waiting in queue"
 msgstr[0] "Max. %i Titel in Warteschlange zulassen"
 msgstr[1] "Max. %i Titel in Warteschlange zulassen"
 
-# %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1181
 #, fuzzy
 #| msgid "Avoid double tracks waiting in queue"
@@ -3864,7 +3862,6 @@ msgstr "."
 msgid "."
 msgstr ","
 
-# %i will be replaced by a number
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjtools/tools.cpp:1381
 #, c-format
