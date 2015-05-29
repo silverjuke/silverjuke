@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.1\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:09+0200\n"
+"POT-Creation-Date: 2015-05-29 23:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -396,8 +396,7 @@ msgstr ""
 #: src/sjbase/mainframe_menu.cpp:67 src/sjmodules/accel.cpp:146
 #: src/sjmodules/kiosk/kiosk.cpp:750 src/sjmodules/kiosk/kiosk.cpp:755
 #: src/sjmodules/kiosk/kiosk.cpp:1733 src/sjmodules/kiosk/kiosk.cpp:1939
-#: src/sjmodules/kiosk/kiosk.cpp:2539 src/sjmodules/playbacksettings.cpp:1171
-#: src/sjmodules/playbacksettings.cpp:1179
+#: src/sjmodules/kiosk/kiosk.cpp:2539
 msgid "Kiosk mode"
 msgstr ""
 
@@ -2808,11 +2807,11 @@ msgstr ""
 
 #: src/sjmodules/playbacksettings.cpp:1171
 #, c-format
-msgid "Allow max. %i tracks waiting in queue"
+msgid "Kiosk mode: Allow max. %i tracks waiting in queue"
 msgstr ""
 
 #: src/sjmodules/playbacksettings.cpp:1179
-msgid "Avoid double tracks waiting in queue"
+msgid "Kiosk mode: Avoid double tracks waiting in queue"
 msgstr ""
 
 #: src/sjmodules/playbacksettings.cpp:1197

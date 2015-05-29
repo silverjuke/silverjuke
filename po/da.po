@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:09+0200\n"
+"POT-Creation-Date: 2015-05-29 23:22+0200\n"
 "PO-Revision-Date: 2010-11-14 10:21+0100\n"
 "Last-Translator: Dan Larsen <dvl@privat.dk>\n"
 "Language-Team: Danish\n"
@@ -403,8 +403,7 @@ msgstr "Afspilning"
 #: src/sjbase/mainframe_menu.cpp:67 src/sjmodules/accel.cpp:146
 #: src/sjmodules/kiosk/kiosk.cpp:750 src/sjmodules/kiosk/kiosk.cpp:755
 #: src/sjmodules/kiosk/kiosk.cpp:1733 src/sjmodules/kiosk/kiosk.cpp:1939
-#: src/sjmodules/kiosk/kiosk.cpp:2539 src/sjmodules/playbacksettings.cpp:1171
-#: src/sjmodules/playbacksettings.cpp:1179
+#: src/sjmodules/kiosk/kiosk.cpp:2539
 msgid "Kiosk mode"
 msgstr "Kiosk"
 
@@ -2998,13 +2997,16 @@ msgstr ""
 
 # %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1171
-#, c-format
-msgid "Allow max. %i tracks waiting in queue"
+#, fuzzy, c-format
+#| msgid "Allow max. %i tracks waiting in queue"
+msgid "Kiosk mode: Allow max. %i tracks waiting in queue"
 msgstr "Tillad maks. %i numre i køen"
 
 # %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1179
-msgid "Avoid double tracks waiting in queue"
+#, fuzzy
+#| msgid "Avoid double tracks waiting in queue"
+msgid "Kiosk mode: Avoid double tracks waiting in queue"
 msgstr "Undgå at samme nummer er i køen mere end 1 gang"
 
 # %i will be replaced by a control to select the number of minutes
