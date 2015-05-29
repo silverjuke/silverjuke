@@ -237,7 +237,6 @@ msgstr "Más sobre el artista actual"
 msgid "No more tracks."
 msgstr "No más pistas."
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjbase/mainframe.cpp:2084
 #, fuzzy, c-format
@@ -2752,7 +2751,6 @@ msgstr "Reproducir \"%s\" siguiente"
 msgid "Unqueue \"%s\""
 msgstr "Quitar de la lista \"%s\""
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
 #, fuzzy, c-format
@@ -2762,7 +2760,6 @@ msgid_plural "Enqueue %i tracks"
 msgstr[0] "Añadir a la lista la/s %i pista/s"
 msgstr[1] "Añadir a la lista la/s %i pista/s"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3810
 #, fuzzy, c-format
@@ -2772,7 +2769,6 @@ msgid_plural "Play %i tracks now"
 msgstr[0] "Reproducir la/s %i  pista/s ahora"
 msgstr[1] "Reproducir la/s %i  pista/s ahora"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3816
 #, fuzzy, c-format
@@ -2782,7 +2778,6 @@ msgid_plural "Play %i tracks next"
 msgstr[0] "Reproducir la/s %i  pista/s siguientes"
 msgstr[1] "Reproducir la/s %i  pista/s siguientes"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3825
 #, fuzzy, c-format
@@ -2812,7 +2807,6 @@ msgstr "Porcentaje de valoración: %s"
 msgid "Rating: %s"
 msgstr "Mi valoración: %s"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4033 src/sjmodules/library.cpp:4095
 #, fuzzy, c-format

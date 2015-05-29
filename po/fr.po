@@ -239,7 +239,6 @@ msgstr "Davantage sur l'artiste en cours"
 msgid "No more tracks."
 msgstr "Pas davantage de titres"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjbase/mainframe.cpp:2084
 #, fuzzy, c-format
@@ -2289,7 +2288,6 @@ msgstr "Editer la playlist"
 msgid "Toggle elements"
 msgstr ""
 
-# %i will be replaced by the number of tracks
 #: src/sjmodules/kiosk/kiosk.cpp:584
 msgid "Enqueue multiple tracks"
 msgstr ""
@@ -2780,7 +2778,6 @@ msgstr "Lire \"%s\" après le titre en cours"
 msgid "Unqueue \"%s\""
 msgstr "Supprimer \"%s\" de la playlist"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
 #, fuzzy, c-format
@@ -2790,7 +2787,6 @@ msgid_plural "Enqueue %i tracks"
 msgstr[0] "%i à ajouter à la playlist"
 msgstr[1] "%i à ajouter à la playlist"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3810
 #, fuzzy, c-format
@@ -2800,7 +2796,6 @@ msgid_plural "Play %i tracks now"
 msgstr[0] "Lire %i titres maintenant"
 msgstr[1] "Lire %i titres maintenant"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3816
 #, fuzzy, c-format
@@ -2810,7 +2805,6 @@ msgid_plural "Play %i tracks next"
 msgstr[0] "Lire %i titres après celui en cours"
 msgstr[1] "Lire %i titres après celui en cours"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3825
 #, fuzzy, c-format
@@ -2840,7 +2834,6 @@ msgstr "Note moyenne: %s"
 msgid "Rating: %s"
 msgstr "Ma notation: %s"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4033 src/sjmodules/library.cpp:4095
 #, fuzzy, c-format

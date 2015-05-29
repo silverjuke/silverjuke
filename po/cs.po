@@ -237,7 +237,6 @@ msgstr "Více z aktuálního interpreta"
 msgid "No more tracks."
 msgstr "Žádné další skladby."
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjbase/mainframe.cpp:2084
 #, fuzzy, c-format
@@ -2722,7 +2721,6 @@ msgstr "Přehrát \"%s\" jako další v pořadí"
 msgid "Unqueue \"%s\""
 msgstr "Unqueue \"%s\""
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
 #, fuzzy, c-format
@@ -2732,7 +2730,6 @@ msgid_plural "Enqueue %i tracks"
 msgstr[0] "Zařadít %i skladby"
 msgstr[1] "Zařadít %i skladby"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3810
 #, fuzzy, c-format
@@ -2743,7 +2740,6 @@ msgstr[0] "Přehrát %i skladby okamžitě"
 msgstr[1] "Přehrát %i skladby okamžitě"
 msgstr[2] "Přehrát %i skladby okamžitě"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3816
 #, fuzzy, c-format
@@ -2754,7 +2750,6 @@ msgstr[0] "Přehrát %i skladby jako další"
 msgstr[1] "Přehrát %i skladby jako další"
 msgstr[2] "Přehrát %i skladby jako další"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3825
 #, fuzzy, c-format

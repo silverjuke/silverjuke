@@ -237,7 +237,6 @@ msgstr "Mer fra denne artisten"
 msgid "No more tracks."
 msgstr "Ingen flere spor"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjbase/mainframe.cpp:2084
 #, fuzzy, c-format
@@ -2261,7 +2260,6 @@ msgstr "Rediger køen"
 msgid "Toggle elements"
 msgstr "Slå av og på elementer"
 
-# %i will be replaced by the number of tracks
 #: src/sjmodules/kiosk/kiosk.cpp:584
 msgid "Enqueue multiple tracks"
 msgstr "Legg til flere spor i kø"
@@ -2739,7 +2737,6 @@ msgstr "Spill \"%s\" som neste"
 msgid "Unqueue \"%s\""
 msgstr "Fjern \"%s\""
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
 #, fuzzy, c-format
@@ -2749,7 +2746,6 @@ msgid_plural "Enqueue %i tracks"
 msgstr[0] "Legg til %i spor"
 msgstr[1] "Legg til %i spor"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3810
 #, fuzzy, c-format
@@ -2759,7 +2755,6 @@ msgid_plural "Play %i tracks now"
 msgstr[0] "Spill %i spor nå"
 msgstr[1] "Spill %i spor nå"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3816
 #, fuzzy, c-format
@@ -2769,7 +2764,6 @@ msgid_plural "Play %i tracks next"
 msgstr[0] "Spill %i som neste"
 msgstr[1] "Spill %i som neste"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3825
 #, fuzzy, c-format
@@ -2799,7 +2793,6 @@ msgstr "Gjennomsnittelig karakter: %s"
 msgid "Rating: %s"
 msgstr "Mine karakterer: %s"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4033 src/sjmodules/library.cpp:4095
 #, fuzzy, c-format

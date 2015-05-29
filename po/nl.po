@@ -239,7 +239,6 @@ msgstr "Meer van huidige artiest"
 msgid "No more tracks."
 msgstr "Geen tracks meer"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjbase/mainframe.cpp:2084
 #, fuzzy, c-format
@@ -2276,7 +2275,6 @@ msgstr "Afspeellijst wijzigen"
 msgid "Toggle elements"
 msgstr ""
 
-# %i will be replaced by the number of tracks
 #: src/sjmodules/kiosk/kiosk.cpp:584
 msgid "Enqueue multiple tracks"
 msgstr "Meerdere tracks in de afspeellijst plaatsen"
@@ -2769,7 +2767,6 @@ msgstr "\"%s\" als eerstvolgende afspelen"
 msgid "Unqueue \"%s\""
 msgstr "\"%s\" uit afspeellijst verwijderen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
 #, fuzzy, c-format
@@ -2779,7 +2776,6 @@ msgid_plural "Enqueue %i tracks"
 msgstr[0] "%i Tracks in afspeellijst plaatsen"
 msgstr[1] "%i Tracks in afspeellijst plaatsen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3810
 #, fuzzy, c-format
@@ -2789,7 +2785,6 @@ msgid_plural "Play %i tracks now"
 msgstr[0] "%i Tracks nu afspelen"
 msgstr[1] "%i Tracks nu afspelen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3816
 #, fuzzy, c-format
@@ -2799,7 +2794,6 @@ msgid_plural "Play %i tracks next"
 msgstr[0] "%i Tracks als eerstvolgende afspelen"
 msgstr[1] "%i Tracks als eerstvolgende afspelen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3825
 #, fuzzy, c-format
@@ -2829,7 +2823,6 @@ msgstr "Gemiddelde waardering: %s"
 msgid "Rating: %s"
 msgstr "Mijn waardering: %s"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4033 src/sjmodules/library.cpp:4095
 #, fuzzy, c-format

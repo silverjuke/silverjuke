@@ -237,7 +237,6 @@ msgstr "Mehr vom aktuellen Künstler"
 msgid "No more tracks."
 msgstr "Keine weiteren Titel."
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjbase/mainframe.cpp:2084
 #, fuzzy, c-format
@@ -2221,7 +2220,6 @@ msgstr "Wiedergabeliste ändern"
 msgid "Toggle elements"
 msgstr "Elemente ein-/ausblenden"
 
-# %i will be replaced by the number of tracks
 #: src/sjmodules/kiosk/kiosk.cpp:584
 msgid "Enqueue multiple tracks"
 msgstr "Mehrere Titel einstellen"
@@ -2714,7 +2712,6 @@ msgstr "\"%s\" als nächstes spielen"
 msgid "Unqueue \"%s\""
 msgstr "\"%s\" aus Warteschlange entfernen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
 #, fuzzy, c-format
@@ -2724,7 +2721,6 @@ msgid_plural "Enqueue %i tracks"
 msgstr[0] "%i Titel in Warteschlange stellen"
 msgstr[1] "%i Titel in Warteschlange stellen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3810
 #, fuzzy, c-format
@@ -2734,7 +2730,6 @@ msgid_plural "Play %i tracks now"
 msgstr[0] "%i Titel jetzt spielen"
 msgstr[1] "%i Titel jetzt spielen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3816
 #, fuzzy, c-format
@@ -2744,7 +2739,6 @@ msgid_plural "Play %i tracks next"
 msgstr[0] "%i Titel als nächstes spielen"
 msgstr[1] "%i Titel als nächstes spielen"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3825
 #, fuzzy, c-format
@@ -2773,7 +2767,6 @@ msgstr "Durchschnittl. Wertung: %s"
 msgid "Rating: %s"
 msgstr "Wertung: %s"
 
-# %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4033 src/sjmodules/library.cpp:4095
 #, fuzzy, c-format
