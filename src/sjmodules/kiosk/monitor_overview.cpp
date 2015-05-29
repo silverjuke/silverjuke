@@ -387,8 +387,8 @@ void SjMonitorOverview::OnContextMenu(int x, int y)
 	{
 		SjMenu menu(0);
 
-		menu.AppendCheckItem(IDC_FOR_MAIN, _("Monitor for main window"));
-		menu.AppendCheckItem(IDC_FOR_VIS, _("Monitor vor video screen"));
+		menu.AppendCheckItem(IDC_FOR_MAIN, _("Main window"));
+		menu.AppendCheckItem(IDC_FOR_VIS, _("Video screen"));
 
 		long monitorUsage =  m_monitors[m_affectedIndex].m_monitorUsage;
 		if( monitorUsage & MONITOR_USAGE_DUMMY )
