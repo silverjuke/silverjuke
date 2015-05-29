@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 22:15+0200\n"
+"POT-Creation-Date: 2015-05-29 22:37+0200\n"
 "PO-Revision-Date: 2010-10-04 14:44+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Spanish\n"
@@ -287,7 +287,7 @@ msgstr "botón derecho para opciones"
 msgid "Volume"
 msgstr "Volumen"
 
-#: src/sjbase/mainframe.cpp:2518 src/sjmodules/library.cpp:4463
+#: src/sjbase/mainframe.cpp:2518 src/sjmodules/library.cpp:4472
 msgid "Double-click to enlarge the cover"
 msgstr "Doble clic para ampliar carátula"
 
@@ -660,8 +660,8 @@ msgstr "Comentario"
 msgid "BPM"
 msgstr "BPM"
 
-#: src/sjbase/search.cpp:229 src/sjmodules/library.cpp:3974
-#: src/sjmodules/library.cpp:4004 src/sjmodules/library.cpp:4008
+#: src/sjbase/search.cpp:229 src/sjmodules/library.cpp:3983
+#: src/sjmodules/library.cpp:4013 src/sjmodules/library.cpp:4017
 #: src/sjmodules/modulebase.cpp:1385 src/sjmodules/tageditor/tageditor.cpp:409
 #, fuzzy
 #| msgid "My rating"
@@ -722,13 +722,13 @@ msgstr "Fecha de añadido"
 msgid "Date modified"
 msgstr "Fecha de modificación"
 
-#: src/sjbase/search.cpp:240 src/sjmodules/library.cpp:4775
+#: src/sjbase/search.cpp:240 src/sjmodules/library.cpp:4784
 #: src/sjmodules/modulebase.cpp:1391
 #: src/sjmodules/tageditor/tageditor.cpp:1041
 msgid "Last played"
 msgstr "Última pista escuchada"
 
-#: src/sjbase/search.cpp:241 src/sjmodules/library.cpp:4783
+#: src/sjbase/search.cpp:241 src/sjmodules/library.cpp:4792
 #: src/sjmodules/modulebase.cpp:1392
 #: src/sjmodules/tageditor/tageditor.cpp:1039
 msgid "Play count"
@@ -751,7 +751,7 @@ msgstr "Título/artista/álbum"
 msgid "File type"
 msgstr "Tipo de archivo"
 
-#: src/sjbase/search.cpp:246 src/sjmodules/library.cpp:4792
+#: src/sjbase/search.cpp:246 src/sjmodules/library.cpp:4801
 #: src/sjmodules/modulebase.cpp:1399
 #: src/sjmodules/tageditor/tageditor.cpp:1049
 msgid "Queue position"
@@ -1548,7 +1548,7 @@ msgstr "segundos"
 msgid "days"
 msgstr "días"
 
-#: src/sjmodules/advsearch.cpp:664 src/sjmodules/library.cpp:3971
+#: src/sjmodules/advsearch.cpp:664 src/sjmodules/library.cpp:3980
 #: src/sjmodules/tageditor/tageditor.cpp:425
 msgid "No rating"
 msgstr "Sin valorar"
@@ -2676,7 +2676,7 @@ msgid "Do you want to use the given image as the cover for \"%s\"?"
 msgstr "¿Desea usar la imagen seleccionada como carátula de  \"%s\"?"
 
 #. TRANSLATORS: %s will be replaced by a filename
-#: src/sjmodules/library.cpp:2725 src/sjmodules/library.cpp:4046
+#: src/sjmodules/library.cpp:2725 src/sjmodules/library.cpp:4055
 #, c-format
 msgid "\"%s\" is not in your music library and cannot be edited therefore."
 msgstr ""
@@ -2750,7 +2750,7 @@ msgstr "Quitar de la lista \"%s\""
 
 # %i will be replaced by the number of tracks
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4977
+#: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4986
 #, fuzzy, c-format
 #| msgid "Enqueue %i tracks"
 msgid "Enqueue %i track"
@@ -2759,80 +2759,92 @@ msgstr[0] "Añadir a la lista la/s %i pista/s"
 msgstr[1] "Añadir a la lista la/s %i pista/s"
 
 # %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3808
-#, c-format
-msgid "Play %i tracks now"
-msgstr "Reproducir la/s %i  pista/s ahora"
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#: src/sjmodules/library.cpp:3810
+#, fuzzy, c-format
+#| msgid "Play %i tracks now"
+msgid "Play %i track now"
+msgid_plural "Play %i tracks now"
+msgstr[0] "Reproducir la/s %i  pista/s ahora"
+msgstr[1] "Reproducir la/s %i  pista/s ahora"
 
 # %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3811
-#, c-format
-msgid "Play %i tracks next"
-msgstr "Reproducir la/s %i  pista/s siguientes"
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#: src/sjmodules/library.cpp:3816
+#, fuzzy, c-format
+#| msgid "Play %i tracks next"
+msgid "Play %i track next"
+msgid_plural "Play %i tracks next"
+msgstr[0] "Reproducir la/s %i  pista/s siguientes"
+msgstr[1] "Reproducir la/s %i  pista/s siguientes"
 
 # %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3817
-#, c-format
-msgid "Unqueue %i tracks"
-msgstr "Quitar de la lista la/s %i pista/s"
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#: src/sjmodules/library.cpp:3825
+#, fuzzy, c-format
+#| msgid "Unqueue %i tracks"
+msgid "Unqueue %i track"
+msgid_plural "Unqueue %i tracks"
+msgstr[0] "Quitar de la lista la/s %i pista/s"
+msgstr[1] "Quitar de la lista la/s %i pista/s"
 
 # %s will be replaced by the name of an artist
-#: src/sjmodules/library.cpp:3900 src/sjmodules/library.cpp:3918
-#: src/sjmodules/library.cpp:3922
+#: src/sjmodules/library.cpp:3909 src/sjmodules/library.cpp:3927
+#: src/sjmodules/library.cpp:3931
 #, c-format
 msgid "\"%s\" on the web"
 msgstr "\"%s\" en la web"
 
 # %s will be replaced eg. by a number of "+" which represent the user's rating
-#: src/sjmodules/library.cpp:4003
+#: src/sjmodules/library.cpp:4012
 #, c-format
 msgid "Average rating: %s"
 msgstr "Porcentaje de valoración: %s"
 
 # %s will be replaced eg. by a number of "+" which represent the user's rating
-#: src/sjmodules/library.cpp:4003 src/sjmodules/library.cpp:4769
+#: src/sjmodules/library.cpp:4012 src/sjmodules/library.cpp:4778
 #, fuzzy, c-format
 #| msgid "My rating: %s"
 msgid "Rating: %s"
 msgstr "Mi valoración: %s"
 
 # %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:4022 src/sjmodules/library.cpp:4081
+#: src/sjmodules/library.cpp:4031 src/sjmodules/library.cpp:4090
 #, c-format
 msgid "Do you want to change the rating for all %i selected tracks?"
 msgstr "¿Desea cambiar la calificación de las pistas seleccionadas (%i)?"
 
 # This is the button in the confirmation dialog when changing the rating for multiple tracks.
-#: src/sjmodules/library.cpp:4023 src/sjmodules/library.cpp:4082
+#: src/sjmodules/library.cpp:4032 src/sjmodules/library.cpp:4091
 msgid "Change rating"
 msgstr "Cambiar valoración"
 
-#: src/sjmodules/library.cpp:4459 src/sjmodules/library.cpp:4546
+#: src/sjmodules/library.cpp:4468 src/sjmodules/library.cpp:4555
 msgid "Click to select all tracks of this album, double-click to play them"
 msgstr ""
 "Clicar para seleccionar todas las pistas del album; doble clic para "
 "reproducirlas"
 
-#: src/sjmodules/library.cpp:4608
+#: src/sjmodules/library.cpp:4617
 msgid "Click to select all tracks of this artists, double-click to play them"
 msgstr ""
 "Clic para seleccionar todas las pistas del artista; doble clic para "
 "reproducirlas"
 
-#: src/sjmodules/library.cpp:4681
+#: src/sjmodules/library.cpp:4690
 msgid "Click to select all tracks of this disk, double-click to play them"
 msgstr ""
 "Clic para seleccionar todas las pistas del album; doble clic para "
 "reproducirlo"
 
 # %s will be replaced by the name of the track
-#: src/sjmodules/library.cpp:4799
+#: src/sjmodules/library.cpp:4808
 #, c-format
 msgid "Double-click to enqueue \"%s\""
 msgstr "Doble clic para añadir a la lista \"%s\""
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:4973
+#: src/sjmodules/library.cpp:4982
 #, fuzzy, c-format
 #| msgid "Do you want to enqueue all %i selected tracks?"
 msgid "Do you want to enqueue %i selected track?"
