@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
 "POT-Creation-Date: 2015-05-29 22:51+0200\n"
-"PO-Revision-Date: 2015-05-29 21:10+0200\n"
+"PO-Revision-Date: 2015-05-29 22:58+0200\n"
 "Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -239,8 +239,7 @@ msgstr "Keine weiteren Titel."
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjbase/mainframe.cpp:2084
-#, fuzzy, c-format
-#| msgid "Remove all %i tracks from the queue and stop playback?"
+#, c-format
 msgid "Remove %i track from the queue and stop playback?"
 msgid_plural "Remove %i tracks from the queue and stop playback?"
 msgstr[0] ""
@@ -2714,8 +2713,7 @@ msgstr "\"%s\" aus Warteschlange entfernen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
-#, fuzzy, c-format
-#| msgid "Enqueue %i tracks"
+#, c-format
 msgid "Enqueue %i track"
 msgid_plural "Enqueue %i tracks"
 msgstr[0] "%i Titel in Warteschlange stellen"
@@ -2723,8 +2721,7 @@ msgstr[1] "%i Titel in Warteschlange stellen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3810
-#, fuzzy, c-format
-#| msgid "Play %i tracks now"
+#, c-format
 msgid "Play %i track now"
 msgid_plural "Play %i tracks now"
 msgstr[0] "%i Titel jetzt spielen"
@@ -2732,8 +2729,7 @@ msgstr[1] "%i Titel jetzt spielen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3816
-#, fuzzy, c-format
-#| msgid "Play %i tracks next"
+#, c-format
 msgid "Play %i track next"
 msgid_plural "Play %i tracks next"
 msgstr[0] "%i Titel als nächstes spielen"
@@ -2741,8 +2737,7 @@ msgstr[1] "%i Titel als nächstes spielen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:3825
-#, fuzzy, c-format
-#| msgid "Unqueue %i tracks"
+#, c-format
 msgid "Unqueue %i track"
 msgid_plural "Unqueue %i tracks"
 msgstr[0] "%i Titel aus Warteschlange entfernen"
@@ -2769,12 +2764,11 @@ msgstr "Wertung: %s"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4033 src/sjmodules/library.cpp:4095
-#, fuzzy, c-format
-#| msgid "Do you want to change the rating for all %i selected tracks?"
+#, c-format
 msgid "Do you want to change the rating for %i selected track?"
 msgid_plural "Do you want to change the rating for %i selected tracks?"
-msgstr[0] "Möchten Sie die Wertung für alle %i ausgewählten Titel ändern?"
-msgstr[1] "Möchten Sie die Wertung für alle %i ausgewählten Titel ändern?"
+msgstr[0] "Möchten Sie die Wertung für den ausgewählten Titel ändern?"
+msgstr[1] "Möchten Sie die Wertung für %i ausgewählte Titel ändern?"
 
 # This is the button in the confirmation dialog when changing the rating for multiple tracks.
 #: src/sjmodules/library.cpp:4035 src/sjmodules/library.cpp:4097
@@ -2801,14 +2795,11 @@ msgstr "Doppelklick: \"%s\" in Warteschlange stellen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
 #: src/sjmodules/library.cpp:4988
-#, fuzzy, c-format
-#| msgid "Do you want to enqueue all %i selected tracks?"
+#, c-format
 msgid "Do you want to enqueue %i selected track?"
 msgid_plural "Do you want to enqueue %i selected tracks?"
-msgstr[0] ""
-"Möchten Sie alle %i ausgewählten Titel in die Warteschlange stellen?"
-msgstr[1] ""
-"Möchten Sie alle %i ausgewählten Titel in die Warteschlange stellen?"
+msgstr[0] "Möchten Sie den ausgewählten Titel in die Warteschlange stellen?"
+msgstr[1] "Möchten Sie %i ausgewählte Titel in die Warteschlange stellen?"
 
 #: src/sjmodules/modulebase.cpp:1393
 msgid "Size"
