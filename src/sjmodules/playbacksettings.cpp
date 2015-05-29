@@ -1168,7 +1168,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateQueuePage(wxWindow* parent)
 	g_kioskModule->LoadConfig();
 
 	m_maxTracks.Create(page, sizer1,
-	                   _("Kiosk mode")+wxString(wxT(": "))+_("Allow max. %i tracks waiting in queue"), wxLEFT|wxRIGHT|wxTOP,
+	                   _("Kiosk mode: Allow max. %i tracks waiting in queue"), wxLEFT|wxRIGHT|wxTOP,
 	                   IDC_TRACKSINQUEUECHECK, (g_kioskModule->m_configKioskf&SJ_KIOSKF_MAX_TRACKS_IN_QUEUE)!=0,
 	                   -1, g_kioskModule->m_configMaxTracksInQueue, 1, 999);
 
@@ -1176,7 +1176,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateQueuePage(wxWindow* parent)
 
 	// avoid double tracks
 
-	m_noDblTracksCheck = new wxCheckBox(page, -1, _("Kiosk mode")+wxString(wxT(": "))+_("Avoid double tracks waiting in queue"));
+	m_noDblTracksCheck = new wxCheckBox(page, -1, _("Kiosk mode: Avoid double tracks waiting in queue"));
 	m_noDblTracksCheck->SetValue((g_kioskModule->m_configKioskf&SJ_KIOSKF_NO_DBL_TRACKS)!=0);
 	sizer1->Add(m_noDblTracksCheck, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 
