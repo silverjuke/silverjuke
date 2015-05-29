@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.1\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-26 23:13+0200\n"
-"PO-Revision-Date: 2015-05-26 23:13+0200\n"
+"POT-Creation-Date: 2015-05-29 20:57+0200\n"
+"PO-Revision-Date: 2015-05-29 20:57+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -108,21 +108,21 @@ msgstr "Hz"
 msgid "AutoPlay"
 msgstr "AutoPlay"
 
-#: src/sjbase/display.cpp:836 src/sjbase/mainframe.cpp:1915
+#: src/sjbase/display.cpp:836 src/sjbase/mainframe.cpp:1866
 #: src/sjmodules/accel.cpp:134 src/sjmodules/kiosk/kiosk.cpp:620
 msgid "Shuffle"
 msgstr "Shuffle"
 
-#: src/sjbase/mainframe.cpp:303
+#: src/sjbase/mainframe.cpp:304
 msgid "Recreating music library"
 msgstr "Recreating music library"
 
-#: src/sjbase/mainframe.cpp:303 src/sjmodules/library.cpp:348
+#: src/sjbase/mainframe.cpp:304 src/sjmodules/library.cpp:348
 #: src/sjmodules/library.cpp:854 src/sjmodules/tageditor/tageditor.cpp:1532
 msgid "Updating music library"
 msgstr "Updating music library"
 
-#: src/sjbase/mainframe.cpp:305 src/sjmodules/library.cpp:350
+#: src/sjbase/mainframe.cpp:306 src/sjmodules/library.cpp:350
 #: src/sjmodules/tageditor/tageditor.cpp:1534
 msgid ""
 "If you cancel the update process, your music library may not be up to date.\n"
@@ -133,22 +133,23 @@ msgstr ""
 "\n"
 "Cancel the update process?"
 
-#: src/sjbase/mainframe.cpp:365
+#: src/sjbase/mainframe.cpp:366
 #, c-format
 msgid ""
 "%s is currently playing. Do you want to stop the playing track and exit %s?"
 msgstr ""
 "%s is currently playing. Do you want to stop the playing track and exit %s?"
 
-#: src/sjbase/mainframe.cpp:368 src/sjmodules/accel.cpp:105
+#: src/sjbase/mainframe.cpp:369 src/sjmodules/accel.cpp:105
 #: src/sjmodules/kiosk/password_dlg.cpp:108
 #, c-format
 msgid "Exit %s"
 msgstr "Exit %s"
 
-#: src/sjbase/mainframe.cpp:789 src/sjbase/mainframe.cpp:810
-#: src/sjbase/mainframe.cpp:941 src/sjbase/playlist.cpp:1334
-#: src/sjbase/playlist.cpp:1372 src/sjbase/skin.cpp:2907
+#. TRANSLATORS: %s will be replaced by a filename
+#: src/sjbase/mainframe.cpp:791 src/sjbase/mainframe.cpp:812
+#: src/sjbase/mainframe.cpp:943 src/sjbase/playlist.cpp:1335
+#: src/sjbase/playlist.cpp:1373 src/sjbase/skin.cpp:2907
 #: src/sjmodules/arteditor.cpp:663 src/sjmodules/cinterface.cpp:145
 #: src/sjmodules/cinterface.cpp:247 src/sjmodules/library.cpp:1914
 #: src/sjmodules/scanner/server_scanner.cpp:344
@@ -160,23 +161,23 @@ msgstr "Exit %s"
 #: src/sjmodules/vis/vis_karaoke_module.cpp:594 src/sjtools/explore.cpp:130
 #: src/sjtools/imgthread.cpp:139 src/sjtools/imgthread.cpp:144
 #: src/sjtools/sqlt.cpp:232 src/sjtools/temp_n_cache.cpp:116
-#: src/sjtools/temp_n_cache.cpp:234 src/sjtools/tools.cpp:973
+#: src/sjtools/temp_n_cache.cpp:234 src/sjtools/tools.cpp:902
 #, c-format
 msgid "Cannot open \"%s\"."
 msgstr "Cannot open “[1m%s[0m”."
 
-#: src/sjbase/mainframe.cpp:821
+#: src/sjbase/mainframe.cpp:823
 #, c-format
 msgid "Also install the script to \"%s\" for permanent use"
 msgstr "Also install the script to “[1m%s[0m” for permanent use"
 
-#: src/sjbase/mainframe.cpp:823
+#: src/sjbase/mainframe.cpp:825
 #, c-format
 msgid "Execute the script \"%s\"?"
 msgstr "Execute the script “[1m%s[0m”?"
 
-#: src/sjbase/mainframe.cpp:1133 src/sjbase/mainframe.cpp:2554
-#: src/sjbase/mainframe.cpp:2956 src/sjmodules/accel.cpp:101
+#: src/sjbase/mainframe.cpp:1084 src/sjbase/mainframe.cpp:2505
+#: src/sjbase/mainframe.cpp:2907 src/sjmodules/accel.cpp:101
 #: src/sjmodules/advsearch.cpp:1343 src/sjmodules/advsearch.cpp:1841
 #: src/sjmodules/advsearch.cpp:3037 src/sjmodules/kiosk/kiosk.cpp:566
 #: src/sjmodules/kiosk/numpadmenu.cpp:96
@@ -184,218 +185,218 @@ msgstr "Execute the script “[1m%s[0m”?"
 msgid "Search"
 msgstr "Search"
 
-#: src/sjbase/mainframe.cpp:1219 src/sjbase/mainframe.cpp:1248
-#: src/sjbase/mainframe.cpp:1334 src/sjmodules/scanner/server_scanner.cpp:259
+#: src/sjbase/mainframe.cpp:1170 src/sjbase/mainframe.cpp:1199
+#: src/sjbase/mainframe.cpp:1285 src/sjmodules/scanner/server_scanner.cpp:259
 #: src/sjmodules/tageditor/tageditorfreedb.cpp:61
 #: src/sjmodules/tageditor/tageditorfreedb.cpp:121 src/sjtools/console.cpp:837
 #, c-format
 msgid "Loading %s"
 msgstr "Loading %s"
 
-#: src/sjbase/mainframe.cpp:1915 src/sjbase/mainframe.cpp:1997
-#: src/sjbase/mainframe.cpp:2005 src/sjbase/mainframe.cpp:2016
-#: src/sjbase/mainframe.cpp:2027 src/sjbase/mainframe.cpp:2040
+#: src/sjbase/mainframe.cpp:1866 src/sjbase/mainframe.cpp:1948
+#: src/sjbase/mainframe.cpp:1956 src/sjbase/mainframe.cpp:1967
+#: src/sjbase/mainframe.cpp:1978 src/sjbase/mainframe.cpp:1991
 #: src/sjtools/littleoption.cpp:110
 msgid "On"
 msgstr "On"
 
-#: src/sjbase/mainframe.cpp:1915 src/sjbase/mainframe.cpp:1926
-#: src/sjbase/mainframe.cpp:1997 src/sjbase/mainframe.cpp:2005
-#: src/sjbase/mainframe.cpp:2016 src/sjbase/mainframe.cpp:2027
-#: src/sjbase/mainframe.cpp:2040 src/sjmodules/accel.cpp:756
+#: src/sjbase/mainframe.cpp:1866 src/sjbase/mainframe.cpp:1877
+#: src/sjbase/mainframe.cpp:1948 src/sjbase/mainframe.cpp:1956
+#: src/sjbase/mainframe.cpp:1967 src/sjbase/mainframe.cpp:1978
+#: src/sjbase/mainframe.cpp:1991 src/sjmodules/accel.cpp:756
 #: src/sjmodules/accel.cpp:758 src/sjmodules/accel.cpp:762
 #: src/sjmodules/kiosk/kiosk.cpp:2484 src/sjtools/littleoption.cpp:110
 msgid "Off"
 msgstr "Off"
 
-#: src/sjbase/mainframe.cpp:1923 src/sjbase/mainframe_menu.cpp:236
+#: src/sjbase/mainframe.cpp:1874 src/sjbase/mainframe_menu.cpp:236
 #: src/sjmodules/accel.cpp:135 src/sjmodules/kiosk/kiosk.cpp:576
 msgid "Repeat playlist"
 msgstr "Repeat playlist"
 
-#: src/sjbase/mainframe.cpp:1927 src/sjbase/mainframe_menu.cpp:234
+#: src/sjbase/mainframe.cpp:1878 src/sjbase/mainframe_menu.cpp:234
 #: src/sjbase/mainframe_menu.cpp:415
 msgid "Repeat one"
 msgstr "Repeat one"
 
-#: src/sjbase/mainframe.cpp:1928 src/sjbase/mainframe_menu.cpp:235
+#: src/sjbase/mainframe.cpp:1879 src/sjbase/mainframe_menu.cpp:235
 #: src/sjbase/mainframe_menu.cpp:416
 msgid "Repeat all"
 msgstr "Repeat all"
 
-#: src/sjbase/mainframe.cpp:1974
+#: src/sjbase/mainframe.cpp:1925
 msgid "Select a track, then start playback."
 msgstr "Select a track, then start playback."
 
-#: src/sjbase/mainframe.cpp:1997 src/sjmodules/accel.cpp:124
+#: src/sjbase/mainframe.cpp:1948 src/sjmodules/accel.cpp:124
 msgid "Stop after this track"
 msgstr "Stop after this track"
 
-#: src/sjbase/mainframe.cpp:2005 src/sjmodules/accel.cpp:125
+#: src/sjbase/mainframe.cpp:1956 src/sjmodules/accel.cpp:125
 msgid "Stop after each track"
 msgstr "Stop after each track"
 
-#: src/sjbase/mainframe.cpp:2016 src/sjmodules/accel.cpp:114
+#: src/sjbase/mainframe.cpp:1967 src/sjmodules/accel.cpp:114
 msgid "Double click play tracks at once"
 msgstr "Double click play tracks at once"
 
-#: src/sjbase/mainframe.cpp:2027 src/sjbase/mainframe_menu.cpp:433
+#: src/sjbase/mainframe.cpp:1978 src/sjbase/mainframe_menu.cpp:433
 msgid "Start playback on first enqueue"
 msgstr "Start playback on first enqueue"
 
-#: src/sjbase/mainframe.cpp:2040 src/sjmodules/accel.cpp:116
+#: src/sjbase/mainframe.cpp:1991 src/sjmodules/accel.cpp:116
 #: src/sjmodules/playbacksettings.cpp:1188
 msgid "Remove played tracks from queue"
 msgstr "Remove played tracks from queue"
 
-#: src/sjbase/mainframe.cpp:2104 src/sjmodules/accel.cpp:118
+#: src/sjbase/mainframe.cpp:2055 src/sjmodules/accel.cpp:118
 msgid "More from current album"
 msgstr "More from current album"
 
-#: src/sjbase/mainframe.cpp:2104 src/sjmodules/accel.cpp:119
+#: src/sjbase/mainframe.cpp:2055 src/sjmodules/accel.cpp:119
 msgid "More from current artist"
 msgstr "More from current artist"
 
-#: src/sjbase/mainframe.cpp:2106
+#: src/sjbase/mainframe.cpp:2057
 msgid "No more tracks."
 msgstr "No more tracks."
 
-#: src/sjbase/mainframe.cpp:2131
+#: src/sjbase/mainframe.cpp:2082
 #, c-format
 msgid "Remove all %i tracks from the queue and stop playback?"
 msgstr "Remove all %i tracks from the queue and stop playback?"
 
-#: src/sjbase/mainframe.cpp:2132 src/sjmodules/accel.cpp:97
+#: src/sjbase/mainframe.cpp:2083 src/sjmodules/accel.cpp:97
 #: src/sjmodules/playbacksettings.cpp:1444
 msgid "Clear playlist"
 msgstr "Clear playlist"
 
-#: src/sjbase/mainframe.cpp:2521
+#: src/sjbase/mainframe.cpp:2472
 msgid "Track played, click to reset"
 msgstr "Track played, click to reset"
 
-#: src/sjbase/mainframe.cpp:2525
+#: src/sjbase/mainframe.cpp:2476
 msgid "Boredom avoided: Track moved down"
 msgstr "Boredom avoided: Track moved down"
 
-#: src/sjbase/mainframe.cpp:2530
+#: src/sjbase/mainframe.cpp:2481
 msgid "Remove this track"
 msgstr "Remove this track"
 
-#: src/sjbase/mainframe.cpp:2534 src/sjbase/mainframe.cpp:2549
+#: src/sjbase/mainframe.cpp:2485 src/sjbase/mainframe.cpp:2500
 #: src/sjmodules/accel.cpp:139 src/sjmodules/kiosk/kiosk.cpp:583
 msgid "Toggle time mode"
 msgstr "Toggle time mode"
 
-#: src/sjbase/mainframe.cpp:2540 src/sjmodules/accel.cpp:153
+#: src/sjbase/mainframe.cpp:2491 src/sjmodules/accel.cpp:153
 #, c-format
 msgid "Go to \"%s\""
 msgstr "Go to “[1m%s[0m”"
 
-#: src/sjbase/mainframe.cpp:2554 src/sjbase/mainframe_menu.cpp:140
+#: src/sjbase/mainframe.cpp:2505 src/sjbase/mainframe_menu.cpp:140
 #: src/sjbase/mainframe_menu.cpp:589 src/sjmodules/accel.cpp:207
 #: src/sjmodules/advsearch.cpp:1346 src/sjmodules/advsearch.cpp:1842
 #: src/sjmodules/kiosk/numpadmenu.cpp:98
 msgid "End search"
 msgstr "End search"
 
-#: src/sjbase/mainframe.cpp:2556
+#: src/sjbase/mainframe.cpp:2507
 msgid "click right for options"
 msgstr "click right for options"
 
-#: src/sjbase/mainframe.cpp:2560 src/sjbase/mainframe_menu.cpp:405
+#: src/sjbase/mainframe.cpp:2511 src/sjbase/mainframe_menu.cpp:405
 #: src/sjbase/search.cpp:232 src/sjmodules/kiosk/kiosk.cpp:579
 msgid "Volume"
 msgstr "Volume"
 
-#: src/sjbase/mainframe.cpp:2567 src/sjmodules/library.cpp:4459
+#: src/sjbase/mainframe.cpp:2518 src/sjmodules/library.cpp:4460
 msgid "Double-click to enlarge the cover"
 msgstr "Double-click to enlarge the cover"
 
-#: src/sjbase/mainframe.cpp:2582
+#: src/sjbase/mainframe.cpp:2533
 #, c-format
 msgid "Close this window and exit %s"
 msgstr "Close this window and exit %s"
 
-#: src/sjbase/mainframe.cpp:2583
+#: src/sjbase/mainframe.cpp:2534
 msgid "Open main menu"
 msgstr "Open main menu"
 
-#: src/sjbase/mainframe.cpp:2584
+#: src/sjbase/mainframe.cpp:2535
 msgid "Toggle shuffle mode"
 msgstr "Toggle shuffle mode"
 
-#: src/sjbase/mainframe.cpp:2585
+#: src/sjbase/mainframe.cpp:2536
 msgid "Repeat all/repeat current"
 msgstr "Repeat all/repeat current"
 
-#: src/sjbase/mainframe.cpp:2952 src/sjmodules/advsearch.cpp:3158
+#: src/sjbase/mainframe.cpp:2903 src/sjmodules/advsearch.cpp:3158
 #, c-format
 msgid "Search in \"%s\""
 msgstr "Search in “[1m%s[0m”"
 
-#: src/sjbase/mainframe.cpp:3246
+#: src/sjbase/mainframe.cpp:3197
 msgid "Fatal error"
 msgstr "Fatal error"
 
-#: src/sjbase/mainframe.cpp:3252
+#: src/sjbase/mainframe.cpp:3203
 msgid "Ctrl"
 msgstr "Ctrl"
 
-#: src/sjbase/mainframe.cpp:3253
+#: src/sjbase/mainframe.cpp:3204
 msgid "Alt"
 msgstr "Alt"
 
-#: src/sjbase/mainframe.cpp:3254
+#: src/sjbase/mainframe.cpp:3205
 msgid "Shift"
 msgstr "Shift"
 
-#: src/sjbase/mainframe.cpp:3258
+#: src/sjbase/mainframe.cpp:3209
 msgid "Enlarge window"
 msgstr "Enlarge window"
 
-#: src/sjbase/mainframe.cpp:3259
+#: src/sjbase/mainframe.cpp:3210
 msgid "Shrink window"
 msgstr "Shrink window"
 
-#: src/sjbase/mainframe.cpp:3260
+#: src/sjbase/mainframe.cpp:3211
 msgid "Enlarge display"
 msgstr "Enlarge display"
 
-#: src/sjbase/mainframe.cpp:3261
+#: src/sjbase/mainframe.cpp:3212
 msgid "Shrink display"
 msgstr "Shrink display"
 
-#: src/sjbase/mainframe.cpp:3265
+#: src/sjbase/mainframe.cpp:3216
 msgid "Full screen"
 msgstr "Full screen"
 
-#: src/sjbase/mainframe.cpp:3266 src/sjbase/mainframe_menu.cpp:803
+#: src/sjbase/mainframe.cpp:3217 src/sjbase/mainframe_menu.cpp:803
 #: src/sjbase/mainframe_menu.cpp:817 src/sjmodules/accel.cpp:145
 #: src/sjmodules/arteditor.cpp:1032 src/sjmodules/basicsettings.cpp:194
 #: src/sjmodules/viewsettings.cpp:445
 msgid "Show file"
 msgstr "Show file"
 
-#: src/sjbase/mainframe.cpp:3267
+#: src/sjbase/mainframe.cpp:3218
 msgid "Explore"
 msgstr "Explore"
 
-#: src/sjbase/mainframe.cpp:3268
+#: src/sjbase/mainframe.cpp:3219
 msgid "Reveal in Finder"
 msgstr "Reveal in Finder"
 
-#: src/sjbase/mainframe.cpp:3269 src/sjmodules/viewsettings.cpp:443
+#: src/sjbase/mainframe.cpp:3220 src/sjmodules/viewsettings.cpp:443
 msgid "Info..."
 msgstr "Info..."
 
-#: src/sjbase/mainframe.cpp:3270 src/sjmodules/scanner/folder_scanner.cpp:241
+#: src/sjbase/mainframe.cpp:3221 src/sjmodules/scanner/folder_scanner.cpp:241
 #: src/sjmodules/scanner/server_scanner_config.cpp:170
 #: src/sjtools/dialog.cpp:437
 msgid "State"
 msgstr "State"
 
-#: src/sjbase/mainframe.cpp:3271
+#: src/sjbase/mainframe.cpp:3222
 msgid "Modules on the web..."
 msgstr "Modules on the web..."
 
@@ -471,6 +472,7 @@ msgstr "Zoom"
 
 #: src/sjbase/mainframe_menu.cpp:340 src/sjmodules/accel.cpp:137
 #: src/sjmodules/kiosk/kiosk.cpp:587 src/sjmodules/kiosk/kiosk.cpp:923
+#: src/sjmodules/kiosk/monitor_overview.cpp:391
 #: src/sjmodules/kiosk/numpadmenu.cpp:172 src/sjmodules/vis/vis_module.cpp:53
 msgid "Video screen"
 msgstr "Video screen"
@@ -543,15 +545,16 @@ msgstr "Unknown title"
 msgid "Save playlist"
 msgstr "Save playlist"
 
-#: src/sjbase/playlist.cpp:1284 src/sjbase/playlist.cpp:1296
+#. TRANSLATORS: %s will be replaced by a filename
+#: src/sjbase/playlist.cpp:1285 src/sjbase/playlist.cpp:1297
 #: src/sjmodules/arteditor.cpp:1197 src/sjmodules/library.cpp:1791
-#: src/sjtools/imgop.cpp:1038 src/sjtools/tools.cpp:981
+#: src/sjtools/imgop.cpp:1038 src/sjtools/tools.cpp:910
 #: src/tagger/tg_a_tagger_frontend.cpp:971
 #, c-format
 msgid "Cannot write \"%s\"."
 msgstr "Cannot write “[1m%s[0m”."
 
-#: src/sjbase/playlist.cpp:1314 src/sjmodules/openfiles.cpp:194
+#: src/sjbase/playlist.cpp:1315 src/sjmodules/openfiles.cpp:194
 msgid "Open playlist"
 msgstr "Open playlist"
 
@@ -664,8 +667,8 @@ msgstr "Comment"
 msgid "BPM"
 msgstr "BPM"
 
-#: src/sjbase/search.cpp:229 src/sjmodules/library.cpp:3970
-#: src/sjmodules/library.cpp:4000 src/sjmodules/library.cpp:4004
+#: src/sjbase/search.cpp:229 src/sjmodules/library.cpp:3971
+#: src/sjmodules/library.cpp:4001 src/sjmodules/library.cpp:4005
 #: src/sjmodules/modulebase.cpp:1385 src/sjmodules/tageditor/tageditor.cpp:409
 msgid "Rating"
 msgstr "Rating"
@@ -724,13 +727,13 @@ msgstr "Date added"
 msgid "Date modified"
 msgstr "Date modified"
 
-#: src/sjbase/search.cpp:240 src/sjmodules/library.cpp:4771
+#: src/sjbase/search.cpp:240 src/sjmodules/library.cpp:4772
 #: src/sjmodules/modulebase.cpp:1391
 #: src/sjmodules/tageditor/tageditor.cpp:1041
 msgid "Last played"
 msgstr "Last played"
 
-#: src/sjbase/search.cpp:241 src/sjmodules/library.cpp:4779
+#: src/sjbase/search.cpp:241 src/sjmodules/library.cpp:4780
 #: src/sjmodules/modulebase.cpp:1392
 #: src/sjmodules/tageditor/tageditor.cpp:1039
 msgid "Play count"
@@ -753,7 +756,7 @@ msgstr "Title/artist/album"
 msgid "File type"
 msgstr "File type"
 
-#: src/sjbase/search.cpp:246 src/sjmodules/library.cpp:4788
+#: src/sjbase/search.cpp:246 src/sjmodules/library.cpp:4789
 #: src/sjmodules/modulebase.cpp:1399
 #: src/sjmodules/tageditor/tageditor.cpp:1049
 msgid "Queue position"
@@ -971,20 +974,20 @@ msgstr "Update music library"
 msgid "Recreate music library"
 msgstr "Recreate music library"
 
-#: src/sjmodules/accel.cpp:109 src/sjmodules/library.cpp:3765
+#: src/sjmodules/accel.cpp:109 src/sjmodules/library.cpp:3766
 msgid "Enqueue tracks"
 msgstr "Enqueue tracks"
 
-#: src/sjmodules/accel.cpp:111 src/sjmodules/library.cpp:3771
+#: src/sjmodules/accel.cpp:111 src/sjmodules/library.cpp:3772
 msgid "Play tracks next"
 msgstr "Play tracks next"
 
-#: src/sjmodules/accel.cpp:112 src/sjmodules/library.cpp:3768
+#: src/sjmodules/accel.cpp:112 src/sjmodules/library.cpp:3769
 msgid "Play tracks now"
 msgstr "Play tracks now"
 
 #: src/sjmodules/accel.cpp:117 src/sjmodules/kiosk/kiosk.cpp:580
-#: src/sjmodules/library.cpp:3774
+#: src/sjmodules/library.cpp:3775
 msgid "Unqueue tracks"
 msgstr "Unqueue tracks"
 
@@ -1089,7 +1092,7 @@ msgstr "Go to previous letter"
 msgid "Go to next letter"
 msgstr "Go to next letter"
 
-#: src/sjmodules/accel.cpp:166 src/sjmodules/basicsettings.cpp:623
+#: src/sjmodules/accel.cpp:166 src/sjmodules/basicsettings.cpp:619
 msgid "Add credit"
 msgstr "Add credit"
 
@@ -1284,7 +1287,7 @@ msgstr "Scroll horizontally"
 msgid "Context sensitive"
 msgstr "Context sensitive"
 
-#: src/sjmodules/accel.cpp:785 src/sjmodules/basicsettings.cpp:623
+#: src/sjmodules/accel.cpp:785 src/sjmodules/basicsettings.cpp:619
 msgid "Shortcut"
 msgstr "Shortcut"
 
@@ -1308,7 +1311,7 @@ msgstr "Ask before clearing the playlist"
 msgid "Ask before changing the rating"
 msgstr "Ask before changing the rating"
 
-#: src/sjmodules/accel.cpp:877 src/sjmodules/basicsettings.cpp:439
+#: src/sjmodules/accel.cpp:877 src/sjmodules/basicsettings.cpp:435
 #: src/sjmodules/playbacksettings.cpp:87
 #: src/sjmodules/playbacksettings.cpp:1505
 msgid "Further options"
@@ -1363,7 +1366,7 @@ msgstr "Workspace"
 msgid "Music selection"
 msgstr "Music selection"
 
-#: src/sjmodules/accel.cpp:1175 src/sjmodules/basicsettings.cpp:623
+#: src/sjmodules/accel.cpp:1175 src/sjmodules/basicsettings.cpp:619
 #: src/sjmodules/kiosk/kiosk.cpp:342
 msgid "Numpad"
 msgstr "Numpad"
@@ -1513,7 +1516,7 @@ msgstr "seconds"
 msgid "days"
 msgstr "days"
 
-#: src/sjmodules/advsearch.cpp:664 src/sjmodules/library.cpp:3967
+#: src/sjmodules/advsearch.cpp:664 src/sjmodules/library.cpp:3968
 #: src/sjmodules/tageditor/tageditor.cpp:425
 msgid "No rating"
 msgstr "No rating"
@@ -1796,7 +1799,7 @@ msgstr "Ask"
 msgid "Yes"
 msgstr "Yes"
 
-#: src/sjmodules/advsearch.cpp:3043 src/sjmodules/basicsettings.cpp:1040
+#: src/sjmodules/advsearch.cpp:3043 src/sjmodules/basicsettings.cpp:988
 #: src/sjtools/littleoption.cpp:106 src/sjtools/msgbox.cpp:91
 msgid "No"
 msgstr "No"
@@ -1877,7 +1880,7 @@ msgid "Reset all selected alternative images to their default value?"
 msgstr "Reset all selected alternative images to their default value?"
 
 #: src/sjmodules/basicsettings.cpp:96 src/sjmodules/basicsettings.cpp:114
-#: src/sjmodules/basicsettings.cpp:1069
+#: src/sjmodules/basicsettings.cpp:1017
 msgid "Search paths"
 msgstr "Search paths"
 
@@ -1897,7 +1900,7 @@ msgstr "Remove"
 msgid "Please select the folder to add to the search paths."
 msgstr "Please select the folder to add to the search paths."
 
-#: src/sjmodules/basicsettings.cpp:288 src/sjmodules/basicsettings.cpp:913
+#: src/sjmodules/basicsettings.cpp:288 src/sjmodules/basicsettings.cpp:909
 #: src/sjmodules/kiosk/kiosk.cpp:1501 src/sjmodules/kiosk/kiosk.cpp:1550
 #: src/sjmodules/kiosk/kiosk.cpp:2490
 #: src/sjmodules/tageditor/tageditorplugin.cpp:368
@@ -1905,7 +1908,7 @@ msgstr "Please select the folder to add to the search paths."
 msgid "Edit..."
 msgstr "Edit..."
 
-#: src/sjmodules/basicsettings.cpp:522
+#: src/sjmodules/basicsettings.cpp:518
 msgid ""
 "Beside several options, you can change the shortcuts to use here.\n"
 "This page is for experienced users only."
@@ -1913,23 +1916,23 @@ msgstr ""
 "Beside several options, you can change the shortcuts to use here.\n"
 "This page is for experienced users only."
 
-#: src/sjmodules/basicsettings.cpp:527
+#: src/sjmodules/basicsettings.cpp:523
 msgid "Command or option"
 msgstr "Command or option"
 
-#: src/sjmodules/basicsettings.cpp:528
+#: src/sjmodules/basicsettings.cpp:524
 msgid "Setting"
 msgstr "Setting"
 
-#: src/sjmodules/basicsettings.cpp:532
+#: src/sjmodules/basicsettings.cpp:528
 msgid "Customize"
 msgstr "Customize"
 
-#: src/sjmodules/basicsettings.cpp:777
+#: src/sjmodules/basicsettings.cpp:773
 msgid "Reset selection"
 msgstr "Reset selection"
 
-#: src/sjmodules/basicsettings.cpp:825
+#: src/sjmodules/basicsettings.cpp:821
 #, c-format
 msgid ""
 "Do you really want to reset all %i selected commands and options to their "
@@ -1938,118 +1941,118 @@ msgstr ""
 "Do you really want to reset all %i selected commands and options to their "
 "default values?"
 
-#: src/sjmodules/basicsettings.cpp:999
+#: src/sjmodules/basicsettings.cpp:947
 msgid "Language"
 msgstr "Language"
 
-#: src/sjmodules/basicsettings.cpp:1002
+#: src/sjmodules/basicsettings.cpp:950
 msgid "Show files with"
 msgstr "Show files with"
 
-#: src/sjmodules/basicsettings.cpp:1006
+#: src/sjmodules/basicsettings.cpp:954
 msgid "Instance"
 msgstr "Instance"
 
-#: src/sjmodules/basicsettings.cpp:1009
+#: src/sjmodules/basicsettings.cpp:957
 #, c-format
 msgid "Use the command-line option --%s=<file> to change this."
 msgstr "Use the command-line option --%s=<file> to change this."
 
-#: src/sjmodules/basicsettings.cpp:1013
+#: src/sjmodules/basicsettings.cpp:961
 msgid "Index file"
 msgstr "Index file"
 
-#: src/sjmodules/basicsettings.cpp:1019 src/sjmodules/basicsettings.cpp:1048
+#: src/sjmodules/basicsettings.cpp:967 src/sjmodules/basicsettings.cpp:996
 msgid "RAM cache"
 msgstr "RAM cache"
 
-#: src/sjmodules/basicsettings.cpp:1021
+#: src/sjmodules/basicsettings.cpp:969
 #, c-format
 msgid "avg. query time: %s"
 msgstr "avg. query time: %s"
 
-#: src/sjmodules/basicsettings.cpp:1021 src/sjtools/tools.cpp:1523
+#: src/sjmodules/basicsettings.cpp:969 src/sjtools/tools.cpp:1452
 msgid "ms"
 msgstr "ms"
 
-#: src/sjmodules/basicsettings.cpp:1026
+#: src/sjmodules/basicsettings.cpp:974
 msgid "Synchronity"
 msgstr "Synchronity"
 
-#: src/sjmodules/basicsettings.cpp:1027
+#: src/sjmodules/basicsettings.cpp:975
 msgid "Fast"
 msgstr "Fast"
 
-#: src/sjmodules/basicsettings.cpp:1027
+#: src/sjmodules/basicsettings.cpp:975
 msgid "Save but slower"
 msgstr "Save but slower"
 
-#: src/sjmodules/basicsettings.cpp:1027
+#: src/sjmodules/basicsettings.cpp:975
 msgid "Very save and slow"
 msgstr "Very save and slow"
 
-#: src/sjmodules/basicsettings.cpp:1036
+#: src/sjmodules/basicsettings.cpp:984
 msgid "Image cache"
 msgstr "Image cache"
 
-#: src/sjmodules/basicsettings.cpp:1039
+#: src/sjmodules/basicsettings.cpp:987
 msgid "Use temporary directory"
 msgstr "Use temporary directory"
 
-#: src/sjmodules/basicsettings.cpp:1041
+#: src/sjmodules/basicsettings.cpp:989
 msgid "Yes, load images asynchrony"
 msgstr "Yes, load images asynchrony"
 
-#: src/sjmodules/basicsettings.cpp:1042
+#: src/sjmodules/basicsettings.cpp:990
 msgid "Yes, load images directly and avoid flickering"
 msgstr "Yes, load images directly and avoid flickering"
 
-#: src/sjmodules/basicsettings.cpp:1049
+#: src/sjmodules/basicsettings.cpp:997
 #, c-format
 msgid "%i%% used for %i images"
 msgstr "%i%% used for %i images"
 
-#: src/sjmodules/basicsettings.cpp:1057
+#: src/sjmodules/basicsettings.cpp:1005
 msgid "Regard file changes"
 msgstr "Regard file changes"
 
-#: src/sjmodules/basicsettings.cpp:1073
+#: src/sjmodules/basicsettings.cpp:1021
 msgid "Display"
 msgstr "Display"
 
-#: src/sjmodules/basicsettings.cpp:1074
+#: src/sjmodules/basicsettings.cpp:1022
 msgid "Show total time"
 msgstr "Show total time"
 
-#: src/sjmodules/basicsettings.cpp:1076 src/sjmodules/library.cpp:402
+#: src/sjmodules/basicsettings.cpp:1024 src/sjmodules/library.cpp:402
 msgid "Show track number"
 msgstr "Show track number"
 
-#: src/sjmodules/basicsettings.cpp:1078 src/sjmodules/library.cpp:405
+#: src/sjmodules/basicsettings.cpp:1026 src/sjmodules/library.cpp:405
 msgid "Show artist name"
 msgstr "Show artist name"
 
-#: src/sjmodules/basicsettings.cpp:1080
+#: src/sjmodules/basicsettings.cpp:1028
 msgid "Show AutoPlay"
 msgstr "Show AutoPlay"
 
-#: src/sjmodules/basicsettings.cpp:1082
+#: src/sjmodules/basicsettings.cpp:1030
 msgid "Preferred cover"
 msgstr "Preferred cover"
 
-#: src/sjmodules/basicsettings.cpp:1082
+#: src/sjmodules/basicsettings.cpp:1030
 msgid "Album cover"
 msgstr "Album cover"
 
-#: src/sjmodules/basicsettings.cpp:1082
+#: src/sjmodules/basicsettings.cpp:1030
 msgid "Track cover"
 msgstr "Track cover"
 
-#: src/sjmodules/basicsettings.cpp:1145
+#: src/sjmodules/basicsettings.cpp:1087
 msgid "Advanced"
 msgstr "Advanced"
 
-#: src/sjmodules/basicsettings.cpp:1207 src/sjtools/dialog.cpp:325
+#: src/sjmodules/basicsettings.cpp:1149 src/sjtools/dialog.cpp:325
 #, c-format
 msgid "Please restart %s so that the changes can take effect."
 msgstr "Please restart %s so that the changes can take effect."
@@ -2068,7 +2071,7 @@ msgstr "Help-system"
 #: src/sjmodules/scanner/server_scanner_config.cpp:135
 #: src/sjmodules/tageditor/tageditor.cpp:1076
 #: src/sjmodules/tageditor/tageditorsplit.cpp:165
-#: src/sjmodules/tageditor/tageditorsplit.cpp:171 src/sjtools/tools.cpp:1585
+#: src/sjmodules/tageditor/tageditorsplit.cpp:171 src/sjtools/tools.cpp:1514
 msgid "n/a"
 msgstr "n/a"
 
@@ -2205,6 +2208,7 @@ msgid "Monitor for"
 msgstr "Monitor for"
 
 #: src/sjmodules/kiosk/kiosk.cpp:923
+#: src/sjmodules/kiosk/monitor_overview.cpp:390
 msgid "Main window"
 msgstr "Main window"
 
@@ -2371,14 +2375,6 @@ msgstr ""
 #: src/sjmodules/kiosk/kiosk.cpp:2522
 msgid "Maintenance password"
 msgstr "Maintenance password"
-
-#: src/sjmodules/kiosk/monitor_overview.cpp:390
-msgid "Monitor for main window"
-msgstr "Monitor for main window"
-
-#: src/sjmodules/kiosk/monitor_overview.cpp:391
-msgid "Monitor vor video screen"
-msgstr "Monitor vor video screen"
 
 #: src/sjmodules/kiosk/numpadmenu.cpp:174
 #: src/sjmodules/kiosk/password_dlg.cpp:124
@@ -2580,131 +2576,132 @@ msgstr "Yes, copy the image to “[1m%s[0m”"
 msgid "Do you want to use the given image as the cover for \"%s\"?"
 msgstr "Do you want to use the given image as the cover for “[1m%s[0m”?"
 
-#: src/sjmodules/library.cpp:2724 src/sjmodules/library.cpp:4042
+#. TRANSLATORS: %s will be replaced by a filename
+#: src/sjmodules/library.cpp:2725 src/sjmodules/library.cpp:4043
 #, c-format
 msgid "\"%s\" is not in your music library and cannot be edited therefore."
 msgstr ""
 "“[1m%s[0m” is not in your music library and cannot be edited therefore."
 
-#: src/sjmodules/library.cpp:3043 src/sjmodules/library.cpp:3121
+#: src/sjmodules/library.cpp:3044 src/sjmodules/library.cpp:3122
 #, c-format
 msgid "%s tracks on %s albums found for \"%s\""
 msgstr "%s tracks on %s albums found for “[1m%s[0m”"
 
-#: src/sjmodules/library.cpp:3055 src/sjmodules/library.cpp:3061
-#: src/sjmodules/library.cpp:3138 src/sjmodules/library.cpp:3176
+#: src/sjmodules/library.cpp:3056 src/sjmodules/library.cpp:3062
+#: src/sjmodules/library.cpp:3139 src/sjmodules/library.cpp:3177
 #, c-format
 msgid "%s tracks on %s albums"
 msgstr "%s tracks on %s albums"
 
-#: src/sjmodules/library.cpp:3159
+#: src/sjmodules/library.cpp:3160
 msgid "Albums"
 msgstr "Albums"
 
-#: src/sjmodules/library.cpp:3182
+#: src/sjmodules/library.cpp:3183
 msgid "All albums"
 msgstr "All albums"
 
-#: src/sjmodules/library.cpp:3296 src/sjtools/imgop.cpp:1166
+#: src/sjmodules/library.cpp:3297 src/sjtools/imgop.cpp:1166
 msgid "Unsorted tracks"
 msgstr "Unsorted tracks"
 
-#: src/sjmodules/library.cpp:3383
+#: src/sjmodules/library.cpp:3384
 #, c-format
 msgid "Disk %i"
 msgstr "Disk %i"
 
-#: src/sjmodules/library.cpp:3462
+#: src/sjmodules/library.cpp:3463
 msgid "O:"
 msgstr "O:"
 
-#: src/sjmodules/library.cpp:3471
+#: src/sjmodules/library.cpp:3472
 msgid "C:"
 msgstr "C:"
 
-#: src/sjmodules/library.cpp:3779
+#: src/sjmodules/library.cpp:3780
 #, c-format
 msgid "Enqueue \"%s\""
 msgstr "Enqueue “[1m%s[0m”"
 
-#: src/sjmodules/library.cpp:3784
+#: src/sjmodules/library.cpp:3785
 #, c-format
 msgid "Play \"%s\" now"
 msgstr "Play “[1m%s[0m” now"
 
-#: src/sjmodules/library.cpp:3787
+#: src/sjmodules/library.cpp:3788
 #, c-format
 msgid "Play \"%s\" next"
 msgstr "Play “[1m%s[0m” next"
 
-#: src/sjmodules/library.cpp:3793
+#: src/sjmodules/library.cpp:3794
 #, c-format
 msgid "Unqueue \"%s\""
 msgstr "Unqueue “[1m%s[0m”"
 
-#: src/sjmodules/library.cpp:3799 src/sjmodules/library.cpp:4968
+#: src/sjmodules/library.cpp:3800 src/sjmodules/library.cpp:4969
 #, c-format
 msgid "Enqueue %i tracks"
 msgstr "Enqueue %i tracks"
 
-#: src/sjmodules/library.cpp:3804
+#: src/sjmodules/library.cpp:3805
 #, c-format
 msgid "Play %i tracks now"
 msgstr "Play %i tracks now"
 
-#: src/sjmodules/library.cpp:3807
+#: src/sjmodules/library.cpp:3808
 #, c-format
 msgid "Play %i tracks next"
 msgstr "Play %i tracks next"
 
-#: src/sjmodules/library.cpp:3813
+#: src/sjmodules/library.cpp:3814
 #, c-format
 msgid "Unqueue %i tracks"
 msgstr "Unqueue %i tracks"
 
-#: src/sjmodules/library.cpp:3896 src/sjmodules/library.cpp:3914
-#: src/sjmodules/library.cpp:3918
+#: src/sjmodules/library.cpp:3897 src/sjmodules/library.cpp:3915
+#: src/sjmodules/library.cpp:3919
 #, c-format
 msgid "\"%s\" on the web"
 msgstr "“[1m%s[0m” on the web"
 
-#: src/sjmodules/library.cpp:3999
+#: src/sjmodules/library.cpp:4000
 #, c-format
 msgid "Average rating: %s"
 msgstr "Average rating: %s"
 
-#: src/sjmodules/library.cpp:3999 src/sjmodules/library.cpp:4765
+#: src/sjmodules/library.cpp:4000 src/sjmodules/library.cpp:4766
 #, c-format
 msgid "Rating: %s"
 msgstr "Rating: %s"
 
-#: src/sjmodules/library.cpp:4018 src/sjmodules/library.cpp:4077
+#: src/sjmodules/library.cpp:4019 src/sjmodules/library.cpp:4078
 #, c-format
 msgid "Do you want to change the rating for all %i selected tracks?"
 msgstr "Do you want to change the rating for all %i selected tracks?"
 
-#: src/sjmodules/library.cpp:4019 src/sjmodules/library.cpp:4078
+#: src/sjmodules/library.cpp:4020 src/sjmodules/library.cpp:4079
 msgid "Change rating"
 msgstr "Change rating"
 
-#: src/sjmodules/library.cpp:4455 src/sjmodules/library.cpp:4542
+#: src/sjmodules/library.cpp:4456 src/sjmodules/library.cpp:4543
 msgid "Click to select all tracks of this album, double-click to play them"
 msgstr "Click to select all tracks of this album, double-click to play them"
 
-#: src/sjmodules/library.cpp:4604
+#: src/sjmodules/library.cpp:4605
 msgid "Click to select all tracks of this artists, double-click to play them"
 msgstr "Click to select all tracks of this artists, double-click to play them"
 
-#: src/sjmodules/library.cpp:4677
+#: src/sjmodules/library.cpp:4678
 msgid "Click to select all tracks of this disk, double-click to play them"
 msgstr "Click to select all tracks of this disk, double-click to play them"
 
-#: src/sjmodules/library.cpp:4795
+#: src/sjmodules/library.cpp:4796
 #, c-format
 msgid "Double-click to enqueue \"%s\""
 msgstr "Double-click to enqueue “[1m%s[0m”"
 
-#: src/sjmodules/library.cpp:4967
+#: src/sjmodules/library.cpp:4968
 #, c-format
 msgid "Do you want to enqueue all %i selected tracks?"
 msgstr "Do you want to enqueue all %i selected tracks?"
@@ -3647,20 +3644,20 @@ msgstr "__COVER_KEYWORDS__"
 msgid "__VIRT_KEYBD__"
 msgstr "__VIRT_KEYBD__"
 
-#: src/sjtools/tools.cpp:1223
+#: src/sjtools/tools.cpp:1152
 msgid ","
 msgstr ","
 
-#: src/sjtools/tools.cpp:1360 src/sjtools/tools.cpp:1390
+#: src/sjtools/tools.cpp:1289 src/sjtools/tools.cpp:1319
 msgid "."
 msgstr "."
 
-#: src/sjtools/tools.cpp:1451
+#: src/sjtools/tools.cpp:1380
 #, c-format
 msgid "%i days"
 msgstr "%i days"
 
-#: src/sjtools/tools.cpp:3645
+#: src/sjtools/tools.cpp:3574
 #, c-format
 msgid "Invalid regular expression \"%s\"."
 msgstr "Invalid regular expression “[1m%s[0m”."

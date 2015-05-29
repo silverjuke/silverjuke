@@ -1281,6 +1281,7 @@ bool SjPlaylist::SaveAsFile(const wxString& path, const wxString& type, long fla
 	wxFile file(path, wxFile::write);
 	if( !file.IsOpened() )
 	{
+		// TRANSLATORS: %s will be replaced by a filename
 		wxLogError(_("Cannot write \"%s\"."), path.c_str());
 		return false;
 	}

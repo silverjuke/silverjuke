@@ -787,6 +787,7 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 		// open a skin
 		if( !::wxFileExists(filenames[0]) )
 		{
+			// TRANSLATORS: %s will be replaced by a filename
 			wxLogError(_("Cannot open \"%s\"."), filenames[0].c_str());
 			return false;
 		}

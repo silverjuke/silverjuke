@@ -2721,6 +2721,7 @@ bool SjLibraryModule::GetTrackInfo(const wxString& url, SjTrackInfo& trackInfo, 
 
 	if( !ret && logErrors )
 	{
+		// TRANSLATORS: %s will be replaced by a filename
 		wxLogWarning(_("\"%s\" is not in your music library and cannot be edited therefore."), url.c_str());
 	}
 
