@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 22:37+0200\n"
+"POT-Creation-Date: 2015-05-29 22:45+0200\n"
 "PO-Revision-Date: 2015-05-29 21:10+0200\n"
 "Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
@@ -150,8 +150,8 @@ msgstr "Das Skript außerdem in \"%s\" installieren und immer starten"
 msgid "Execute the script \"%s\"?"
 msgstr "Möchten Sie das Skript \"%s\" ausführen?"
 
-#: src/sjbase/mainframe.cpp:1084 src/sjbase/mainframe.cpp:2505
-#: src/sjbase/mainframe.cpp:2907 src/sjmodules/accel.cpp:101
+#: src/sjbase/mainframe.cpp:1084 src/sjbase/mainframe.cpp:2508
+#: src/sjbase/mainframe.cpp:2910 src/sjmodules/accel.cpp:101
 #: src/sjmodules/advsearch.cpp:1343 src/sjmodules/advsearch.cpp:1841
 #: src/sjmodules/advsearch.cpp:3037 src/sjmodules/kiosk/kiosk.cpp:566
 #: src/sjmodules/kiosk/numpadmenu.cpp:96
@@ -238,144 +238,150 @@ msgid "No more tracks."
 msgstr "Keine weiteren Titel."
 
 # %i will be replaced by the number of tracks
-#: src/sjbase/mainframe.cpp:2082
-#, c-format
-msgid "Remove all %i tracks from the queue and stop playback?"
-msgstr "%i Titel aus der Warteschlange entfernen und die Wiedergabe stoppen?"
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#: src/sjbase/mainframe.cpp:2084
+#, fuzzy, c-format
+#| msgid "Remove all %i tracks from the queue and stop playback?"
+msgid "Remove %i track from the queue and stop playback?"
+msgid_plural "Remove %i tracks from the queue and stop playback?"
+msgstr[0] ""
+"%i Titel aus der Warteschlange entfernen und die Wiedergabe stoppen?"
+msgstr[1] ""
+"%i Titel aus der Warteschlange entfernen und die Wiedergabe stoppen?"
 
-#: src/sjbase/mainframe.cpp:2083 src/sjmodules/accel.cpp:97
+#: src/sjbase/mainframe.cpp:2086 src/sjmodules/accel.cpp:97
 #: src/sjmodules/playbacksettings.cpp:1444
 msgid "Clear playlist"
 msgstr "Wiedergabeliste leeren"
 
-#: src/sjbase/mainframe.cpp:2472
+#: src/sjbase/mainframe.cpp:2475
 msgid "Track played, click to reset"
 msgstr "Titel wurde gespielt"
 
-#: src/sjbase/mainframe.cpp:2476
+#: src/sjbase/mainframe.cpp:2479
 msgid "Boredom avoided: Track moved down"
 msgstr "Titel wurde verschoben und Langeweile vermieden"
 
-#: src/sjbase/mainframe.cpp:2481
+#: src/sjbase/mainframe.cpp:2484
 msgid "Remove this track"
 msgstr "Titel aus Warteschlange entfernen"
 
-#: src/sjbase/mainframe.cpp:2485 src/sjbase/mainframe.cpp:2500
+#: src/sjbase/mainframe.cpp:2488 src/sjbase/mainframe.cpp:2503
 #: src/sjmodules/accel.cpp:139 src/sjmodules/kiosk/kiosk.cpp:583
 msgid "Toggle time mode"
 msgstr "Zeitanzeige umschalten"
 
 # %s will be replaced by a letter or by a number
-#: src/sjbase/mainframe.cpp:2491 src/sjmodules/accel.cpp:153
+#: src/sjbase/mainframe.cpp:2494 src/sjmodules/accel.cpp:153
 #, c-format
 msgid "Go to \"%s\""
 msgstr "Gehe zu \"%s\""
 
-#: src/sjbase/mainframe.cpp:2505 src/sjbase/mainframe_menu.cpp:140
+#: src/sjbase/mainframe.cpp:2508 src/sjbase/mainframe_menu.cpp:140
 #: src/sjbase/mainframe_menu.cpp:589 src/sjmodules/accel.cpp:207
 #: src/sjmodules/advsearch.cpp:1346 src/sjmodules/advsearch.cpp:1842
 #: src/sjmodules/kiosk/numpadmenu.cpp:98
 msgid "End search"
 msgstr "Suche beenden"
 
-#: src/sjbase/mainframe.cpp:2507
+#: src/sjbase/mainframe.cpp:2510
 msgid "click right for options"
 msgstr "klicken Sie rechts für Optionen"
 
-#: src/sjbase/mainframe.cpp:2511 src/sjbase/mainframe_menu.cpp:405
+#: src/sjbase/mainframe.cpp:2514 src/sjbase/mainframe_menu.cpp:405
 #: src/sjbase/search.cpp:232 src/sjmodules/kiosk/kiosk.cpp:579
 msgid "Volume"
 msgstr "Lautstärke"
 
-#: src/sjbase/mainframe.cpp:2518 src/sjmodules/library.cpp:4472
+#: src/sjbase/mainframe.cpp:2521 src/sjmodules/library.cpp:4472
 msgid "Double-click to enlarge the cover"
 msgstr "Doppelklick: Cover vergrößern"
 
-#: src/sjbase/mainframe.cpp:2533
+#: src/sjbase/mainframe.cpp:2536
 #, c-format
 msgid "Close this window and exit %s"
 msgstr "Fenster schließen und %s beenden"
 
-#: src/sjbase/mainframe.cpp:2534
+#: src/sjbase/mainframe.cpp:2537
 msgid "Open main menu"
 msgstr "Hauptmenü öffnen"
 
-#: src/sjbase/mainframe.cpp:2535
+#: src/sjbase/mainframe.cpp:2538
 msgid "Toggle shuffle mode"
 msgstr "Zufällige Wiedergabe"
 
-#: src/sjbase/mainframe.cpp:2536
+#: src/sjbase/mainframe.cpp:2539
 msgid "Repeat all/repeat current"
 msgstr "Alle Titel/einen Titel wiederholen"
 
 # %s will be replaced by the name of a music selection
-#: src/sjbase/mainframe.cpp:2903 src/sjmodules/advsearch.cpp:3158
+#: src/sjbase/mainframe.cpp:2906 src/sjmodules/advsearch.cpp:3158
 #, c-format
 msgid "Search in \"%s\""
 msgstr "Suche in \"%s\""
 
-#: src/sjbase/mainframe.cpp:3197
+#: src/sjbase/mainframe.cpp:3200
 msgid "Fatal error"
 msgstr "Fataler Fehler"
 
-#: src/sjbase/mainframe.cpp:3203
+#: src/sjbase/mainframe.cpp:3206
 msgid "Ctrl"
 msgstr "Strg"
 
-#: src/sjbase/mainframe.cpp:3204
+#: src/sjbase/mainframe.cpp:3207
 msgid "Alt"
 msgstr "Alt"
 
-#: src/sjbase/mainframe.cpp:3205
+#: src/sjbase/mainframe.cpp:3208
 msgid "Shift"
 msgstr "Shift"
 
-#: src/sjbase/mainframe.cpp:3209
+#: src/sjbase/mainframe.cpp:3212
 msgid "Enlarge window"
 msgstr "Fenster vergrößern"
 
-#: src/sjbase/mainframe.cpp:3210
+#: src/sjbase/mainframe.cpp:3213
 msgid "Shrink window"
 msgstr "Fenster verkleinern"
 
-#: src/sjbase/mainframe.cpp:3211
+#: src/sjbase/mainframe.cpp:3214
 msgid "Enlarge display"
 msgstr "Display vergrößern"
 
-#: src/sjbase/mainframe.cpp:3212
+#: src/sjbase/mainframe.cpp:3215
 msgid "Shrink display"
 msgstr "Display verkleinern"
 
-#: src/sjbase/mainframe.cpp:3216
+#: src/sjbase/mainframe.cpp:3219
 msgid "Full screen"
 msgstr "Ganzer Bildschirm"
 
-#: src/sjbase/mainframe.cpp:3217 src/sjbase/mainframe_menu.cpp:803
+#: src/sjbase/mainframe.cpp:3220 src/sjbase/mainframe_menu.cpp:803
 #: src/sjbase/mainframe_menu.cpp:817 src/sjmodules/accel.cpp:145
 #: src/sjmodules/arteditor.cpp:1032 src/sjmodules/basicsettings.cpp:194
 #: src/sjmodules/viewsettings.cpp:445
 msgid "Show file"
 msgstr "Datei anzeigen"
 
-#: src/sjbase/mainframe.cpp:3218
+#: src/sjbase/mainframe.cpp:3221
 msgid "Explore"
 msgstr "Explore"
 
-#: src/sjbase/mainframe.cpp:3219
+#: src/sjbase/mainframe.cpp:3222
 msgid "Reveal in Finder"
 msgstr "Im Finder zeigen"
 
-#: src/sjbase/mainframe.cpp:3220 src/sjmodules/viewsettings.cpp:443
+#: src/sjbase/mainframe.cpp:3223 src/sjmodules/viewsettings.cpp:443
 msgid "Info..."
 msgstr "Info..."
 
-#: src/sjbase/mainframe.cpp:3221 src/sjmodules/scanner/folder_scanner.cpp:241
+#: src/sjbase/mainframe.cpp:3224 src/sjmodules/scanner/folder_scanner.cpp:241
 #: src/sjmodules/scanner/server_scanner_config.cpp:170
 #: src/sjtools/dialog.cpp:437
 msgid "State"
 msgstr "Status"
 
-#: src/sjbase/mainframe.cpp:3222
+#: src/sjbase/mainframe.cpp:3225
 msgid "Modules on the web..."
 msgstr "Module im Internet..."
 
