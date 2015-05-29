@@ -955,7 +955,7 @@ msgstr "Jukebox-Einstellungen ..."
 
 #: src/sjmodules/accel.cpp:104
 msgid "Advanced settings..."
-msgstr ""
+msgstr "Erweiterte Einstellungen ..."
 
 #: src/sjmodules/accel.cpp:107 src/sjmodules/mymusic.cpp:196
 #: src/sjmodules/mymusic.cpp:310

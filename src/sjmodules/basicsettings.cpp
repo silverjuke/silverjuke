@@ -340,9 +340,8 @@ enum SjPreselect
 class SjBasicSettingsConfigPage : public wxPanel
 {
 public:
-	SjBasicSettingsConfigPage
-	(SjBasicSettingsModule* basicSettingsModule, wxWindow* parent, int selectedPage);
-	~SjBasicSettingsConfigPage();
+	                SjBasicSettingsConfigPage (SjBasicSettingsModule* basicSettingsModule, wxWindow* parent, int selectedPage);
+	                ~SjBasicSettingsConfigPage();
 
 private:
 	// further options
@@ -350,15 +349,13 @@ private:
 	void            InitLittlePage      (SjPreselect);
 	void            UpdateLittleOption  (SjLittleOption*);
 	void            UpdateLittleColWidth();
-	void            ShowLittleContextMenu
-	(wxWindow*, const wxPoint&);
+	void            ShowLittleContextMenu (wxWindow*, const wxPoint&);
 	wxArrayLong     GetSelectedOptions  ();
 	SjLittleOption* GetSelectedOption   ();
 	bool            m_littlePageInitialized;
 	wxListCtrl*     m_littleListCtrl;
 	wxButton*       m_littleCustomizeButton;
-	SjArrayLittleOption
-	m_littleOptions; // needed by compare function
+	SjArrayLittleOption m_littleOptions; // needed by compare function
 	static long     s_littleListSelection;
 	void            OnLittleDoubleClick (wxListEvent&);
 	void            OnLittleOptionsMenu (wxCommandEvent&) { ShowLittleContextMenu(m_littleCustomizeButton, wxPoint(0, 0)); }
@@ -368,14 +365,13 @@ private:
 
 	// little "Misc" settings
 	void            GetLittleMiscOptions(SjArrayLittleOption&);
-	void            ApplyOrCancelLittleMisc
-	(bool apply, bool& wantsToBeRestarted);
+	void            ApplyOrCancelLittleMisc (bool apply, bool& wantsToBeRestarted);
 	long            m_miscOldIdxCacheIndex, m_miscNewIdxCacheIndex,
 	                m_miscOldIdxSync, m_miscNewIdxSync,
 	                m_miscIndexImgDiskCache,
 	                m_miscIndexImgRamCache,
-	                m_miscIndexImgRegardTimestamp,
-	                m_oldLanguageIndex, m_newLanguageIndex;
+	                m_miscIndexImgRegardTimestamp;
+	wxString		m_oldLanguageValue, m_newLanguageValue;
 
 	// other
 	SjBasicSettingsModule*
@@ -942,61 +938,13 @@ void SjBasicSettingsConfigPage::GetLittleMiscOptions(SjArrayLittleOption& lo)
 
 	// ...language
 	{
-		// get information about the currently used language
-		const wxLanguageInfo* langInfo__ = wxLocale::GetLanguageInfo(wxLocale::GetSystemLanguage());
-		wxString sysCanonicalName = langInfo__? langInfo__->CanonicalName : wxString(wxT("en_GB"));
-		sysCanonicalName = g_tools->m_config->Read(wxT("main/language"), sysCanonicalName);
-		wxString sysLanguageFile = g_tools->m_config->Read(wxT("main/languageFile"), wxT(""));
+		const wxLanguageInfo* info = wxLocale::GetLanguageInfo(wxLocale::GetSystemLanguage());
+		wxString defaultLanguageValue = info? info->CanonicalName : wxString(wxT("en_GB"));
 
-		// get a list of all available languages
-		wxArrayString langFiles;
-		wxArrayString langCanonicalNames = g_tools->GetAvailLanguages(&langFiles);
+		m_oldLanguageValue = g_tools->m_config->Read(wxT("main/language"), defaultLanguageValue);
+		m_newLanguageValue = m_oldLanguageValue;
 
-		// go through all available languages, build the selection popup and try to find out the currently used language
-		wxString options;
-		int i, sel0 = -1, sel1 = -1, sel2 = -1;
-		for( i = 0; i < (int)langCanonicalNames.GetCount(); i++ )
-		{
-			wxString currCanonicalName = langCanonicalNames[i];
-			const wxLanguageInfo* info = SjTools::FindLanguageInfo(currCanonicalName);
-			wxString txt(info? info->Description : wxString(wxT("Unknown language"))) /*n/t*/;
-			txt << wxT(" (") << currCanonicalName << wxT(")");
-			if( langCanonicalNames.Index(currCanonicalName) < i ) {
-				txt += wxT(" (") + SjTools::ShortenUrl(langFiles[i]) + wxT(")");
-			}
-			txt.Replace(SEP, wxT(""), true);
-			if( !options.IsEmpty() ) {
-				options += SEP;
-			}
-			options += txt;
-
-			// check selection
-			if( langFiles[i] == sysLanguageFile ) {
-				sel0 = i;
-			}
-			else if( sysCanonicalName.CmpNoCase(currCanonicalName)==0 ) {
-				sel1 = i;
-			}
-			else if( sysCanonicalName.BeforeFirst(wxT('_')).CmpNoCase(currCanonicalName.BeforeFirst(wxT('_')))==0 ) {
-				sel2 = i;
-			}
-		}
-
-		// set best selection
-		m_oldLanguageIndex = 0;
-		if( sel0 != -1 ) {
-			m_oldLanguageIndex = sel0;
-		}
-		else if( sel1 != -1 ) {
-			m_oldLanguageIndex = sel1;
-		}
-		else if( sel2 != -1 ) {
-			m_oldLanguageIndex = sel2;
-		}
-
-		// add little option
-		m_newLanguageIndex = m_oldLanguageIndex;
-		lo.Add(new SjLittleBit(_("Language"), options, &m_newLanguageIndex, 0L, 0L));
+		lo.Add(new SjLittleStringSel(_("Language"), &m_newLanguageValue, defaultLanguageValue));
 	}
 
 	lo.Add(new SjLittleExploreSetting(_("Show files with")));
@@ -1117,17 +1065,11 @@ void SjBasicSettingsConfigPage::ApplyOrCancelLittleMisc(bool apply, bool& wantsT
 		}
 
 		// apply language
-		if( m_oldLanguageIndex != m_newLanguageIndex )
+		if( m_oldLanguageValue != m_newLanguageValue )
 		{
-			wxArrayString langFiles;
-			wxArrayString langCanonicalNames = g_tools->GetAvailLanguages(&langFiles);
-			if( m_newLanguageIndex >= 0 && m_newLanguageIndex < (int)langCanonicalNames.GetCount() )
-			{
-				g_tools->m_config->Write(wxT("main/language"), langCanonicalNames.Item(m_newLanguageIndex));
-				g_tools->m_config->Write(wxT("main/languageFile"), langFiles.Item(m_newLanguageIndex));
-				wantsToBeRestarted = TRUE;
-			}
-			m_oldLanguageIndex = m_newLanguageIndex; // avoid recursion
+			g_tools->m_config->Write(wxT("main/language"), m_newLanguageValue);
+			wantsToBeRestarted = TRUE;
+			m_oldLanguageValue = m_newLanguageValue; // avoid recursion
 		}
 	}
 }

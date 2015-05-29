@@ -14,8 +14,9 @@ files belonging to a localization project. However, for people who do not know
 type will be edited during the translation process, and the latter is then 
 created from it. Only *.mo files are usable from within Silverjuke.
 
-So the steps at a glance are: Download a *.po object from this site, edit it 
-and then create a *.mo file which may then be shared with other users.
+So the steps at a glance are: Download a *.po object (eg. from Github), edit it
+and then create a *.mo file which may then be used by Silverjuke.  The edited
+*.po file may be shared with other users by uploading eg. to Github.
  
 
 **What's needed**
@@ -34,14 +35,13 @@ using poEdit.
 **Let's start!**
 
 To start a localisation, please use one of the existing "Portable Object" 
-(*.po) files available in the source and save it to your Silverjuke directory 
-beside "Silverjuke.exe". Eg. the file "de.po" contains the english strings 
-as sources and German strings as the current translation (which will be replaced 
+(*.po) files. Eg. the file "de.po" contains the english strings as sources and
+German strings as the current translation (which will be replaced 
 by your translation).
 
 After the download, rename the file to the two-letter ISO 639.1 
 (see http://www.loc.gov/standards/iso639-2/englangn.html ) abbreviation of the 
-language to create, use eg. "fr" for "French" or "es" for "Spanish".
+language to create, use eg. "fr.po" for "French" or "es.po" for "Spanish".
 
 Then, just open the file in poEdit and define the new language and the new 
 country using "Catalog/Settings/Project info", you can also add your e-mail
@@ -50,14 +50,12 @@ written automatically, see "File/Preferences/Editor/Automatically compile
 .mo files on save".
 
 Now you can begin with the translation: poEdit shows the original strings aleft
-and the translated strings (still German) aright. First select the original 
-string "Cancel" and adapt the translated string in the text field abottom.
+and the translated strings (still German) aright.
 
-For a first try, save your project now and start Silverjuke. In Silverjuke, 
-open "Settings/Basic settings/Languages" where your new language should appear
-in the list. Select it and restart Silverjuke. Now, Silverjuke should come along
-in German, but the button "Cancel" should have the new translation in all
-dialogs now.
+For a first try, change some strings and save your project. Then make sure, 
+the *.mo file is at the right place and start Silverjuke. In Silverjuke you may
+need to switch to the new language by entering the canonical name to
+"Advanved Settings/Languages"
 
 If all this works, you can translate all other strings.
 
@@ -80,21 +78,17 @@ explained in the comment window inside poEdit.
 
 **Publishing your work**
 
-We would be very happy if we can publish your work on silverjuke.net -- for this
-purpose, just send the *.mo and *.po files attached to an e-mail to
-drsilver at silverjuke dot net. You may also include your name, your e-mail and
-a comment to appear on our website.
-
-For any problems on your localization work, feel free to contact us via e-mail 
-or to post any questions to this forum.
+We would be very happy if you publish your work eg. on Github by a
+"Pull Request".  The language changes will come along with the next version of
+Silverjuke then.
 
 
-Adding a virtual keyboard to your locale
-================================================================================
+**Adding a virtual keyboard to your locale**
 
 If wanted, you can also embed a virtual keyboard layout to the locale. For this
 purpose, just copy the keyboard definition to the field `__VIRT_KEYBD__` of the
-*.po file.
+*.po file.  However, this method is deprecated, please use single *.sjk files
+instead.
 
 A description, about how to define virtual keyboards is placed file 
 docs/virtual-keyboards.

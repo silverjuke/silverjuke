@@ -542,12 +542,6 @@ public:
 	static wxString LocaleConfigRead    (const wxString& keyname, const wxString& def);
 	static long     LocaleConfigRead    (const wxString& keyname, long def);
 
-	// language stuff
-	static const wxLanguageInfo*
-	FindLanguageInfo    (const wxString& canonicalName);
-	wxArrayString   GetAvailLanguages   (wxArrayString* files=NULL);
-	static bool     IsLangGerman        ();
-
 private:
 	wxConfigBase*   m_oldConfig;
 

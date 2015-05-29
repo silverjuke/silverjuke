@@ -52,6 +52,7 @@
 #endif
 #include <wx/cmdline.h>
 #include <wx/clipbrd.h>
+#include <wx/stdpaths.h>
 
 #include <sjdata/icons/xpm_sj_32.xpm>
 #include <sjdata/icons/xpm_sj_16.xpm>
@@ -997,84 +998,33 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	 *     (SjModule constructor) and SjTools
 	 */
 	{
+		// define search paths for .mo lookup
+		#if defined(__WXMSW__)
+			wxLocale::AddCatalogLookupPathPrefix(wxStandardPaths::Get().GetResourcesDir() + wxT("\\locale")); // eg. "C:\program Files\Silverjuke\locale"
+		#elif !defined(__WXOSX__)
+			wxLocale::AddCatalogLookupPathPrefix(wxT("/usr/local/share/locale")); // for proper installations, wx should already search here, however, for development installations, this explicit path may help
+		#endif
+
 		// get language to use as canonical name
 		wxString langCanonicalName;
 		const wxLanguageInfo* langInfo = wxLocale::GetLanguageInfo(wxLocale::GetSystemLanguage());
 		langCanonicalName = langInfo? langInfo->CanonicalName : wxString(wxT("en_GB"));
 		langCanonicalName = g_tools->m_config->Read(wxT("main/language"), langCanonicalName);
-		#ifdef __WXGTK__
-		langCanonicalName = wxT("en_GB"); // TODO: make localization work for GTK
-		#endif
 
-		// init wxLocale to use this language
-		langInfo = SjTools::FindLanguageInfo(langCanonicalName);
-		if( langInfo )
+		// convert the canonical name to a language information structure, NULL on errors
+		langInfo = wxLocale::FindLanguageInfo(langCanonicalName);
+
+		// init the locale
 		{
-			#ifdef __WXGTK__
-			wxLogNull null; // TODO: suspicious errors otherwise... why is there a message like "cannot set locale to ..."?
-			#endif
-			m_locale.Init(langInfo->Language, 0);
+			wxLogNull null; // avoid warnings like "cannot set locale to ..." if the language is not available as a system language
+			if( !m_locale.Init(langInfo? langInfo->Language : wxLANGUAGE_DEFAULT, 0) )
+			{
+				m_locale.Init(langCanonicalName, langCanonicalName); // not sure why, however, this form loads catalogs even if the locale is not supported by the system
+			}
 		}
 
-		// load strings for this language (if available)
-		if( langCanonicalName != wxT("en_GB") && langCanonicalName.Len() >= 2 )
-		{
-			wxString shortCanonicalName = langCanonicalName.Left(2).Lower();
-			wxString langPathNFile;
-			bool     deleteLangPathNFile = FALSE;
-
-			wxString langSelectedFile = g_tools->m_config->Read(wxT("main/languageFile"), wxT(""));
-			if( !langSelectedFile.IsEmpty()
-			 && ::wxFileExists(langSelectedFile) )
-			{
-				// load a concrete file selected by the user
-				langPathNFile = langSelectedFile;
-			}
-			else
-			{
-				// check if the language is available by an external file
-				wxArrayString langFiles;
-				wxArrayString langIds = g_tools->GetAvailLanguages(&langFiles);
-				long i = langIds.Index(langCanonicalName);
-				if( i != wxNOT_FOUND )
-				{
-					langPathNFile = langFiles[i];
-				}
-				else
-				{
-					i = langIds.Index(shortCanonicalName);
-					if( i != wxNOT_FOUND )
-					{
-						langPathNFile = langFiles[i];
-					}
-				}
-			}
-
-			if( !langPathNFile.IsEmpty() )
-			{
-				// load the language file, if found above
-				if( !deleteLangPathNFile ) {
-					wxLogInfo(wxT("Loading %s"), langPathNFile.c_str());
-				}
-
-				wxString langPath, langFile;
-				langFile = g_tools->GetFileNameFromUrl(langPathNFile, &langPath, FALSE, TRUE);
-				m_locale.AddCatalogLookupPathPrefix(langPath);
-				if( !m_locale.AddCatalog(langFile) )
-				{
-					langFile = langFile.BeforeLast('_');
-					m_locale.AddCatalog(langFile);
-				}
-
-				if( deleteLangPathNFile )
-				{
-					// as the localization reads the complete catalogue to memory,
-					// any temp. file is no longer needed and can be deleted
-					// (added in V1.17beta3)
-					g_tools->m_cache.RemoveFromUnmanagedTemp(langPathNFile);
-				}
-			}
-		}
+		// add translation catalog
+		m_locale.AddCatalog(wxT("silverjuke"));
 	}
 
 	/* (/) Crash handling (after i18n for localized messages)

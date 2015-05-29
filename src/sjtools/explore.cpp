@@ -137,19 +137,6 @@ void SjTools::ExploreUrl(const wxString& url)
  ******************************************************************************/
 
 
-bool SjTools::IsLangGerman()
-{
-	wxString lang(LocaleConfigRead(wxT("__THIS_LANG__"), wxT("en")));
-	lang.MakeLower();
-	lang = lang.Left(2);
-	if( lang == wxT("de") )
-	{
-		return TRUE;
-	}
-	return FALSE;
-}
-
-
 void SjTools::ExploreHomepage(SjHomepageId pageId, const wxString& param)
 {
 	if( !g_mainFrame->IsAllAvailable() )
@@ -158,9 +145,8 @@ void SjTools::ExploreHomepage(SjHomepageId pageId, const wxString& param)
 	}
 
 	// get the language
-	wxString lang = wxT("en");
-	if( IsLangGerman() )
-		lang = wxT("de");
+
+	wxString lang = g_mainFrame->m_locale.GetCanonicalName();
 
 	// create the url
 
