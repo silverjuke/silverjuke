@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.1\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:22+0200\n"
-"PO-Revision-Date: 2015-05-29 23:22+0200\n"
+"POT-Creation-Date: 2015-05-29 23:32+0200\n"
+"PO-Revision-Date: 2015-05-29 23:32+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -75,7 +75,7 @@ msgstr "%s tracks"
 #: src/sjmodules/playbacksettings.cpp:380
 #: src/sjmodules/playbacksettings.cpp:735
 #: src/sjmodules/playbacksettings.cpp:757
-#: src/sjmodules/playbacksettings.cpp:1229
+#: src/sjmodules/playbacksettings.cpp:1231
 #: src/sjmodules/scanner/folder_scanner.cpp:200
 #: src/sjmodules/viewsettings.cpp:562
 msgid "Reset to default values"
@@ -245,7 +245,7 @@ msgid "Start playback on first enqueue"
 msgstr "Start playback on first enqueue"
 
 #: src/sjbase/mainframe.cpp:1991 src/sjmodules/accel.cpp:116
-#: src/sjmodules/playbacksettings.cpp:1188
+#: src/sjmodules/playbacksettings.cpp:1190
 msgid "Remove played tracks from queue"
 msgstr "Remove played tracks from queue"
 
@@ -270,7 +270,7 @@ msgstr[0] "Remove %i track from the queue and stop playback?"
 msgstr[1] "Remove %i tracks from the queue and stop playback?"
 
 #: src/sjbase/mainframe.cpp:2086 src/sjmodules/accel.cpp:97
-#: src/sjmodules/playbacksettings.cpp:1444
+#: src/sjmodules/playbacksettings.cpp:1446
 msgid "Clear playlist"
 msgstr "Clear playlist"
 
@@ -417,7 +417,7 @@ msgid "View"
 msgstr "View"
 
 #: src/sjbase/mainframe_menu.cpp:64 src/sjbase/player_base.cpp:82
-#: src/sjmodules/playbacksettings.cpp:1772
+#: src/sjmodules/playbacksettings.cpp:1774
 msgid "Playback"
 msgstr "Playback"
 
@@ -487,8 +487,8 @@ msgstr "Queue"
 msgid "Start kiosk mode..."
 msgstr "Start kiosk mode..."
 
-#: src/sjbase/mainframe_menu.cpp:526 src/sjmodules/playbacksettings.cpp:1379
-#: src/sjmodules/playbacksettings.cpp:1810
+#: src/sjbase/mainframe_menu.cpp:526 src/sjmodules/playbacksettings.cpp:1381
+#: src/sjmodules/playbacksettings.cpp:1812
 msgid "Current view"
 msgstr "Current view"
 
@@ -1315,7 +1315,7 @@ msgstr "Ask before changing the rating"
 
 #: src/sjmodules/accel.cpp:877 src/sjmodules/basicsettings.cpp:435
 #: src/sjmodules/playbacksettings.cpp:87
-#: src/sjmodules/playbacksettings.cpp:1505
+#: src/sjmodules/playbacksettings.cpp:1507
 msgid "Further options"
 msgstr "Further options"
 
@@ -1363,8 +1363,8 @@ msgid "Workspace"
 msgstr "Workspace"
 
 #: src/sjmodules/accel.cpp:1174 src/sjmodules/advsearch.cpp:1275
-#: src/sjmodules/advsearch.cpp:2350 src/sjmodules/playbacksettings.cpp:1379
-#: src/sjmodules/playbacksettings.cpp:1810
+#: src/sjmodules/advsearch.cpp:2350 src/sjmodules/playbacksettings.cpp:1381
+#: src/sjmodules/playbacksettings.cpp:1812
 msgid "Music selection"
 msgstr "Music selection"
 
@@ -1714,7 +1714,7 @@ msgstr ""
 msgid "70's music"
 msgstr "70's music"
 
-#: src/sjmodules/advsearch.cpp:2762 src/sjmodules/playbacksettings.cpp:1319
+#: src/sjmodules/advsearch.cpp:2762 src/sjmodules/playbacksettings.cpp:1321
 msgid "Worst rated"
 msgstr "Worst rated"
 
@@ -2814,7 +2814,7 @@ msgstr "Close video screen after %i minutes"
 
 #: src/sjmodules/playbacksettings.cpp:313
 #: src/sjmodules/playbacksettings.cpp:334
-#: src/sjmodules/playbacksettings.cpp:1502
+#: src/sjmodules/playbacksettings.cpp:1504
 msgid "Volume control"
 msgstr "Volume control"
 
@@ -2839,7 +2839,7 @@ msgid "Calculated volumes:"
 msgstr "Calculated volumes:"
 
 #: src/sjmodules/playbacksettings.cpp:667
-#: src/sjmodules/playbacksettings.cpp:1499
+#: src/sjmodules/playbacksettings.cpp:1501
 msgid "Fading"
 msgstr "Fading"
 
@@ -2885,30 +2885,33 @@ msgstr ""
 "values\n"
 "cause major variations."
 
-#: src/sjmodules/playbacksettings.cpp:1171
+#. TRANSLATORS: %i will be replaced by a number
+#: src/sjmodules/playbacksettings.cpp:1172
 #, c-format
-msgid "Kiosk mode: Allow max. %i tracks waiting in queue"
-msgstr "Kiosk mode: Allow max. %i tracks waiting in queue"
+msgid "Kiosk mode: Allow max. %i track waiting in queue"
+msgid_plural "Kiosk mode: Allow max. %i tracks waiting in queue"
+msgstr[0] "Kiosk mode: Allow max. %i track waiting in queue"
+msgstr[1] "Kiosk mode: Allow max. %i tracks waiting in queue"
 
-#: src/sjmodules/playbacksettings.cpp:1179
+#: src/sjmodules/playbacksettings.cpp:1181
 msgid "Kiosk mode: Avoid double tracks waiting in queue"
 msgstr "Kiosk mode: Avoid double tracks waiting in queue"
 
-#: src/sjmodules/playbacksettings.cpp:1197
+#: src/sjmodules/playbacksettings.cpp:1199
 #, c-format
 msgid "Avoid boredom: No track repetition within %i minutes"
 msgstr "Avoid boredom: No track repetition within %i minutes"
 
-#: src/sjmodules/playbacksettings.cpp:1204
+#: src/sjmodules/playbacksettings.cpp:1206
 #, c-format
 msgid "Avoid boredom: No artist repetition within %i minutes"
 msgstr "Avoid boredom: No artist repetition within %i minutes"
 
-#: src/sjmodules/playbacksettings.cpp:1215
+#: src/sjmodules/playbacksettings.cpp:1217
 msgid "Shuffle intensity:"
 msgstr "Shuffle intensity:"
 
-#: src/sjmodules/playbacksettings.cpp:1331
+#: src/sjmodules/playbacksettings.cpp:1333
 msgid ""
 "Use the following options to define which actions should be done "
 "automatically\n"
@@ -2918,41 +2921,41 @@ msgstr ""
 "automatically\n"
 "after given timeouts."
 
-#: src/sjmodules/playbacksettings.cpp:1339
+#: src/sjmodules/playbacksettings.cpp:1341
 #, c-format
 msgid "AutoPlay: If the playlist is empty, wait %i minutes;"
 msgstr "AutoPlay: If the playlist is empty, wait %i minutes;"
 
-#: src/sjmodules/playbacksettings.cpp:1351
+#: src/sjmodules/playbacksettings.cpp:1353
 #, c-format
 msgid "then, play %i tracks from the %s"
 msgstr "then, play %i tracks from the %s"
 
-#: src/sjmodules/playbacksettings.cpp:1398
+#: src/sjmodules/playbacksettings.cpp:1400
 msgid "Ignore tracks from the music selection"
 msgstr "Ignore tracks from the music selection"
 
-#: src/sjmodules/playbacksettings.cpp:1422
+#: src/sjmodules/playbacksettings.cpp:1424
 msgid "Manually enqueued tracks interrupt AutoPlay immediately"
 msgstr "Manually enqueued tracks interrupt AutoPlay immediately"
 
-#: src/sjmodules/playbacksettings.cpp:1438
+#: src/sjmodules/playbacksettings.cpp:1440
 msgid "Sleep mode:"
 msgstr "Sleep mode:"
 
-#: src/sjmodules/playbacksettings.cpp:1443
+#: src/sjmodules/playbacksettings.cpp:1445
 msgid "Stop playback"
 msgstr "Stop playback"
 
-#: src/sjmodules/playbacksettings.cpp:1451
+#: src/sjmodules/playbacksettings.cpp:1453
 msgid "in|after|at|always in|always after|always at"
 msgstr "in|after|at|always in|always after|always at"
 
-#: src/sjmodules/playbacksettings.cpp:1468
+#: src/sjmodules/playbacksettings.cpp:1470
 msgid "minutes|minutes of inactivity|o'clock"
 msgstr "minutes|minutes of inactivity|o'clock"
 
-#: src/sjmodules/playbacksettings.cpp:1486
+#: src/sjmodules/playbacksettings.cpp:1488
 #, c-format
 msgid "Before this, fade out %i seconds"
 msgstr "Before this, fade out %i seconds"
