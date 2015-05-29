@@ -1168,7 +1168,9 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateQueuePage(wxWindow* parent)
 	g_kioskModule->LoadConfig();
 
 	m_maxTracks.Create(page, sizer1,
-	                   _("Kiosk mode: Allow max. %i tracks waiting in queue"), wxLEFT|wxRIGHT|wxTOP,
+	                   // TRANSLATORS: %i will be replaced by a number
+	                   wxPLURAL("Kiosk mode: Allow max. %i track waiting in queue", "Kiosk mode: Allow max. %i tracks waiting in queue", g_kioskModule->m_configMaxTracksInQueue),
+	                   wxLEFT|wxRIGHT|wxTOP,
 	                   IDC_TRACKSINQUEUECHECK, (g_kioskModule->m_configKioskf&SJ_KIOSKF_MAX_TRACKS_IN_QUEUE)!=0,
 	                   -1, g_kioskModule->m_configMaxTracksInQueue, 1, 999);
 
