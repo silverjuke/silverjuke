@@ -1232,21 +1232,21 @@ wxPanel* SjKioskConfigPage::CreateVirtKeybdPage(wxWindow* parent)
 	SjArrayVirtKeybdLayout layouts;
 	wxString currKeybdLayout = g_virtKeybd->GetKeybdLayout();
 	g_virtKeybd->GetAvailKeybdLayouts(layouts);
-	long i, iCount = layouts.GetCount(), sthSelected = 0;
+	long i, iCount = layouts.GetCount();
+	bool sthSelected = false;
 	for( i = 0; i < iCount; i++ )
 	{
 		m_virtKeybdLayout->Append(layouts[i].m_name, (void*)i);
 		if( currKeybdLayout == layouts[i].m_file )
 		{
 			m_virtKeybdLayout->SetSelection(i);
-			sthSelected = 1;
+			sthSelected = true;
 		}
 	}
 	if( !sthSelected )
 	{
-		m_virtKeybdLayout->SetSelection(0); // = US International
+		m_virtKeybdLayout->SetSelection(0);
 	}
-	m_virtKeybdLayout->Append(_("More layouts on the web..."), (void*)0x0000FFFFL);
 	SjDialog::SetCbWidth(m_virtKeybdLayout);
 	sizer2->Add(m_virtKeybdLayout, 0, wxALIGN_CENTER_VERTICAL);
 
@@ -1383,7 +1383,6 @@ void SjKioskConfigPage::OnVirtKeybdLayout(wxCommandEvent&)
 	SjArrayVirtKeybdLayout layouts;
 	wxString currKeybdLayout = g_virtKeybd->GetKeybdLayout();
 	g_virtKeybd->GetAvailKeybdLayouts(layouts);
-	long i, iCount = layouts.GetCount(), sthSelected = 0;
 
 	long selIndex = m_virtKeybdLayout->GetSelection();
 	if( selIndex == -1 )
@@ -1391,32 +1390,10 @@ void SjKioskConfigPage::OnVirtKeybdLayout(wxCommandEvent&)
 		return;
 	}
 
-	selIndex = (long)m_virtKeybdLayout->GetClientData(selIndex);
-	if( selIndex == 0x0000FFFFL )
+	long clientData = (long)m_virtKeybdLayout->GetClientData(selIndex);
+	if( clientData >= 0 && clientData < (long)layouts.GetCount() )
 	{
-		// open browser to get more layouts from the web
-		for( i = 0; i < iCount; i++ )
-		{
-			if( currKeybdLayout == layouts[i].m_file )
-			{
-				m_virtKeybdLayout->SetSelection(i);
-				sthSelected = 1;
-			}
-		}
-		if( !sthSelected )
-		{
-			m_virtKeybdLayout->SetSelection(0); // = US International
-		}
-
-		g_tools->ExploreHomepage(SJ_HOMEPAGE_MODULES_VIRTKEYB);
-	}
-	else
-	{
-		// select layout
-		if( selIndex >= 0 && selIndex < (long)layouts.GetCount() )
-		{
-			g_virtKeybd->SetKeybdLayout(layouts[selIndex].m_file);
-		}
+		g_virtKeybd->SetKeybdLayout(layouts[clientData].m_file);
 	}
 }
 

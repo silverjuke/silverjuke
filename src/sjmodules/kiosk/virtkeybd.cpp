@@ -399,7 +399,7 @@ bool SjVirtKeybdLayout::LoadLayoutFromFile(const wxString& file__, wxArrayString
 	wxString fileContent;
 	if( file == wxString::Format(wxT("locale:%s.sjk"), SjTools::LocaleConfigRead(wxT("__THIS_LANG__"), wxT("en")).c_str()) )
 	{
-		fileContent = SjTools::LocaleConfigRead(wxT("__VIRT_KEYBD__"), wxT(""));
+		fileContent = SjTools::LocaleConfigRead(wxT("__VIRT_KEYBD__"), wxT("")); // deprecated
 	}
 	else
 	{
@@ -1053,7 +1053,7 @@ void SjVirtKeybdFrame::RedrawAllOnscreen(wxDC& dc)
 
 	// draw background
 	dc.SetBrush(m_backgroundBrush);
-	dc.SetPen(wxNullPen);
+	dc.SetPen(*wxTRANSPARENT_PEN);
 
 	dc.DrawRectangle(0, 0, clientSize.x, clientSize.y);
 
@@ -1309,7 +1309,7 @@ bool SjVirtKeybdFrame::CheckClose(wxWindow* focusWindow)
 	}
 
 	if(
-		#ifdef __WXMAC__
+		#if defined(__WXMAC__) || defined(__WXGTK__)
 			m_isActive
 		#else
 			focusWindow == this ||  focusWindow == inputReceiver
@@ -1492,16 +1492,8 @@ wxString SjVirtKeybdModule::GetKeybdLayout()
 			m_layoutFile_dontUse.Printf(wxT("locale:%s,0"), thisLang.c_str());
 			if( !test.LoadLayoutFromFile(m_layoutFile_dontUse, NULL) )
 			{
-				// try to load the layout defined in the locale
-				if( g_mainFrame->m_moduleSystem.m_internalSjk.Index(thisLang) != wxNOT_FOUND )
-				{
-					m_layoutFile_dontUse = wxT("memory:") + thisLang + wxT(".sjk,0");
-				}
-				else
-				{
-					// us the default english layout (always present)
-					m_layoutFile_dontUse = wxT("memory:en.sjk,0");
-				}
+				// us the default english layout (always present)
+				m_layoutFile_dontUse = wxT("memory:en.sjk,0");
 			}
 		}
 	}
@@ -1581,13 +1573,9 @@ void SjVirtKeybdModule::GetAvailKeybdLayoutsFromDir(SjArrayVirtKeybdLayout& list
 }
 void SjVirtKeybdModule::GetAvailKeybdLayouts(SjArrayVirtKeybdLayout& list)
 {
-	int i, iCount = g_mainFrame->m_moduleSystem.m_internalSjk.GetCount();
-	for( i = 0; i < iCount; i++ )
-	{
-		GetAvailKeybdLayoutsFromFile(list, wxT("memory:") + g_mainFrame->m_moduleSystem.m_internalSjk[i] + wxT(".sjk"));
-	}
+	GetAvailKeybdLayoutsFromFile(list, wxT("memory:en.sjk"));
 
-	GetAvailKeybdLayoutsFromFile(list, wxString::Format(wxT("locale:%s.sjk"), SjTools::LocaleConfigRead(wxT("__THIS_LANG__"), wxT("en")).c_str()));
+	GetAvailKeybdLayoutsFromFile(list, wxString::Format(wxT("locale:%s.sjk"), SjTools::LocaleConfigRead(wxT("__THIS_LANG__"), wxT("en")).c_str())); // deprecated
 
 	int currSearchDirIndex;
 	for( currSearchDirIndex = 0; currSearchDirIndex < g_tools->GetSearchPathCount(); currSearchDirIndex++ )

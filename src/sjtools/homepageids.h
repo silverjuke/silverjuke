@@ -39,7 +39,6 @@ enum SjHomepageId
 	SJ_HOMEPAGE_INDEX                  = 0,
 	SJ_HOMEPAGE_MODULES                = 3,
 	SJ_HOMEPAGE_MODULES_SKINS          = 5,
-	SJ_HOMEPAGE_MODULES_VIRTKEYB       = 7,
 	SJ_HOMEPAGE_HELP_INDEX             = 9,
 };
 

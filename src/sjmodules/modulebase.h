@@ -724,8 +724,6 @@ public:
 	// to all module interfaces
 	void            BroadcastMsg        (int);
 
-	wxArrayString   m_internalSjk;
-
 	wxArrayString   m_scripts;
 	#if SJ_USE_SCRIPTS
 	wxArrayPtrVoid  m_sees;

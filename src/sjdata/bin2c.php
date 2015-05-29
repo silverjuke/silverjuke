@@ -104,16 +104,6 @@ function addFile($filename, $addAs = "")
 	fwrite($destHandle, "};\n");
 	
 	$destEpilogue .= "\n    wxMemoryFSHandler::AddFile(wxT(\"$addAs\"), s_bin2c_file{$srcCnt}, {$filebytes});";
-	if( substr($addAs, -3) == '.mo' )
-	{
-		$langId = substr($addAs, 0, strlen($addAs)-3);
-		$destEpilogue .= "\n    m_internalMo.Add(wxT(\"$langId\"));";
-	}
-	if( substr($addAs, -4) == '.sjk' )
-	{
-		$langId = substr($addAs, 0, strlen($addAs)-4);
-		$destEpilogue .= "\n    m_internalSjk.Add(wxT(\"$langId\"));";
-	}
 	
 	// close file
 	fclose($srcHandle);
@@ -172,6 +162,7 @@ openDest('data.cpp');
 	addFile  ('icons/icons16.png', 'icons16.png');
 	addFile  ('icons/icons32.png', 'icons32.png');
 	addFile	 ('icons/aboutlogo.gif', 'aboutlogo.gif');
+	addFile	 ('keyboards/en.sjk', 'en.sjk');
 closeDest();
 
 
