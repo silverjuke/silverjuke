@@ -4028,7 +4028,10 @@ bool SjLibraryModule::SetRating(const wxArrayString& urls, long rating)
 	{
 		// wxWindowDisabler disabler(g_mainFrame); -- done in YesNo()
 		if( g_accelModule->YesNo(
-		            wxString::Format(_("Do you want to change the rating for all %i selected tracks?"), (int)trackCount),
+		            wxString::Format(
+		              // TRANSLATORS: %i will be replaced by the number of tracks
+		              wxPLURAL("Do you want to change the rating for %i selected track?", "Do you want to change the rating for %i selected tracks?", trackCount),
+		              (int)trackCount),
 		            _("Change rating"),
 		            g_mainFrame,
 		            SJ_ACCEL_ASK_ON_RATING_CHANGE)!=wxYES )
@@ -4087,7 +4090,10 @@ void SjLibraryModule::HandleMenu(int id)
 				{
 					// wxWindowDisabler disabler(g_mainFrame); -- done in YesNo()
 					if( g_accelModule->YesNo(
-					            wxString::Format(_("Do you want to change the rating for all %i selected tracks?"), (int)trackCount),
+					            wxString::Format(
+					              // TRANSLATORS: %i will be replaced by the number of tracks
+					              wxPLURAL("Do you want to change the rating for %i selected track?", "Do you want to change the rating for %i selected tracks?", trackCount),
+					              (int)trackCount),
 					            _("Change rating"),
 					            g_mainFrame,
 					            SJ_ACCEL_ASK_ON_RATING_CHANGE)!=wxYES )
