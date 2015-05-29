@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
 "POT-Creation-Date: 2015-05-29 23:32+0200\n"
-"PO-Revision-Date: 2015-05-29 22:58+0200\n"
+"PO-Revision-Date: 2015-05-29 23:35+0200\n"
 "Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -2967,18 +2967,15 @@ msgstr ""
 
 #. TRANSLATORS: %i will be replaced by a number
 #: src/sjmodules/playbacksettings.cpp:1172
-#, fuzzy, c-format
-#| msgid "Allow max. %i tracks waiting in queue"
+#, c-format
 msgid "Kiosk mode: Allow max. %i track waiting in queue"
 msgid_plural "Kiosk mode: Allow max. %i tracks waiting in queue"
-msgstr[0] "Max. %i Titel in Warteschlange zulassen"
-msgstr[1] "Max. %i Titel in Warteschlange zulassen"
+msgstr[0] "Kiosk-Modus: Max. %i Titel in Warteschlange zulassen"
+msgstr[1] "Kiosk-Modus: Max. %i Titel in Warteschlange zulassen"
 
 #: src/sjmodules/playbacksettings.cpp:1181
-#, fuzzy
-#| msgid "Avoid double tracks waiting in queue"
 msgid "Kiosk mode: Avoid double tracks waiting in queue"
-msgstr "Doppelte Titel in Warteschlange vermeiden"
+msgstr "Kiosk-Modus: Doppelte Titel in Warteschlange vermeiden"
 
 # %i will be replaced by a control to select the number of minutes
 #: src/sjmodules/playbacksettings.cpp:1199
