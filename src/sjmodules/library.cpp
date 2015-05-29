@@ -3797,7 +3797,10 @@ void SjLibraryModule::UpdateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool upd
 	else if( trackCount > 1 )
 	{
 		enqueueMenu->Enable(IDT_ENQUEUE_LAST, TRUE);
-		enqueueMenu->SetLabel(IDT_ENQUEUE_LAST, wxString::Format(_("Enqueue %i tracks"), (int)trackCount));
+		enqueueMenu->SetLabel(IDT_ENQUEUE_LAST, wxString::Format(
+		  // TRANSLATORS: %i will be replaced by the number of tracks
+		  wxPLURAL("Enqueue %i track", "Enqueue %i tracks", trackCount),
+		  (int)trackCount));
 
 		if( g_mainFrame->IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 		{
@@ -4965,8 +4968,14 @@ void SjLibraryModule::AskToAddSelection()
 	{
 		// wxWindowDisabler disabler(this); -- done by YesNo()
 		if( g_accelModule->YesNo(
-		            wxString::Format(_("Do you want to enqueue all %i selected tracks?"), trackCount),
-		            wxString::Format(_("Enqueue %i tracks"), trackCount),
+		            wxString::Format(
+		              // TRANSLATORS: %i will be replaced by the number of tracks
+		              wxPLURAL("Do you want to enqueue %i selected track?", "Do you want to enqueue %i selected tracks?", trackCount),
+		              trackCount),
+		            wxString::Format(
+		              // TRANSLATORS: %i will be replaced by the number of tracks
+		              wxPLURAL("Enqueue %i track", "Enqueue %i tracks", trackCount),
+		              trackCount),
 		            g_mainFrame,
 		            SJ_ACCEL_ASK_ON_MULTI_ENQUEUE) != wxYES )
 		{
