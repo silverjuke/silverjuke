@@ -1,0 +1,273 @@
+
+layout=French;
+
+key=&;          shift=1;alt1=²;
+key=é;          shift=2;alt1=alt5 "~";alt5=alt5 "~";
+key=";          shift=3;alt1=#;
+key=';          shift=4;alt1={;
+key=(;          shift=5;alt1=[;
+key=-;          shift=6;alt1=|;
+key=è;          shift=7;alt1=alt4 "`";alt1shift=alt3 "´";alt3=alt3 "´";alt4=alt4 "`";
+key=_;          shift=8;alt1=0x5c;
+key=0xe7;       shift=9;alt1=^;
+key=à;          shift=0;alt1=@;
+key=);          shift=°;alt1=];
+key==;          shift=+;alt1=};
+key=backsp;     shift=clearall;alt1=clearall;alt2=backsp;alt3=clearall;alt4=clearall;alt5=clearall;alt7=clearall;width=1.8;
+nextline;
+
+spacer;         width=0.5;
+key=a;          shift=A;alt2=â;alt2shift=Â;alt3=á;alt3shift=Á;alt4=à;alt4shift=À;alt5=0xe3;alt5shift=0xc3;alt7=ä;alt7shift=Ä;
+key=z;          shift=Z;
+key=e;          shift=E;alt1=0x80;alt2=ê;alt2shift=Ê;alt3=é;alt3shift=É;alt4=è;alt4shift=È;alt7=0xeb;alt7shift=0xcb;
+key=r;          shift=R;key=t;shift=T;
+key=y;          shift=Y;alt3=ý;alt3shift=Ý;alt7=0xFF;alt7shift=0x9f;
+key=u;          shift=U;alt2=û;alt2shift=Û;alt3=ú;alt3shift=Ú;alt4=ù;alt4shift=Ù;alt7=ü;alt7shift=Ü;
+key=i;          shift=I;alt2=î;alt2shift=Î;alt3=í;alt3shift=Í;alt4=ì;alt4shift=Ì;alt7=0xef;alt7shift=0xcf;
+key=o;          shift=O;alt2=ô;alt2shift=Ô;alt3=ó;alt3shift=Ó;alt4=ò;alt4shift=Ò;alt5=0xf5;alt5shift=0xd5;alt7=ö;alt7shift=Ö;
+key=p;          shift=P;
+key=alt2 "^";   shift=alt7 "¨";alt2=alt2 "^";alt7=alt7 "¨";
+key=$;          shift=0xa3;alt1=0xa4;
+key=enter;      alt1=enter;alt2=enter;alt3=enter;alt4=enter;alt5=enter;alt7=enter;width=1.3;
+nextline;
+
+spacer;         width=0.8;
+key=q;          shift=Q;
+key=s;          shift=S;
+key=d;          shift=D;
+key=f;          shift=F;
+key=g;          shift=G;
+key=h;          shift=H;
+key=j;          shift=J;
+key=k;          shift=K;
+key=l;          shift=L;
+key=m;          shift=M;
+key=ù;          shift=%;
+key=*;          shift=0xb5;
+key=entercont;
+nextline;
+
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt7=shift;width=1.4;
+key=w;          shift=W;alt1=<;
+key=x;			shift=X;alt1=>;
+key=c;          shift=C;alt3=0xe7;alt3shift=0xc7;
+key=v;          shift=V;
+key=b;          shift=B;
+key=n;          shift=N;alt5=0xf1;alt5shift=0xd1;
+key=,;          shift=?;
+key=0x3b;       shift=.;
+key=:;          shift=/;
+key=!;          shift=§;
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt7=shift;width=2.4;
+nextline;
+
+spacer;         width=2.9;
+key=0x20;       width=7;alt2=^;alt3=´;alt4=`;alt5=~;alt7=¨;
+key=alt1;       alt1=alt1;alt2=alt1;alt3=alt1;alt4=alt1;alt5=alt1;alt7=alt1;width=2;
+
+
+
+layout=Belgian French;
+
+key=&;          shift=1;alt1=|;
+key=é;          shift=2;alt1=@;
+key=";          shift=3;alt1=#;
+key=';          shift=4;alt1={;
+key=(;          shift=5;alt1=[;
+key=§;          shift=6;alt1=^;
+key=è;          shift=7;
+key=!;          shift=8;
+key=0xe7;       shift=9;alt1={;
+key=à;          shift=0;alt1=};
+key=);          shift=°;
+key=-;          shift=_;
+key=backsp;     shift=clearall;alt1=clearall;alt2=backsp;alt3=clearall;alt4=clearall;alt5=clearall;alt7=clearall;width=1.8;
+nextline;
+
+spacer;         width=0.5;
+key=a;          shift=A;alt1=²;alt2=â;alt2shift=Â;alt3=á;alt3shift=Á;alt4=à;alt4shift=À;alt5=0xe3;alt5shift=0xc3;alt7=ä;alt7shift=Ä;
+key=z;          shift=Z;alt1=³;
+key=e;          shift=E;alt1=0x80;alt2=ê;alt2shift=Ê;alt3=é;alt3shift=É;alt4=è;alt4shift=È;alt7=0xeb;alt7shift=0xcb;
+key=r;          shift=R;
+key=t;          shift=T;
+key=y;          shift=Y;alt3=ý;alt3shift=Ý;alt7=0xFF;alt7shift=0x9f;
+key=u;          shift=U;alt2=û;alt2shift=Û;alt3=ú;alt3shift=Ú;alt4=ù;alt4shift=Ù;alt7=ü;alt7shift=Ü;
+key=i;          shift=I;alt2=î;alt2shift=Î;alt3=í;alt3shift=Í;alt4=ì;alt4shift=Ì;alt7=0xef;alt7shift=0xcf;
+key=o;          shift=O;alt2=ô;alt2shift=Ô;alt3=ó;alt3shift=Ó;alt4=ò;alt4shift=Ò;alt5=0xf5;alt5shift=0xd5;alt7=ö;alt7shift=Ö;
+key=p;          shift=P;
+key=alt2 "^";   shift=alt7 "¨";alt1=[;alt2=alt2 "^";alt7=alt7 "¨";
+key=$;          shift=*;alt1=];
+key=enter;      alt1=enter;alt2=enter;alt3=enter;alt4=enter;alt5=enter;alt7=enter;width=1.3;
+nextline;
+
+spacer;         width=0.8;
+key=q;          shift=Q;
+key=s;          shift=S;
+key=d;          shift=D;
+key=f;          shift=F;
+key=g;          shift=G;
+key=h;          shift=H;
+key=j;          shift=J;
+key=k;          shift=K;
+key=l;          shift=L;
+key=m;          shift=M;
+key=ù;          shift=%;alt1=alt3 "´";alt3=alt3 "´";
+key=0xb5;       shift=0xa3;alt1=alt4 "`";alt4=alt4 "`";
+key=entercont;
+nextline;
+
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt7=shift;width=1.4;
+key=w;          shift=W;alt1=<;
+key=x;          shift=X;alt1=>;
+key=c;          shift=C;alt1=0x5c;alt3=0xe7;alt3shift=0xc7;
+key=v;          shift=V;
+key=b;          shift=B;
+key=n;          shift=N;alt5=0xf1;alt5shift=0xd1;
+key=,;          shift=?;
+key=0x3b;       shift=.;
+key=:;          shift=/;
+key==;          shift=+;alt1=alt5 "~";alt5=alt5 "~";
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt7=shift;width=2.4;
+nextline;
+
+spacer;         width=2.9;
+key=0x20;       width=7;alt2=^;alt3=´;alt4=`;alt5=~;alt7=¨;
+key=alt1;       alt1=alt1;alt2=alt1;alt3=alt1;alt4=alt1;alt5=alt1;alt7=alt1;width=2;
+
+
+
+layout=Swiss French;
+
+key=1;          shift=+;alt1=0xa6;
+key=2;          shift=";alt1=@;
+key=3;          shift=*;alt1=#;
+key=4;          shift=ç;alt1=°;
+key=5;          shift=%;alt1=§;
+key=6;          shift=&;alt1=0xac;
+key=7;          shift=/;alt1=|;
+key=8;          shift=(;alt1=0xa2;
+key=9;          shift=);
+key=0;          shift==;
+key=';          shift=?;alt1=alt3 "´";alt3=alt3 "´";
+key=alt2 "^";   shift=alt4 "`";alt1=alt5 "~";alt2=alt2 "^";alt4=alt4 "`";alt5=alt5 "~";
+key=backsp;     shift=clearall;alt1=clearall;alt2=backsp;alt3=clearall;alt4=clearall;alt5=clearall;alt7=backsp;width=1.8;
+nextline;
+
+spacer;         width=0.5;
+key=q;          shift=Q;alt1=§;
+key=w;          shift=W;alt1=°;
+key=e;          shift=E;alt1=0x80;alt2=ê;alt2shift=Ê;alt3=é;alt3shift=É;alt4=è;alt4shift=È;alt7=0xeb;alt7shift=0xcb;
+key=r;          shift=R;
+key=t;          shift=T;
+key=z;          shift=Z;
+key=u;          shift=U;alt2=û;alt2shift=Û;alt3=ú;alt3shift=Ú;alt4=ù;alt4shift=Ù;alt7=ü;alt7shift=Ü;
+key=i;          shift=I;alt2=î;alt2shift=Î;alt3=í;alt3shift=Í;alt4=ì;alt4shift=Ì;alt7=0xef;alt7shift=0xcf;
+key=o;          shift=O;alt2=ô;alt2shift=Ô;alt3=ó;alt3shift=Ó;alt4=ò;alt4shift=Ò;alt5=0xf5;alt5shift=0xd5;alt7=ö;alt7shift=Ö;
+key=p;          shift=P;
+key=è;          shift=ü;alt1=[;
+key=alt7 "¨";   shift=!;alt1=];alt7=alt7 "¨";
+key=enter;      alt1=enter;alt2=enter;alt3=enter;alt4=enter;alt5=enter;alt7=enter;width=1.3;
+nextline;
+
+spacer;         width=0.8;
+key=a;          shift=A;alt2=â;alt2shift=Â;alt3=á;alt3shift=Á;alt4=à;alt4shift=À;alt5=0xe3;alt5shift=0xc3;alt7=ä;alt7shift=Ä;
+key=s;          shift=S;
+key=d;          shift=D;
+key=f;          shift=F;
+key=g;          shift=G;
+key=h;          shift=H;
+key=j;          shift=J;
+key=k;          shift=K;
+key=l;          shift=L;
+key=é;          shift=ö;
+key=à;          shift=ä;alt1={;
+key=$;          shift=0xa3;alt1=};
+key=entercont;
+nextline;
+
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt7=shift;width=1.4;
+key=y;          shift=Y;alt1=<;alt3=ý;alt3shift=Ý;alt7=0xFF;alt7shift=0x9f;
+key=x;          shift=X;alt1=>;
+key=c;          shift=C;alt1=0x5c;alt3=0xe7;alt3shift=0xc7;
+key=v;          shift=V;
+key=b;          shift=B;
+key=n;          shift=N;alt5=0xf1;alt5shift=0xd1;
+key=m;          shift=M;alt1=0xb5;
+key=,;          shift=0x3b;
+key=.;          shift=:;
+key=-;          shift=_;
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt7=shift;width=2.4;
+nextline;
+
+spacer;         width=2.9;
+key=0x20;       width=7;alt2=^;alt3=´;alt4=`;alt5=~;alt7=¨;
+key=alt1;       alt1=alt1;alt2=alt1;alt3=alt1;alt4=alt1;alt5=alt1;alt7=alt1;width=2;
+
+
+
+layout=Canadian French;
+
+key=1;          shift=!;alt1=±;
+key=2;          shift=";alt1=@;
+key=3;          shift=/;alt1=£;
+key=4;          shift=$;alt1=¢;
+key=5;          shift=%;alt1=¤;
+key=6;          shift=?;alt1=¬;
+key=7;          shift=&;alt1=¦;
+key=8;          shift=*;alt1=²;
+key=9;          shift=(;alt1=³;
+key=0;          shift=);alt1=¼;
+key=-;          shift=_;alt1=½;
+key==;          shift=+;alt1=¾;
+key=backsp;     shift=clearall;alt1=clearall;alt2=backsp;alt3=clearall;alt4=clearall;alt5=clearall;alt6=backsp;alt7=backsp;width=1.8;
+nextline;
+
+spacer;         width=0.5;
+key=q;          shift=Q;alt1=#;
+key=w;          shift=W;alt1=|;
+key=e;          shift=E;alt1=0x5c;alt2=ê;alt2shift=Ê;alt3=é;alt3shift=É;alt4=è;alt4shift=È;alt7=0xeb;alt7shift=0xcb;
+key=r;          shift=R;
+key=t;          shift=T;
+key=y;          shift=Y;alt3=ý;alt3shift=Ý;alt7=0xFF;alt7shift=0x9f;
+key=u;          shift=U;alt2=û;alt2shift=Û;alt3=ú;alt3shift=Ú;alt4=ù;alt4shift=Ù;alt7=ü;alt7shift=Ü;
+key=i;          shift=I;alt2=î;alt2shift=Î;alt3=í;alt3shift=Í;alt4=ì;alt4shift=Ì;alt7=0xef;alt7shift=0xcf;
+key=o;          shift=O;alt1=§;alt2=ô;alt2shift=Ô;alt3=ó;alt3shift=Ó;alt4=ò;alt4shift=Ò;alt5=0xf5;alt5shift=0xd5;alt7=ö;alt7shift=Ö;
+key=p;          shift=P;alt1=¶;
+key=alt2 "^";   alt1=[;alt2=alt2 "^";
+key=alt6 "¸";   shift=alt7 "¨";alt1=];alt6=alt6 "¸";alt7=alt7 "¨";
+key=enter;      alt1=enter;alt2=enter;alt3=enter;alt4=enter;alt5=enter;alt6=enter;alt7=enter;width=1.3;
+nextline;
+
+spacer;         width=0.8;
+key=a;          shift=A;alt2=â;alt2shift=Â;alt3=á;alt3shift=Á;alt4=à;alt4shift=À;alt5=0xe3;alt5shift=0xc3;alt7=ä;alt7shift=Ä;
+key=s;          shift=S;
+key=d;          shift=D;
+key=f;          shift=F;
+key=g;          shift=G;
+key=h;          shift=H;
+key=j;          shift=J;
+key=k;          shift=K;
+key=l;          shift=L;
+key=0x3b;       shift=:;alt1=~;
+key=alt4 "`";   alt1={;alt4=alt4 "`";
+key=<;          shift=>;alt1=};
+key=entercont;
+nextline;
+
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt6=shift;alt7=shift;width=1.4;
+key=z;          shift=Z;alt1=«;
+key=x;          shift=X;alt1=»;
+key=c;          shift=C;alt1=°;alt6=0xe7;alt6shift=0xc7;
+key=v;          shift=V;
+key=b;          shift=B;
+key=n;          shift=N;alt5=0xf1;alt5shift=0xd1;
+key=m;          shift=M;alt1=0xb5;
+key=,;          shift=';alt1=0xaf;
+key=.;          alt1=0xad;
+key=é;          shift=É;alt1=alt3 "´";alt3=alt3 "´";
+key=shift;      alt1=shift;alt2=shift;alt3=shift;alt4=shift;alt5=shift;alt6=shift;alt7=shift;width=2.4;
+nextline;
+
+spacer;         width=2.9;
+key=0x20;       width=7;alt2=^;alt3=´;alt4=`;alt5=~;alt6=¸;alt7=¨;
+key=alt1;       alt1=alt1;alt2=alt1;alt3=alt1;alt4=alt1;alt5=alt1;alt6=alt1;alt7=alt1;width=2;
