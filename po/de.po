@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
 "POT-Creation-Date: 2015-05-29 20:57+0200\n"
-"PO-Revision-Date: 2015-05-26 23:21+0200\n"
+"PO-Revision-Date: 2015-05-29 21:10+0200\n"
 "Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -215,10 +215,8 @@ msgid "Double click play tracks at once"
 msgstr "Doppelklick spielt Titel sofort ab"
 
 #: src/sjbase/mainframe.cpp:1978 src/sjbase/mainframe_menu.cpp:433
-#, fuzzy
-#| msgid "Start playback on enqueue"
 msgid "Start playback on first enqueue"
-msgstr "Wiedergabe beim Einstellen in Warteliste starten"
+msgstr "Wiedergabe beim ersten Einstellen in Warteliste starten"
 
 # %s will be replaced by the name of a music selection
 #: src/sjbase/mainframe.cpp:1991 src/sjmodules/accel.cpp:116
@@ -458,10 +456,8 @@ msgstr "Vergrößerung"
 #: src/sjmodules/kiosk/kiosk.cpp:587 src/sjmodules/kiosk/kiosk.cpp:923
 #: src/sjmodules/kiosk/monitor_overview.cpp:391
 #: src/sjmodules/kiosk/numpadmenu.cpp:172 src/sjmodules/vis/vis_module.cpp:53
-#, fuzzy
-#| msgid "Fit to screen"
 msgid "Video screen"
-msgstr "An Bildschirmgröße anpassen"
+msgstr "Videobildschirm"
 
 #: src/sjbase/mainframe_menu.cpp:443 src/sjmodules/playbacksettings.cpp:1085
 msgid "Queue"
@@ -2869,17 +2865,15 @@ msgstr "Ansicht nach %i Minuten Inaktivität umschalten auf"
 
 # The string will be followed by "Album view", "Cover view" or "List view"
 #: src/sjmodules/playbacksettings.cpp:110
-#, fuzzy, c-format
-#| msgid "Open %s after %i minutes of inactivity"
+#, c-format
 msgid "Open video screen after %i minutes of inactivity"
-msgstr "%s nach %i Minuten Inaktivität öffnen"
+msgstr "Videobildschirm nach %i Minuten Inaktivität öffnen"
 
 # %s will be replaced by the name of a visualization
 #: src/sjmodules/playbacksettings.cpp:116
-#, fuzzy, c-format
-#| msgid "Close %s after %i minutes"
+#, c-format
 msgid "Close video screen after %i minutes"
-msgstr "%s nach %i Minuten schliessen"
+msgstr "Videobildschirm nach %i Minuten schließen"
 
 #: src/sjmodules/playbacksettings.cpp:313
 #: src/sjmodules/playbacksettings.cpp:334
@@ -3515,10 +3509,8 @@ msgid "Show starfield"
 msgstr "Sterne anzeigen"
 
 #: src/sjmodules/vis/vis_oscilloscope.cpp:1689
-#, fuzzy
-#| msgid "Show starfield"
 msgid "Show other figures"
-msgstr "Sterne anzeigen"
+msgstr "Andere Figuren anzeigen"
 
 #: src/sjmodules/vis/vis_vidout_module.cpp:164
 msgid "Video output"
@@ -3661,20 +3653,16 @@ msgid "%s-playlists"
 msgstr "%s-Wiedergabelisten"
 
 #: src/sjtools/ext_list.cpp:196
-#, fuzzy
-#| msgid "Archive-files"
 msgid "Script-files"
-msgstr "Archivdateien"
+msgstr "Skript-Dateien"
 
 #: src/sjtools/ext_list.cpp:197
 msgid "Silverjuke skin-files"
 msgstr "Silverjuke Skin-Dateien"
 
 #: src/sjtools/ext_list.cpp:198
-#, fuzzy
-#| msgid "Silverjuke skin-files"
 msgid "Silverjuke jukebox-files"
-msgstr "Silverjuke Skin-Dateien"
+msgstr "Silverjuke Jukebox-Dateien"
 
 #: src/sjtools/ext_list.cpp:208
 msgid "Archive-files"
