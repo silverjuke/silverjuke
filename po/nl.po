@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 22:51+0200\n"
+"POT-Creation-Date: 2015-05-29 23:09+0200\n"
 "PO-Revision-Date: 2010-10-04 14:49+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Dutch\n"
@@ -2060,7 +2060,7 @@ msgid "avg. query time: %s"
 msgstr "gemiddelde zoektijd: %s"
 
 # Abbreviation of "Milliseconds"
-#: src/sjmodules/basicsettings.cpp:969 src/sjtools/tools.cpp:1452
+#: src/sjmodules/basicsettings.cpp:969 src/sjtools/tools.cpp:1453
 msgid "ms"
 msgstr "ms"
 
@@ -2166,7 +2166,7 @@ msgstr "Helpsysteem"
 #: src/sjmodules/scanner/server_scanner_config.cpp:135
 #: src/sjmodules/tageditor/tageditor.cpp:1076
 #: src/sjmodules/tageditor/tageditorsplit.cpp:165
-#: src/sjmodules/tageditor/tageditorsplit.cpp:171 src/sjtools/tools.cpp:1514
+#: src/sjmodules/tageditor/tageditorsplit.cpp:171 src/sjtools/tools.cpp:1515
 msgid "n/a"
 msgstr "n/a"
 
@@ -3928,13 +3928,17 @@ msgid "."
 msgstr ","
 
 # %i will be replaced by a number
-#: src/sjtools/tools.cpp:1380
-#, c-format
-msgid "%i days"
-msgstr "%i dagen"
+#. TRANSLATORS: %i will be replaced by a number
+#: src/sjtools/tools.cpp:1381
+#, fuzzy, c-format
+#| msgid "%i days"
+msgid "%i day"
+msgid_plural "%i days"
+msgstr[0] "%i dagen"
+msgstr[1] "%i dagen"
 
 # %s will be replaced by the text of the invalid reguar expression
-#: src/sjtools/tools.cpp:3574
+#: src/sjtools/tools.cpp:3575
 #, c-format
 msgid "Invalid regular expression \"%s\"."
 msgstr "Ongeldige normale uitdrukking \"%s\""

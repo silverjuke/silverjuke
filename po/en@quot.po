@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.1\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 22:51+0200\n"
-"PO-Revision-Date: 2015-05-29 22:51+0200\n"
+"POT-Creation-Date: 2015-05-29 23:09+0200\n"
+"PO-Revision-Date: 2015-05-29 23:09+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
@@ -1966,7 +1966,7 @@ msgstr "RAM cache"
 msgid "avg. query time: %s"
 msgstr "avg. query time: %s"
 
-#: src/sjmodules/basicsettings.cpp:969 src/sjtools/tools.cpp:1452
+#: src/sjmodules/basicsettings.cpp:969 src/sjtools/tools.cpp:1453
 msgid "ms"
 msgstr "ms"
 
@@ -2066,7 +2066,7 @@ msgstr "Help-system"
 #: src/sjmodules/scanner/server_scanner_config.cpp:135
 #: src/sjmodules/tageditor/tageditor.cpp:1076
 #: src/sjmodules/tageditor/tageditorsplit.cpp:165
-#: src/sjmodules/tageditor/tageditorsplit.cpp:171 src/sjtools/tools.cpp:1514
+#: src/sjmodules/tageditor/tageditorsplit.cpp:171 src/sjtools/tools.cpp:1515
 msgid "n/a"
 msgstr "n/a"
 
@@ -3663,12 +3663,15 @@ msgstr ","
 msgid "."
 msgstr "."
 
-#: src/sjtools/tools.cpp:1380
+#. TRANSLATORS: %i will be replaced by a number
+#: src/sjtools/tools.cpp:1381
 #, c-format
-msgid "%i days"
-msgstr "%i days"
+msgid "%i day"
+msgid_plural "%i days"
+msgstr[0] "%i day"
+msgstr[1] "%i days"
 
-#: src/sjtools/tools.cpp:3574
+#: src/sjtools/tools.cpp:3575
 #, c-format
 msgid "Invalid regular expression \"%s\"."
 msgstr "Invalid regular expression “%s”."

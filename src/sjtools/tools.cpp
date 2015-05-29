@@ -1377,7 +1377,8 @@ wxString SjTools::FormatTime(long seconds, long flags)
 		hours -= days * 24;
 
 		wxASSERT( days >= 2 && hours >= 0 && hours <= 23 && minutes >= 0 && minutes <= 59 && seconds >= 0 && seconds <= 59 );
-		ret.Printf(_("%i days"), (int)days);
+		// TRANSLATORS: %i will be replaced by a number
+		ret.Printf(wxPLURAL("%i day", "%i days", days), (int)days);
 		ret += wxString::Format(wxT("+%i:%02i:%02i"), (int)hours, (int)minutes, (int)seconds);
 	}
 	else if( seconds > (99*60 + 59) )
