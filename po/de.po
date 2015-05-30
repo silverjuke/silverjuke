@@ -12,89 +12,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/sjbase/autoctrl.cpp:219 src/sjbase/autoctrl.cpp:648
 msgid "Sleep mode activated."
 msgstr "Schlafmodus aktiviert."
 
-#: src/sjbase/autoctrl.cpp:219 src/sjbase/autoctrl.cpp:693
 msgid "Sleep mode deactivated."
 msgstr "Schlafmodus deaktiviert."
 
-#: src/sjbase/browser.cpp:515
 msgid "Drag folders with music here."
 msgstr "Ordner mit Musikdateien hierher ziehen."
 
-#: src/sjbase/browser_album.cpp:624 src/sjbase/browser_list.cpp:2103
-#: src/sjbase/mainframe_menu.cpp:241 src/sjmodules/accel.cpp:91
 msgid "Show covers"
 msgstr "Cover anzeigen"
 
-#: src/sjbase/browser_cover.cpp:593 src/sjbase/mainframe_menu.cpp:241
-#: src/sjbase/mainframe_menu.cpp:319 src/sjmodules/library.cpp:409
 msgid "Show album name"
 msgstr "Albumnamen anzeigen"
 
 # %s will be reaplaced by a decimal-point-formatted number
-#: src/sjbase/browser_cover.cpp:1342 src/sjbase/search.cpp:457
-#: src/sjmodules/tageditor/tageditor.cpp:689
 #, c-format
 msgid "%s tracks"
 msgstr "%s Titel"
 
-#: src/sjbase/browser_list.cpp:1104 src/sjmodules/kiosk/kiosk.cpp:624
-#: src/sjmodules/kiosk/kiosk.cpp:1297 src/sjmodules/library.cpp:267
-#: src/sjmodules/playbacksettings.cpp:380
-#: src/sjmodules/playbacksettings.cpp:735
-#: src/sjmodules/playbacksettings.cpp:757
-#: src/sjmodules/playbacksettings.cpp:1231
-#: src/sjmodules/scanner/folder_scanner.cpp:200
-#: src/sjmodules/viewsettings.cpp:562
 msgid "Reset to default values"
 msgstr "Standardwerte verwenden"
 
-#: src/sjbase/browser_list.cpp:1787
 msgid "Nr."
 msgstr "Nr."
 
 #. TRANSLATORS: Abbreviation of "Bits per second"
-#: src/sjbase/browser_list.cpp:1792 src/sjmodules/advsearch.cpp:912
-#: src/sjmodules/tageditor/tageditor.cpp:1109
 msgid "bit/s"
 msgstr "Bit/s"
 
-#: src/sjbase/browser_list.cpp:1796 src/sjbase/search.cpp:234
-#: src/sjmodules/modulebase.cpp:1395
-#: src/sjmodules/tageditor/tageditor.cpp:1096
-#: src/sjmodules/tageditor/tageditor.cpp:1102
 msgid "Samplerate"
 msgstr "Samplerate"
 
 #. TRANSLATORS: Abbreviation of "Hertz"
-#: src/sjbase/browser_list.cpp:1798 src/sjmodules/advsearch.cpp:907
-#: src/sjmodules/tageditor/tageditor.cpp:1098
 msgid "Hz"
 msgstr "Hz"
 
-#: src/sjbase/display.cpp:707
 msgid "AutoPlay"
 msgstr "AutoPlay"
 
-#: src/sjbase/display.cpp:836 src/sjbase/mainframe.cpp:1866
-#: src/sjmodules/accel.cpp:134 src/sjmodules/kiosk/kiosk.cpp:620
 msgid "Shuffle"
 msgstr "Zufällige Wiedergabe"
 
-#: src/sjbase/mainframe.cpp:304
 msgid "Recreating music library"
 msgstr "Neuerstellung des Musikarchivs"
 
-#: src/sjbase/mainframe.cpp:304 src/sjmodules/library.cpp:348
-#: src/sjmodules/library.cpp:854 src/sjmodules/tageditor/tageditor.cpp:1532
 msgid "Updating music library"
 msgstr "Aktualisiere Musikarchiv"
 
-#: src/sjbase/mainframe.cpp:306 src/sjmodules/library.cpp:350
-#: src/sjmodules/tageditor/tageditor.cpp:1534
 msgid ""
 "If you cancel the update process, your music library may not be up to date.\n"
 "\n"
@@ -106,139 +72,82 @@ msgstr ""
 "Aktualisierungsvorgang abbrechen?"
 
 # %s will be replaced by the program name, usually "Silverjuke"
-#: src/sjbase/mainframe.cpp:366
 #, c-format
 msgid ""
 "%s is currently playing. Do you want to stop the playing track and exit %s?"
 msgstr ""
 "Momentan spielt %s einen Titel. Möchten Sie den Titel stoppen und %s beenden?"
 
-#: src/sjbase/mainframe.cpp:369 src/sjmodules/accel.cpp:105
-#: src/sjmodules/kiosk/password_dlg.cpp:108
 #, c-format
 msgid "Exit %s"
 msgstr "%s beenden"
 
 #. TRANSLATORS: %s will be replaced by a filename
-#: src/sjbase/mainframe.cpp:791 src/sjbase/mainframe.cpp:812
-#: src/sjbase/mainframe.cpp:943 src/sjbase/playlist.cpp:1335
-#: src/sjbase/playlist.cpp:1373 src/sjbase/skin.cpp:2907
-#: src/sjmodules/arteditor.cpp:663 src/sjmodules/cinterface.cpp:145
-#: src/sjmodules/cinterface.cpp:247 src/sjmodules/library.cpp:1914
-#: src/sjmodules/scanner/server_scanner.cpp:344
-#: src/sjmodules/scanner/server_scanner.cpp:478
-#: src/sjmodules/scanner/server_scanner.cpp:574
-#: src/sjmodules/tageditor/freedb.cpp:81
-#: src/sjmodules/tageditor/freedb.cpp:228
-#: src/sjmodules/tageditor/freedb.cpp:388
-#: src/sjmodules/vis/vis_karaoke_module.cpp:594 src/sjtools/explore.cpp:130
-#: src/sjtools/imgthread.cpp:139 src/sjtools/imgthread.cpp:144
-#: src/sjtools/sqlt.cpp:232 src/sjtools/temp_n_cache.cpp:116
-#: src/sjtools/temp_n_cache.cpp:234 src/sjtools/tools.cpp:902
 #, c-format
 msgid "Cannot open \"%s\"."
 msgstr "Kann \"%s\" nicht öffnen."
 
-#: src/sjbase/mainframe.cpp:823
 #, c-format
 msgid "Also install the script to \"%s\" for permanent use"
 msgstr "Das Skript außerdem in \"%s\" installieren und immer starten"
 
 # %s will be replaced by the name of the track
-#: src/sjbase/mainframe.cpp:825
 #, c-format
 msgid "Execute the script \"%s\"?"
 msgstr "Möchten Sie das Skript \"%s\" ausführen?"
 
-#: src/sjbase/mainframe.cpp:1084 src/sjbase/mainframe.cpp:2508
-#: src/sjbase/mainframe.cpp:2910 src/sjmodules/accel.cpp:101
-#: src/sjmodules/advsearch.cpp:1343 src/sjmodules/advsearch.cpp:1841
-#: src/sjmodules/advsearch.cpp:3037 src/sjmodules/kiosk/kiosk.cpp:566
-#: src/sjmodules/kiosk/numpadmenu.cpp:96
-#: src/sjmodules/kiosk/numpadsearch.cpp:35
 msgid "Search"
 msgstr "Suchen"
 
 # %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
-#: src/sjbase/mainframe.cpp:1170 src/sjbase/mainframe.cpp:1199
-#: src/sjbase/mainframe.cpp:1285 src/sjmodules/scanner/server_scanner.cpp:259
-#: src/sjmodules/tageditor/tageditorfreedb.cpp:61
-#: src/sjmodules/tageditor/tageditorfreedb.cpp:121 src/sjtools/console.cpp:837
 #, c-format
 msgid "Loading %s"
 msgstr "Lade %s"
 
-#: src/sjbase/mainframe.cpp:1866 src/sjbase/mainframe.cpp:1948
-#: src/sjbase/mainframe.cpp:1956 src/sjbase/mainframe.cpp:1967
-#: src/sjbase/mainframe.cpp:1978 src/sjbase/mainframe.cpp:1991
-#: src/sjtools/littleoption.cpp:110
 msgid "On"
 msgstr "An"
 
-#: src/sjbase/mainframe.cpp:1866 src/sjbase/mainframe.cpp:1877
-#: src/sjbase/mainframe.cpp:1948 src/sjbase/mainframe.cpp:1956
-#: src/sjbase/mainframe.cpp:1967 src/sjbase/mainframe.cpp:1978
-#: src/sjbase/mainframe.cpp:1991 src/sjmodules/accel.cpp:756
-#: src/sjmodules/accel.cpp:758 src/sjmodules/accel.cpp:762
-#: src/sjmodules/kiosk/kiosk.cpp:2484 src/sjtools/littleoption.cpp:110
 msgid "Off"
 msgstr "Aus"
 
-#: src/sjbase/mainframe.cpp:1874 src/sjbase/mainframe_menu.cpp:236
-#: src/sjmodules/accel.cpp:135 src/sjmodules/kiosk/kiosk.cpp:576
 msgid "Repeat playlist"
 msgstr "Wiedergabeliste wiederholen"
 
-#: src/sjbase/mainframe.cpp:1878 src/sjbase/mainframe_menu.cpp:234
-#: src/sjbase/mainframe_menu.cpp:415
 msgid "Repeat one"
 msgstr "Einen Titel wiederholen"
 
-#: src/sjbase/mainframe.cpp:1879 src/sjbase/mainframe_menu.cpp:235
-#: src/sjbase/mainframe_menu.cpp:416
 msgid "Repeat all"
 msgstr "Alles wiederholen"
 
-#: src/sjbase/mainframe.cpp:1925
 msgid "Select a track, then start playback."
 msgstr "Wählen Sie zunächst einen Titel und starten Sie dann die Wiedergabe."
 
-#: src/sjbase/mainframe.cpp:1948 src/sjmodules/accel.cpp:124
 msgid "Stop after this track"
 msgstr "Stop nach diesem Titel"
 
-#: src/sjbase/mainframe.cpp:1956 src/sjmodules/accel.cpp:125
 msgid "Stop after each track"
 msgstr "Stop nach jedem Titel"
 
-#: src/sjbase/mainframe.cpp:1967 src/sjmodules/accel.cpp:114
 msgid "Double click play tracks at once"
 msgstr "Doppelklick spielt Titel sofort ab"
 
-#: src/sjbase/mainframe.cpp:1978 src/sjbase/mainframe_menu.cpp:433
 msgid "Start playback on first enqueue"
 msgstr "Wiedergabe beim ersten Einstellen in Warteliste starten"
 
 # %s will be replaced by the name of a music selection
-#: src/sjbase/mainframe.cpp:1991 src/sjmodules/accel.cpp:116
-#: src/sjmodules/playbacksettings.cpp:1190
 msgid "Remove played tracks from queue"
 msgstr "Gespielte Titel aus Warteschlange entfernen"
 
-#: src/sjbase/mainframe.cpp:2055 src/sjmodules/accel.cpp:118
 msgid "More from current album"
 msgstr "Mehr vom aktuellen Album"
 
-#: src/sjbase/mainframe.cpp:2055 src/sjmodules/accel.cpp:119
 msgid "More from current artist"
 msgstr "Mehr vom aktuellen Künstler"
 
-#: src/sjbase/mainframe.cpp:2057
 msgid "No more tracks."
 msgstr "Keine weiteren Titel."
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjbase/mainframe.cpp:2084
 #, c-format
 msgid "Remove %i track from the queue and stop playback?"
 msgid_plural "Remove %i tracks from the queue and stop playback?"
@@ -247,539 +156,319 @@ msgstr[0] ""
 msgstr[1] ""
 "%i Titel aus der Warteschlange entfernen und die Wiedergabe stoppen?"
 
-#: src/sjbase/mainframe.cpp:2086 src/sjmodules/accel.cpp:97
-#: src/sjmodules/playbacksettings.cpp:1446
 msgid "Clear playlist"
 msgstr "Wiedergabeliste leeren"
 
-#: src/sjbase/mainframe.cpp:2475
 msgid "Track played, click to reset"
 msgstr "Titel wurde gespielt"
 
-#: src/sjbase/mainframe.cpp:2479
 msgid "Boredom avoided: Track moved down"
 msgstr "Titel wurde verschoben und Langeweile vermieden"
 
-#: src/sjbase/mainframe.cpp:2484
 msgid "Remove this track"
 msgstr "Titel aus Warteschlange entfernen"
 
-#: src/sjbase/mainframe.cpp:2488 src/sjbase/mainframe.cpp:2503
-#: src/sjmodules/accel.cpp:139 src/sjmodules/kiosk/kiosk.cpp:583
 msgid "Toggle time mode"
 msgstr "Zeitanzeige umschalten"
 
 # %s will be replaced by a letter or by a number
-#: src/sjbase/mainframe.cpp:2494 src/sjmodules/accel.cpp:153
 #, c-format
 msgid "Go to \"%s\""
 msgstr "Gehe zu \"%s\""
 
-#: src/sjbase/mainframe.cpp:2508 src/sjbase/mainframe_menu.cpp:140
-#: src/sjbase/mainframe_menu.cpp:589 src/sjmodules/accel.cpp:207
-#: src/sjmodules/advsearch.cpp:1346 src/sjmodules/advsearch.cpp:1842
-#: src/sjmodules/kiosk/numpadmenu.cpp:98
 msgid "End search"
 msgstr "Suche beenden"
 
-#: src/sjbase/mainframe.cpp:2510
 msgid "click right for options"
 msgstr "klicken Sie rechts für Optionen"
 
-#: src/sjbase/mainframe.cpp:2514 src/sjbase/mainframe_menu.cpp:405
-#: src/sjbase/search.cpp:232 src/sjmodules/kiosk/kiosk.cpp:579
 msgid "Volume"
 msgstr "Lautstärke"
 
-#: src/sjbase/mainframe.cpp:2521 src/sjmodules/library.cpp:4478
 msgid "Double-click to enlarge the cover"
 msgstr "Doppelklick: Cover vergrößern"
 
-#: src/sjbase/mainframe.cpp:2536
 #, c-format
 msgid "Close this window and exit %s"
 msgstr "Fenster schließen und %s beenden"
 
-#: src/sjbase/mainframe.cpp:2537
 msgid "Open main menu"
 msgstr "Hauptmenü öffnen"
 
-#: src/sjbase/mainframe.cpp:2538
 msgid "Toggle shuffle mode"
 msgstr "Zufällige Wiedergabe"
 
-#: src/sjbase/mainframe.cpp:2539
 msgid "Repeat all/repeat current"
 msgstr "Alle Titel/einen Titel wiederholen"
 
 # %s will be replaced by the name of a music selection
-#: src/sjbase/mainframe.cpp:2906 src/sjmodules/advsearch.cpp:3158
 #, c-format
 msgid "Search in \"%s\""
 msgstr "Suche in \"%s\""
 
-#: src/sjbase/mainframe.cpp:3200
 msgid "Fatal error"
 msgstr "Fataler Fehler"
 
-#: src/sjbase/mainframe.cpp:3206
 msgid "Ctrl"
 msgstr "Strg"
 
-#: src/sjbase/mainframe.cpp:3207
 msgid "Alt"
 msgstr "Alt"
 
-#: src/sjbase/mainframe.cpp:3208
 msgid "Shift"
 msgstr "Shift"
 
-#: src/sjbase/mainframe.cpp:3212
 msgid "Enlarge window"
 msgstr "Fenster vergrößern"
 
-#: src/sjbase/mainframe.cpp:3213
 msgid "Shrink window"
 msgstr "Fenster verkleinern"
 
-#: src/sjbase/mainframe.cpp:3214
 msgid "Enlarge display"
 msgstr "Display vergrößern"
 
-#: src/sjbase/mainframe.cpp:3215
 msgid "Shrink display"
 msgstr "Display verkleinern"
 
-#: src/sjbase/mainframe.cpp:3219
 msgid "Full screen"
 msgstr "Ganzer Bildschirm"
 
-#: src/sjbase/mainframe.cpp:3220 src/sjbase/mainframe_menu.cpp:803
-#: src/sjbase/mainframe_menu.cpp:817 src/sjmodules/accel.cpp:145
-#: src/sjmodules/arteditor.cpp:1032 src/sjmodules/basicsettings.cpp:194
-#: src/sjmodules/viewsettings.cpp:445
 msgid "Show file"
 msgstr "Datei anzeigen"
 
-#: src/sjbase/mainframe.cpp:3221
 msgid "Explore"
 msgstr "Explore"
 
-#: src/sjbase/mainframe.cpp:3222
 msgid "Reveal in Finder"
 msgstr "Im Finder zeigen"
 
-#: src/sjbase/mainframe.cpp:3223 src/sjmodules/viewsettings.cpp:443
 msgid "Info..."
 msgstr "Info..."
 
-#: src/sjbase/mainframe.cpp:3224 src/sjmodules/scanner/folder_scanner.cpp:241
-#: src/sjmodules/scanner/server_scanner_config.cpp:170
-#: src/sjtools/dialog.cpp:437
 msgid "State"
 msgstr "Status"
 
-#: src/sjbase/mainframe.cpp:3225
 msgid "Modules on the web..."
 msgstr "Module im Internet..."
 
-#: src/sjbase/mainframe_menu.cpp:55
-#: src/sjmodules/tageditor/tageditorplugin.cpp:172
 msgid "File"
 msgstr "Datei"
 
 # Menu Title (eg. if "Settings/Basic settings/Further options/Window: Use shaped windows" is disabled or on Mac OS X
-#: src/sjbase/mainframe_menu.cpp:58
 msgid "Edit"
 msgstr "Bearbeiten"
 
 # "View" menu title with - optionally - different translations for Microsoft Windows and Mac OS X
-#: src/sjbase/mainframe_menu.cpp:61 src/sjmodules/vis/vis_window.cpp:366
 msgid "View"
 msgstr "Ansicht"
 
-#: src/sjbase/mainframe_menu.cpp:64 src/sjbase/player_base.cpp:82
-#: src/sjmodules/playbacksettings.cpp:1774
 msgid "Playback"
 msgstr "Wiedergabe"
 
-#: src/sjbase/mainframe_menu.cpp:67 src/sjmodules/accel.cpp:146
-#: src/sjmodules/kiosk/kiosk.cpp:750 src/sjmodules/kiosk/kiosk.cpp:755
-#: src/sjmodules/kiosk/kiosk.cpp:1733 src/sjmodules/kiosk/kiosk.cpp:1939
-#: src/sjmodules/kiosk/kiosk.cpp:2539
 msgid "Kiosk mode"
 msgstr "Kiosk-Modus"
 
-#: src/sjbase/mainframe_menu.cpp:70
 msgid "Extras"
 msgstr "Extras"
 
-#: src/sjbase/mainframe_menu.cpp:73 src/sjbase/mainframe_menu.cpp:90
-#: src/sjmodules/accel.cpp:1074 src/sjmodules/help/help.cpp:78
 msgid "Help"
 msgstr "Hilfe"
 
-#: src/sjbase/mainframe_menu.cpp:101
 msgid "Add folders and files"
 msgstr "Ordner und Dateien hinzufügen"
 
 # %s will be replaced by the name of an artist
-#: src/sjbase/mainframe_menu.cpp:173 src/sjmodules/help/help.cpp:178
 #, c-format
 msgid "%s on the web"
 msgstr "%s im Internet"
 
-#: src/sjbase/mainframe_menu.cpp:174
 msgid "Online help"
 msgstr "Online-Hilfe"
 
 # %s will be replaced by the program name, usually "Silverjuke", the string is used for the menu to open the about dialog. Note that "..." is added by Silverjuke, if needed.
-#: src/sjbase/mainframe_menu.cpp:176 src/sjbase/mainframe_menu.cpp:622
-#: src/sjmodules/help/help.cpp:279
 #, c-format
 msgid "About %s"
 msgstr "Über %s"
 
-#: src/sjbase/mainframe_menu.cpp:268 src/sjbase/mainframe_menu.cpp:324
 msgid "Show elapsed time"
 msgstr "Abgelaufene Zeit anzeigen"
 
-#: src/sjbase/mainframe_menu.cpp:268 src/sjbase/mainframe_menu.cpp:324
 msgid "Show remaining time"
 msgstr "Verbleibende Zeit anzeigen"
 
-#: src/sjbase/mainframe_menu.cpp:311
 msgid "Same zoom in all views"
 msgstr "Gleiche Vergrößerung in allen Ansichten"
 
-#: src/sjbase/mainframe_menu.cpp:313
 msgid "Zoom"
 msgstr "Vergrößerung"
 
-#: src/sjbase/mainframe_menu.cpp:340 src/sjmodules/accel.cpp:137
-#: src/sjmodules/kiosk/kiosk.cpp:587 src/sjmodules/kiosk/kiosk.cpp:923
-#: src/sjmodules/kiosk/monitor_overview.cpp:391
-#: src/sjmodules/kiosk/numpadmenu.cpp:172 src/sjmodules/vis/vis_module.cpp:53
 msgid "Video screen"
 msgstr "Videobildschirm"
 
-#: src/sjbase/mainframe_menu.cpp:443 src/sjmodules/playbacksettings.cpp:1085
 msgid "Queue"
 msgstr "Warteschlange"
 
-#: src/sjbase/mainframe_menu.cpp:457
 msgid "Start kiosk mode..."
 msgstr "Kiosk-Modus starten ..."
 
-#: src/sjbase/mainframe_menu.cpp:526 src/sjmodules/playbacksettings.cpp:1381
-#: src/sjmodules/playbacksettings.cpp:1812
 msgid "Current view"
 msgstr "Aktuelle Ansicht"
 
-#: src/sjbase/mainframe_menu.cpp:534
 #, c-format
 msgid "Next track from \"%s\""
 msgstr "Nächster Titel aus \"%s\""
 
-#: src/sjbase/mainframe_menu.cpp:538 src/sjmodules/accel.cpp:127
-#: src/sjmodules/accel.cpp:193 src/sjmodules/playbacksettings.cpp:688
-#: src/sjmodules/tageditor/tageditor.cpp:157
 msgid "Next track"
 msgstr "Nächster Titel"
 
-#: src/sjbase/mainframe_menu.cpp:689 src/sjmodules/kiosk/kiosk.cpp:575
 msgid "Search for genre"
 msgstr "Suche nach Musikrichtung"
 
-#: src/sjbase/mainframe_menu.cpp:713 src/sjmodules/kiosk/kiosk.cpp:571
 msgid "Search for music selection"
 msgstr "Suche nach Musikauswahl"
 
-#: src/sjbase/mainframe_menu.cpp:797 src/sjmodules/accel.cpp:1173
 msgid "Edit tracks/Get info"
 msgstr "Titel bearbeiten/Info"
 
-#: src/sjbase/mainframe_menu.cpp:814 src/sjmodules/accel.cpp:763
-#: src/sjmodules/accel.cpp:1168 src/sjmodules/accel.cpp:1172
-#: src/sjmodules/arteditor.cpp:141 src/sjmodules/arteditor.cpp:813
-#: src/sjmodules/arteditor.cpp:953 src/sjmodules/library.cpp:420
 msgid "Cover editor"
 msgstr "Cover-Editor"
 
-#: src/sjbase/player_base.cpp:86
 msgid "Supported file types"
 msgstr "Unterstützte Dateitypen"
 
 # This string is added to some options in menus,  do not forget to surround the value with brackets.
-#: src/sjbase/player_impl_xine.cpp:181
-#: src/sjmodules/vis/vis_karaoke_module.cpp:788
 msgid "Default"
 msgstr "Standard"
 
-#: src/sjbase/player_impl_xine.cpp:192
 msgid "Device"
 msgstr "Gerät"
 
-#: src/sjbase/playlist.cpp:620
 msgid "Several artists"
 msgstr "Verschiedene Künstler"
 
-#: src/sjbase/playlist.cpp:621
 msgid "Unknown title"
 msgstr "Unbekannter Titel"
 
-#: src/sjbase/playlist.cpp:1203 src/sjbase/playlist.cpp:1227
 msgid "Save playlist"
 msgstr "Wiedergabeliste speichern"
 
 #. TRANSLATORS: %s will be replaced by a filename
-#: src/sjbase/playlist.cpp:1285 src/sjbase/playlist.cpp:1297
-#: src/sjmodules/arteditor.cpp:1197 src/sjmodules/library.cpp:1791
-#: src/sjtools/imgop.cpp:1038 src/sjtools/tools.cpp:910
-#: src/tagger/tg_a_tagger_frontend.cpp:971
 #, c-format
 msgid "Cannot write \"%s\"."
 msgstr "Kann \"%s\" nicht schreiben."
 
-#: src/sjbase/playlist.cpp:1315 src/sjmodules/openfiles.cpp:194
 msgid "Open playlist"
 msgstr "Wiedergabeliste öffnen"
 
-#: src/sjbase/search.cpp:216 src/sjmodules/modulebase.cpp:1372
-#: src/sjmodules/tageditor/tageditor.cpp:300
-#: src/sjmodules/tageditor/tageditorplugin.cpp:602
-#: src/sjmodules/tageditor/tageditorrename.cpp:205
-#: src/sjmodules/tageditor/tageditorsplit.cpp:102
 msgid "Title"
 msgstr "Titel"
 
-#: src/sjbase/search.cpp:217 src/sjmodules/kiosk/numpadplay.cpp:202
-#: src/sjmodules/modulebase.cpp:1373 src/sjmodules/tageditor/tageditor.cpp:341
-#: src/sjmodules/tageditor/tageditorplugin.cpp:598
-#: src/sjmodules/tageditor/tageditorrename.cpp:207
-#: src/sjmodules/tageditor/tageditorsplit.cpp:104
-#: src/sjmodules/tageditor/tageditorsplit.cpp:105
-#: src/sjmodules/tageditor/tageditorsplit.cpp:106
 msgid "Track number"
 msgstr "Titelnummer"
 
-#: src/sjbase/search.cpp:218 src/sjmodules/modulebase.cpp:1374
-#: src/sjmodules/scanner/folder_scanner.cpp:209
-#: src/sjmodules/tageditor/tageditorplugin.cpp:599
-#: src/sjmodules/tageditor/tageditorrename.cpp:208
 msgid "Track count"
 msgstr "Titelanzahl"
 
-#: src/sjbase/search.cpp:219 src/sjmodules/modulebase.cpp:1375
-#: src/sjmodules/tageditor/tageditor.cpp:356
-#: src/sjmodules/tageditor/tageditorplugin.cpp:600
-#: src/sjmodules/tageditor/tageditorrename.cpp:209
-#: src/sjmodules/tageditor/tageditorsplit.cpp:107
-#: src/sjmodules/tageditor/tageditorsplit.cpp:108
-#: src/sjmodules/tageditor/tageditorsplit.cpp:109
 msgid "Disk number"
 msgstr "Disknummer"
 
-#: src/sjbase/search.cpp:220 src/sjmodules/modulebase.cpp:1376
-#: src/sjmodules/tageditor/tageditorplugin.cpp:601
-#: src/sjmodules/tageditor/tageditorrename.cpp:210
 msgid "Disk count"
 msgstr "Diskanzahl"
 
-#: src/sjbase/search.cpp:221 src/sjmodules/library.cpp:230
-#: src/sjmodules/library.cpp:231 src/sjmodules/library.cpp:232
-#: src/sjmodules/library.cpp:233 src/sjmodules/modulebase.cpp:1377
-#: src/sjmodules/tageditor/tageditor.cpp:305
-#: src/sjmodules/tageditor/tageditorplugin.cpp:603
-#: src/sjmodules/tageditor/tageditorrename.cpp:212
-#: src/sjmodules/tageditor/tageditorrename.cpp:213
-#: src/sjmodules/tageditor/tageditorsplit.cpp:111
 msgid "Artist"
 msgstr "Künstler"
 
-#: src/sjbase/search.cpp:222 src/sjmodules/modulebase.cpp:1378
-#: src/sjmodules/tageditor/tageditor.cpp:316
-#: src/sjmodules/tageditor/tageditorplugin.cpp:604
-#: src/sjmodules/tageditor/tageditorrename.cpp:214
-#: src/sjmodules/tageditor/tageditorsplit.cpp:112
 msgid "Original artist"
 msgstr "Originärer Künstler"
 
-#: src/sjbase/search.cpp:223 src/sjmodules/modulebase.cpp:1379
-#: src/sjmodules/tageditor/tageditor.cpp:319
-#: src/sjmodules/tageditor/tageditorrename.cpp:215
-#: src/sjmodules/tageditor/tageditorsplit.cpp:113
 msgid "Composer"
 msgstr "Komponist"
 
-#: src/sjbase/search.cpp:224 src/sjmodules/library.cpp:230
-#: src/sjmodules/library.cpp:231 src/sjmodules/library.cpp:232
-#: src/sjmodules/library.cpp:233 src/sjmodules/modulebase.cpp:1380
-#: src/sjmodules/tageditor/tageditor.cpp:326
-#: src/sjmodules/tageditor/tageditor.cpp:1081
-#: src/sjmodules/tageditor/tageditorplugin.cpp:605
-#: src/sjmodules/tageditor/tageditorrename.cpp:217
-#: src/sjmodules/tageditor/tageditorrename.cpp:218
-#: src/sjmodules/tageditor/tageditorsplit.cpp:115
 msgid "Album"
 msgstr "Album"
 
-#: src/sjbase/search.cpp:225 src/sjmodules/modulebase.cpp:1381
-#: src/sjmodules/tageditor/tageditor.cpp:372
-#: src/sjmodules/tageditor/tageditorplugin.cpp:606
-#: src/sjmodules/tageditor/tageditorrename.cpp:220
-#: src/sjmodules/tageditor/tageditorrename.cpp:221
-#: src/sjmodules/tageditor/tageditorsplit.cpp:117
 msgid "Genre"
 msgstr "Musikrichtung"
 
-#: src/sjbase/search.cpp:226 src/sjmodules/modulebase.cpp:1382
-#: src/sjmodules/tageditor/tageditor.cpp:383
-#: src/sjmodules/tageditor/tageditorplugin.cpp:607
-#: src/sjmodules/tageditor/tageditorrename.cpp:222
-#: src/sjmodules/tageditor/tageditorrename.cpp:223
-#: src/sjmodules/tageditor/tageditorsplit.cpp:118
 msgid "Group"
 msgstr "Gruppierung"
 
-#: src/sjbase/search.cpp:227 src/sjmodules/modulebase.cpp:1383
-#: src/sjmodules/tageditor/tageditor.cpp:330
-#: src/sjmodules/tageditor/tageditorplugin.cpp:608
-#: src/sjmodules/tageditor/tageditorsplit.cpp:119
 msgid "Comment"
 msgstr "Kommentar"
 
 # This is the abbreviation for "beats per minute" (the number of "quarter notes" per minute which defines the tempo of a track). The string is used in the dailog "Edit tracks/Get info...". If in doubt, just enter "BPM" here.
-#: src/sjbase/search.cpp:228 src/sjmodules/modulebase.cpp:1384
-#: src/sjmodules/tageditor/tageditor.cpp:400
 msgid "BPM"
 msgstr "BPM"
 
-#: src/sjbase/search.cpp:229 src/sjmodules/library.cpp:3983
-#: src/sjmodules/library.cpp:4013 src/sjmodules/library.cpp:4017
-#: src/sjmodules/modulebase.cpp:1385 src/sjmodules/tageditor/tageditor.cpp:409
 msgid "Rating"
 msgstr "Wertung"
 
-#: src/sjbase/search.cpp:230 src/sjmodules/library.cpp:230
-#: src/sjmodules/library.cpp:231 src/sjmodules/library.cpp:232
-#: src/sjmodules/library.cpp:233 src/sjmodules/modulebase.cpp:1386
-#: src/sjmodules/tageditor/tageditor.cpp:399
-#: src/sjmodules/tageditor/tageditorplugin.cpp:609
-#: src/sjmodules/tageditor/tageditorrename.cpp:225
-#: src/sjmodules/tageditor/tageditorrename.cpp:226
-#: src/sjmodules/tageditor/tageditorsplit.cpp:121
-#: src/sjmodules/tageditor/tageditorsplit.cpp:122
-#: src/sjmodules/tageditor/tageditorsplit.cpp:123
 msgid "Year"
 msgstr "Jahr"
 
-#: src/sjbase/search.cpp:231 src/sjmodules/modulebase.cpp:1387
-#: src/sjmodules/tageditor/tageditor.cpp:1062
-#: src/sjmodules/tageditor/tageditorplugin.cpp:610
-#: src/sjmodules/tageditor/tageditorrename.cpp:228
-#: src/sjmodules/tageditor/tageditorrename.cpp:229
 msgid "Duration"
 msgstr "Dauer"
 
-#: src/sjbase/search.cpp:233 src/sjmodules/modulebase.cpp:1396
-#: src/sjmodules/tageditor/tageditor.cpp:1092
 msgid "Channels"
 msgstr "Kanäle"
 
-#: src/sjbase/search.cpp:235 src/sjmodules/modulebase.cpp:1394
-#: src/sjmodules/tageditor/tageditor.cpp:1107
-#: src/sjmodules/tageditor/tageditor.cpp:1113
 msgid "Bitrate"
 msgstr "Bitrate"
 
-#: src/sjbase/search.cpp:236 src/sjmodules/modulebase.cpp:1371
-#: src/sjmodules/tageditor/tageditor.cpp:993
-#: src/sjmodules/tageditor/tageditorrename.cpp:232
-#: src/sjmodules/tageditor/tageditorrename.cpp:233
-#: src/sjmodules/tageditor/tageditorreplace.cpp:69
 msgid "File name"
 msgstr "Dateiname"
 
-#: src/sjbase/search.cpp:237 src/sjmodules/tageditor/tageditor.cpp:1027
 msgid "File size"
 msgstr "Dateigröße"
 
-#: src/sjbase/search.cpp:238 src/sjmodules/modulebase.cpp:1389
-#: src/sjmodules/tageditor/tageditor.cpp:1030
 msgid "Date added"
 msgstr "Hinzugefügt"
 
-#: src/sjbase/search.cpp:239 src/sjmodules/modulebase.cpp:1390
-#: src/sjmodules/tageditor/tageditor.cpp:1033
 msgid "Date modified"
 msgstr "Geändert"
 
-#: src/sjbase/search.cpp:240 src/sjmodules/library.cpp:4790
-#: src/sjmodules/modulebase.cpp:1391
-#: src/sjmodules/tageditor/tageditor.cpp:1041
 msgid "Last played"
 msgstr "Zuletzt gespielt"
 
-#: src/sjbase/search.cpp:241 src/sjmodules/library.cpp:4798
-#: src/sjmodules/modulebase.cpp:1392
-#: src/sjmodules/tageditor/tageditor.cpp:1039
 msgid "Play count"
 msgstr "Anzahl Abspielungen"
 
-#: src/sjbase/search.cpp:242
 msgid "SQL expression"
 msgstr "SQL-Ausdruck"
 
-#: src/sjbase/search.cpp:243
 msgid "Limit result to"
 msgstr "Ergebnis limitieren auf"
 
-#: src/sjbase/search.cpp:244
 msgid "Title/artist/album"
 msgstr "Titel/Künstler/Album"
 
-#: src/sjbase/search.cpp:245 src/sjmodules/modulebase.cpp:1398
-#: src/sjmodules/tageditor/tageditor.cpp:1125
 msgid "File type"
 msgstr "Dateityp"
 
-#: src/sjbase/search.cpp:246 src/sjmodules/library.cpp:4807
-#: src/sjmodules/modulebase.cpp:1399
-#: src/sjmodules/tageditor/tageditor.cpp:1049
 msgid "Queue position"
 msgstr "Warteschlangenpos."
 
-#: src/sjbase/search.cpp:247
 msgid "Include tracks"
 msgstr "Titel einschließen"
 
-#: src/sjbase/search.cpp:248
 msgid "Exclude tracks"
 msgstr "Titel ausschließen"
 
-#: src/sjbase/search.cpp:249
 msgid "Random"
 msgstr "Zufall"
 
 # %s will be replaced by a shortcut, eg. "Ins" or "Del"
-#: src/sjbase/search.cpp:311 src/sjbase/search.cpp:429
 #, c-format
 msgid "Press \"%s\" in the main window"
 msgstr "Drücken Sie \"%s\" im Hauptfenster"
 
-#: src/sjbase/search.cpp:312 src/sjbase/search.cpp:430
-#: src/sjmodules/accel.cpp:85 src/sjmodules/tageditor/tageditorplugin.cpp:505
 msgid "Insert"
 msgstr "Einfügen"
 
-#: src/sjbase/search.cpp:312 src/sjbase/search.cpp:430
-#: src/sjmodules/accel.cpp:1061
 msgid "Del"
 msgstr "Entf"
 
 # Use the same date/time format as specified in __DATE_TIME_EDITABLE__ and __DATE_EDITABLE__ - however, you may use a more readable way here.
-#: src/sjbase/search.cpp:328
 msgid ""
 "Please enter the date as \"dd.mm.yyyy\", you can also add \"hh:mm\" for the "
 "time."
@@ -787,440 +476,315 @@ msgstr ""
 "Bitte geben Sie das Datum als \"tt.mm.jjjj\" ein; Sie können \"hh:mm\" für "
 "die Zeit hinzufügen."
 
-#: src/sjbase/search.cpp:366
 msgid "Please enter the text."
 msgstr "Bitte geben Sie den Text ein."
 
-#: src/sjbase/search.cpp:378
 msgid "Please enter a value."
 msgstr "Bitte geben Sie einen Wert ein."
 
-#: src/sjbase/search.cpp:378
 msgid "Please enter a valid value."
 msgstr "Bitte geben Sie einen gültigen Wert ein."
 
-#: src/sjbase/search.cpp:1187
 msgid "(second field)"
 msgstr "(zweites Feld)"
 
-#: src/sjbase/search.cpp:1196
 msgid "No valid criteria defined."
 msgstr "Keine gültigen Kriterien definiert."
 
-#: src/sjbase/search.cpp:1201
 msgid "The search cannot be started; please check the following fields:"
 msgstr ""
 "Die Suche kann nicht ausgeführt werden; bitte überprüfen Sie die folgenden "
 "Felder:"
 
-#: src/sjbase/search.cpp:1206
 msgid "Note: The operators \"equal\" and \"unequal\" are case-sensitive."
 msgstr ""
 "Hinweis: \"gleich\" und \"ungleich\" unterscheidet die Groß- und "
 "Kleinschreibung."
 
-#: src/sjmodules/accel.cpp:53 src/sjmodules/accel.cpp:1059
 msgid "Esc"
 msgstr "Esc"
 
-#: src/sjmodules/accel.cpp:54 src/sjmodules/accel.cpp:1057
 msgid "Tab"
 msgstr "Tab"
 
-#: src/sjmodules/accel.cpp:62 src/sjmodules/accel.cpp:1439
-#: src/sjmodules/kiosk/numpadplay.cpp:219
-#: src/sjmodules/tageditor/tageditorplugin.cpp:322
-#: src/sjtools/busyinfo.cpp:112 src/sjtools/dialog.cpp:124
-#: src/sjtools/msgbox.cpp:91 src/sjtools/msgbox.cpp:197
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: src/sjmodules/accel.cpp:63 src/sjmodules/accel.cpp:78
 msgid "Page left"
 msgstr "Seite links"
 
-#: src/sjmodules/accel.cpp:64 src/sjmodules/accel.cpp:79
 msgid "Page right"
 msgstr "Seite rechts"
 
-#: src/sjmodules/accel.cpp:65 src/sjmodules/accel.cpp:80
-#: src/sjmodules/accel.cpp:1064
 msgid "Page up"
 msgstr "Seite hoch"
 
-#: src/sjmodules/accel.cpp:66 src/sjmodules/accel.cpp:81
-#: src/sjmodules/accel.cpp:1065
 msgid "Page down"
 msgstr "Seite runter"
 
-#: src/sjmodules/accel.cpp:67 src/sjmodules/advsearch.cpp:1336
-#: src/sjtools/dialog.cpp:95
 msgid "Menu"
 msgstr "Menü"
 
-#: src/sjmodules/accel.cpp:70
 msgid "Cursor left"
 msgstr "Cursor links"
 
-#: src/sjmodules/accel.cpp:71
 msgid "Cursor right"
 msgstr "Cursor rechts"
 
-#: src/sjmodules/accel.cpp:72
 msgid "Cursor up"
 msgstr "Cursor hoch"
 
-#: src/sjmodules/accel.cpp:73
 msgid "Cursor down"
 msgstr "Cursor runter"
 
-#: src/sjmodules/accel.cpp:74
 msgid "Line left"
 msgstr "Zeile links"
 
-#: src/sjmodules/accel.cpp:75
 msgid "Line right"
 msgstr "Zeile rechts"
 
-#: src/sjmodules/accel.cpp:76
 msgid "Line up"
 msgstr "Zeile hoch"
 
-#: src/sjmodules/accel.cpp:77
 msgid "Line down"
 msgstr "Zeile runter"
 
-#: src/sjmodules/accel.cpp:82 src/sjmodules/accel.cpp:1067
 msgid "Home"
 msgstr "Pos 1"
 
-#: src/sjmodules/accel.cpp:83 src/sjmodules/accel.cpp:1066
 msgid "End"
 msgstr "Ende"
 
-#: src/sjmodules/accel.cpp:84 src/sjmodules/accel.cpp:1058
 msgid "Enter"
 msgstr "Enter"
 
-#: src/sjmodules/accel.cpp:86 src/sjmodules/accel.cpp:205
-#: src/sjmodules/tageditor/tageditorplugin.cpp:371
 msgid "Delete"
 msgstr "Löschen"
 
-#: src/sjmodules/accel.cpp:87 src/sjmodules/kiosk/kiosk.cpp:565
-#: src/sjmodules/playbacksettings.cpp:104
 msgid "Album view"
 msgstr "Albenansicht"
 
-#: src/sjmodules/accel.cpp:88 src/sjmodules/kiosk/kiosk.cpp:570
-#: src/sjmodules/playbacksettings.cpp:105
 msgid "Cover view"
 msgstr "Coveransicht"
 
-#: src/sjmodules/accel.cpp:89 src/sjmodules/kiosk/kiosk.cpp:574
-#: src/sjmodules/playbacksettings.cpp:106
 msgid "List view"
 msgstr "Listenansicht"
 
-#: src/sjmodules/accel.cpp:90 src/sjmodules/library.cpp:420
 msgid "Toggle view"
 msgstr "Ansicht umschalten"
 
-#: src/sjmodules/accel.cpp:94
 msgid "Open playlist..."
 msgstr "Wiedergabeliste öffnen ..."
 
-#: src/sjmodules/accel.cpp:95
 msgid "Unqueue marked tracks"
 msgstr "Markierte Titel entfernen"
 
-#: src/sjmodules/accel.cpp:96
 msgid "Unqueue all but marked tracks"
 msgstr "Alles außer Markierung entfernen"
 
-#: src/sjmodules/accel.cpp:98
 msgid "Save playlist..."
 msgstr "Wiedergabeliste speichern ..."
 
-#: src/sjmodules/accel.cpp:99 src/sjmodules/accel.cpp:100
 msgid "Paste"
 msgstr "Einfügen"
 
-#: src/sjmodules/accel.cpp:102
 msgid "Music selection..."
 msgstr "Musikauswahl ..."
 
-#: src/sjmodules/accel.cpp:103
 msgid "Jukebox settings..."
 msgstr "Jukebox-Einstellungen ..."
 
-#: src/sjmodules/accel.cpp:104
 msgid "Advanced settings..."
 msgstr "Erweiterte Einstellungen ..."
 
-#: src/sjmodules/accel.cpp:107 src/sjmodules/mymusic.cpp:196
-#: src/sjmodules/mymusic.cpp:310
 msgid "Update music library"
 msgstr "Musikarchiv aktualisieren"
 
-#: src/sjmodules/accel.cpp:108
 msgid "Recreate music library"
 msgstr "Musikarchiv neu erstellen"
 
-#: src/sjmodules/accel.cpp:109 src/sjmodules/library.cpp:3766
 msgid "Enqueue tracks"
 msgstr "Titel in Warteschlange stellen"
 
-#: src/sjmodules/accel.cpp:111 src/sjmodules/library.cpp:3772
 msgid "Play tracks next"
 msgstr "Titel als nächstes spielen"
 
-#: src/sjmodules/accel.cpp:112 src/sjmodules/library.cpp:3769
 msgid "Play tracks now"
 msgstr "Titel jetzt spielen"
 
-#: src/sjmodules/accel.cpp:117 src/sjmodules/kiosk/kiosk.cpp:580
-#: src/sjmodules/library.cpp:3775
 msgid "Unqueue tracks"
 msgstr "Titel aus Warteschlange entfernen"
 
-#: src/sjmodules/accel.cpp:120
 msgid "Edit tracks/Get info..."
 msgstr "Titel bearbeiten/Info ..."
 
-#: src/sjmodules/accel.cpp:121 src/sjmodules/kiosk/numpadmenu.cpp:135
-#: src/sjmodules/playbacksettings.cpp:680
-#: src/sjmodules/playbacksettings.cpp:684
-#: src/sjmodules/playbacksettings.cpp:688
 msgid "Play"
 msgstr "Wiedergabe"
 
-#: src/sjmodules/accel.cpp:122 src/sjmodules/accel.cpp:1063
-#: src/sjmodules/kiosk/numpadmenu.cpp:135
-#: src/sjmodules/playbacksettings.cpp:680
-#: src/sjmodules/playbacksettings.cpp:684
-#: src/sjmodules/vis/vis_synctxt_raw.cpp:355
 msgid "Pause"
 msgstr "Pause"
 
-#: src/sjmodules/accel.cpp:123 src/sjmodules/kiosk/kiosk.cpp:1807
-#: src/sjmodules/playbacksettings.cpp:684
 msgid "Stop"
 msgstr "Stop"
 
-#: src/sjmodules/accel.cpp:126 src/sjmodules/accel.cpp:192
-#: src/sjmodules/tageditor/tageditor.cpp:153
 msgid "Previous track"
 msgstr "Vorheriger Titel"
 
-#: src/sjmodules/accel.cpp:128
 msgid "Seek backward"
 msgstr "Zurückspulen"
 
-#: src/sjmodules/accel.cpp:129
 msgid "Seek forward"
 msgstr "Vorspulen"
 
-#: src/sjmodules/accel.cpp:130
 msgid "Fade to next"
 msgstr "Zum nächsten Titel überblenden"
 
-#: src/sjmodules/accel.cpp:131
 msgid "Volume up"
 msgstr "Lauter"
 
-#: src/sjmodules/accel.cpp:132
 msgid "Volume down"
 msgstr "Leiser"
 
-#: src/sjmodules/accel.cpp:133
 msgid "Mute"
 msgstr "Ton aus"
 
-#: src/sjmodules/accel.cpp:136
 msgid "Reload skin"
 msgstr "Skin neu laden"
 
-#: src/sjmodules/accel.cpp:138 src/sjmodules/vis/vis_karaoke_module.cpp:810
 msgid "Smooth"
 msgstr "Kanten glätten"
 
-#: src/sjmodules/accel.cpp:140
 msgid "Select all"
 msgstr "Alles auswählen"
 
-#: src/sjmodules/accel.cpp:141 src/sjmodules/kiosk/kiosk.cpp:585
 msgid "Zoom in"
 msgstr "Vergrößern"
 
-#: src/sjmodules/accel.cpp:142 src/sjmodules/kiosk/kiosk.cpp:585
 msgid "Zoom out"
 msgstr "Verkleinern"
 
-#: src/sjmodules/accel.cpp:143
 msgid "Normal zoom"
 msgstr "Normale Vergrößerung"
 
-#: src/sjmodules/accel.cpp:144
 msgid "Always on top"
 msgstr "Immer im Vordergrund"
 
-#: src/sjmodules/accel.cpp:148
 msgid "Go to current track"
 msgstr "Gehe zum aktuellen Titel"
 
-#: src/sjmodules/accel.cpp:149
 msgid "Go to marked track"
 msgstr "Gehe zum markierten Titel"
 
-#: src/sjmodules/accel.cpp:150
 msgid "Go to random album"
 msgstr "Gehe irgendwo hin"
 
-#: src/sjmodules/accel.cpp:161
 msgid "Go to previous letter"
 msgstr "Gehe zum vorherigen Buchstaben"
 
-#: src/sjmodules/accel.cpp:162
 msgid "Go to next letter"
 msgstr "Gehe zum nächsten Buchstaben"
 
-#: src/sjmodules/accel.cpp:166 src/sjmodules/basicsettings.cpp:619
 msgid "Add credit"
 msgstr "Kredit hinzufügen"
 
-#: src/sjmodules/accel.cpp:172
 msgid "Console..."
 msgstr "Konsole ..."
 
-#: src/sjmodules/accel.cpp:185 src/sjmodules/accel.cpp:826
 msgid "Tools"
 msgstr "Extras"
 
-#: src/sjmodules/accel.cpp:194
 msgid "Replace..."
 msgstr "Ersetzen ..."
 
-#: src/sjmodules/accel.cpp:195
 msgid "Split field..."
 msgstr "Feld aufteilen ..."
 
-#: src/sjmodules/accel.cpp:196
 msgid "Rename files..."
 msgstr "Dateien umbenennen ..."
 
-#: src/sjmodules/accel.cpp:197
 msgid "Query online database..."
 msgstr "Online-Datenbank abfragen ..."
 
-#: src/sjmodules/accel.cpp:201
 msgid "New music selection..."
 msgstr "Neue Musikauswahl ..."
 
-#: src/sjmodules/accel.cpp:202 src/sjtools/console.cpp:364
-#: src/sjtools/console.cpp:555
 msgid "Save"
 msgstr "Speichern"
 
-#: src/sjmodules/accel.cpp:203
 msgid "Save as..."
 msgstr "Speichern unter ..."
 
-#: src/sjmodules/accel.cpp:204
 msgid "Rename..."
 msgstr "Umbenennen ..."
 
-#: src/sjmodules/accel.cpp:206
 msgid "Revert to saved"
 msgstr "Änderungen verwerfen"
 
-#: src/sjmodules/accel.cpp:211
 msgid "Open file..."
 msgstr "Datei öffnen ..."
 
-#: src/sjmodules/accel.cpp:212
 msgid "Save cover..."
 msgstr "Cover speichern ..."
 
-#: src/sjmodules/accel.cpp:213
 msgid "Rotate left"
 msgstr "Linksrum drehen"
 
-#: src/sjmodules/accel.cpp:214
 msgid "Rotate right"
 msgstr "Rechtsrum drehen"
 
-#: src/sjmodules/accel.cpp:215
 msgid "Flip horizontally"
 msgstr "Horizontal spiegeln"
 
-#: src/sjmodules/accel.cpp:216
 msgid "Flip vertically"
 msgstr "Vertikal spiegeln"
 
-#: src/sjmodules/accel.cpp:217 src/sjmodules/vis/vis_karaoke_module.cpp:813
 msgid "Grayscale"
 msgstr "Graustufen"
 
-#: src/sjmodules/accel.cpp:218
 msgid "Negative"
 msgstr "Negativ"
 
-#: src/sjmodules/accel.cpp:219 src/sjmodules/arteditor.cpp:1023
-#: src/sjmodules/vis/vis_karaoke_module.cpp:807
 msgid "Fit to screen"
 msgstr "An Bildschirmgröße anpassen"
 
-#: src/sjmodules/accel.cpp:220
 msgid "Decrease brightness"
 msgstr "Helligkeit verringern"
 
-#: src/sjmodules/accel.cpp:221
 msgid "Increase brightness"
 msgstr "Helligkeit erhöhen"
 
-#: src/sjmodules/accel.cpp:222
 msgid "Decrease contrast"
 msgstr "Kontrast verringern"
 
-#: src/sjmodules/accel.cpp:223
 msgid "Increase contrast"
 msgstr "Kontrast erhöhen"
 
-#: src/sjmodules/accel.cpp:224
 msgid "Normal brightness/contrast"
 msgstr "Helligkeit/Kontrast normal"
 
-#: src/sjmodules/accel.cpp:225 src/sjmodules/arteditor.cpp:984
 msgid "Crop"
 msgstr "Ausschnitt"
 
-#: src/sjmodules/accel.cpp:385
 msgid "Please press the shortcut to add."
 msgstr "Bitte drücken Sie das hinzuzufügende Tastaturkürzel."
 
-#: src/sjmodules/accel.cpp:506
 msgid "System-wide:"
 msgstr "Systemweit:"
 
 # %s will be replaced by a shortcut, eg. "CTRL-S"
-#: src/sjmodules/accel.cpp:552
 #, c-format
 msgid "Remove shortcut \"%s\""
 msgstr "Tastaturkürzel \"%s\" entfernen"
 
-#: src/sjmodules/accel.cpp:557
 msgid "Add system-wide shortcut..."
 msgstr "Tastaturkürzel systemweit hinzufügen..."
 
 # %s will be replaced by the name of the command, eg. "Edit tracks" or "Enqueue track"
-#: src/sjmodules/accel.cpp:562
 #, c-format
 msgid "Add shortcut to \"%s\"..."
 msgstr "Tastaturkürzel zu \"%s\" hinzufügen..."
 
 # The first %s will be replaced by a shortcut, eg. "CTRL-S". The second %s will be replaced by the name of the command, eg. "Edit tracks" or "Enqueue track"
-#: src/sjmodules/accel.cpp:599
 #, c-format
 msgid ""
 "The shortcut \"%s\" is currently assigned to the command \"%s\".\n"
@@ -1232,479 +796,356 @@ msgstr ""
 "Möchten Sie diese Zuordnung aufheben und das Tastaturkürzel dem Befehl \"%s"
 "\" zuordnen?"
 
-#: src/sjmodules/accel.cpp:754 src/sjmodules/library.cpp:417
 msgid "Mouse"
 msgstr "Maus"
 
-#: src/sjmodules/accel.cpp:756
 msgid "Drag window content"
 msgstr "Fensterinhalt verschieben"
 
-#: src/sjmodules/accel.cpp:756 src/sjmodules/accel.cpp:758
 msgid "Left mouse button"
 msgstr "Linke Maustaste"
 
-#: src/sjmodules/accel.cpp:758
 msgid "Drag selected tracks"
 msgstr "Auswahl verschieben"
 
-#: src/sjmodules/accel.cpp:758
 msgid "Second click with the left mouse button"
 msgstr "Zweiter Klick mit der linken Maustaste"
 
-#: src/sjmodules/accel.cpp:760
 msgid "Show icons beside mouse cursor"
 msgstr "Symbole neben Mauszeiger anzeigen"
 
-#: src/sjmodules/accel.cpp:762
 msgid "Middle mouse button"
 msgstr "Mittlere Maustaste"
 
-#: src/sjmodules/accel.cpp:763 src/sjmodules/tageditor/tageditor.cpp:943
 msgid "Edit tracks"
 msgstr "Titel bearbeiten"
 
-#: src/sjmodules/accel.cpp:766
 msgid "Tooltips"
 msgstr "Tooltips"
 
-#: src/sjmodules/accel.cpp:772 src/sjmodules/accel.cpp:774
 msgid "Mouse wheel"
 msgstr "Mausrad"
 
-#: src/sjmodules/accel.cpp:772
 msgid "Scroll vertically"
 msgstr "Vertikal scrollen"
 
-#: src/sjmodules/accel.cpp:772
 msgid "Scroll horizontally"
 msgstr "Horizontal scrollen"
 
-#: src/sjmodules/accel.cpp:775
 msgid "Context sensitive"
 msgstr "Kontextsensitiv"
 
-#: src/sjmodules/accel.cpp:785 src/sjmodules/basicsettings.cpp:619
 msgid "Shortcut"
 msgstr "Tastaturkürzel"
 
-#: src/sjmodules/accel.cpp:846
 msgid "Use multimedia keyboard keys"
 msgstr "Multimedia-Tastatur verwenden"
 
-#: src/sjmodules/accel.cpp:851 src/sjmodules/accel.cpp:1429
 msgid "Ask on close if playing"
 msgstr "Beim Beenden nachfragen, falls Wiedergabe läuft"
 
-#: src/sjmodules/accel.cpp:854 src/sjmodules/accel.cpp:1427
 msgid "Ask before enqueuing multiple tracks"
 msgstr "Beim Einstellen mehrerer Titel in die Warteschlange nachfragen"
 
-#: src/sjmodules/accel.cpp:857 src/sjmodules/accel.cpp:1428
 msgid "Ask before clearing the playlist"
 msgstr "Beim Leeren der Wiedergabeliste nachfragen"
 
-#: src/sjmodules/accel.cpp:860 src/sjmodules/accel.cpp:1430
 msgid "Ask before changing the rating"
 msgstr "Vor dem Ändern der Wertung nachfragen"
 
-#: src/sjmodules/accel.cpp:877 src/sjmodules/basicsettings.cpp:435
-#: src/sjmodules/playbacksettings.cpp:87
-#: src/sjmodules/playbacksettings.cpp:1507
 msgid "Further options"
 msgstr "Weitere Optionen"
 
 # This string should be set to the abbreviation used for "num" on the numpad area of the keyboard. %s is replaced by a digit or a character.
-#: src/sjmodules/accel.cpp:1050 src/sjmodules/accel.cpp:1075
-#: src/sjmodules/accel.cpp:1078 src/sjmodules/accel.cpp:1081
-#: src/sjmodules/accel.cpp:1084 src/sjmodules/accel.cpp:1087
 #, c-format
 msgid "Num%s"
 msgstr "Num%s"
 
-#: src/sjmodules/accel.cpp:1056
 msgid "Backspace"
 msgstr "Rückschr."
 
-#: src/sjmodules/accel.cpp:1060
 msgid "Space"
 msgstr "Leertaste"
 
-#: src/sjmodules/accel.cpp:1068
 msgid "Up"
 msgstr "Hoch"
 
-#: src/sjmodules/accel.cpp:1069 src/sjmodules/kiosk/numpadmenu.cpp:118
 msgid "Left"
 msgstr "Links"
 
-#: src/sjmodules/accel.cpp:1070 src/sjmodules/kiosk/numpadmenu.cpp:119
 msgid "Right"
 msgstr "Rechts"
 
-#: src/sjmodules/accel.cpp:1071 src/sjmodules/kiosk/numpadmenu.cpp:117
 msgid "Down"
 msgstr "Runter"
 
-#: src/sjmodules/accel.cpp:1072
 msgid "Print"
 msgstr "Drucken"
 
-#: src/sjmodules/accel.cpp:1073
 msgid "Ins"
 msgstr "Einfg"
 
-#: src/sjmodules/accel.cpp:1164
 msgid "Workspace"
 msgstr "Arbeitsbereich"
 
-#: src/sjmodules/accel.cpp:1174 src/sjmodules/advsearch.cpp:1275
-#: src/sjmodules/advsearch.cpp:2350 src/sjmodules/playbacksettings.cpp:1381
-#: src/sjmodules/playbacksettings.cpp:1812
 msgid "Music selection"
 msgstr "Musikauswahl"
 
-#: src/sjmodules/accel.cpp:1175 src/sjmodules/basicsettings.cpp:619
-#: src/sjmodules/kiosk/kiosk.cpp:342
 msgid "Numpad"
 msgstr "Ziffernblock"
 
-#: src/sjmodules/advsearch.cpp:109
 msgid "Select date and time"
 msgstr "Datum und Uhrzeit auswählen"
 
-#: src/sjmodules/advsearch.cpp:131 src/sjtools/console.cpp:105
 msgid "Time"
 msgstr "Zeit"
 
-#: src/sjmodules/advsearch.cpp:540
 msgid "contains"
 msgstr "enthält"
 
-#: src/sjmodules/advsearch.cpp:541
 msgid "does not contain"
 msgstr "enthält nicht"
 
-#: src/sjmodules/advsearch.cpp:542
 msgid "starts with"
 msgstr "beginnt mit"
 
-#: src/sjmodules/advsearch.cpp:543
 msgid "does not start with"
 msgstr "beginnt nicht mit"
 
-#: src/sjmodules/advsearch.cpp:544
 msgid "starts simelar to"
 msgstr "beginnt ähnlich wie"
 
-#: src/sjmodules/advsearch.cpp:545
 msgid "ends with"
 msgstr "endet mit"
 
-#: src/sjmodules/advsearch.cpp:546
 msgid "does not end with"
 msgstr "endet nicht mit"
 
-#: src/sjmodules/advsearch.cpp:547
 msgid "on"
 msgstr "am"
 
-#: src/sjmodules/advsearch.cpp:547
 msgid "is equal to"
 msgstr "ist gleich"
 
-#: src/sjmodules/advsearch.cpp:548
 msgid "not on"
 msgstr "nicht am"
 
-#: src/sjmodules/advsearch.cpp:548
 msgid "is unequal to"
 msgstr "ist ungleich"
 
-#: src/sjmodules/advsearch.cpp:549
 msgid "is simelar to"
 msgstr "ist ähnlich wie"
 
-#: src/sjmodules/advsearch.cpp:550
 msgid "is after"
 msgstr "nach dem"
 
-#: src/sjmodules/advsearch.cpp:550
 msgid "is greater than"
 msgstr "ist größer als"
 
-#: src/sjmodules/advsearch.cpp:551
 msgid "is on or after"
 msgstr "nach dem oder am"
 
-#: src/sjmodules/advsearch.cpp:551
 msgid "is greater or equal"
 msgstr "ist größer gleich"
 
-#: src/sjmodules/advsearch.cpp:552
 msgid "is before"
 msgstr "vor dem"
 
-#: src/sjmodules/advsearch.cpp:552
 msgid "is less than"
 msgstr "ist kleiner als"
 
-#: src/sjmodules/advsearch.cpp:553
 msgid "is on or before"
 msgstr "vor dem oder am"
 
-#: src/sjmodules/advsearch.cpp:553
 msgid "is less or equal"
 msgstr "ist kleiner gleich"
 
-#: src/sjmodules/advsearch.cpp:554
 msgid "is in the last"
 msgstr "in den letzten"
 
-#: src/sjmodules/advsearch.cpp:555
 msgid "is not in the last"
 msgstr "nicht in den letzten"
 
-#: src/sjmodules/advsearch.cpp:556
 msgid "is in the period"
 msgstr "im Zeitraum von"
 
-#: src/sjmodules/advsearch.cpp:556
 msgid "is in range"
 msgstr "ist im Bereich"
 
-#: src/sjmodules/advsearch.cpp:557
 msgid "is not in the period"
 msgstr "nicht im Zeitraum von"
 
-#: src/sjmodules/advsearch.cpp:557
 msgid "is not in range"
 msgstr "ist nicht im Bereich"
 
-#: src/sjmodules/advsearch.cpp:558
 msgid "is set"
 msgstr "ist gesetzt"
 
-#: src/sjmodules/advsearch.cpp:559
 msgid "is unset"
 msgstr "ist ungesetzt"
 
-#: src/sjmodules/advsearch.cpp:579
 msgid "tracks"
 msgstr "Titel"
 
-#: src/sjmodules/advsearch.cpp:580
 msgid "albums"
 msgstr "Alben"
 
-#: src/sjmodules/advsearch.cpp:581 src/sjmodules/advsearch.cpp:590
-#: src/sjmodules/advsearch.cpp:595
 msgid "minutes"
 msgstr "Minuten"
 
-#: src/sjmodules/advsearch.cpp:582 src/sjmodules/advsearch.cpp:596
 msgid "hours"
 msgstr "Stunden"
 
-#: src/sjmodules/advsearch.cpp:589 src/sjtools/dialog.cpp:689
 msgid "seconds"
 msgstr "Sekunden"
 
-#: src/sjmodules/advsearch.cpp:597
 msgid "days"
 msgstr "Tagen"
 
-#: src/sjmodules/advsearch.cpp:664 src/sjmodules/library.cpp:3980
-#: src/sjmodules/tageditor/tageditor.cpp:425
 msgid "No rating"
 msgstr "Keine Wertung"
 
-#: src/sjmodules/advsearch.cpp:669
 msgid "random"
 msgstr "Zufall"
 
-#: src/sjmodules/advsearch.cpp:670
 msgid "highest rating"
 msgstr "höchster Wertung"
 
-#: src/sjmodules/advsearch.cpp:671
 msgid "lowest rating"
 msgstr "niedrigster Wertung"
 
-#: src/sjmodules/advsearch.cpp:672
 msgid "most often played"
 msgstr "häufig gespielt"
 
-#: src/sjmodules/advsearch.cpp:673
 msgid "least often played"
 msgstr "selten gespielt"
 
-#: src/sjmodules/advsearch.cpp:674
 msgid "most recently played"
 msgstr "zuletzt gespielt"
 
-#: src/sjmodules/advsearch.cpp:675
 msgid "least recently played"
 msgstr "vor längerem gespielt"
 
-#: src/sjmodules/advsearch.cpp:676
 msgid "most recently added"
 msgstr "zuletzt hinzugefügt"
 
-#: src/sjmodules/advsearch.cpp:677
 msgid "least recently added"
 msgstr "vor längerem hinzugefügt"
 
-#: src/sjmodules/advsearch.cpp:678
 msgid "most recently modified"
 msgstr "zuletzt geändert"
 
-#: src/sjmodules/advsearch.cpp:679
 msgid "least recently modified"
 msgstr "vor längerem geändert"
 
-#: src/sjmodules/advsearch.cpp:680
 msgid "most recently released"
 msgstr "zuletzt erschienen"
 
-#: src/sjmodules/advsearch.cpp:681
 msgid "least recently released"
 msgstr "vor längerem erschienen"
 
-#: src/sjmodules/advsearch.cpp:682
 msgid "low queue position"
 msgstr "niedriger Warteschlangenpos."
 
-#: src/sjmodules/advsearch.cpp:683
 msgid "high queue position"
 msgstr "hoher Warteschlangenpos."
 
-#: src/sjmodules/advsearch.cpp:701
 msgid "Today"
 msgstr "Heute"
 
-#: src/sjmodules/advsearch.cpp:702
 msgid "Yesterday"
 msgstr "Gestern"
 
-#: src/sjmodules/advsearch.cpp:703
-#: src/sjmodules/vis/vis_karaoke_module.cpp:800
-#: src/sjtools/littleoption.cpp:621
 msgid "Select..."
 msgstr "Auswahl..."
 
-#: src/sjmodules/advsearch.cpp:704
 msgid "Show tracks..."
 msgstr "Titel anzeigen..."
 
-#: src/sjmodules/advsearch.cpp:705
 msgid "Add tracks from playlist"
 msgstr "Titel aus Wiedergabeliste hinzufügen"
 
-#: src/sjmodules/advsearch.cpp:706
 msgid "Current position"
 msgstr "Aktuelle Position"
 
 # This is "by" used eg. in the sentence "Limit tesult to 2 tracks by "Recently played"
-#: src/sjmodules/advsearch.cpp:829
 msgid "by"
 msgstr "nach"
 
 # This "to" is used for range definitions, eg, "12 to 16 tracks"
-#: src/sjmodules/advsearch.cpp:873
 msgid "to"
 msgstr "bis"
 
-#: src/sjmodules/advsearch.cpp:941
 msgid "Remove criterion"
 msgstr "Kriterium entfernen"
 
-#: src/sjmodules/advsearch.cpp:945
 msgid "Add criterion"
 msgstr "Kriterium hinzufügen"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1136
 #, c-format
 msgid "Tracks included to \"%s\""
 msgstr "In \"%s\" eingeschlossene Titel"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1136
 #, c-format
 msgid "Tracks excluded from \"%s\""
 msgstr "Von \"%s\" ausgeschlossene Titel"
 
-#: src/sjmodules/advsearch.cpp:1289
 msgid "Saved selections"
 msgstr "Gespeicherte Auswahlen"
 
 # The first %s will be replaced with one of "tracks|albums". The second %s will be replaced by one of "all|any|none".
-#: src/sjmodules/advsearch.cpp:1300
 #, c-format
 msgid "Search for %s matching %s of the following criteria:"
 msgstr "Suche nach %s mit %s der folgenden Kriterien:"
 
 # This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the two values by the pipe character, "|".
-#: src/sjmodules/advsearch.cpp:1301
 msgid "tracks|albums"
 msgstr "Titeln|Alben"
 
 # This value will become a popup in the sentence: "Search for %s matching %s of the following criteria:". Please separate the three values by the pipe character, "|".
-#: src/sjmodules/advsearch.cpp:1302
 msgid "all|any|none"
 msgstr "allen|einigen|keinen"
 
-#: src/sjmodules/advsearch.cpp:1349 src/sjmodules/help/help.cpp:97
-#: src/sjmodules/kiosk/kiosk.cpp:1808 src/sjmodules/vis/vis_window.cpp:371
-#: src/sjtools/console.cpp:372
 msgid "Close"
 msgstr "Schließen"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1574
 #, c-format
 msgid "Do you want to save your modifications to the music selection \"%s\"?"
 msgstr "Möchen Sie Ihre Änderungen an der Musikauswahl \"%s\" speichern?"
 
-#: src/sjmodules/advsearch.cpp:1576
 msgid "Music selection modified"
 msgstr "Musikauswahl geändert"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:1610
 #, c-format
 msgid "Edit music selection \"%s\""
 msgstr "Musikauswahl \"%s\" bearbeiten"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2008
 #, c-format
 msgid "Do you really want to delete the music selection \"%s\"?"
 msgstr "Möchen Sie die Musikauswahl \"%s\" wirklich löschen?"
 
-#: src/sjmodules/advsearch.cpp:2010
 msgid "Delete music selection"
 msgstr "Musikauswahl löschen"
 
 # %i will be replaced by the number of music selections
-#: src/sjmodules/advsearch.cpp:2014
 #, c-format
 msgid "Do you really want to delete the %i selected music selections?"
 msgstr "Möchen Sie die %i ausgewählten Musikauswahlen wirklich löschen?"
 
-#: src/sjmodules/advsearch.cpp:2015
 msgid "Delete music selections"
 msgstr "Musikauswahlen löschen"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2076
 #, c-format
 msgid "No matches found for \"%s\"."
 msgstr "Keine Treffer für \"%s\" gefunden."
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2539
 #, c-format
 msgid ""
 "Do you want to remove the selected track(s) from the music selection \"%s\"?"
@@ -1712,139 +1153,108 @@ msgstr ""
 "Möchten Sie die ausgewählten Titel von der Musikauswahl \"%s\" ausschließen?"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:2594
 #, c-format
 msgid "Do you want to add the selected track(s) to the music selection \"%s\"?"
 msgstr ""
 "Möchten Sie die ausgewählten Titel zu der Musikauswahl \"%s\" hinzufügen?"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2758
 msgid "70's music"
 msgstr "Musik der 70er"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2762 src/sjmodules/playbacksettings.cpp:1321
 msgid "Worst rated"
 msgstr "Schlechte Wertungen"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2766
 msgid "Top rated"
 msgstr "Höchste Wertungen"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2771
 msgid "Top 20"
 msgstr "Top 20"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2776
 msgid "Recently played"
 msgstr "Zuletzt gespielt"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2780
 msgid "Played today"
 msgstr "Heute gespielt"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2784
 msgid "Random selection"
 msgstr "Zufällige Auswahl"
 
 # This is the name of a predefined music selection
-#: src/sjmodules/advsearch.cpp:2788
 msgid "Tracks in queue"
 msgstr "Titel in Warteschlange"
 
-#: src/sjmodules/advsearch.cpp:2817
 msgid "Untitled Music selection"
 msgstr "Unbenannte Musikauswahl"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:3000
 #, c-format
 msgid "No matches in \"%s\""
 msgstr "Keine Treffer in \"%s\""
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:3004
 #, c-format
 msgid "1 match in \"%s\""
 msgstr "1 Treffer in \"%s\""
 
 # The first %s will be replaced by the decima-point-formatted number of matched, the seconds %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:3008
 #, c-format
 msgid "%s matches in \"%s\""
 msgstr "%s Treffer in \"%s\""
 
-#: src/sjmodules/advsearch.cpp:3015 src/sjmodules/tageditor/freedb.cpp:145
-#: src/sjmodules/tageditor/freedb.cpp:252
-#: src/sjmodules/tageditor/freedb.cpp:286
 msgid "No matches"
 msgstr "Keine Treffer"
 
-#: src/sjmodules/advsearch.cpp:3019
 msgid "1 match"
 msgstr "1 Treffer"
 
 # %s will be replaced by a decimal-point-formatted number
-#: src/sjmodules/advsearch.cpp:3023
 #, c-format
 msgid "%s matches"
 msgstr "%s Treffer"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/advsearch.cpp:3040
 msgid "Search single words"
 msgstr "Nach einzelnen Wörtern suchen"
 
-#: src/sjmodules/advsearch.cpp:3041
 msgid "Lookup genre on simple search"
 msgstr "Musikrichtung bei einfacher Suche berücksichtigen"
 
-#: src/sjmodules/advsearch.cpp:3042
 msgid "Search while typing"
 msgstr "Während der Eingabe suchen"
 
-#: src/sjmodules/advsearch.cpp:3043
 msgid "Save modified music selections"
 msgstr "Geänderte Musikauswahlen speichern"
 
 # One option for the setting "Save modified music selections"
-#: src/sjmodules/advsearch.cpp:3043 src/sjmodules/kiosk/password_dlg.cpp:127
 msgid "Ask"
 msgstr "Nachfragen"
 
-#: src/sjmodules/advsearch.cpp:3043 src/sjtools/console.cpp:568
-#: src/sjtools/littleoption.cpp:106 src/sjtools/msgbox.cpp:90
 msgid "Yes"
 msgstr "Ja"
 
-#: src/sjmodules/advsearch.cpp:3043 src/sjmodules/basicsettings.cpp:988
-#: src/sjtools/littleoption.cpp:106 src/sjtools/msgbox.cpp:91
 msgid "No"
 msgstr "Nein"
 
-#: src/sjmodules/advsearch.cpp:3052
 msgid "Max. history size"
 msgstr "Einträge in der Historie"
 
 # The first %s will be replaced by the search text as entered in the simple search field, the second %s will be replaced by the name of a music selection.
-#: src/sjmodules/advsearch.cpp:3162
 #, c-format
 msgid "Search for \"%s\" in \"%s\""
 msgstr "Suche nach \"%s\" in \"%s\""
 
 # %s will be replaced by the search text as entered in the simple search field
-#: src/sjmodules/advsearch.cpp:3170
 #, c-format
 msgid "Search for \"%s\""
 msgstr "Suche nach \"%s\""
 
-#: src/sjmodules/arteditor.cpp:304
 msgid ""
 "Please press and hold the left mouse button. Then, select the area to crop "
 "by moving the mouse."
@@ -1853,95 +1263,69 @@ msgstr ""
 "gewünschten Ausschnitt durch verschieben der Maus."
 
 # Menu entry name for auto-generated covers, please leave the brackets
-#: src/sjmodules/arteditor.cpp:865
 msgid "<Abstract>"
 msgstr "<Abstrakt>"
 
 # This string is added to some options in menus,  do not forget to surround the value with brackets.
-#: src/sjmodules/arteditor.cpp:871
 msgid "(Default)"
 msgstr "(Standard)"
 
-#: src/sjmodules/arteditor.cpp:909
 msgid "Paste image from clipboard"
 msgstr "Bild aus Zwischenablage einfügen"
 
-#: src/sjmodules/arteditor.cpp:914 src/sjmodules/openfiles.cpp:91
-#: src/sjmodules/openfiles.cpp:110
 msgid "Browse"
 msgstr "Durchsuchen"
 
-#: src/sjmodules/arteditor.cpp:917
 msgid "Select cover"
 msgstr "Cover auswählen"
 
-#: src/sjmodules/arteditor.cpp:926
 msgid "Search covers on the web"
 msgstr "Cover im Internet suchen"
 
-#: src/sjmodules/arteditor.cpp:968
 msgid "Don't rotate"
 msgstr "Nicht drehen"
 
-#: src/sjmodules/arteditor.cpp:978
 msgid "Rotate/flip"
 msgstr "Drehen/Spiegeln"
 
-#: src/sjmodules/arteditor.cpp:1027
 msgid "Use default images..."
 msgstr "Standardbilder verwenden..."
 
-#: src/sjmodules/arteditor.cpp:1029
 msgid "Effects/options"
 msgstr "Effekte/Optionen"
 
-#: src/sjmodules/arteditor.cpp:1136
 msgid "Select image"
 msgstr "Bild auswählen"
 
-#: src/sjmodules/arteditor.cpp:1184
 msgid "Save cover"
 msgstr "Cover speichern"
 
-#: src/sjmodules/arteditor.cpp:1226
 msgid "Reset all selected alternative images to their default value?"
 msgstr ""
 "Möchten Sie alle ausgewählten, alternativen Bilder auf die Standardwerte "
 "zurücksetzen?"
 
-#: src/sjmodules/basicsettings.cpp:96 src/sjmodules/basicsettings.cpp:114
-#: src/sjmodules/basicsettings.cpp:1017
 msgid "Search paths"
 msgstr "Suchpfade"
 
-#: src/sjmodules/basicsettings.cpp:104
 msgid "The search paths are used for skins, language files and modules."
 msgstr ""
 "Die Suchpfade werden für Skins, Sprachdateien und für Module verwendet."
 
-#: src/sjmodules/basicsettings.cpp:135 src/sjmodules/basicsettings.cpp:190
 msgid "Add..."
 msgstr "Hinzufügen..."
 
-#: src/sjmodules/basicsettings.cpp:138 src/sjmodules/basicsettings.cpp:191
 msgid "Remove"
 msgstr "Entfernen"
 
-#: src/sjmodules/basicsettings.cpp:214
 msgid "Please select the folder to add to the search paths."
 msgstr ""
 "Bitte wählen Sie den Ordner, den Sie zu den Suchpfaden hinzufügen möchten."
 
-#: src/sjmodules/basicsettings.cpp:288 src/sjmodules/basicsettings.cpp:909
-#: src/sjmodules/kiosk/kiosk.cpp:1501 src/sjmodules/kiosk/kiosk.cpp:1550
-#: src/sjmodules/kiosk/kiosk.cpp:2490
-#: src/sjmodules/tageditor/tageditorplugin.cpp:368
-#: src/sjtools/littleoption.cpp:625
 msgid "Edit..."
 msgstr "Bearbeiten..."
 
 # %s will be replaced by the program name, usually "Silverjuke"
-#: src/sjmodules/basicsettings.cpp:518
 msgid ""
 "Beside several options, you can change the shortcuts to use here.\n"
 "This page is for experienced users only."
@@ -1949,24 +1333,19 @@ msgstr ""
 "Neben verschiedenen Optionen können Sie hier die Tastaturkürzel ändern.\n"
 "Diese Seite ist erfahreneren Anwendern vorbehalten."
 
-#: src/sjmodules/basicsettings.cpp:523
 msgid "Command or option"
 msgstr "Befehl oder Option"
 
-#: src/sjmodules/basicsettings.cpp:524
 msgid "Setting"
 msgstr "Einstellung"
 
-#: src/sjmodules/basicsettings.cpp:528
 msgid "Customize"
 msgstr "Anpassen"
 
-#: src/sjmodules/basicsettings.cpp:773
 msgid "Reset selection"
 msgstr "Auswahl zurücksetzen"
 
 # %i will be replaced by the number of the selected command or options
-#: src/sjmodules/basicsettings.cpp:821
 #, c-format
 msgid ""
 "Do you really want to reset all %i selected commands and options to their "
@@ -1975,180 +1354,134 @@ msgstr ""
 "Möchen Sie wirklich alle %i ausgewählten Befehle und Optionen auf die "
 "Standardwerte zurücksetzen?"
 
-#: src/sjmodules/basicsettings.cpp:947
 msgid "Language"
 msgstr "Sprache"
 
-#: src/sjmodules/basicsettings.cpp:950
 msgid "Show files with"
 msgstr "Dateien anzeigen mit"
 
-#: src/sjmodules/basicsettings.cpp:954
 msgid "Instance"
 msgstr "Instanz"
 
 # %s will be replaced by the name of the option.
-#: src/sjmodules/basicsettings.cpp:957
 #, c-format
 msgid "Use the command-line option --%s=<file> to change this."
 msgstr "Verwenden Sie die Kommandozeilenoption --%s=<datei> um dies zu ändern."
 
-#: src/sjmodules/basicsettings.cpp:961
 msgid "Index file"
 msgstr "Index-Datei"
 
-#: src/sjmodules/basicsettings.cpp:967 src/sjmodules/basicsettings.cpp:996
 msgid "RAM cache"
 msgstr "RAM-Cache"
 
 # %s will be replaced by a formatted time
-#: src/sjmodules/basicsettings.cpp:969
 #, c-format
 msgid "avg. query time: %s"
 msgstr "durchschnittl. Suchzeit: %s"
 
 # Abbreviation of "Milliseconds"
-#: src/sjmodules/basicsettings.cpp:969 src/sjtools/tools.cpp:1453
 msgid "ms"
 msgstr "ms"
 
-#: src/sjmodules/basicsettings.cpp:974
 msgid "Synchronity"
 msgstr "Synchronität"
 
-#: src/sjmodules/basicsettings.cpp:975
 msgid "Fast"
 msgstr "Schnell"
 
-#: src/sjmodules/basicsettings.cpp:975
 msgid "Save but slower"
 msgstr "Sicher aber langsamer"
 
-#: src/sjmodules/basicsettings.cpp:975
 msgid "Very save and slow"
 msgstr "Sehr sicher und langsam"
 
-#: src/sjmodules/basicsettings.cpp:984
 msgid "Image cache"
 msgstr "Bild-Cache"
 
-#: src/sjmodules/basicsettings.cpp:987
 msgid "Use temporary directory"
 msgstr "Temporäres Verzeichnis verwenden"
 
-#: src/sjmodules/basicsettings.cpp:989
 msgid "Yes, load images asynchrony"
 msgstr "Ja, Bilder asynchron laden"
 
-#: src/sjmodules/basicsettings.cpp:990
 msgid "Yes, load images directly and avoid flickering"
 msgstr "Ja, Bilder direkt laden und Flimmern vermeiden"
 
 # The first %i will be replaced by the used percentage, the seconds %i will be replaced by the number of images. Note the two percent signs "%%" which will be converted to a single one.
-#: src/sjmodules/basicsettings.cpp:997
 #, c-format
 msgid "%i%% used for %i images"
 msgstr "%i%% für %i Bilder verwendet"
 
-#: src/sjmodules/basicsettings.cpp:1005
 msgid "Regard file changes"
 msgstr "Dateiänderungen berücksichtigen"
 
-#: src/sjmodules/basicsettings.cpp:1021
 msgid "Display"
 msgstr "Display"
 
-#: src/sjmodules/basicsettings.cpp:1022
 msgid "Show total time"
 msgstr "Gesamtzeit anzeigen"
 
-#: src/sjmodules/basicsettings.cpp:1024 src/sjmodules/library.cpp:402
 msgid "Show track number"
 msgstr "Titelnummer anzeigen"
 
-#: src/sjmodules/basicsettings.cpp:1026 src/sjmodules/library.cpp:405
 msgid "Show artist name"
 msgstr "Künstlernamen anzeigen"
 
-#: src/sjmodules/basicsettings.cpp:1028
 msgid "Show AutoPlay"
 msgstr "AutoPlay anzeigen"
 
-#: src/sjmodules/basicsettings.cpp:1030
 msgid "Preferred cover"
 msgstr "Bevorzugtes Cover"
 
-#: src/sjmodules/basicsettings.cpp:1030
 msgid "Album cover"
 msgstr "Albumcover"
 
-#: src/sjmodules/basicsettings.cpp:1030
 msgid "Track cover"
 msgstr "Titelcover"
 
-#: src/sjmodules/basicsettings.cpp:1087
 msgid "Advanced"
 msgstr "Erweitert"
 
 # %s will be replaced by the program name, usually "Silverjuke"
-#: src/sjmodules/basicsettings.cpp:1149 src/sjtools/dialog.cpp:325
 #, c-format
 msgid "Please restart %s so that the changes can take effect."
 msgstr "Bitte starten Sie %s neu um die Änderungen zu übernehmen."
 
-#: src/sjmodules/help/help.cpp:149 src/sjmodules/tageditor/tageditor.cpp:146
 msgid "Info"
 msgstr "Info"
 
-#: src/sjmodules/help/help.cpp:315
 msgid "Help-system"
 msgstr "Hilfesystem"
 
 # String for "Don't know" or "unset"
-#: src/sjmodules/help/htmlwindow.cpp:119 src/sjmodules/help/htmlwindow.cpp:122
-#: src/sjmodules/playbacksettings.cpp:406
-#: src/sjmodules/scanner/folder_scanner.cpp:209
-#: src/sjmodules/scanner/server_scanner_config.cpp:135
-#: src/sjmodules/tageditor/tageditor.cpp:1076
-#: src/sjmodules/tageditor/tageditorsplit.cpp:165
-#: src/sjmodules/tageditor/tageditorsplit.cpp:171 src/sjtools/tools.cpp:1515
 msgid "n/a"
 msgstr "k.A."
 
-#: src/sjmodules/internalinterface.cpp:56
 msgid "Internal"
 msgstr "Intern"
 
-#: src/sjmodules/kiosk/creditbase.cpp:113
 msgid "No credit."
 msgstr "Kein Kredit."
 
-#: src/sjmodules/kiosk/creditbase.cpp:146
 #, c-format
 msgid "Credit: %i"
 msgstr "Kredit: %i"
 
-#: src/sjmodules/kiosk/kiosk.cpp:330 src/sjmodules/kiosk/numpadmenu.cpp:174
 msgid "Start kiosk mode"
 msgstr "Kiosk-Modus starten"
 
-#: src/sjmodules/kiosk/kiosk.cpp:333
 msgid "Functionality"
 msgstr "Funktionalität"
 
-#: src/sjmodules/kiosk/kiosk.cpp:336
 msgid "Monitors"
 msgstr "Monitore"
 
-#: src/sjmodules/kiosk/kiosk.cpp:339 src/sjmodules/kiosk/virtkeybd.cpp:1379
 msgid "Virtual keyboard"
 msgstr "Bildschirmtastatur"
 
-#: src/sjmodules/kiosk/kiosk.cpp:345
 msgid "Credit system"
 msgstr "Kreditsystem"
 
-#: src/sjmodules/kiosk/kiosk.cpp:458
 msgid ""
 "Silverjuke provides a so called \"kiosk mode\" which allows you to run the "
 "program\n"
@@ -2158,7 +1491,6 @@ msgstr ""
 "Programm\n"
 "als Vollbild mit eingeschränkter Funktionalität laufen zu lassen."
 
-#: src/sjmodules/kiosk/kiosk.cpp:463
 msgid ""
 "Before you enter the kiosk mode by clicking on \"Start\", make sure, you "
 "know how\n"
@@ -2169,74 +1501,58 @@ msgstr ""
 "wieder beenden können:"
 
 # %s will be replaced by a shortcut, eg. "F11"
-#: src/sjmodules/kiosk/kiosk.cpp:472
 #, c-format
 msgid "Exit by hitting %s"
 msgstr "Beenden mit %s"
 
-#: src/sjmodules/kiosk/kiosk.cpp:474
 msgid "Exit by clicking into two different corners"
 msgstr "Beenden durch Klick in zwei verschiedene Ecken"
 
 # %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
-#: src/sjmodules/kiosk/kiosk.cpp:482 src/sjmodules/kiosk/kiosk.cpp:485
 #, c-format
 msgid "Disable %s"
 msgstr "%s deaktivieren"
 
 # %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
-#: src/sjmodules/kiosk/kiosk.cpp:491
 msgid "Disable shutdown"
 msgstr "Herunterfahren/Neustart deaktivieren"
 
-#: src/sjmodules/kiosk/kiosk.cpp:496
 msgid "Ask for a password on exit"
 msgstr "Beim Beenden nach einem Passwort fragen"
 
-#: src/sjmodules/kiosk/kiosk.cpp:498
 msgid "Change password..."
 msgstr "Password ändern..."
 
 # Eg. the title of the popup for "shutdown", "reboot" etc.
-#: src/sjmodules/kiosk/kiosk.cpp:505
 msgid "Exit action:"
 msgstr "Aktion beim Beenden:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:555
 msgid "Start the kiosk mode with the following functionality:"
 msgstr "Kiosk-Modus mit der folgenden Funktionalität starten:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:567
 msgid "Play/pause"
 msgstr "Wiedergabe/Pause"
 
-#: src/sjmodules/kiosk/kiosk.cpp:572
 msgid "Edit queue"
 msgstr "Wiedergabeliste ändern"
 
-#: src/sjmodules/kiosk/kiosk.cpp:578
 msgid "Toggle elements"
 msgstr "Elemente ein-/ausblenden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:584
 msgid "Enqueue multiple tracks"
 msgstr "Mehrere Titel einstellen"
 
-#: src/sjmodules/kiosk/kiosk.cpp:588
 msgid "All functions"
 msgstr "Alle Funktionen"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/kiosk/kiosk.cpp:597
 #, c-format
 msgid "Limit tracks to the music selection %s"
 msgstr "Titel auf die Musikauswahl %s begrenzen"
 
-#: src/sjmodules/kiosk/kiosk.cpp:755 src/sjmodules/kiosk/kiosk.cpp:2500
 msgid "Please enter the password again for verification."
 msgstr "Um Tippfehler zu vermeiden, geben Sie bitte das Passwort erneut ein."
 
-#: src/sjmodules/kiosk/kiosk.cpp:891
 msgid ""
 "If you have more than one monitor connected to your computer,\n"
 "you can assign the different Silverjuke windows to different monitors here."
@@ -2246,39 +1562,30 @@ msgstr ""
 "Sie die verschiedenen Silverjuke-Fenster hier auf die verschiedenen Monitore "
 "verteilen."
 
-#: src/sjmodules/kiosk/kiosk.cpp:896
 msgid "Overview:"
 msgstr "Übersicht:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:912
 msgid "Monitor for"
 msgstr "Monitor für"
 
-#: src/sjmodules/kiosk/kiosk.cpp:923
-#: src/sjmodules/kiosk/monitor_overview.cpp:390
 msgid "Main window"
 msgstr "Hauptfenster"
 
-#: src/sjmodules/kiosk/kiosk.cpp:930 src/sjmodules/kiosk/kiosk.cpp:1018
 msgid "Monitor"
 msgstr "Monitor"
 
 # %s will be replaced by a control for selecting the display resolution
-#: src/sjmodules/kiosk/kiosk.cpp:934
 #, c-format
 msgid "Switch resolution to %s"
 msgstr "Auflösung umschalten %s"
 
 # %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
-#: src/sjmodules/kiosk/kiosk.cpp:955
 msgid "Disable screensaver"
 msgstr "Bildschirmschoner deaktivieren"
 
-#: src/sjmodules/kiosk/kiosk.cpp:958
 msgid "Disable power management"
 msgstr "Energieschema deaktivieren"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1193
 msgid ""
 "If no physical keyboard is present, you can use our virtual keyboard;\n"
 "the virtual keyboard then is shown whenever you click into a text control."
@@ -2288,52 +1595,39 @@ msgstr ""
 "verwenden. Die Bildschirmtastatur wird angezeigt, wenn Sie auf ein Textfeld "
 "klicken."
 
-#: src/sjmodules/kiosk/kiosk.cpp:1198
 msgid "Use the virtual keyboard"
 msgstr "Bildschirmtastatur verwenden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1203
 msgid "Also use the virtual keyboard outside the kiosk mode"
 msgstr "Bildschirmtastatur auch außerhalb des Kiosk-Modus verwenden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1211
 msgid "Test:"
 msgstr "Test:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1222
 msgid "(please click into the text control)"
 msgstr "(bitte klicken Sie in das Textfeld)"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1228
 msgid "Virtual keyboard layout:"
 msgstr "Tastaturlayout:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1249
 msgid "More layouts on the web..."
 msgstr "Weitere Layouts im Internet..."
 
-#: src/sjmodules/kiosk/kiosk.cpp:1255
 msgid "Colour:"
 msgstr "Farbe:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1259
-#: src/sjmodules/vis/vis_karaoke_module.cpp:791
 msgid "Black"
 msgstr "Schwarz"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1260
 msgid "White"
 msgstr "Weiß"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1268
 msgid "Transparency:"
 msgstr "Transparenz:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1292
 msgid "Hide cursor"
 msgstr "Mauszeiger ausblenden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1474
 msgid ""
 "Using the Numpad plus some other special keys, you can control Silverjuke "
 "completely\n"
@@ -2347,19 +1641,15 @@ msgstr ""
 "Titel durch\n"
 "Eingabe der neben dem Album-/Titelnamen stehenden Nummern gespielt."
 
-#: src/sjmodules/kiosk/kiosk.cpp:1479
 msgid "Use Numpad controls"
 msgstr "Ziffernblock zur Steuerung verwenden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1484
 msgid "Also use Numpad controls outside the kiosk mode"
 msgstr "Ziffernblock auch außerhalb des Kiosk-Modus verwenden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1495 src/sjmodules/kiosk/kiosk.cpp:1501
 msgid "Keys:"
 msgstr "Tasten:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1627
 msgid ""
 "With the credit system, users must eg. add coins before tracks can be "
 "enqueued. Please\n"
@@ -2373,36 +1663,28 @@ msgstr ""
 "finden Sie genauere Informationen zum Kreditsystem und zur unterstützten "
 "Hardware."
 
-#: src/sjmodules/kiosk/kiosk.cpp:1632
 msgid "Use credit system"
 msgstr "Kreditsystem verwenden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1640
 msgid "Credits may be added by DDE, command line or shortcuts"
 msgstr ""
 "Kredite können über DDE, Kommandozeile oder Tastatur hinzugefügt werden"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1644
 msgid "Keys..."
 msgstr "Tasten..."
 
-#: src/sjmodules/kiosk/kiosk.cpp:1649
 msgid "Remember credits between program starts"
 msgstr "Kredit zwischen zwei Programmstarts merken"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1657
 msgid "Current credit:"
 msgstr "Aktueller Kredit:"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1807
 msgid "Start"
 msgstr "Start"
 
-#: src/sjmodules/kiosk/kiosk.cpp:1940
 msgid "Please enter your password to exit the kiosk mode."
 msgstr "Bitte geben Sie Ihr Passwort ein, um den Kiosk-Modus zu beenden."
 
-#: src/sjmodules/kiosk/kiosk.cpp:2419
 msgid ""
 "Too many tracks in queue,\n"
 "please try again later."
@@ -2410,7 +1692,6 @@ msgstr ""
 "Zu viele Titel in der Warteschlange,\n"
 "bitte versuchen Sie es später erneut."
 
-#: src/sjmodules/kiosk/kiosk.cpp:2438
 msgid ""
 "This track is already in queue,\n"
 "please try again later."
@@ -2418,7 +1699,6 @@ msgstr ""
 "Dieser Titel ist bereits in der Warteschlange,\n"
 "bitte versuchen Sie es später erneut"
 
-#: src/sjmodules/kiosk/kiosk.cpp:2444
 msgid ""
 "This track or artist was just played,\n"
 "please try again later."
@@ -2426,50 +1706,34 @@ msgstr ""
 "Dieser Titel oder Künstler wurde erst kürzlich gespielt,\n"
 "bitte versuchen Sie es später erneut."
 
-#: src/sjmodules/kiosk/kiosk.cpp:2522
 msgid "Maintenance password"
 msgstr "Wartungspasswort"
 
-#: src/sjmodules/kiosk/numpadmenu.cpp:174
-#: src/sjmodules/kiosk/password_dlg.cpp:124
 msgid "Exit kiosk mode"
 msgstr "Kiosk-Modus beenden"
 
-#: src/sjmodules/kiosk/numpadmenu.cpp:223
-#: src/sjmodules/tageditor/tageditorplugin.cpp:319 src/sjtools/dialog.cpp:118
-#: src/sjtools/msgbox.cpp:90
 msgid "OK"
 msgstr "OK"
 
-#: src/sjmodules/kiosk/numpadpassword.cpp:36
-#: src/sjmodules/kiosk/password_dlg.cpp:78
-#: src/sjmodules/scanner/server_scanner_config.cpp:116
 msgid "Password:"
 msgstr "Passwort:"
 
-#: src/sjmodules/kiosk/numpadpassword.cpp:50
-#: src/sjmodules/kiosk/password_dlg.cpp:156
 msgid "Invalid password. Please try again."
 msgstr "Das Passwort ist ungültig, bitte versuchen Sie es erneut."
 
-#: src/sjmodules/kiosk/numpadplay.cpp:197
 msgid "Invalid track number"
 msgstr "Ungültige Titelnummer"
 
 # Eg. the title of the popup for "shutdown", "reboot" etc.
-#: src/sjmodules/kiosk/password_dlg.cpp:86
 msgid "Action:"
 msgstr "Aktion:"
 
-#: src/sjmodules/kiosk/password_dlg.cpp:109
 msgid "Shutdown computer"
 msgstr "Computer herunterfahren"
 
-#: src/sjmodules/kiosk/password_dlg.cpp:110
 msgid "Reboot computer"
 msgstr "Computer neu starten"
 
-#: src/sjmodules/kiosk/virtkeybd.cpp:262
 msgid ""
 "Shift|AltGr|Delete|Clear\n"
 "all|OK"
@@ -2477,57 +1741,45 @@ msgstr ""
 "Shift|AltGr|Löschen|Alles\n"
 "löschen|OK"
 
-#: src/sjmodules/library.cpp:177
 msgid "The following settings are for experienced users only."
 msgstr "Die folgenden Einstellungen sind erfahreneren Benutzern vorbehalten."
 
-#: src/sjmodules/library.cpp:185
 #, c-format
 msgid "An album must have at least %s tracks with corresponding %s."
 msgstr "Ein Album muß mind. %s Titel mit Übereinstimmungen bei %s haben."
 
-#: src/sjmodules/library.cpp:196
 msgid "artist/album"
 msgstr "Künstler/Album"
 
-#: src/sjmodules/library.cpp:197
 msgid "artist/album or genre"
 msgstr "Künstler/Abum oder Musikrichtung"
 
-#: src/sjmodules/library.cpp:198
 msgid "directory"
 msgstr "Verzeichnis"
 
 # %s will be replaced by a control to select the number of tracks
-#: src/sjmodules/library.cpp:211
 #, c-format
 msgid "Compilations may contain up to %s tracks of the same artist."
 msgstr ""
 "Zusammenstellungen können bis zu %s Titel des selben Künstlers enthalten."
 
-#: src/sjmodules/library.cpp:225
 msgid "Separate the words using commas, case is ignored"
 msgstr ""
 "Trennen Sie die Wörter durch Kommata,\n"
 "die Groß-/Kleinschreibung ist nicht relevant"
 
-#: src/sjmodules/library.cpp:228
 msgid "Sort by:"
 msgstr "Sortieren nach:"
 
-#: src/sjmodules/library.cpp:240
 msgid "Stop-words for sorting artists:"
 msgstr "Beim Sortieren der Künstler die folgenden Wörter übergehen:"
 
-#: src/sjmodules/library.cpp:246
 msgid "Stop-words for sorting albums:"
 msgstr "Beim Sortieren der Alben die folgenden Wörter übergehen:"
 
-#: src/sjmodules/library.cpp:253
 msgid "Show stop-words words at end"
 msgstr "Übergehung anzeigen"
 
-#: src/sjmodules/library.cpp:255
 msgid ""
 "If selected, eg. \"The Rolling Stones\" becomes \"Rolling Stones, The\";\n"
 "sorting itself is not affected by this option"
@@ -2536,182 +1788,143 @@ msgstr ""
 "ausgegeben;\n"
 "die Sortierung selbst bleibt von dieser Option unberührt"
 
-#: src/sjmodules/library.cpp:262
 msgid "Keywords to identify cover image for an album:"
 msgstr "Schlüsselwörter, um das richtige Cover für ein Album zu finden:"
 
-#: src/sjmodules/library.cpp:399
 msgid "Track list"
 msgstr "Titelliste"
 
-#: src/sjmodules/library.cpp:401
 msgid "Show double tracks"
 msgstr "Doppelte Titel anzeigen"
 
-#: src/sjmodules/library.cpp:403
 msgid "Automatic track number"
 msgstr "Automatische Titelnummer"
 
-#: src/sjmodules/library.cpp:404
 msgid "Show disk number"
 msgstr "Disknummer anzeigen"
 
-#: src/sjmodules/library.cpp:406
 msgid "Show different artist names"
 msgstr "Unterschiedliche Künstlernamen anzeigen"
 
-#: src/sjmodules/library.cpp:407
 msgid "Show original artist"
 msgstr "Originären Künstler anzeigen"
 
-#: src/sjmodules/library.cpp:408
 msgid "Show composer"
 msgstr "Komponist anzeigen"
 
-#: src/sjmodules/library.cpp:410
 msgid "Show different album names"
 msgstr "Unterschliedliche Albennamen anzeigen"
 
-#: src/sjmodules/library.cpp:411
 msgid "Show time"
 msgstr "Zeit anzeigen"
 
-#: src/sjmodules/library.cpp:412
 msgid "Show year"
 msgstr "Jahr anzeigen"
 
-#: src/sjmodules/library.cpp:413
 msgid "Show comment"
 msgstr "Kommentar anzeigen"
 
-#: src/sjmodules/library.cpp:414
 msgid "Show genre"
 msgstr "Musikrichtung anzeigen"
 
-#: src/sjmodules/library.cpp:415
 msgid "Show rating"
 msgstr "Wertung anzeigen"
 
-#: src/sjmodules/library.cpp:419
 msgid "Double click on covers"
 msgstr "Doppelklick auf Cover"
 
-#: src/sjmodules/library.cpp:421
 msgid "Select/play album"
 msgstr "Album auswählen/abspielen"
 
-#: src/sjmodules/library.cpp:434
 msgid "Combine tracks to albums"
 msgstr "Titel zu Alben zusammenfassen"
 
-#: src/sjmodules/library.cpp:908
 msgid "Updating genres..."
 msgstr "Musikrichtungen aktualisieren..."
 
-#: src/sjmodules/library.cpp:908
 msgid "Updating groups..."
 msgstr "Gruppen aktualisieren..."
 
-#: src/sjmodules/library.cpp:1245
 msgid "Combining tracks to albums..."
 msgstr "Titel zu Alben zusammenfassen..."
 
-#: src/sjmodules/library.cpp:1735
 msgid "Do you want to add the following folder(s) to your music library?"
 msgstr "Möchten Sie die folgenden Ordner zu Ihrem Musikarchiv hinzufügen?"
 
 # This is one of the possible answers eg. if the user drags an image to an album row
-#: src/sjmodules/library.cpp:2001
 #, c-format
 msgid "Yes, leave the image in \"%s\""
 msgstr "Ja, Bild in \"%s\" belassen"
 
 # This is one of the possible answers eg. if the user drags an image to an album row
-#: src/sjmodules/library.cpp:2004
 #, c-format
 msgid "Yes, copy the image to \"%s\""
 msgstr "Ja, Bild nach \"%s\" kopieren"
 
 # %s will be replaced by the album name
-#: src/sjmodules/library.cpp:2007
 #, c-format
 msgid "Do you want to use the given image as the cover for \"%s\"?"
 msgstr "Möchten Sie das Bild als Cover für \"%s\" verwenden?"
 
 #. TRANSLATORS: %s will be replaced by a filename
-#: src/sjmodules/library.cpp:2725 src/sjmodules/library.cpp:4058
 #, c-format
 msgid "\"%s\" is not in your music library and cannot be edited therefore."
 msgstr ""
 "\"%s\" ist nicht in Ihrem Musikarchiv und kann daher nicht bearbeitet werden."
 
 # The first %s will be replaced b the number of tracks, the second %s will be replaced by the number of albums, the third %s will be replaced by the search text or by the name of a music selection.
-#: src/sjmodules/library.cpp:3044 src/sjmodules/library.cpp:3122
 #, c-format
 msgid "%s tracks on %s albums found for \"%s\""
 msgstr "%s Titel auf %s Alben für \"%s\" gefunden"
 
 # The first %s will be replaced b the number of tracks, the second %s will be replaced by the number of albums.
-#: src/sjmodules/library.cpp:3056 src/sjmodules/library.cpp:3062
-#: src/sjmodules/library.cpp:3139 src/sjmodules/library.cpp:3177
 #, c-format
 msgid "%s tracks on %s albums"
 msgstr "%s Titel auf %s Alben"
 
-#: src/sjmodules/library.cpp:3160
 msgid "Albums"
 msgstr "Alben"
 
-#: src/sjmodules/library.cpp:3183
 msgid "All albums"
 msgstr "Alle Alben"
 
-#: src/sjmodules/library.cpp:3297 src/sjtools/imgop.cpp:1166
 msgid "Unsorted tracks"
 msgstr "Unsortierte Titel"
 
 # %i will be replaced by the disk number. This string is used as headlines in the album browser if an album has several disks (CDs, records and so on).
-#: src/sjmodules/library.cpp:3384
 #, c-format
 msgid "Disk %i"
 msgstr "Disk %i"
 
 # Enter the default abbreviation for "Original artist" here, do not use more than 2 characters plus eg. ":". The abbreviation is used in the browser window if an original artist is set for a track.
-#: src/sjmodules/library.cpp:3463
 msgid "O:"
 msgstr "O:"
 
 # Enter the default abbreviation for "Composer" here, do not use more than 2 characters plus eg. ":". The abbreviation is used in the browser window if a composer is set for a track.
-#: src/sjmodules/library.cpp:3472
 msgid "C:"
 msgstr "K:"
 
 # %s will be replaced by the name of the track
-#: src/sjmodules/library.cpp:3780
 #, c-format
 msgid "Enqueue \"%s\""
 msgstr "\"%s\" in Warteschlange"
 
 # %s will be replaced by the name of the track
-#: src/sjmodules/library.cpp:3785
 #, c-format
 msgid "Play \"%s\" now"
 msgstr "\"%s\" jetzt spielen"
 
 # %s will be replaced by the name of the track
-#: src/sjmodules/library.cpp:3788
 #, c-format
 msgid "Play \"%s\" next"
 msgstr "\"%s\" als nächstes spielen"
 
 # %s will be replaced by the name of the track
-#: src/sjmodules/library.cpp:3794
 #, c-format
 msgid "Unqueue \"%s\""
 msgstr "\"%s\" aus Warteschlange entfernen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3802 src/sjmodules/library.cpp:4992
 #, c-format
 msgid "Enqueue %i track"
 msgid_plural "Enqueue %i tracks"
@@ -2719,7 +1932,6 @@ msgstr[0] "%i Titel in Warteschlange stellen"
 msgstr[1] "%i Titel in Warteschlange stellen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3810
 #, c-format
 msgid "Play %i track now"
 msgid_plural "Play %i tracks now"
@@ -2727,7 +1939,6 @@ msgstr[0] "%i Titel jetzt spielen"
 msgstr[1] "%i Titel jetzt spielen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3816
 #, c-format
 msgid "Play %i track next"
 msgid_plural "Play %i tracks next"
@@ -2735,7 +1946,6 @@ msgstr[0] "%i Titel als nächstes spielen"
 msgstr[1] "%i Titel als nächstes spielen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:3825
 #, c-format
 msgid "Unqueue %i track"
 msgid_plural "Unqueue %i tracks"
@@ -2743,26 +1953,21 @@ msgstr[0] "%i Titel aus Warteschlange entfernen"
 msgstr[1] "%i Titel aus Warteschlange entfernen"
 
 # %s will be replaced by the name of an artist
-#: src/sjmodules/library.cpp:3909 src/sjmodules/library.cpp:3927
-#: src/sjmodules/library.cpp:3931
 #, c-format
 msgid "\"%s\" on the web"
 msgstr "\"%s\" im Internet"
 
 # %s will be replaced eg. by a number of "+" which represent the user's rating
-#: src/sjmodules/library.cpp:4012
 #, c-format
 msgid "Average rating: %s"
 msgstr "Durchschnittl. Wertung: %s"
 
 # %s will be replaced eg. by a number of "+" which represent the user's rating
-#: src/sjmodules/library.cpp:4012 src/sjmodules/library.cpp:4784
 #, c-format
 msgid "Rating: %s"
 msgstr "Wertung: %s"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:4033 src/sjmodules/library.cpp:4095
 #, c-format
 msgid "Do you want to change the rating for %i selected track?"
 msgid_plural "Do you want to change the rating for %i selected tracks?"
@@ -2770,188 +1975,140 @@ msgstr[0] "Möchten Sie die Wertung für den ausgewählten Titel ändern?"
 msgstr[1] "Möchten Sie die Wertung für %i ausgewählte Titel ändern?"
 
 # This is the button in the confirmation dialog when changing the rating for multiple tracks.
-#: src/sjmodules/library.cpp:4035 src/sjmodules/library.cpp:4097
 msgid "Change rating"
 msgstr "Wertung ändern"
 
-#: src/sjmodules/library.cpp:4474 src/sjmodules/library.cpp:4561
 msgid "Click to select all tracks of this album, double-click to play them"
 msgstr "Klick/Doppelklick: Alle Titel dieses Albums auswählen/abspielen"
 
-#: src/sjmodules/library.cpp:4623
 msgid "Click to select all tracks of this artists, double-click to play them"
 msgstr "Klick/Doppelklick: Alle Titel dieses Künsters auswählen/abspielen"
 
-#: src/sjmodules/library.cpp:4696
 msgid "Click to select all tracks of this disk, double-click to play them"
 msgstr "Klick/Doppelklick: Alle Titel dieser Disk auswählen/abspielen"
 
 # %s will be replaced by the name of the track
-#: src/sjmodules/library.cpp:4814
 #, c-format
 msgid "Double-click to enqueue \"%s\""
 msgstr "Doppelklick: \"%s\" in Warteschlange stellen"
 
 #. TRANSLATORS: %i will be replaced by the number of tracks
-#: src/sjmodules/library.cpp:4988
 #, c-format
 msgid "Do you want to enqueue %i selected track?"
 msgid_plural "Do you want to enqueue %i selected tracks?"
 msgstr[0] "Möchten Sie den ausgewählten Titel in die Warteschlange stellen?"
 msgstr[1] "Möchten Sie %i ausgewählte Titel in die Warteschlange stellen?"
 
-#: src/sjmodules/modulebase.cpp:1393
 msgid "Size"
 msgstr "Größe"
 
-#: src/sjmodules/modulebase.cpp:1397
-#: src/sjmodules/tageditor/tageditor.cpp:1089
 msgid "Gain"
 msgstr "Verstärkung"
 
-#: src/sjmodules/mymusic.cpp:173
 msgid "Read music-files from the following folders and sources:"
 msgstr "Musikdateien aus den folgenden Ordnern bzw. Quellen lesen:"
 
-#: src/sjmodules/mymusic.cpp:181
 msgid "Read music-files from the following sources:"
 msgstr "Musikdateien aus den folgenden Quellen lesen:"
 
-#: src/sjmodules/mymusic.cpp:187
 msgid "Add source"
 msgstr "Quelle hinzufügen"
 
-#: src/sjmodules/mymusic.cpp:190 src/sjmodules/mymusic.cpp:587
 msgid "Remove source"
 msgstr "Quelle entfernen"
 
-#: src/sjmodules/mymusic.cpp:193 src/sjmodules/playbacksettings.cpp:327
-#: src/sjmodules/viewsettings.cpp:229 src/sjmodules/vis/vis_window.cpp:203
 msgid "Options"
 msgstr "Optionen"
 
-#: src/sjmodules/mymusic.cpp:212
 msgid "Currently, the following file types are read:"
 msgstr "Momentan werden die folgenden Dateitypen gelesen:"
 
-#: src/sjmodules/mymusic.cpp:247
 msgid "Music library"
 msgstr "Musikarchiv"
 
 # %s will be replaced eg. by a module- or a filename
-#: src/sjmodules/mymusic.cpp:600 src/sjmodules/scanner/folder_scanner.cpp:119
-#: src/sjmodules/scanner/server_scanner_config.cpp:61
-#: src/sjmodules/vis/vis_window.cpp:349
 #, c-format
 msgid "Options for \"%s\""
 msgstr "Optionen für \"%s\""
 
-#: src/sjmodules/mymusic.cpp:604
 msgid "Options..."
 msgstr "Optionen..."
 
-#: src/sjmodules/mymusic.cpp:646
 msgid "Jukebox"
 msgstr "Jukebox"
 
-#: src/sjmodules/openfiles.cpp:80
 msgid "Please select a playlist, some files or enter a streaming URL"
 msgstr ""
 "Bitte Wiedergabeliste/Dateien auswählen oder die URL eines Streams eingeben"
 
-#: src/sjmodules/openfiles.cpp:94
 msgid "Append to current playlist"
 msgstr "An aktuelle Wiedergabeliste anhängen"
 
-#: src/sjmodules/playbacksettings.cpp:79
-#: src/sjmodules/playbacksettings.cpp:1088
 msgid "Automatic control"
 msgstr "Automatische Steuerung"
 
-#: src/sjmodules/playbacksettings.cpp:94
 #, c-format
 msgid "Go to current track after %i minutes of inactivity"
 msgstr "Gehe zu aktuellem Titel nach %i Minuten Inaktivität"
 
 # The string will be followed by "Album view", "Cover view" or "List view"
-#: src/sjmodules/playbacksettings.cpp:99
 #, c-format
 msgid "Reset view after %i minutes of inactivity to"
 msgstr "Ansicht nach %i Minuten Inaktivität umschalten auf"
 
 # The string will be followed by "Album view", "Cover view" or "List view"
-#: src/sjmodules/playbacksettings.cpp:110
 #, c-format
 msgid "Open video screen after %i minutes of inactivity"
 msgstr "Videobildschirm nach %i Minuten Inaktivität öffnen"
 
 # %s will be replaced by the name of a visualization
-#: src/sjmodules/playbacksettings.cpp:116
 #, c-format
 msgid "Close video screen after %i minutes"
 msgstr "Videobildschirm nach %i Minuten schließen"
 
-#: src/sjmodules/playbacksettings.cpp:313
-#: src/sjmodules/playbacksettings.cpp:334
-#: src/sjmodules/playbacksettings.cpp:1504
 msgid "Volume control"
 msgstr "Lautstärkesteuerung"
 
-#: src/sjmodules/playbacksettings.cpp:339
 msgid "Play all tracks of an album with the same volume"
 msgstr "Alle Titel eines Albums mit derselben Lautstärke spielen"
 
-#: src/sjmodules/playbacksettings.cpp:348
 msgid "Desired volume:"
 msgstr "Gewünschte Lautstärke:"
 
-#: src/sjmodules/playbacksettings.cpp:364
 msgid "Max. gain:"
 msgstr "Max. Verstärkung:"
 
-#: src/sjmodules/playbacksettings.cpp:386
 msgid "Current volume:"
 msgstr "Aktuelle Lautstärke:"
 
-#: src/sjmodules/playbacksettings.cpp:387
 msgid "Calculated volumes:"
 msgstr "Berechnete Lautstärken:"
 
-#: src/sjmodules/playbacksettings.cpp:667
-#: src/sjmodules/playbacksettings.cpp:1501
 msgid "Fading"
 msgstr "Überblendungen"
 
-#: src/sjmodules/playbacksettings.cpp:696
 msgid "Crossfading"
 msgstr "Titel überblenden"
 
-#: src/sjmodules/playbacksettings.cpp:706
 msgid "Manual crossfades:"
 msgstr "Manuelle Überblendungen:"
 
-#: src/sjmodules/playbacksettings.cpp:711
 msgid "Automatic crossfades:"
 msgstr "Automatische Überblendungen:"
 
-#: src/sjmodules/playbacksettings.cpp:721
 msgid "No crossfades between subsequent tracks of the same album"
 msgstr ""
 "Keine Überblendung zwischen aufeinanderfolgenden Titeln des selben Albums"
 
-#: src/sjmodules/playbacksettings.cpp:726
 msgid "Only fade out the old track, the new track starts with full volume"
 msgstr "Nur den alten Titel ausblenden, der neue startet mit voller Lautstärke"
 
-#: src/sjmodules/playbacksettings.cpp:731
 msgid "Skip silence between tracks"
 msgstr "Stille zwischen Titeln überspringen"
 
-#: src/sjmodules/playbacksettings.cpp:740
 msgid "Other fadings"
 msgstr "Sonstige Ein- und Ausblendungen"
 
-#: src/sjmodules/playbacksettings.cpp:1162
 msgid ""
 "The following options define the behaviour of the queue. For the \"shuffle "
 "intensity\",\n"
@@ -2966,36 +2123,30 @@ msgstr ""
 "bewirken starke Änderungen."
 
 #. TRANSLATORS: %i will be replaced by a number
-#: src/sjmodules/playbacksettings.cpp:1172
 #, c-format
 msgid "Kiosk mode: Allow max. %i track waiting in queue"
 msgid_plural "Kiosk mode: Allow max. %i tracks waiting in queue"
 msgstr[0] "Kiosk-Modus: Max. %i Titel in Warteschlange zulassen"
 msgstr[1] "Kiosk-Modus: Max. %i Titel in Warteschlange zulassen"
 
-#: src/sjmodules/playbacksettings.cpp:1181
 msgid "Kiosk mode: Avoid double tracks waiting in queue"
 msgstr "Kiosk-Modus: Doppelte Titel in Warteschlange vermeiden"
 
 # %i will be replaced by a control to select the number of minutes
-#: src/sjmodules/playbacksettings.cpp:1199
 #, c-format
 msgid "Avoid boredom: No track repetition within %i minutes"
 msgstr ""
 "Langeweile vermeiden: Keinen Titel innerhalb %i Minuten mehrmals spielen"
 
 # %i will be replaced by a control to select the number of minutes
-#: src/sjmodules/playbacksettings.cpp:1206
 #, c-format
 msgid "Avoid boredom: No artist repetition within %i minutes"
 msgstr ""
 "Langeweile vermeiden: Keinen Künstler innerhalb %i Minuten mehrmals spielen"
 
-#: src/sjmodules/playbacksettings.cpp:1217
 msgid "Shuffle intensity:"
 msgstr "Intensität des Zufallsmodus:"
 
-#: src/sjmodules/playbacksettings.cpp:1333
 msgid ""
 "Use the following options to define which actions should be done "
 "automatically\n"
@@ -3004,210 +2155,155 @@ msgstr ""
 "Mit den folgenden Optionen können Sie Aktionen festlegen, die nach einer\n"
 "bestimmten Zeitspanne automatisch ausgeführt werden sollen."
 
-#: src/sjmodules/playbacksettings.cpp:1341
 #, c-format
 msgid "AutoPlay: If the playlist is empty, wait %i minutes;"
 msgstr "AutoPlay: Wenn die Wiedergabeliste leer ist, warte %i Minuten;"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/playbacksettings.cpp:1353
 #, c-format
 msgid "then, play %i tracks from the %s"
 msgstr "spiele danach %i Titel aus %s"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/playbacksettings.cpp:1400
 msgid "Ignore tracks from the music selection"
 msgstr "Titel aus der Musikauswahl ausschliessen"
 
-#: src/sjmodules/playbacksettings.cpp:1424
 msgid "Manually enqueued tracks interrupt AutoPlay immediately"
 msgstr "AutoPlay durch manuell eingestellte Titel sofort unterbrechen "
 
-#: src/sjmodules/playbacksettings.cpp:1440
 msgid "Sleep mode:"
 msgstr "Schlafmodus:"
 
-#: src/sjmodules/playbacksettings.cpp:1445
 msgid "Stop playback"
 msgstr "Wiedergabe beenden"
 
-#: src/sjmodules/playbacksettings.cpp:1453
 msgid "in|after|at|always in|always after|always at"
 msgstr "in|nach|um|immer in|immer nach|immer um"
 
-#: src/sjmodules/playbacksettings.cpp:1470
 msgid "minutes|minutes of inactivity|o'clock"
 msgstr "Minuten|Minuten Inaktivität|Uhr"
 
-#: src/sjmodules/playbacksettings.cpp:1488
 #, c-format
 msgid "Before this, fade out %i seconds"
 msgstr "Blende zuvor die Lautstärke %i Sekunden lang aus"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:133
 msgid "Read folders:"
 msgstr "Ordner durchsuchen:"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:133
 msgid "Read file:"
 msgstr "Datei lesen:"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:146
 msgid "Ignore music-files and images with the following extensions:"
 msgstr ""
 "Musik- und Bilddateien mit den folgenden Dateierweiterungen ignorieren:"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:152
 msgid "(separate the extensions using the comma, case is ignored)"
 msgstr ""
 "(trennen Sie die Erweiterungen durch Kommata, Groß-/Kleinschreibung ist "
 "nicht relevant)"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:155
 msgid "Include folder to the update process"
 msgstr "Ordner in den Aktualisierungsprozess einbeziehen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:162
 msgid "Read hidden files"
 msgstr "Versteckte Dateien lesen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:167
 msgid "Read hidden folders"
 msgstr "Versteckte Ordner lesen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:172
 msgid "Read inside ZIP-/TAR-archives"
 msgstr "Innerhalb von ZIP-/TAR-Archiven suchen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:183
 msgid "Read (ID3)-tags"
 msgstr "(ID3-)Tags lesen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:190
 msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
 msgstr "Pfad und Dateimuster für Titelinformationen, falls (ID3-)Tags fehlen:"
 
 # This string is used as a headline before a list of placeholders, see eg. "Settings/My music library/Options for <source>". The placeholders may then be used by the user in the corresponding text field and Silverjuke will replace them by something else afterwards.
-#: src/sjmodules/scanner/folder_scanner.cpp:196
-#: src/sjtools/littleoption.cpp:687
 msgid "Placeholders:"
 msgstr "Platzhalter:"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:403
 msgid "Read files and folders"
 msgstr "Dateien und Ordner lesen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:405
 msgid "Add a folder to search for music-files"
 msgstr "Ordner mit Musikdateien hinzufügen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:408
 msgid "Add a single music-file"
 msgstr "Einzelne Musikdatei hinzufügen"
 
 # This string is eg. added to disabled sources
-#: src/sjmodules/scanner/folder_scanner.cpp:600
-#: src/sjmodules/scanner/server_scanner.cpp:222
 msgid "Disabled"
 msgstr "Inaktiv"
 
 # If "Include folder to the update process" is disabled, this hint is shown in brackets in the list of sources in the "My music" dialog.
-#: src/sjmodules/scanner/folder_scanner.cpp:604
-#: src/sjmodules/scanner/server_scanner.cpp:227
 msgid "No update"
 msgstr "Nicht aktualisieren"
 
 # %s will be replaced by the name of a source, eg. a folder, a file or an URL
-#: src/sjmodules/scanner/folder_scanner.cpp:619
-#: src/sjmodules/scanner/server_scanner.cpp:181
 #, c-format
 msgid "Remove \"%s\" from the music library?"
 msgstr "\"%s\" aus Musikarchiv entfernen?"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:642
 msgid "Select a folder with music-files"
 msgstr "Ordner mit Musikdateien hinzufügen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:657
 msgid "Select music-file"
 msgstr "Musikdatei auswählen"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:812
 msgid "Unknown track"
 msgstr "Unbekannter Titel"
 
-#: src/sjmodules/scanner/folder_scanner.cpp:817
 msgid "Unknown artist"
 msgstr "Unbekannter Künstler"
 
-#: src/sjmodules/scanner/server_scanner_config.cpp:56
-#: src/sjmodules/scanner/server_scanner.cpp:61
 msgid "Add a server containing music-files"
 msgstr "Server mit Musikdateien hinzufügen"
 
-#: src/sjmodules/scanner/server_scanner_config.cpp:82
-#: src/sjmodules/scanner/server_scanner_config.cpp:86
 msgid "Use server:"
 msgstr "Server verwenden:"
 
-#: src/sjmodules/scanner/server_scanner_config.cpp:96
 msgid "Server:"
 msgstr "Server:"
 
-#: src/sjmodules/scanner/server_scanner_config.cpp:102
 msgid "Type"
 msgstr "Typ"
 
-#: src/sjmodules/scanner/server_scanner_config.cpp:110
 msgid "Login name:"
 msgstr "Loginname:"
 
-#: src/sjmodules/scanner/server_scanner_config.cpp:124
 msgid "Include server to the update process"
 msgstr "Server in den Aktualisierungsprozess einbeziehen"
 
-#: src/sjmodules/scanner/server_scanner_config.cpp:139
 msgid "Configuration file"
 msgstr "Konfigurations-Datei"
 
-#: src/sjmodules/settings.cpp:454
 msgid "Settings"
 msgstr "Einstellungen"
 
 # %i will be replaced by the error number
-#: src/sjmodules/tageditor/freedb.cpp:258
-#: src/sjmodules/tageditor/freedb.cpp:418
 #, c-format
 msgid "Error %i"
 msgstr "Fehler %i"
 
-#: src/sjmodules/tageditor/tageditor.cpp:145
-#: src/sjmodules/tageditor/tageditor.cpp:1861
 msgid "Edit track"
 msgstr "Titel bearbeiten"
 
-#: src/sjmodules/tageditor/tageditor.cpp:349
-#: src/sjmodules/tageditor/tageditor.cpp:364
 msgid "of"
 msgstr "von"
 
-#: src/sjmodules/tageditor/tageditor.cpp:465
-#: src/sjmodules/tageditor/tageditorplugin.cpp:305
 msgid "Write (ID3-)tags"
 msgstr "(ID3-)Tags schreiben"
 
-#: src/sjmodules/tageditor/tageditor.cpp:1002
 msgid "File names"
 msgstr "Dateinamen"
 
 # %s will be replaced by the decimal-point-formatted number of files
-#: src/sjmodules/tageditor/tageditor.cpp:1006
 #, c-format
 msgid "Show all %s file names..."
 msgstr "Alle %s Dateinamen anzeigen..."
 
-#: src/sjmodules/tageditor/tageditor.cpp:1011
 msgid ""
 "The shown values are the sum or the average of all single values in the "
 "given files."
@@ -3215,214 +2311,151 @@ msgstr ""
 "Die angezeigten Werte sind die Summe bzw. der Durchschnitt aller einzelnen "
 "Werte in den gegebenen Dateien."
 
-#: src/sjmodules/tageditor/tageditor.cpp:1072
-#: src/sjmodules/tageditor/tageditor.cpp:1076
 msgid "Track"
 msgstr "Titel"
 
-#: src/sjmodules/tageditor/tageditor.cpp:1122
 msgid "Further information"
 msgstr "Weitere Informationen"
 
-#: src/sjmodules/tageditor/tageditor.cpp:1141 src/sjtools/temp_n_cache.cpp:407
 msgid "Temporary directory"
 msgstr "Temporäres Verzeichnis"
 
-#: src/sjmodules/tageditor/tageditor.cpp:1148
 msgid "Further information..."
 msgstr "Weitere Informationen..."
 
 # The first %s will be replaced by the source file name, the second %s will be replaced by the destination file name
-#: src/sjmodules/tageditor/tageditor.cpp:1798
 #, c-format
 msgid "Cannot rename \"%s\" to \"%s\"."
 msgstr "Kann \"%s\" nicht in \"%s\" umbenennen."
 
-#: src/sjmodules/tageditor/tageditor.cpp:1982
 msgid "Server name"
 msgstr "Server-Name"
 
-#: src/sjmodules/tageditor/tageditorfreedb.cpp:53
 msgid "Query online database"
 msgstr "Online-Datenbank abfragen"
 
-#: src/sjmodules/tageditor/tageditorfreedb.cpp:156
 msgid "more..."
 msgstr "mehr..."
 
-#: src/sjmodules/tageditor/tageditorfreedb.cpp:183
 msgid "Please select one of the following albums:"
 msgstr "Bitte wählen Sie eines der folgenden Alben aus:"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:167
 msgid "Old file name"
 msgstr "Alter Dateiname"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:168
 msgid "New file name"
 msgstr "Neuer Dateiname"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:173
 msgid "Field"
 msgstr "Feld"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:174
 msgid "Old value"
 msgstr "Alter Wert"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:175
-#: src/sjmodules/tageditor/tageditorplugin.cpp:400
 msgid "New value"
 msgstr "Neuer Wert"
 
 # This string is used eg. for unused effect slots, please surround the string by "<" and ">"
-#: src/sjmodules/tageditor/tageditorplugin.cpp:212
 msgid "<empty>"
 msgstr "<leer>"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:284
 msgid "Confirm modifications"
 msgstr "Änderungen bestätigen"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:312
 msgid "Delete empty folders"
 msgstr "Leere Ordner löschen"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:339
 msgid "Please confirm or edit the following modification:"
 msgstr "Bitte bestätigen oder bearbeiten Sie die folgende Änderung:"
 
 # %s will be replaced by the number of modifications
-#: src/sjmodules/tageditor/tageditorplugin.cpp:343
 #, c-format
 msgid "Please confirm or edit the following %s modifications:"
 msgstr "Bitte bestätigen oder bearbeiten Sie die folgenden %s Änderungen:"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:522
 msgid "(lower case)"
 msgstr "(Kleinschreibung)"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:523
 msgid "(upper case)"
 msgstr "(Großschreibung)"
 
-#: src/sjmodules/tageditor/tageditorplugin.cpp:531
 msgid "(n characters)"
 msgstr "(n Zeichen)"
 
-#: src/sjmodules/tageditor/tageditorrename.cpp:177
 msgid "Rename files"
 msgstr "Dateien umbenennen"
 
-#: src/sjmodules/tageditor/tageditorrename.cpp:196
 msgid "Pattern:"
 msgstr "Muster:"
 
-#: src/sjmodules/tageditor/tageditorrename.cpp:213
-#: src/sjmodules/tageditor/tageditorrename.cpp:218
-#: src/sjmodules/tageditor/tageditorrename.cpp:221
-#: src/sjmodules/tageditor/tageditorrename.cpp:223
 msgid "(first character)"
 msgstr "(erstes Zeichen)"
 
 # %i will be replaced by the number of characters
-#: src/sjmodules/tageditor/tageditorrename.cpp:225
-#: src/sjmodules/tageditor/tageditorrename.cpp:226
-#: src/sjmodules/tageditor/tageditorrename.cpp:229
-#: src/sjmodules/tageditor/tageditorrename.cpp:233
-#: src/sjmodules/tageditor/tageditorsplit.cpp:105
-#: src/sjmodules/tageditor/tageditorsplit.cpp:106
-#: src/sjmodules/tageditor/tageditorsplit.cpp:108
-#: src/sjmodules/tageditor/tageditorsplit.cpp:109
-#: src/sjmodules/tageditor/tageditorsplit.cpp:122
-#: src/sjmodules/tageditor/tageditorsplit.cpp:123
 #, c-format
 msgid "(%i characters)"
 msgstr "(%i-stellig)"
 
-#: src/sjmodules/tageditor/tageditorrename.cpp:231
-#: src/sjmodules/tageditor/tageditorsplit.cpp:125
 msgid "Directory change"
 msgstr "Verzeichniswechsel"
 
-#: src/sjmodules/tageditor/tageditorrename.cpp:234
 msgid "File extension"
 msgstr "Dateierweiterung"
 
-#: src/sjmodules/tageditor/tageditorrename.cpp:238
-#: src/sjmodules/tageditor/tageditorsplit.cpp:130
 msgid "Example:"
 msgstr "Beispiel:"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:36
 msgid "Replace"
 msgstr "Ersetzen"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:57
 msgid "Search for:"
 msgstr "Suchen nach:"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:63
 msgid "in:"
 msgstr "in:"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:67
 msgid "All fields"
 msgstr "Alle Felder"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:70
-#: src/sjmodules/tageditor/tageditorsplit.cpp:88
 msgid "Path and file name"
 msgstr "Pfad und Dateiname"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:75
 msgid "Replace with:"
 msgstr "Ersetzen durch:"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:83
 msgid "Match whole words only"
 msgstr "Nur ganze Wörter"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:92
 msgid "Match case"
 msgstr "Groß-/Kleinschreibung beachten"
 
-#: src/sjmodules/tageditor/tageditorreplace.cpp:101
 msgid "Regular expression"
 msgstr "Regulärer Ausdruck"
 
 # %s will be replaced by a text the user tried to search for
-#: src/sjmodules/tageditor/tageditorreplace.cpp:190
 #, c-format
 msgid "\"%s\" not found."
 msgstr "\"%s\" nicht gefunden."
 
-#: src/sjmodules/tageditor/tageditorsplit.cpp:53
 msgid "Split field"
 msgstr "Feld aufteilen"
 
-#: src/sjmodules/tageditor/tageditorsplit.cpp:76
 msgid "Field to split:"
 msgstr "Aufzuteilendes Feld:"
 
-#: src/sjmodules/tageditor/tageditorsplit.cpp:93
 msgid "Destination fields and pattern:"
 msgstr "Zielfelder und Muster:"
 
-#: src/sjmodules/tageditor/tageditorsplit.cpp:126
 msgid "Void information"
 msgstr "Nichtige Informationen"
 
-#: src/sjmodules/viewsettings.cpp:173 src/sjmodules/viewsettings.cpp:691
 msgid "Skins"
 msgstr "Skins"
 
-#: src/sjmodules/viewsettings.cpp:174
 msgid "Fonts and covers"
 msgstr "Schrift und Cover"
 
 # %s will be replaced by the program name, usually "Silverjuke"
-#: src/sjmodules/viewsettings.cpp:213
 #, c-format
 msgid ""
 "With different skins you can change the \"look and feel\" of %s. Just\n"
@@ -3433,19 +2466,15 @@ msgstr ""
 "Wählen Sie eine Skin aus der Liste oder laden Sie weitere Skins aus dem "
 "Internet."
 
-#: src/sjmodules/viewsettings.cpp:223
 msgid "Name"
 msgstr "Name"
 
-#: src/sjmodules/viewsettings.cpp:447
 msgid "Update list"
 msgstr "Liste aktualisieren"
 
-#: src/sjmodules/viewsettings.cpp:448
 msgid "More skins on the web..."
 msgstr "Weitere Skins im Internet..."
 
-#: src/sjmodules/viewsettings.cpp:475
 msgid ""
 "You can set independent font and cover sizes to use in the main window. The "
 "sizes\n"
@@ -3460,257 +2489,189 @@ msgstr ""
 "(z.B. über \"+\" und \"-\"), verändern sich beide Größen proportional "
 "zueinander."
 
-#: src/sjmodules/viewsettings.cpp:490
 msgid "Font:"
 msgstr "Schrift:"
 
-#: src/sjmodules/viewsettings.cpp:515
 msgid "Font size:"
 msgstr "Schriftgröße:"
 
-#: src/sjmodules/viewsettings.cpp:531
 msgid "Use this font for dialogs, too"
 msgstr "Diese Schrift auch in Dialogen verwenden"
 
-#: src/sjmodules/viewsettings.cpp:536
 msgid "Column width:"
 msgstr "Spaltenbreite:"
 
-#: src/sjmodules/viewsettings.cpp:550
 msgid "Cover size:"
 msgstr "Covergröße:"
 
-#: src/sjmodules/vis/vis_karaoke_module.cpp:488
-#: src/sjmodules/vis/vis_synctxt_raw.cpp:121
 msgid "No lyrics found."
 msgstr "Kein Text gefunden."
 
-#: src/sjmodules/vis/vis_karaoke_module.cpp:522
 msgid "Karaoke Prompt"
 msgstr "Karaoke Prompt"
 
 # %s will be replaced by the name of a music selection
-#: src/sjmodules/vis/vis_karaoke_module.cpp:588
 #, c-format
 msgid "No images found in \"%s\"."
 msgstr "Im Ordner \"%s\" wurden keine Bilder gefunden."
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
-#: src/sjmodules/vis/vis_karaoke_module.cpp:804
 #, c-format
 msgid "Use %s-files"
 msgstr "%s-Dateien verwenden"
 
-#: src/sjmodules/vis/vis_karaoke_module.cpp:816
 msgid "Background"
 msgstr "Hintergrund"
 
-#: src/sjmodules/vis/vis_karaoke_module.cpp:845
 msgid "Please select a directory with images"
 msgstr "Bitte wählen Sie einen Ordner mit Bildern aus"
 
-#: src/sjmodules/vis/vis_oscilloscope.cpp:1603
 msgid "Spectrum Monitor"
 msgstr "Spektrum Monitor"
 
-#: src/sjmodules/vis/vis_oscilloscope.cpp:1680
 msgid "Show spectrum"
 msgstr "Spektrum anzeigen"
 
-#: src/sjmodules/vis/vis_oscilloscope.cpp:1683
 msgid "Show oscilloscope"
 msgstr "Oszilloskop anzeigen"
 
-#: src/sjmodules/vis/vis_oscilloscope.cpp:1686
 msgid "Show starfield"
 msgstr "Sterne anzeigen"
 
-#: src/sjmodules/vis/vis_oscilloscope.cpp:1689
 msgid "Show other figures"
 msgstr "Andere Figuren anzeigen"
 
-#: src/sjmodules/vis/vis_vidout_module.cpp:164
 msgid "Video output"
 msgstr "Videoausgabe"
 
-#: src/sjmodules/vis/vis_window.cpp:342
 msgid "If appropriate, switch over automatically"
 msgstr "Bei Bedarf automatisch umschalten"
 
-#: src/sjmodules/vis/vis_window.cpp:359
 msgid "Attached window"
 msgstr "Fenster andocken"
 
-#: src/sjmodules/vis/vis_window.cpp:363
 msgid "Half size"
 msgstr "Halbe Größe"
 
-#: src/sjmodules/weblinks.cpp:176
 msgid "Search homepage"
 msgstr "Homepage suchen"
 
 # %s will be replaced by the name of the website
-#: src/sjmodules/weblinks.cpp:180
 #, c-format
 msgid "Lyrics on %s"
 msgstr "Texte auf %s"
 
 # %s will be replaced by the name of the website
-#: src/sjmodules/weblinks.cpp:184
 #, c-format
 msgid "Search with %s"
 msgstr "Mit %s suchen"
 
 # %s will be replaced by the name of the website
-#: src/sjmodules/weblinks.cpp:188
 #, c-format
 msgid "Information on %s"
 msgstr "Informationen auf %s"
 
 # Do not forget the ":" at the end of the string.
-#: src/sjtools/busyinfo.cpp:94
 msgid "Object count:"
 msgstr "Anzahl Objekte:"
 
 # Do not forget the ":" at the end of the string.
-#: src/sjtools/busyinfo.cpp:101
 msgid "Elapsed time:"
 msgstr "Zeit bisher:"
 
-#: src/sjtools/console.cpp:103
 msgid "Message"
 msgstr "Nachricht"
 
-#: src/sjtools/console.cpp:104
 msgid "Scope"
 msgstr "Bereich"
 
-#: src/sjtools/console.cpp:288 src/sjtools/console.cpp:503
 msgid "Console"
 msgstr "Konsole"
 
 # %i will be replaced by a number. The number may also be 0 or 1 (note plural form)
-#: src/sjtools/console.cpp:326 src/sjtools/console.cpp:395
 #, c-format
 msgid "%i message(s)"
 msgstr "%i Nachricht(en)"
 
-#: src/sjtools/console.cpp:358
 msgid "Evaluate"
 msgstr "Auswerten"
 
-#: src/sjtools/console.cpp:361
 msgid "Clear"
 msgstr "Löschen"
 
-#: src/sjtools/console.cpp:367
 msgid "Open console on errors and warnings"
 msgstr "Konsole bei Fehlern und Warnungen öffnen"
 
-#: src/sjtools/console.cpp:425 src/sjtools/console.cpp:434
 msgid "Details"
 msgstr "Details"
 
-#: src/sjtools/console.cpp:535
 msgid "Clear all messages?"
 msgstr "Alle Nachrichten löschen?"
 
 # %s will be replaced by the track selected for prelistening
-#: src/sjtools/console.cpp:567
 #, c-format
 msgid "Overwrite \"%s\"?"
 msgstr "\"%s\" überschreiben?"
 
-#: src/sjtools/console.cpp:568
 msgid "Append"
 msgstr "Anhängen"
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
-#: src/sjtools/ext_list.cpp:170 src/sjtools/ext_list.cpp:183
-#: src/sjtools/ext_list.cpp:192 src/sjtools/ext_list.cpp:201
-#: src/sjtools/ext_list.cpp:202 src/sjtools/ext_list.cpp:203
-#: src/sjtools/ext_list.cpp:242
 #, c-format
 msgid "%s-files"
 msgstr "%s-Dateien"
 
 # %s will be replaced by the file type, eg. "MP3"
-#: src/sjtools/ext_list.cpp:171 src/sjtools/ext_list.cpp:173
-#: src/sjtools/ext_list.cpp:176 src/sjtools/ext_list.cpp:185
-#: src/sjtools/ext_list.cpp:187 src/sjtools/ext_list.cpp:188
-#: src/sjtools/ext_list.cpp:189 src/sjtools/ext_list.cpp:190
-#: src/sjtools/ext_list.cpp:194 src/sjtools/ext_list.cpp:199
-#: src/sjtools/ext_list.cpp:205
 #, c-format
 msgid "%s-audio"
 msgstr "%s-Audio"
 
 # %s will be replaced by the file type, eg. "JPG"
-#: src/sjtools/ext_list.cpp:172 src/sjtools/ext_list.cpp:177
-#: src/sjtools/ext_list.cpp:178 src/sjtools/ext_list.cpp:179
-#: src/sjtools/ext_list.cpp:180 src/sjtools/ext_list.cpp:200
 #, c-format
 msgid "%s-images"
 msgstr "%s-Bilder"
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
-#: src/sjtools/ext_list.cpp:174 src/sjtools/ext_list.cpp:184
-#: src/sjtools/ext_list.cpp:186
 #, c-format
 msgid "%s-video"
 msgstr "%s-Video"
 
 # %s will be replaced by the file type, eg. "M3U"  or "CUE"
-#: src/sjtools/ext_list.cpp:181 src/sjtools/ext_list.cpp:182
-#: src/sjtools/ext_list.cpp:191 src/sjtools/ext_list.cpp:195
-#: src/sjtools/ext_list.cpp:204 src/sjtools/ext_list.cpp:206
-#: src/sjtools/ext_list.cpp:207
 #, c-format
 msgid "%s-playlists"
 msgstr "%s-Wiedergabelisten"
 
-#: src/sjtools/ext_list.cpp:196
 msgid "Script-files"
 msgstr "Skript-Dateien"
 
-#: src/sjtools/ext_list.cpp:197
 msgid "Silverjuke skin-files"
 msgstr "Silverjuke Skin-Dateien"
 
-#: src/sjtools/ext_list.cpp:198
 msgid "Silverjuke jukebox-files"
 msgstr "Silverjuke Jukebox-Dateien"
 
-#: src/sjtools/ext_list.cpp:208
 msgid "Archive-files"
 msgstr "Archivdateien"
 
-#: src/sjtools/ext_list.cpp:314
 msgid "Supported file-types"
 msgstr "Unterstützte Dateitypen"
 
-#: src/sjtools/ext_list.cpp:330
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: src/sjtools/littleoption.cpp:629
 msgid "Test..."
 msgstr "Test..."
 
-#: src/sjtools/littleoption.cpp:673
 msgid "Programs"
 msgstr "Programme"
 
-#: src/sjtools/sqlt.cpp:735
 msgid "Cleanup index..."
 msgstr "Index bereinigen..."
 
-#: src/sjtools/temp_n_cache.cpp:329
 msgid "max. size"
 msgstr "max. Größe"
 
 # The first %s is replaces with the program name (usually "Silverjuke"), the seconds %s is replaced by a (maybe complex) error description
-#: src/sjtools/tools.cpp:260
 #, c-format
 msgid ""
 "Last time %s did not terminate normally.\n"
@@ -3731,7 +2692,6 @@ msgstr ""
 "Bei anhaltenden Problemen, versuchen Sie diese Objekte nicht zu verwenden.\n"
 "Sollen die Objekte jetzt verwendet werden?"
 
-#: src/sjtools/tools.cpp:266
 msgid "Use maybe errorous objects?"
 msgstr "Eventuell fehlerhafte Objekte verwenden?"
 
@@ -3747,34 +2707,28 @@ msgstr "Eventuell fehlerhafte Objekte verwenden?"
 # %p = "am" or "pm"
 # -----
 # Eg. we use "%a %b %d %Y, %I:%M:%S %p" for english and "%a, %d. %b. %Y, %H:%M:%S" or german here.
-#: src/sjtools/tools.cpp:459
 msgid "__DATE_TIME_LONG__"
 msgstr "%a, %d. %b. %Y, %H:%M:%S"
 
 # Please use only "%d.%m.%Y %H:%M:%S" or "%m/%d/%Y %H:%M:%S" (without the quotes) here as Silverjuke cannot parse other date/time formats.
-#: src/sjtools/tools.cpp:460
 msgid "__DATE_TIME_EDITABLE__"
 msgstr "%d.%m.%Y %H:%M:%S"
 
 # How should the DATE WITHOUT TIME be formatted in this locate (long format)? See __DATE_TIME_LONG__ for a brief overview about the placeholders available.
 # -----
 # Eg. we use "%a %b %d %Y" for english and "%a, %d. %b. %Y" or german here.
-#: src/sjtools/tools.cpp:461
 msgid "__DATE_LONG__"
 msgstr "%a, %d. %b. %Y"
 
 # Please use only "%d.%m.%Y" or "%m/%d/%Y" (without the quotes) here as Silverjuke cannot parse other date formats.
-#: src/sjtools/tools.cpp:462
 msgid "__DATE_EDITABLE__"
 msgstr "%d.%m.%Y"
 
 # Set this value to "1" (with out the quotes) if sunday should be the first day in the week; otherwise, use "0".
-#: src/sjtools/tools.cpp:463
 msgid "__DATE_SUNDAY_FIRST__"
 msgstr "0"
 
 # __THIS_LANG__ defines the languge of this locale, use strings as "de", "en", "fr", "es", "dk" etc. here
-#: src/sjtools/tools.cpp:464
 msgid "__THIS_LANG__"
 msgstr "de"
 
@@ -3793,7 +2747,6 @@ msgstr "de"
 # %trackutf8%
 # -----
 # Again, if you are unsure, just leave this field blank.
-#: src/sjtools/tools.cpp:465
 msgid "__COVER_SEARCH_URLS__"
 msgstr ""
 "[search]\n"
@@ -3814,7 +2767,6 @@ msgstr ""
 # [search]
 # -----
 # Again, if you are unsure, just leave this field blank.
-#: src/sjtools/tools.cpp:466
 msgid "__ARTIST_INFO_URLS__"
 msgstr ""
 "[info]\n"
@@ -3828,39 +2780,32 @@ msgstr ""
 # Locale-dependent default stop-words to omit at the beginning of an artist. However, you should also include the english stop words here.
 # -----
 # The predefined stop words are: the, der, die, die happy, das
-#: src/sjtools/tools.cpp:467
 msgid "__STOP_ARTISTS__"
 msgstr "0"
 
 # Locale-dependent default stop-words to omit at the beginning of an artist.
 # -----
 # There are no predefined album stopwords, so you may also decide to leave this field blank or enter "0" here.
-#: src/sjtools/tools.cpp:468
 msgid "__STOP_ALBUMS__"
 msgstr "0"
 
 # Default cover keywords for your locale. The predefined cover keywords for english are: front, vorn, outside, cover
-#: src/sjtools/tools.cpp:469
 msgid "__COVER_KEYWORDS__"
 msgstr "0"
 
 # Virtual keyboard layout definitions here. See our Developer Network for more information. To use the layout "US International", enter "0" here.
-#: src/sjtools/tools.cpp:470
 msgid "__VIRT_KEYBD__"
 msgstr "0"
 
 # thousands separator - usually this is a comma or a point
-#: src/sjtools/tools.cpp:1152
 msgid ","
 msgstr "."
 
 # decimal point - usually this is a comma or a point
-#: src/sjtools/tools.cpp:1289 src/sjtools/tools.cpp:1319
 msgid "."
 msgstr ","
 
 #. TRANSLATORS: %i will be replaced by a number
-#: src/sjtools/tools.cpp:1381
 #, c-format
 msgid "%i day"
 msgid_plural "%i days"
@@ -3868,19 +2813,16 @@ msgstr[0] "%i Tag"
 msgstr[1] "%i Tage"
 
 # %s will be replaced by the text of the invalid reguar expression
-#: src/sjtools/tools.cpp:3575
 #, c-format
 msgid "Invalid regular expression \"%s\"."
 msgstr "Ungültiger regulärer Ausdruck \"%s\""
 
 # %s will be replaced by the file name
-#: src/sjtools/tools_gtk.cpp:62
 #, c-format
 msgid "The file \"%s\" does not exist."
 msgstr "Die Datei \"%s\" existiert nicht."
 
 # %s will the replaced by the program-file that cannot be executed.
-#: src/sjtools/tools_gtk.cpp:85
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kann \"%s\" nicht ausführen."
