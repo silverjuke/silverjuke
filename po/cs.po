@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:32+0200\n"
+"POT-Creation-Date: 2015-05-30 22:12+0200\n"
 "PO-Revision-Date: 2011-06-30 20:39+0100\n"
 "Last-Translator: David Minář <antro@pb.cz>\n"
 "Language-Team: Czech\n"
@@ -1631,9 +1631,6 @@ msgstr "(Klikněte prosím do textového pole)"
 msgid "Virtual keyboard layout:"
 msgstr "Virtuální klávesnice k dispozici:"
 
-msgid "More layouts on the web..."
-msgstr "Další k dipozici na webu ..."
-
 msgid "Colour:"
 msgstr "Barva:"
 
@@ -2617,9 +2614,14 @@ msgstr "Rozsah"
 msgid "Console"
 msgstr "Konzole"
 
-#, c-format
-msgid "%i message(s)"
-msgstr "%i zpráv(a, y)"
+#. TRANSLATORS: %i will be replaced by a number
+#, fuzzy, c-format
+#| msgid "%i message(s)"
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] "%i zpráv(a, y)"
+msgstr[1] "%i zpráv(a, y)"
+msgstr[2] "%i zpráv(a, y)"
 
 msgid "Evaluate"
 msgstr "Posoudit"
@@ -2841,6 +2843,9 @@ msgstr "Soubor \"%s\" neexistuje."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Nelze spustit \"%s\"."
+
+#~ msgid "More layouts on the web..."
+#~ msgstr "Další k dipozici na webu ..."
 
 #, fuzzy
 #~| msgid "Monitor for"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:32+0200\n"
+"POT-Creation-Date: 2015-05-30 22:12+0200\n"
 "PO-Revision-Date: 2010-10-04 14:51+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: French\n"
@@ -1676,9 +1676,6 @@ msgstr "(Veuillez cliquer dans la zone de contrôle des touches)"
 msgid "Virtual keyboard layout:"
 msgstr "Disposition du clavier virtuel:"
 
-msgid "More layouts on the web..."
-msgstr "D'autres types de clavier sur le web..."
-
 msgid "Colour:"
 msgstr "Couleur:"
 
@@ -2702,9 +2699,12 @@ msgstr ""
 msgid "Console"
 msgstr "Console"
 
+#. TRANSLATORS: %i will be replaced by a number
 #, c-format
-msgid "%i message(s)"
-msgstr ""
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] ""
+msgstr[1] ""
 
 msgid "Evaluate"
 msgstr ""
@@ -2940,6 +2940,9 @@ msgstr "Le fichier \"%s\" n'existe pas."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Ne peut exécuter \"%s\"."
+
+#~ msgid "More layouts on the web..."
+#~ msgstr "D'autres types de clavier sur le web..."
 
 # String is followed by the strings "Main window" or "Karaoke, Vis. etc"
 #, fuzzy

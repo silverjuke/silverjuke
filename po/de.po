@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:32+0200\n"
-"PO-Revision-Date: 2015-05-29 23:35+0200\n"
+"POT-Creation-Date: 2015-05-30 22:12+0200\n"
+"PO-Revision-Date: 2015-05-30 22:15+0200\n"
 "Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1610,9 +1610,6 @@ msgstr "(bitte klicken Sie in das Textfeld)"
 msgid "Virtual keyboard layout:"
 msgstr "Tastaturlayout:"
 
-msgid "More layouts on the web..."
-msgstr "Weitere Layouts im Internet..."
-
 msgid "Colour:"
 msgstr "Farbe:"
 
@@ -2588,10 +2585,12 @@ msgstr "Bereich"
 msgid "Console"
 msgstr "Konsole"
 
-# %i will be replaced by a number. The number may also be 0 or 1 (note plural form)
+#. TRANSLATORS: %i will be replaced by a number
 #, c-format
-msgid "%i message(s)"
-msgstr "%i Nachricht(en)"
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] "%i Nachricht"
+msgstr[1] "%i Nachrichten"
 
 msgid "Evaluate"
 msgstr "Auswerten"
@@ -2826,3 +2825,6 @@ msgstr "Die Datei \"%s\" existiert nicht."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kann \"%s\" nicht ausführen."
+
+#~ msgid "More layouts on the web..."
+#~ msgstr "Weitere Layouts im Internet..."

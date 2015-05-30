@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.1\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:32+0200\n"
-"PO-Revision-Date: 2015-05-29 23:32+0200\n"
+"POT-Creation-Date: 2015-05-30 22:12+0200\n"
+"PO-Revision-Date: 2015-05-30 22:12+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
@@ -1553,9 +1553,6 @@ msgstr "(please click into the text control)"
 msgid "Virtual keyboard layout:"
 msgstr "Virtual keyboard layout:"
 
-msgid "More layouts on the web..."
-msgstr "More layouts on the web..."
-
 msgid "Colour:"
 msgstr "Colour:"
 
@@ -2470,9 +2467,12 @@ msgstr "Scope"
 msgid "Console"
 msgstr "Console"
 
+#. TRANSLATORS: %i will be replaced by a number
 #, c-format
-msgid "%i message(s)"
-msgstr "%i message(s)"
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] "%i message"
+msgstr[1] "%i messages"
 
 msgid "Evaluate"
 msgstr "Evaluate"

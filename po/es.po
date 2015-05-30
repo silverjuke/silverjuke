@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:32+0200\n"
+"POT-Creation-Date: 2015-05-30 22:12+0200\n"
 "PO-Revision-Date: 2010-10-04 14:44+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Spanish\n"
@@ -1653,9 +1653,6 @@ msgstr "(Clicar dentro del control de texto)"
 msgid "Virtual keyboard layout:"
 msgstr "Disposición de teclas..."
 
-msgid "More layouts on the web..."
-msgstr "Más teclados en la web..."
-
 msgid "Colour:"
 msgstr "Color:"
 
@@ -2641,10 +2638,13 @@ msgstr "Panorámica"
 msgid "Console"
 msgstr "Consola"
 
-# %s will be replaced by the file type, eg. "JPG"
-#, c-format
-msgid "%i message(s)"
-msgstr "Mensaje %i"
+#. TRANSLATORS: %i will be replaced by a number
+#, fuzzy, c-format
+#| msgid "%i message(s)"
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] "Mensaje %i"
+msgstr[1] "Mensaje %i"
 
 msgid "Evaluate"
 msgstr "Evaluar"
@@ -2864,6 +2864,9 @@ msgstr "El archivo \"%s\" no existe."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "No se puede ejecutar \"%s\"."
+
+#~ msgid "More layouts on the web..."
+#~ msgstr "Más teclados en la web..."
 
 #, fuzzy
 #~| msgid "Monitor for"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:32+0200\n"
+"POT-Creation-Date: 2015-05-30 22:12+0200\n"
 "PO-Revision-Date: 2010-11-14 10:21+0100\n"
 "Last-Translator: Dan Larsen <dvl@privat.dk>\n"
 "Language-Team: Danish\n"
@@ -1639,9 +1639,6 @@ msgstr "(klik i text kontrol)"
 msgid "Virtual keyboard layout:"
 msgstr "Virtuelt tastatur layout:"
 
-msgid "More layouts on the web..."
-msgstr "Flere latouts  på nettet..."
-
 msgid "Colour:"
 msgstr "Farve:"
 
@@ -2616,10 +2613,13 @@ msgstr "Scope"
 msgid "Console"
 msgstr "Konsol"
 
-# %s will be replaced by the file type, eg. "JPG"
-#, c-format
-msgid "%i message(s)"
-msgstr "%i Besked(er)"
+#. TRANSLATORS: %i will be replaced by a number
+#, fuzzy, c-format
+#| msgid "%i message(s)"
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] "%i Besked(er)"
+msgstr[1] "%i Besked(er)"
 
 msgid "Evaluate"
 msgstr "Evaluer"
@@ -2840,6 +2840,9 @@ msgstr "Filen \"%s\" eksisterer ikke."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kan ikke starte \"%s\"."
+
+#~ msgid "More layouts on the web..."
+#~ msgstr "Flere latouts  på nettet..."
 
 #, fuzzy
 #~| msgid "Monitor for"

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-05-29 23:32+0200\n"
+"POT-Creation-Date: 2015-05-30 22:12+0200\n"
 "PO-Revision-Date: 2010-10-04 14:49+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Dutch\n"
@@ -1665,9 +1665,6 @@ msgstr "(in het tekstveld klikken)"
 msgid "Virtual keyboard layout:"
 msgstr "Indeling van het virtueel toetsenbord:"
 
-msgid "More layouts on the web..."
-msgstr "Meer indelingen op Internet..."
-
 msgid "Colour:"
 msgstr "Kleur:"
 
@@ -2661,9 +2658,13 @@ msgstr "Scope"
 msgid "Console"
 msgstr "Console"
 
-#, c-format
-msgid "%i message(s)"
-msgstr "%i bericht(en)"
+#. TRANSLATORS: %i will be replaced by a number
+#, fuzzy, c-format
+#| msgid "%i message(s)"
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] "%i bericht(en)"
+msgstr[1] "%i bericht(en)"
 
 msgid "Evaluate"
 msgstr "Evalueren"
@@ -2898,6 +2899,9 @@ msgstr "Het bestand \"%s\" bestaat niet."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kan \"%s\" niet uitvoeren."
+
+#~ msgid "More layouts on the web..."
+#~ msgstr "Meer indelingen op Internet..."
 
 #, fuzzy
 #~| msgid "Monitor for"
