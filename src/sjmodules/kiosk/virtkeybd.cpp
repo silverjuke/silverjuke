@@ -396,24 +396,15 @@ bool SjVirtKeybdLayout::LoadLayoutFromFile(const wxString& file__, wxArrayString
 	}
 
 	// read file content
-	wxString fileContent;
-	if( file == wxString::Format(wxT("locale:%s.sjk"), SjTools::LocaleConfigRead(wxT("__THIS_LANG__"), wxT("en")).c_str()) )
+	wxFileSystem fs;
+	wxFSFile* fsFile = fs.OpenFile(file);
+	if( fsFile == NULL )
 	{
-		fileContent = SjTools::LocaleConfigRead(wxT("__VIRT_KEYBD__"), wxT("")); // deprecated
+		return FALSE;
 	}
-	else
-	{
-		wxFileSystem fs;
-		wxFSFile* fsFile = fs.OpenFile(file);
-		if( fsFile == NULL )
-		{
-			return FALSE;
-		}
 
-		fileContent = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1);
-
-		delete fsFile;
-	}
+	wxString fileContent = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1);
+	delete fsFile;
 
 	// parse file
 	fileContent.Replace(wxT(";"), wxT("\n"));
@@ -761,7 +752,14 @@ void SjVirtKeybdFrame::InitKeybdFrame()
 	m_textPen    .SetColour(m_textBrush.GetColour());
 
 	// load the layout
-	m_layout.LoadLayoutFromFile(g_virtKeybd->GetKeybdLayout(), NULL);
+	if( !m_layout.LoadLayoutFromFile(g_virtKeybd->GetKeybdLayout(), NULL) ) {
+		if( g_virtKeybd->GetKeybdLayout().IsEmpty() ) {
+			wxLogError(_("No virtual keyboard found, please add the *.sjk files to the search paths."));
+		}
+		else {
+			wxLogError(_("Cannot open \"%s\"."), wxT("*.sjk"));
+		}
+	}
 	m_shift = 0;
 	m_alt = 0;
 	m_clicked = NULL;
@@ -1486,15 +1484,13 @@ wxString SjVirtKeybdModule::GetKeybdLayout()
 
 		if( useDefault )
 		{
-			// try to load the layout from the locale
-			wxString thisLang = SjTools::LocaleConfigRead(wxT("__THIS_LANG__"), wxT("en"));
-			SjVirtKeybdLayout test;
-			m_layoutFile_dontUse.Printf(wxT("locale:%s,0"), thisLang.c_str());
-			if( !test.LoadLayoutFromFile(m_layoutFile_dontUse, NULL) )
-			{
-				// us the default english layout (always present)
-				m_layoutFile_dontUse = wxT("memory:en.sjk,0");
+			m_layoutFile_dontUse.Clear();
+			SjArrayVirtKeybdLayout layouts;
+			GetAvailKeybdLayouts(layouts);
+			if( layouts.GetCount() ) {
+				m_layoutFile_dontUse = layouts[0].m_file;
 			}
+
 		}
 	}
 
@@ -1557,30 +1553,30 @@ void SjVirtKeybdModule::GetAvailKeybdLayoutsFromFile(SjArrayVirtKeybdLayout& lis
 }
 void SjVirtKeybdModule::GetAvailKeybdLayoutsFromDir(SjArrayVirtKeybdLayout& list, const wxString& dir)
 {
-	wxFileSystem fs;
-	fs.ChangePathTo(dir, TRUE);
-	wxString entryStr = fs.FindFirst(wxT("*.*"));
-
-	while( !entryStr.IsEmpty() )
+	if( wxDirExists(dir) )
 	{
-		if( SjTools::GetExt(entryStr) == wxT("sjk") )
-		{
-			GetAvailKeybdLayoutsFromFile(list, entryStr);
-		}
+		wxFileSystem fs;
+		fs.ChangePathTo(dir, TRUE);
+		wxString entryStr = fs.FindFirst(wxT("*.*"));
 
-		entryStr = fs.FindNext();
+		while( !entryStr.IsEmpty() )
+		{
+			if( SjTools::GetExt(entryStr) == wxT("sjk") )
+			{
+				GetAvailKeybdLayoutsFromFile(list, entryStr);
+			}
+
+			entryStr = fs.FindNext();
+		}
 	}
 }
 void SjVirtKeybdModule::GetAvailKeybdLayouts(SjArrayVirtKeybdLayout& list)
 {
-	GetAvailKeybdLayoutsFromFile(list, wxT("memory:en.sjk"));
-
-	GetAvailKeybdLayoutsFromFile(list, wxString::Format(wxT("locale:%s.sjk"), SjTools::LocaleConfigRead(wxT("__THIS_LANG__"), wxT("en")).c_str())); // deprecated
-
 	int currSearchDirIndex;
 	for( currSearchDirIndex = 0; currSearchDirIndex < g_tools->GetSearchPathCount(); currSearchDirIndex++ )
 	{
 		GetAvailKeybdLayoutsFromDir(list, g_tools->GetSearchPath(currSearchDirIndex));
+		GetAvailKeybdLayoutsFromDir(list, g_tools->GetSearchPath(currSearchDirIndex) + wxT("/keyboards"));
 	}
 
 	list.Sort(SjVirtKeybdModule_CmpLayouts);

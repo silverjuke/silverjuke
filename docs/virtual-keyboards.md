@@ -123,12 +123,6 @@ of a row start. For this, use the "spacer"-statement:
     key=q;
 
 
-**Multiple layouts in one file**
-
-A final hint: By just repeating the layout-statement, you can put more than one 
-layout into a single *.sjk file.
-
-
 **Locking the state of the Alt-keys**
 
 Normally, the Alt-states are reset if a key is pressed. You can optionally 
@@ -139,15 +133,6 @@ key-statement:
 
 This way, you can create "shift lock" or "caps lock" keys. Or you can add two 
 completely different alphabets to one keyboard layout.
-
-
-Embedding virtual keyboards to a locale
-================================================================================
-
-If you are also doing a localization to another language and this language needs 
-a special virtual keyboard layout, you can also embed a virtual keyboard 
-definition as described above to the special field "__VIRT_KEYBD__" of the *.po
-file.
 
 
 Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com

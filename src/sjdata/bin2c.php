@@ -162,7 +162,6 @@ openDest('data.cpp');
 	addFile  ('icons/icons16.png', 'icons16.png');
 	addFile  ('icons/icons32.png', 'icons32.png');
 	addFile	 ('icons/aboutlogo.gif', 'aboutlogo.gif');
-	addFile	 ('keyboards/en.sjk', 'en.sjk');
 closeDest();
 
 

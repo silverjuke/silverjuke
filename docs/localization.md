@@ -83,16 +83,5 @@ We would be very happy if you publish your work eg. on Github by a
 Silverjuke then.
 
 
-**Adding a virtual keyboard to your locale**
-
-If wanted, you can also embed a virtual keyboard layout to the locale. For this
-purpose, just copy the keyboard definition to the field `__VIRT_KEYBD__` of the
-*.po file.  However, this method is deprecated, please use single *.sjk files
-instead.
-
-A description, about how to define virtual keyboards is placed file 
-docs/virtual-keyboards.
-
-
 Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
 
