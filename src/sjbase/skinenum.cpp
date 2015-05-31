@@ -91,22 +91,25 @@ void SjSkinEnumerator::ScanPath(SjSkinMlParser& parser, const wxString& url)
 	size_t          e;
 
 	// read directory
-	wxFileSystem fs;
-	fs.ChangePathTo(url, TRUE);
-	wxString entryStr = fs.FindFirst(wxT("*.*"));
-	while( !entryStr.IsEmpty() )
+	if( wxDirExists(url) )
 	{
-		if( SjTools::GetExt(entryStr) == wxT("sjs")
-		        || SjTools::GetExt(entryStr) == wxT("zip") )
+		wxFileSystem fs;
+		fs.ChangePathTo(url, TRUE);
+		wxString entryStr = fs.FindFirst(wxT("*.*"));
+		while( !entryStr.IsEmpty() )
 		{
-			possibleSkins.Add(::wxDirExists(entryStr)? entryStr : (entryStr + wxT("#zip:")));
-		}
-		else if( ::wxDirExists(entryStr) )
-		{
-			subdirs.Add(entryStr);
-		}
+			if( SjTools::GetExt(entryStr) == wxT("sjs")
+			 || SjTools::GetExt(entryStr) == wxT("zip") )
+			{
+				possibleSkins.Add(::wxDirExists(entryStr)? entryStr : (entryStr + wxT("#zip:")));
+			}
+			else if( ::wxDirExists(entryStr) )
+			{
+				subdirs.Add(entryStr);
+			}
 
-		entryStr = fs.FindNext();
+			entryStr = fs.FindNext();
+		}
 	}
 
 	// recurse into some special subdirectories.
