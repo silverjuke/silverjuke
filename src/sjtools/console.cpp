@@ -323,7 +323,10 @@ SjLogDialog::SjLogDialog(SjLogGui* logGui,
 	wxString msg;
 	if( aIndex < 0 || aIndex >= (long)logGui->m_aPacked.GetCount() )
 	{
-		msg = wxString::Format(_("%i message(s)"), (int)m_logGui->m_aPacked.GetCount());
+		msg = wxString::Format(
+		  // TRANSLATORS: %i will be replaced by a number
+		  wxPLURAL("%i message", "%i messages", m_logGui->m_aPacked.GetCount()),
+		  (int)m_logGui->m_aPacked.GetCount());
 		m_showingDetails = true;
 	}
 	else
@@ -392,7 +395,10 @@ void SjLogDialog::MessagesChanged(long firstNewIndex)
 		m_iconIsInfo = true;
 	}
 
-	m_msg->SetLabel(wxString::Format(_("%i message(s)"), (int)m_logGui->m_aPacked.GetCount()));
+	m_msg->SetLabel(wxString::Format(
+	  // TRANSLATORS: %i will be replaced by a number
+	  wxPLURAL("%i message", "%i messages", m_logGui->m_aPacked.GetCount()),
+	  (int)m_logGui->m_aPacked.GetCount()));
 	Layout();
 
 	m_listCtrl->MessagesChanged(firstNewIndex);
