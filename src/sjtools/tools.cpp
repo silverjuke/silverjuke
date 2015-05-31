@@ -601,6 +601,25 @@ wxString SjTools::GetUserAppDataDir()
 #endif
 
 
+wxString SjTools::GetGlobalAppDataDir()
+{
+	#ifdef __WXMSW__
+		wxString str = GetSilverjukeProgramDir();
+		if( !str.IsEmpty() )
+		{
+			wxFileName fn(str);
+			fn.Normalize();
+			str = fn.GetFullPath();
+		}
+		return str;
+	#else
+		// wxStandardPaths::Get().GetDataDir() returns /usr/local/share/Silverjuke (upper case program name!)
+		// and different paths on debug installations; so we simply use the hardcoded variant ...
+		return wxT("/usr/share/silverjuke");
+	#endif
+}
+
+
 void SjTools::InitSearchPaths()
 {
 	m_searchPaths.Clear();
@@ -615,17 +634,11 @@ void SjTools::InitSearchPaths()
 		m_searchPaths.Add(str);
 	}
 
-	// ...program directory
-	str = GetSilverjukeProgramDir();
-	if( !str.IsEmpty() )
+	// ...directory shared by all users (eg. /usr/share/silverjuke or the program directory on windows)
+	str = GetGlobalAppDataDir();
+	if( m_searchPaths.Index(str) == wxNOT_FOUND )
 	{
-		wxFileName programFileName(str);
-		programFileName.Normalize();
-
-		if( m_searchPaths.Index(programFileName.GetFullPath()) == wxNOT_FOUND )
-		{
-			m_searchPaths.Add(programFileName.GetFullPath());
-		}
+		m_searchPaths.Add(str);
 	}
 
 	// load user-defined search directories...
@@ -642,7 +655,7 @@ void SjTools::InitSearchPaths()
 			wxFileName path(pathStr);
 			path.Normalize();
 			if( ::wxDirExists(path.GetFullPath())
-			        && m_searchPaths.Index(path.GetFullPath()) == wxNOT_FOUND )
+			 && m_searchPaths.Index(path.GetFullPath()) == wxNOT_FOUND )
 			{
 				m_searchPaths.Add(path.GetFullPath());
 			}

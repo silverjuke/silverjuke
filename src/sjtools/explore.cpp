@@ -109,11 +109,7 @@ void SjTools::ExploreUrl(const wxString& url)
 
 	wxString left = wxFileSystemHandler_GetLeftLocation(url);
 	wxString prot = left.BeforeFirst(':');
-	if( prot == wxT("memory") )
-	{
-		ExploreFile_(GetSilverjukeProgramDir(), m_exploreProgram);
-	}
-	else if( prot == wxT("http") || prot == wxT("https") )
+	if( prot == wxT("http") || prot == wxT("https") )
 	{
 		::wxLaunchDefaultBrowser(url);
 	}

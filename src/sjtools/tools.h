@@ -556,9 +556,9 @@ public:
 	bool            IsStaticSearchPath  (int index) const { return (index>=0&&index<m_searchPathsFirstUser)? TRUE : FALSE; }
 	bool            IsStaticSearchPath  (const wxString& path) const { return IsStaticSearchPath(GetSearchPathIndex(path)); }
 	void            InitSearchPaths     ();
-	static wxString GetUserAppDataDir   (); // eg. c:/dokumente und einstellungen/benutzer/meinname/
-	static wxString GetSilverjukeProgramDir
-	(); // eg. c:/programs/silverjuke/
+	static wxString GetUserAppDataDir   (); // eg. ~/.config/silverjuke or c:/dokumente und einstellungen/benutzer/meinname/, normally writable
+	static wxString GetGlobalAppDataDir (); // eg. /usr/share/silverjuke or c:/programs/silverjuke/ ; normally read-only
+	static wxString GetSilverjukeProgramDir (); // eg. c:/programs/silverjuke/ , may be same as GetUserAppDataDir()
 
 private:
 	wxArrayString   m_searchPaths;
