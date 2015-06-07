@@ -352,6 +352,10 @@ void SjPlayer::DoPlay(long ms, bool fadeToPlay) // press on play
 		m_impl->m_currStream = new SjXineStream(m_impl, m_queue.GetUrlByPos(queuePos));
 		if( !m_impl->m_currStream->XinePlay(ms) ) {
 			wxLogError(wxT("DoPlay() failed."));
+
+			// Xine stream is non-functional, don't touch
+			delete m_impl->m_currStream;
+			m_impl->m_currStream = NULL;
 		}
 	}
 }
