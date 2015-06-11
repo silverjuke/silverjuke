@@ -30,8 +30,8 @@ options or DDE.
 The following chapters describes how to write plugins for Silverjuke using the
 Silverjuke API.
 
-A plugin is a compiled so, dll- or dynlib-file that is loaded together with 
-Silverjuke. Plugins can be written in nearly any language that can create eg. 
+A plugin is a compiled so, dll- or dynlib-file that is loaded together with
+Silverjuke. Plugins can be written in nearly any language that can create eg.
 DLLs.
 
 With a Silverjuke plugin you can do everything you can do with Scripting plus
@@ -52,7 +52,7 @@ also usable directly in C++ and C#. For all other languages, you will need a
 small wrapper.
 
 To get started, please have a look at the chapter Initialization or at the
-examples available. 
+examples available.
 
 
 Initialization
@@ -100,9 +100,9 @@ BTW: all structures and prototypes are declared in "sj_api.h".
 A working example:
 
     #include <sj_api.h>
-    
+
     SjInterface interf;
-    
+
     LPARAM CALLBACK MyPluginHandler(SjInterface* interf, UINT msg,
                     LPARAM param1, LPARAM param2, LPARAM param3)
     {
@@ -113,10 +113,10 @@ A working example:
                 "i = 'Hello world!';"
                 "program.addMenuEntry(m, function(){program.alert(i)})",
                 0, 0);
-  
+
             return 1; // success
         }
-        
+
         return 0;
     }
 
@@ -154,7 +154,7 @@ normally implemented as follows:
             case SJ_PLUGIN_INIT:
                 // ...
                 return 1;
-         
+
             case SJ_PLUGIN_EXIT:
                 // ...
                 return 1;
@@ -165,7 +165,7 @@ normally implemented as follows:
 
            // catch other notifications of interest here
        }
-       
+
        return 0;
     }
 
@@ -212,7 +212,7 @@ Example:
                 free(neededMemory);
                 return 1;
         }
-        
+
         return 0;
     }
 
@@ -240,7 +240,7 @@ The param1 param2 and param3 parameters are exactly forwarded from
 Program.callPlugin() and may be used for any purpose, depending on what is
 given to Program.callPlugin(). Independingly of what types are given to
 program.callPlugin(), all parameters are UTF-8 encoded strings from the view
-of SJ_PLUGIN_CALL (if less than three parameters are given to 
+of SJ_PLUGIN_CALL (if less than three parameters are given to
 Program.callPlugin(), the strings are empty).
 
 It is very common to use param1 as the "reason for call", however, this is not

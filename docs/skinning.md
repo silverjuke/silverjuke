@@ -514,13 +514,13 @@ Attributes:
 
 - id - If you have defined a text using the text-Attribute, you may also want to
   change it afterwards. For this purpose, you can define an ID; then you can
-  change the text of the box later using Program.setSkinText(). 
+  change the text of the box later using Program.setSkinText().
 
 - font - With this attribute, you can use different font for different box
   items. Please specify the font name of an installed font here. You can
   also specify more than one name by using a comma separated list;
   Silverjuke will use the first match then. If the font cannot be found, a
-  default font is used. 
+  default font is used.
 
 
 Tooltips-Tag
@@ -646,45 +646,45 @@ Attributes:
     - "win"
     - "mac"
     - "gtk"
-  
+
   With the following strings you can check certain options:
     - "kiosk"
     - "creditsystem"
     - "playpause"
     - "editqueue" (includes "prev" and "next")
-    - "unqueue" 
+    - "unqueue"
     - "volume"
     - "search"
     - "startvis"
     - "enlargedisplay"
-    - "albumview" 
-    - "coverview" 
-    - "listview" 
-    - "toggleview" (true if more than one view is available) 
-    - "toggleelementes" 
-    - "toggletimemode" 
-    - "zoom" 
-    - "repeat" 
-    - "all" 
-  
+    - "albumview"
+    - "coverview"
+    - "listview"
+    - "toggleview" (true if more than one view is available)
+    - "toggleelementes"
+    - "toggletimemode"
+    - "zoom"
+    - "repeat"
+    - "all"
+
   If you use the comma to give several options, the condition is true if any of
-  the options is set. You can also negate the list by using "!" as the first 
+  the options is set. You can also negate the list by using "!" as the first
   character. If an older version of Silverjuke does not understand a condition,
   this version will always see the condition as _false_.
 
 - version - check if Silverjuke runs at least with the given version
   number. The version number must be given as "major.minor.revision" where
-  "revision" may be skipped.  
-  Example: To check against version 15.1, use 
-  
+  "revision" may be skipped.
+  Example: To check against version 15.1, use
+
         <if version="15.1">...</if>
 
-You should not use if-tags to skip complete layouts or skins for options that 
-may change during Silverjuke is running (this is everything beside the 
+You should not use if-tags to skip complete layouts or skins for options that
+may change during Silverjuke is running (this is everything beside the
 os-flags). To test certain conditions, also note the attribute debugcond
-for the skin-tag. 
+for the skin-tag.
 
-Finally, the else-tag may be used as follows: 
+Finally, the else-tag may be used as follows:
 
     <if cond="mac">
         ...
@@ -706,7 +706,7 @@ include-tag.
 
 Attributes:
 
-- src - The name of the file to include. The file must be in the same directory, 
+- src - The name of the file to include. The file must be in the same directory,
   so do not prepend any path to the file name.
 
 Example:
@@ -727,7 +727,7 @@ Attributes:
 
 - src - The name of the script to include. The file must be in the same
   directory, so do not prepend any path to the file name.
-  
+
 Example:
 
     <script src="scripting.js" />
@@ -787,7 +787,7 @@ functions are also available by the menus or by shortcuts.
 - MoreFromCurrAlbum, MoreFromCurrArtist
 
   Clicks on these buttons will enqueue missing tracks from the currently playing
-  artist/album to be playing next. 
+  artist/album to be playing next.
 
 - GotoA, GotoB, GotoC .. GotoZ, Goto0
 
@@ -799,7 +799,7 @@ functions are also available by the menus or by shortcuts.
 
   Clicks on these buttons will scroll the browser to the previous or next
   letter. In the default skin, these targets are not used but you can use them
-  in your own skins or define some shortcuts for them. 
+  in your own skins or define some shortcuts for them.
 
 - GotoRandom, GotoCurr, GotoFirst, GotoLast
 
@@ -821,14 +821,14 @@ functions are also available by the menus or by shortcuts.
 
   "Repeat" toggles the repeat state from "off", "all" to "single" (in this
   direction). So make sure, you have defined enough subimages (see button-tag)
-  to represent all button states. "Shuffle" and "RemovePlayed" just toggles the 
+  to represent all button states. "Shuffle" and "RemovePlayed" just toggles the
   corresponding states.
 
 - SearchButton
 
   Starts/ends a search on click. As there are some important options in the
   context menu for this button, we've added a context menu area in the default
-  skin (see the parameter "cmw" for the button-tag). 
+  skin (see the parameter "cmw" for the button-tag).
 
 - SeekBwd, SeekFwd
 
@@ -842,9 +842,9 @@ functions are also available by the menus or by shortcuts.
 - Stop, StopAfterThisTrack, StopAfterEachTrack
 
   These targets set the player to the "stop" mode - either immediately, after
-  the running track or after each running track. The last option is useful esp. 
+  the running track or after each running track. The last option is useful esp.
   for karaoke setups where you have to hit the "play" button before each track
-  then. This allows the next singer to prepare himself. All three targets are 
+  then. This allows the next singer to prepare himself. All three targets are
   not used in the default skin but may be reached by the menu.
 
 - ToggleTimeMode
@@ -872,7 +872,7 @@ functions are also available by the menus or by shortcuts.
   note the scrollbar-targets WorkspaceHScroll and WorkspaceVScroll.
 
 - WorkspacePageDown, WorkspacePageLeft, WorkspacePageRight, WorkspacePageUp
-  
+
   These targets alter the horizontal or vertical position in the browser by one
   full page. If you use the "WorkspaceHScroll" or "WorkspaceVScroll" targets,
   this functionality is also available through the scrollbars by clicking aside
@@ -880,18 +880,18 @@ functions are also available by the menus or by shortcuts.
 
 - ZoomIn, ZoomOut, ZoomNormal
 
-  These button targets alter the zoom of the browser. The target ZoomNormal is 
+  These button targets alter the zoom of the browser. The target ZoomNormal is
   not used in the default skin but is available with the shortcut "*".
 
 - AlbumView, CoverView, ListView, ToggleView
 
   These button targets can be used to switch the current view of the workspace.
   Note that views can be disabled in the kiosk mode, you can check this using
-  the if-tag. 
+  the if-tag.
 
 - Layout:yourLayoutName
 
-  You can also use a layout as a target for a button. This allows you to use 
+  You can also use a layout as a target for a button. This allows you to use
   several switchable layouts, eg. you can show/hide some items this way.
 
 
@@ -911,9 +911,9 @@ The following list shows possible targets for the box-tag.
   the height of the box, the strings to show are truncated, if needed. You
   should not forget to define DisplayVScroll and/or DisplayDown/DisplayUp
   targets - otherwise the user cannot scroll eg. the playlist show in the
-  display.  
+  display.
   Moreover, you should define at least 2 display lines - otherwise some
-  functions of Silverjuke won't work.  
+  functions of Silverjuke won't work.
   The normal view of the default skin only uses the targets Line00, Line01 and
   Line02.
 
@@ -922,7 +922,7 @@ The following list shows possible targets for the box-tag.
   These targets may be used in addition or as a replacement for the "line"
   targets and display the current and the upcoming track and the elapsed or
   remained time of the current track. If there is not current/next track, the
-  targets display an empty string or "-:-" for the time. 
+  targets display an empty string or "-:-" for the time.
 
 - SearchInfo
 
@@ -977,7 +977,7 @@ The following list shows possible targets for the div-tag.
   With "VisRect" you define the container the visualization will be displayed
   in. If you do not define a div-area with this target, the workspace-tag is
   used as the area to display the visualization in. Also note the
-  button-target StartVis. 
+  button-target StartVis.
   The image shows the workspace (green) and the VisRect (red) used in the
   default skin.
 
@@ -985,7 +985,7 @@ The following list shows possible targets for the div-tag.
 
   You can also use layouts as a doubleclick target for a
   div-tag. This allows you to use several switchable layouts, eg. you can
-  show/hide some items this way. 
+  show/hide some items this way.
   Moreover, you can use the button-targets from above as doubleclick targets
   for the div-tags.
 

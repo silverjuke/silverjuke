@@ -235,7 +235,7 @@ In contrast to targets in skins (see "Targets"), commands are executed
 independingly of the functionality allowed by the user. Example:
 
     <button onclick="pause();" /> <!-- will always pause the player -->
-    
+
     <button target="pause" />     <!-- will pause the player only if allowed
                                   in Silverjuke's kiosk mode options -->
 
@@ -245,7 +245,7 @@ eg. a button; please us the if-tag or the Rights Object for this purpose.
 
 **Read on ...**
 
-For some examples, please have a look at the files coming together with 
+For some examples, please have a look at the files coming together with
 Skilverjuke.
 
 The following chapters will describe the required syntax and the objects,
@@ -290,7 +290,7 @@ Variables have no type attached, and any value can be stored in any variable.
             var b = 2; // this is a variable local to var_test()
             c = 'str'; // this also declares a global variable
         }
-    
+
         var_test();    // call var_test()
         print(a);      // will print 1
         print(b);      // b is undefined as local to var_test()
@@ -318,8 +318,8 @@ between these types is done as needed.
   advanced operations, please have a look at the String Object.
 
 - Arrays are maps from integer numbers to other basic data types. Individual
-  values within an array can be accessed through the [] operator. For some 
-  advanced operations, please have a look at the Array Object (see 
+  values within an array can be accessed through the [] operator. For some
+  advanced operations, please have a look at the Array Object (see
   "Array Object").
 
 - Objects are values with some attached named properties and are usually
@@ -328,14 +328,14 @@ between these types is done as needed.
   the . operator
 
         a = true;              // create a boolean
-        
+
         b = 12.2;              // assign a number to b
         c = 'test string';     // assign a string to c
         d = "another string";  // assign a string to d
-        
+
         e = [0,1,2];           // create an array with three elements
         f = new Array(0,1,2);  // same using the new operator
-        
+
         g = new Object;        // create a new (empty) object
         g.prop = 23;           // assign a property to the object
 
@@ -350,15 +350,15 @@ automatically by Silverjuke's garbage collection.
 
 You can use the control structures if, switch, for, while and do..while.
 
-    if ( expr ) { 
-        statements; 
+    if ( expr ) {
+        statements;
     }
     else {
-        statements; 
+        statements;
     }
 
-If-expression: The curly braces are needed only if you use more than one 
-statment. In general, they are recommended in most cases. The else part is 
+If-expression: The curly braces are needed only if you use more than one
+statment. In general, they are recommended in most cases. The else part is
 optional.
 
     switch ( expr ) {
@@ -367,30 +367,30 @@ optional.
         default: statements; break;
     }
 
-Switch-expression: The curly braces are required, break is optional but 
+Switch-expression: The curly braces are required, break is optional but
 recommended in most cases - if left out, execution will continue to the body of
 the next case block. The default part is optional.
 
-    for ( initial-expr; cond-expr; expr evaluated after each loop ) { 
-        statements to execute each loop; 
+    for ( initial-expr; cond-expr; expr evaluated after each loop ) {
+        statements to execute each loop;
     }
 
-For-expression: Every expression part can be left out if unneeded. The curly 
-braces are needed only if you use more than one statment. In general, they are 
+For-expression: Every expression part can be left out if unneeded. The curly
+braces are needed only if you use more than one statment. In general, they are
 recommended in most cases.
 
-    while ( cond-expr ) { 
+    while ( cond-expr ) {
         statements;
     }
 
 While-expression: The curly braces are needed only if you use more than one
 statment.  In general, they are recommended in most cases.
 
-    do { 
-        statements; 
+    do {
+        statements;
     } while ( cond-expr );
 
-While-expression: The curly braces are needed only if you use more than one 
+While-expression: The curly braces are needed only if you use more than one
 statment. In general, they are recommended in most cases. In contrast to
 while(..){..}, the do{..}while(..) loop is always executed at least one time.
 
@@ -543,9 +543,9 @@ Program.locale
 Read only property. Contains a string with the language and the country as a
 two- or five-letter string in xx or xx_YY format:
 
-- xx - the ISO-639 code, of the language, see 
+- xx - the ISO-639 code, of the language, see
   http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
-- YY is the ISO-3166 code of the country, 
+- YY is the ISO-3166 code of the country,
   see http://en.wikipedia.org/wiki/ISO_3166-1
 
 Examples are "en", "en_GB", "en_US" or "fr_FR". If in doubt, please write all
@@ -678,7 +678,7 @@ no search at the moment, the property is undefined. You can change the search
 words by just assinging a string to this property.
 
 Note that this property may not work if Silverjuke is not yet loaded
-completely (see "Program.loaded"). 
+completely (see "Program.loaded").
 
 Example:
 
@@ -925,7 +925,7 @@ toggle function ...
     {
       program.autoPlay=!program.autoPlay;
     }
-    
+
     program.addMenuEntry('Toggle AutoPlay', toggleAutoPlayCallback);
 
 ... at "Advanced / Further options / Shortcut" you can define a (even global)
@@ -1127,7 +1127,7 @@ The parameter "what" defines which selection should be returned:
 - 0 - Smart selection detection. Return the selection in the workspace. If
   nothing is selected there, return the selection in the queue. If nothing
   is selected there return all tracks in the queue. Only if there is
-  nothing enqueued, an empty array is returned.  
+  nothing enqueued, an empty array is returned.
   This behaviour is useful eg. if you want to do something with some user
   selected tracks, but you do not want to worry about where the tracks are
   selected or where they come from. If you do not specify "what", this is the
@@ -1399,7 +1399,7 @@ property to a callback function.
 
 The given function is called a little moment after the end of a track or eg.
 if the user hits the "next" button. Silverjuke eg. increases the play count on
-this notification. 
+this notification.
 
 To remove the callback function, just assign "undefined" to the property.
 
@@ -1443,7 +1443,7 @@ Player.stopAfterThisTrack
     state = player.stopAfterThisTrack;
 
 Read/write property that contains the state of the "Stop after this track"
-option. 
+option.
 
 Example:
 
@@ -1457,7 +1457,7 @@ Player.stopAfterEachTrack
     state = player.stopAfterEachTrack;
 
 Read/write property that contains the state of the "Stop after each track"
-option. 
+option.
 
 Example:
 
@@ -1627,8 +1627,8 @@ Player.repeat
 
 Read/write property that contains the current repeat mode:
 
-0 = repeat off  
-1 = repeat single  
+0 = repeat off
+1 = repeat single
 2 = repeat all
 
 This property is available in V2.52beta2 or later.
@@ -1661,9 +1661,9 @@ Player.avoidBoredom
 
 Read/write property that contains the current "avoid boredom" flags as:
 
-0 = avoid boredom off  
-1 = avoid boredom regarding the tracks  
-2 = avoid boredom regarding the artists  
+0 = avoid boredom off
+1 = avoid boredom regarding the tracks
+2 = avoid boredom regarding the artists
 3 = avoid boredom regarding the track and artists (1+2)
 
 
@@ -1673,7 +1673,7 @@ Rights Object
 With the Rights object you can check the rights given to the user eg. in the
 kiosk mode. The Rights object has one predefined instance, rights (lower
 case), which reflects the current settings from Settings / Kiosk mode /
-Functionality. Note that the rights object only gives some hints - you may have 
+Functionality. Note that the rights object only gives some hints - you may have
 good reasons for your script to ignore some of them.
 
 See also: if-tag in skins
@@ -1919,7 +1919,7 @@ presses the button, the given callback function is called.
 - If you do not provide a callback function, Dialog.close() is called when
   the button is pressed.
 - Buttons with the IDs "ok", "cancel" or "help" are shown at the bottom of
-  the dialog and the labels can be left out. The label of the button "help" may 
+  the dialog and the labels can be left out. The label of the button "help" may
   be replaced by another text or icon.
 - All other buttons are shown in the order as added.
 - If you do not add at least an "ok" button, the buttons "ok" and "cancel"
@@ -1938,7 +1938,7 @@ Example:
         likeOrDislike = d.getValue('like');
     }
 
-See also: Dialog.showModal(), Dialog.show(), Dialog.getValue(), 
+See also: Dialog.showModal(), Dialog.show(), Dialog.getValue(),
 Dialog.setValue()
 
 
@@ -2048,19 +2048,19 @@ database directly.
 
 Moreover, you can create your own databases.
 
-Silverjuke's database uses the sqlite3 engine. If needed, you can access the 
+Silverjuke's database uses the sqlite3 engine. If needed, you can access the
 database eg. using the sqlite3explorer or via ODBC.
 
-- A list of tools for sqlite can be found at 
+- A list of tools for sqlite can be found at
   http://www.sqlite.org/cvstrac/wiki?p=SqliteTools.
 
-- For ODBC drivers eg. for use with Excel, please have a look at the following 
-  search results: http://www.google.com/search?q=sqlite+odbc 
+- For ODBC drivers eg. for use with Excel, please have a look at the following
+  search results: http://www.google.com/search?q=sqlite+odbc
 
-The tables of interest are normally "tracks" and "albums"; the used fields in 
+The tables of interest are normally "tracks" and "albums"; the used fields in
 these tables should be self-explaining.
 
-However, note that using the Silverjuke database outside of Silverjuke is not an 
+However, note that using the Silverjuke database outside of Silverjuke is not an
 official feature and that the Silverjuke database format is always subject to
 change without notice.
 
@@ -2636,10 +2636,10 @@ Some trigonometry functions:
     - If x is +oo, the result is an approximation to +PI/2
     - If x is -oo, the result is an approximation to -PI/2
 - atan2(y, x) - Returns an approximation to the arc tangent of the quotient y/x
-  of the arguments y and x, where the signs of y and x are used to determine the 
-  quadrant of the result. Note that it is intentional and traditional for the 
-  two-argument arc tangent function that the argument named y be first and the 
-  argument named x b second. The result is expressed in radians and ranges 
+  of the arguments y and x, where the signs of y and x are used to determine the
+  quadrant of the result. Note that it is intentional and traditional for the
+  two-argument arc tangent function that the argument named y be first and the
+  argument named x b second. The result is expressed in radians and ranges
   from -PI to +PI.
     - If either x or y is NaN, the result is NaN
     - If y>0 and x is 0, the result is an approximation to +PI/2
@@ -3382,7 +3382,7 @@ String.slice()
     result = string.slice(beginslice [,endSlice]);
 
 Extract a section of a string and return a new string. The section to extract is
-defined by beginSlice which is the zero-based index at which to begin 
+defined by beginSlice which is the zero-based index at which to begin
 extraction. and endSlice which is the zero-based index at which to end
 extraction. If endSlice is omitted, the function extracts to the end of the
 string.

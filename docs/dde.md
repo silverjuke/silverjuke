@@ -6,7 +6,7 @@ Silverjuke by DDE on Windows or TCP/IP on Linux.
 
 The supported _topics_ are simelar the the command line options:
 
-- open - clear the playlist and open the files given as _data_; playback is 
+- open - clear the playlist and open the files given as _data_; playback is
   started using the first given file
 
 - enqueue - enqueue the files given as _data_; the currently playing track stays
@@ -36,14 +36,14 @@ The supported _topics_ are simelar the the command line options:
 
 - execute - Execute the script snippet given in _data_. Instead of giving the
   script directly, you can also write the script to a file and give the filename
-  as _data_.  
+  as _data_.
   With this DDE command you are able to execute any little script by the command
   line. For scripting details, please refer to the file docs/scripting.
 
 Silverjuke also supports a basic credit system that may be controlled with the
 following additional DDE commands:
 
-- addcredit - adds the numer of credits (tracks that may be enqueued) given in 
+- addcredit - adds the numer of credits (tracks that may be enqueued) given in
   _data_ to the credit system
 
 - setcredit - sets the number of available credits to the number given in _data_
