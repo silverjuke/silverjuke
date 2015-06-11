@@ -715,7 +715,7 @@ long SjQueue::MoveByIds(const SjLLHash& idsToMove, long motionAmount)
 	}
 
 	// remember the ID of the current postion to set it after the movement
-	long currPosId;
+	long currPosId = 0;
 	if( m_pos >= 0 )
 	{
 		currPosId = GetIdByPos(m_pos);
