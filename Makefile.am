@@ -57,6 +57,12 @@ dist_icons48_DATA = src/sjdata/icons/48x48/silverjuke.png
 dist_icons64_DATA = src/sjdata/icons/64x64/silverjuke.png
 dist_icons128_DATA = src/sjdata/icons/128x128/silverjuke.png
 
+# Create and install manpage
+man1_MANS = silverjuke.1
+CLEANFILES = silverjuke.1
+silverjuke.1:
+	$(RST2MAN) $(top_srcdir)/docs/command-line.rst silverjuke.1
+
 bin_PROGRAMS = silverjuke
 
 silverjuke_SOURCES = \
