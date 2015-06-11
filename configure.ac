@@ -1,49 +1,59 @@
-# silverjuke configure.ac script
+# Process this file with autoconf to produce a configure script.
 #
-# to create the configure file from configure.ac, run `autoconf`
+# Copyright © 2015 Björn Petersen
+# Copyright © 2015 Dr. Tobias Quathamer
+#
+# This file is part of silverjuke.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# Set up autoconf
 AC_PREREQ([2.69])
 AC_INIT([silverjuke], [15.1], [r10s@b44t.com])
+AC_CONFIG_MACRO_DIR([m4])
 
 # AC_CONFIG_SRCDIR just checks a single file to make sure, we're in the correct directory
 AC_CONFIG_SRCDIR([src/sjbase/mainapp.cpp])
 
-# read configuration from header file instead of the command line;
-# this requires a config.h.in which can be created using `autoheader` 
-#AC_CONFIG_HEADERS([config.h])
+# Set up automake
+AM_INIT_AUTOMAKE([1.13 foreign subdir-objects silent-rules no-dist-gzip dist-xz])
+AM_MAINTAINER_MODE
 
-# prepare for using automake, `foreign` is needed as we have not used `automake --add-missing`
-# (add [foreign] to AM_INIT_AUTOMAKE to skip ChangeLog, NEWS etc.)
-AM_INIT_AUTOMAKE([no-dependencies foreign])
-AC_CONFIG_FILES([
-	Makefile
-	po/Makefile.in
-])
+# Set up gettext
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.18])
+#AC_DEFINE([GETTEXT_PACKAGE], ["silverjuke"], [Gettext package name.])
 
 # Checks for programs
 AC_PROG_CXX
 AC_PROG_CC
-#AC_PROG_MAKE_SET
+PKG_PROG_PKG_CONFIG
 
-# Checks for libraries.
-# FIXME: Replace `main' with a function in `-lm':
-#AC_CHECK_LIB([m], [main])
+# Detect rst2man, needed for building the manpage
+AC_PATH_PROG([RST2MAN], [rst2man], [no])
+if test x"$RST2MAN" == x"no" ; then
+    AC_MSG_ERROR([rst2man is required.])
+fi
 
-# Checks for system header files (is this needed? as we do not use a config.h, this results in masses of -D options)
-#AC_FUNC_ALLOCA
-#AC_CHECK_HEADERS([fcntl.h float.h inttypes.h limits.h malloc.h memory.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])
-
-# check for zlib 
-AC_CHECK_HEADER([zlib.h], [], [AC_MSG_ERROR([zlib.h not found. Try eg. apt-get install zlib1g-dev])])
-
-# check for xine 
-# (do not define HAVE_XINE_H on success as this would disturb the include wrapper which uses the same define...)
-AC_CHECK_HEADER([xine.h], [], [AC_MSG_ERROR([xine.h not found. Try eg. apt-get install libxine2-dev])])
+# Detect the needed libraries
+PKG_CHECK_MODULES([ZLIB], [zlib])
+PKG_CHECK_MODULES([LIBXINE], [libxine])
 
 # wxWidgets -- we assume that if wx-config is found, wxWidgets is successfully installed.
-AC_PATH_PROG(WX_CONFIG, wx-config, no, $PATH:/usr/local/bin )
-if [[ "$WX_CONFIG" = "no" ]] ; then
-	AC_MSG_ERROR([wx-config not found. Is wxWidgets installed? Is wx-config in your path? Try eg. apt-get install libwxgtk2.8-dev])
+AC_PATH_PROG([WX_CONFIG], [wx-config], [no], [$PATH:/usr/local/bin])
+if test x"$WX_CONFIG" = x"no" ; then
+	AC_MSG_ERROR([wx-config not found. Is wxWidgets installed? Is wx-config in your path? Try eg. apt-get install libwxgtk3.0-dev])
 fi
 WX_CPPFLAGS="`$WX_CONFIG --cppflags`"
 WX_CXXFLAGS="`$WX_CONFIG --cxxflags`"
@@ -53,32 +63,11 @@ AC_SUBST(WX_CPPFLAGS)
 AC_SUBST(WX_CXXFLAGS)
 AC_SUBST(WX_LIBS)
 
-# Set up gettext
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT_VERSION([0.18])
-#AC_DEFINE([GETTEXT_PACKAGE], ["silverjuke"], [Gettext package name.])
+# Write configuration files
+AC_CONFIG_FILES([
+	Makefile
+	po/Makefile.in
+])
 
-# Checks for typedefs, structures, and compiler characteristics.
-#AC_CHECK_HEADER_STDBOOL
-#AC_TYPE_INT32_T
-#AC_TYPE_INT64_T
-#AC_TYPE_MODE_T
-#AC_TYPE_OFF_T
-#AC_TYPE_SIZE_T
-#AC_TYPE_SSIZE_T
-#AC_CHECK_MEMBERS([struct stat.st_blksize])
-#AC_TYPE_UINT16_T
-#AC_TYPE_UINT32_T
-#AC_TYPE_UINT64_T
-#AC_TYPE_UINT8_T
-
-# Checks for library functions.
-#AC_FUNC_ERROR_AT_LINE
-#AC_FUNC_MALLOC
-#AC_FUNC_MKTIME
-#AC_FUNC_MMAP
-#AC_FUNC_REALLOC
-#AC_FUNC_STRTOD
-#AC_CHECK_FUNCS([clock_gettime fdatasync floor ftruncate getcwd gettimeofday localeconv localtime_r memmove memset mkdir munmap pow rint sqrt strchr strerror])
-
+# Terminate script
 AC_OUTPUT
