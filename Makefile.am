@@ -24,13 +24,13 @@ SUBDIRS = po
 
 ACLOCAL_AMFLAGS = --install -I m4
 
-silverjuke_CPPFLAGS = -Isrc $(WX_CXXFLAGS)
-silverjuke_CFLAGS = \
+silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS)
+silverjuke_CXXFLAGS = \
 	-Isrc \
 	-Wall \
 	-Wno-unused-but-set-variable \
 	-g \
-	$(ZLIB_CFLAGS) $(LIBXINE_CFLAGS) $(WX_CPPFLAGS)
+	$(ZLIB_CFLAGS) $(LIBXINE_CFLAGS) $(WX_CXXFLAGS)
 silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(WX_LIBS)
 
 dist_doc_DATA = \
