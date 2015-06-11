@@ -37,7 +37,7 @@ dist_doc_DATA = \
 	CHANGES.md \
 	LICENSE \
 	README.md \
-	docs/command-line.md \
+	docs/command-line.rst \
 	docs/dde.md \
 	docs/localization.md \
 	docs/plugins.md \
