@@ -836,7 +836,9 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 			wxString inclFile = tag.GetParam(tag.HasParam(wxT("SRC"))? wxT("SRC") : wxT("FILE"));
 
 			if( skin->m_debugInfo )
+			{
 				wxLogInfo(wxT("Including \"%s\" [%s]")/*n/t*/, inclFile.c_str(), m_skinMlParser->m_data->GetUrl().c_str());
+			}
 
 			SjSkinMlParser   inclParser(m_skinMlParser->m_data, 0);
 			wxString            inclContent = inclParser.m_data->LoadFile_(inclFile);
