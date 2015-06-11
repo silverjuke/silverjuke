@@ -1,100 +1,133 @@
-Command Line Options
-================================================================================
+==========
+silverjuke
+==========
 
-You may control Silverjuke by the command line with the following options:
+Play and organize your music
+----------------------------
 
-* --ini=FILE
+:Date:            2015-04-11
+:Version:         15.1-beta.6
+:Manual section:  1
+
+
+SYNOPSIS
+========
+
+**silverjuke** [*options*] [*FILES*]
+
+
+DESCRIPTION
+===========
+
+This manual page documents briefly the **silverjuke** command.
+It can be used to play and organize your music collection.
+
+
+OPTIONS
+=======
+
+This program follows the usual GNU command line syntax, with long options
+starting with two dashes ('**-**'). **silverjuke** supports the following options:
+
+--ini=FILE
   set the configuration file to use to FILE
 
-* --db=FILE
+--db=FILE
   set the database file to use to FILE
 
-* --temp=DIRECTORY
-  set the temp. directory to use to DIRECTORY
+--temp=DIRECTORY
+  set the temporary directory to use to DIRECTORY
 
-* --play
+--play
+  start playing the current file
 
-* --pause
+--pause
+  pause the playback
 
-* --toggle
+--toggle
   toggle play/pause
 
-* --prev
+--prev
+  play previous file in list
 
-* --next
+--next
+  play next file in list
 
-* --kiosk
+--kiosk
   start Silverjuke in kiosk mode
 
-* --minimize
+--minimize
   start Silverjuke minimized
 
-* --open FILES
+--open FILES
   open the given FILES, --open may be omitted
 
-* --enqueue FILES
+--enqueue FILES
   enqueue the given FILES
 
-* --help
+--help
   Show all available commands
 
-* --addcredit=NUM
-  Adds the numer of credits (tracks that may be enqueued) to the credit system.
+--addcredit=NUM
+  Adds the number of credits (tracks that may be enqueued) to the credit system.
   This option only works if the option "Credits may be added by external
   programs" is enabled in the kiosk mode settings.
 
-* --setcredit=NUM
+--setcredit=NUM
   Sets the number of credits.  This option only works if the option "Credits may
   be added by external programs" is enabled in the kiosk mode settings.
 
-* --skiperrors
+--skiperrors
   With this option you can avoid showing errors about an erroneous termination
   on the last Silverjuke run. This is especially useful when turning off
   Silverjuke using the "Power off" button, as in this case the operating system
   may not give us the time we need to unload all modules completely.
 
-* --instance=INI-FILE
+--instance=INI-FILE
   If you give a different INI-file to each instance, you can use multiple
   instances of Silverjuke with this option. All settings for each instance are
   stored in the INI-file, so the instances are completely independent; however,
   make sure, there are no conflicts regarding the used hardware.
   You can give the INI-files as complete paths; if the files do not exist, they
   are created as needed.
+
   If you want to use different music libraries for each instance, you have to
   use the --db=FILE option as described above.
 
-* --update
+--update
   This will automatically update the index as if you hit F5 just after starting
   Silverjuke. If you use this option in combination with --kiosk and the kiosk
   mode is running with limited functionality, the update process cannot be
   aborted.
 
-* --kioskrect=[X,Y,]W,H[,clipmouse]
+--kioskrect=[X,Y,]W,H[,clipmouse]
   With this option you can force the Silverjuke window to the given rectangle
   when using the kiosk mode. This is useful if you want to show sth. beside the
   Silverjuke window (by default, the whole screen is used). If the x and y
   parameters are skipped, the window will be placed at the upper left corner at
   0/0.
+
   Moreover, if you add the "clipmouse" modifier, the mouse cannot be moved
   outside the given rectangle.
+
   See also: --visrect to assign a static portion of the screen to the
   visualization.
 
-* --visrect=[X,Y,]W,H
+--visrect=[X,Y,]W,H
   If --visrect or --kioskrect are given, portions of the screen not used by
   Silverjuke can be used by other programs - otherwise, Silverjuke would
   "darken" eg. an unused 2nd or 3rd screen.
 
-* --volup
+--volup
   increase the main volume
 
-* --voldown
+--voldown
   decrease the main volume
 
-* --togglevis
+--togglevis
   toggle the selected visualizations on and off
 
-* --execute=SCRIPT_OR_FILE
+--execute=SCRIPT_OR_FILE
   Execute the given script snippet or file. With this command line option you
   are able to execute any little script by the command line. For scripting
   details, please refer to the Silverjuke SDK. Instead of using the command line
@@ -104,21 +137,13 @@ Although there is always only one instance of Silverjuke running, you may call
 Silverjuke with these commands which will then be forwarded to the running
 instance if possible.
 
-If you want to use the command line on Apple Mac OS X, you have to execute
-the program in the app's package directly, eg.
-/Applications/Silverjuke.app/Contents/MacOS/Silverjuke --help.
-Under Windows Windows, you use eg. c:\Programs\Silverjuke\Silverjuke.exe --help.
-
 You can set the "db", "temp", "kiosk" and "minimize" options also manually to
-the current configuration file (ini file) in the section "main". Moreover, if
-there is a file called mysettings.ini in the program's directory (where
-silverjuke.exe is), this file is used as the configuration file. All this allows
-you to run Silverjuke independently from a windows system eg. on a removable
-disk where you save your music together with Silverjuke.
+the current configuration file (ini file) in the section "main".
 
-BTW, most commands are also available through DDE or TCP/IP communication. Feel
-free to post any questions or comments to this thread.
+Most commands are also available through TCP/IP communication.
 
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+AUTHOR
+======
 
+Björn Petersen <r10s@b44t.com>
