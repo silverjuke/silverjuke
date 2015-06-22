@@ -106,6 +106,9 @@ public:
 	virtual void        OnTransactionRollback   () {}
 	virtual void        OnTransactionCommit     () {}
 
+	// misc.
+	static wxString		GetLibVersion			();
+
 private:
 	wxString            m_file;
 	bool                m_dbExistsBeforeOpening;

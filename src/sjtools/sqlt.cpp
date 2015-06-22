@@ -379,10 +379,10 @@ long wxSqltDb::Pages2Bytes(long pages)
 
 
 
-/*wxString wxSqltDb::GetLibVersion()
+wxString wxSqltDb::GetLibVersion()
 {
-    return sqlite3_version;
-}*/
+    return wxString((const char*)sqlite3_libversion(), wxConvUTF8);
+}
 
 
 

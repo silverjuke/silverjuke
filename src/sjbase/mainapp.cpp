@@ -258,7 +258,7 @@ bool SjMainApp::OnInit()
 	s_logGui = new SjLogGui();
 
 	// log silverjuke and platform version and release information
-	wxLogInfo(wxT("Silverjuke %s Rev. %i (%i Bit%s%s%s) on %s (%i Bit) using %s started"),
+	wxLogInfo(wxT("Silverjuke %s Rev. %i started (%i Bit%s%s%s on %s (%i Bit), %s, sqlite %s)"),
 	          SJ_VERSION_STR, SJ_VERSION_REVISION, sizeof(void*)*8,
 	          #ifdef wxUSE_UNICODE
 	              wxT(" Unicode"),
@@ -276,7 +276,8 @@ bool SjMainApp::OnInit()
 				wxT(""),
 	          #endif
 	          ::wxGetOsDescription().c_str(), ::wxIsPlatform64Bit()? 64 : 32,
-	          wxVERSION_STRING);
+	          wxVERSION_STRING,
+	          wxSqltDb::GetLibVersion().c_str());
 
 	// set the application name
 	SetAppName(SJ_PROGRAM_NAME);
