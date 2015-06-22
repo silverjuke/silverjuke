@@ -31,7 +31,7 @@ silverjuke_CXXFLAGS = \
 	-Wno-unused-but-set-variable \
 	-g \
 	$(ZLIB_CFLAGS) $(LIBXINE_CFLAGS) $(WX_CXXFLAGS)
-silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(WX_LIBS)
+silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(SQLITE3_LIBS) $(WX_LIBS)
 
 dist_doc_DATA = \
 	CHANGES.md \
@@ -158,7 +158,6 @@ silverjuke_SOURCES = \
 	src/sjtools/tools_gtk.cpp \
 	src/sjtools/tooltips.cpp \
 	src/sjtools/volumecalc.cpp \
-	src/sqlite/sqlite3.c \
 	src/tagger/tg_ape_tag.cpp \
 	src/tagger/tg_a_tagger_frontend.cpp \
 	src/tagger/tg_bytefile.cpp \

@@ -49,6 +49,7 @@ fi
 # Detect the needed libraries
 PKG_CHECK_MODULES([ZLIB], [zlib])
 PKG_CHECK_MODULES([LIBXINE], [libxine])
+PKG_CHECK_MODULES([SQLITE3], [sqlite3])
 
 # wxWidgets -- we assume that if wx-config is found, wxWidgets is successfully installed.
 AC_PATH_PROG([WX_CONFIG], [wx-config], [no], [$PATH:/usr/local/bin])
