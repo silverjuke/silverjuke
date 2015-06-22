@@ -30,8 +30,8 @@
 #define __WX_SQLT_H__
 
 
-#include "wx/wx.h"
-#include "sqlite/sqlite3.h"
+#include <wx/wx.h>
+#include <sqlite3.h>
 
 
 
