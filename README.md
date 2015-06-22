@@ -8,19 +8,6 @@ The Silverjuke source code is available under the GPL license, see the file
 LICENSE for details.
 
 
-Todo
-================================================================================
-
-This version of Silverjuke is still beta and the following points are with high
-priority on our todo-list:
-
-- Visualisations do not receive live data from xine
-- Adapt the skin
-- Fix known bug: make filenames with "%" and "#" work
-- Other bug fixes, please report bugs to
-  https://github.com/r10s/silverjuke/issues
-
-
 Installation
 ================================================================================
 
@@ -42,20 +29,23 @@ you'll also need the following, less common stuff:
 stl version, which does *not* work with silverjuke. Check for
 something with wxcontainer in the name)
 
-Since May 2015, Silverjuke compiles with both, wxWidgets 2.8 and 3.0, however,
-wxWidgets 2.8 is far more tested at the moment and may result in less issues.
-
 Windows:  For Windows, an installation program with the most recent version is
 available at http://silverjuke.net .  Note, that the windows binaries are not
 opened sourced.
+
+
+Issues
+===============================================================================
+
+Any issues can be reported to https://github.com/r10s/silverjuke/issues
 
 
 Coding
 ================================================================================
 
 Beside the possibility to code on the Silverjuke project itself, you can create
-simple scripts that will be loaded and executed by Silverjuke.  For the
-possibilities please refer to docs/scripting.md etc.
+skins (or maybe scripts) that will be loaded and executed by Silverjuke.  For
+the possibilities on this, please refer to the `docs` folder.
 
 If you want to code on Silverjuke yourself here are some hints that may be
 usefull esp. if you want to give your work back to the core (pull requests).
