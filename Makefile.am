@@ -30,7 +30,7 @@ silverjuke_CXXFLAGS = \
 	-Wall \
 	-Wno-unused-but-set-variable \
 	-g \
-	$(ZLIB_CFLAGS) $(LIBXINE_CFLAGS) $(WX_CXXFLAGS)
+	$(ZLIB_CFLAGS) $(LIBXINE_CFLAGS) $(SQLITE3_CFLAGS) $(WX_CXXFLAGS)
 silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(SQLITE3_LIBS) $(WX_LIBS)
 
 dist_doc_DATA = \
