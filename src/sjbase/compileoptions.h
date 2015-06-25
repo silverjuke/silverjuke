@@ -33,7 +33,7 @@
 // basic version definition
 #define SJ_VERSION_MAJOR 15
 #define SJ_VERSION_MINOR 2 // odd minor = beta version
-#define SJ_VERSION_REVISION 0
+#define SJ_VERSION_REVISION 2
 #define SJ_VERSION_ASCII "15.2"
 
 // odd minor numbers and/or debug builds are treated as beta versions

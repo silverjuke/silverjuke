@@ -46,7 +46,11 @@ SjSkinEnumerator::SjSkinEnumerator()
 	int currSearchDirIndex;
 	for( currSearchDirIndex = 0; currSearchDirIndex < g_tools->GetSearchPathCount(); currSearchDirIndex++ )
 	{
-		ScanPath(parser, g_tools->GetSearchPath(currSearchDirIndex));
+		wxString searchPath = g_tools->GetSearchPath(currSearchDirIndex);
+		if( wxDirExists(searchPath) )
+		{
+			ScanPath(parser, searchPath);
+		}
 	}
 
 	// add URL to duplicate names
@@ -91,19 +95,32 @@ void SjSkinEnumerator::ScanPath(SjSkinMlParser& parser, const wxString& url)
 	size_t          e;
 
 	// read directory
-	if( wxDirExists(url) )
 	{
 		wxFileSystem fs;
 		fs.ChangePathTo(url, TRUE);
-		wxString entryStr = fs.FindFirst(wxT("*.*"));
+		wxString entryStr = fs.FindFirst(wxT("*.*"), wxFILE);
 		while( !entryStr.IsEmpty() )
 		{
-			if( SjTools::GetExt(entryStr) == wxT("sjs")
-			 || SjTools::GetExt(entryStr) == wxT("zip") )
+			if( SjTools::GetExt(entryStr) == wxT("sjs") )
 			{
-				possibleSkins.Add(::wxDirExists(entryStr)? entryStr : (entryStr + wxT("#zip:")));
+				possibleSkins.Add(entryStr + wxT("#zip:"));
 			}
-			else if( ::wxDirExists(entryStr) )
+
+			entryStr = fs.FindNext();
+		}
+	}
+
+	{
+		wxFileSystem fs;
+		fs.ChangePathTo(url, TRUE);
+		wxString entryStr = fs.FindFirst(wxT("*"), wxDIR); // Cave: "*.*" does not match the directory "skins"; moreover, wxDirExists() does not work well together with wxFileSystem
+		while( !entryStr.IsEmpty() )
+		{
+			if( SjTools::GetExt(entryStr) == wxT("sjs") )
+			{
+				possibleSkins.Add(entryStr);
+			}
+			else
 			{
 				subdirs.Add(entryStr);
 			}
