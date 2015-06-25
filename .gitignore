@@ -40,3 +40,4 @@ po/stamp-po
 po/POTFILES
 po/remove-potcdate.sed
 po/*.gmo
+silverjuke.1
