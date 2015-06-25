@@ -91,7 +91,6 @@ src/sjtools/tools.cpp
 src/sjtools/tools_gtk.cpp
 src/sjtools/tooltips.cpp
 src/sjtools/volumecalc.cpp
-src/sqlite/sqlite3.c
 src/tagger/tg_ape_tag.cpp
 src/tagger/tg_a_tagger_frontend.cpp
 src/tagger/tg_bytefile.cpp
