@@ -57,6 +57,24 @@ dist_icons48_DATA = src/sjdata/icons/48x48/silverjuke.png
 dist_icons64_DATA = src/sjdata/icons/64x64/silverjuke.png
 dist_icons128_DATA = src/sjdata/icons/128x128/silverjuke.png
 
+# Install keyboard files and skin directories
+EXTRA_DIST = \
+	$(top_srcdir)/src/sjdata/skins \
+	$(top_srcdir)/src/sjdata/keyboards
+
+install-data-local:
+	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/keyboards
+	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/old-style-jukebox.sjs
+	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/silveriness-touched.sjs
+	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/keyboards/* $(DESTDIR)$(datadir)/silverjuke/keyboards
+	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/old-style-jukebox.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/old-style-jukebox.sjs
+	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/silveriness-touched.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/silveriness-touched.sjs
+
+# Uninstall keyboard files and skin directories
+uninstall-local:
+	rm -rf $(DESTDIR)$(datadir)/silverjuke/skins
+	rm -rf $(DESTDIR)$(datadir)/silverjuke/keyboards
+
 # Create and install manpage
 man1_MANS = silverjuke.1
 CLEANFILES = silverjuke.1
