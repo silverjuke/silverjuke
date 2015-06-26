@@ -5,8 +5,8 @@ silverjuke
 Play and organize your music
 ----------------------------
 
-:Date:            2015-06-11
-:Version:         15.2
+:Date:            2015-06-26
+:Version:         15.4
 :Manual section:  1
 
 
