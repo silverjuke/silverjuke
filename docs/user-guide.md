@@ -742,29 +742,37 @@ password that can be entered this way.
 
 **Text Input Using the Numpad's Menu**
 
-- Pressing the key 2 multiple times, results in the following characters:  
-   a b c 0 1 2 ä - + * / . , : ; ! ( ) [ ] { } | @ < > _ = % & ...
+- Pressing the **key 2** multiple times, results in the following characters:
 
-- Pressing the key 3 multiple times, results in the following characters:  
-  d e f 3 ...
+    a b c 0 1 2 ä - + * / . , : ; ! ( ) [ ] { } | @ < > _ = % & ...
 
-- Pressing the key 4 multiple times, results in the following characters:  
-  g h i 4 ...
+- Pressing the **key 3** multiple times, results in the following characters:
 
-- Pressing the key 5 multiple times, results in the following characters:  
-  j k l 5 ...
+    d e f 3 ...
 
-- Pressing the key 6 multiple times, results in the following characters:  
-  m n o 6 ö ...
+- Pressing the **key 4** multiple times, results in the following characters:
 
-- Pressing the key 7 multiple times, results in the following characters:  
-  p q r s 7 ß ...
+    g h i 4 ...
 
-- Pressing the key 8 multiple times, results in the following characters:  
-  t u v 8 ü ...
+- Pressing the **key 5** multiple times, results in the following characters:
 
-- Pressing the key 9 multiple times, results in the following characters:  
-  w x y z 9 ...
+    j k l 5 ...
+
+- Pressing the **key 6** multiple times, results in the following characters:
+
+    m n o 6 ö ...
+
+- Pressing the **key 7** multiple times, results in the following characters:
+
+    p q r s 7 ß ...
+
+- Pressing the **key 8** multiple times, results in the following characters:
+
+    t u v 8 ü ...
+
+- Pressing the **key 9** multiple times, results in the following characters:
+
+    w x y z 9 ...
 
 Moreover, at the end of each list, you'll find a space. With the key "1" you can
 delete the last entered character and with the key "0" you submit your text.
@@ -1093,7 +1101,7 @@ To open the dialog:
   "Edit Tracks/Get info..." from the context-menu; this will open the 
   Edit Tracks-dialog ...
 
-- here, click onto the "Menu >>" button and select "Replace".
+- here, click onto the "Menu"-button and select "Replace".
 
 In the dialog:
 
@@ -1131,7 +1139,7 @@ To open the dialog:
   "Edit Tracks/Get info..." from the context-menu; this will open the 
   Edit Tracks-dialog ...
 
-- here, click onto the "Menu >>" button and select "Split fields".
+- here, click onto the "Menu"-button and select "Split fields".
 
 In the dialog:
 
@@ -1145,7 +1153,7 @@ In the dialog:
   - Text, that is identical in each record, is entered directly.
 
   - Text that contains information you want to copy to another field is entered
-    as a <info>-placeholder, where "info" must be replaced by the name of the
+    as a info-placeholder, where "info" must be replaced by the name of the
     destination field. The easiest way to enter these placeholders is to use the
     Insert-button.
 
@@ -1175,12 +1183,12 @@ To open the dialog:
   "Edit Tracks/Get info..." from the context-menu; this will open the 
   Edit Tracks-dialog ...
 
-- here, click onto the "Menu >>" button and select "Rename files".
+- here, click onto the "Menu"-button and select "Rename files".
 
 In the dialog:
 
 - Enter the Pattern for the new file name. The pattern may be built out of
-  several placehoders as <Title>, for a list of possible placeholders, use the
+  several placehoders as _title_, for a list of possible placeholders, use the
   Insert-button.
 
 - Text that should be identical for all files to rename can be entered directly
@@ -1265,7 +1273,7 @@ The options in detail:
 
 - **Index file:** This option displays the index file location (the index file
   contains the database for your music library). If you want to use another 
-  index file, you have to add the parameter -db=<file> to the command line when
+  index file, you have to add the parameter -db=FILE to the command line when
   starting Silverjuke.
 
 - **Show files with:** By default when selecting the menu entry "Explore...",
@@ -1278,7 +1286,7 @@ The options in detail:
 - **Temporary directory:** This option displays the temporary directory in use.
   The temporary directory is used eg. for the cover cache (see above). If you 
   want to use a different temporary directory, you have to start Silverjuke with
-  the option -temp=<dir> in the command line.
+  the option -temp=DIR in the command line.
 
 - **Ask on close if playing:** When the program is about to be closed by a user
   request and there is still some music playing, Silverjuke can ask you whether
