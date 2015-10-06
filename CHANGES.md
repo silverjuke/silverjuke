@@ -2,11 +2,11 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.1 (09.05.2015)
+V15.4 (26.06.2015)
 ================================================================================
 
 - Silverjuke core made open source, see github.com/r10s/silverjuke
-- Source and feature cleanup
+- Source and feature cleanup, scripting disabled
 - New: "My music library/Source options/Read hidden folders", defaults to "on"
 - New: Read/write support for XSPF (pronounced "spiff") playlists
 - New: Read support for iTunes playlists (*.xml)
