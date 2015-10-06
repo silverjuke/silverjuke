@@ -61,6 +61,7 @@ make %{?_smp_mflags}
 %{_docdir}/silverjuke/plugins.md
 %{_docdir}/silverjuke/scripting.md
 %{_docdir}/silverjuke/skinning.md
+%{_docdir}/silverjuke/user-guide.md
 %{_docdir}/silverjuke/virtual-keyboards.md
 %{_bindir}/silverjuke
 

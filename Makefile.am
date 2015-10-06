@@ -43,6 +43,7 @@ dist_doc_DATA = \
 	docs/plugins.md \
 	docs/scripting.md \
 	docs/skinning.md \
+	docs/user-guide.md \
 	docs/virtual-keyboards.md
 
 desktopdir = $(datadir)/applications
