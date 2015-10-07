@@ -19,11 +19,14 @@ source code from https://github.com/r10s/silverjuke plus a simple
 `./autogen.sh`, `make` and `make install` should do the job. If you want to run
 silverjuke from your build dir, run `./silverjuke` instead of `make install`.
 
-Beyond the usual gcc and system development packages, chances are
-you'll also need the following, less common stuff:
+Beyond the usual gcc and system development packages, chances are you'll also
+need the following stuff:
 
 - xine-devel
 - wxWidgets-wxcontainer-devel
+- libsqlite3-dev
+- python-docutils (for rst2man)
+- gawk (mawk may cause problems)
 
 (note that your distro's default wxwidgets package might contain the
 stl version, which does *not* work with silverjuke. Check for
