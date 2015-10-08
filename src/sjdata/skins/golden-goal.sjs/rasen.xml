@@ -1,0 +1,61 @@
+<!-- background -->
+<img src="bg.png" w="100%" h="100%" />
+
+<!-- lines -->
+<img src="chalk_v.png" x="18" h="100%" />
+<img src="chalk_v.png" x="100%-36" h="100%" />
+<scrollbar x="100%-36" y="158" h="100%-240" src="scroll_v.png" target="workspaceVScroll" />
+
+<img src="chalk_h.png" x="34" y="100%-36" w="100%-64" />
+<button x="13%" y="100%-77" src="arr_lr.png" target="workspaceLeft"/>
+<button x="87%-90" y="100%-78" src="arr_lr.png" srcindex="1" target="workspaceRight"/>
+<scrollbar x="40" y="100%-36" w="100%-80" src="scroll_h.png" target="workspaceHScroll" />
+
+<!-- goal (display) -->
+<img src="chalk_v.png" x="25%-20" h="120" />
+<img src="chalk_v.png" x="75%" h="120" />
+<img src="chalk_h.png" x="25%-5" y="105" w="50%+10" />
+
+
+<button x="75%+16" y="5" src="arr_ud.png" srcindex="0" target="displayup" />
+<button x="same" y="next-15" src="arr_ud.png" srcindex="1" target="displaydown" />
+
+<scrollbar x="-4%" y="98" w="108%" src="seek.png" target="seek" hideifunused="1" />
+
+
+
+<!-- display -->
+<box x="25%+5" y="5" w="45" h="45" target="displaycover" />
+<box x="25%+54" y="5" w="50%-69" h="18" fgcolor="#FFFFFF" hicolor="#CCCCCC" target="line00" centeroffset="-20">
+  <color target="selection" fgcolor="#FFFF00" hicolor="#CCCC00" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#FFFFFF" hicolor="#CCCCCC" target="line01" centeroffset="-20">
+  <color target="selection" fgcolor="#FFFF00" hicolor="#CCCC00" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#FFFFFF" hicolor="#CCCCCC" target="line02" centeroffset="-20">
+  <color target="selection" fgcolor="#FFFF00" hicolor="#CCCC00" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#FFFFFF" hicolor="#CCCCCC" target="line03" centeroffset="-20">
+  <color target="selection" fgcolor="#FFFF00" hicolor="#CCCC00" />
+</box>
+<box x="same" y="next" w="same" h="same" fgcolor="#FFFFFF" hicolor="#CCCCCC" target="line04" centeroffset="-20">
+  <color target="selection" fgcolor="#FFFF00" hicolor="#CCCC00" />
+</box>
+	
+
+<!-- workspace -->
+<div x="65" y="130" w="100%-130" h="100%-210" target="visrect" indent="-29,13,-29,-44">
+	<include file="workspace.xml" />
+</div>
+
+
+<!-- titlebar, resizer, background border top/left (lite) and bottom/right (dark) -->
+<if cond="!kiosk">
+	<resizer x="100%-32" y="100%-32" w="32" h="32" />
+	<img src="resizer.png" x="100%-33" y="100%-33" />
+	<if cond="shaped">
+		<box w="1" h="100%-1" bgcolor="#F0F0F0" />
+		<box y="100%-1" w="100%" h="1" bgcolor="#101010" />
+		<box x="100%-1" w="1" h="100%" bgcolor="#101010" />
+	</if>
+</if>

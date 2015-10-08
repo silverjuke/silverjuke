@@ -1,0 +1,61 @@
+
+
+<!-- a-z bar -->
+<div x="2" y="7" w="100%-4" h="28" >
+	<button x="0.0%"  w="3.5%" src="az.png" srcindex="0" target="gotoA" />
+	<button x="3.5%"  w="3.5%" src="az.png" srcindex="1" target="gotoB" />
+	<button x="7.1%"  w="3.5%" src="az.png" srcindex="2" target="gotoC" />
+	<button x="10.7%" w="3.5%" src="az.png" srcindex="3" target="gotoD" />
+	<button x="14.2%" w="3.5%" src="az.png" srcindex="4" target="gotoE" />
+	<button x="17.8%" w="3.5%" src="az.png" srcindex="5" target="gotoF" />
+	<button x="21.4%" w="3.5%" src="az.png" srcindex="6" target="gotoG" />
+	<button x="25.0%" w="3.5%" src="az.png" srcindex="7" target="gotoH" />
+	<button x="28.5%" w="3.5%" src="az.png" srcindex="8" target="gotoI" />
+	<button x="32.1%" w="3.5%" src="az.png" srcindex="9" target="gotoJ" />
+	<button x="35.7%" w="3.5%" src="az.png" srcindex="10" target="gotoK" />
+	<button x="39.2%" w="3.5%" src="az.png" srcindex="11" target="gotoL" />
+	<button x="42.8%" w="3.5%" src="az.png" srcindex="12" target="gotoM" />
+	<button x="46.4%" w="3.5%" src="az.png" srcindex="13" target="gotoN" />
+	<button x="50.0%" w="3.5%" src="az.png" srcindex="14" target="gotoO" />
+	<button x="53.5%" w="3.5%" src="az.png" srcindex="15" target="gotoP" />
+	<button x="57.1%" w="3.5%" src="az.png" srcindex="16" target="gotoQ" />
+	<button x="60.7%" w="3.5%" src="az.png" srcindex="17" target="gotoR" />
+	<button x="64.2%" w="3.5%" src="az.png" srcindex="18" target="gotoS" />
+	<button x="67.8%" w="3.5%" src="az.png" srcindex="19" target="gotoT" />
+	<button x="71.4%" w="3.5%" src="az.png" srcindex="20" target="gotoU" />
+	<button x="75.0%" w="3.5%" src="az.png" srcindex="21" target="gotoV" />
+	<button x="78.5%" w="3.5%" src="az.png" srcindex="22" target="gotoW" />
+	<button x="82.1%" w="3.5%" src="az.png" srcindex="23" target="gotoX" />
+	<button x="85.7%" w="3.5%" src="az.png" srcindex="24" target="gotoY" />
+	<button x="89.2%" w="3.5%" src="az.png" srcindex="25" target="gotoZ" />
+	<button x="92.8%" w="3.5%" src="az.png" srcindex="26" target="goto0" />
+	<button x="96.4%" w="3.5%" src="az.png" srcindex="27" target="gotocurr" />
+</div>
+
+
+<!-- the workspace itself -->
+<workspace x="2" y="28" w="100%-4" h="100%-28">
+	<color fgcolor="#232323" bgcolor="#F5F5F5" hicolor="#F00000" target="normal" />
+	<color fgcolor="#232323" bgcolor="#DCF0C8" hicolor="#F00000" target="normalodd" />
+	<color fgcolor="#FFFFFF" bgcolor="#90C060" hicolor="#FFFF00" target="selection" />
+	<color fgcolor="#FFFFFF" bgcolor="#90C060" hicolor="#FFFF00" target="selectionodd" />
+	<color fgcolor="#434343" bgcolor="#F5F5F5" hicolor="#F00000" target="title1" />
+	<color fgcolor="#434343" bgcolor="#F5F5F5" hicolor="#F00000" target="title2" />
+	<color fgcolor="#434343" bgcolor="#F5F5F5" hicolor="#F00000" target="title3" />
+	<color fgcolor="#434343" target="verttext" />
+	<color fgcolor="#C0C0C0" target="stubtext" />
+</workspace>
+
+<!-- mask -->
+<img src="mask_l.png" x="-4" y="28" h="100%-28" />
+<img src="mask_r.png" x="100%-2" y="28" h="100%-28" />
+
+
+
+<button x="100%-1" y="30" src="arr_ud.png" srcindex="0" target="workspaceUp" />
+<button x="100%" y="100%-145" src="az.png" srcindex="28" target="zoomIn" />
+<button x="100%" y="next+7" src="az.png" srcindex="29" target="zoomout" />
+<if cond="toggleview">
+	<button x="100%" y="next+7" src="az.png" srcindex="30" target="toggleview" />
+</if>
+<button x="100%-1" y="100%-60" src="arr_ud.png" srcindex="1" target="workspaceDown" />

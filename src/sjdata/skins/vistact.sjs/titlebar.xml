@@ -1,0 +1,17 @@
+	<div w="100%" h="23">
+		<if cond="shaped">
+			<img src="title-bg.png" w="100%" />
+			<button x="10" y="5" target="mainmenu" cmw="76" src="title-menu.png" />
+			<if cond="!kiosk">
+				<button x="100%-100" target="minimize" src="title-right.png" srcindex="0" />
+				<button x="next" target="maximize" src="title-right.png" srcindex="1" />
+				<button x="next" target="quit" src="title-right.png" srcindex="2" />
+			</if>
+		</if>
+		<else>
+			<img src="title-bg-noshape.png" w="100%" />
+			<if cond="kiosk">
+				<img x="10" y="5" src="title-menu.png" />
+			</if>
+		</else>
+	</div>

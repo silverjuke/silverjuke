@@ -1,0 +1,75 @@
+
+<img x="0" y="0" w="100%" src="workspace_top.png" />
+<img x="0" y="next" h="100%-52" src="workspace_left.png" />
+<img x="100%-30" y="same" h="100%-52" src="workspace_right.png" />
+<img x="30" y="100%-21" w="100%-60" src="workspace_bottom.png" />
+
+
+
+<button x="11%" y="3"    w="3%"   src="az.png" srcindex="0" target="gotoA" />
+<button x="14%" y="same" w="same" src="az.png" srcindex="1" target="gotoB" />
+<button x="17%" y="same" w="same" src="az.png" srcindex="2" target="gotoC" />
+<button x="20%" y="same" w="same" src="az.png" srcindex="3" target="gotoD" />
+<button x="23%" y="same" w="same" src="az.png" srcindex="4" target="gotoE" />
+<button x="26%" y="same" w="same" src="az.png" srcindex="5" target="gotoF" />
+<button x="29%" y="same" w="same" src="az.png" srcindex="6" target="gotoG" />
+<button x="32%" y="same" w="same" src="az.png" srcindex="7" target="gotoH" />
+<button x="35%" y="same" w="same" src="az.png" srcindex="8" target="gotoI" />
+<button x="38%" y="same" w="same" src="az.png" srcindex="9" target="gotoJ" />
+<button x="41%" y="same" w="same" src="az.png" srcindex="10" target="gotoK" />
+<button x="44%" y="same" w="same" src="az.png" srcindex="11" target="gotoL" />
+<button x="47%" y="same" w="same" src="az.png" srcindex="12" target="gotoM" />
+<button x="50%" y="same" w="same" src="az.png" srcindex="13" target="gotoN" />
+<button x="53%" y="same" w="same" src="az.png" srcindex="14" target="gotoO" />
+<button x="56%" y="same" w="same" src="az.png" srcindex="15" target="gotoP" />
+<button x="59%" y="same" w="same" src="az.png" srcindex="16" target="gotoQ" />
+<button x="62%" y="same" w="same" src="az.png" srcindex="17" target="gotoR" />
+<button x="65%" y="same" w="same" src="az.png" srcindex="18" target="gotoS" />
+<button x="68%" y="same" w="same" src="az.png" srcindex="19" target="gotoT" />
+<button x="71%" y="same" w="same" src="az.png" srcindex="20" target="gotoU" />
+<button x="74%" y="same" w="same" src="az.png" srcindex="21" target="gotoV" />
+<button x="77%" y="same" w="same" src="az.png" srcindex="22" target="gotoW" />
+<button x="80%" y="same" w="same" src="az.png" srcindex="23" target="gotoX" />
+<button x="83%" y="same" w="same" src="az.png" srcindex="24" target="gotoY" />
+<button x="86%" y="same" w="same" src="az.png" srcindex="25" target="gotoZ" />
+
+
+
+
+<workspace x="30" y="52" w="100%-60" h="100%-73">
+	<color fgcolor="#000000" bgcolor="#D6DACC" target="normal" /> 
+	<color fgcolor="#000000" bgcolor="#C4CAB4" target="normalodd" /> 
+	<color fgcolor="#F9F9F9" bgcolor="#186BB5" target="selection" /> 
+	<color fgcolor="#F9F9F9" bgcolor="#186BB5" target="selectionodd" /> 
+	<color fgcolor="#808080" target="vertText" /> 
+	<color fgcolor="#0D5591" target="title1" /> 
+	<color fgcolor="#106BB5" target="title2" />
+	<color fgcolor="#A0A0A0" target="stubtext" /> 
+</workspace>
+
+
+<if cond="toggleView">
+	<if cond="albumView">
+		<button x="30" y="next" src="toggle_view.png" srcindex="0" target="albumView" />
+	</if>
+	<if cond="coverView">
+		<button x="next" y="same" src="toggle_view.png" srcindex="1" target="coverView" />
+	</if>
+	<if cond="listView">
+		<button x="next" y="same" src="toggle_view.png" srcindex="2" target="listView" />
+	</if>
+</if>
+
+<button x="45" y="28" src="scroll_hbuttons.png" srcindex="0" target="workspaceLeft" />
+<scrollbar x="66" y="same+3" w="100%-132" src="scroll_h.png" target="workspaceHScroll" />
+<button x="100%-66" y="same-3" src="scroll_hbuttons.png" srcindex="1" target="workspaceRight" />
+
+
+<button    x="100%-24" y="66%-126" src="scroll_vbuttons.png" srcindex="4" target="gotoCurr" />
+<button    x="same"    y="next" src="scroll_vbuttons.png" srcindex="0" target="zoomIn" />
+<button    x="same"    y="next" src="scroll_vbuttons.png" srcindex="1" target="zoomOut" />
+<button    x="same"    y="next" src="scroll_vbuttons.png" srcindex="2" target="workspaceUp" />
+<scrollbar x="same+3"  y="next" h="34%" src="scroll_v.png" target="workspaceVScroll" />
+<button    x="same-3"  y="100%-42" src="scroll_vbuttons.png" srcindex="3" target="workspaceDown" />
+
+

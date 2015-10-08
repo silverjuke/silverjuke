@@ -1,0 +1,44 @@
+		<div y="next" w="100%" h="29">
+			<img src="az-bg.png" w="100%" />
+			<div x="14" y="3" h="22" w="616">
+				<button target="gotoCurr" x="0" src="az.png" srcindex="27" />
+				<button target="gotoA" x="next" src="az.png" srcindex="0" />
+				<button target="gotoB" x="next" src="az.png" srcindex="1" />
+				<button target="gotoC" x="next" src="az.png" srcindex="2" />
+				<button target="gotoD" x="next" src="az.png" srcindex="3" />
+				<button target="gotoE" x="next" src="az.png" srcindex="4" />
+				<button target="gotoF" x="next" src="az.png" srcindex="5" />
+				<button target="gotoG" x="next" src="az.png" srcindex="6" />
+				<button target="gotoH" x="next" src="az.png" srcindex="7" />
+				<button target="gotoI" x="next" src="az.png" srcindex="8" />
+				<button target="gotoJ" x="next" src="az.png" srcindex="9" />
+				<button target="gotoK" x="next" src="az.png" srcindex="10" />
+				<button target="gotoL" x="next" src="az.png" srcindex="11" />
+				<button target="gotoM" x="next" src="az.png" srcindex="12" />
+				<button target="gotoN" x="next" src="az.png" srcindex="13" />
+				<button target="gotoO" x="next" src="az.png" srcindex="14" />
+				<button target="gotoP" x="next" src="az.png" srcindex="15" />
+				<button target="gotoQ" x="next" src="az.png" srcindex="16" />
+				<button target="gotoR" x="next" src="az.png" srcindex="17" />
+				<button target="gotoS" x="next" src="az.png" srcindex="18" />
+				<button target="gotoT" x="next" src="az.png" srcindex="19" />
+				<button target="gotoU" x="next" src="az.png" srcindex="20" />
+				<button target="gotoV" x="next" src="az.png" srcindex="21" />
+				<button target="gotoW" x="next" src="az.png" srcindex="22" />
+				<button target="gotoX" x="next" src="az.png" srcindex="23" />
+				<button target="gotoY" x="next" src="az.png" srcindex="24" />
+				<button target="gotoZ" x="next" src="az.png" srcindex="25" />
+				<button target="goto0" x="next" src="az.png" srcindex="26" />
+			</div>
+			<if cond="search">
+				<div x="79%+2" y="4" w="19%" h="20">
+					<img src="search-bg.png" x="0" w="100%-40" />
+					<input x="1" y="1" w="100%-42" h="18" fgcolor="#000000" bgcolor="#FFFFFF" />
+					<button x="next" src="search-buttons.png" srcindex="0" target="searchbutton" />
+					<button x="next" src="search-buttons.png" srcindex="1" target="searchbutton" cmw="19" />
+					<img src="search-line-left.png" y="-13" />
+					<img src="search-line-right.png" x="100%-42" y="-13" />
+					<box x="5" y="-19" w="100%-10" h="14" target="searchinfo" inactive="1" fgcolor="#7F8CA5" />
+				</div>
+			</if>
+		</div>			

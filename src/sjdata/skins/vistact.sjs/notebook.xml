@@ -1,0 +1,17 @@
+		<div y="next" w="100%" h="38">
+			<img src="notebook-bg.png" w="100%" />
+			
+			<box x="24" y="5" w="1" h="1" bgcolor="#606A85" /> <!-- init position -->
+			<if cond="albumView">
+				<button x="next" y="same" src="notebook-left.png" srcindex="0" target="albumView" />
+			</if>
+			<if cond="coverView">
+				<button x="next" y="same" src="notebook-left.png" srcindex="1" target="coverView" />
+			</if>
+			<if cond="listView">
+				<button x="next" y="same" src="notebook-left.png" srcindex="2" target="listView" />
+			</if>
+			<if cond="startVis">
+				<button x="next" y="same" src="notebook-left.png" srcindex="3" target="startVis" />
+			</if>
+		</div>

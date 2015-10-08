@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+
+<skin debugoutline="0" name="Golden Goal" about="Skin created by Bjoern Petersen.">
+
+	<tooltips bgcolor="#90C060" fgcolor="#FFFFFF" bordercolor="#E0E0E0" />
+
+	<!-- default layout -->
+	<layout name="default" usew="default" useh="default" usepos="default" minw="800" minh="500">
+
+		<div x="0" y="20" w="100%" h="100%-20">
+			<include file="rasen.xml" />
+		</div>
+		<div x="0" y="0" w="100%" h="20" doubleclicktarget="maximize">
+			<include file="titlebar.xml" />
+		</div>
+		
+	</layout>
+
+</skin>
+
+<!--
+
+settings for PSP5:
+
+- "chalk" lines: asphalt, 12px width x 2
+
+- colorize scrollbar: 15, 255
+
+- titlebar: gaussian blur 0,5
+
+- rasen: scaled to 71%, sharpened
+
+-->

@@ -1,0 +1,27 @@
+			<img x="-8" y="0" h="100%" src="outer-bg.png" />
+			<img x="100%" y="0" h="100%" src="outer-bg.png" />
+			<box x="0" y="0" w="100%" h="100%" bgcolor="#EEF3FA" />
+			<workspace x="0" y="0" w="100%-25" h="100%-25">
+				<color fgcolor="#000000" bgcolor="#EEF3FA" target="normal" /> 
+				<color fgcolor="#000000" bgcolor="#D7DBE1" target="normalodd" /> 
+				<color fgcolor="#FFFFFF" bgcolor="#88B3FA" target="selection" /> 
+				<color fgcolor="#FFFFFF" bgcolor="#88B3FA" target="selectionodd" /> 
+				<color fgcolor="#444444" target="vertText" /> 
+				<color fgcolor="#444444" target="title1" /> 
+				<color fgcolor="#444444" target="title2" />
+				<color fgcolor="#444444" target="title3" />
+				<color fgcolor="#77797D" target="stubtext" /> 
+			</workspace>
+			<div x="0" y="100%-25" w="100%-25">
+				<button target="workspaceLeft" src="scroll-buttons.png" srcindex="0" x="0" />
+				<scrollbar target="workspaceHScroll" src="scroll-h.png" x="next" w="100%-50" />
+				<button target="workspaceRight" src="scroll-buttons.png" srcindex="1" x="next" />
+			</div>
+			<div x="100%-25" h="100%">
+				<button target="workspaceUp" src="scroll-buttons.png" srcindex="2" y="0" />
+				<scrollbar target="workspaceVScroll" src="scroll-v.png" y="next" h="100%-125" />
+				<button target="workspaceDown" src="scroll-buttons.png" srcindex="3" y="next" />
+				<button target="zoomIn" src="scroll-buttons.png" srcindex="4" y="next" />
+				<button target="zoomOut" src="scroll-buttons.png" srcindex="5" y="next" />
+				<box bgcolor="#F1EFE9" y="next" w="25" h="25" />
+			</div>

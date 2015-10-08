@@ -1,0 +1,40 @@
+
+
+<img x="0" y="0" w="100%" src="display_bg.png" />
+
+<scrollbar x="77" y="-1" w="300" src="seek_slider.png" target="seek" hideifunused="1" />
+
+
+<box x="26" y="6" w="43" h="41" target="displaycover" />
+
+
+<if cond="kiosk">
+	<if cond="startvis">
+		<button x="5" y="10" src="display_shuffleetc.png" srcindex="4" target="startvis" />
+	</if>
+</if>
+<if cond="!kiosk">
+	<button x="5" y="10" src="display_shuffleetc.png" srcindex="0" target="shuffle" />
+	<button x="same" y="next+3" src="display_shuffleetc.png" srcindex="1" target="repeat" />
+	<button x="same" y="next+4" src="display_shuffleetc.png" srcindex="4" target="startvis" />
+</if>
+
+
+
+<button x="100%-20" y="3" src="display_shuffleetc.png" srcindex="2" target="displayup" />
+<scrollbar x="same" y="next+2" h="100%-29" src="display_scroll.png" target="displayVScroll" />
+<button x="same" y="100%-12" src="display_shuffleetc.png" srcindex="3" target="displaydown" />
+
+
+
+<box x="80" y="5" w="300" h="14" fgcolor="#E7AD10" target="line00">
+  <color target="selection" fgcolor="#F3C341" hicolor="#9C750C" offsetx="1" offsety="0" />
+</box>
+<box x="same" y="next" w="300" h="14" fgcolor="#E7AD10" target="line01">
+  <color target="selection" fgcolor="#F3C341" hicolor="#9C750C" offsetx="1" offsety="0" />
+</box>
+<box x="same" y="next" w="300" h="14" fgcolor="#E7AD10" target="line02">
+  <color target="selection" fgcolor="#F3C341" hicolor="#9C750C" offsetx="1" offsety="0" />
+</box>
+
+

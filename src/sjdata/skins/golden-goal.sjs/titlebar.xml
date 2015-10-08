@@ -1,0 +1,61 @@
+<box x="0" y="0" w="100%" h="20" bgcolor="#404040">
+	
+	<div x="1" y="0" w="100%-2" h="20" >
+		<if cond="shaped">
+			<if cond="!kiosk">
+				<button x="next" y="0"  src="titlebar.png" srcindex="0" target="mainmenu" cmw="30" />
+			</if>
+		</if>
+		<if cond="editqueue">
+			<button x="next" y="0"  src="titlebar.png" srcindex="1" target="prev" />
+		</if>
+		<if cond="playpause">
+			<button x="next" y="0"  src="titlebar.png" srcindex="2" target="play" />
+		</if>
+		<if cond="editqueue">
+			<button x="next" y="0"  src="titlebar.png" srcindex="3" target="next" />
+		</if>
+		<if cond="editqueue">
+			<button x="next" y="0"  src="titlebar.png" srcindex="4" target="shuffle" />
+			<button x="next" y="0"  src="titlebar.png" srcindex="5" target="repeat" />
+		</if>
+		<if cond="startvis">
+			<button x="next" y="0"  src="titlebar.png" srcindex="6" target="startvis" />
+		</if>
+		<if cond="volume">
+			<scrollbar x="next" y="0" w="70" src="vol_slider.png" target="volSlider" />
+			<box x="next" y="0" w="1" h="20" bgcolor="#000000" />
+		</if>
+	</div>
+	
+	<if cond="shaped,kiosk">
+		<img x="50%-36" src="logo.png" />
+	</if>
+	
+	<if cond="shaped">
+		<if cond="!kiosk">
+			<button x="100%-90" y="0" src="titlebar.png" srcindex="7" target="minimize" />
+			<button x="100%-60" y="0" src="titlebar.png" srcindex="8" target="maximize" />
+			<button x="100%-30" y="0" src="titlebar.png" srcindex="9" target="quit" />
+	
+			<box w="100%-1" h="1" bgcolor="#D0D0D0" />
+			<box w="1" h="100%-1" bgcolor="#D0D0D0" />
+			<box x="100%-1" y="0" w="1" h="100%" bgcolor="#000000" />
+		</if>
+	</if>
+	
+	<box x="0" y="100%-1" w="100%" h="1" bgcolor="#000000" />
+
+	<if cond="search">
+		<div x="100%-189" y="0" w="99" h="20">
+			<box x="0" y="1" w="1" h="19" bgcolor="#000000" />
+			<input x="2" y="2" w="63" h="16">
+				<color fgcolor="#DCDCDC" bgcolor="#404040" target="normal" />
+			</input>
+			<box x="2" y="18" h="1" w="63" bgcolor="#C8C8C8" />
+			<button x="next" y="0" src="titlebar.png" srcindex="10" cmw="21" target="searchbutton" />
+			
+			<box x="-30" y="18" w="100%+60" h="16" fgcolor="#FFFFFF" hicolor="#CCCCCC" target="searchinfo" inactive="1" />
+		</div>
+	</if>	
+</box>

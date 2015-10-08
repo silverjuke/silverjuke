@@ -1,0 +1,38 @@
+			<img x="0" y="0" w="100%" src="control-bg.png" />
+			
+			<!-- seek -->
+			<if cond="editQueue">
+				<scrollbar target="seek" x="16" y="2" w="100%-32" src="control-seek.png" hideifunused="1" />
+			</if>
+			<else>
+				<scrollbar target="seek" x="16" y="2" w="100%-32" src="control-seek-disabled.png" hideifunused="1" />
+			</else>
+			
+			<!-- shuffle, repleat, volume -->
+			<if cond="editQueue">
+				<button target="shuffle" x="28" y="23" src="control-shuffle.png" srcindex="0" />
+			</if>
+			<if cond="!kiosk">
+				<button target="repeat" x="53" y="23" src="control-shuffle.png" srcindex="1" />
+			</if>
+			<if cond="volume">
+				<button target="voldown" x="226" y="23" src="control-shuffle.png" srcindex="2" />
+				<button target="volup" x="343" y="23" src="control-shuffle.png" srcindex="3" />
+				<scrollbar target="volslider" x="251" y="28" w="92" src="control-vol.png" />
+			</if>
+			
+			<!-- play, prev, next -->
+			<if cond="editqueue">
+				<button target="prev" x="85" y="23" src="control-prevnext.png" srcindex="0" />
+				<button target="next" x="172" y="23" src="control-prevnext.png" srcindex="1" />
+			</if>
+			<if cond="playpause">
+				<button target="play" x="129" y="11" src="control-play.png" />
+			</if>
+			<else>
+				<button target="enqueueLast" x="129" y="11" src="control-play.png" />
+			</else>
+
+			<!-- display cover -->
+			<box x="30%+194" y="20" w="39" h="39" target="displaycover" />
+			

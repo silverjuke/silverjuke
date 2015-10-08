@@ -65,11 +65,17 @@ EXTRA_DIST = \
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/keyboards
+	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/golden-goal.sjs
 	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/old-style-jukebox.sjs
+	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/racky.sjs
 	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/silveriness-touched.sjs
+	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/vistact.sjs
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/keyboards/* $(DESTDIR)$(datadir)/silverjuke/keyboards
+	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/golden-goal.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/golden-goal.sjs
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/old-style-jukebox.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/old-style-jukebox.sjs
+	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/racky.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/racky.sjs
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/silveriness-touched.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/silveriness-touched.sjs
+	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/vistact.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/vistact.sjs
 
 # Uninstall keyboard files and skin directories
 uninstall-local:

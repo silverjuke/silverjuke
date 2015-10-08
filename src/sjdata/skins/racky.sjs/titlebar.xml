@@ -1,0 +1,17 @@
+<titlebar x="0" y="0" w="100%" h="21">
+	
+	<img x="0" y="0" w="100%" src="titlebar_bg.png" />
+	
+	<if cond="kiosk" >
+		<img x="7" y="3" src="titlebar_logo.png" />
+	</if>
+	
+	<if cond="!kiosk" >
+		<button x="5" y="3" src="titlebar_buttons.png" srcindex="0" target="mainmenu" cmw="22" />
+		<img x="next+4" y="same" src="titlebar_logo.png" />
+		<button x="100%-67" y="same" src="titlebar_buttons.png" srcindex="1" target="minimize" />
+		<button x="next" y="same" src="titlebar_buttons.png" srcindex="2" target="maximize" />
+		<button x="next+2" y="same" src="titlebar_buttons.png" srcindex="3" target="quit" />
+	</if>
+	
+</titlebar>	

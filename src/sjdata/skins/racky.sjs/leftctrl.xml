@@ -1,0 +1,11 @@
+
+<if cond="volume">
+	<scrollbar w="100%" y="0" src="vol_slider.png" target="volSlider" />
+</if>
+
+
+<if cond="playpause,editqueue">
+	<button x="0" y="27" src="ctrl_buttons.png" srcindex="0" target="play" />	
+	<button x="50%-15" y="same" src="ctrl_buttons.png" srcindex="2" target="prev" />
+	<button x="100%-30" y="same" src="ctrl_buttons.png" srcindex="3" target="next" />
+</if>

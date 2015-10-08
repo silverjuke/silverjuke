@@ -1,0 +1,17 @@
+
+<if cond="search">	
+	
+	<div x="79%+1" y="32" w="12%" h="50">
+		<img src="search_bg.png" w="100%" />
+		<input x="4" y="3" w="100%-21" h="16">
+			<color fgcolor="#696969" bgcolor="#E4E4E4" target="normal" /> 
+		</input>
+		<button src="search_button.png" x="100%-16" target="searchButton" />
+		<button src="search_button.png" srcindex="1" x="next+1" target="searchButton" cmw="7" />
+		
+		<box x="0" y="21" w="100%" h="13" target="searchinfo" inactive="1">
+			<color target="normal" fgcolor="#696969" hicolor="#E8E8E8" offsetx="0" offsety="1" />
+		</box>
+	</div>
+	
+</if>
