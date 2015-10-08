@@ -575,27 +575,6 @@ private:
 };
 
 
-class SjSkinResizerItem : public SjSkinItem
-{
-public:
-	bool            Create              (const wxHtmlTag&, wxString& error);
-	void            OnMouseLeftDown     (long x, long y, bool doubleClick, long accelFlags);
-	SjMouseUsed     OnMouseLeftUp       (long x, long y, long accelFlags, bool captureLost);
-	void            OnMouseMotion       (long x, long y, bool leftDown);
-	void            OnMouseLeave        ();
-
-private:
-	long            m_onDownMouseX,
-	                m_onDownMouseY,
-	                m_onDownWindowWidth,
-	                m_onDownWindowHeight;
-
-	bool            m_inHover,
-	                m_inResize,
-	                m_inMotion;
-};
-
-
 class SjSkinDivItem : public SjSkinItem
 {
 public:
@@ -962,7 +941,6 @@ private:
 	friend class    SjSkinItem;
 	friend class    SjSkinWorkspaceItem;
 	friend class    SjSkinInputItem;
-	friend class    SjSkinResizerItem;
 	friend class    SjSkinDivItem;
 	friend class    SjSkinBoxItem;
 	friend class    SjSkinButtonItem;

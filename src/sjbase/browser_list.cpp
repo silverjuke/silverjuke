@@ -439,6 +439,11 @@ void SjListBrowser::CalculatePositions(bool calculateFontHeight)
 	m_headerRect.width = m_window->m_clientW - m_headerRect.x;
 	m_headerRect.height = m_fontHeight;
 
+	if( m_headerRect.width < 0 )
+	{
+		m_headerRect.width = 0; // may get negative on window sizes close to zero; as the horizontal thumb rely on this value, we correct it here
+	}
+
 	// calculate the tracks rect
 	m_tracksRect.x = m_headerRect.x;
 	m_tracksRect.y = m_headerRect.y + m_headerRect.height;
