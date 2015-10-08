@@ -2511,29 +2511,36 @@ bool SjLibraryModule::HiliteSearchWords(wxString& in)
 		if( m_hiliteRegExFor != m_search.m_simple.GetHiliteWords() )
 		{
 			wxString cond = m_search.m_simple.GetHiliteWords();
+			cond.Trim(true).Trim(false);
+			if( cond.IsEmpty() )
+			{
+				m_hiliteRegExOk = false;
+			}
+			else
+			{
+				cond.Replace(wxT("\\"), wxT("\\\\"));   // do not for get to escape all special characters in the words ...
+				cond.Replace(wxT("$"), wxT("\\$"));     // see http://www.silverjuke.net/forum/post.php?p=14723
+				cond.Replace(wxT("+"), wxT("\\+"));
+				cond.Replace(wxT("-"), wxT("\\-"));
+				cond.Replace(wxT("*"), wxT("\\*"));
+				cond.Replace(wxT("^"), wxT("\\^"));
+				cond.Replace(wxT("."), wxT("\\."));
+				cond.Replace(wxT(","), wxT("\\,"));
+				cond.Replace(wxT("?"), wxT("\\?"));
+				cond.Replace(wxT("|"), wxT("\\|"));
+				cond.Replace(wxT("["), wxT("\\["));
+				cond.Replace(wxT("]"), wxT("\\]"));
+				cond.Replace(wxT("("), wxT("\\("));
+				cond.Replace(wxT(")"), wxT("\\)"));
+				cond.Replace(wxT("{"), wxT("\\{"));
+				cond.Replace(wxT("}"), wxT("\\}"));
 
+				cond.Replace(wxT(" "), wxT("|"));
+				cond = wxT("(") + cond + wxT(")");
 
-			cond.Replace(wxT("\\"), wxT("\\\\"));   // do not for get to escape all special characters in the words ...
-			cond.Replace(wxT("$"), wxT("\\$"));     // see http://www.silverjuke.net/forum/post.php?p=14723
-			cond.Replace(wxT("+"), wxT("\\+"));
-			cond.Replace(wxT("-"), wxT("\\-"));
-			cond.Replace(wxT("*"), wxT("\\*"));
-			cond.Replace(wxT("^"), wxT("\\^"));
-			cond.Replace(wxT("."), wxT("\\."));
-			cond.Replace(wxT(","), wxT("\\,"));
-			cond.Replace(wxT("?"), wxT("\\?"));
-			cond.Replace(wxT("|"), wxT("\\|"));
-			cond.Replace(wxT("["), wxT("\\["));
-			cond.Replace(wxT("]"), wxT("\\]"));
-			cond.Replace(wxT("("), wxT("\\("));
-			cond.Replace(wxT(")"), wxT("\\)"));
-			cond.Replace(wxT("{"), wxT("\\{"));
-			cond.Replace(wxT("}"), wxT("\\}"));
+				m_hiliteRegExOk  = m_hiliteRegEx.Compile(cond, wxRE_ICASE);
+			}
 
-			cond.Replace(wxT(" "), wxT("|"));
-			cond = wxT("(") + cond + wxT(")");
-
-			m_hiliteRegExOk  = m_hiliteRegEx.Compile(cond, wxRE_ICASE);
 			m_hiliteRegExFor = m_search.m_simple.GetHiliteWords();
 		}
 
