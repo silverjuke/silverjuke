@@ -45,9 +45,7 @@
 <box x="same" y="next" w="300" h="14" fgcolor="#E7AD10" target="line05">
   <color target="selection" fgcolor="#F3C341" hicolor="#9C750C" offsetx="1" offsety="0" />
 </box>
-<box x="same" y="next" w="300" h="14" fgcolor="#E7AD10" target="line06">
-  <color target="selection" fgcolor="#F3C341" hicolor="#9C750C" offsetx="1" offsety="0" />
-</box>
+
 
 
 

@@ -34,7 +34,7 @@
 <button x="next" y="same" src="z_az.png" srcindex="26" target="goto0" />
 <button x="next" y="same" src="z_az.png" srcindex="27" target="gotocurr" />
 
-<if cond="shaped,kiosk">
+<if cond="kiosk">
 <img    x="next" y="same" src="z_az_corner.png" />
 </if>
 <else>
@@ -60,11 +60,11 @@
 	<button src="z_scroll_h_buttons.png" target="workspaceLeft"/>
 	<scrollbar x="next" w="100%-48" src="z_scroll_h.png" target="workspaceHScroll" />
 	<button x="next" src="z_scroll_h_buttons.png" srcindex="1" target="workspaceRight"/>
-	<if cond="shaped,kiosk">
-		<img src="z_scroll_h_corner.png" x="next" y="same+1" />
+	<if cond="kiosk">
+		<img src="z_scroll_h_corner_round.png" x="next" y="same+1" />
 	</if>
 	<else>
-		<img src="z_scroll_h_corner_unshaped.png" x="next" y="same+1" />
+		<img src="z_scroll_h_corner_angular.png" x="next" y="same+1" />
 	</else>
 </div>
 

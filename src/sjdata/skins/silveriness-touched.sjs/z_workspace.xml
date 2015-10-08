@@ -83,7 +83,7 @@
 	<button src="z_scroll_h_buttons.png" target="workspaceLeft"/>
 	<button x="next" src="z_scroll_h_buttons.png" srcindex="1" target="workspaceRight"/>
 	<scrollbar x="next" w="100%-165" src="z_scroll_h.png" target="workspaceHScroll" />
-	<button x="next" src="z_scroll_h_buttons.png" srcindex="2" target="enqueueLast"/>
+	<button x="next" y="same+1" src="z_scroll_h_buttons.png" srcindex="2" target="enqueueLast"/>
 </div>
 
 <!-- vertical scrollbar -->

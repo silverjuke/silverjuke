@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
-<!-- 
-
-version history:
-1.00: created in this form
-1.50: toggle view functions added
-1.52: made ready for mac (unshaped support)
-
--->
-
-<skin debugoutline="0" name="Old-style Jukebox" about="&quot;Old-style Jukebox&quot; 1.52 brings the look'n'feel of a classic music-box to your computer - especially when using the kiosk-mode of Silverjuke on your next party. Skin created by Bjoern Petersen. Some graphics contributed by Chris La Mantia.">
+<skin debugoutline="0" name="Old-style Jukebox" about="Version 15.10, skin created by Björn Petersen, some graphics contributed by Chris La Mantia">
 
 	<tooltips bgcolor="#EEEADE" fgcolor="#232323" bordercolor="#917E4B" />
 
@@ -20,26 +11,6 @@ version history:
 			<include file="all.xml" />
 		</div>
 		
-		<resizer x="100%-40" y="100%-40" w="40" h="40" />
-		
-		<!-- border and shape (not in kiosk mode, not for shaped windows) -->
-		<if cond="shaped">
-			<box x="0" y="209" w="2" h="100%-209" bgcolor="#74142F" />
-			<box x="100%-2" y="206" w="2" h="100%-206" bgcolor="#74142F" />
-			<box x="0" y="100%-2" w="100%" h="2" bgcolor="#300813" />
-			<img src="left3_border.png" x="0" y="100%-43" />
-			<img src="right3_border.png" x="100%-54" y="100%-54" />
-			<img src="top_border.png" x="147" w="100%-294" />
-			
-			<shape x="0" y="0" src="left1_shape.png" />
-			<shape x="0" y="100%-43" src="left3_shape.png" />
-			<shape x="100%-160" y="0" src="right1_shape.png" />
-			<shape x="100%-43" y="100%-43" src="right3_shape.png" />
-		</if>
-		<else>
-			<img src="resizer.png" x="100%-14" y="100%-14" w="14" h="14" />
-		</else>
-
 	</layout>
 
 	<!-- kiosk layout -->

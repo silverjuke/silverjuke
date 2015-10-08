@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
-<!-- 
-
-version history:
-1.00: created in this form
-1.50: toggle view functions added
-1.52: made ready for mac (unshaped support)
-
--->
-
-<skin debugoutline="0" name="Silveriness Touched" about="Silveriness Touched 1.52 - This skin requires at least Silverjuke 1.20 - Skin created by Bjoern Petersen.">
+<skin debugoutline="0" name="Silveriness Touched" about="Version 15.10, skin created by Björn Petersen.">
 
 	<tooltips bgcolor="#E6E6E6" fgcolor="#232323" bordercolor="#000000" />
 
 	<!-- default layout -->
-	<layout name="default" usew="default" useh="default" usepos="default" minw="640" minh="384" doubleclicktarget="layout:Small">
+	<layout name="default" usew="default" useh="default" usepos="default" minw="640" minh="384">
 
-		<include file="z_bg.xml" />
-		<if cond="shaped">
-			<button x="60%" y="100%-16" src="z_bg_sizer.png" srcindex="1" target="layout:Small" tooltip="Shrink window" />
-		</if>
+		<img x="0" y="0" w="100%" h="100%" src="z_bg.png" />
 	
-		<include file="z_titlebar.xml" />
 		<div x="22" y="27" w="125" h="53" >
 			<include file="z_ctrl.xml" />
 		</div>
@@ -31,33 +18,20 @@ version history:
 		</div>
 		<button x="60%-2" y="78" src="z_disp_size.png" target="layout:Large" tooltip="Enlarge display" />
 
-		<if cond="shaped">
-			<div x="13" y="95" w="100%-26" h="100%-112" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</if>
-		<else>
-			<div x="-1" y="95" w="100%+2" h="100%-94" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</else>
+		<div x="-1" y="95" w="100%+2" h="100%-94" target="visrect" indent="1,0,0,0">
+			<include file="z_workspace.xml" />
+		</div>
 		
 		<div x="86%-32" y="36" w="14%+10" h="36">
 			<include file="z_search.xml" />
 		</div>
 		
-		<include file="z_bg_resizer.xml" />
-		
 	</layout>
 	
 	<!-- large display layout -->
-	<layout name="Large" minw="640" minh="520" usew="default" useh="default" usepos="default" doubleclicktarget="layout:Small">
-		<include file="z_bg.xml" />
-		<if cond="shaped">
-			<button x="60%" y="100%-16" src="z_bg_sizer.png" srcindex="1" target="layout:Small" tooltip="Shrink window" />
-		</if>
+	<layout name="Large" minw="640" minh="520" usew="default" useh="default" usepos="default">
+		<img x="0" y="0" w="100%" h="100%" src="z_bg.png" />
 		
-		<include file="z_titlebar.xml" />
 		<div x="22" y="27" w="125" h="53" >
 			<include file="z_ctrl.xml" />
 		</div>
@@ -67,48 +41,16 @@ version history:
 		</div>
 		<button x="60%-2" y="221" src="z_disp_size.png" srcindex="1" target="layout:Default" tooltip="Shrink display" />
 		
-		<if cond="shaped">
-			<div x="13" y="238" w="100%-26" h="100%-255" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</if>
-		<else>
-			<div x="-1" y="238" w="100%+2" h="100%-237" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</else>
+		<div x="-1" y="238" w="100%+2" h="100%-237" target="visrect" indent="1,0,0,0">
+			<include file="z_workspace.xml" />
+		</div>
 
 		<div x="86%-32" y="36" w="14%+10" h="36">
 			<include file="z_search.xml" />
 		</div>
 		
-		<include file="z_bg_resizer.xml" />
-		
 	</layout>
 	
-	<!-- small player layout -->
-	<if cond="shaped">
-		<layout name="Small" minw="380" defw="500" minh="100" maxh="100" doubleclicktarget="layout:Default">
-			<include file="z_bg.xml" />
-			<button x="60%" y="100%-16" src="z_bg_sizer.png" srcindex="0" target="layout:Default" tooltip="Enlarge window" />
-	
-			<button x="5" y="3" src="z_titlebar.png" srcindex="4" target="mainmenu" cmw="13" />
-			<button x="next+2" y="3" src="z_titlebar.png" srcindex="5" target="alwaysontop" />
-			<button x="100%-30" y="0" src="z_titlebar.png" srcindex="6" target="minimize" />
-			<button x="100%-17" y="0" src="z_titlebar.png" srcindex="7" target="quit" />
-	
-			<div x="16" y="16" w="100%-32" h="52">
-				<include file="z_disp.xml" />
-			</div>
-			<button x="60%-2" y="78" src="z_disp_size.png" target="layout:Large" tooltip="Enlarge display" />
-	
-			<scrollbar x="48" y="80" w="60" src="z_vol_slider_small.png" target="volSlider" />
-			
-			<include file="z_bg_resizer.xml" />
-			
-		</layout>
-	</if>
-
 	<!-- kiosk layout -->
 	<layout name="kiosk" minw="640" minh="300">
 

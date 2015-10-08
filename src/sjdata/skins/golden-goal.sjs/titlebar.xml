@@ -1,11 +1,6 @@
 <box x="0" y="0" w="100%" h="20" bgcolor="#404040">
 	
 	<div x="1" y="0" w="100%-2" h="20" >
-		<if cond="shaped">
-			<if cond="!kiosk">
-				<button x="next" y="0"  src="titlebar.png" srcindex="0" target="mainmenu" cmw="30" />
-			</if>
-		</if>
 		<if cond="editqueue">
 			<button x="next" y="0"  src="titlebar.png" srcindex="1" target="prev" />
 		</if>
@@ -28,20 +23,8 @@
 		</if>
 	</div>
 	
-	<if cond="shaped,kiosk">
+	<if cond="kiosk">
 		<img x="50%-36" src="logo.png" />
-	</if>
-	
-	<if cond="shaped">
-		<if cond="!kiosk">
-			<button x="100%-90" y="0" src="titlebar.png" srcindex="7" target="minimize" />
-			<button x="100%-60" y="0" src="titlebar.png" srcindex="8" target="maximize" />
-			<button x="100%-30" y="0" src="titlebar.png" srcindex="9" target="quit" />
-	
-			<box w="100%-1" h="1" bgcolor="#D0D0D0" />
-			<box w="1" h="100%-1" bgcolor="#D0D0D0" />
-			<box x="100%-1" y="0" w="1" h="100%" bgcolor="#000000" />
-		</if>
 	</if>
 	
 	<box x="0" y="100%-1" w="100%" h="1" bgcolor="#000000" />

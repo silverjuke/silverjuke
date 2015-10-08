@@ -1,115 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
-<!-- 
-
-version history:
-1.00: created in this form
-1.50: toggle view functions added
-1.52: made ready for mac (unshaped support)
-
--->
-
-<skin name="Racky" about="Racky 1.52 - created 2005 by skinner" debugoutline="0">
+<skin name="Racky" about="Version 15.10, skin created by Skinner" debugoutline="0">
 
 	<tooltips bgcolor="#D6DACC" fgcolor="#000000" bordercolor="#000000" />
 
 	<!-- default layout -->
-	<layout name="Default" usew="default" useh="default" usepos="default" minw="800" minh="400" doubleclicktarget="layout:small">
+	<layout name="Default" usew="default" useh="default" usepos="default" minw="800" minh="400">
 		
-		<if cond="shaped">
-			<include file="titlebar.xml" />
-			
-			<div x="0" y="21">
-				<img x="0" y="0" w="100%" src="ctrl_bg.png" />
-				<div x="9%-2" y="18" w="110">
-					<include file="leftctrl.xml" />
-				</div>
-				<include file="search.xml" />
-			</div>
-	
-			<div x="50%-204" y="same+16" w="408" h="53">
-				<include file="display.xml" />
-			</div>
-			<button src="layout_switch2.png" srcindex="1" x="4" y="57" target="layout:small" tooltip="Shrink window" />
-			<button src="layout_switch.png" srcindex="0" x="50%+204" y="57" target="layout:large" tooltip="Enlarge display" />
-			
-			<div x="0" y="112" h="100%-112" target="visrect" indent="2,2,4,4">
-				<include file="workspace.xml" />
-			</div>
-		</if>
-		<else>
-			<div x="0" y="0">
-				<img x="0" y="0" w="100%" src="ctrl_bg.png" />
-				<div x="9%-2" y="18" w="110">
-					<include file="leftctrl.xml" />
-				</div>
-				<include file="search.xml" />
-			</div>
-	
-			<div x="50%-204" y="same+16" w="408" h="53">
-				<include file="display.xml" />
-			</div>
-			<button src="layout_switch2.png" srcindex="1" x="4" y="36" target="layout:small" tooltip="Shrink window" />
-			
-			<div x="0" y="91" h="100%-91" target="visrect" indent="2,2,4,4">
-				<include file="workspace.xml" />
-			</div>
-		</else>
-		
-		<resizer x="100%-28" y="100%-21" w="28" h="21" />
-		
-	</layout>
-
-	<!-- large layout -->
-	<if cond="shaped">
-		<layout name="large" usew="default" useh="default" usepos="default" minw="800" minh="400" doubleclicktarget="layout:small">
-			
-			<include file="titlebar.xml" />
-			
-			<div x="0" y="21">
-				<img x="0" y="0" w="100%" src="ctrl_bg.png" />
-				<div x="9%-2" y="18" w="110">
-					<include file="leftctrl.xml" />
-				</div>
-				<include file="search.xml" />
-			</div>
-	
-			<div x="50%-204" y="1" w="408" h="109">
-				<include file="display_large.xml" />
-			</div>
-			<button src="layout_switch2.png" srcindex="1" x="4" y="57" target="layout:small" tooltip="Shrink window" />
-			<button src="layout_switch.png" srcindex="1" x="50%+204" y="57" target="layout:Default" tooltip="Shrink display" />
-			
-			<div x="0" y="112" h="100%-112" target="visrect" indent="2,2,4,4">
-				<include file="workspace.xml" />
-			</div>
-			
-			<resizer   x="100%-28" y="100%-21" w="28" h="21" />
-			
-		</layout>
-	</if>
-
-	<!-- small layout -->
-	<layout name="small" minw="622" maxw="622" defw="622" minh="91" maxh="91" defh="91" doubleclicktarget="layout:Default">
-		
-		<img x="0" y="0" w="100%" src="ctrl_bg.png" />
-		<div x="56" y="19" w="94">
-			<include file="leftctrl.xml" />
-		</div>
-
-		<div x="100%-464" y="18" w="408" h="53">
-			<include file="display.xml" />
-		</div>
-		<button src="layout_switch2.png" srcindex="0" x="4" y="36" target="layout:Default" tooltip="Enlarge window" />
-		
-	</layout>
-	
-	<!-- kiosk layout -->
-	<layout name="kiosk" minw="800" minh="400">
-		
-		<include file="titlebar.xml" />
-		
-		<div x="0" y="21">
+		<div x="0" y="0">
 			<img x="0" y="0" w="100%" src="ctrl_bg.png" />
 			<div x="9%-2" y="18" w="110">
 				<include file="leftctrl.xml" />
@@ -120,11 +18,38 @@ version history:
 		<div x="50%-204" y="same+16" w="408" h="53">
 			<include file="display.xml" />
 		</div>
+		<if cond="toggleelements">
+			<button src="layout_switch.png" srcindex="0" x="50%+204" y="57" target="layout:large" tooltip="Enlarge display" />
+		</if>
 		
-		<div x="0" y="112" h="100%-112" target="visrect" indent="2,2,4,4">
+		<div x="0" y="91" h="100%-91" target="visrect" indent="2,2,4,4">
 			<include file="workspace.xml" />
 		</div>
 		
 	</layout>
+
+	<!-- large layout -->
+	<layout name="large" usew="default" useh="default" usepos="default" minw="800" minh="400">
+		
+		<div x="0" y="0">
+			<img x="0" y="0" w="100%" src="ctrl_bg.png" />
+			<div x="9%-2" y="18" w="110">
+				<include file="leftctrl.xml" />
+			</div>
+			<include file="search.xml" />
+		</div>
+
+		<div x="0" y="91" h="100%-91" target="visrect" indent="2,2,4,4">
+			<include file="workspace.xml" />
+		</div>
+
+		<div x="50%-204" y="-1" w="408" h="93">
+			<include file="display_large.xml" />
+		</div>
+		<button src="layout_switch.png" srcindex="1" x="50%+204" y="57" target="layout:Default" tooltip="Shrink display" />
+				
+	</layout>
+
+
 	
 </skin>

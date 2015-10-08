@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
-<skin debugoutline="0" name="Golden Goal" about="Skin created by Bjoern Petersen.">
+<skin debugoutline="0" name="Golden Goal" about="Version 15.10, skin created by Björn Petersen.">
 
 	<tooltips bgcolor="#90C060" fgcolor="#FFFFFF" bordercolor="#E0E0E0" />
 
@@ -10,7 +10,7 @@
 		<div x="0" y="20" w="100%" h="100%-20">
 			<include file="rasen.xml" />
 		</div>
-		<div x="0" y="0" w="100%" h="20" doubleclicktarget="maximize">
+		<div x="0" y="0" w="100%" h="20">
 			<include file="titlebar.xml" />
 		</div>
 		

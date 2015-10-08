@@ -49,13 +49,3 @@
 </div>
 
 
-<!-- titlebar, resizer, background border top/left (lite) and bottom/right (dark) -->
-<if cond="!kiosk">
-	<resizer x="100%-32" y="100%-32" w="32" h="32" />
-	<img src="resizer.png" x="100%-33" y="100%-33" />
-	<if cond="shaped">
-		<box w="1" h="100%-1" bgcolor="#F0F0F0" />
-		<box y="100%-1" w="100%" h="1" bgcolor="#101010" />
-		<box x="100%-1" w="1" h="100%" bgcolor="#101010" />
-	</if>
-</if>

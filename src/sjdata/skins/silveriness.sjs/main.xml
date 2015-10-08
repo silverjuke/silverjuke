@@ -1,59 +1,36 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 
-<skin debugoutline="0" name="Silveriness" about="Skin created by Bjoern Petersen.">
+<skin debugoutline="0" name="Silveriness" about="Version 15.10, skin created by Björn Petersen.">
 
 	<tooltips bgcolor="#E6E6E6" fgcolor="#232323" bordercolor="#000000" />
 
 	<!-- default layout -->
-	<layout name="default" usew="default" useh="default" usepos="default" minw="640" minh="278" doubleclicktarget="layout:Small">
-
-		<include file="z_bg.xml" />
-		<if cond="!shaped">
-		</if>
-		<else>
-			<button x="60%" y="100%-16" src="z_bg_sizer.png" srcindex="1" target="layout:Small" tooltip="Shrink window" />
-		</else>
-	
-		<include file="z_titlebar.xml" />
+	<layout name="default" usew="default" useh="default" usepos="default" minw="640" minh="278">
+		<img x="0" y="0" w="100%" h="100%" src="z_bg.png" />
+		
 		<div x="21" y="23" w="108" h="53" >
 			<include file="z_ctrl.xml" />
 		</div>
 		
-		<div x="25%" y="18" w="50%" h="52" doubleclicktarget="layout:Large">
+		<div x="25%" y="18" w="50%" h="52">
 			<include file="z_disp.xml" />
 		</div>
 		<button x="60%" y="68" src="z_disp_size.png" target="layout:Large" tooltip="Enlarge display" />
 
-		<if cond="!shaped">
-			<div x="-1" y="86" w="100%+2" h="100%-85" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</if>
-		<else>
-			<div x="13" y="86" w="100%-26" h="100%-103" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</else>
+		<div x="-1" y="86" w="100%+2" h="100%-85" target="visrect" indent="1,0,0,0">
+			<include file="z_workspace.xml" />
+		</div>
 		
 		<div x="86%-32" y="36" w="14%+10" h="36">
 			<include file="z_search.xml" />
 		</div>
 		
-		<include file="z_bg_resizer.xml" />
-		
 	</layout>
-
-
 	
 	<!-- default layout with enlarged display -->
-	<layout name="Large" minw="640" minh="457" usew="default" useh="default" usepos="default" doubleclicktarget="layout:SmallEnlargedDisplay">
-		<include file="z_bg.xml" />
-		<if cond="!shaped">
-		</if>
-		<else>
-			<button x="60%" y="100%-16" src="z_bg_sizer.png" srcindex="1" target="layout:SmallEnlargedDisplay" tooltip="Shrink window" />
-		</else>
-		<include file="z_titlebar.xml" />
+	<layout name="Large" minw="640" minh="457" usew="default" useh="default" usepos="default">
+		<img x="0" y="0" w="100%" h="100%" src="z_bg.png" />
+		
 		<div x="21" y="23" w="108" h="53" >
 			<include file="z_ctrl.xml" />
 		</div>
@@ -63,81 +40,15 @@
 		</div>
 		<button x="60%" y="222" src="z_disp_size.png" srcindex="1" target="layout:Default" tooltip="Shrink display" />
 		
-		<if cond="!shaped">
-			<div x="-1" y="236" w="100%+2" h="100%-235" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</if>
-		<else>
-			<div x="13" y="236" w="100%-26" h="100%-253" target="visrect" indent="1,0,0,0">
-				<include file="z_workspace.xml" />
-			</div>
-		</else>
+		<div x="-1" y="236" w="100%+2" h="100%-235" target="visrect" indent="1,0,0,0">
+			<include file="z_workspace.xml" />
+		</div>
 
 		<div x="86%-32" y="36" w="14%+10" h="36">
 			<include file="z_search.xml" />
 		</div>
 		
-		<include file="z_bg_resizer.xml" />
-		
 	</layout>
-
-
-	
-	<!-- small player layout -->
-	<if cond="!shaped">
-	</if>
-	<else>
-		<layout name="Small" minw="380" defw="500" minh="88" maxh="88" usew="small" usepos="small" doubleclicktarget="layout:Default">
-			<include file="z_bg.xml" />
-			<button x="60%" y="100%-16" src="z_bg_sizer.png" srcindex="0" target="layout:Default" tooltip="Enlarge window" />
-	
-			<button x="5" y="3" src="z_titlebar.png" srcindex="4" target="mainmenu" cmw="13" />
-			<button x="next+2" y="3" src="z_titlebar.png" srcindex="5" target="alwaysontop" />
-			<button x="100%-30" y="0" src="z_titlebar.png" srcindex="6" target="minimize" />
-			<button x="100%-17" y="0" src="z_titlebar.png" srcindex="7" target="quit" />
-	
-			<div x="16" y="16" w="100%-32" h="52">
-				<include file="z_disp.xml" />
-			</div>
-			<button x="60%" y="66" src="z_disp_size.png" target="layout:SmallEnlargedDisplay" tooltip="Enlarge display" />
-	
-			<div x="22" y="69" h="12" w="113">	
-				<include file="z_ctrl_small.xml" />
-			</div>
-			
-			<include file="z_bg_resizer.xml" />
-			
-		</layout>
-	</else>
-
-
-	<!-- small player layout with enlarged display (+153 in height) -->
-	<if cond="!shaped">
-	</if>
-	<else>
-		<layout name="SmallEnlargedDisplay" minw="380" defw="500" minh="241" maxh="241" usew="small" usepos="small" doubleclicktarget="layout:Large">
-			<include file="z_bg.xml" />
-			<button x="60%" y="100%-16" src="z_bg_sizer.png" srcindex="0" target="layout:Large" tooltip="Enlarge window" />
-	
-			<button x="5" y="3" src="z_titlebar.png" srcindex="4" target="mainmenu" cmw="13" />
-			<button x="next+2" y="3" src="z_titlebar.png" srcindex="5" target="alwaysontop" />
-			<button x="100%-30" y="0" src="z_titlebar.png" srcindex="6" target="minimize" />
-			<button x="100%-17" y="0" src="z_titlebar.png" srcindex="7" target="quit" />
-	
-			<div x="16" y="16" w="100%-32" h="205">
-				<include file="z_disp_large.xml" />
-			</div>
-			<button x="60%" y="219" src="z_disp_size.png" srcindex="1" target="layout:Small" tooltip="Shrink display" />
-	
-			<div x="22" y="222" h="12" w="113">	
-				<include file="z_ctrl_small.xml" />
-			</div>
-			
-			<include file="z_bg_resizer.xml" />
-			
-		</layout>
-	</else>
 
 	<!-- kiosk layout -->
 	<layout name="kiosk" minw="640" minh="400">
@@ -166,8 +77,6 @@
 		</if>
 
 	</layout>
-
-
 	
 	<!-- kiosk layout with enlarged display -->
 	<layout name="kiosk-large" minw="640" minh="400">

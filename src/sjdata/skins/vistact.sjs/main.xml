@@ -13,16 +13,10 @@
 	
 -->
 
-<skin debuginfo="0" debugoutline="0" name="VistAct" about="Published by Skinner">
+<skin debuginfo="0" debugoutline="0" name="VistAct" about="Version 15.10, skin published by Skinner">
 
 	<!-- default layout -->
-	<layout name="default" usew="default" useh="default" usepos="default" minw="800" minh="340" doubleclicktarget="layout:mini">
-		
-		<!-- shape -->
-		<shape x="0" y="0" src="shape1.png" />
-		<shape x="100%-8" src="shape2.png" />
-		<shape x="100%-8" y="100%-8" src="shape3.png" />
-		<shape y="100%-8" src="shape4.png" />
+	<layout name="default" usew="default" useh="default" usepos="default" minw="800" minh="340">
 
 		<!-- title bar: height: 23px -->
 		<include file="titlebar.xml" />
@@ -66,33 +60,16 @@
 			</if>
 		</div>
 
-		<!-- resizer -->
-		<if cond="!kiosk">
-			<div x="100%-21" y="100%-21" w="21" h="21">
-				<img src="resizer.png" />
-				<resizer w="100%" h="100%" />
-			</div>
-		</if>
-		
 	</layout>
 
 
 
 
 	<!-- large layout -->
-	<layout name="large" usew="default" useh="default" usepos="default" minw="800" minh="475" doubleclicktarget="layout:mini">
+	<layout name="large" usew="default" useh="default" usepos="default" minw="800" minh="475">
 		
-		<!-- shape -->
 		<box x="0" y="100%-135" w="30%+238" h="135" bgcolor="#000000" /> <!-- black out the empty region -->
 		
-		<shape x="0" y="0" src="shape1.png" />
-		<shape x="100%-8" src="shape2.png" />
-		<shape x="100%-8" y="100%-8" src="shape3.png" />
-		<shape y="100%-143" src="shape4.png" />
-		
-		<shape x="0" y="100%-135" w="30%+238" h="135" />
-		<shape x="next" y="100%-8" src="shape4.png" />
-
 		<!-- title bar: height: 23px -->
 		<include file="titlebar.xml" />
 		
@@ -109,9 +86,10 @@
 		
 		<!-- controls -->
 		<div x="0" y="next" w="100%" h="204">
+			<img src="control-bg-large-ext.png" x="0" y="100%-187" w="30%+294" />	
 			<include file="control.xml" />
 		
-			<!-- display with three lines -->
+			<!-- display with more lines -->
 			<img src="control-bg-large-ext.png" x="next+5" y="100%-187" w="70%-238" />			
 			<img src="display-line.png" x="same" y="17" w="2" h="180" />
 
@@ -165,64 +143,7 @@
 			<button x="same" y="next+1" src="control-shuffle.png" srcindex="8" target="unqueueall" />
 			
 		</div>
-
-		<!-- resizer -->
-		<if cond="!kiosk">
-			<div x="100%-21" y="100%-21" w="21" h="21">
-				<img src="resizer.png" />
-				<resizer w="100%" h="100%" />
-			</div>
-		</if>
-		
-	</layout>
 	
-
-
-
-	<!-- mini layout -->
-	<layout name="mini" minw="800" minh="69" maxh="69"  doubleclicktarget="layout:default">
-		
-		<!-- shape -->
-		<shape x="0" y="0" src="shape1.png" />
-		<shape x="100%-8" src="shape2.png" />
-		<shape x="100%-8" y="100%-8" src="shape3.png" />
-		<shape y="100%-8" src="shape4.png" />
-
-		<!-- controls -->
-		<div x="0" y="0" w="100%" h="69">
-			<include file="control.xml" />
-		
-			<!-- display with three lines -->
-			<img src="display-line.png" x="next+5" y="17" w="2" h="45" />
-
-			<box x="next+5" y="17" w="45%-110" h="15" target="line00" fgcolor="#74819C">
-				<color target="selection" fgcolor="#FFFFFF" hicolor="#000000" offsetx="1" offsety="1" />
-			</box>
-			<box x="same" y="next" w="same" h="same" target="line01" fgcolor="#74819C">
-				<color target="selection" fgcolor="#FFFFFF" hicolor="#000000" offsetx="1" offsety="1" />
-			</box>
-			<box x="same" y="next" w="same" h="same" target="line02" fgcolor="#616E87">
-				<color target="selection" fgcolor="#FFFFFF" hicolor="#000000" offsetx="1" offsety="1" />
-			</box>
-			
-			<img src="display-line.png" x="next+5" y="17" w="2" h="45" />
-			
-			<button x="next+5" y="15" src="display-buttons.png" srcindex="0" target="displayup" />
-			<scrollbar x="same" y="next+2" h="25" src="display-scroll.png" target="displayVScroll" />
-			<button x="same" y="next+2" src="display-buttons.png" srcindex="1" target="displaydown" />
-
-			<button target="layout:large" x="next+5" y="22" src="control-shuffle.png" srcindex="4" tooltip="Enlarge window" />
-		</div>
-
-		<!-- resizer -->
-		<if cond="!kiosk">
-			<div x="100%-21" y="100%-21" w="21" h="21">
-				<img src="resizer.png" />
-				<resizer w="100%" h="100%" />
-			</div>
-		</if>
-		
-	</layout>	
-
+	</layout>
 
 </skin>

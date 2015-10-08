@@ -661,7 +661,7 @@ Attributes:
     - "coverview"
     - "listview"
     - "toggleview" (true if more than one view is available)
-    - "toggleelementes"
+    - "toggleelements"
     - "toggletimemode"
     - "zoom"
     - "repeat"

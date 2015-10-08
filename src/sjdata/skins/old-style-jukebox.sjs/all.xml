@@ -17,17 +17,6 @@
 <img src="woodbar.png" x="88" y="163" w="100%-174" h="36" />
 <img src="bottom.png" x="67" y="100%-39" w="100%-134" h="39" />
 
-<!-- controls in the lamps top-left and top-right -->
-<if cond="shaped">
-	<if cond="!kiosk">
-		<button src="titlebar.png" x="140" y="9" cmw="15" target="mainmenu" />
-		
-		<button src="titlebar.png" srcindex="1" x="100%-161" y="11"  target="minimize" />
-		<button src="titlebar.png" srcindex="2" x="100%-142" y="15"  target="maximize" />
-		<button src="titlebar.png" srcindex="3" x="100%-126" y="24" target="quit" />
-	</if>
-</if>
-
 <!-- controls atop above the a-z bar-->
 <box x="151" y="61" w="88" h="88" target="displaycover" />
 
