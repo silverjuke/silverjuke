@@ -33,7 +33,7 @@
 class SjWebLink
 {
 public:
-					SjWebLink           (const wxString& section, const wxString& url, const wxString& name) { m_section=section; m_url=url; m_name=name; }
+	                SjWebLink           (const wxString& section, const wxString& url, const wxString& name) { m_section=section; m_url=url; m_name=name; }
 	wxString        GetUrl              () const { return m_url; }
 	wxString        GetSection          () const { return m_section; }
 	wxString        GetName             () const { return m_name; }
@@ -57,7 +57,7 @@ enum SjWebLinksType
 class SjWebLinks
 {
 public:
-	SjWebLinks  (SjWebLinksType);
+	                SjWebLinks  (SjWebLinksType);
 	int             GetCount    () const { return m_urls.GetCount(); }
 	wxString        GetName     (int i) const { return m_urls[i].GetName(); }
 	wxString        GetUrl      (int i) const { return m_urls[i].GetUrl(); }

@@ -39,6 +39,9 @@ WX_DEFINE_OBJARRAY(SjArrayWebLink);
 
 
 // international artist information
+// added to local artist information unless the local URLs contain the [homepage] section - in this case,
+// we assume, all artist information search URLs are provided by the .mo file
+//
 // Unused sites:
 // "FreeDB.org=http://www.freedb.org/freedb_search.php?words=%artist%&allfields=NO&fields=artist&allcats=YES&grouping=cats\n"
 // Get-Lyrics.net=http://www.get-lyrics.net/Titel.php?interpret=%artist% [German, this is now a DIALER site]
@@ -49,47 +52,45 @@ static const wxChar s_artistinfo_int[] =
     wxT("[homepage]\n")
     wxT("Google.com/hp=http://www.google.com/search?q=%22%artistutf8%%22&btnI=1\n")
 
-    wxT("[info2]\n")
-    wxT("AllMusic.com=http://www.allmusic.com/cg/amg.dll?P=amg&sql=%artist%&opt1=1\n")
-    wxT("RollingStone.com=http://www.rollingstone.com/?searchtype=RSArtist&query=%artist%\n")
-    wxT("ArtistDirect.com=http://www.artistdirect.com/cgi-bin/gx.cgi/AppLogic+Search?select=MusicArtist&searchstr=%artist%&searchtype=NormalSearch&start=1\n")
-    wxT("RateYourMusic.com=http://rateyourmusic.com/search?searchterm=%artist%&searchtype=artist\n")
+    wxT("[info]\n")
+    wxT("AllMusic.com=http://www.allmusic.com/search/artists/%artistutf8%\n")
+    wxT("RollingStone.com=http://www.rollingstone.com/search?q=%artistutf8%\n")
+    wxT("ArtistDirect.com=http://www.artistdirect.com/search/?q=%artistutf8%&cx=011042873320694737110%3Aax7jebhngmu&cof=FORID%3A10&ie=UTF-8\n")
+    wxT("RateYourMusic.com=http://rateyourmusic.com/search?searchtype=a&searchterm=%artistutf8%\n")
 
     wxT("[lyrics]\n")
     wxT("LyricWiki.org=http://lyricwiki.org/Special:Search?search=%artistutf8%:%trackutf8%\n")
-    wxT("SongMeanings.net=http://www.songmeanings.net/query.php?type=artists&query=%artist%\n")
+    wxT("SongMeanings.com=http://songmeanings.com/query/?query=%artistutf8%+%trackutf8%\n")
 
     wxT("[search]\n")
     wxT("Google.com=http://www.google.com/search?q=%22%artistutf8%%22\n")
-    wxT("AllTheWeb.com=http://www.alltheweb.com/search?q=%22%artistutf8%%22\n")
+    wxT("Bing.com=http://www.bing.com/search?q=%22%artistutf8%%22\n")
+    wxT("DuckDuckGo.com=http://duckduckgo.com/?q=%22%artistutf8%%22\n")
     ;
 
 
 // artist information for english only,
-// may be overwritten by local *.mo file
+// may be overwritten by local *.mo file (not used if __ARTIST_INFO_URLS__ contains at least one URL)
 static const wxChar s_artistinfo_en[] =
     wxT("[info]\n")
-    wxT("Wikipedia.org=http://en.wikipedia.org/wiki/%artist%\n")
+    wxT("Wikipedia.org=http://en.wikipedia.org/wiki/%artistutf8%\n")
     ;
 
 
 // international cover search
 static const wxChar s_coversearch_int[] =
     wxT("[search]\n")
-    wxT("AllMusic.com=http://www.allmusic.com/cg/amg.dll?P=amg&sql=%album%&opt1=2\n")
-    wxT("AllTheWeb.com=http://www.alltheweb.com/search?cat=img&q=%artistutf8%+%albumutf8%\n")
-    wxT("AltaVista.com=http://www.altavista.com/image/results?pg=q&stype=simage&imgset=2&q=%artist%+%album%&avkw=aapt\n")
-    wxT("Amazon.com=http://www.amazon.com/exec/obidos/external-search?index=music&keyword=%artist%+%album%\n")
-    wxT("Buy.com=http://www.buy.com/retail/searchresults.asp?searchtype=1&qutype=0&qu=%artist%+%album%&search_store=6\n")
+    wxT("Bing.com=http://www.bing.com/images/?q=%artistutf8%+%albumutf8%\n")
+    wxT("DuckDuckGo.com=http://duckduckgo.com/?q=%artistutf8%+%albumutf8%&iax=1&ia=images\n")
+    wxT("Amazon.com=http://www.amazon.com/s?ie=UTF8&index=music&keywords=%artistutf8%+%albumutf8%\n")
     wxT("eBay.com=http://search.ebay.com/search/search.dll?cgiurl=http%3A%2F%2Fcgi.ebay.com%2Fws%2F&krd=1&from=R8&MfcISAPICommand=GetResult&ht=1&SortProperty=MetaEndSort&query=%artist%+%album%\n")
     wxT("Google.com=http://images.google.com/images?q=%artistutf8%+%albumutf8%\n")
-    wxT("WalMart.com=http://www.walmart.com/catalog/search-ng.gsp?search_constraint=4104&search_query=%artist%+%album%\n")
     wxT("CDuniverse.com=http://www.cduniverse.com/sresult.asp?HT_Search_Info=%album%&style=music&HT_Search=TITLE\n")
     ;
 
 
 // cover search for english only,
-// may be overwritten by local *.mo file
+// may be overwritten by local *.mo file (not used if __COVER_SEARCH_URLS__ contains at least one URL)
 static const wxChar s_coversearch_en[] =
     wxT("\n")
     ;
