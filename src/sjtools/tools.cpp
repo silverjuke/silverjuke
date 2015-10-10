@@ -613,9 +613,11 @@ wxString SjTools::GetGlobalAppDataDir()
 		}
 		return str;
 	#else
-		// wxStandardPaths::Get().GetDataDir() returns /usr/local/share/Silverjuke (upper case program name!)
-		// and different paths on debug installations; so we simply use the hardcoded variant ...
-		return wxT("/usr/share/silverjuke");
+		// wxStandardPaths::Get().GetDataDir() returns eg. /usr/local/share/Silverjuke (upper case program name!)
+		// on debug installations, the path is weird but can be set by  WX_SILVERJUKE_DATA_DIR
+		wxString str = wxStandardPaths::Get().GetDataDir();
+		str.Replace(wxT("Silverjuke"), wxT("silverjuke")); // this is safe, we really use lower case in makefile.am
+		return str;
 	#endif
 }
 
