@@ -2852,6 +2852,15 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 
 	CalcItemRectangles(clientSize.x, clientSize.y);
 
+	// set minimal size - the maximal size is ignored there seems not to be a good reason for this (eg. maximizing the window should always be possible)
+	if( m_currLayout )
+	{
+		wxSize skinMinSize, skinMaxSize;
+		GetLayoutMinMax(m_currLayout, skinMinSize, skinMaxSize);
+		SetMinSize(skinMinSize);
+	}
+
+
 	// redraw the window
 	if( IsShown() )
 	{
