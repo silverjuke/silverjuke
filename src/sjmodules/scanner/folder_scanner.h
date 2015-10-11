@@ -40,11 +40,11 @@ public:
 	{
 		#define SJ_FOLDERSCANNER_DEFFLAGS           0x0000FFFFL  // for a possible future merging, try to be compatible with SJ_SERVERSCANNER_FLAGS
 		#define SJ_FOLDERSCANNER_ENABLED            0x00000004L
-		#define SJ_FOLDERSCANNER_READZIP            0x00000008L
 		#define SJ_FOLDERSCANNER_DOUPDATE           0x00000010L
 		#define SJ_FOLDERSCANNER_READID3            0x00000020L
-		#define SJ_FOLDERSCANNER_READHIDDENFILES    0x00000040L
-		#define SJ_FOLDERSCANNER_READHIDDENDIRS     0x00000080L
+		#define SJ_FOLDERSCANNER_READZIP            0x00010000L  // do not read archives or hidden files by default as this may cause problems (erroneous files) or may be unexpected or unwanted
+		#define SJ_FOLDERSCANNER_READHIDDENFILES    0x00020000L
+		#define SJ_FOLDERSCANNER_READHIDDENDIRS     0x00040000L
 		m_flags = SJ_FOLDERSCANNER_DEFFLAGS;
 	}
 

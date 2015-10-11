@@ -266,27 +266,27 @@ void SjFolderSettingsDialog::OnReset(wxCommandEvent&)
 
 	if( m_doUpdateCheckBox )
 	{
-		m_doUpdateCheckBox->SetValue(TRUE);
+		m_doUpdateCheckBox->SetValue((SJ_FOLDERSCANNER_DOUPDATE&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
 	}
 
 	if( m_readHiddenFilesCheckBox )
 	{
-		m_readHiddenFilesCheckBox->SetValue(TRUE);
+		m_readHiddenFilesCheckBox->SetValue((SJ_FOLDERSCANNER_READHIDDENFILES&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
 	}
 
 	if( m_readHiddenDirsCheckBox )
 	{
-		m_readHiddenDirsCheckBox->SetValue(TRUE);
+		m_readHiddenDirsCheckBox->SetValue((SJ_FOLDERSCANNER_READHIDDENDIRS&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
 	}
 
 	if( m_readZipCheckBox )
 	{
-		m_readZipCheckBox->SetValue(TRUE);
+		m_readZipCheckBox->SetValue((SJ_FOLDERSCANNER_READZIP&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
 	}
 
 	if( m_readId3CheckBox )
 	{
-		m_readId3CheckBox->SetValue(TRUE);
+		m_readId3CheckBox->SetValue((SJ_FOLDERSCANNER_READID3&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
 	}
 
 	m_infoMaskTextCtrl->SetValue(SjTrackInfoMatcher::GetDefaultPattern());
