@@ -53,6 +53,9 @@
 #include <wx/tokenzr.h>
 #include <wx/fontenum.h>
 #include <wx/fileconf.h>
+#if wxCHECK_VERSION(2, 9, 2)
+#include <wx/numformatter.h>
+#endif
 #include <sjtools/tools.h>
 #include <sjtools/csv_tokenizer.h>
 #include <tagger/tg_bytevector.h>
@@ -1144,6 +1147,10 @@ wxString SjTools::GetLineBreak()
 
 wxString SjTools::FormatNumber(long number)
 {
+#if wxCHECK_VERSION(2, 9, 2)
+	// There's a handy class since 2.9.2
+	return wxNumberFormatter::ToString(number, wxNumberFormatter::Style_WithThousandsSep);
+#else
 	// negative number?
 	bool isNegative = number<0? TRUE : FALSE;
 	if( isNegative )
@@ -1179,6 +1186,7 @@ wxString SjTools::FormatNumber(long number)
 
 	// done
 	return ret;
+#endif // wxCHECK_VERSION
 }
 
 
