@@ -24,7 +24,9 @@ SUBDIRS = po
 
 ACLOCAL_AMFLAGS = --install -I m4
 
-silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS)
+# Provide the pkgdatadir variable to cpp files in order to be able
+# to reliably locate the skins and keyboards.
+silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS) -DPKGDATADIR=\"$(pkgdatadir)\"
 silverjuke_CXXFLAGS = \
 	-Isrc \
 	-Wall \
