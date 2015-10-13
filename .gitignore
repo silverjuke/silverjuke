@@ -41,4 +41,5 @@ po/stamp-po
 po/POTFILES
 po/remove-potcdate.sed
 po/*.gmo
+po/*.insert-header
 silverjuke.1
