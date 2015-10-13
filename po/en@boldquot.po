@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.4\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 14:14+0200\n"
-"PO-Revision-Date: 2015-10-13 14:14+0200\n"
+"POT-Creation-Date: 2015-10-13 14:24+0200\n"
+"PO-Revision-Date: 2015-10-13 14:24+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -2653,6 +2653,7 @@ msgstr "__VIRT_KEYBD__"
 msgid ","
 msgstr ","
 
+#. TRANSLATORS: This is the decimal point, used for e.g. 3.1415926
 msgid "."
 msgstr "."
 

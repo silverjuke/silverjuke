@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 14:14+0200\n"
+"POT-Creation-Date: 2015-10-13 14:24+0200\n"
 "PO-Revision-Date: 2010-10-04 14:49+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Dutch\n"
@@ -2929,7 +2929,7 @@ msgstr "0"
 msgid ","
 msgstr "."
 
-# decimal point - usually this is a comma or a point
+#. TRANSLATORS: This is the decimal point, used for e.g. 3.1415926
 msgid "."
 msgstr ","
 

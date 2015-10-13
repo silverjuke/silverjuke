@@ -1308,6 +1308,7 @@ wxString SjTools::FormatBytes(long val__, int flags)
 			ret = FormatNumber(gbytes);
 			if( mbytes )
 			{
+				// TRANSLATORS: This is the decimal point, used for e.g. 3.1415926
 				ret += _(".");
 
 				long temp = (mbytes+51)/103;
@@ -1338,6 +1339,7 @@ wxString SjTools::FormatBytes(long val__, int flags)
 			ret = FormatNumber(mbytes);
 			if( kbytes || (flags & SJ_FORMAT_ADDEXACT /*"1.0" is more exact than just "1"!*/) )
 			{
+				// TRANSLATORS: This is the decimal point, used for e.g. 3.1415926
 				ret += _(".");
 
 				long temp = (kbytes+51)/103;

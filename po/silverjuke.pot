@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.4\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 14:14+0200\n"
+"POT-Creation-Date: 2015-10-13 14:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2551,6 +2551,7 @@ msgstr ""
 msgid ","
 msgstr ""
 
+#. TRANSLATORS: This is the decimal point, used for e.g. 3.1415926
 msgid "."
 msgstr ""
 
