@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
 "POT-Creation-Date: 2015-10-13 13:24+0200\n"
-"PO-Revision-Date: 2015-05-30 22:15+0200\n"
+"PO-Revision-Date: 2015-10-13 13:28+0200\n"
 "Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -1741,19 +1741,21 @@ msgstr ""
 msgid ""
 "No virtual keyboard found, please add the *.sjk files to the search paths."
 msgstr ""
+"Keine Bildschirmtastatur gefunden, bitte fügen Sie die *.sjk-Dateien in den "
+"Suchpfaden hinzu."
 
 msgid "The following settings are for experienced users only."
 msgstr "Die folgenden Einstellungen sind erfahreneren Benutzern vorbehalten."
 
 #, c-format
 msgid "An album must have at least %s tracks with corresponding %s."
-msgstr "Ein Album muß mind. %s Titel mit Übereinstimmungen bei %s haben."
+msgstr "Ein Album muss mind. %s Titel mit Übereinstimmungen bei %s haben."
 
 msgid "artist/album"
 msgstr "Künstler/Album"
 
 msgid "artist/album or genre"
-msgstr "Künstler/Abum oder Musikrichtung"
+msgstr "Künstler/Album oder Musikrichtung"
 
 msgid "directory"
 msgstr "Verzeichnis"
@@ -2389,48 +2391,32 @@ msgstr "Dateien umbenennen"
 msgid "Pattern:"
 msgstr "Muster:"
 
-#, fuzzy
-#| msgid "(first character)"
 msgid "Artist (first character)"
-msgstr "(erstes Zeichen)"
+msgstr "Künstler (erstes Zeichen)"
 
-#, fuzzy
-#| msgid "(first character)"
 msgid "Album (first character)"
-msgstr "(erstes Zeichen)"
+msgstr "Album (erstes Zeichen)"
 
-#, fuzzy
-#| msgid "(first character)"
 msgid "Genre (first character)"
-msgstr "(erstes Zeichen)"
+msgstr "Musikrichtung (erstes Zeichen)"
 
-#, fuzzy
-#| msgid "(first character)"
 msgid "Group (first character)"
-msgstr "(erstes Zeichen)"
+msgstr "Gruppe (erstes Zeichen)"
 
-#, fuzzy
-#| msgid "(n characters)"
 msgid "Year (4 characters)"
-msgstr "(n Zeichen)"
+msgstr "Jahr (4 Zeichen)"
 
-#, fuzzy
-#| msgid "(n characters)"
 msgid "Year (2 characters)"
-msgstr "(n Zeichen)"
+msgstr "Jahr (2 Zeichen)"
 
-#, fuzzy
-#| msgid "(n characters)"
 msgid "Duration (5 characters)"
-msgstr "(n Zeichen)"
+msgstr "Dauer (5 Zeichen)"
 
 msgid "Directory change"
 msgstr "Verzeichniswechsel"
 
-#, fuzzy
-#| msgid "(n characters)"
 msgid "File name (8 characters)"
-msgstr "(n Zeichen)"
+msgstr "Dateiname (8 Zeichen)"
 
 msgid "File extension"
 msgstr "Dateierweiterung"
@@ -2479,25 +2465,17 @@ msgstr "Aufzuteilendes Feld:"
 msgid "Destination fields and pattern:"
 msgstr "Zielfelder und Muster:"
 
-#, fuzzy
-#| msgid "Track number"
 msgid "Track number (1 character)"
-msgstr "Titelnummer"
+msgstr "Titelnummer (1 Zeichen)"
 
-#, fuzzy
-#| msgid "(n characters)"
 msgid "Track number (2 characters)"
-msgstr "(n Zeichen)"
+msgstr "Titelnummer (2 Zeichen)"
 
-#, fuzzy
-#| msgid "(first character)"
 msgid "Disk number (1 character)"
-msgstr "(erstes Zeichen)"
+msgstr "Disknummer (1 Zeichen)"
 
-#, fuzzy
-#| msgid "(n characters)"
 msgid "Disk number (2 characters)"
-msgstr "(n Zeichen)"
+msgstr "Disknummer (2 Zeichen)"
 
 msgid "Void information"
 msgstr "Nichtige Informationen"
