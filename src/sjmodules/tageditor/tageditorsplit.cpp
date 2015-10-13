@@ -102,11 +102,11 @@ SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 	m_insertButton->AddWidthOption  (wxT("<Title>"),    _("Title"));
 	m_insertButton->AddSep          ();
 	m_insertButton->AddOption       (wxT("<Nr>"),       _("Track number"));
-	m_insertButton->AddOption       (wxT("<Nr(1)>"),    _("Track number")+wxString(wxT(" "))+wxString::Format(_("(%i characters)"), 1));
-	m_insertButton->AddOption       (wxT("<Nr(2)>"),    _("Track number")+wxString(wxT(" "))+wxString::Format(_("(%i characters)"), 2));
+	m_insertButton->AddOption       (wxT("<Nr(1)>"),    _("Track number (1 character)"));
+	m_insertButton->AddOption       (wxT("<Nr(2)>"),    _("Track number (2 characters)"));
 	m_insertButton->AddOption       (wxT("<DiskNr>"),   _("Disk number"));
-	m_insertButton->AddOption       (wxT("<DiskNr(1)>"),_("Disk number")+wxString(wxT(" "))+wxString::Format(_("(%i characters)"), 1));
-	m_insertButton->AddOption       (wxT("<DiskNr(2)>"),_("Disk number")+wxString(wxT(" "))+wxString::Format(_("(%i characters)"), 2));
+	m_insertButton->AddOption       (wxT("<DiskNr(1)>"),_("Disk number (1 character)"));
+	m_insertButton->AddOption       (wxT("<DiskNr(2)>"),_("Disk number (2 characters)"));
 	m_insertButton->AddSep          ();
 	m_insertButton->AddWidthOption  (wxT("<Artist>"),   _("Artist"));
 	m_insertButton->AddWidthOption  (wxT("<OrgArtist>"),_("Original artist"));
@@ -119,8 +119,8 @@ SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 	m_insertButton->AddWidthOption  (wxT("<Comment>"),  _("Comment"));
 	m_insertButton->AddSep          ();
 	m_insertButton->AddOption       (wxT("<Year>"),     _("Year"));
-	m_insertButton->AddOption       (wxT("<Year(2)>"),  _("Year")+wxString(wxT(" "))+wxString::Format(_("(%i characters)"), 2));
-	m_insertButton->AddOption       (wxT("<Year(4)>"),  _("Year")+wxString(wxT(" "))+wxString::Format(_("(%i characters)"), 4));
+	m_insertButton->AddOption       (wxT("<Year(2)>"),  _("Year (2 characters)"));
+	m_insertButton->AddOption       (wxT("<Year(4)>"),  _("Year (4 characters)"));
 	m_insertButton->AddSep          ();
 	m_insertButton->AddOption       (wxT("/"),          _("Directory change"));
 	m_insertButton->AddOption       (wxT("*"),          _("Void information"));
