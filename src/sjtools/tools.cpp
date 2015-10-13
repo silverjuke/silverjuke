@@ -618,7 +618,7 @@ wxString SjTools::GetGlobalAppDataDir()
 	#else
 		// The constant PKGDATADIR gets defined on the
 		// command line while running make. See Makefile.am
-		return wxString(PKGDATADIR);
+		return wxString(wxT(PKGDATADIR));
 	#endif
 }
 
