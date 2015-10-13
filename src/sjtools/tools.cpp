@@ -1169,7 +1169,7 @@ wxString SjTools::FormatNumber(long number)
 	{
 		right = rest.Right(3);
 		rest = rest.Left(rest.Len()-right.Len());
-		// TRANSLATORS: Thousands separator -- usually this is a comma, point, or space
+		// TRANSLATORS: This is the thousands separator, used for e.g. 10,000
 		if( !ret.IsEmpty() ) right += _(",");
 		ret = right + ret;
 		iteration++;

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 14:24+0200\n"
+"POT-Creation-Date: 2015-10-13 14:26+0200\n"
 "PO-Revision-Date: 2010-10-04 14:51+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: French\n"
@@ -2966,7 +2966,7 @@ msgstr "0"
 msgid "__VIRT_KEYBD__"
 msgstr "0"
 
-#. TRANSLATORS: Thousands separator -- usually this is a comma, point, or space
+#. TRANSLATORS: This is the thousands separator, used for e.g. 10,000
 msgid ","
 msgstr "."
 
