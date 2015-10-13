@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: silverjuke 15.4\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 13:24+0200\n"
-"PO-Revision-Date: 2015-10-13 13:24+0200\n"
+"POT-Creation-Date: 2015-10-13 14:14+0200\n"
+"PO-Revision-Date: 2015-10-13 14:14+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
@@ -2639,6 +2639,7 @@ msgstr "__COVER_KEYWORDS__"
 msgid "__VIRT_KEYBD__"
 msgstr "__VIRT_KEYBD__"
 
+#. TRANSLATORS: Thousands separator -- usually this is a comma, point, or space
 msgid ","
 msgstr ","
 
