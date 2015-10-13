@@ -27,6 +27,7 @@ Makefile
 /stamp-*
 /silverjuke
 silverjuke*.tar.gz
+silverjuke*.tar.xz
 
 # ignore generated files
 Makefile.in
