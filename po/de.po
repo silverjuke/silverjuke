@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-06-11 10:40+0200\n"
+"POT-Creation-Date: 2015-10-13 13:24+0200\n"
 "PO-Revision-Date: 2015-05-30 22:15+0200\n"
 "Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
 "Language-Team: German\n"
@@ -2389,16 +2389,48 @@ msgstr "Dateien umbenennen"
 msgid "Pattern:"
 msgstr "Muster:"
 
-msgid "(first character)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Artist (first character)"
 msgstr "(erstes Zeichen)"
 
-# %i will be replaced by the number of characters
-#, c-format
-msgid "(%i characters)"
-msgstr "(%i-stellig)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Album (first character)"
+msgstr "(erstes Zeichen)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Genre (first character)"
+msgstr "(erstes Zeichen)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Group (first character)"
+msgstr "(erstes Zeichen)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (4 characters)"
+msgstr "(n Zeichen)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (2 characters)"
+msgstr "(n Zeichen)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Duration (5 characters)"
+msgstr "(n Zeichen)"
 
 msgid "Directory change"
 msgstr "Verzeichniswechsel"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "File name (8 characters)"
+msgstr "(n Zeichen)"
 
 msgid "File extension"
 msgstr "Dateierweiterung"
@@ -2446,6 +2478,26 @@ msgstr "Aufzuteilendes Feld:"
 
 msgid "Destination fields and pattern:"
 msgstr "Zielfelder und Muster:"
+
+#, fuzzy
+#| msgid "Track number"
+msgid "Track number (1 character)"
+msgstr "Titelnummer"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Track number (2 characters)"
+msgstr "(n Zeichen)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Disk number (1 character)"
+msgstr "(erstes Zeichen)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Disk number (2 characters)"
+msgstr "(n Zeichen)"
 
 msgid "Void information"
 msgstr "Nichtige Informationen"
@@ -2829,6 +2881,10 @@ msgstr "Die Datei \"%s\" existiert nicht."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kann \"%s\" nicht ausführen."
+
+# %i will be replaced by the number of characters
+#~ msgid "(%i characters)"
+#~ msgstr "(%i-stellig)"
 
 #~ msgid "More layouts on the web..."
 #~ msgstr "Weitere Layouts im Internet..."

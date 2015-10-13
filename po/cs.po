@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-06-11 10:40+0200\n"
+"POT-Creation-Date: 2015-10-13 13:24+0200\n"
 "PO-Revision-Date: 2011-06-30 20:39+0100\n"
 "Last-Translator: David Minář <antro@pb.cz>\n"
 "Language-Team: Czech\n"
@@ -2420,16 +2420,48 @@ msgstr "Přejmenování souborů"
 msgid "Pattern:"
 msgstr "Vzor:"
 
-msgid "(first character)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Artist (first character)"
 msgstr "(první znak)"
 
-# %i will be replaced by the number of characters
-#, c-format
-msgid "(%i characters)"
-msgstr "(%i znaků)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Album (first character)"
+msgstr "(první znak)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Genre (first character)"
+msgstr "(první znak)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Group (first character)"
+msgstr "(první znak)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (4 characters)"
+msgstr "(n znaků)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (2 characters)"
+msgstr "(n znaků)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Duration (5 characters)"
+msgstr "(n znaků)"
 
 msgid "Directory change"
 msgstr "Adresář změny"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "File name (8 characters)"
+msgstr "(n znaků)"
 
 msgid "File extension"
 msgstr "Přípona souboru"
@@ -2477,6 +2509,26 @@ msgstr "Pole k rozdělení:"
 
 msgid "Destination fields and pattern:"
 msgstr "Cíl polí a vzor:"
+
+#, fuzzy
+#| msgid "Track number"
+msgid "Track number (1 character)"
+msgstr "Číslo skladby"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Track number (2 characters)"
+msgstr "(n znaků)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Disk number (1 character)"
+msgstr "(první znak)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Disk number (2 characters)"
+msgstr "(n znaků)"
 
 msgid "Void information"
 msgstr "Void informace"
@@ -2847,6 +2899,10 @@ msgstr "Soubor \"%s\" neexistuje."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Nelze spustit \"%s\"."
+
+# %i will be replaced by the number of characters
+#~ msgid "(%i characters)"
+#~ msgstr "(%i znaků)"
 
 #~ msgid "More layouts on the web..."
 #~ msgstr "Další k dipozici na webu ..."

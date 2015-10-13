@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-06-11 10:40+0200\n"
+"POT-Creation-Date: 2015-10-13 13:24+0200\n"
 "PO-Revision-Date: 2010-10-04 14:51+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: French\n"
@@ -2492,16 +2492,48 @@ msgstr "Renommer les fichiers"
 msgid "Pattern:"
 msgstr "Modèles:"
 
-msgid "(first character)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Artist (first character)"
 msgstr "(premier caractère)"
 
-# %i will be replaced by the number of characters
-#, c-format
-msgid "(%i characters)"
-msgstr "(%i positions)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Album (first character)"
+msgstr "(premier caractère)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Genre (first character)"
+msgstr "(premier caractère)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Group (first character)"
+msgstr "(premier caractère)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (4 characters)"
+msgstr "(n caractères)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (2 characters)"
+msgstr "(n caractères)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Duration (5 characters)"
+msgstr "(n caractères)"
 
 msgid "Directory change"
 msgstr "Changement de répertoire"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "File name (8 characters)"
+msgstr "(n caractères)"
 
 msgid "File extension"
 msgstr "Extension de fichier"
@@ -2549,6 +2581,26 @@ msgstr "Champ à décomposer:"
 
 msgid "Destination fields and pattern:"
 msgstr "Destination et modèles:"
+
+#, fuzzy
+#| msgid "Track number"
+msgid "Track number (1 character)"
+msgstr "Numéro de la piste"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Track number (2 characters)"
+msgstr "(n caractères)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Disk number (1 character)"
+msgstr "(premier caractère)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Disk number (2 characters)"
+msgstr "(n caractères)"
 
 msgid "Void information"
 msgstr "Aucune information"
@@ -2944,6 +2996,10 @@ msgstr "Le fichier \"%s\" n'existe pas."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Ne peut exécuter \"%s\"."
+
+# %i will be replaced by the number of characters
+#~ msgid "(%i characters)"
+#~ msgstr "(%i positions)"
 
 #~ msgid "More layouts on the web..."
 #~ msgstr "D'autres types de clavier sur le web..."

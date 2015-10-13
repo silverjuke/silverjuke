@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-06-11 10:40+0200\n"
+"POT-Creation-Date: 2015-10-13 13:24+0200\n"
 "PO-Revision-Date: 2010-10-04 14:49+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Dutch\n"
@@ -2460,16 +2460,48 @@ msgstr "Bestanden hernoemen"
 msgid "Pattern:"
 msgstr "Patroon:"
 
-msgid "(first character)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Artist (first character)"
 msgstr "(eerste teken)"
 
-# %i will be replaced by the number of characters
-#, c-format
-msgid "(%i characters)"
-msgstr "(%i-tekens)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Album (first character)"
+msgstr "(eerste teken)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Genre (first character)"
+msgstr "(eerste teken)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Group (first character)"
+msgstr "(eerste teken)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (4 characters)"
+msgstr "(n tekens)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (2 characters)"
+msgstr "(n tekens)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Duration (5 characters)"
+msgstr "(n tekens)"
 
 msgid "Directory change"
 msgstr "Map-wissel"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "File name (8 characters)"
+msgstr "(n tekens)"
 
 msgid "File extension"
 msgstr "Bestandstype"
@@ -2517,6 +2549,26 @@ msgstr "Te splitsen veld:"
 
 msgid "Destination fields and pattern:"
 msgstr "Doelveld en patroon:"
+
+#, fuzzy
+#| msgid "Track number"
+msgid "Track number (1 character)"
+msgstr "Track nummer"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Track number (2 characters)"
+msgstr "(n tekens)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Disk number (1 character)"
+msgstr "(eerste teken)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Disk number (2 characters)"
+msgstr "(n tekens)"
 
 msgid "Void information"
 msgstr "Lege informatie"
@@ -2903,6 +2955,10 @@ msgstr "Het bestand \"%s\" bestaat niet."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kan \"%s\" niet uitvoeren."
+
+# %i will be replaced by the number of characters
+#~ msgid "(%i characters)"
+#~ msgstr "(%i-tekens)"
 
 #~ msgid "More layouts on the web..."
 #~ msgstr "Meer indelingen op Internet..."

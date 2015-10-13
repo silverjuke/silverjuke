@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: silverjuke 15.1\n"
+"Project-Id-Version: silverjuke 15.4\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-06-11 10:40+0200\n"
+"POT-Creation-Date: 2015-10-13 13:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2207,14 +2207,31 @@ msgstr ""
 msgid "Pattern:"
 msgstr ""
 
-msgid "(first character)"
+msgid "Artist (first character)"
 msgstr ""
 
-#, c-format
-msgid "(%i characters)"
+msgid "Album (first character)"
+msgstr ""
+
+msgid "Genre (first character)"
+msgstr ""
+
+msgid "Group (first character)"
+msgstr ""
+
+msgid "Year (4 characters)"
+msgstr ""
+
+msgid "Year (2 characters)"
+msgstr ""
+
+msgid "Duration (5 characters)"
 msgstr ""
 
 msgid "Directory change"
+msgstr ""
+
+msgid "File name (8 characters)"
 msgstr ""
 
 msgid "File extension"
@@ -2261,6 +2278,18 @@ msgid "Field to split:"
 msgstr ""
 
 msgid "Destination fields and pattern:"
+msgstr ""
+
+msgid "Track number (1 character)"
+msgstr ""
+
+msgid "Track number (2 characters)"
+msgstr ""
+
+msgid "Disk number (1 character)"
+msgstr ""
+
+msgid "Disk number (2 characters)"
 msgstr ""
 
 msgid "Void information"

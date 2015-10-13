@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-06-11 10:40+0200\n"
+"POT-Creation-Date: 2015-10-13 13:24+0200\n"
 "PO-Revision-Date: 2010-10-04 14:47+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -2421,16 +2421,48 @@ msgstr "Omdøp filer"
 msgid "Pattern:"
 msgstr "Mønster:"
 
-msgid "(first character)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Artist (first character)"
 msgstr "(første bokstav)"
 
-# %i will be replaced by the number of characters
-#, c-format
-msgid "(%i characters)"
-msgstr "(%i bokstaver)"
+#, fuzzy
+#| msgid "(first character)"
+msgid "Album (first character)"
+msgstr "(første bokstav)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Genre (first character)"
+msgstr "(første bokstav)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Group (first character)"
+msgstr "(første bokstav)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (4 characters)"
+msgstr "(n karakterer)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Year (2 characters)"
+msgstr "(n karakterer)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Duration (5 characters)"
+msgstr "(n karakterer)"
 
 msgid "Directory change"
 msgstr "forandre katalog"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "File name (8 characters)"
+msgstr "(n karakterer)"
 
 msgid "File extension"
 msgstr "Filendelse"
@@ -2478,6 +2510,26 @@ msgstr "Felt å splitte"
 
 msgid "Destination fields and pattern:"
 msgstr "Målfelter og søkestreng:"
+
+#, fuzzy
+#| msgid "Track number"
+msgid "Track number (1 character)"
+msgstr "Spor Nummer"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Track number (2 characters)"
+msgstr "(n karakterer)"
+
+#, fuzzy
+#| msgid "(first character)"
+msgid "Disk number (1 character)"
+msgstr "(første bokstav)"
+
+#, fuzzy
+#| msgid "(n characters)"
+msgid "Disk number (2 characters)"
+msgstr "(n karakterer)"
 
 msgid "Void information"
 msgstr "Tom informasjon"
@@ -2851,6 +2903,10 @@ msgstr "Denne filen \"%s\" eksisterer ikke."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kan ikke starte \"%s\"."
+
+# %i will be replaced by the number of characters
+#~ msgid "(%i characters)"
+#~ msgstr "(%i bokstaver)"
 
 #~ msgid "More layouts on the web..."
 #~ msgstr "Flere oppsett på nettet..."

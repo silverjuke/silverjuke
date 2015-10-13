@@ -30,10 +30,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: silverjuke 15.1\n"
+"Project-Id-Version: silverjuke 15.4\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-06-11 10:40+0200\n"
-"PO-Revision-Date: 2015-06-11 10:40+0200\n"
+"POT-Creation-Date: 2015-10-13 13:24+0200\n"
+"PO-Revision-Date: 2015-10-13 13:24+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -2293,15 +2293,32 @@ msgstr "Rename files"
 msgid "Pattern:"
 msgstr "Pattern:"
 
-msgid "(first character)"
-msgstr "(first character)"
+msgid "Artist (first character)"
+msgstr "Artist (first character)"
 
-#, c-format
-msgid "(%i characters)"
-msgstr "(%i characters)"
+msgid "Album (first character)"
+msgstr "Album (first character)"
+
+msgid "Genre (first character)"
+msgstr "Genre (first character)"
+
+msgid "Group (first character)"
+msgstr "Group (first character)"
+
+msgid "Year (4 characters)"
+msgstr "Year (4 characters)"
+
+msgid "Year (2 characters)"
+msgstr "Year (2 characters)"
+
+msgid "Duration (5 characters)"
+msgstr "Duration (5 characters)"
 
 msgid "Directory change"
 msgstr "Directory change"
+
+msgid "File name (8 characters)"
+msgstr "File name (8 characters)"
 
 msgid "File extension"
 msgstr "File extension"
@@ -2348,6 +2365,18 @@ msgstr "Field to split:"
 
 msgid "Destination fields and pattern:"
 msgstr "Destination fields and pattern:"
+
+msgid "Track number (1 character)"
+msgstr "Track number (1 character)"
+
+msgid "Track number (2 characters)"
+msgstr "Track number (2 characters)"
+
+msgid "Disk number (1 character)"
+msgstr "Disk number (1 character)"
+
+msgid "Disk number (2 characters)"
+msgstr "Disk number (2 characters)"
 
 msgid "Void information"
 msgstr "Void information"
