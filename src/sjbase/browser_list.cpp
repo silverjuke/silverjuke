@@ -1890,7 +1890,7 @@ void SjListBrowser::DoPaintTrack(wxDC& dc, long x, long y, long w, long h, long 
 	if( isAzPossibleForCol(m_sortField) ) // can sort by A-Z?
 	{
 		str = SjNormaliseString(ti.GetFormattedValue(m_sortField), 0);
-		thisAz = str[0];
+		thisAz = str.Len()? str[0] : 'z'+1;
 		if( thisAz < 'a' || thisAz > 'z' )
 		{
 			thisAz = 'z'+1;
@@ -1898,8 +1898,8 @@ void SjListBrowser::DoPaintTrack(wxDC& dc, long x, long y, long w, long h, long 
 	}
 
 	if( lastAz != NULL
-	        && thisAz
-	        && thisAz != *lastAz )
+	 && thisAz
+	 && thisAz != *lastAz )
 	{
 		if( thisAz != 'z'+1 )
 		{
@@ -1910,7 +1910,7 @@ void SjListBrowser::DoPaintTrack(wxDC& dc, long x, long y, long w, long h, long 
 	}
 
 	if(  setAz
-	        && !g_mainFrame->HasSimpleSearch())
+	 && !g_mainFrame->HasSimpleSearch())
 	{
 		g_mainFrame->SetSkinAzValues(thisAz);
 	}
@@ -2034,7 +2034,7 @@ void SjListBrowser::DoPaintHeaderNTracks(wxDC& dc, long x, long y_, long w, long
 		m_listView->GetTrack(m_scrollPos-1, ti, tiAlbumId, tiSpecial);
 
 		wxString str = SjNormaliseString(ti.GetFormattedValue(m_sortField), 0);
-		lastAz = str[0];
+		lastAz = str.Len()? str[0] : 'z'+1;
 		if( lastAz < 'a' || lastAz > 'z' )
 		{
 			lastAz = 'z'+1;
