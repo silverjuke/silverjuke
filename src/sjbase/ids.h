@@ -337,6 +337,9 @@
 #define IDC_PLUGIN_FREEDB       9229
 #define IDC_PLUGIN_LAST         9250 /* range end */
 
+#define IDC_HOOK_FIRST          9260 /* range start */
+#define IDC_HOOK_LAST           9299 /* range end*/
+
 
 /* [MOD]ule [M]e[S]sa[G]e [ID]s, IDMODMSG_*
  * send via a SjModuleSystem::BroadcastMsg() from silverjuke --> all modules

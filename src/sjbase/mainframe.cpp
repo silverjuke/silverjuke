@@ -1573,6 +1573,11 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_CLOSE       (                           SjMainFrame::OnCloseWindow          )
 	EVT_ICONIZE     (                           SjMainFrame::OnIconizeWindow        )
 	//EVT_IDLE      (                           SjMainFrame::OnIdle                 )
+
+	#ifdef SJHOOK_MAIN_EVENT_TABLE
+	SJHOOK_MAIN_EVENT_TABLE
+	#endif
+
 END_EVENT_TABLE()
 
 
@@ -2226,6 +2231,10 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				break;
 		}
 	}
+
+	#ifdef SJHOOK_ON_MAIN_EVENT
+	SJHOOK_ON_MAIN_EVENT
+	#endif
 }
 
 

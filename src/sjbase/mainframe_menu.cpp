@@ -176,11 +176,8 @@ void SjMainFrame::InitMainMenu()
 			m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
 		}
 
-		#ifdef __WXMAC__
-		if( !m_menuBarComplete )
-		{
-			SetMenuBar(m_menuBar);
-		}
+		#ifdef SJHOOK_INIT_MAIN_MENU
+		SJHOOK_INIT_MAIN_MENU
 		#endif
 
 		m_menuBarComplete = TRUE;

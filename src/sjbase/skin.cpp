@@ -3863,6 +3863,10 @@ void SjSkinWindow::RedrawFinalLines(wxDC& dc, long finalMoveX, long finalMoveY)
 				itemnode = itemnode->GetNext();
 			}
 		}
+
+		#ifdef SJHOOK_FINALIZE_PAINTING
+		SJHOOK_FINALIZE_PAINTING
+		#endif
 	}
 }
 
