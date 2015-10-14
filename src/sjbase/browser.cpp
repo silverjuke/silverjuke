@@ -848,7 +848,7 @@ void SjBrowserWindow::SetZoom_(int targetIdOrAbs)
 
 
 SjBrowserWindow::SjBrowserWindow(SjMainFrame* mainFrame)
-	: wxWindow(mainFrame, -1, wxDefaultPosition, wxDefaultSize, 0)
+	: wxWindow(mainFrame, -1, wxDefaultPosition, wxDefaultSize, wxFULL_REPAINT_ON_RESIZE)
 {
 	g_mainFrame = mainFrame;
 	#if SJ_USE_TOOLTIPS
