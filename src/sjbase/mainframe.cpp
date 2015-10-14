@@ -2155,7 +2155,11 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDO_ONLINE_HELP:
 				if( IsAllAvailable() )
 				{
-					g_tools->ExploreHomepage(SJ_HOMEPAGE_HELP_INDEX);
+					#ifdef PKGDOCDIR
+						g_tools->ExploreUrl(wxT(PKGDOCDIR));
+					#else
+						g_tools->ExploreUrl(g_tools->GetSilverjukeProgramDir()+wxString(wxT("docs/")));
+					#endif
 				}
 				break;
 

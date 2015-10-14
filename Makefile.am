@@ -26,7 +26,7 @@ ACLOCAL_AMFLAGS = --install -I m4
 
 # Provide the pkgdatadir variable to cpp files in order to be able
 # to reliably locate the skins and keyboards.
-silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS) -DPKGDATADIR=\"$(pkgdatadir)\"
+silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS) -DPKGDATADIR=\"$(pkgdatadir)\" -DPKGDOCDIR=\"$(docdir)\"
 silverjuke_CXXFLAGS = \
 	-Isrc \
 	-Wall \
