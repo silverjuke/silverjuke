@@ -32,9 +32,9 @@
 
 // basic version definition
 #define SJ_VERSION_MAJOR 15
-#define SJ_VERSION_MINOR 4 // odd minor = beta version
+#define SJ_VERSION_MINOR 6 // odd minor = beta version
 #define SJ_VERSION_REVISION 1
-#define SJ_VERSION_ASCII "15.4"
+#define SJ_VERSION_ASCII "15.6"
 
 // odd minor numbers and/or debug builds are treated as beta versions
 #if (SJ_VERSION_MINOR%2) || defined(__WXDEBUG__)
