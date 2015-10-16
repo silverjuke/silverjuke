@@ -291,6 +291,8 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 				m_currPageModule = NULL;
 			}
 		}
+		
+		Refresh();
 	}
 }
 
