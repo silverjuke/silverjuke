@@ -171,7 +171,7 @@ void SjMainFrame::InitMainMenu()
 		if( !m_menuBarComplete )
 		{
 			m_helpMenu->Append(IDO_ABOUT_OPEN_WWW, wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
-			m_helpMenu->Append(IDO_ONLINE_HELP, _("Help files")+wxString(wxT("...")));
+			m_helpMenu->Append(IDO_ONLINE_HELP, _("All files")+wxString(wxT("...")));
 			m_helpMenu->AppendSeparator();
 			m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
 		}
