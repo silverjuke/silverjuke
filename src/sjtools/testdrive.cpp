@@ -391,7 +391,7 @@ void SjTestdrive1()
 				sql.Query(wxT("INSERT INTO test (col1) VALUES ('Die ") +wxString(wxChar(0xc4))+ wxT("rzte');"));
 				sql.Query(wxT("SELECT * FROM test WHERE col1 LIKE 'die ") +wxString(wxChar(0xe4))+  wxT("%'"));
 				if( !sql.Next() )
-					wxLogWarning(wxT("Testdrive: sqlite3 LIKE-operator is not case insenssitive for german umlauts!"));
+					wxLogInfo(wxT("Testdrive: sqlite3 LIKE-operator is not case insenssitive for german umlauts!"));
 
 				sql.Query(wxT("INSERT INTO test (col1) VALUES ('ABC');"));
 				sql.Query(wxT("SELECT * FROM test WHERE col1 LIKE 'abc'"));
