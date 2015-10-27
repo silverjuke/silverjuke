@@ -291,7 +291,7 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 				m_currPageModule = NULL;
 			}
 		}
-		
+
 		Refresh();
 	}
 }
@@ -357,9 +357,7 @@ void SjSettingsDlg::SetSelToDialog(const wxString& selFile, int selIndex, int se
 	SjModule* m = GetSelFromDialog();
 	if( m )
 	{
-		Freeze();
 		LoadPage(m->m_file, m->m_fileIndex, selPage);
-		Thaw();
 	}
 }
 
@@ -401,9 +399,7 @@ void SjSettingsDlg::OnSelectionChange(wxCommandEvent& event)
 			SjModule* m = GetSelFromDialog();
 			if( m )
 			{
-				Freeze();
 				LoadPage(m->m_file, m->m_fileIndex, -1);
-				Thaw();
 			}
 		}
 		s_inHere = FALSE;
