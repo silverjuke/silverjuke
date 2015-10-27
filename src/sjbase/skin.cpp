@@ -1859,7 +1859,7 @@ void SjSkinScrollbarItem::SetValue(const SjSkinValue& value)
 		m_vrange    = newRange;
 		m_thumbSize = value.thumbSize;
 
-		//wxLogDebug("min=%i max=%i range=%i value=%i thumbSize=%i", m_vmin, m_vmax, m_vrange, m_value, m_thumbSize);
+		//wxLogDebug("min=%i max=%i range=%i value=%i thumbSize=%i", (int)m_vmin, (int)m_vmax, (int)m_vrange, (int)m_value, (int)m_thumbSize);
 
 		if( m_thumbSize > m_vrange )
 		{
@@ -3240,7 +3240,7 @@ void SjSkinWindow::SetSkinTargetValue(int targetId, const SjSkinValue& value, bo
 
 	if(targetId <= 0 || targetId > IDT_LAST )
 	{
-		wxLogDebug(wxT("Invalid target ID %i")/*n/t*/, targetId);
+		wxLogDebug(wxT("Invalid target ID %i")/*n/t*/, (int)targetId);
 		return;
 	}
 
@@ -3322,7 +3322,7 @@ bool SjSkinWindow::HideSkinTarget(int targetId, bool hide, bool redraw)
 {
 	if(targetId <= 0 || targetId > IDT_LAST )
 	{
-		wxLogDebug("Invalid target ID %i"/*n/t*/, targetId);
+		wxLogDebug("Invalid target ID %i"/*n/t*/, (int)targetId);
 		return FALSE;
 	}
 

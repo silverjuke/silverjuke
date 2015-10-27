@@ -425,17 +425,17 @@ void SjFolderScannerModule::LoadSettings__()
 	SjFolderScannerSource*  currSourceObj;
 	for( currSourceIndex = 0; currSourceIndex < sourceCount; currSourceIndex++ )
 	{
-		currSourceStr = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT(""));
+		currSourceStr = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT(""));
 		if( !currSourceStr.IsEmpty() )
 		{
 			currSourceObj = new SjFolderScannerSource;
 			if( currSourceObj )
 			{
 				currSourceObj->m_url        = currSourceStr;
-				currSourceObj->m_file       = sql.ConfigRead(wxString::Format(wxT("folderscanner/file%i"), currSourceIndex), wxT(""));
-				currSourceObj->m_ignoreExt  = sql.ConfigRead(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex), wxT(""));
-				currSourceObj->m_trackInfoMatcher.Compile(SJ_TI_URL, sql.ConfigRead(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex), SjTrackInfoMatcher::GetDefaultPattern()));
-				currSourceObj->m_flags      =  sql.ConfigRead(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex), SJ_FOLDERSCANNER_DEFFLAGS);
+				currSourceObj->m_file       = sql.ConfigRead(wxString::Format(wxT("folderscanner/file%i"), (int)currSourceIndex), wxT(""));
+				currSourceObj->m_ignoreExt  = sql.ConfigRead(wxString::Format(wxT("folderscanner/ignoreExt%i"), (int)currSourceIndex), wxT(""));
+				currSourceObj->m_trackInfoMatcher.Compile(SJ_TI_URL, sql.ConfigRead(wxString::Format(wxT("folderscanner/pattern%i"), (int)currSourceIndex), SjTrackInfoMatcher::GetDefaultPattern()));
+				currSourceObj->m_flags      =  sql.ConfigRead(wxString::Format(wxT("folderscanner/flags%i"), (int)currSourceIndex), SJ_FOLDERSCANNER_DEFFLAGS);
 				m_listOfSources.Append(currSourceObj);
 			}
 		}
@@ -453,17 +453,17 @@ void SjFolderScannerModule::SaveSettings__()
 
 	SjFolderScannerSourceList::Node* currSourceNode = m_listOfSources.GetFirst();
 	SjFolderScannerSource*           currSourceObj;
-	int                             currSourceIndex = 0;
+	int                              currSourceIndex = 0;
 	while( currSourceNode )
 	{
 		// write source
 		currSourceObj = currSourceNode->GetData();
 		wxASSERT(currSourceObj);
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), currSourceObj->m_url);
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/file%i"), currSourceIndex), currSourceObj->m_file);
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex), currSourceObj->m_ignoreExt.GetExt());
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex), currSourceObj->m_trackInfoMatcher.GetPattern());
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex), currSourceObj->m_flags);
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), currSourceObj->m_url);
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/file%i"), (int)currSourceIndex), currSourceObj->m_file);
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/ignoreExt%i"), (int)currSourceIndex), currSourceObj->m_ignoreExt.GetExt());
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/pattern%i"), (int)currSourceIndex), currSourceObj->m_trackInfoMatcher.GetPattern());
+		sql.ConfigWrite(wxString::Format(wxT("folderscanner/flags%i"), (int)currSourceIndex), currSourceObj->m_flags);
 
 		// next source
 		currSourceIndex++;
@@ -474,20 +474,20 @@ void SjFolderScannerModule::SaveSettings__()
 	while( 1 /*exit by break*/ )
 	{
 		#define MAX_DEL 1000
-		if( sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT("*"))==wxT("*") /*check for existance (`*` is an invalid URL)*/
+		if( sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT("*"))==wxT("*") /*check for existance (`*` is an invalid URL)*/
 		        || currSourceIndex > MAX_DEL /*avoid deadlocks*/ )
 		{
 			break; // done
 		}
 
-		wxString url = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex), wxT(""));
+		wxString url = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT(""));
 
 		sql.ConfigDeleteEntry(wxT("folderscanner/deepupdate/")+url);
 		sql.ConfigDeleteEntry(wxT("folderscanner/trackCount/")+url);
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/url%i"), currSourceIndex));
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/ignoreExt%i"), currSourceIndex));
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/pattern%i"), currSourceIndex));
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/flags%i"), currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/ignoreExt%i"), (int)currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/pattern%i"), (int)currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/flags%i"), (int)currSourceIndex));
 
 		currSourceIndex++;
 	}

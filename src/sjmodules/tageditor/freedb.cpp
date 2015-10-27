@@ -196,7 +196,7 @@ void SjFreedbQuery::QueryDo(SjArrayFreedbTrack& tracks, SjFreedbState newState)
 
 			// add track to offsets
 			if( !offsets.IsEmpty() ) offsets += wxT(" ");
-			offsets += wxString::Format(wxT("%i"), currSeconds*75);
+			offsets += wxString::Format(wxT("%i"), (int)(currSeconds*75));
 
 			// next track
 			currSeconds += tracks[i].m_localMs/1000 + 2;
@@ -209,10 +209,10 @@ void SjFreedbQuery::QueryDo(SjArrayFreedbTrack& tracks, SjFreedbState newState)
 
 	// query the server
 	m_httpCmd = wxString::Format(wxT("cddb query %08x %i %s %i"),
-	                             discid,
-	                             trackCount,
+	                             (int)discid,
+	                             (int)trackCount,
 	                             offsets.c_str(),
-	                             totalTime);
+	                             (int)totalTime);
 	m_state = newState;
 	m_http.OpenFile(BuildQueryUrl(m_httpCmd), PROTOCOL_ENC);
 }

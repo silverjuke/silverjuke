@@ -1534,7 +1534,7 @@ void SjVirtKeybdModule::GetAvailKeybdLayoutsFromFile(SjArrayVirtKeybdLayout& lis
 		{
 			SjVirtKeybdLayout* curr = new SjVirtKeybdLayout;
 			curr->m_name = testNames[i];
-			curr->m_file.Printf(wxT("%s,%i"), file.c_str(), i);
+			curr->m_file.Printf(wxT("%s,%i"), file.c_str(), (int)i);
 
 			// if the name is already used, add the file to the name
 			int j, jCount = list.GetCount();

@@ -203,7 +203,7 @@ void SjTools::InitCrashPrecaution()
 								#ifdef __WXDEBUG__
 	                                  wxT("-db")
 								#endif
-	                                  , crc)
+	                                  , (int)crc)
 	                      );
 
 	if( ::wxFileExists(m_crashInfoFileName) )
@@ -1288,7 +1288,7 @@ wxRect SjTools::ParseRect(const wxString& str__)
 wxString SjTools::FormatRect(const wxRect& r)
 {
 	return wxString::Format(wxT("%i,%i,%i,%i"),
-	                        r.x, r.y, r.width, r.height);
+	                        (int)r.x, (int)r.y, (int)r.width, (int)r.height);
 }
 
 
@@ -3921,7 +3921,7 @@ void SjPlaceholdMatcher::Match(const wxString& haystack, bool shortExt)
 	}
 
 	#ifdef __WXDEBUG__
-		wxLogDebug(wxT("interesting part starting at pos. %i := %s"), startPos, haystack.Mid(startPos).c_str());
+		wxLogDebug(wxT("interesting part starting at pos. %i := %s"), (int)startPos, haystack.Mid(startPos).c_str());
 	#endif
 
 	// okay, "startPos" is the starting position of our first placeholder now

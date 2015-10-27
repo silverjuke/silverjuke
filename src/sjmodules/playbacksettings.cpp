@@ -1362,7 +1362,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 	// auto play: num tracks
 
 	int numTracks = g_mainFrame->m_autoCtrl.m_autoPlayNumTracks;
-	m_autoPlayTracks = new wxSpinCtrl(page, -1, wxString::Format(wxT("%i"), numTracks),
+	m_autoPlayTracks = new wxSpinCtrl(page, -1, wxString::Format(wxT("%i"), (int)numTracks),
 	                                  wxDefaultPosition, wxSize(SJ_3DIG_SPINCTRL_W, -1), wxSP_ARROW_KEYS,
 	                                  SJ_AUTOCTRL_MIN_AUTOPLAYNUMTRACKS, SJ_AUTOCTRL_MAX_AUTOPLAYNUMTRACKS, numTracks);
 	sizer2->Add(m_autoPlayTracks, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, SJ_DLG_SPACE);

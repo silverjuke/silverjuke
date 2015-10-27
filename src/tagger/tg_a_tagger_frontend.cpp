@@ -432,7 +432,7 @@ SjResult SjGetTrackInfoFromID3Etc(wxFSFile* fsFile, SjTrackInfo& ti, long flags)
 						if( ext.IsEmpty() || ext == wxT("jpeg") ) ext = wxT("jpg");
 
 						// add to list of arts
-						ti.AddArt(wxString::Format(wxT("%s#id3:image%i.%s"), url.c_str(), index+1/*let the name start with "1"*/, ext.c_str()));
+						ti.AddArt(wxString::Format(wxT("%s#id3:image%i.%s"), url.c_str(), (int)(index+1)/*let the name start with "1"*/, ext.c_str()));
 					}
 
 					index++;
@@ -613,7 +613,7 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 		if( mpcProp )
 		{
 			// write version
-			prop.Add(wxT("MPC Version"), wxString::Format(wxT("SV%i"), mpcProp->mpcVersion()));
+			prop.Add(wxT("MPC Version"), wxString::Format(wxT("SV%i"), (int)mpcProp->mpcVersion()));
 		}
 
 		// write tag types
@@ -730,7 +730,7 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 		// Write out all fields of the ID3v1 tag
 		if( id3v1 )
 		{
-			prop.Add(wxString::Format(wxT("ID3v1.%i Fields"), id3v1->majorVersion()), wxT(""), SJ_PROP_HEADLINE);
+			prop.Add(wxString::Format(wxT("ID3v1.%i Fields"), (int)id3v1->majorVersion()), wxT(""), SJ_PROP_HEADLINE);
 
 			prop.Add(wxT("Title"),  id3v1->title(),         SJ_PROP_EMPTYIFEMPTY);
 			prop.Add(wxT("Artist"), id3v1->leadArtist(),    SJ_PROP_EMPTYIFEMPTY);

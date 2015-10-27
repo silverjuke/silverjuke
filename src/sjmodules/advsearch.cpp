@@ -2832,7 +2832,7 @@ wxString SjAdvSearchModule::CheckName(long skipId, const wxString& name) const
 	// add a number to the name, if needed
 	do
 	{
-		testName = numToAdd>1? wxString::Format(wxT("%s (%i)"), base.c_str(), numToAdd) : base;
+		testName = numToAdd>1? wxString::Format(wxT("%s (%i)"), base.c_str(), (int)numToAdd) : base;
 		nameOk = TRUE;
 
 		for( i = 0; i < iCount; i++ )

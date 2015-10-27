@@ -269,7 +269,7 @@ wxSqltDb::~wxSqltDb()
 		#ifdef __WXDEBUG__
 		if( m_instanceCount != 0 )
 		{
-			wxLogError(wxT("%i instances left open for the database."), m_instanceCount);
+			wxLogError(wxT("%i instances left open for the database."), (int)m_instanceCount);
 		}
 		#endif
 
@@ -338,10 +338,10 @@ void wxSqltDb::SetSync(long state, bool saveInDb)
 	if( state >= 0 && state <= 2 )
 	{
 		wxSqlt sql(this);
-		sql.Query(wxString::Format(wxT("PRAGMA synchronous=%i;"), state));
+		sql.Query(wxString::Format(wxT("PRAGMA synchronous=%i;"), (int)state));
 		if( saveInDb )
 		{
-			sql.Query(wxString::Format(wxT("PRAGMA default_synchronous=%i;"), state));
+			sql.Query(wxString::Format(wxT("PRAGMA default_synchronous=%i;"), (int)state));
 		}
 	}
 }
@@ -567,7 +567,7 @@ wxString wxSqlt::GetFieldName(int fieldIndex) const
 
 	if(fieldIndex < 0 || fieldIndex >= m_fieldCount)
 	{
-		wxLogError(wxT("Invalid SQL field %i, range is 0..%i")/*n/t*/, fieldIndex, m_fieldCount);
+		wxLogError(wxT("Invalid SQL field %i, range is 0..%i")/*n/t*/, (int)fieldIndex, (int)m_fieldCount);
 		return wxT("");
 	}
 

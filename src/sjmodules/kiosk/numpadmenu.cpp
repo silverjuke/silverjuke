@@ -208,7 +208,7 @@ void SjNumpadMenuHandler::SetDisplayMsg(int pageId, bool nullIsNext)
 			if( page->m_entries[e].m_action )
 			{
 				if( !msg.IsEmpty() ) msg += wxT("  ");
-				msg += wxString::Format(wxT("%i=%s"), e, page->m_entries[e].m_title.c_str());
+				msg += wxString::Format(wxT("%i=%s"), (int)e, page->m_entries[e].m_title.c_str());
 			}
 		}
 

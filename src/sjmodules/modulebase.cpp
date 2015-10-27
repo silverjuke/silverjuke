@@ -487,7 +487,7 @@ void SjModuleSystem::BroadcastMsg(int msg)
 
 	if( inSendMsg == msg )
 	{
-		wxLogError(wxT("Recursive call of SjModuleSystem::SendMsg (msg=%i).")/*n/t*/, msg);
+		wxLogError(wxT("Recursive call of SjModuleSystem::SendMsg (msg=%i).")/*n/t*/, (int)msg);
 	}
 	else
 	{
@@ -1062,7 +1062,7 @@ wxString SjModule::PackFileName(const wxString& file, int fileIndex)
 {
 	if( fileIndex )
 	{
-		return wxString::Format(wxT("%s,%i"), file.c_str(), fileIndex);
+		return wxString::Format(wxT("%s,%i"), file.c_str(), (int)fileIndex);
 	}
 	else
 	{
@@ -1270,7 +1270,7 @@ wxString SjTrackInfo::GetFormattedValue(long ti) const
 			for( long i = 0; i < queueCount; i++ )
 			{
 				if( i ) ret += wxT(", ");
-				ret += wxString::Format(wxT("%i"), pos[i]+1);
+				ret += wxString::Format(wxT("%i"), (int)(pos[i]+1));
 			}
 			return ret;
 		}

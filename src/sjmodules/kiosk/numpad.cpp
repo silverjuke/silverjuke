@@ -169,7 +169,7 @@ long SjNumpadInput::GetHoldSeconds(int i)
 
 	if( m_holdSeconds_DontUse[i] == -1 )
 	{
-		m_holdSeconds_DontUse[i] = g_tools->m_config->Read(wxString::Format(wxT("kiosk/numpadHold%i"), i),
+		m_holdSeconds_DontUse[i] = g_tools->m_config->Read(wxString::Format(wxT("kiosk/numpadHold%i"), (int)i),
 		                           s_defHoldSeconds[i]);
 	}
 
@@ -182,7 +182,7 @@ void SjNumpadInput::SetHoldSeconds(int i, long seconds)
 	wxASSERT( i >= 0 && i < SJ_NUMPAD_HOLD_COUNT );
 
 	m_holdSeconds_DontUse[i] = seconds;
-	g_tools->m_config->Write(wxString::Format(wxT("kiosk/numpadHold%i"), i), m_holdSeconds_DontUse[i]);
+	g_tools->m_config->Write(wxString::Format(wxT("kiosk/numpadHold%i"), (int)i), m_holdSeconds_DontUse[i]);
 }
 
 

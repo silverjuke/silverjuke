@@ -201,10 +201,10 @@ LoadConfig_Failed:
 
 void SjListBrowser::SaveConfig()
 {
-	wxString data = wxString::Format(wxT("%i,%i,0,0"), m_sortField, m_sortDesc? 1L : 0L);
+	wxString data = wxString::Format(wxT("%i,%i,0,0"), (int)m_sortField, m_sortDesc? 1 : 0);
 	for( int i = 0; i < (int)m_columns.GetCount(); i++ )
 	{
-		data += wxString::Format(wxT(",%i,%i"), m_columns[i], m_columnWidths[i]);
+		data += wxString::Format(wxT(",%i,%i"), (int)m_columns[i], (int)m_columnWidths[i]);
 	}
 	g_tools->m_config->Write(wxT("main/columns"), data);
 }

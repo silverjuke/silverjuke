@@ -294,7 +294,7 @@ void SjMonitorOverview::DoPaint(wxDC& dc__)
 		drawDc->SetFont(m_fontNumber);
 		drawDc->SetTextForeground(digitColour);
 
-		wxString str = wxString::Format(wxT("%i"), m+1);
+		wxString str = wxString::Format(wxT("%i"), (int)(m+1));
 		drawDc->GetTextExtent(str, &textW, &textH);
 		drawDc->DrawText(str, drawRect.x+drawRect.width/2-textW/2, drawRect.y+drawRect.height/2-textH/2);
 	}

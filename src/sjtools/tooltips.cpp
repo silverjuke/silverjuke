@@ -500,7 +500,7 @@ void SjToolTipManager::OpenToolTipWindow()
 
 	#ifdef DEBUG_TOOLTIPS
 		wxLogDebug("...tooltip \"%s\" opened [x=%i, y=%i, %ix%i]", text.c_str(),
-				   rect.x, rect.y, rect.width, rect.height);
+				   (int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
 	#endif
 
 	// preserve the focus

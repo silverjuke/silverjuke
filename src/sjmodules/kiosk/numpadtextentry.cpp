@@ -189,7 +189,7 @@ void SjNumpadTextEntryHandler::SetDisplayMsg()
 	for( i = 2; i <= 9; i++ )
 	{
 		GetChars(i, possibleBase, possibleAdd);
-		msg += wxString::Format(wxT(" %i="), i) + possibleBase;
+		msg += wxString::Format(wxT(" %i="), (int)i) + possibleBase;
 	}
 
 	g_mainFrame->SetDisplayMsg(msg, m_numpadInput->GetHoldMs(SJ_NUMPAD_HOLD_TEXTENTRY));

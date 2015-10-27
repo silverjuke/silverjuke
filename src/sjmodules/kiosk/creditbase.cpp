@@ -143,7 +143,7 @@ void SjCreditBase::AddCredit(long titleCount, long addFlags)
 	if( oldCreditCount != m_creditCount )
 	{
 		if( ShowCreditInDisplay() )
-			g_mainFrame->SetDisplayMsg( wxString::Format(_("Credit: %i"), m_creditCount));
+			g_mainFrame->SetDisplayMsg( wxString::Format(_("Credit: %i"), (int)m_creditCount));
 
 		SaveCreditCount();
 

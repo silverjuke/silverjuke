@@ -2891,10 +2891,10 @@ long SjLibraryModule::GetMaskedColIndexByAz(int targetId)
 						if( m_searchOffsets[i] <= orgIndex )
 						{
 							// here is our offset -- but there may be a better one when looking forward
-							sql.Query(wxString::Format(wxT("SELECT az FROM albums WHERE albumindex=%i;"), m_searchOffsets[i]));
+							sql.Query(wxString::Format(wxT("SELECT az FROM albums WHERE albumindex=%i;"), (int)m_searchOffsets[i]));
 							if( sql.Next() && sql.GetLong(0) != az )
 							{
-								sql.Query(wxString::Format(wxT("SELECT az FROM albums WHERE albumindex=%i;"), m_searchOffsets[i+1]));
+								sql.Query(wxString::Format(wxT("SELECT az FROM albums WHERE albumindex=%i;"), (int)m_searchOffsets[i+1]));
 								if( sql.Next() && sql.GetLong(0) == az )
 								{
 									return i+1;
@@ -4117,8 +4117,8 @@ void SjLibraryModule::HandleMenu(int id)
 					SjHashIterator iterator7;
 					while( m_selectedTrackIds.Iterate(iterator7, &trackId) )
 					{
-						sql.Query(wxString::Format(wxT("UPDATE tracks SET rating=%i WHERE id=%lu;"),
-						                           id-IDM_RATINGSELECTION00, trackId));
+						sql.Query(wxString::Format(wxT("UPDATE tracks SET rating=%i WHERE id=%i;"),
+						                           (int)(id-IDM_RATINGSELECTION00), (int)trackId));
 					}
 				}
 
@@ -4993,11 +4993,11 @@ void SjLibraryModule::AskToAddSelection()
 		            wxString::Format(
 		              // TRANSLATORS: %i will be replaced by the number of tracks
 		              wxPLURAL("Do you want to enqueue %i selected track?", "Do you want to enqueue %i selected tracks?", trackCount),
-		              trackCount),
+		              (int)trackCount),
 		            wxString::Format(
 		              // TRANSLATORS: %i will be replaced by the number of tracks
 		              wxPLURAL("Enqueue %i track", "Enqueue %i tracks", trackCount),
-		              trackCount),
+		              (int)trackCount),
 		            g_mainFrame,
 		            SJ_ACCEL_ASK_ON_MULTI_ENQUEUE) != wxYES )
 		{

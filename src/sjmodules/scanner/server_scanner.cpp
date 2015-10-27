@@ -79,18 +79,18 @@ void SjServerScannerModule::LoadSettings()
 	wxString                currServerName;
 	for( i = 0; i < sourceCount; i++ )
 	{
-		currServerName = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iname"), i), wxT(""));
+		currServerName = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iname"), (int)i), wxT(""));
 		if( !currServerName.IsEmpty() )
 		{
 			currSourceObj = new SjServerScannerSource;
 			if( currSourceObj )
 			{
 				currSourceObj->m_serverName     = currServerName;
-				currSourceObj->m_serverType     = (SjServerScannerType)sql.ConfigRead(wxString::Format(wxT("serverscanner/s%itype"), i), (long)SJ_SERVERSCANNER_TYPE_UNKNOWN);
-				currSourceObj->m_loginName      = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iloginName"), i), wxT(""));
-				currSourceObj->m_loginPassword  = SjTools::UnscrambleString(sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iloginPw"), i), wxT("")));
-				currSourceObj->m_flags          = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iflags"), i), SJ_SERVERSCANNER_DEF_FLAGS);
-				currSourceObj->m_lastCfgFile    = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%ilastCfgFile"), i), wxT(""));
+				currSourceObj->m_serverType     = (SjServerScannerType)sql.ConfigRead(wxString::Format(wxT("serverscanner/s%itype"), (int)i), (long)SJ_SERVERSCANNER_TYPE_UNKNOWN);
+				currSourceObj->m_loginName      = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iloginName"), (int)i), wxT(""));
+				currSourceObj->m_loginPassword  = SjTools::UnscrambleString(sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iloginPw"), (int)i), wxT("")));
+				currSourceObj->m_flags          = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%iflags"), (int)i), SJ_SERVERSCANNER_DEF_FLAGS);
+				currSourceObj->m_lastCfgFile    = sql.ConfigRead(wxString::Format(wxT("serverscanner/s%ilastCfgFile"), (int)i), wxT(""));
 
 				m_sources.Add(currSourceObj);
 
@@ -113,12 +113,12 @@ void SjServerScannerModule::SaveSettings()
 		sql.ConfigWrite(wxT("serverscanner/sCount"), sourceCount);
 		for( i = 0; i < sourceCount; i++ )
 		{
-			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iname"), i), m_sources[i].m_serverName);
-			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%itype"), i), (long)m_sources[i].m_serverType);
-			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iloginName"), i), m_sources[i].m_loginName);
-			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iloginPw"), i), SjTools::ScrambleString(m_sources[i].m_loginPassword));
-			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iflags"), i), (long)m_sources[i].m_flags);
-			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%ilastCfgFile"), i), m_sources[i].m_lastCfgFile);
+			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iname"),        (int)i), m_sources[i].m_serverName);
+			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%itype"),        (int)i), (long)m_sources[i].m_serverType);
+			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iloginName"),   (int)i), m_sources[i].m_loginName);
+			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iloginPw"),     (int)i), SjTools::ScrambleString(m_sources[i].m_loginPassword));
+			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%iflags"),       (int)i), (long)m_sources[i].m_flags);
+			sql.ConfigWrite(wxString::Format(wxT("serverscanner/s%ilastCfgFile"), (int)i), m_sources[i].m_lastCfgFile);
 
 			SjInternetFSHandler::SetAuth(m_sources[i].m_serverName, m_sources[i].m_loginName, m_sources[i].m_loginPassword);
 		}

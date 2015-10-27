@@ -818,7 +818,7 @@ void SjBasicSettingsConfigPage::OnLittleReset(wxCommandEvent&)
 		wxWindowDisabler disabler(topLevelWindow);
 
 		if( SjMessageBox(
-		            wxString::Format(_("Do you really want to reset all %i selected commands and options to their default values?"), selectedOptionsCount),
+		            wxString::Format(_("Do you really want to reset all %i selected commands and options to their default values?"), (int)selectedOptionsCount),
 		            SJ_PROGRAM_NAME,
 		            wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, topLevelWindow) == wxNO )
 		{

@@ -163,7 +163,7 @@ bool SjAccelModule::FirstLoad()
 
 	for( int idtCredit = IDT_ADD_CREDIT_01; idtCredit <= IDT_ADD_CREDIT_16; idtCredit++ )
 	{
-		OrgCmd(_("Add credit")+wxString::Format(wxT(" (+%i)"), (idtCredit-IDT_ADD_CREDIT_01)+1), idtCredit, SJA_MAIN);
+		OrgCmd(_("Add credit")+wxString::Format(wxT(" (+%i)"), (int)((idtCredit-IDT_ADD_CREDIT_01)+1)), idtCredit, SJA_MAIN);
 	}
 
 	// tools shortcuts
@@ -356,7 +356,7 @@ private:
 		if( event.AltDown() ) modifiers |= wxACCEL_ALT;
 		if( event.ShiftDown() ) modifiers |= wxACCEL_SHIFT;
 		if( event.ControlDown() )  modifiers |= wxACCEL_CTRL;
-		wxLogDebug(wxT("meta.%i"), event.MetaDown());
+		wxLogDebug(wxT("meta.%i"), (int)event.MetaDown());
 
 		// save the key
 		m_key = (modifiers << 16) | keycode;

@@ -1773,7 +1773,7 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 			}
 			else
 			{
-				LogError(wxString::Format(wxT("\"%s\": Subimage at %i/%i has a width or a height of null."), file.c_str(), x, y), tagPosition);
+				LogError(wxString::Format(wxT("\"%s\": Subimage at %i/%i has a width or a height of null."), file.c_str(), (int)x, (int)y), tagPosition);
 			}
 
 			if( y == 0 )
@@ -1800,7 +1800,7 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 	if( m_skin->m_debugInfo )
 	{
 		wxLogInfo(wxT("%s loaded with %ix%i subimage(s), %i skipped subimage(s), %i mask or alpha channel(s) [%s]")/*n/t*/,
-		          file.c_str(), subimageXCount, subimageYCount, (int)skippedCount, (int)image->m_hasMaskOrAlpha, GetUrl().c_str());
+		          file.c_str(), (int)subimageXCount, (int)subimageYCount, (int)skippedCount, (int)image->m_hasMaskOrAlpha, GetUrl().c_str());
 	}
 
 	return image;

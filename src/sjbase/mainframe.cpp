@@ -2525,7 +2525,7 @@ wxString SjMainFrameToolTipProvider::GetText(long& flags)
 
 			case IDT_MAIN_VOL_SLIDER:
 				hint = _("Volume");
-				hint += wxString::Format(wxT(" (%i%%)"), (g_mainFrame->m_player.GetMainVol()*100)/255);
+				hint += wxString::Format(wxT(" (%i%%)"), (int)( (g_mainFrame->m_player.GetMainVol()*100)/255 ));
 				break;
 
 			case IDT_DISPLAY_COVER:

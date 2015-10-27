@@ -847,11 +847,11 @@ static wxString getVideoModeName(const wxVideoMode& mode)
 {
 	wxString name;
 
-	name = wxString::Format(wxT("%i x %i, %i bpp"), mode.GetWidth(), mode.GetHeight(), mode.GetDepth());
+	name = wxString::Format(wxT("%i x %i, %i bpp"), (int)mode.GetWidth(), (int)mode.GetHeight(), (int)mode.GetDepth());
 
 	if( mode.refresh > 0 )
 	{
-		name += wxString::Format(wxT(", %i Hz"), mode.refresh);
+		name += wxString::Format(wxT(", %i Hz"), (int)mode.refresh);
 	}
 
 	return name;
@@ -1351,7 +1351,7 @@ void SjKioskConfigPage::UpdateVirtKeybdTranspText()
 	if( m_virtKeybdTransp )
 	{
 		int v = m_virtKeybdTransp->GetValue();
-		m_virtKeybdTranspLabel2->SetLabel(wxString::Format(wxT("%i%%  "), v));
+		m_virtKeybdTranspLabel2->SetLabel(wxString::Format(wxT("%i%%  "), (int)v));
 	}
 }
 
