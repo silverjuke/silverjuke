@@ -20,7 +20,7 @@
 
 # Set up autoconf
 AC_PREREQ([2.69])
-AC_INIT([silverjuke], [15.6.1], [r10s@b44t.com])
+AC_INIT([silverjuke], [15.8], [r10s@b44t.com])
 AC_CONFIG_MACRO_DIR([m4])
 
 # AC_CONFIG_SRCDIR just checks a single file to make sure, we're in the correct directory
