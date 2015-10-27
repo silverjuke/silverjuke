@@ -1773,6 +1773,8 @@ void SjAdvSearchDialog::UpdateSearchControls(const SjAdvSearch& advSearch, long 
 	}
 
 	wxLogDebug(wxT("...END UPDATING SEARCH CONTROLS"));
+
+	Refresh();
 }
 
 
