@@ -3885,9 +3885,9 @@ void SjPlaceholdMatcher::Match(const wxString& haystack, bool shortExt)
 		for( currPartIndex = 0; currPartIndex < (int)m_parts.GetCount(); currPartIndex++ )
 		{
 			currPart = &m_parts[currPartIndex  ];
-			wxLogDebug(wxT("%s := read %s characters until \"%s\""),
+			wxLogDebug(wxT("%s := read %i characters until \"%s\""),
 					   currPart->m_placeholder.c_str(),
-					   (currPart->m_delimWidth? wxString::Format(wxT("%i"), (int)currPart->m_delimWidth).c_str() : wxT("n")),
+					   (int)currPart->m_delimWidth,
 					   currPart->m_delimSepAfter.c_str());
 		}
 		wxLogDebug(wxT("----------------"));
