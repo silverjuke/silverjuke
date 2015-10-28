@@ -205,6 +205,10 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 {
 	if( file != m_currPageFile || index != m_currPageIndex )
 	{
+		#ifdef __WXMSW__
+		Freeze();
+		#endif
+
 		// remove old page
 		if( m_currPageModule )
 		{
@@ -291,6 +295,10 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 				m_currPageModule = NULL;
 			}
 		}
+
+		#ifdef __WXMSW__
+		Thaw();
+		#endif
 
 		Refresh();
 	}
