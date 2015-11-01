@@ -125,6 +125,26 @@ SjTools::SjTools()
 		m_oldConfig = NULL;
 	}
 
+	// enable/disable assert
+	#if wxCHECK_VERSION(2, 9, 1)
+	{
+		long assertSetting = m_config->Read("main/assert", 0L);
+		if( assertSetting == 0 )
+		{
+			wxSetAssertHandler(NULL);
+		}
+		else
+		{
+			wxLogInfo(wxT("Asserts enabled by globals.ini"));
+			wxSetDefaultAssertHandler();
+			if( assertSetting == 2 )
+			{
+				wxASSERT_MSG(0, "Just a Test assert");
+			}
+		}
+	}
+	#endif
+
 	// set the desired instance name; the instance name is empty for the default instance
 	// or defaults to the INI-file name
 	{

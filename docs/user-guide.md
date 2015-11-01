@@ -1352,6 +1352,10 @@ The options in detail:
 
 Some other options can be set in the `[main]` section of the globals.ini file:
 
+- `assert =` If set to 1, assert warnings are enabled; the state is shown in 
+  the console window in this case. To invoke an additional test assert, use the
+  value 2. Needed for debugging purposes only, defaults to 0.
+
 - `testdrive =` If set to 1, some tests are done at the start of Silverjuke,
   the result is shown in the console window. Needed for debugging purposes only,
   defaults to 0.
@@ -1359,6 +1363,7 @@ Some other options can be set in the `[main]` section of the globals.ini file:
 Example:
 
     [main]
+    assert = 1
     testdrive = 1
 
 
