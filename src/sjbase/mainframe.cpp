@@ -1332,7 +1332,10 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	/* (/) Some Functionality Tests
 	 */
-	SjTestdrive1();
+	if( g_tools->m_config->Read(wxT("main/testdrive"), 0L) )
+	{
+		SjTestdrive1();
+	}
 
 	/* (/) Done so far, enable the window and update the display
 	 *     to remove the busy info and to display the current settings

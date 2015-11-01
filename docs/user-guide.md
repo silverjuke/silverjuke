@@ -1350,6 +1350,17 @@ The options in detail:
   control for the Kiosk Mode. In this case, you can customize the keys to use 
   for the numpad control as described above.
 
+Some other options can be set in the `[main]` section of the globals.ini file:
+
+- `testdrive =` If set to 1, some tests are done at the start of Silverjuke,
+  the result is shown in the console window. Needed for debugging purposes only,
+  defaults to 0.
+
+Example:
+
+    [main]
+    testdrive = 1
+
 
 Copyright (c) Bjoern Petersen Software Design and Development and contributors
 

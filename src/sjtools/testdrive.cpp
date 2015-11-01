@@ -69,7 +69,6 @@ void SjTestdrive1()
 	 * LOGICAL TESTS
 	 ******************************************************************************/
 
-
 	/* older versions of wxWidgets are incompatible (in fact, the wxWidgets interface has changed) */
 	#if !wxCHECK_VERSION(2, 8, 0)
 		#error at least wxWidgets 2.8 required
@@ -85,20 +84,12 @@ void SjTestdrive1()
 		wxLogWarning(wxT("Testdrive: wxString::Replace() may get some optimizations"));
 	#endif
 
-	/* Debug-versions without Beta-code are suspicious */
-	#if !defined(SJ_BETA) && defined(__WXDEBUG__)
-		wxLogWarning(wxT("Testdrive: Debug versions without beta code are suspicious."));
-	#endif
-
 
 	/*******************************************************************************
 	 * PHYSICAL TESTS
 	 ******************************************************************************/
 
-
-	#ifdef SJ_BETA // (***)
-
-	wxLogInfo(wxT("Testdrive: Some physical tests (beta only) ..."));
+	wxLogInfo(wxT("Testdrive: Some physical tests ..."));
 
 	/* Test SjTools::AreFilesSame() */
 	{
@@ -478,7 +469,5 @@ void SjTestdrive1()
 
 	/* Done */
 	wxLogInfo(wxT("Testdrive: Done."));
-
-	#endif // of (***)
 }
 

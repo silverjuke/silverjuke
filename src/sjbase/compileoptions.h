@@ -32,23 +32,10 @@
 
 // basic version definition
 #define SJ_VERSION_MAJOR 15
-#define SJ_VERSION_MINOR 8 // odd minor = beta version
+#define SJ_VERSION_MINOR 8
 #define SJ_VERSION_REVISION 1
 #define SJ_VERSION_ASCII "15.8"
-
-// odd minor numbers and/or debug builds are treated as beta versions
-#if (SJ_VERSION_MINOR%2) || defined(__WXDEBUG__)
-	#define SJ_BETA
-#else
-	#undef SJ_BETA
-#endif
-
-// createa a more informative version string as wxT("<major>.<minor> <free text hints>")
-#if defined(SJ_BETA)
-	#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII) wxT(" Beta")
-#else
-	#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII)
-#endif
+#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII)
 
 #ifndef SJ_PROGRAM_NAME
 #define SJ_PROGRAM_NAME wxT("Silverjuke")
