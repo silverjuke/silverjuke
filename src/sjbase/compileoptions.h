@@ -19,7 +19,7 @@
  *
  *******************************************************************************
  *
- * File:    configsj.h
+ * File:    compileoptions.h
  * Authors: Björn Petersen
  * Purpose: Program configuration
  *
