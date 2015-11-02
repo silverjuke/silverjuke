@@ -453,7 +453,7 @@ bool SjSkinMlParserData::CheckCond(const wxHtmlTag* tag)
 	str = tag->GetParam(wxT("VERSION"));
 	if( !str.IsEmpty() )
 	{
-		if( SjTools::VersionString2Long(wxT(SJ_VERSION_ASCII)) >= SjTools::VersionString2Long(str) )
+		if( SjTools::VersionString2Long(wxString::Format(wxT("%i.%i"), SJ_VERSION_MAJOR, SJ_VERSION_MINOR)) >= SjTools::VersionString2Long(str) )
 		{
 			return true;
 		}

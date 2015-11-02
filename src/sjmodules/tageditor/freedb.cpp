@@ -552,11 +552,12 @@ int SjFreedbQuery::CddbSum(int n)
 
 wxString SjFreedbQuery::BuildQueryUrl(const wxString& cmd)
 {
-	return wxString::Format(wxT("http://%s/~cddb/cddb.cgi?cmd=%s&hello=%s+%s+Silverjuke+") wxT(SJ_VERSION_ASCII) PROTOCOL_LEVEL,
+	return wxString::Format(wxT("http://%s/~cddb/cddb.cgi?cmd=%s&hello=%s+%s+Silverjuke+%i.%i") PROTOCOL_LEVEL,
 	                        GetFreedbHost().c_str(),
 	                        SjTools::Urlencode(cmd).c_str(),
 	                        SjTools::Urlencode(GetUserName()).c_str(),
-	                        SjTools::Urlencode(GetUserHost()).c_str());
+	                        SjTools::Urlencode(GetUserHost()).c_str(),
+	                        SJ_VERSION_MINOR, SJ_VERSION_MAJOR);
 }
 
 

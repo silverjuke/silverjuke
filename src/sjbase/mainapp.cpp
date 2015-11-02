@@ -258,22 +258,22 @@ bool SjMainApp::OnInit()
 	s_logGui = new SjLogGui();
 
 	// log silverjuke and platform version and release information
-	wxLogInfo(wxT("Silverjuke %s Rev. %i started (%i Bit%s%s%s on %s (%i Bit), %s, sqlite %s)"),
-	          SJ_VERSION_STR, SJ_VERSION_REVISION, (int)(sizeof(void*)*8),
+	wxLogInfo(wxT("Silverjuke %i.%i.%i-%ibit-%s%s%s started on %s-%ibit, %s, sqlite %s"),
+	          SJ_VERSION_MAJOR, SJ_VERSION_MINOR, SJ_VERSION_REVISION, (int)(sizeof(void*)*8),
 	          #ifdef wxUSE_UNICODE
-	              wxT(" Unicode"),
+	              wxT("u"),
+	          #else
+	              wxT("a"),
+	          #endif
+	          #ifdef __WXDEBUG__
+                  wxT("d"),
 	          #else
 	              wxT(""),
 	          #endif
-	          #ifdef __WXDEBUG__
-                  wxT(" Debug"),
-	          #else
-				wxT(""),
-	          #endif
 	          #if SJ_USE_SCRIPTS
-	            wxT(" Scriptable"),
+	              wxT("s"),
 	          #else
-				wxT(""),
+	              wxT(""),
 	          #endif
 	          ::wxGetOsDescription().c_str(), ::wxIsPlatform64Bit()? 64 : 32,
 	          wxVERSION_STRING,

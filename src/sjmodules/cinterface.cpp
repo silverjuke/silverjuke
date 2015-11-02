@@ -64,7 +64,7 @@ long SjCPlugin::CallMaster(UINT msg, LPARAM param1, LPARAM param2, LPARAM param3
 	switch( msg )
 	{
 		case SJ_GET_VERSION:
-			return SjTools::VersionString2Long(SJ_VERSION_ASCII);
+			return SjTools::VersionString2Long(wxString::Format(wxT("%i.%i"), SJ_VERSION_MAJOR, SJ_VERSION_MINOR));
 	}
 
 	if( ! wxThread::IsMain() )

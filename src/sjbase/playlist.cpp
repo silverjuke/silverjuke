@@ -1137,7 +1137,7 @@ wxString SjPlaylist::SaveAsXspf(const wxString& containerUrl, long flags)
 	ret << wxT("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") << linebreak;
 	ret << wxT("<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\">") << linebreak;
 	ret << wxT("<date>") << dtString << wxT("</date>") << linebreak;
-	ret << wxT("<meta rel=\"generator\">") << SJ_PROGRAM_NAME << wxT(" ") << SJ_VERSION_STR << wxT("</meta>") << linebreak;
+	ret << wxT("<meta rel=\"generator\">") << wxString::Format(wxT("%s %i.%i"), SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR) << wxT("</meta>") << linebreak;
 	ret << wxT("<trackList>") << linebreak;
 
 	// write the tracks - the recommended order is location-title-creator-album, see http://wiki.xiph.org/index.php/XSPF_v1_Notes_and_Errata

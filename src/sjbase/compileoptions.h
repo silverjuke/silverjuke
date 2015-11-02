@@ -29,13 +29,9 @@
 #ifndef __SJ_CONFIG_H__
 #define __SJ_CONFIG_H__
 
-
-// basic version definition
-#define SJ_VERSION_MAJOR 15
-#define SJ_VERSION_MINOR 8
+#define SJ_VERSION_MAJOR    15      // when changing the version number here, also change it in configure.ac and maybe in the OS-depending installer
+#define SJ_VERSION_MINOR    8
 #define SJ_VERSION_REVISION 1
-#define SJ_VERSION_ASCII "15.8"
-#define SJ_VERSION_STR wxT(SJ_VERSION_ASCII)
 
 #ifndef SJ_PROGRAM_NAME
 #define SJ_PROGRAM_NAME wxT("Silverjuke")
