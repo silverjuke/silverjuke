@@ -925,7 +925,7 @@ See eg. http://en.wikipedia.org/wiki/SQL for details about SQL.
 Allwed is everything that is allowed in the WHERE clause; you may also use
 subselects.
 
-We do not want to explain SQL in this help fies, so here is only a brief
+We do not want to explain SQL in this help file, so here is only a brief
 overview about the available fields, operators and functions:
 
 
