@@ -690,7 +690,7 @@ SjViewSettingsModule::SjViewSettingsModule(SjInterfaceBase* interf)
 	m_file       = wxT("memory:viewsettings.lib");
 	m_name       = _("Skins");
 	m_guiIcon    = SJ_ICON_SKIN;
-	m_sort       = 40;
+	m_sort       = 30;
 }
 
 

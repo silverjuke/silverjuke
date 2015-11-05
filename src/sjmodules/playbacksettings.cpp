@@ -1773,7 +1773,7 @@ SjPlaybackSettingsModule::SjPlaybackSettingsModule(SjInterfaceBase* interf)
 	m_file       = wxT("memory:playbacksettings.lib");
 	m_name       = _("Playback");
 	m_guiIcon    = SJ_ICON_PLAYBACK_SETTINGS;
-	m_sort       = 30;
+	m_sort       = 40;
 }
 
 
