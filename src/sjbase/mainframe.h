@@ -196,11 +196,10 @@ public:
 public:
 	void            AllocMainMenu       ();
 	void            InitMainMenu        ();
-	void            CreateContextMenu_  (SjMenu&, bool prependOpen, int idmSettings=IDT_SETTINGS_JUKEBOX, bool appendGotoCurrMark=FALSE, bool embedFastSearch=FALSE);
+	void            CreateContextMenu_  (SjMenu&, bool prependOpen, int idmSettings=IDT_SETTINGS, bool appendGotoCurrMark=FALSE, bool embedFastSearch=FALSE);
 	void            CreatePlaybackMenu  (SjMenu* playbackMenu, bool createMainMenu);
 	void            CreateKioskMenu     (SjMenu* extrasMenu);
 	void            CreateExtrasMenu    (SjMenu* extrasMenu);
-	void            UpdateExtrasMenu    ();
 	void            CreateViewMenu      (SjMenu* viewMenu, bool createMainMenu, bool appendGotoCurrMark=FALSE);
 	void            CreateUnqueueMenu   (SjMenu&);
 	void            CreateSearchMenu    (SjMenu&);
@@ -210,7 +209,7 @@ public:
 	SjToolTipProvider*
 	GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) { m_toolTipProvider.m_targetId = targetId; m_toolTipProvider.m_subitem = subitem; m_toolTipProvider.m_rect = rect; return &m_toolTipProvider; }
 	#endif
-	SjMenu          *m_fileMenu, *m_editMenu, *m_viewMenu, *m_playbackMenu, *m_kioskMenu, *m_extrasMenu, *m_helpMenu;
+	SjMenu          *m_fileMenu, *m_editMenu, *m_viewMenu, *m_playbackMenu, *m_kioskMenu, *m_helpMenu;
 private:
 	wxMenuBar*      m_menuBar;
 	bool            m_menuBarComplete;

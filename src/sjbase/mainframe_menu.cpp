@@ -66,9 +66,6 @@ void SjMainFrame::AllocMainMenu()
 	m_kioskMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_menuBar->Append(m_kioskMenu, _("Kiosk mode"));
 
-	m_extrasMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-	m_menuBar->Append(m_extrasMenu, _("Extras"));
-
 	m_helpMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_menuBar->Append(m_helpMenu, _("Help"));
 
@@ -112,10 +109,6 @@ void SjMainFrame::InitMainMenu()
 
 			m_fileMenu->AppendSeparator();
 
-			m_fileMenu->Append(IDT_SETTINGS_JUKEBOX);
-
-			m_fileMenu->AppendSeparator();
-
 			m_fileMenu->Append(IDT_QUIT);
 		}
 
@@ -142,7 +135,7 @@ void SjMainFrame::InitMainMenu()
 
 		m_editMenu->AppendSeparator();
 
-		m_editMenu->Append(IDT_SETTINGS_JUKEBOX);
+		m_editMenu->Append(IDT_SETTINGS);
 
 		// view menu
 
@@ -162,16 +155,14 @@ void SjMainFrame::InitMainMenu()
 			CreateKioskMenu(m_kioskMenu);
 		}
 
-		// extras menu
-		m_extrasMenu->Clear();
-		CreateExtrasMenu(m_extrasMenu);
-
 		// help menu - do not update as there are problems with the MAC-specific items
 
 		if( !m_menuBarComplete )
 		{
 			m_helpMenu->Append(IDO_ABOUT_OPEN_WWW, wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
 			m_helpMenu->Append(IDO_ONLINE_HELP, _("All files")+wxString(wxT("...")));
+			m_helpMenu->AppendSeparator();
+			m_helpMenu->Append(IDO_CONSOLE);
 			m_helpMenu->AppendSeparator();
 			m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
 		}
@@ -456,58 +447,6 @@ void SjMainFrame::CreateKioskMenu(SjMenu* kioskMenu)
 
 
 /*******************************************************************************
- * The Extras menu
- ******************************************************************************/
-
-
-void SjMainFrame::UpdateExtrasMenu()
-{
-	if( m_extrasMenu )
-	{
-		// this function is for the main menu, it is useless for popup or context menus ...
-		// ... delete all items
-		int i, iCount = m_extrasMenu->GetMenuItemCount();
-		if( iCount > (IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00)+1 ) iCount = IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00+1;
-		for( i = 0; i < iCount; i++ )
-		{
-			wxMenuItem* item = m_extrasMenu->FindItemByPosition(0/*always the first!*/);
-			if( item )
-				m_extrasMenu->Destroy(item);
-		}
-		wxASSERT( m_extrasMenu->GetMenuItemCount() == 0 );
-
-		// ... add current items
-		CreateExtrasMenu(m_extrasMenu);
-
-		wxASSERT( m_menuBar );
-		if( m_menuBar )
-			m_menuBar->Refresh();
-	}
-}
-void SjMainFrame::CreateExtrasMenu(SjMenu* extrasMenu)
-{
-	#if SJ_USE_SCRIPTS
-		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
-		int i, iCount = arr.GetCount();
-		if( icount > 0 )
-		{
-			if( iCount > (IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00)+1 ) {
-				iCount = IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00+1;
-			}
-			for( i = 0; i<iCount; i++ ) {
-				extrasMenu->Append(IDO_EXTRAS_MENU00+i, arr[i], SJ_ICON_MODULE);
-			}
-			extrasMenu->AppendSeparator();
-		}
-	#endif
-
-	extrasMenu->Append(IDO_CONSOLE);
-	extrasMenu->AppendSeparator();
-	extrasMenu->Append(IDO_SETTINGS_ADV);
-}
-
-
-/*******************************************************************************
  * The context menus
  ******************************************************************************/
 
@@ -716,7 +655,7 @@ void SjMainFrame::CreateSearchMenu(SjMenu& m)
 void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 {
 	SjMenu      mainMenu(0);
-	int         idtSettings = IDT_SETTINGS_JUKEBOX;
+	int         idtSettings = IDT_SETTINGS;
 	bool        appendGotoCurrMark = FALSE;
 	bool        prependOpen = TRUE;
 	bool        embedFastSearch = FALSE;

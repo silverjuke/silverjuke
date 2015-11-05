@@ -212,7 +212,7 @@ static SjSkinMlParserRaw s_target2IdTable[] =
 	{ wxT("startvis"),              IDT_START_VIS                                    },
 	{ wxT("updateindex"),           IDT_UPDATE_INDEX                                 },
 	{ wxT("deepupdateindex"),       IDT_DEEP_UPDATE_INDEX                            },
-	{ wxT("settings"),              IDT_SETTINGS_JUKEBOX                             },
+	{ wxT("settings"),              IDT_SETTINGS                                     },
 	{ wxT("gotorandom"),            IDT_WORKSPACE_GOTO_RANDOM                        },
 	{ wxT("stopafterthistrack"),    IDT_STOP_AFTER_THIS_TRACK                        },
 	{ wxT("stopaftereachtrack"),    IDT_STOP_AFTER_EACH_TRACK                        },

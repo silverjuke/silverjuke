@@ -101,7 +101,7 @@
 #define IDT_START_VIS               198
 #define IDT_UPDATE_INDEX            199
 #define IDT_DEEP_UPDATE_INDEX       200
-#define IDT_SETTINGS_JUKEBOX        201
+#define IDT_SETTINGS                201
 #define IDT_WORKSPACE_GOTO_RANDOM   202
 #define IDT_STOP_AFTER_THIS_TRACK   203
 #define IDT_SHUFFLE                 204
@@ -230,7 +230,6 @@
 #define IDO_SAMEZOOMINALLVIEWS  8000
 #define IDO_START_PB_ON_ENQUEUE 8001
 #define IDO_CORNERCLICK         8002
-#define IDO_SETTINGS_ADV        8003
 #define IDO_SETTINGS_ADDFILES   8004
 #define IDO_ESC                 8005
 #define IDO_DEBUGSKIN_RELOAD    8006

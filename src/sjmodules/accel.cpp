@@ -100,8 +100,7 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Paste"),                          IDO_PASTE_USING_COORD,     0, IDO_PASTE);
 	OrgCmd(_("Search"),                         IDT_SEARCH_BUTTON,         SJA_MAIN); OrgKey(wxACCEL_CTRL, 'F');
 	OrgCmd(_("Music selection..."),             IDT_ADV_SEARCH,            SJA_MAIN); OrgKey(wxACCEL_ALT, 'F');
-	OrgCmd(_("Jukebox settings..."),            IDT_SETTINGS_JUKEBOX,      SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
-	OrgCmd(_("Advanced settings..."),           IDO_SETTINGS_ADV,          SJA_MAIN);
+	OrgCmd(_("Settings")+wxT("..."),            IDT_SETTINGS,              SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
 	OrgCmd(wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME),
 	                                            IDT_QUIT,                  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'Q'); OrgKey(wxACCEL_ALT, 'X');
 	OrgCmd(_("Update music library"),           IDT_UPDATE_INDEX,          SJA_MAIN);        OrgKey(0, WXK_F5);

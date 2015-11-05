@@ -971,7 +971,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	#if SJ_USE_SCRIPTS
 	m_cmdLineAndDdeSee              = NULL;
 	#endif
-	m_extrasMenu                    = NULL;
 	m_updateIndexAfterConstruction  = false;
 	m_menuBar                       = NULL;
 	m_playbackMenu                  = NULL;
@@ -1528,7 +1527,6 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU        (IDO_START_PB_ON_ENQUEUE,                   SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_GOTO_CURR_MARK,                        SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_GOTOCURRAUTO,                          SjMainFrame::OnFwdToSkin     )
-	EVT_MENU        (IDO_SETTINGS_ADV,                          SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_SETTINGS_ADDFILES,                     SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_REALLYENDSEARCH,                       SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_CORNERCLICK,                           SjMainFrame::OnFwdToSkin     )
@@ -1808,18 +1806,11 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				}
 				break;
 
-			case IDT_SETTINGS_JUKEBOX:
-			case IDO_SETTINGS_ADDFILES: // just the same as IDT_SETTINGS_JUKEBOX, however, we want a second separate and clear menu entry
+			case IDT_SETTINGS:
+			case IDO_SETTINGS_ADDFILES: // just the same as IDT_SETTINGS, however, we want a second separate and clear menu entry
 				if( IsAllAvailable() )
 				{
 					OpenSettings(wxT("memory:mymusic.lib"), 0, 0);
-				}
-				break;
-
-			case IDO_SETTINGS_ADV:
-				if( IsAllAvailable() )
-				{
-					OpenSettings(wxT("memory:basicsettings.lib"), 0, 0);
 				}
 				break;
 
