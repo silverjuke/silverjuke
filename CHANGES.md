@@ -7,6 +7,7 @@ V15.9 (05.11.2015)
 
 - New: The settings dialog opens with most recent page used
 - New: INI-Switches "assert" and "testdrive", see file "user-guide"
+- Dialog "Automatic control/Further options" moved to a page in the main dialog
 - Menu and settings dialog cleanup
 - Bug fixes
 

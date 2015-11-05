@@ -39,110 +39,6 @@
 
 
 /*******************************************************************************
- * SjAdvAutoCtrlDlg
- ******************************************************************************/
-
-
-class SjAdvAutoCtrlDlg : public SjDialog
-{
-public:
-	SjAdvAutoCtrlDlg(wxWindow* parent);
-
-	SjDlgCheckCtrl  m_autoFollowPlaylist;
-	SjDlgCheckCtrl  m_autoResetView;
-	wxChoice*       m_autoResetViewTo;
-	SjDlgCheckCtrl  m_autoStartVis;
-	SjDlgCheckCtrl  m_autoStopVis;
-
-	void            OnAutoCtrlCheckM    (wxCommandEvent&) { UpdateAutoCtrlChecksM(); }
-	void            UpdateAutoCtrlChecksM();
-	DECLARE_EVENT_TABLE ()
-};
-
-
-#define IDC_FOLLOW_PLAYLIST     (IDM_FIRSTPRIVATE+20)
-#define IDC_AUTO_START_VIS      (IDM_FIRSTPRIVATE+21)
-#define IDC_AUTO_STOP_VIS       (IDM_FIRSTPRIVATE+22)
-#define IDC_RESET_VIEW          (IDM_FIRSTPRIVATE+23)
-#define IDC_RESET_VIEW_TO       (IDM_FIRSTPRIVATE+24)
-
-
-BEGIN_EVENT_TABLE(SjAdvAutoCtrlDlg, SjDialog)
-	EVT_CHECKBOX                (IDC_FOLLOW_PLAYLIST,   SjAdvAutoCtrlDlg::OnAutoCtrlCheckM          )
-	EVT_CHECKBOX                (IDC_RESET_VIEW,        SjAdvAutoCtrlDlg::OnAutoCtrlCheckM          )
-	EVT_CHECKBOX                (IDC_AUTO_START_VIS,    SjAdvAutoCtrlDlg::OnAutoCtrlCheckM          )
-	EVT_CHECKBOX                (IDC_AUTO_STOP_VIS,     SjAdvAutoCtrlDlg::OnAutoCtrlCheckM          )
-END_EVENT_TABLE()
-
-
-SjAdvAutoCtrlDlg::SjAdvAutoCtrlDlg(wxWindow* parent)
-	: SjDialog(parent, _("Automatic control"), SJ_MODAL, SJ_NEVER_RESIZEABLE)
-{
-	long flags = g_mainFrame->m_autoCtrl.m_flags;
-
-	// create dialog
-	wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
-	SetSizer(sizer1);
-
-	wxSizer* sizer2 = new wxStaticBoxSizer(new wxStaticBox(this, -1, _("Further options")), wxVERTICAL);
-	sizer1->Add(sizer2, 1, wxGROW|wxALL, SJ_DLG_SPACE);
-
-	// some space
-	sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
-
-	m_autoFollowPlaylist.Create(this, sizer2,
-	                            _("Go to current track after %i minutes of inactivity"), wxLEFT|wxTOP|wxRIGHT|wxBOTTOM,
-	                            IDC_FOLLOW_PLAYLIST, (flags&SJ_AUTOCTRL_FOLLOW_PLAYLIST)!=0,
-	                            -1, g_mainFrame->m_autoCtrl.m_followPlaylistMinutes, SJ_AUTOCTRL_MIN_FOLLOWPLAYLISTMINUTES, SJ_AUTOCTRL_MAX_FOLLOWPLAYLISTMINUTES);
-
-	m_autoResetView.Create(this, sizer2,
-	                       _("Reset view after %i minutes of inactivity to"), wxLEFT|wxRIGHT|wxBOTTOM,
-	                       IDC_RESET_VIEW, (flags&SJ_AUTOCTRL_RESET_VIEW)!=0,
-	                       -1, g_mainFrame->m_autoCtrl.m_resetViewMinutes, SJ_AUTOCTRL_MIN_RESETVIEWMINUTES, SJ_AUTOCTRL_MAX_RESETVIEWMINUTES);
-
-	m_autoResetViewTo = new wxChoice(this, IDC_RESET_VIEW_TO);
-	m_autoResetViewTo->Append(_("Album view"), (void*)SJ_BROWSER_ALBUM_VIEW);
-	m_autoResetViewTo->Append(_("Cover view"), (void*)SJ_BROWSER_COVER_VIEW);
-	m_autoResetViewTo->Append(_("List view"), (void*)SJ_BROWSER_LIST_VIEW);
-	m_autoResetView.m_sizer->Add(m_autoResetViewTo, 0, wxLEFT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
-	SetCbSelection(m_autoResetViewTo, g_mainFrame->m_autoCtrl.m_resetViewTo);
-
-	wxString str(_("Open video screen after %i minutes of inactivity"));
-	m_autoStartVis.Create(this, sizer2,
-	                      str, wxLEFT|wxRIGHT|wxBOTTOM,
-	                      IDC_AUTO_START_VIS, (flags&SJ_AUTOCTRL_START_VIS)!=0,
-	                      -1, g_mainFrame->m_autoCtrl.m_startVisMinutes, SJ_AUTOCTRL_MIN_STARTVISMINUTES, SJ_AUTOCTRL_MAX_STARTVISMINUTES);
-
-	str  = _("Close video screen after %i minutes");
-	m_autoStopVis.Create(this, sizer2,
-	                     str, wxLEFT|wxRIGHT|wxBOTTOM,
-	                     IDC_AUTO_STOP_VIS, (flags&SJ_AUTOCTRL_STOP_VIS)!=0,
-	                     -1, g_mainFrame->m_autoCtrl.m_stopVisMinutes, SJ_AUTOCTRL_MIN_STOPVISMINUTES, SJ_AUTOCTRL_MAX_STOPVISMINUTES);
-
-	sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
-
-	UpdateAutoCtrlChecksM();
-
-	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
-
-	sizer1->SetSizeHints(this);
-
-	wxRect alignRect = parent->GetRect();
-	SetSize(alignRect.x+32, alignRect.y+32, -1, -1);
-}
-
-
-void SjAdvAutoCtrlDlg::UpdateAutoCtrlChecksM()
-{
-	m_autoFollowPlaylist.Update();
-	m_autoResetView.Update();
-	m_autoResetViewTo->Enable(m_autoResetView.IsChecked());
-	m_autoStartVis.Update();
-	m_autoStopVis.Update();
-}
-
-
-/*******************************************************************************
  * SjEffectDlg - the base for some common dialogs
  ******************************************************************************/
 
@@ -940,10 +836,8 @@ void SjModuleNames::SortNames()
 class SjPlaybackSettingsConfigPage : public wxPanel
 {
 public:
-	SjPlaybackSettingsConfigPage
-	(SjPlaybackSettingsModule*, wxWindow* parent, int selectedPage);
-	~SjPlaybackSettingsConfigPage
-	();
+	                SjPlaybackSettingsConfigPage (SjPlaybackSettingsModule*, wxWindow* parent, int selectedPage);
+					~SjPlaybackSettingsConfigPage();
 
 private:
 	// Queue page
@@ -997,11 +891,21 @@ private:
 
 	void            OnTransitionButton  (wxCommandEvent&);
 	void            OnAutoVolButton     (wxCommandEvent&);
-	void            OnAutoCtrlMore      (wxCommandEvent&);
+
+	// Further options page
+	wxPanel*        CreateFurtherOptPage(wxWindow* parent);
+	int             m_furtherOptPage;
+	void            CloseFurtherOptPage (bool apply, bool& needsReplay);
+	SjDlgCheckCtrl  m_autoFollowPlaylist;
+	SjDlgCheckCtrl  m_autoResetView;
+	wxChoice*       m_autoResetViewTo;
+	SjDlgCheckCtrl  m_autoStartVis;
+	SjDlgCheckCtrl  m_autoStopVis;
+	void			UpdateFurtherOptChecksM();
+	void            OnFurtherOptCheckM  (wxCommandEvent&) { UpdateFurtherOptChecksM(); }
 
 	// Common
-	SjPlaybackSettingsModule*
-	m_playbackSettingsModule;
+	SjPlaybackSettingsModule* m_playbackSettingsModule;
 	wxNotebook*     m_notebook;
 
 	void            CloseAll            (bool apply);
@@ -1017,7 +921,6 @@ private:
 
 #define IDC_TRANSITION_BUTTON           (IDM_FIRSTPRIVATE+2)
 #define IDC_AUTOVOLBUTTON               (IDM_FIRSTPRIVATE+3)
-#define IDC_AUTOCTRLMORE                (IDM_FIRSTPRIVATE+4)
 #define IDC_SHUFFLESLIDER               (IDM_FIRSTPRIVATE+10)
 #define IDC_QUEUERESET                  (IDM_FIRSTPRIVATE+11)
 #define IDC_TRACKSINQUEUECHECK          (IDM_FIRSTPRIVATE+12)
@@ -1035,6 +938,12 @@ private:
 #define IDC_SLEEPTIMEMODECHOICE         (IDM_FIRSTPRIVATE+31)
 #define IDC_SLEEPSPIN                   (IDM_FIRSTPRIVATE+32)
 #define IDC_SLEEPFADE                   (IDM_FIRSTPRIVATE+33)
+
+#define IDC_FOLLOW_PLAYLIST             (IDM_FIRSTPRIVATE+50)
+#define IDC_AUTO_START_VIS              (IDM_FIRSTPRIVATE+51)
+#define IDC_AUTO_STOP_VIS               (IDM_FIRSTPRIVATE+52)
+#define IDC_RESET_VIEW                  (IDM_FIRSTPRIVATE+53)
+#define IDC_RESET_VIEW_TO               (IDM_FIRSTPRIVATE+54)
 
 
 BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
@@ -1058,7 +967,11 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 
 	EVT_BUTTON                  (IDC_TRANSITION_BUTTON,         SjPlaybackSettingsConfigPage::OnTransitionButton        )
 	EVT_BUTTON                  (IDC_AUTOVOLBUTTON,             SjPlaybackSettingsConfigPage::OnAutoVolButton           )
-	EVT_BUTTON                  (IDC_AUTOCTRLMORE,              SjPlaybackSettingsConfigPage::OnAutoCtrlMore            )
+
+	EVT_CHECKBOX                (IDC_FOLLOW_PLAYLIST,           SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
+	EVT_CHECKBOX                (IDC_RESET_VIEW,                SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
+	EVT_CHECKBOX                (IDC_AUTO_START_VIS,            SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
+	EVT_CHECKBOX                (IDC_AUTO_STOP_VIS,             SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
 
 END_EVENT_TABLE()
 
@@ -1087,6 +1000,9 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 
 	m_notebook->AddPage(CreateAutoCtrlPage(m_notebook),  _("Automatic control"));
 	m_autoCtrlPage = m_notebook->GetPageCount();
+
+	m_notebook->AddPage(CreateFurtherOptPage(m_notebook),  _("Further options"));
+	m_furtherOptPage = m_notebook->GetPageCount();
 
 	if( selectedPage<0 || selectedPage >= (int)m_notebook->GetPageCount() ) selectedPage = 0;
 	m_notebook->SetSelection(selectedPage);
@@ -1131,9 +1047,16 @@ void SjPlaybackSettingsConfigPage::CloseAll(bool apply)
 	// apply settings
 	CloseQueuePage      (apply, needsReplay);
 	CloseAutoCtrlPage   (apply, needsReplay);
+	CloseFurtherOptPage (apply, needsReplay);
 
 	// save settings to disk
 	g_mainFrame->m_player.SaveSettings();
+
+	// auto play settings change may need an update of the prev/next/display ...
+	if( apply )
+	{
+		g_mainFrame->UpdateDisplay();
+	}
 
 	// restart playback?
 	if( needsReplay )
@@ -1309,7 +1232,7 @@ void SjPlaybackSettingsConfigPage::OnQueueReset(wxCommandEvent&)
 
 
 /*******************************************************************************
- *  SjPlaybackSettingsConfigPage - AutoCtrl
+ * SjPlaybackSettingsConfigPage - AutoCtrl
  ******************************************************************************/
 
 
@@ -1502,9 +1425,6 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 	            0, 0, SJ_DLG_SPACE);
 
 	sizer2->Add(new wxButton(page, IDC_AUTOVOLBUTTON, _("Volume control")+wxString(wxT("...")), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT),
-	            0, wxLEFT, SJ_DLG_SPACE);
-
-	sizer2->Add(new wxButton(page, IDC_AUTOCTRLMORE, _("Further options")+wxString(wxT("...")), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT),
 	            0, wxLEFT, SJ_DLG_SPACE);
 
 	page->SetSizer(sizer1);
@@ -1711,9 +1631,6 @@ void SjPlaybackSettingsConfigPage::CloseAutoCtrlPage(bool apply, bool& needsRepl
 
 		// save from g_mainFrame->m_autoCtrl to g_tools->m_config
 		a->SaveAutoCtrlSettings();
-
-		// auto play settings change may need an update of the prev/next/display ...
-		g_mainFrame->UpdateDisplay();
 	}
 }
 
@@ -1730,40 +1647,103 @@ void SjPlaybackSettingsConfigPage::OnAutoVolButton(wxCommandEvent& event)
 }
 
 
-void SjPlaybackSettingsConfigPage::OnAutoCtrlMore(wxCommandEvent& event)
-{
-	wxWindow* topLevel = SjDialog::FindTopLevel(this);
-	wxWindowDisabler disabler(topLevel);
-	SjAdvAutoCtrlDlg dlg(topLevel);
+/*******************************************************************************
+ * SjPlaybackSettingsConfigPage - Further Options
+ ******************************************************************************/
 
-	if( dlg.ShowModal() == wxID_OK )
+
+wxPanel* SjPlaybackSettingsConfigPage::CreateFurtherOptPage(wxWindow* parent)
+{
+	long flags = g_mainFrame->m_autoCtrl.m_flags;
+
+	// create dialog
+	wxPanel* page = new wxPanel(parent, -1);
+	wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
+
+	sizer1->Add(1, SJ_DLG_SPACE); // some space
+
+	// hints
+	wxStaticText* staticText = new wxStaticText(page, -1,
+	        _(  "Use the following options to define which actions should be done automatically\nafter given timeouts."
+	         ));
+	sizer1->Add(staticText,
+	            0, wxALL, SJ_DLG_SPACE);
+
+	// some space
+
+	m_autoFollowPlaylist.Create(page, sizer1,
+	                            _("Go to current track after %i minutes of inactivity"), wxLEFT|wxTOP|wxRIGHT|wxBOTTOM,
+	                            IDC_FOLLOW_PLAYLIST, (flags&SJ_AUTOCTRL_FOLLOW_PLAYLIST)!=0,
+	                            -1, g_mainFrame->m_autoCtrl.m_followPlaylistMinutes, SJ_AUTOCTRL_MIN_FOLLOWPLAYLISTMINUTES, SJ_AUTOCTRL_MAX_FOLLOWPLAYLISTMINUTES);
+
+	m_autoResetView.Create(page, sizer1,
+	                       _("Reset view after %i minutes of inactivity to"), wxLEFT|wxRIGHT|wxBOTTOM,
+	                       IDC_RESET_VIEW, (flags&SJ_AUTOCTRL_RESET_VIEW)!=0,
+	                       -1, g_mainFrame->m_autoCtrl.m_resetViewMinutes, SJ_AUTOCTRL_MIN_RESETVIEWMINUTES, SJ_AUTOCTRL_MAX_RESETVIEWMINUTES);
+
+	m_autoResetViewTo = new wxChoice(page, IDC_RESET_VIEW_TO);
+	m_autoResetViewTo->Append(_("Album view"), (void*)SJ_BROWSER_ALBUM_VIEW);
+	m_autoResetViewTo->Append(_("Cover view"), (void*)SJ_BROWSER_COVER_VIEW);
+	m_autoResetViewTo->Append(_("List view"), (void*)SJ_BROWSER_LIST_VIEW);
+	m_autoResetView.m_sizer->Add(m_autoResetViewTo, 0, wxLEFT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
+	SjDialog::SetCbSelection(m_autoResetViewTo, g_mainFrame->m_autoCtrl.m_resetViewTo);
+
+	wxString str(_("Open video screen after %i minutes of inactivity"));
+	m_autoStartVis.Create(page, sizer1,
+	                      str, wxLEFT|wxRIGHT|wxBOTTOM,
+	                      IDC_AUTO_START_VIS, (flags&SJ_AUTOCTRL_START_VIS)!=0,
+	                      -1, g_mainFrame->m_autoCtrl.m_startVisMinutes, SJ_AUTOCTRL_MIN_STARTVISMINUTES, SJ_AUTOCTRL_MAX_STARTVISMINUTES);
+
+	str  = _("Close video screen after %i minutes");
+	m_autoStopVis.Create(page, sizer1,
+	                     str, wxLEFT|wxRIGHT|wxBOTTOM,
+	                     IDC_AUTO_STOP_VIS, (flags&SJ_AUTOCTRL_STOP_VIS)!=0,
+	                     -1, g_mainFrame->m_autoCtrl.m_stopVisMinutes, SJ_AUTOCTRL_MIN_STOPVISMINUTES, SJ_AUTOCTRL_MAX_STOPVISMINUTES);
+
+	UpdateFurtherOptChecksM();
+
+	page->SetSizer(sizer1);
+	return page;
+}
+
+
+void SjPlaybackSettingsConfigPage::UpdateFurtherOptChecksM()
+{
+	m_autoFollowPlaylist.Update();
+	m_autoResetView.Update();
+	m_autoResetViewTo->Enable(m_autoResetView.IsChecked());
+	m_autoStartVis.Update();
+	m_autoStopVis.Update();
+}
+
+
+void SjPlaybackSettingsConfigPage::CloseFurtherOptPage(bool apply, bool& needsReplay)
+{
+	if( apply )
 	{
 		SjAutoCtrl* a = &(g_mainFrame->m_autoCtrl);
 
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_FOLLOW_PLAYLIST, dlg.m_autoFollowPlaylist.IsChecked());
-		a->m_followPlaylistMinutes = dlg.m_autoFollowPlaylist.GetValue();
+		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_FOLLOW_PLAYLIST, m_autoFollowPlaylist.IsChecked());
+		a->m_followPlaylistMinutes = m_autoFollowPlaylist.GetValue();
 
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_RESET_VIEW, dlg.m_autoResetView.IsChecked());
-		a->m_resetViewMinutes = dlg.m_autoResetView.GetValue();
-		a->m_resetViewTo = dlg.GetCbSelection(dlg.m_autoResetViewTo, SJ_BROWSER_ALBUM_VIEW);
+		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_RESET_VIEW, m_autoResetView.IsChecked());
+		a->m_resetViewMinutes = m_autoResetView.GetValue();
+		a->m_resetViewTo = SjDialog::GetCbSelection(m_autoResetViewTo, SJ_BROWSER_ALBUM_VIEW);
 
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_START_VIS, dlg.m_autoStartVis.IsChecked());
-		a->m_startVisMinutes = dlg.m_autoStartVis.GetValue();
+		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_START_VIS, m_autoStartVis.IsChecked());
+		a->m_startVisMinutes = m_autoStartVis.GetValue();
 
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_STOP_VIS, dlg.m_autoStopVis.IsChecked());
-		a->m_stopVisMinutes = dlg.m_autoStopVis.GetValue();
+		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_STOP_VIS, m_autoStopVis.IsChecked());
+		a->m_stopVisMinutes = m_autoStopVis.GetValue();
 
 		// save from g_mainFrame->m_autoCtrl to g_tools->m_config
 		a->SaveAutoCtrlSettings();
-
-		// auto play settings change may need an update of the prev/next/display ...
-		g_mainFrame->UpdateDisplay();
 	}
 }
 
 
 /*******************************************************************************
- *  SjPlaybackSettingsModule
+ * SjPlaybackSettingsModule
  ******************************************************************************/
 
 
@@ -1799,7 +1779,7 @@ void SjPlaybackSettingsModule::CloseDependingDialogs()
 void SjPlaybackSettingsModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_KIOSK_STARTING
-	        || msg == IDMODMSG_WINDOW_CLOSE )
+	 || msg == IDMODMSG_WINDOW_CLOSE )
 	{
 		CloseDependingDialogs();
 	}
