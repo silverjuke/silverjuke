@@ -905,6 +905,7 @@ private:
 	wxPanel*        CreateFurtherOptPage(wxWindow* parent);
 	int             m_furtherOptPage;
 	void            CloseFurtherOptPage (bool apply, bool& needsReplay);
+	SjDlgCheckCtrl  m_limitPlayTime;
 	SjDlgCheckCtrl  m_autoFollowPlaylist;
 	SjDlgCheckCtrl  m_autoResetView;
 	wxChoice*       m_autoResetViewTo;
@@ -950,6 +951,7 @@ private:
 #define IDC_SLEEPSPIN                   (IDM_FIRSTPRIVATE+32)
 #define IDC_SLEEPFADE                   (IDM_FIRSTPRIVATE+33)
 
+#define IDC_LIMIT_PLAY_TIME             (IDM_FIRSTPRIVATE+49)
 #define IDC_FOLLOW_PLAYLIST             (IDM_FIRSTPRIVATE+50)
 #define IDC_AUTO_START_VIS              (IDM_FIRSTPRIVATE+51)
 #define IDC_AUTO_STOP_VIS               (IDM_FIRSTPRIVATE+52)
@@ -981,6 +983,7 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 	EVT_BUTTON                  (IDC_TRANSITION_BUTTON,         SjPlaybackSettingsConfigPage::OnTransitionButton        )
 	EVT_BUTTON                  (IDC_AUTOVOLBUTTON,             SjPlaybackSettingsConfigPage::OnAutoVolButton           )
 
+	EVT_CHECKBOX                (IDC_LIMIT_PLAY_TIME,           SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
 	EVT_CHECKBOX                (IDC_FOLLOW_PLAYLIST,           SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
 	EVT_CHECKBOX                (IDC_RESET_VIEW,                SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
 	EVT_CHECKBOX                (IDC_AUTO_START_VIS,            SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
@@ -1775,6 +1778,11 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateFurtherOptPage(wxWindow* parent)
 	                     IDC_AUTO_STOP_VIS, (flags&SJ_AUTOCTRL_STOP_VIS)!=0,
 	                     -1, g_mainFrame->m_autoCtrl.m_stopVisMinutes, SJ_AUTOCTRL_MIN_STOPVISMINUTES, SJ_AUTOCTRL_MAX_STOPVISMINUTES);
 
+	m_limitPlayTime.Create(page, sizer1,
+	                            _("Limit play time to %i seconds"), wxLEFT|wxRIGHT|wxBOTTOM,
+	                            IDC_LIMIT_PLAY_TIME, (flags&SJ_AUTOCTRL_LIMIT_PLAY_TIME)!=0,
+	                            -1, g_mainFrame->m_autoCtrl.m_limitPlayTimeSeconds, SJ_AUTOCTRL_MIN_LIMITPLAYTIMESECONDS, SJ_AUTOCTRL_MAX_LIMITPLAYTIMESECONDS);
+
 	UpdateFurtherOptChecksM();
 
 	page->SetSizer(sizer1);
@@ -1789,6 +1797,7 @@ void SjPlaybackSettingsConfigPage::UpdateFurtherOptChecksM()
 	m_autoResetViewTo->Enable(m_autoResetView.IsChecked());
 	m_autoStartVis.Update();
 	m_autoStopVis.Update();
+	m_limitPlayTime.Update();
 }
 
 
@@ -1810,6 +1819,9 @@ void SjPlaybackSettingsConfigPage::CloseFurtherOptPage(bool apply, bool& needsRe
 
 		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_STOP_VIS, m_autoStopVis.IsChecked());
 		a->m_stopVisMinutes = m_autoStopVis.GetValue();
+
+		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_LIMIT_PLAY_TIME, m_limitPlayTime.IsChecked());
+		a->m_limitPlayTimeSeconds = m_limitPlayTime.GetValue();
 
 		// save from g_mainFrame->m_autoCtrl to g_tools->m_config
 		a->SaveAutoCtrlSettings();

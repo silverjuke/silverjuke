@@ -44,6 +44,7 @@ public:
 	               ~SjAutoCtrl         ();
 	#define         SJ_AUTOCTRL_FOLLOW_PLAYLIST             0x00010000L
 	#define         SJ_AUTOCTRL_RESET_VIEW                  0x00020000L
+	#define         SJ_AUTOCTRL_LIMIT_PLAY_TIME             0x00040000L
 	#define         SJ_AUTOCTRL_START_VIS                   0x00100000L
 	#define         SJ_AUTOCTRL_STOP_VIS                    0x00200000L
 	#define         SJ_AUTOCTRL_AUTOPLAY_ENABLED            0x01000000L
@@ -53,6 +54,11 @@ public:
 	#define         SJ_AUTOCTRL_AUTOPLAY_IGNORE             0x10000000L
 	#define         SJ_AUTOCTRL_DEF_FLAGS                   0x0000FFFFL
 	long            m_flags;
+
+	#define         SJ_AUTOCTRL_DEF_LIMITPLAYTIMESECONDS    180L
+	#define         SJ_AUTOCTRL_MIN_LIMITPLAYTIMESECONDS    10L
+	#define         SJ_AUTOCTRL_MAX_LIMITPLAYTIMESECONDS    3600L
+	long			m_limitPlayTimeSeconds;
 
 	#define         SJ_AUTOCTRL_DEF_FOLLOWPLAYLISTMINUTES   5L
 	#define         SJ_AUTOCTRL_MIN_FOLLOWPLAYLISTMINUTES   1L

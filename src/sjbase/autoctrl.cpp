@@ -249,6 +249,8 @@ void SjAutoCtrl::LoadAutoCtrlSettings()
 	m_autoPlayMusicSelId                = c->Read(wxT("autoctrl/autoPlayId"),       0L/*=current view*/);
 	m_autoPlayMusicSelIgnoreId          = c->Read(wxT("autoctrl/autoPlayIgnoreId"), 0L/*=none*/);
 
+	m_limitPlayTimeSeconds              = c->Read(wxT("autoctrl/limitPlayTime"),    SJ_AUTOCTRL_DEF_LIMITPLAYTIMESECONDS);
+
 	m_sleepMinutes                      = c->Read(wxT("autoctrl/sleepMinutes"),     SJ_SLEEPMODE_DEF_MINUTES);
 	m_sleepFadeSeconds                  = c->Read(wxT("autoctrl/sleepFadeSeconds"), SJ_SLEEPMODE_DEF_FADE_SECONDS);
 	long sleepFlags                     = c->Read(wxT("autoctrl/sleepFlags"),       SJ_SLEEPMODE_DEF_FLAGS);
@@ -315,6 +317,8 @@ void SjAutoCtrl::SaveAutoCtrlSettings()
 	c->Write(wxT("autoctrl/autoPlayId"),        m_autoPlayMusicSelId);
 	c->Write(wxT("autoctrl/autoPlayIgnoreId"),  m_autoPlayMusicSelIgnoreId);
 
+	c->Write(wxT("autoctrl/limitPlayTime"),     m_limitPlayTimeSeconds);
+
 	c->Write(wxT("autoctrl/sleepMinutes"),      m_sleepMinutes);
 	c->Write(wxT("autoctrl/sleepFlags"),        m_sleepAction|m_sleepTimemode);
 	c->Write(wxT("autoctrl/sleepFadeSeconds"),  m_sleepFadeSeconds);
@@ -362,6 +366,12 @@ void SjAutoCtrl::ValidateSettings()
 	 || m_stopVisMinutes > SJ_AUTOCTRL_MAX_STOPVISMINUTES )
 	{
 		m_stopVisMinutes = SJ_AUTOCTRL_DEF_STOPVISMINUTES;
+	}
+
+	if( m_limitPlayTimeSeconds < SJ_AUTOCTRL_MIN_LIMITPLAYTIMESECONDS
+	 || m_limitPlayTimeSeconds > SJ_AUTOCTRL_MAX_LIMITPLAYTIMESECONDS )
+	{
+		m_limitPlayTimeSeconds = SJ_AUTOCTRL_DEF_LIMITPLAYTIMESECONDS;
 	}
 
 	// for these values, set to min/max as the user may enter very large or
