@@ -231,8 +231,10 @@ public:
 	wxSizer*            m_sizerDetails;
 	bool                m_sizerDetailsAttached;
 	SjLogListCtrl*      m_listCtrl;
+	#if SJ_USE_SCRIPTS
 	wxTextCtrl*         m_evalInput;
 	wxWindow*           m_evalButton;
+	#endif
 	wxWindow*           m_clearButton;
 	wxWindow*           m_saveButton;
 	wxCheckBox*         m_autoOpenCheckBox;
@@ -245,7 +247,9 @@ public:
 
 	void                OnOk                (wxCommandEvent& e) { DoClose(); }
 	void                OnDetails           (wxCommandEvent& e);
+	#if SJ_USE_SCRIPTS
 	void                OnEval              (wxCommandEvent& e);
+	#endif
 	void                OnClear             (wxCommandEvent& e);
 	void                OnSave              (wxCommandEvent& e);
 	void                OnAutoOpen          (wxCommandEvent& e) { SjLogGui::SetAutoOpen(m_autoOpenCheckBox->GetValue()!=0); }
@@ -258,8 +262,10 @@ public:
 
 #define IDC_DETAILS_BUTTON       IDC_BUTTONBARMENU
 #define IDC_LIST_CTRL           (IDM_FIRSTPRIVATE+3)
+#if SJ_USE_SCRIPTS
 #define IDC_EVAL_INPUT          (IDM_FIRSTPRIVATE+4)
 #define IDC_EVAL_BUTTON         (IDM_FIRSTPRIVATE+5)
+#endif
 #define IDC_CLEAR_BUTTON        (IDM_FIRSTPRIVATE+6)
 #define IDC_SAVE_BUTTON         (IDM_FIRSTPRIVATE+7)
 #define IDC_AUTO_OPEN_CHECKBOX  (IDM_FIRSTPRIVATE+8)
@@ -268,8 +274,10 @@ public:
 BEGIN_EVENT_TABLE(SjLogDialog, SjDialog)
 	EVT_BUTTON      (wxID_OK,               SjLogDialog::OnOk       )
 	EVT_BUTTON      (IDC_DETAILS_BUTTON,    SjLogDialog::OnDetails  )
+	#if SJ_USE_SCRIPTS
 	EVT_TEXT_ENTER  (IDC_EVAL_INPUT,        SjLogDialog::OnEval     )
 	EVT_BUTTON      (IDC_EVAL_BUTTON,       SjLogDialog::OnEval     )
+	#endif
 	EVT_BUTTON      (IDC_CLEAR_BUTTON,      SjLogDialog::OnClear    )
 	EVT_BUTTON      (IDC_SAVE_BUTTON,       SjLogDialog::OnSave     )
 	EVT_CHECKBOX    (IDC_AUTO_OPEN_CHECKBOX,SjLogDialog::OnAutoOpen )
@@ -353,13 +361,21 @@ SjLogDialog::SjLogDialog(SjLogGui* logGui,
 	wxSizer* sizer4 = new wxBoxSizer(wxHORIZONTAL);
 	m_sizerDetails->Add(sizer4, 0, wxGROW|wxTOP, SJ_DLG_SPACE/2);
 
+	#if SJ_USE_SCRIPTS
 	m_evalInput = new wxTextCtrl(this, IDC_EVAL_INPUT, wxT(""), wxDefaultPosition, wxSize(300, -1), wxTE_PROCESS_ENTER);
 	sizer4->Add(m_evalInput, 1, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
+	#else
+	m_autoOpenCheckBox = new wxCheckBox(this, IDC_AUTO_OPEN_CHECKBOX, _("Open console on errors and warnings"));
+	m_autoOpenCheckBox->SetValue(SjLogGui::GetAutoOpen());
+	sizer4->Add(m_autoOpenCheckBox, 1, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE*8);
+	#endif
 
 	#define TOOLBAR_BUTTON(id, name) new wxButton(this, id, name, wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT)
 
+	#if SJ_USE_SCRIPTS
 	m_evalButton = TOOLBAR_BUTTON(IDC_EVAL_BUTTON, _("Evaluate"));
 	sizer4->Add(m_evalButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
+	#endif
 
 	m_clearButton = TOOLBAR_BUTTON(IDC_CLEAR_BUTTON, _("Clear"));
 	sizer4->Add(m_clearButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
@@ -367,9 +383,11 @@ SjLogDialog::SjLogDialog(SjLogGui* logGui,
 	m_saveButton = TOOLBAR_BUTTON(IDC_SAVE_BUTTON, _("Save"));
 	sizer4->Add(m_saveButton, 0, wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
 
+	#ifndef SJ_USE_SCRIPTS
 	m_autoOpenCheckBox = new wxCheckBox(this, IDC_AUTO_OPEN_CHECKBOX, _("Open console on errors and warnings"));
 	m_autoOpenCheckBox->SetValue(SjLogGui::GetAutoOpen());
 	m_sizerDetails->Add(m_autoOpenCheckBox, 0, wxTOP, SJ_DLG_SPACE);
+	#endif
 
 	// buttons
 	sizer1->Add(CreateButtons(SJ_DLG_MENU|SJ_DLG_OK, _("Close")),
@@ -420,8 +438,10 @@ void SjLogDialog::ShowDetails(bool show)
 {
 	wxButton* detailsButton = (wxButton*)FindWindow(IDC_DETAILS_BUTTON);
 	m_listCtrl->Show(show);
+	#if SJ_USE_SCRIPTS
 	m_evalInput->Show(show);
 	m_evalButton->Show(show);
+	#endif
 	m_clearButton->Show(show);
 	m_saveButton->Show(show);
 	m_autoOpenCheckBox->Show(show);
@@ -490,6 +510,7 @@ void SjLogDialog::OnDetails(wxCommandEvent& event)
 }
 
 
+#if SJ_USE_SCRIPTS
 void SjLogDialog::OnEval(wxCommandEvent& event)
 {
 	// execute a simple macro
@@ -505,32 +526,31 @@ void SjLogDialog::OnEval(wxCommandEvent& event)
 		}
 
 		// prepare execute
-		#if SJ_USE_SCRIPTS
-			m_see.SetExecutionScope(_("Console"));
-			size_t oldCount1 = m_logGui->m_aMessages.GetCount();
-			size_t oldCount2 = m_logGui->m_aPacked.GetCount();
+		m_see.SetExecutionScope(_("Console"));
+		size_t oldCount1 = m_logGui->m_aMessages.GetCount();
+		size_t oldCount2 = m_logGui->m_aPacked.GetCount();
 
-			// execute
-			if( m_see.Execute(script) )
+		// execute
+		if( m_see.Execute(script) )
+		{
+			// print the result (if not empty or if nothng has been logged by Execute())
+			bool     sthLogged = (oldCount1!=m_logGui->m_aMessages.GetCount() || oldCount2!=m_logGui->m_aPacked.GetCount());
+			wxString result = m_see.GetResultString();
+			if( !sthLogged || !result.IsEmpty() )
 			{
-				// print the result (if not empty or if nothng has been logged by Execute())
-				bool     sthLogged = (oldCount1!=m_logGui->m_aMessages.GetCount() || oldCount2!=m_logGui->m_aPacked.GetCount());
-				wxString result = m_see.GetResultString();
-				if( !sthLogged || !result.IsEmpty() )
-				{
-					if( result.IsEmpty() ) {
-						result = wxT("undefined");
-					}
-					else if( result.Len()>110 ) {
-						result = result.Left(100).Trim()+wxT("..");
-					}
-
-					wxLogInfo(wxT("%s=%s [%s]"), scriptShortened.c_str(), result.c_str(), m_see.m_executionScope.c_str());
+				if( result.IsEmpty() ) {
+					result = wxT("undefined");
 				}
+				else if( result.Len()>110 ) {
+					result = result.Left(100).Trim()+wxT("..");
+				}
+
+				wxLogInfo(wxT("%s=%s [%s]"), scriptShortened.c_str(), result.c_str(), m_see.m_executionScope.c_str());
 			}
-		#endif
+		}
 	}
 }
+#endif
 
 
 void SjLogDialog::OnClear(wxCommandEvent& event)
