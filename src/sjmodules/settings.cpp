@@ -283,6 +283,11 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 					{
 						cancelButton->SetLabel(cancelText);
 					}
+
+					// add a size event explicitly, the pages rely on this and it is not always send by wxWidgets (send on 2.x, not send on 3.x)
+					// note, that this event should be send _after_ the controls are layouted; normally, this should be the case here.
+					wxSizeEvent e;
+					m_currPageWindow->GetEventHandler()->AddPendingEvent(e);
 				}
 				else
 				{
