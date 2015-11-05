@@ -913,6 +913,7 @@ private:
 	SjDlgCheckCtrl  m_autoStopVis;
 	void			UpdateFurtherOptChecksM();
 	void            OnFurtherOptCheckM  (wxCommandEvent&) { UpdateFurtherOptChecksM(); }
+	void            OnFurtherOptReset   (wxCommandEvent&);
 
 	// Common
 	SjPlaybackSettingsModule* m_playbackSettingsModule;
@@ -957,6 +958,7 @@ private:
 #define IDC_AUTO_STOP_VIS               (IDM_FIRSTPRIVATE+52)
 #define IDC_RESET_VIEW                  (IDM_FIRSTPRIVATE+53)
 #define IDC_RESET_VIEW_TO               (IDM_FIRSTPRIVATE+54)
+#define IDC_FURTHEROPTRESET             (IDM_FIRSTPRIVATE+55)
 
 
 BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
@@ -988,6 +990,7 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 	EVT_CHECKBOX                (IDC_RESET_VIEW,                SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
 	EVT_CHECKBOX                (IDC_AUTO_START_VIS,            SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
 	EVT_CHECKBOX                (IDC_AUTO_STOP_VIS,             SjPlaybackSettingsConfigPage::OnFurtherOptCheckM        )
+	EVT_BUTTON                  (IDC_FURTHEROPTRESET,           SjPlaybackSettingsConfigPage::OnFurtherOptReset         )
 
 END_EVENT_TABLE()
 
@@ -1782,6 +1785,10 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateFurtherOptPage(wxWindow* parent)
 	                            _("Limit play time to %i seconds"), wxLEFT|wxRIGHT|wxBOTTOM,
 	                            IDC_LIMIT_PLAY_TIME, (flags&SJ_AUTOCTRL_LIMIT_PLAY_TIME)!=0,
 	                            -1, g_mainFrame->m_autoCtrl.m_limitPlayTimeSeconds, SJ_AUTOCTRL_MIN_LIMITPLAYTIMESECONDS, SJ_AUTOCTRL_MAX_LIMITPLAYTIMESECONDS);
+	// reset button
+	wxButton* button = new wxButton(page, IDC_FURTHEROPTRESET, _("Reset to default values"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	sizer1->Add(button,
+	            0, wxALL, SJ_DLG_SPACE);
 
 	UpdateFurtherOptChecksM();
 
@@ -1798,6 +1805,28 @@ void SjPlaybackSettingsConfigPage::UpdateFurtherOptChecksM()
 	m_autoStartVis.Update();
 	m_autoStopVis.Update();
 	m_limitPlayTime.Update();
+}
+
+
+void SjPlaybackSettingsConfigPage::OnFurtherOptReset(wxCommandEvent&)
+{
+	m_autoFollowPlaylist.SetChecked((SJ_AUTOCTRL_DEF_FLAGS&SJ_AUTOCTRL_FOLLOW_PLAYLIST)!=0);
+	m_autoFollowPlaylist.SetValue(SJ_AUTOCTRL_DEF_FOLLOWPLAYLISTMINUTES);
+
+	m_autoResetView.SetChecked((SJ_AUTOCTRL_DEF_FLAGS&SJ_AUTOCTRL_RESET_VIEW)!=0);
+	m_autoResetView.SetValue(SJ_AUTOCTRL_DEF_RESETVIEWMINUTES);
+	SjDialog::SetCbSelection(m_autoResetViewTo, SJ_BROWSER_ALBUM_VIEW);
+
+	m_autoStartVis.SetChecked((SJ_AUTOCTRL_DEF_FLAGS&SJ_AUTOCTRL_START_VIS)!=0);
+	m_autoStartVis.SetValue(SJ_AUTOCTRL_DEF_STARTVISMINUTES);
+
+	m_autoStopVis.SetChecked((SJ_AUTOCTRL_DEF_FLAGS&SJ_AUTOCTRL_STOP_VIS)!=0);
+	m_autoStopVis.SetValue(SJ_AUTOCTRL_DEF_STOPVISMINUTES);
+
+	m_limitPlayTime.SetChecked((SJ_AUTOCTRL_DEF_FLAGS&SJ_AUTOCTRL_LIMIT_PLAY_TIME)!=0);
+	m_limitPlayTime.SetValue(SJ_AUTOCTRL_DEF_LIMITPLAYTIMESECONDS);
+
+	UpdateFurtherOptChecksM();
 }
 
 
