@@ -863,6 +863,8 @@ private:
 	wxCheckBox*     m_resumeCheck;
 	wxCheckBox*     m_resumeLoadPlayedCheck;
 	wxCheckBox*     m_resumeStartPlaybackCheck;
+	void            EnableDisableResume ();
+	void            OnEnableDisableResumeCheck(wxCommandEvent&) { EnableDisableResume(); }
 
 	// AutoCtrl page
 	wxPanel*        CreateAutoCtrlPage  (wxWindow* parent);
@@ -934,6 +936,8 @@ private:
 #define IDC_BOREDOMTRACKSCHECK          (IDM_FIRSTPRIVATE+13)
 #define IDC_BOREDOMARTISTSCHECK         (IDM_FIRSTPRIVATE+14)
 
+#define IDC_RESUME                      (IDM_FIRSTPRIVATE+18)
+
 #define IDC_AUTOPLAY                    (IDM_FIRSTPRIVATE+23)
 #define IDC_AUTOPLAYMUSICSELBUT         (IDM_FIRSTPRIVATE+24)
 #define IDC_AUTOPLAYFXCHECK             (IDM_FIRSTPRIVATE+25)
@@ -959,6 +963,8 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 	EVT_CHECKBOX                (IDC_TRACKSINQUEUECHECK,        SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
 	EVT_CHECKBOX                (IDC_BOREDOMTRACKSCHECK,        SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
 	EVT_CHECKBOX                (IDC_BOREDOMARTISTSCHECK,       SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
+
+	EVT_CHECKBOX                (IDC_RESUME,                    SjPlaybackSettingsConfigPage::OnEnableDisableResumeCheck)
 
 	EVT_CHECKBOX                (IDC_AUTOPLAY,                  SjPlaybackSettingsConfigPage::OnAutoCtrlCheckE          )
 	EVT_BUTTON                  (IDC_AUTOPLAYMUSICSELBUT,       SjPlaybackSettingsConfigPage::OnAutoPlayMusicSelButton  )
@@ -1247,7 +1253,7 @@ void SjPlaybackSettingsConfigPage::OnQueueReset(wxCommandEvent&)
 
 
 /*******************************************************************************
- * SjPlaybackSettingsConfigPage - Further Options
+ * SjPlaybackSettingsConfigPage - Resume
  ******************************************************************************/
 
 
@@ -1269,20 +1275,34 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateResumePage(wxWindow* parent)
 	sizer1->Add(staticText,
 	            0, wxALL, SJ_DLG_SPACE);
 
-	m_resumeCheck = new wxCheckBox(page, -1, _("Restore queue"));
+	m_resumeCheck = new wxCheckBox(page, IDC_RESUME, _("Restore queue"));
 	m_resumeCheck->SetValue((queueFlags&SJ_QUEUEF_RESUME)!=0);
 	sizer1->Add(m_resumeCheck, 0, wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
 
+	sizer1->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
+
 	m_resumeLoadPlayedCheck = new wxCheckBox(page, -1, _("Restore already played tracks"));
 	m_resumeLoadPlayedCheck->SetValue((queueFlags&SJ_QUEUEF_RESUME_LOAD_PLAYED)!=0);
-	sizer1->Add(m_resumeLoadPlayedCheck, 0, wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
+	sizer1->Add(m_resumeLoadPlayedCheck, 0, wxLEFT, SJ_DLG_SPACE*6);
+
+	sizer1->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
 
 	m_resumeStartPlaybackCheck = new wxCheckBox(page, -1, _("Start playback from last position"));
 	m_resumeStartPlaybackCheck->SetValue((queueFlags&SJ_QUEUEF_RESUME_START_PLAYBACK)!=0);
-	sizer1->Add(m_resumeStartPlaybackCheck, 0, wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
+	sizer1->Add(m_resumeStartPlaybackCheck, 0, wxLEFT, SJ_DLG_SPACE*6);
+
+	EnableDisableResume();
 
 	page->SetSizer(sizer1);
 	return page;
+}
+
+
+void SjPlaybackSettingsConfigPage::EnableDisableResume()
+{
+	bool e = m_resumeCheck->IsChecked();
+	m_resumeLoadPlayedCheck->Enable(e);
+	m_resumeStartPlaybackCheck->Enable(e);
 }
 
 
