@@ -119,6 +119,9 @@ public:
 	#define         SJ_QUEUEF_BOREDOM_TRACKS        0x0001L
 	#define         SJ_QUEUEF_BOREDOM_ARTISTS       0x0002L
 	#define         SJ_QUEUEF_REMOVE_PLAYED         0x0004L
+	#define         SJ_QUEUEF_RESUME                0x0010L
+	#define         SJ_QUEUEF_RESUME_LOAD_PLAYED    0x0020L
+	#define         SJ_QUEUEF_RESUME_START_PLAYBACK 0x0040L
 	#define         SJ_QUEUEF_DEFAULT               0x0000L
 	#define         SJ_DEF_BOREDOM_TRACK_MINUTES    30L
 	#define         SJ_DEF_BOREDOM_ARTIST_MINUTES   20L

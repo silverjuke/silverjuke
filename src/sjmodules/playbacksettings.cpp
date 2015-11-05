@@ -843,7 +843,7 @@ private:
 	// Queue page
 	wxPanel*        CreateQueuePage     (wxWindow* parent);
 	int             m_queuePage;
-	void            CloseQueuePage      (bool apply, bool& needsReplay);
+	void            CloseQueueNResumePage(bool apply, bool& needsReplay);
 	SjDlgCheckCtrl  m_maxTracks;
 	SjDlgCheckCtrl  m_boredomTracks;
 	SjDlgCheckCtrl  m_boredomArtists;
@@ -856,6 +856,13 @@ private:
 	void            OnQueueReset        (wxCommandEvent&);
 	void            UpdateShuffleText   ();
 	void            EnableDisable       ();
+
+	// Resume page
+	wxPanel*        CreateResumePage    (wxWindow* parent);
+	int             m_resumePage;
+	wxCheckBox*     m_resumeCheck;
+	wxCheckBox*     m_resumeLoadPlayedCheck;
+	wxCheckBox*     m_resumeStartPlaybackCheck;
 
 	// AutoCtrl page
 	wxPanel*        CreateAutoCtrlPage  (wxWindow* parent);
@@ -998,6 +1005,9 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 	m_notebook->AddPage(CreateQueuePage(m_notebook),  _("Queue"));
 	m_queuePage = m_notebook->GetPageCount();
 
+	m_notebook->AddPage(CreateResumePage(m_notebook),  _("Resume"));
+	m_resumePage = m_notebook->GetPageCount();
+
 	m_notebook->AddPage(CreateAutoCtrlPage(m_notebook),  _("Automatic control"));
 	m_autoCtrlPage = m_notebook->GetPageCount();
 
@@ -1045,9 +1055,9 @@ void SjPlaybackSettingsConfigPage::CloseAll(bool apply)
 	bool needsReplay = FALSE;
 
 	// apply settings
-	CloseQueuePage      (apply, needsReplay);
-	CloseAutoCtrlPage   (apply, needsReplay);
-	CloseFurtherOptPage (apply, needsReplay);
+	CloseQueueNResumePage(apply, needsReplay);
+	CloseAutoCtrlPage    (apply, needsReplay);
+	CloseFurtherOptPage  (apply, needsReplay);
 
 	// save settings to disk
 	g_mainFrame->m_player.SaveSettings();
@@ -1179,7 +1189,7 @@ void SjPlaybackSettingsConfigPage::EnableDisable()
 }
 
 
-void SjPlaybackSettingsConfigPage::CloseQueuePage(bool apply, bool& needsReplay)
+void SjPlaybackSettingsConfigPage::CloseQueueNResumePage(bool apply, bool& needsReplay)
 {
 	if( apply )
 	{
@@ -1201,6 +1211,11 @@ void SjPlaybackSettingsConfigPage::CloseQueuePage(bool apply, bool& needsReplay)
 
 		// shuffle intensity
 		g_mainFrame->m_player.m_queue.SetShuffleIntensity(m_shuffleSlider->GetValue());
+
+		// stuff from the "Resume" page (also saved via SetQueueFlags() and we do not want to call the function twice)
+		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME, m_resumeCheck->IsChecked());
+		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME_LOAD_PLAYED, m_resumeLoadPlayedCheck->IsChecked());
+		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME_START_PLAYBACK, m_resumeStartPlaybackCheck->IsChecked());
 
 		// save stuff now
 		g_mainFrame->m_player.m_queue.SetQueueFlags(queueFlags, boredomTrackMinutes, boredomArtistMinutes);
@@ -1228,6 +1243,46 @@ void SjPlaybackSettingsConfigPage::OnQueueReset(wxCommandEvent&)
 	// shuffle intensity
 	m_shuffleSlider->SetValue(SJ_DEF_SHUFFLE_INTENSITY);
 	UpdateShuffleText();
+}
+
+
+/*******************************************************************************
+ * SjPlaybackSettingsConfigPage - Further Options
+ ******************************************************************************/
+
+
+wxPanel* SjPlaybackSettingsConfigPage::CreateResumePage(wxWindow* parent)
+{
+	long queueFlags, boredomTrackMinutes, boredomArtistMinutes;
+	g_mainFrame->m_player.m_queue.GetQueueFlags(queueFlags, boredomTrackMinutes, boredomArtistMinutes);
+
+	// create dialog
+	wxPanel* page = new wxPanel(parent, -1);
+	wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
+
+	sizer1->Add(1, SJ_DLG_SPACE); // some space
+
+	// hints
+	wxStaticText* staticText = new wxStaticText(page, -1,
+	        _(  "Here you can decide whether to restore the queue after a restart of Silverjuke.\nYou can restore all or only unplayed titles."
+	         ));
+	sizer1->Add(staticText,
+	            0, wxALL, SJ_DLG_SPACE);
+
+	m_resumeCheck = new wxCheckBox(page, -1, _("Restore queue"));
+	m_resumeCheck->SetValue((queueFlags&SJ_QUEUEF_RESUME)!=0);
+	sizer1->Add(m_resumeCheck, 0, wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
+
+	m_resumeLoadPlayedCheck = new wxCheckBox(page, -1, _("Restore already played tracks"));
+	m_resumeLoadPlayedCheck->SetValue((queueFlags&SJ_QUEUEF_RESUME_LOAD_PLAYED)!=0);
+	sizer1->Add(m_resumeLoadPlayedCheck, 0, wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
+
+	m_resumeStartPlaybackCheck = new wxCheckBox(page, -1, _("Start playback from last position"));
+	m_resumeStartPlaybackCheck->SetValue((queueFlags&SJ_QUEUEF_RESUME_START_PLAYBACK)!=0);
+	sizer1->Add(m_resumeStartPlaybackCheck, 0, wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
+
+	page->SetSizer(sizer1);
+	return page;
 }
 
 
