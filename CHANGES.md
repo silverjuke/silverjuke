@@ -2,6 +2,15 @@ Silverjuke Changes
 ================================================================================
 
 
+V15.9 (05.11.2015)
+================================================================================
+
+- New: The settings dialog opens with most recent page used
+- New: INI-Switches "assert" and "testdrive", see file "user-guide"
+- Menu and settings dialog cleanup
+- Bug fixes
+
+
 V15.8 (27.10.2015)
 ================================================================================
 

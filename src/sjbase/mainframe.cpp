@@ -1807,7 +1807,13 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				break;
 
 			case IDT_SETTINGS:
-			case IDO_SETTINGS_ADDFILES: // just the same as IDT_SETTINGS, however, we want a second separate and clear menu entry
+				if( IsAllAvailable() )
+				{
+					OpenSettings(); // use the last page used, defaults to "memory:mymusic.lib"
+				}
+				break;
+
+			case IDO_SETTINGS_ADDFILES:
 				if( IsAllAvailable() )
 				{
 					OpenSettings(wxT("memory:mymusic.lib"), 0, 0);
