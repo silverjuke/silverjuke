@@ -525,7 +525,7 @@ file and then click on the little icon in the lower left corner of the display.
 
 On the first start you may have to select "Karaoke prompt" from the menu atop
 of the Visualization. You can also place the Karaoke prompt on a secondary
-monior; please see the chapter Monitors for details.
+monitor; please see the chapter Monitors for details.
 
 
 Skins, fonts and covers
