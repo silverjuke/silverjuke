@@ -347,7 +347,6 @@ private:
 	wxPanel*        CreateLittlePage    (wxWindow* parent);
 	void            InitLittlePage      (SjPreselect);
 	void            UpdateLittleOption  (SjLittleOption*);
-	void            UpdateLittleColWidth();
 	void            ShowLittleContextMenu (wxWindow*, const wxPoint&);
 	wxArrayLong     GetSelectedOptions  ();
 	SjLittleOption* GetSelectedOption   ();
@@ -377,7 +376,6 @@ private:
 	wxNotebook*     m_notebook;
 	bool            m_constructorDone;
 	void            OnNotebookChange    (wxNotebookEvent&);
-	void            OnSize              (wxSizeEvent& e) { UpdateLittleColWidth(); e.Skip(); }
 	                DECLARE_EVENT_TABLE ()
 
 	friend class    SjBasicSettingsModule;
@@ -391,7 +389,6 @@ BEGIN_EVENT_TABLE(SjBasicSettingsConfigPage, wxPanel)
 	EVT_BUTTON                  (IDC_LITTLEMENUBUTTON,  SjBasicSettingsConfigPage::OnLittleOptionsMenu )
 	EVT_COMMAND_RANGE           (IDC_OPTIONFIRST, IDC_OPTIONLAST, wxEVT_COMMAND_MENU_SELECTED, SjBasicSettingsConfigPage::OnLittleOption      )
 	EVT_MENU                    (IDC_OPTIONRESET,       SjBasicSettingsConfigPage::OnLittleReset       )
-	EVT_SIZE                    (                       SjBasicSettingsConfigPage::OnSize              )
 END_EVENT_TABLE()
 
 
@@ -455,7 +452,6 @@ SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basi
 	{
 		InitLittlePage(preselectKeys);
 		m_littlePageInitialized = TRUE;
-		UpdateLittleColWidth();
 	}
 
 	m_notebook->SetSelection(selectedPage);
@@ -486,7 +482,6 @@ void SjBasicSettingsConfigPage::OnNotebookChange(wxNotebookEvent& event)
 				wxBusyCursor busy;
 				InitLittlePage(SJ_PRESELECT_NONE);
 				m_littlePageInitialized = TRUE;
-				UpdateLittleColWidth();
 			}
 		}
 	}
@@ -631,23 +626,10 @@ void SjBasicSettingsConfigPage::InitLittlePage(SjPreselect preselectKeys)
 	}
 
 	m_littleListCtrl->SetItemState(s_littleListSelection, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
-}
 
-
-void SjBasicSettingsConfigPage::UpdateLittleColWidth()
-{
-	if( m_littlePageInitialized )
-	{
-		wxSize size;
-
-		size = m_littleListCtrl->GetClientSize();
-
-		int w0 = (size.x)/2;
-		m_littleListCtrl->SetColumnWidth(0, w0);
-		m_littleListCtrl->SetColumnWidth(1, size.x-w0);
-
-		SjDialog::EnsureSelListCtrlItemVisible(m_littleListCtrl);
-	}
+	m_littleListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
+	m_littleListCtrl->SetColumnWidth(1, wxLIST_AUTOSIZE);
+	SjDialog::EnsureSelListCtrlItemVisible(m_littleListCtrl);
 }
 
 
