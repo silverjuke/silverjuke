@@ -33,7 +33,7 @@
 class SjPlayerModule : public SjCommonModule
 {
 public:
-	SjPlayerModule      (SjInterfaceBase*);
+	                SjPlayerModule      (SjInterfaceBase*);
 	void            GetLittleOptions    (SjArrayLittleOption&);
 
 protected:
@@ -54,8 +54,8 @@ public:
 	// for complete contruction call SjPlayer() AND Init(), same for destruction.
 	// LoadSettings() and SaveSettings() always saves the settings to the m_player
 	// instance, so you should use this only for the main player
-	SjPlayer            ();
-	~SjPlayer           ();
+	                SjPlayer            ();
+	                ~SjPlayer           ();
 	void            Init                ();
 	void            Exit                ();
 	SjQueue         m_queue;

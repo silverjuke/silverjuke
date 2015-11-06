@@ -551,7 +551,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 				// ...see if we have to add an auto-play URL
 				if( !g_mainFrame->m_haltedManually
-				        && !m_stateHaltedBySleep )
+				 && !m_stateHaltedBySleep )
 				{
 					if( m_stateAutoPlayTracksLeft > 0 && LastTrackWasAutoPlay() )
 					{
@@ -559,7 +559,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 						m_stateAutoPlayTracksLeft--;
 					}
 					else if( (thisTimestamp > (m_stateAutoPlayLastPlaybackTimestamp+m_autoPlayWaitMinutes*60*1000))
-					         || (m_stateLastUnqueueId!=0 && m_stateLastUnqueueId==m_stateLastAutoPlayQueueId) )
+					      || (m_stateLastUnqueueId!=0 && m_stateLastUnqueueId==m_stateLastAutoPlayQueueId) )
 					{
 						wxASSERT( m_autoPlayNumTracks > 0 );
 
@@ -606,7 +606,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 		if( (m_flags & SJ_AUTOCTRL_SLEEP)
 		 && !g_mainFrame->m_inConstruction
-		  && !g_mainFrame->m_mainApp->IsInShutdown() )
+		 && !g_mainFrame->m_mainApp->IsInShutdown() )
 		{
 			#ifdef __WXDEBUG__
 				if( m_stateTriggerSleep )
@@ -792,7 +792,7 @@ bool SjAutoCtrl::LastTrackWasAutoPlay()
 {
 	long queueCount = g_mainFrame->GetQueueCount();
 	if( queueCount > 0
-	        && g_mainFrame->m_player.m_queue.GetIdByPos(queueCount-1) == m_stateLastAutoPlayQueueId )
+	 && g_mainFrame->m_player.m_queue.GetIdByPos(queueCount-1) == m_stateLastAutoPlayQueueId )
 	{
 		return TRUE;
 	}
