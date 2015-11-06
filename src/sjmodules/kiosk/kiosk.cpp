@@ -59,13 +59,19 @@ public:
 	}
 
 private:
-	void            OnMyClose           (wxCloseEvent& e)
+	void OnMyClose (wxCloseEvent& e)
 	{
 		if( e.CanVeto() )
+		{
 			e.Veto();
+		}
 	}
-	void            OnEraseBackground   (wxEraseEvent& e) { }
-	void            OnPaint             (wxPaintEvent& e)
+
+	void OnEraseBackground (wxEraseEvent& e)
+	{
+	}
+
+	void OnPaint(wxPaintEvent& e)
 	{
 		wxPaintDC dc(this);
 		wxSize size = GetClientSize();
@@ -73,12 +79,13 @@ private:
 		dc.SetPen(*wxBLACK_PEN);
 		dc.DrawRectangle(0, 0, size.x, size.y);
 	}
-	void            OnFwdToMainFrame    (wxCommandEvent& e)
+
+	void OnFwdToMainFrame(wxCommandEvent& e)
 	{
 		g_mainFrame->GetEventHandler()->ProcessEvent(e);
 	}
 
-	void            OnKeyUp             (wxKeyEvent& e)
+	void OnKeyUp(wxKeyEvent& e)
 	{
 		int targetId = g_accelModule->KeyEvent2CmdId(e, SJA_MAIN);
 		if( targetId )
@@ -92,6 +99,7 @@ private:
 			e.Skip();
 		}
 	}
+
 	DECLARE_EVENT_TABLE ();
 };
 
@@ -114,9 +122,8 @@ END_EVENT_TABLE()
 class SjKioskConfigPage : public wxPanel
 {
 public:
-	SjKioskConfigPage
-	(wxWindow* parent, int selectedPage);
-	~SjKioskConfigPage  ();
+	                SjKioskConfigPage   (wxWindow* parent, int selectedPage);
+	                ~SjKioskConfigPage  ();
 
 private:
 	// start page
@@ -156,16 +163,14 @@ private:
 	void            UpdateMonitorPage   ();
 	void            UpdateMonitorResChoice(wxChoice*, size_t displayIndex, wxString& selRes);
 	wxString        m_monitorInitialization;
-	SjMonitorOverview*
-	m_monitorOverview;
+	SjMonitorOverview* m_monitorOverview;
 	wxChoice*       m_monitorChoice[2];
 	wxChoice*       m_monitorResChoice[2];
 	wxTimer         m_monitorTimer;
 	void            OnMonitorTimer      (wxTimerEvent&);
 	void            OnMonitorChoice     (wxCommandEvent&);
 	void            OnMonitorResChoice  (wxCommandEvent&);
-	void            OnMonitorSysSettings
-	(wxCommandEvent&);
+	void            OnMonitorSysSettings(wxCommandEvent&);
 
 	// "virtual keyboard" page
 	wxPanel*        CreateVirtKeybdPage (wxWindow* parent);
@@ -216,7 +221,7 @@ private:
 	wxCheckBox*     m_creditUseCheckBox;
 	wxCheckBox*     m_creditSaveCheckBox;
 	wxCheckBox*     m_creditDDECheckBox;
-	wxButton*   m_creditShortcutEditButton;
+	wxButton*       m_creditShortcutEditButton;
 	wxStaticText*   m_creditCurrLabel;
 	wxSpinCtrl*     m_creditCurrSpinCtrl;
 
@@ -227,7 +232,7 @@ private:
 	wxPanel*        m_tempPanel;
 	bool            m_constructorDone;
 	bool            Apply               ();
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 	friend class    SjKioskModule;
 };
 
@@ -265,10 +270,7 @@ BEGIN_EVENT_TABLE(SjKioskConfigPage, wxPanel)
 
 	EVT_BUTTON                  (IDT_TOGGLE_KIOSK,          SjKioskConfigPage::OnMyKioskStart               )
 	EVT_MENU                    (IDT_TOGGLE_KIOSK,          SjKioskConfigPage::OnMyKioskStart               )
-	EVT_COMMAND_RANGE           (IDC_OPERATION_FIRST,
-	                             IDC_OPERATION_LAST,
-	                             wxEVT_COMMAND_CHECKBOX_CLICKED,
-	                             SjKioskConfigPage::OnOpCheck                    )
+	EVT_COMMAND_RANGE           (IDC_OPERATION_FIRST, IDC_OPERATION_LAST, wxEVT_COMMAND_CHECKBOX_CLICKED, SjKioskConfigPage::OnOpCheck )
 	EVT_BUTTON                  (IDC_OPERATION_DEFAULT,     SjKioskConfigPage::OnOpDefault                  )
 	EVT_BUTTON                  (IDC_CHANGE_PASSWORD_BUTTON,SjKioskConfigPage::OnChoosePassword             )
 	EVT_BUTTON                  (IDC_LIMITTOMUSICSELBUT,    SjKioskConfigPage::OnLimitToMusicSelBut         )
@@ -289,8 +291,7 @@ BEGIN_EVENT_TABLE(SjKioskConfigPage, wxPanel)
 	EVT_BUTTON                  (IDC_VIRTKEYBD_DEFAULT,     SjKioskConfigPage::OnVirtKeybdDefault           )
 
 	EVT_CHECKBOX                (IDC_NUMPAD_USE_IN_KIOSK,   SjKioskConfigPage::OnNumpadUseInKioskCheck      )
-	EVT_CHECKBOX                (IDC_NUMPAD_USE_OUTSIDE_KIOSK,
-	                             SjKioskConfigPage::OnNumpadUseOutsideKioskCheck )
+	EVT_CHECKBOX                (IDC_NUMPAD_USE_OUTSIDE_KIOSK, SjKioskConfigPage::OnNumpadUseOutsideKioskCheck )
 	EVT_BUTTON                  (IDC_NUMPAD_EDITKEYS,       SjKioskConfigPage::OnNumpadEditKeys             )
 
 	EVT_CHECKBOX                (IDC_CREDIT_USE,            SjKioskConfigPage::OnCreditUseCheck             )
@@ -391,7 +392,7 @@ bool SjKioskConfigPage::Apply()
 	bool ret = TRUE;
 
 	if(  g_kioskModule // may be NULL on exit if the close event comes delayed ...
-	        && !g_kioskModule->KioskStarted() )
+	 && !g_kioskModule->KioskStarted() )
 	{
 		// init flags flags
 		g_kioskModule->m_configOp       = SJ_OP_KIOSKON;
@@ -1029,11 +1030,15 @@ void SjKioskConfigPage::UpdateMonitorPage()
 			}
 
 			if( monitorSetting == 0 )
+			{
 				m_monitorOverview->AddMonitor(curr.GetGeometry());
+			}
 		}
 
 		if( displaySelectedIndex == 0x7fffffffL )
+		{
 			displaySelectedIndex = displayPrimaryIndex;
+		}
 
 		// set the selction in the monitor choice control;
 		// as this might have changed, also remember this setting in the config
@@ -1049,14 +1054,15 @@ void SjKioskConfigPage::UpdateMonitorPage()
 	}
 
 	if( displayCount <= 1 )
+	{
 		m_monitorOverview->AddDummy();
+	}
 
 	m_monitorOverview->Refresh();
 }
 
 
-void SjKioskConfigPage::UpdateMonitorResChoice( wxChoice* monitorResChoice, size_t displayIndex,
-        wxString& selRes)
+void SjKioskConfigPage::UpdateMonitorResChoice( wxChoice* monitorResChoice, size_t displayIndex, wxString& selRes)
 {
 	wxDisplay display(displayIndex);
 
@@ -1150,8 +1156,7 @@ void SjKioskConfigPage::OnMonitorResChoice(wxCommandEvent& e)
 	wxChoice* monitorResChoice = (wxChoice*)FindWindow(IDC_MONITOR_RES_CHOICE_0+monitorSetting);
 	if( monitorResChoice )
 	{
-		g_kioskModule->m_configDispRes[monitorSetting]
-		    = monitorResChoice->GetStringSelection();
+		g_kioskModule->m_configDispRes[monitorSetting] = monitorResChoice->GetStringSelection();
 	}
 }
 
@@ -1302,7 +1307,9 @@ wxPanel* SjKioskConfigPage::CreateVirtKeybdPage(wxWindow* parent)
 	m_virtKeybdTest->DontCloseOn(m_virtKeybdColour);
 	m_virtKeybdTest->DontCloseOn(virtKeybdDefault);
 	if( m_virtKeybdTransp )
+	{
 		m_virtKeybdTest->DontCloseOn(m_virtKeybdTransp);
+	}
 
 	UpdateVirtKeybdCtrls();
 
@@ -1739,15 +1746,21 @@ void SjKioskModule::LoadConfig()
 
 		m_configUserPassword = g_tools->m_config->Read(wxT("kiosk/password"), wxT(""));
 		if( !m_configUserPassword.IsEmpty() )
+		{
 			m_configUserPassword = SjTools::UnscrambleString(m_configUserPassword);
+		}
 
 		m_configMaintenancePassword = g_tools->m_config->Read(wxT("kiosk/maintenancePassword"), wxT(""));
 		if( !m_configMaintenancePassword.IsEmpty() )
+		{
 			m_configMaintenancePassword = SjTools::UnscrambleString(m_configMaintenancePassword);
+		}
 
 		// make sure either album or list view is enabled
 		if( (m_configOp&(SJ_OP_ALBUM_VIEW|SJ_OP_COVER_VIEW|SJ_OP_LIST_VIEW)) == 0 )
+		{
 			m_configOp |= SJ_OP_ALBUM_VIEW;
+		}
 
 		m_configLoaded = TRUE;
 	}
@@ -1946,9 +1959,8 @@ bool SjKioskModule::ExitRequest(long flag, const wxString* givenPassword, bool f
 
 	// okay: really exit
 	if( exitAction == SJ_SHUTDOWN_EXIT_SILVERJUKE
-	        || exitAction == SJ_SHUTDOWN_POWEROFF_COMPUTER
-	        || exitAction == SJ_SHUTDOWN_REBOOT_COMPUTER
-	  )
+	 || exitAction == SJ_SHUTDOWN_POWEROFF_COMPUTER
+	 || exitAction == SJ_SHUTDOWN_REBOOT_COMPUTER )
 	{
 		s_kioskInShutdown = TRUE;
 		DoExit(FALSE/*restoreWindow*/);
@@ -2011,8 +2023,8 @@ void SjKioskModule::DoStart()
 			if( m_configKioskf & (i==0? SJ_KIOSKF_SWITCHRES_0 : SJ_KIOSKF_SWITCHRES_1) )
 			{
 				if( m_configMonitor[i] >= 0
-				        && m_configMonitor[i] < (long)displayCount
-				        && m_configMonitor[i] != switchDone )
+				 && m_configMonitor[i] < (long)displayCount
+				 && m_configMonitor[i] != switchDone )
 				{
 					wxDisplay display(m_configMonitor[i]);
 					wxArrayVideoModes modes = display.GetModes();
@@ -2194,7 +2206,7 @@ void SjKioskModule::DoStart()
 	}
 
 	if( doCreateBlackFrames
-	        && displayCount > 1 )
+	 && displayCount > 1 )
 	{
 		for( int d = 0; d < (int)displayCount; d++ )
 		{
@@ -2432,7 +2444,7 @@ bool SjKioskModule::CanEnqueue(const wxArrayString& requestedUrls, bool urlsVeri
 void SjKioskModule::UpdateCreditSpinCtrl()
 {
 	if( g_kioskConfigPage
-	        && g_kioskConfigPage->m_creditCurrSpinCtrl )
+	 && g_kioskConfigPage->m_creditCurrSpinCtrl )
 	{
 		long oldValue = g_kioskConfigPage->m_creditCurrSpinCtrl->GetValue();
 		long newValue = m_creditBase.GetCredit();

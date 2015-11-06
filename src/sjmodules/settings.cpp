@@ -52,8 +52,8 @@ class SjSettingsDlg : public SjDialog
 {
 public:
 	// Constructor and destructor
-	SjSettingsDlg       (SjSettingsModule* settingsModule, wxWindow* parent);
-	~SjSettingsDlg      (void);
+	                SjSettingsDlg       (SjSettingsModule* settingsModule, wxWindow* parent);
+	                ~SjSettingsDlg      (void);
 
 	// for async opening / goto page
 	wxString        m_asyncModule;
@@ -86,14 +86,13 @@ private:
 
 
 	// common
-	SjSettingsModule*
-	m_settingsModule;
+	SjSettingsModule* m_settingsModule;
 	bool            m_trackSelectionChanges;
 	void            OnCancel            (wxCommandEvent&);
 	void            OnOK                (wxCommandEvent&);
 	void            OnClose             (wxCloseEvent&);
 	void            OnOpenSettingsAsync (wxCommandEvent&);
-	DECLARE_EVENT_TABLE ();
+	                DECLARE_EVENT_TABLE ();
 	friend class    SjSettingsModule;
 };
 
@@ -191,7 +190,9 @@ SjSettingsDlg::SjSettingsDlg(SjSettingsModule* settingsModule, wxWindow* parent)
 SjSettingsDlg::~SjSettingsDlg(void)
 {
 	if( g_mainFrame )
+	{
 		g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_SETTINGS_CLOSE);
+	}
 	g_settingsDlg = NULL;
 }
 
@@ -255,7 +256,7 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 						minSize.x = toolbarSize.x;
 
 					if( minSize.x > clientSize.x
-					        || minSize.y > clientSize.y )
+					 || minSize.y > clientSize.y )
 					{
 						clientSize.x = clientSize.x > minSize.x? clientSize.x : minSize.x;
 						clientSize.y = clientSize.y > minSize.y? clientSize.y : minSize.y;
@@ -353,7 +354,7 @@ void SjSettingsDlg::SetSelToDialog(const wxString& selFile, int selIndex, int se
 		if( m )
 		{
 			bool select = ( m->m_file.CmpNoCase(selFile)==0 && m->m_fileIndex==selIndex );
-			if( select ) anythingSelected = true;
+			if( select ) { anythingSelected = true; }
 			m_toolBar->ToggleTool(1000+i, select);
 		}
 	}
@@ -542,7 +543,9 @@ bool SjSettingsModule::IsDialogOpen()
 void SjSettingsModule::RaiseIfOpen()
 {
 	if( g_settingsDlg )
+	{
 		g_settingsDlg->SetFocus();
+	}
 }
 
 
@@ -551,7 +554,7 @@ void SjSettingsModule::ReceiveMsg(int msg)
 	if( g_settingsDlg )
 	{
 		if( msg == IDMODMSG_KIOSK_STARTING
-		        || msg == IDMODMSG_KIOSK_ENDED )
+		 || msg == IDMODMSG_KIOSK_ENDED )
 		{
 			// Close() will call Cancel() for the page which may get into an infinite loop if this
 			// function is used in the kiosk module somehow. So take care!
