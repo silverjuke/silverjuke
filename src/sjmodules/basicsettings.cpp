@@ -61,7 +61,7 @@
 class SjSearchPathDlg : public SjDialog
 {
 public:
-	SjSearchPathDlg     (wxWindow* parent, const wxArrayString& paths);
+	                SjSearchPathDlg     (wxWindow* parent, const wxArrayString& paths);
 	wxArrayString   GetPaths            () const;
 
 private:
@@ -70,12 +70,11 @@ private:
 	void            UpdateButtons       ();
 	void            OnSearchPathAdd     (wxCommandEvent&);
 	void            OnSearchPathRemove  (wxCommandEvent&);
-	void            OnSearchPathSelectionChange
-	(wxListEvent&) { UpdateButtons(); }
+	void            OnSearchPathSelectionChange (wxListEvent&) { UpdateButtons(); }
 	void            OnContextMenu       (wxListEvent&);
 	void            OnShowSearchPath    (wxCommandEvent&);
 	void            OnSize              (wxSizeEvent&);
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 };
 
 
@@ -374,13 +373,12 @@ private:
 	wxString		m_oldLanguageValue, m_newLanguageValue;
 
 	// other
-	SjBasicSettingsModule*
-	m_basicSettingsModule;
+	SjBasicSettingsModule* m_basicSettingsModule;
 	wxNotebook*     m_notebook;
 	bool            m_constructorDone;
 	void            OnNotebookChange    (wxNotebookEvent&);
 	void            OnSize              (wxSizeEvent& e) { UpdateLittleColWidth(); e.Skip(); }
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 
 	friend class    SjBasicSettingsModule;
 };
@@ -391,10 +389,7 @@ BEGIN_EVENT_TABLE(SjBasicSettingsConfigPage, wxPanel)
 	EVT_LIST_ITEM_RIGHT_CLICK   (IDC_LITTLELIST,        SjBasicSettingsConfigPage::OnLittleContextMenu )
 	EVT_LIST_ITEM_ACTIVATED     (IDC_LITTLELIST,        SjBasicSettingsConfigPage::OnLittleDoubleClick )
 	EVT_BUTTON                  (IDC_LITTLEMENUBUTTON,  SjBasicSettingsConfigPage::OnLittleOptionsMenu )
-	EVT_COMMAND_RANGE           (IDC_OPTIONFIRST,
-	                             IDC_OPTIONLAST,
-	                             wxEVT_COMMAND_MENU_SELECTED,
-	                             SjBasicSettingsConfigPage::OnLittleOption      )
+	EVT_COMMAND_RANGE           (IDC_OPTIONFIRST, IDC_OPTIONLAST, wxEVT_COMMAND_MENU_SELECTED, SjBasicSettingsConfigPage::OnLittleOption      )
 	EVT_MENU                    (IDC_OPTIONRESET,       SjBasicSettingsConfigPage::OnLittleReset       )
 	EVT_SIZE                    (                       SjBasicSettingsConfigPage::OnSize              )
 END_EVENT_TABLE()
@@ -450,7 +445,7 @@ SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basi
 	}
 
 	if( selectedPage < 0
-	        || selectedPage >= (int)m_notebook->GetPageCount() )
+	 || selectedPage >= (int)m_notebook->GetPageCount() )
 	{
 		selectedPage = 0;
 	}
