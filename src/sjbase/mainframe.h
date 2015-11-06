@@ -91,7 +91,7 @@ public:
 	void            GotoAbsPos          (long p) { m_player.GotoAbsPos(p); m_display.m_scrollPos=-1; }
 	void            GotoUrl             (const wxString& url) { m_player.GotoUrl(url); m_display.m_scrollPos=-1; if(!IsPlaying()) {UpdateDisplay();} }
 	void            GotoPrev            (bool fadeToPrev) { m_player.GotoPrev(fadeToPrev); m_display.m_scrollPos=-1; if(!IsPlaying()) {UpdateDisplay();} }
-	void            GotoNextRegardAP    (bool fadeToNext);
+	bool            GotoNextRegardAP    (bool fadeToNext, bool ignoreTimeouts=true);
 	void            SetAbsMainVol       (long v);
 	void            SetRelMainVol       (long v) { SetAbsMainVol(m_player.GetMainVol()+v); }
 	long            GetMainVol          () const { return m_player.GetMainVol(); }

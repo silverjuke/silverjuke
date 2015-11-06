@@ -219,13 +219,16 @@ void SjMainFrame::UnqueueByPos(long queuePos)
 
 
 
-void SjMainFrame::GotoNextRegardAP(bool fadeToNext)
+bool SjMainFrame::GotoNextRegardAP(bool fadeToNext, bool ignoreTimeouts)
 {
 	if( !HasNextIgnoreAP()
 	 &&  HasNextRegardAP() )
 	{
 		// enqueue a new auto play URL
-		m_autoCtrl.DoAutoPlayIfEnabled(true /*ignore timeouts*/);
+		if( !m_autoCtrl.DoAutoPlayIfEnabled(ignoreTimeouts) )
+		{
+			return false;
+		}
 	}
 
 	m_player.GotoNextIgnoreAP(fadeToNext);
@@ -236,6 +239,7 @@ void SjMainFrame::GotoNextRegardAP(bool fadeToNext)
 	}
 
 	UpdateMenuBarQueue();
+	return true;
 }
 
 
