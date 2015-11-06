@@ -536,6 +536,30 @@ void SjAutoCtrl::OnOneSecondTimer()
 			}
 		}
 
+
+		// automatic control: limit play time
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+		if( (m_flags & SJ_AUTOCTRL_LIMIT_PLAY_TIME)
+		 && !g_mainFrame->m_inConstruction
+		 && !g_mainFrame->m_mainApp->IsInShutdown()
+		 && !SjBusyInfo::InYield()
+		 &&  IsCurrTrackCloseToEnd() != 1 /*limit if we're "not close to end" or if "we don't know"*/
+		 &&  g_mainFrame->IsPlaying() )
+		{
+			long elapsedMs = g_mainFrame->GetElapsedTime();
+			if( elapsedMs > m_limitPlayTimeSeconds*1000 )
+			{
+				g_mainFrame->SetDisplayMsg(_("Play time exceeded"), 5000); // should be set before GotoNextRegardAP() to avoid flickering
+				if( !g_mainFrame->GotoNextRegardAP(true /*fade to next*/, false /*do not ignore timeouts (leave a gap of some minutes if desired*/) )
+				{
+					g_mainFrame->Stop();
+					g_mainFrame->m_haltedManually = false; /*set to "true" in Stop() - but this was no manual stop, we want the autoplay to start over*/
+				}
+			}
+		}
+
+
 		// automatic control: check auto-play
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
