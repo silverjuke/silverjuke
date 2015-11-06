@@ -502,7 +502,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 						}
 						else
 						{
-							if( !IsCurrTrackCloseToEnd() )
+							if( IsCurrTrackCloseToEnd() == 0 )
 							{
 								SwitchToDefLayout();
 
@@ -579,7 +579,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 				/*// ...see if we have to add an auto-play URL,
 				// we do this only if the player is not paused
-				if(  IsCurrTrackCloseToEnd()
+				if(  IsCurrTrackCloseToEnd() != 0
 				 && !g_mainFrame->IsPaused()
 				 && !g_mainFrame->HasNextIgnoreAP() ) // HasNext() seems only to work exactly if playing, so better check m_haltedManually in the stopped-condtion above
 				{
@@ -803,18 +803,25 @@ bool SjAutoCtrl::LastTrackWasAutoPlay()
 }
 
 
-bool SjAutoCtrl::IsCurrTrackCloseToEnd()
+int SjAutoCtrl::IsCurrTrackCloseToEnd() // returns 0, 1 or -1 for unknown
 {
-	long    remainingMs = g_mainFrame->GetRemainingTime();
-	long    crossfadeMs = g_mainFrame->m_player.GetAutoCrossfade()? g_mainFrame->m_player.m_autoCrossfadeMs : 0;
-	#define headroomMs 10000L // 10 seconds before anythings starts; the player itself prepares a new stream 5 seconds before the end of the previous one
-
-	if( remainingMs < (crossfadeMs+headroomMs) )
+	long remainingMs = g_mainFrame->GetRemainingTime();
+	wxASSERT( remainingMs >= -1 );
+	if( remainingMs < 0 )
 	{
-		return TRUE;    // we're close to end
+		return -1; // dont'know
 	}
 
-	return FALSE;       // we're not close to end
+	long crossfadeMs = g_mainFrame->m_player.GetAutoCrossfade()? g_mainFrame->m_player.m_autoCrossfadeMs : 0;
+	wxASSERT( remainingMs >= 0 );
+	wxASSERT( crossfadeMs >= 0 );
+	#define headroomMs 10000L // 10 seconds before anythings starts; the player itself prepares a new stream 5 seconds before the end of the previous one
+	if( remainingMs < (crossfadeMs+headroomMs) )
+	{
+		return 1; // we're close to end
+	}
+
+	return 0; // we're not close to end
 }
 
 

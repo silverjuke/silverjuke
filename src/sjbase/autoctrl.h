@@ -169,7 +169,7 @@ private:
 	bool            EnqueueAutoPlayUrl  ();
 	wxString        GetAutoPlayUrl      ();
 	bool            LastTrackWasAutoPlay();
-	bool            IsCurrTrackCloseToEnd();
+	int             IsCurrTrackCloseToEnd(); // returns 0, 1 or -1 for unknown
 
 	// auto play is only performed if m_haltAutoPlay == 0
 	int             m_haltAutoPlay;
