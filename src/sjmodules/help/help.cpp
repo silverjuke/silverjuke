@@ -172,7 +172,7 @@ wxString SjHelpDialog::GetAboutTopic() const
 	wxString ret;
 
 	ret = wxT("<center>")
-	      wxT("<p><img src=\"memory:aboutlogo.gif\"></p>")
+	      wxT("<p>&nbsp;<img src=\"memory:aboutlogo.gif\">&nbsp;</p>") // the &nbsp; left and right are needed for wxHTML to calculate the correct height; a simple image is not sufficient
 	      wxT("<h1>") + wxString::Format(wxT("%s %i.%i"), SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR) + wxT("</h1>")
 	      wxT("<p>The Jukebox. Grown up.</p>") /*n/t*/
 	      wxT("<p><a href=\"web:0\">") + wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME) + wxT("...</a></p>")
