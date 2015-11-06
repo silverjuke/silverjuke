@@ -524,7 +524,7 @@ void SjSettingsModule::OpenSettings(const wxString& selFile__, int selIndex__, i
 	g_settingsDlg->Raise();
 	g_settingsDlg->SetFocus();
 
-	// set focus to the loaded page (there seems to be a but in the wxWindows
+	// set focus to the loaded page (there seems to be a bug in the wxWindows
 	// automatic focus initialisation - without the following lines
 	// the focus is on the help-button!?
 	if( g_settingsDlg->m_currPageWindow )
