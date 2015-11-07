@@ -5,6 +5,7 @@ Silverjuke Changes
 V15.9 (07.11.2015)
 ================================================================================
 
+- New: "Jingle" options
 - New: "Limit Play Time" option
 - New: "Resume" options
 - New: The settings dialog opens with most recent page used
