@@ -222,7 +222,7 @@ void SjSkinItem::HideDragImage()
 	if( m_skinWindow->m_dragImage || s_globalDragImageHidden )
 	{
 		if( s_globalDragImageHidden == 0
-		        && m_skinWindow->m_dragRect.Intersects(GetScreenRect()) )
+		 && m_skinWindow->m_dragRect.Intersects(GetScreenRect()) )
 		{
 			m_skinWindow->m_dragImage->Hide();
 		}
@@ -437,9 +437,9 @@ void SjSkinBoxItem::SetValue(const SjSkinValue& value)
 	long totalMs = (flags&SJ_VFLAG_VMAX_IS_TIME)? value.vmax : 0;
 
 	if( m_runningMs != runningMs
-	        || m_totalMs != totalMs
-	        || m_flags != flags
-	        || m_text != value.string )
+	 || m_totalMs != totalMs
+	 || m_flags != flags
+	 || m_text != value.string )
 	{
 		m_text = value.string;
 		m_flags = flags;
@@ -536,7 +536,7 @@ bool SjSkinBoxItem::OnImageThere(wxDC& dc, SjImgThreadObj* obj)
 void SjSkinBoxItem::DrawBackground(wxDC& dc)
 {
 	if( (m_border && m_colours[SJ_COLOUR_NORMAL].fgSet)
-	        ||  m_colours[SJ_COLOUR_NORMAL].bgSet )
+	 ||  m_colours[SJ_COLOUR_NORMAL].bgSet )
 	{
 		dc.SetPen((m_border&&m_colours[SJ_COLOUR_NORMAL].fgSet)? m_colours[SJ_COLOUR_NORMAL].fgPen : *wxTRANSPARENT_PEN);
 		dc.SetBrush(m_colours[SJ_COLOUR_NORMAL].bgSet? m_colours[SJ_COLOUR_NORMAL].bgBrush : *wxTRANSPARENT_BRUSH);
@@ -800,7 +800,7 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 
 	// strike?
 	if(  m_mouseSubitem==SJ_SUBITEM_ICONRIGHT
-	        && (m_flags&SJ_VFLAG_ICONR_DELETE) )
+	 && (m_flags&SJ_VFLAG_ICONR_DELETE) )
 	{
 		dc.SetPen(m_colours[SJ_COLOUR_NORMAL].fgPen);
 
@@ -887,7 +887,7 @@ void SjSkinBoxItem::OnMouseLeftDown(long x, long y, bool doubleClick, long accel
 			m_mouseDownY    = y;
 
 			if( doubleClick
-			        && m_mouseSubitem == SJ_SUBITEM_TEXT )
+			 && m_mouseSubitem == SJ_SUBITEM_TEXT )
 			{
 				m_mouseState    = SJ_MOUSE_STATE_NORMAL;
 				RedrawMe();
@@ -1004,7 +1004,7 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 			{
 				// report the derived class that the item is moved up/down if not yet done
 				if(  motionItem != this
-				        && !m_mouseMoveReported )
+				 && !m_mouseMoveReported )
 				{
 					m_mouseResumeX = x;
 					m_mouseResumeY = y;
@@ -1014,10 +1014,10 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 
 						long lineDifference;
 						if( m_targetId >= IDT_DISPLAY_LINE_FIRST
-						        && m_targetId <= IDT_DISPLAY_LINE_LAST
-						        && motionItem // may be NULL!
-						        && motionItem->m_targetId >= IDT_DISPLAY_LINE_FIRST
-						        && motionItem->m_targetId <= IDT_DISPLAY_LINE_LAST )
+						 && m_targetId <= IDT_DISPLAY_LINE_LAST
+						 && motionItem // may be NULL!
+						 && motionItem->m_targetId >= IDT_DISPLAY_LINE_FIRST
+						 && motionItem->m_targetId <= IDT_DISPLAY_LINE_LAST )
 						{
 							lineDifference = motionItem->m_targetId - m_targetId;
 						}
@@ -1100,9 +1100,9 @@ void SjSkinWindow::ResumeSkinTargetMotion(int clickedTargetId, int resumeTargetI
 	// contined from (***)
 
 	if( clickedTargetId >= IDT_DISPLAY_LINE_FIRST
-	        && clickedTargetId <= IDT_DISPLAY_LINE_LAST
-	        && resumeTargetId  >= IDT_DISPLAY_LINE_FIRST
-	        && resumeTargetId  <= IDT_DISPLAY_LINE_LAST )
+	 && clickedTargetId <= IDT_DISPLAY_LINE_LAST
+	 && resumeTargetId  >= IDT_DISPLAY_LINE_FIRST
+	 && resumeTargetId  <= IDT_DISPLAY_LINE_LAST )
 	{
 		SjSkinBoxItem* clickedItem = (SjSkinBoxItem*)FindFirstItemByTargetId(clickedTargetId);
 		SjSkinBoxItem* resumeItem  = (SjSkinBoxItem*)FindFirstItemByTargetId(resumeTargetId );
@@ -1848,9 +1848,9 @@ void SjSkinScrollbarItem::SetValue(const SjSkinValue& value)
 
 	// any changes?
 	if( m_value     != newValue
-	        || m_vmin      != newMin
-	        || m_vmax      != newMax
-	        || m_thumbSize != value.thumbSize )
+	 || m_vmin      != newMin
+	 || m_vmax      != newMax
+	 || m_thumbSize != value.thumbSize )
 	{
 		// save settings
 		m_value     = newValue;
@@ -1971,7 +1971,7 @@ void SjSkinScrollbarItem::OnMouseLeftDown(long x, long y, bool doubleClick, long
 		if( m_trackPart )
 		{
 			if( m_trackPart == &m_thumbPart
-			        || m_thumbSize )
+			 || m_thumbSize )
 			{
 				if( m_hoverPart )
 				{
@@ -2108,7 +2108,7 @@ void SjSkinScrollbarItem::OnMouseLeave()
 void SjSkinScrollbarItem::OnTimer()
 {
 	if( m_trackPart == &m_pageLeftPart
-	        || m_trackPart == &m_pageRightPart )
+	 || m_trackPart == &m_pageRightPart )
 	{
 		if( !m_inTimer )
 		{
@@ -2189,8 +2189,8 @@ void SjSkinScrollbarItem::SwapNDrawPart(wxDC& dc, SjSkinScrollbarItemPart& part,
 	wxASSERT(g_tools);
 
 	if( part.m_bitmapPrologue[part.m_mouseState]
-	        || part.m_bitmapRepeat  [part.m_mouseState]
-	        || part.m_bitmapEpilogue[part.m_mouseState] )
+	 || part.m_bitmapRepeat  [part.m_mouseState]
+	 || part.m_bitmapEpilogue[part.m_mouseState] )
 	{
 		if( m_horizontal )
 		{
@@ -2359,7 +2359,7 @@ void SjSkinInputItem::OnSize()
 	{
 		// update colour
 		if( m_skinWindow->m_inputWindowBgColour != m_colours[SJ_COLOUR_NORMAL].bgColour
-		        || m_skinWindow->m_inputWindowFgColour != m_colours[SJ_COLOUR_NORMAL].fgColour )
+		 || m_skinWindow->m_inputWindowFgColour != m_colours[SJ_COLOUR_NORMAL].fgColour )
 		{
 			iw->SetForegroundColour(m_colours[SJ_COLOUR_NORMAL].fgColour);
 			iw->SetBackgroundColour(m_colours[SJ_COLOUR_NORMAL].bgColour);
@@ -2448,7 +2448,9 @@ bool SjSkinDivItem::Create(const wxHtmlTag& tag, wxString& error)
 		if( tag.GetParamAsInt(wxT("VISAUTOSTART"), &test) )
 		{
 			if( test == 1 )
+			{
 				m_prop |= SJ_SKIN_PROP_AUTO_START_VIS;
+			}
 		}
 	}
 
@@ -2473,8 +2475,8 @@ void SjSkinDivItem::OnMouseMotion(long x, long y, bool leftDown)
 	wxASSERT(m_skinWindow);
 
 	if( leftDown
-	        && m_inMove
-	        && !m_inMotion )
+	 && m_inMove
+	 && !m_inMotion )
 	{
 		m_inMotion = TRUE;
 
@@ -2487,9 +2489,9 @@ void SjSkinDivItem::OnMouseMotion(long x, long y, bool leftDown)
 		if( !m_cursorChanged )
 		{
 			if( hDiff >  SJ_DRAGMOVE_DELTA
-			        || hDiff < -SJ_DRAGMOVE_DELTA
-			        || vDiff >  SJ_DRAGMOVE_DELTA
-			        || vDiff < -SJ_DRAGMOVE_DELTA )
+			 || hDiff < -SJ_DRAGMOVE_DELTA
+			 || vDiff >  SJ_DRAGMOVE_DELTA
+			 || vDiff < -SJ_DRAGMOVE_DELTA )
 			{
 				wxASSERT(g_tools);
 				m_skinWindow->SetCursor(g_tools->m_staticMovehandCursor);
@@ -2557,17 +2559,17 @@ BEGIN_EVENT_TABLE(SjSkinWindow, wxFrame)
 	EVT_LEFT_DOWN           (SjSkinWindow::OnMouseLeftDown      )
 	EVT_LEFT_DCLICK         (SjSkinWindow::OnMouseLeftDown      )
 	EVT_LEFT_UP             (SjSkinWindow::OnMouseLeftUp        )
-	EVT_MOUSE_CAPTURE_LOST  (SjSkinWindow::OnMouseCaptureLost       )
+	EVT_MOUSE_CAPTURE_LOST  (SjSkinWindow::OnMouseCaptureLost   )
 #ifdef __WXMAC__ // the context menu MUST be opened on down on MAC
 	EVT_RIGHT_DOWN          (SjSkinWindow::OnMouseRight         )
 #else
 	EVT_RIGHT_UP            (SjSkinWindow::OnMouseRight         )
 #endif
 	EVT_MIDDLE_UP           (SjSkinWindow::OnMouseMiddleUp      )
-	EVT_MOTION              (SjSkinWindow::OnMouseMotion            )
+	EVT_MOTION              (SjSkinWindow::OnMouseMotion        )
 	EVT_LEAVE_WINDOW        (SjSkinWindow::OnMouseLeave         )
 	EVT_PAINT               (SjSkinWindow::OnPaint              )
-	EVT_ERASE_BACKGROUND    (SjSkinWindow::OnEraseBackground        )
+	EVT_ERASE_BACKGROUND    (SjSkinWindow::OnEraseBackground    )
 	EVT_IMAGE_THERE         (SjSkinWindow::OnImageThere         )
 END_EVENT_TABLE()
 
@@ -2674,22 +2676,22 @@ void SjSkinWindow::SaveSizes()
 		{
 			SjSkinLayout* dependingLayout = m_currSkin->GetLayout(l);
 			if( dependingLayout
-			        && dependingLayout != m_currLayout )
+			 && dependingLayout != m_currLayout )
 			{
 				if( !dependingLayout->m_useWidth.IsEmpty()
-				        &&  dependingLayout->m_useWidth == m_currLayout->m_useWidth )
+				 &&  dependingLayout->m_useWidth == m_currLayout->m_useWidth )
 				{
 					dependingLayout->m_currRect.width = currRect.width;
 				}
 
 				if( !dependingLayout->m_useHeight.IsEmpty()
-				        &&  dependingLayout->m_useHeight == m_currLayout->m_useHeight )
+				 &&  dependingLayout->m_useHeight == m_currLayout->m_useHeight )
 				{
 					dependingLayout->m_currRect.height = currRect.height;
 				}
 
 				if( !dependingLayout->m_usePos.IsEmpty()
-				        &&  dependingLayout->m_usePos == m_currLayout->m_usePos )
+				 &&  dependingLayout->m_usePos == m_currLayout->m_usePos )
 				{
 					dependingLayout->m_currRect.x   = currRect.x;
 					dependingLayout->m_currRect.y   = currRect.y;

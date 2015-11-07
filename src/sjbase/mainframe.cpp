@@ -1471,8 +1471,8 @@ SjMainFrame::~SjMainFrame(void)
 	/* (/) Save some settings
 	 */
 	if( !IsIconized()
-	        && !IsMaximized() // don't check for IsFakedMaximized(); the faked maximized positions can be used
-	        && !IsFullScreen() )
+	 && !IsMaximized() // don't check for IsFakedMaximized(); the faked maximized positions can be used
+	 && !IsFullScreen() )
 	{
 		g_tools->m_config->Write(wxT("main/skinSettings"), GetSavableSkinSettings());
 	}
