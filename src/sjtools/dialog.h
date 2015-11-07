@@ -65,21 +65,6 @@ enum SjDialogResizeType
 };
 
 
-class SjDialogPos
-{
-public:
-	                SjDialogPos         (const wxString& regKey);
-	void            Save                (wxTopLevelWindow*);
-	void            Restore             (wxTopLevelWindow*);
-
-private:
-	wxString        m_regKey;
-	wxRect          m_rect;
-	int             m_forDisplay;
-	wxRect          m_forDisplayGeometry;
-};
-
-
 class SjDialog : public wxDialog
 {
 public:

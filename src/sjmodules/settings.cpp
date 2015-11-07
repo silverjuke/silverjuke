@@ -320,8 +320,6 @@ void SjSettingsDlg::UnloadPage()
 		g_tools->m_config->Write(wxT("settings/selPage"), GetNotebookPage());
 	}
 
-	g_settingsModule->m_dlgPos.Save(this);
-
 	if( m_currPageModule )
 	{
 		m_currPageModule->Unload();
@@ -459,8 +457,7 @@ void SjSettingsDlg::OnClose(wxCloseEvent&)
 
 
 SjSettingsModule::SjSettingsModule(SjInterfaceBase* interf)
-	: SjCommonModule(interf),
-	  m_dlgPos(wxT("settings/pos"))
+	: SjCommonModule(interf)
 {
 	m_file              = wxT("memory:settings.lib");
 	m_name              = _("Settings");
@@ -516,7 +513,7 @@ void SjSettingsModule::OpenSettings(const wxString& selFile__, int selIndex__, i
 	// show dialog
 	if( dlgCreatedHere )
 	{
-		g_settingsModule->m_dlgPos.Restore(g_settingsDlg);
+		g_settingsDlg->CenterOnParent();
 		g_settingsDlg->Show();
 	}
 

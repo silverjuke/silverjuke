@@ -246,7 +246,6 @@ protected:
 
 private:
 	SjTagEditorDlg* m_dlg;
-	wxPoint         m_dlgPos;
 	long            m_selPage;
 	bool            m_writeId3Tags;
 	bool            m_delEmptyDir;

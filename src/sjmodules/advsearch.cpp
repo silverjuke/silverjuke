@@ -2343,7 +2343,7 @@ void SjAdvSearchDialog::OnAddRule(wxCommandEvent& event)
 
 
 SjAdvSearchModule::SjAdvSearchModule(SjInterfaceBase* interf)
-	: SjCommonModule(interf), m_dlgPos(wxT("advsearch/pos"))
+	: SjCommonModule(interf)
 
 {
 	wxASSERT( IDC_LAST__REMOVEID <= IDM_LASTPRIVATE );
@@ -2438,7 +2438,7 @@ void SjAdvSearchModule::OpenDialog(long preselectId)
 			m_dialog = new SjAdvSearchDialog(preselectId /*-1 for nothing special*/);
 
 			// load position
-			m_dlgPos.Restore(m_dialog);
+			m_dialog->CenterOnParent();
 		}
 	}
 
@@ -2451,9 +2451,6 @@ void SjAdvSearchModule::CloseDialog()
 {
 	if( m_dialog )
 	{
-		// save position
-		m_dlgPos.Save(m_dialog);
-
 		// save search in view
 		g_tools->m_config->Write(wxT("advsearch/recentSearchId"), m_recentSearchId);
 

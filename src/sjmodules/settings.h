@@ -48,7 +48,6 @@ protected:
 	void            ReceiveMsg          (int msg);
 
 private:
-	SjDialogPos     m_dlgPos;
 	friend class    SjSettingsDlg;
 };
 

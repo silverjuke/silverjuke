@@ -458,64 +458,6 @@ void SjDialog::AddState(const wxString& label, int id, const wxString& value)
 }
 
 
-SjDialogPos::SjDialogPos(const wxString& regKey)
-{
-	m_regKey = regKey;
-	m_forDisplay = wxNOT_FOUND;
-}
-
-
-void SjDialogPos::Save(wxTopLevelWindow* dlg)
-{
-	if( !dlg->IsMaximized() && !dlg->IsIconized() )
-	{
-		m_rect = dlg->GetRect();
-
-		m_forDisplay = wxDisplay::GetFromWindow(g_mainFrame);
-		if( m_forDisplay != wxNOT_FOUND )
-		{
-			wxDisplay display(m_forDisplay);
-			m_forDisplayGeometry = display.GetGeometry();
-		}
-
-		g_tools->WriteRect(m_regKey, m_rect);
-	}
-}
-
-
-void SjDialogPos::Restore(wxTopLevelWindow* dlg)
-{
-	wxRect storedRect = g_tools->ReadRect(m_regKey);
-
-	// set width and height
-	if( storedRect.width > 0 && storedRect.width < 5000
-	        && storedRect.height > 0 && storedRect.height < 5000 )
-	{
-		dlg->SetSize(0, 0, storedRect.width,  storedRect.height);
-	}
-
-	// set the position if the main frame is still on the same display
-	int forDisplay = wxDisplay::GetFromWindow(g_mainFrame);
-	wxRect forDisplayGeometry;
-	if( forDisplay != wxNOT_FOUND )
-	{
-		wxDisplay display(forDisplay);
-		forDisplayGeometry = display.GetGeometry();
-	}
-
-	if( forDisplay != wxNOT_FOUND
-	        && forDisplay == m_forDisplay
-	        && forDisplayGeometry == m_forDisplayGeometry )
-	{
-		dlg->SetSize(storedRect.x, storedRect.y, -1, -1, wxSIZE_USE_EXISTING);
-	}
-	else
-	{
-		dlg->CentreOnParent();
-	}
-}
-
-
 /*******************************************************************************
  * SjDlgCheckCtrl class - a check box plus a control
  ******************************************************************************/

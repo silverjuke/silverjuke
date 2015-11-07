@@ -1860,8 +1860,6 @@ SjTagEditorModule::SjTagEditorModule(SjInterfaceBase* interf)
 	m_file                  = wxT("memory:tageditor.lib");
 	m_name                  = _("Edit track");
 	m_dlg                   = NULL;
-	m_dlgPos.x              = 0;
-	m_dlgPos.y              = 0;
 }
 
 
@@ -1918,21 +1916,7 @@ void SjTagEditorModule::OpenTagEditor(SjTagEditorDlg* newTagEditorDlg)
 		m_dlg->m_dlgNotebook->SetSelection(g_tagEditorModule->m_selPage);
 	}
 
-	wxRect storedRect = g_tools->ReadRect(wxT("tageditor/pos"));
-	if( storedRect.width > 0 && storedRect.width < 1500
-	        && storedRect.height > 0 && storedRect.height < 1000 )
-	{
-		m_dlg->SetSize(0, 0, storedRect.width,  storedRect.height);
-	}
-
-	if( g_tagEditorModule->m_dlgPos.x && g_tagEditorModule->m_dlgPos.y )
-	{
-		m_dlg->SetSize(g_tagEditorModule->m_dlgPos.x, g_tagEditorModule->m_dlgPos.y, -1, -1, wxSIZE_USE_EXISTING);
-	}
-	else
-	{
-		m_dlg->CentreOnParent();
-	}
+	m_dlg->CenterOnParent();
 
 	if( m_dlg->Init__() )
 	{
@@ -1959,15 +1943,6 @@ void SjTagEditorModule::CloseTagEditor()
 		{
 			g_tagEditorModule->m_selPage = m_dlg->m_dlgNotebook->GetSelection();
 			g_tools->m_config->Write(wxT("tageditor/selPage"), g_tagEditorModule->m_selPage);
-		}
-
-		if( !m_dlg->IsMaximized() )
-		{
-			wxRect r = m_dlg->GetRect();
-			g_tools->WriteRect(wxT("tageditor/pos"), r);
-
-			g_tagEditorModule->m_dlgPos.x = r.x;
-			g_tagEditorModule->m_dlgPos.y = r.y;
 		}
 
 		m_dlg->Destroy();

@@ -310,9 +310,7 @@ protected:
 	bool            DragNDrop           (SjDragNDropAction, wxWindow*, const wxPoint&, SjDataObject*);
 
 private:
-	SjAdvSearchDialog*
-	m_dialog;
-	SjDialogPos     m_dlgPos;
+	SjAdvSearchDialog* m_dialog;
 
 	// the most recent search ID, this is normally the ID in edit
 	long            m_recentSearchId;

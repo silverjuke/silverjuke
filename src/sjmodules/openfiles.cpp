@@ -232,13 +232,6 @@ void SjOpenFilesModule::OpenDialog(bool checkAppend /*if set to FALSE, the check
 		wxASSERT( m_dlg == NULL );
 		m_dlg = new SjOpenFilesDialog();
 
-		wxRect storedRect = g_tools->ReadRect(wxT("openfiles/pos"));
-		if( storedRect.width > 0 && storedRect.width < 1500
-		        && storedRect.height > 0 && storedRect.height < 1000 )
-		{
-			m_dlg->SetSize(0, 0, storedRect.width,  storedRect.height);
-		}
-
 		m_dlg->CentreOnParent();
 
 		m_dlg->Show();
@@ -260,15 +253,6 @@ void SjOpenFilesModule::CloseDialog()
 	{
 		// hide
 		m_dlg->Hide();
-
-		// save settings
-
-
-		if( !m_dlg->IsMaximized() )
-		{
-			wxRect r = m_dlg->GetRect();
-			g_tools->WriteRect(wxT("openfiles/pos"), r);
-		}
 
 		// destroy
 		m_dlg->Destroy();

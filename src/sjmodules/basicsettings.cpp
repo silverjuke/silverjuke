@@ -508,7 +508,7 @@ wxPanel* SjBasicSettingsConfigPage::CreateLittlePage(wxWindow* parent)
 	        _("Beside several options, you can change the shortcuts to use here.\nThis page is for experienced users only."));
 	sizer1->Add(staticText, 0, wxALL, SJ_DLG_SPACE);
 
-	m_littleListCtrl = new wxListCtrl(page, IDC_LITTLELIST, wxDefaultPosition, wxSize(300, 100),
+	m_littleListCtrl = new wxListCtrl(page, IDC_LITTLELIST, wxDefaultPosition, wxSize(550, 100),
 	                                  wxLC_REPORT | wxSUNKEN_BORDER);
 	m_littleListCtrl->InsertColumn(0, _("Command or option"));
 	m_littleListCtrl->InsertColumn(1, _("Setting"));
