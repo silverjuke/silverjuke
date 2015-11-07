@@ -103,10 +103,11 @@ public:
 	#define         SJ_JINGLES_DEF_RNDUNIT                 SJ_UNIT_MINUTES
 	#define         SJ_JINGLES_RND_MIN                     1L
 	#define         SJ_JINGLES_RND_MAX                     999L
-	long			m_jinglesRndMin;
-	long			m_jinglesRndMax;
-	SjUnit			m_jinglesRndUnit; // SJ_UNIT_MINUTES or SJ_UNIT_TRACKS
-	wxString		m_jinglesDisplayMsg;
+	long            m_jinglesRndMin;
+	long            m_jinglesRndMax;
+	SjUnit          m_jinglesRndUnit; // SJ_UNIT_MINUTES or SJ_UNIT_TRACKS
+	long            m_jinglesMusicSelId;
+	wxString        m_jinglesDisplayMsg;
 
 	// pending events: events are added to this array for some events that
 	// happen eg. while an database update. They should be delayed until

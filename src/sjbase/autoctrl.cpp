@@ -260,6 +260,7 @@ void SjAutoCtrl::LoadAutoCtrlSettings()
 	m_jinglesRndMin                     = c->Read(wxT("autoctrl/jinglesRndMin"),    SJ_JINGLES_DEF_RNDMIN);
 	m_jinglesRndMax                     = c->Read(wxT("autoctrl/jinglesRndMax"),    SJ_JINGLES_DEF_RNDMAX);
 	m_jinglesRndUnit                    = (SjUnit)c->Read(wxT("autoctrl/jinglesRndUnit"), (long)SJ_JINGLES_DEF_RNDUNIT);
+	m_jinglesMusicSelId                 = c->Read(wxT("autoctrl/jinglesId"),        0L/*=none*/);
 	m_jinglesDisplayMsg                 = c->Read(wxT("autoctrl/jinglesMsg"),       wxT(""));
 
 	m_stateStartVisTimestamp            = 0;
@@ -331,6 +332,7 @@ void SjAutoCtrl::SaveAutoCtrlSettings()
 	c->Write(wxT("autoctrl/jinglesRndMin"),      m_jinglesRndMin);
 	c->Write(wxT("autoctrl/jinglesRndMax"),      m_jinglesRndMax);
 	c->Write(wxT("autoctrl/jinglesRndUnit"),     (long)m_jinglesRndUnit);
+	c->Write(wxT("autoctrl/jinglesId"),          m_jinglesMusicSelId);
 	c->Write(wxT("autoctrl/jinglesMsg"),         m_jinglesDisplayMsg);
 
 	// if the previous number of tracks to play was larger than the new one,
