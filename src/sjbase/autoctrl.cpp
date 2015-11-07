@@ -257,6 +257,11 @@ void SjAutoCtrl::LoadAutoCtrlSettings()
 	m_sleepAction                       = (SjShutdownEtc)(sleepFlags&SJ_SLEEPMODE_ACTION_MASK);
 	m_sleepTimemode                     = sleepFlags&SJ_SLEEPMODE_TIMEMODE_MASK;
 
+	m_jinglesRndMin                     = c->Read(wxT("autoctrl/jinglesRndMin"),    SJ_JINGLES_DEF_RNDMIN);
+	m_jinglesRndMax                     = c->Read(wxT("autoctrl/jinglesRndMax"),    SJ_JINGLES_DEF_RNDMAX);
+	m_jinglesRndUnit                    = (SjUnit)c->Read(wxT("autoctrl/jinglesRndUnit"), (long)SJ_JINGLES_DEF_RNDUNIT);
+	m_jinglesDisplayMsg                 = c->Read(wxT("autoctrl/jinglesMsg"),       wxT(""));
+
 	m_stateStartVisTimestamp            = 0;
 	m_stateStopVisTimestamp             = 0;
 	m_stateGotoCurrClickedTimestamp     = 0;
@@ -323,6 +328,11 @@ void SjAutoCtrl::SaveAutoCtrlSettings()
 	c->Write(wxT("autoctrl/sleepFlags"),        m_sleepAction|m_sleepTimemode);
 	c->Write(wxT("autoctrl/sleepFadeSeconds"),  m_sleepFadeSeconds);
 
+	c->Write(wxT("autoctrl/jinglesRndMin"),      m_jinglesRndMin);
+	c->Write(wxT("autoctrl/jinglesRndMax"),      m_jinglesRndMax);
+	c->Write(wxT("autoctrl/jinglesRndUnit"),     (long)m_jinglesRndUnit);
+	c->Write(wxT("autoctrl/jinglesMsg"),         m_jinglesDisplayMsg);
+
 	// if the previous number of tracks to play was larger than the new one,
 	// align the number of left tracks
 	if( m_stateAutoPlayTracksLeft > m_autoPlayNumTracks )
@@ -388,6 +398,12 @@ void SjAutoCtrl::ValidateSettings()
 
 	if( m_sleepFadeSeconds < SJ_SLEEPMODE_MIN_FADE_SECONDS ) m_sleepFadeSeconds = SJ_SLEEPMODE_MIN_FADE_SECONDS;
 	if( m_sleepFadeSeconds > SJ_SLEEPMODE_MAX_FADE_SECONDS ) m_sleepFadeSeconds = SJ_SLEEPMODE_MAX_FADE_SECONDS;
+
+	// jingles
+	if( m_jinglesRndMin < SJ_JINGLES_RND_MIN || m_jinglesRndMin > SJ_JINGLES_RND_MAX ) { m_jinglesRndMin = SJ_JINGLES_DEF_RNDMIN; }
+	if( m_jinglesRndMax < SJ_JINGLES_RND_MIN || m_jinglesRndMax > SJ_JINGLES_RND_MAX ) { m_jinglesRndMax = SJ_JINGLES_DEF_RNDMAX; }
+	if( m_jinglesRndMin > m_jinglesRndMax ) { m_jinglesRndMin = SJ_JINGLES_DEF_RNDMIN; m_jinglesRndMax = SJ_JINGLES_DEF_RNDMAX; }
+	if( m_jinglesRndUnit != SJ_UNIT_MINUTES && m_jinglesRndUnit != SJ_UNIT_TRACKS ) { m_jinglesRndUnit = SJ_JINGLES_DEF_RNDUNIT; }
 }
 
 
