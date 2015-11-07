@@ -261,7 +261,7 @@ void SjAutoCtrl::LoadAutoCtrlSettings()
 	m_jinglesRndMax                     = c->Read(wxT("autoctrl/jinglesRndMax"),    SJ_JINGLES_DEF_RNDMAX);
 	m_jinglesRndUnit                    = (SjUnit)c->Read(wxT("autoctrl/jinglesRndUnit"), (long)SJ_JINGLES_DEF_RNDUNIT);
 	m_jinglesMusicSelId                 = c->Read(wxT("autoctrl/jinglesId"),        0L/*=none*/);
-	m_jinglesDisplayMsg                 = c->Read(wxT("autoctrl/jinglesMsg"),       wxT(""));
+	m_jinglesDisplayMsg                 = c->Read(wxT("autoctrl/jinglesMsg"),       _("Welcome to my Jukebox!"));
 
 	m_stateStartVisTimestamp            = 0;
 	m_stateStopVisTimestamp             = 0;
