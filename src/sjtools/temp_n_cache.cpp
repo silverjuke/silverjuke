@@ -544,7 +544,7 @@ void SjTempNCache::RemoveFromManagedTemp(const wxString& tempPath)
 		long id = 0;
 		if( !idHex.ToLong(&id, 16) ) { id = 0; }
 		if( id
-		        && InitDb() )
+		 && InitDb() )
 		{
 			// remove the db entry
 			m_sqlDbCritical.Enter();

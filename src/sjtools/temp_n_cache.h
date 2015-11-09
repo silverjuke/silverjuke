@@ -36,8 +36,8 @@ class SjArrayLittleOption;
 class SjDirIterator
 {
 public:
-	SjDirIterator       (const wxString& dir);
-	~SjDirIterator      ();
+	                SjDirIterator       (const wxString& dir);
+	                ~SjDirIterator      ();
 
 	// Iterate() gets the next file in the given director;
 	// returns TRUE if there is a next file, otherwise FALSE
@@ -66,8 +66,8 @@ public:
 	//
 	// Finally, call LastCallOnExit() as late as possible to allow delayed deletion
 	// of files that could not be deleted in time.
-	SjTempNCache            ();
-	~SjTempNCache           ();
+	                SjTempNCache            ();
+	                ~SjTempNCache           ();
 	void            Init                    ();
 	static void     LastCallOnExit          ();
 
@@ -134,8 +134,8 @@ public:
 	static wxString GetDefaultTempDir   ();
 	void            SetTempDir          (const wxString&);
 
-#define         SJ_TEMP_MIN_MB      64L
-#define         SJ_TEMP_DEF_MB      512L
+    #define         SJ_TEMP_MIN_MB      64L
+    #define         SJ_TEMP_DEF_MB      512L
 	long            GetMaxMB            ();
 	void            SetMaxMB            (long);
 
@@ -145,7 +145,7 @@ public:
 
 private:
 	// Private stuff
-#define             SJ_TEMP_PREFIX  wxT("sj-")
+    #define             SJ_TEMP_PREFIX  wxT("sj-")
 
 	wxString            m_tempDir;
 
@@ -166,8 +166,8 @@ private:
 
 	long                m_filesAdded;
 	long                m_filesAddedMax;
-#define             SJ_MIN_FILESADDEDMAX 16
-#define             SJ_MAX_FILESADDEDMAX 256
+    #define             SJ_MIN_FILESADDEDMAX 16
+    #define             SJ_MAX_FILESADDEDMAX 256
 };
 
 
