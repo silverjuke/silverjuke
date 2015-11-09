@@ -176,6 +176,11 @@ END_EVENT_TABLE()
 SjRenamePlugin::SjRenamePlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 	: SjTagEditorPlugin(parent, wxT("rename"), _("Rename files"), exampleTrackInfo)
 {
+	// init some pointers to avoid eg. UpdateExample() to crash when called unexpectedly by an event
+	m_exampleCtrl = NULL;
+	m_exampleTrackInfo = NULL;
+	m_patternCtrl = NULL;
+
 	// load configuration
 	m_pattern = g_tools->ReadArray(wxT("tageditor/renamePattern"));
 	if( m_pattern.IsEmpty() )
@@ -247,7 +252,7 @@ SjRenamePlugin::SjRenamePlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 
 void SjRenamePlugin::UpdateExample()
 {
-	if( m_exampleCtrl && m_exampleTrackInfo )
+	if( m_exampleCtrl && m_exampleTrackInfo && m_patternCtrl )
 	{
 		wxString pathPartNFileName = m_patternCtrl->GetValue();
 		m_tiReplacer.ReplacePath(pathPartNFileName, m_exampleTrackInfo);
