@@ -52,6 +52,11 @@ END_EVENT_TABLE()
 SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 	: SjTagEditorPlugin(parent, wxT("split"), _("Split field"), exampleTrackInfo)
 {
+	// init some pointers to avoid eg. UpdateExample() to crash when called unexpectedly by an event
+	m_exampleCtrl = NULL;
+	m_exampleTrackInfo = NULL;
+	m_patternCtrl = NULL;
+
 	// load configuration
 	m_pattern = g_tools->ReadArray(wxT("tageditor/splitPattern"));
 	if( m_pattern.IsEmpty() )
@@ -139,7 +144,7 @@ SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 
 void SjSplitPlugin::UpdateExample()
 {
-	if( m_exampleCtrl && m_exampleTrackInfo )
+	if( m_exampleCtrl && m_exampleTrackInfo && m_patternCtrl )
 	{
 		// perform the example split
 		long fieldToSplit = SjDialog::GetCbSelection(m_splitInChoice);

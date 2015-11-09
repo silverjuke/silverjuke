@@ -1011,7 +1011,7 @@ WX_DECLARE_OBJARRAY(SjPlaceholdPart, SjArrayPlaceholdPart);
 class SjPlaceholdMatcher
 {
 public:
-	SjPlaceholdMatcher  () {}
+	                SjPlaceholdMatcher  () {}
 	virtual         ~SjPlaceholdMatcher () {}
 	void            Compile             (const wxString& pattern, const wxString& highPriorityDelim);
 	bool            HasPlaceholder      (const wxString& placeholder);
@@ -1026,8 +1026,7 @@ protected:
 	virtual bool    GotMatch            (const wxString& placeholder, const wxString& text) = 0;
 
 private:
-	SjArrayPlaceholdPart
-	m_parts;
+	SjArrayPlaceholdPart m_parts;
 	wxString        m_highPriorityDelim;
 	wxArrayString   m_goBack;
 	int             m_goForward;
@@ -1043,7 +1042,7 @@ class SjTrackInfo;
 class SjTrackInfoMatcher : public SjPlaceholdMatcher
 {
 public:
-	SjTrackInfoMatcher  ();
+	                SjTrackInfoMatcher  ();
 	void            Compile             (long tiFieldToSplit, const wxString& pattern);
 	wxString        GetPattern          () const { return m_rawPattern; }
 	static wxString GetDefaultPattern   ();
