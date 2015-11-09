@@ -19,12 +19,11 @@
  *
  *******************************************************************************
  *
- * File:    searchsj.h
+ * File:    search.h
  * Authors: Björn Petersen
  * Purpose: searching
  *
  ******************************************************************************/
-
 
 
 #ifndef __SJ_SEARCHSJ_H__
@@ -196,7 +195,7 @@ enum SjSubset
 
 
 /*******************************************************************************
- *  SjSearchStat
+ * SjSearchStat
  ******************************************************************************/
 
 
@@ -224,7 +223,7 @@ private:
 
 
 /*******************************************************************************
- *  SjRule
+ * SjRule
  ******************************************************************************/
 
 
@@ -233,13 +232,9 @@ class SjRule
 {
 public:
 	// constructor
-	SjRule              () { Clear(); }
-	SjRule              (SjField         field,
-	                     SjFieldOp       op,
-	                     const wxString& value0 = wxT(""),
-	                     const wxString& value1 = wxT(""),
-	                     SjUnit          unit   = SJ_UNIT_DEFAULT);
-	SjRule              (const SjRule& o) { CopyFrom(o); }
+	                SjRule              () { Clear(); }
+	                SjRule              (SjField field, SjFieldOp op, const wxString& value0 = wxT(""), const wxString& value1 = wxT(""), SjUnit unit = SJ_UNIT_DEFAULT);
+	                SjRule              (const SjRule& o) { CopyFrom(o); }
 	void            Clear               ();
 
 	// copy / compare
@@ -255,14 +250,9 @@ public:
 
 	/// get common information about rules
 	static wxString GetFieldDescr       (SjField);
-	static SjFieldType
-	GetFieldType        (SjField);
+	static SjFieldType GetFieldType     (SjField);
 	static bool     IsValidFieldOp      (SjField field, SjFieldOp op);
 	static wxString GetFieldDbName      (SjField);
-	#if 0
-	static wxString GetFieldsAsHtml     ();
-	static wxString GetFunctionsAsHtml  ();
-	#endif
 
 	// Convert the field or the operator of the rule.
 	// The function returns TRUE if the conversion does not change
@@ -307,7 +297,7 @@ WX_DECLARE_OBJARRAY(SjRule, SjArrayRule);
 
 
 /*******************************************************************************
- *  SjAdvSearch
+ * SjAdvSearch
  ******************************************************************************/
 
 
@@ -316,7 +306,7 @@ class SjAdvSearch
 {
 public:
 	// constructor
-	SjAdvSearch         () { Init(); }
+	                SjAdvSearch         () { Init(); }
 	void            Clear               () { Init(); }
 	void            Init                (const wxString& name=wxT(""), SjSelectScope selectScope=SJ_SELECTSCOPE_DEFAULT, SjSelectOp selectOp=SJ_SELECTOP_DEFAULT);
 	void            SetSubset           (SjSubset subset, long subsetId) { m_subset=subset; m_subsetId=subsetId; }
@@ -374,7 +364,7 @@ private:
 
 
 /*******************************************************************************
- *  SjSimpleSearch
+ * SjSimpleSearch
  ******************************************************************************/
 
 
@@ -383,8 +373,8 @@ class SjSimpleSearch
 {
 public:
 	// c'tor
-	SjSimpleSearch (const wxString& words=wxT("")) { m_words = words; }
-	void Clear () { m_words.Empty(); }
+	                SjSimpleSearch      (const wxString& words=wxT("")) { m_words = words; }
+	void            Clear               () { m_words.Empty(); }
 
 	// copy / compare
 	SjSimpleSearch& operator =          (const SjSimpleSearch& o) { CopyFrom(o); return *this; }
@@ -406,7 +396,7 @@ private:
 
 
 /*******************************************************************************
- *  SjSearch
+ * SjSearch
  ******************************************************************************/
 
 
@@ -414,8 +404,8 @@ class SjSearch
 {
 public:
 	// c'tor
-	SjSearch            () { }
-	SjSearch            (const wxString& words) : m_simple(words) { }
+	                SjSearch            () { }
+	                SjSearch            (const wxString& words) : m_simple(words) { }
 
 	// the search
 	SjSimpleSearch  m_simple;

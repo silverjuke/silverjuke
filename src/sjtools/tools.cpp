@@ -1469,23 +1469,23 @@ bool SjTools::ParseTime(const wxString& str__, long* retSeconds)
 	str.Replace(wxT(" "), wxT(""));
 
 	if( str.Find(':')==-1
-	        && str.ToLong(&minutes, 10)
-	        && minutes >= 0 )
+	 && str.ToLong(&minutes, 10)
+	 && minutes >= 0 )
 	{
 		if( retSeconds ) { *retSeconds = minutes*60; }
 		return TRUE;
 	}
 
 	if( str.BeforeFirst(wxT(':')).ToLong(&minutes, 10)
-	        && minutes >= 0
-	        && str.AfterFirst (wxT(':')).ToLong(&seconds, 10)
-	        && seconds >= 0 && seconds <= 59 )
+	 && minutes >= 0
+	 && str.AfterFirst (wxT(':')).ToLong(&seconds, 10)
+	 && seconds >= 0 && seconds <= 59 )
 	{
 		if( retSeconds ) { *retSeconds = minutes*60 + seconds; }
 		return TRUE;
 	}
 
-	if( retSeconds ) *retSeconds = 0;
+	if( retSeconds ) { *retSeconds = 0; }
 	return FALSE;
 }
 
@@ -1546,7 +1546,9 @@ bool SjTools::ParseDecibel(const wxString& s__, double& ret)
 	}
 
 	if( ret < -12.0F || ret > +12.0F )
+	{
 		return false;
+	}
 
 	return true;
 }
@@ -2731,8 +2733,8 @@ wxString SjTools::wxColourToHtml(const wxColour& colour)
 long SjTools::wxColourToLong(const wxColour& colour)
 {
 	return  colour.Red()<<16
-	        |   colour.Green()<<8
-	        |   colour.Blue();
+	    |   colour.Green()<<8
+	    |   colour.Blue();
 }
 
 

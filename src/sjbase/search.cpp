@@ -627,11 +627,11 @@ wxString SjRule::GetAsSql(const wxString& value__, SjField field, SjFieldOp op, 
 		if( longValue != 0 ) { forceNumberSet = TRUE; }
 	}
 	else if(  fieldType == SJ_FIELDTYPE_DATE
-	          && (op==SJ_FIELDOP_IS_IN_THE_LAST || op==SJ_FIELDOP_IS_NOT_IN_THE_LAST) )
+	      && (op==SJ_FIELDOP_IS_IN_THE_LAST || op==SJ_FIELDOP_IS_NOT_IN_THE_LAST) )
 	{
 
 		//
-		// convert relative date value
+		// convert relative date value to absolute value, the recursive call of SjRule::GetAsSql() will continue at (***)
 		//
 
 		long longValue;
@@ -649,7 +649,7 @@ wxString SjRule::GetAsSql(const wxString& value__, SjField field, SjFieldOp op, 
 	{
 
 		//
-		// convert absolute date/time value to seconds
+		// convert absolute date/time value to seconds, may be continued from (***)
 		//
 
 		bool timeSet;
