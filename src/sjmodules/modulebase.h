@@ -46,17 +46,17 @@ class SjListView;
 
 enum SjResult
 {
-    SJ_ERROR = 0
-               ,   SJ_SUCCESS = 1
-                                ,   SJ_SUCCESS_BUT_NO_DATA = 2
+	 SJ_ERROR = 0
+	,SJ_SUCCESS = 1
+	,SJ_SUCCESS_BUT_NO_DATA = 2
 };
 
 
 class SjTrackInfo
 {
 public:
-	SjTrackInfo         () { ClearLongs(); }
-	void            Clear  () { ClearLongs(); ClearStrings(); }
+	                SjTrackInfo         () { ClearLongs(); }
+	void            Clear               () { ClearLongs(); ClearStrings(); }
 
 	// Flags that may be used by functions taking SjTrackInfo as arguments.
 	// They are not used by SjTrackInfo itself.
@@ -168,8 +168,8 @@ private:
 
 enum SjModuleType
 {
-    SJ_MODULETYPE_ALL = 0
-                        ,SJ_MODULETYPE_COMMON       // common module
+     SJ_MODULETYPE_ALL = 0
+	,SJ_MODULETYPE_COMMON       // common module
     ,SJ_MODULETYPE_COL          // COLUMN GENERATOR module
     ,SJ_MODULETYPE_SCANNER      // SCANNER module (normally for internal use only)
     ,SJ_MODULETYPE_VIS_RENDERER // VISUALIZATION module
@@ -182,11 +182,11 @@ class SjModule
 public:
 	// Constructor / destructor.
 	// The destructor has no real implementation, but "virtual" is important
-	SjModule(SjInterfaceBase*, SjModuleType type);
-	virtual ~SjModule() { wxASSERT(m_usage==0); }
+	                SjModule            (SjInterfaceBase*, SjModuleType type);
+	virtual         ~SjModule           () { wxASSERT(m_usage==0); }
 
 	// pointer back to the interface with this module was found
-	SjInterfaceBase*    m_interface;
+	SjInterfaceBase* m_interface;
 
 	// the module type
 	SjModuleType    m_type;
@@ -271,7 +271,7 @@ enum SjDragNDropAction
 class SjDataObject : public wxDataObjectComposite
 {
 public:
-	SjDataObject        (wxDragResult);
+	                SjDataObject        (wxDragResult);
 	void            AddFileData         ();
 	void            AddFile             (const wxString&);
 	void            AddFiles            (const wxArrayString&);
@@ -347,8 +347,7 @@ public:
 	// If "deepSearch" is set, the module should not use anything
 	// from its cache but really search again.  If the module does
 	// not cache any searches, this flag can be ignored.
-	virtual SjSearchStat
-	SetSearch           (const SjSearch&, bool deepSearch) = 0;
+	virtual SjSearchStat SetSearch      (const SjSearch&, bool deepSearch) = 0;
 
 	// called if "del" or "ins" is hit, the function should return the number
 	// of DELETED tracks/rows, if any
@@ -384,23 +383,20 @@ public:
 	// it does not exist or is out of date.
 	// if you return TRUE, you should mark the URL as updated as you
 	// ReceiveTrackInfo() won't be called.
-	virtual bool    Callback_CheckTrackInfo
-	(const wxString& url, unsigned long actualCrc32) = 0;
+	virtual bool    Callback_CheckTrackInfo(const wxString& url, unsigned long actualCrc32) = 0;
 
 	// ...receiving track information, the given object is owned by
 	// the function and should be deleted from it when no longer needed
-	virtual bool    Callback_ReceiveTrackInfo
-	(SjTrackInfo* trackInfo) = 0;
+	virtual bool    Callback_ReceiveTrackInfo(SjTrackInfo* trackInfo) = 0;
 
-	virtual bool    Callback_MarkAsUpdated
-	(const wxString& urlBegin, long checkTrackCount) = 0;
+	virtual bool    Callback_MarkAsUpdated(const wxString& urlBegin, long checkTrackCount) = 0;
 };
 
 
 class SjListView
 {
 public:
-	SjListView          (long order, bool desc, long minAlbumRows) { m_currOrderField=order; m_currOrderDesc=desc; m_minAlbumRows = minAlbumRows; }
+	                SjListView          (long order, bool desc, long minAlbumRows) { m_currOrderField=order; m_currOrderDesc=desc; m_minAlbumRows = minAlbumRows; }
 	virtual         ~SjListView         () {}
 
 	// all stuff is always "masked" (regards music selections and searched)
@@ -521,7 +517,7 @@ public:
 	int             m_roughType;                // the rough type of the row
 
 	wxString        m_textl, m_textm, m_textr;  // left/mid/right text, highlited text is remarked as
-	// "normal text \thighlited text\t normal text"
+	                                            // "normal text \thighlited text\t normal text"
 
 	int             m_top, m_bottom;            // the OS can save some calculated positions in these fields
 
@@ -619,10 +615,10 @@ class SjInterfaceBase
 {
 public:
 	// constructor
-	SjInterfaceBase(const wxString& name);
+	                SjInterfaceBase     (const wxString& name);
 
 	// the destructor has no implementation, but "virtual" is important
-	virtual         ~SjInterfaceBase() {};
+	virtual         ~SjInterfaceBase    () {};
 
 	// pointers back to the main frame and to the module system
 	SjModuleSystem* m_moduleSystem;
@@ -632,7 +628,7 @@ public:
 
 	// get modules. the returned modules are owned by the caller,
 	// the function returns TRUE if any modules are added or deleted from the list.
-	virtual void    LoadModules          (SjModuleList&) = 0;
+	virtual void    LoadModules         (SjModuleList&) = 0;
 
 	// message handling
 	virtual void    ReceiveMsg          (int) { }
@@ -657,8 +653,7 @@ protected:
 
 	// AddModulesFromSearchPaths() calls AddModulesFromDir() for each search path
 	// and returns TRUE if sth. was changed.
-	void            AddModulesFromSearchPaths
-	(SjModuleList&, bool suppressNoAccessErrors=FALSE);
+	void            AddModulesFromSearchPaths(SjModuleList&, bool suppressNoAccessErrors=FALSE);
 
 	bool            IsModuleAdded       (SjModuleList&, const wxString& file, int fileIndex=0, const wxString& name=wxEmptyString);
 
@@ -682,8 +677,8 @@ class SjModuleSystem
 {
 public:
 	// constructor / destructor / init / exit
-	SjModuleSystem      ();
-	~SjModuleSystem     ();
+	                SjModuleSystem      ();
+	                ~SjModuleSystem     ();
 	void            Init                ();
 	void            Exit                ();
 
@@ -713,12 +708,12 @@ public:
 
 	// searching modules
 	SjModule*        FindModuleByFile            (const wxString& file, int fileIndex = 0);
-	SjScannerModule* FindScannerModuleByUrl     (const wxString& url);
+	SjScannerModule* FindScannerModuleByUrl      (const wxString& url);
 	bool             FindImageHandlerByExt       (const wxString& ext) { wxASSERT( ext.Cmp(ext.Lower())==0 ); return m_imageExtList.LookupExt(ext); }
 	bool             FindPlaylistHandlerByExt    (const wxString& ext) { wxASSERT( ext.Cmp(ext.Lower())==0 ); return m_playlistExtListRead.LookupExt(ext); }
 
 	// get the list of interfaces
-	SjInterfaceList* GetInterfaces       () { return &m_listOfInterfaces; }
+	SjInterfaceList* GetInterfaces      () { return &m_listOfInterfaces; }
 
 	// BroadcastMsg() send a IDMODMSG_* message to all modules and
 	// to all module interfaces
