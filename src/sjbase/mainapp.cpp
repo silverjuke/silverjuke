@@ -177,7 +177,7 @@ bool SjConnection::OnExecute(const wxString& topic, wxChar* data_, int size_, wx
 			data0.Replace(wxT("'"), wxT(""));   // data into a binary form otherwise.
 
 			long addCredit = 0;
-			data0.ToLong(&addCredit, 10);
+			if( !data0.ToLong(&addCredit, 10) ) { addCredit = 0; }
 			if( g_kioskModule )
 			{
 				g_kioskModule->m_creditBase.AddCredit(addCredit,

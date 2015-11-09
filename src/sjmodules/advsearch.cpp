@@ -649,7 +649,7 @@ wxTextCtrl* SjRuleControls::CreateValueTextCtrl(long baseId, const wxString& val
 wxChoice* SjRuleControls::CreateValueChoice(long baseId, wxString& value)
 {
 	long longValue = 0, defaultValue = 0;
-	value.ToLong(&longValue, 10);
+	if( !value.ToLong(&longValue, 10) ) { longValue = 0; }
 	wxChoice* c;
 
 	c = new wxChoice(m_dialog, baseId+m_ruleId, wxDefaultPosition, wxSize(MIN_TEXT_W1, -1));

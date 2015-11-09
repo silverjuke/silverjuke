@@ -138,11 +138,11 @@ long SjNumpadInput::UnfinalizeTrackNumber(const wxString& trackNumber) const
 	{
 		if( trackNumber[0] == '-' )
 		{
-			trackNumber.Mid(1).ToLong(&ret, 10);
+			if( !trackNumber.Mid(1).ToLong(&ret, 10) ) { ret = 0; }
 		}
 		else
 		{
-			trackNumber.ToLong(&ret, 10);
+			if( !trackNumber.ToLong(&ret, 10) ) { ret = 0; }
 		}
 	}
 	return ret;

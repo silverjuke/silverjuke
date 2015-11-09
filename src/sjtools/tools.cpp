@@ -511,8 +511,14 @@ long SjTools::LocaleConfigRead(const wxString& keyname, long def)
 	else
 	{
 		long ret;
-		test.ToLong(&ret, 10);
-		return ret;
+		if( test.ToLong(&ret, 10) ) // 'ret' is only valid if TRUE is returned
+		{
+			return ret;
+		}
+		else
+		{
+			return def;
+		}
 	}
 }
 
@@ -1296,10 +1302,10 @@ wxRect SjTools::ParseRect(const wxString& str__)
 	if( !str.IsEmpty() )
 	{
 		long l;
-		str.BeforeFirst(wxT(',')).ToLong(&l); r.x = l;     str = str.AfterFirst(wxT(','));
-		str.BeforeFirst(wxT(',')).ToLong(&l); r.y = l;     str = str.AfterFirst(wxT(','));
-		str.BeforeFirst(wxT(',')).ToLong(&l); r.width = l; str = str.AfterFirst(wxT(','));
-		str.ToLong(&l);                       r.height = l;
+		if( str.BeforeFirst(wxT(',')).ToLong(&l) ) { r.x = l; }     str = str.AfterFirst(wxT(','));
+		if( str.BeforeFirst(wxT(',')).ToLong(&l) ) { r.y = l; }     str = str.AfterFirst(wxT(','));
+		if( str.BeforeFirst(wxT(',')).ToLong(&l) ) { r.width = l; } str = str.AfterFirst(wxT(','));
+		if( str.ToLong(&l) )                       { r.height = l; }
 	}
 	return r;
 }
@@ -1656,8 +1662,7 @@ bool SjTools::ParseDate_(const wxString& str__, bool keepItSimple,
 	long values[7], valueCount = 0;
 	while( tkz.HasMoreTokens() && valueCount < 7)
 	{
-		values[valueCount] = 0;
-		tkz.GetNextToken().ToLong(&values[valueCount], 10);
+		if( !tkz.GetNextToken().ToLong(&values[valueCount], 10) ) { values[valueCount] = 0; }
 		valueCount++;
 	}
 
@@ -2088,8 +2093,11 @@ wxArrayLong SjTools::ExplodeLong(const wxString& str, wxChar delims, long minRet
 	long i, iCount = arrStr.GetCount(), curr;
 	for( i = 0; i < iCount; i++ )
 	{
-		curr = 0;
-		arrStr[i].ToLong(&curr);
+		if( !arrStr[i].ToLong(&curr) )
+		{
+			curr = 0;
+		}
+
 		arrLong.Add(curr);
 	}
 	return arrLong;
@@ -3285,14 +3293,21 @@ wxString SjTools::UnscrambleString(const wxString& str)
 	{
 		if( str[i] == s_scrambleStringUnicodeMark )
 		{
-			str.Mid(i+1, 8).ToLong(&l, 16);
-			c = (wxUChar)l;
+			if( str.Mid(i+1, 8).ToLong(&l, 16) )
+			{
+				c = (wxUChar)l;
+			}
+			else
+			{
+				c = '?';
+			}
+
 			i += 9;
 		}
 		else
 		{
 			c = s_scrambleStringVal(str[i  ])<<4
-			    | s_scrambleStringVal(str[i+1]);
+			  | s_scrambleStringVal(str[i+1]);
 			i += 2;
 		}
 
@@ -3307,8 +3322,8 @@ long SjTools::VersionString2Long(const wxString& versionStr)
 {
 	long j_major = 0, n_minor = 0;
 	wxArrayString arr = SjTools::Explode(versionStr, '.', 3, 3);
-	if(!arr[0].IsEmpty() ) arr[0].ToLong(&j_major);
-	if(!arr[1].IsEmpty() ) arr[1].ToLong(&n_minor);
+	if(!arr[0].IsEmpty() ) { if( !arr[0].ToLong(&j_major) ) { j_major = 0; } }
+	if(!arr[1].IsEmpty() ) { if( !arr[1].ToLong(&n_minor) ) { n_minor = 0; } }
 
 	return (j_major<<16) | n_minor; // returned version is 0xjjjjnnnn
 }

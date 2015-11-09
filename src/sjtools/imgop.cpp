@@ -981,14 +981,14 @@ void SjImgOp::SetFromString(const wxString& str)
 	wxStringTokenizer tkz(str, wxT("g")/*the hex. numbers are separated by the character "g"*/);
 	if( tkz.HasMoreTokens() )
 	{
-		tkz.GetNextToken().ToLong(&m_flags, 16);
+		if( !tkz.GetNextToken().ToLong(&m_flags, 16) ) { m_flags = 0; }
 
 		if( m_flags & SJ_IMGOP_CROP )
 		{
-			if( tkz.HasMoreTokens() ) tkz.GetNextToken().ToLong(&m_cropX, 16);
-			if( tkz.HasMoreTokens() ) tkz.GetNextToken().ToLong(&m_cropY, 16);
-			if( tkz.HasMoreTokens() ) tkz.GetNextToken().ToLong(&m_cropW, 16);
-			if( tkz.HasMoreTokens() ) tkz.GetNextToken().ToLong(&m_cropH, 16);
+			if( tkz.HasMoreTokens() ) { if( !tkz.GetNextToken().ToLong(&m_cropX, 16) ) { m_cropX = 0; } }
+			if( tkz.HasMoreTokens() ) { if( !tkz.GetNextToken().ToLong(&m_cropY, 16) ) { m_cropY = 0; } }
+			if( tkz.HasMoreTokens() ) { if( !tkz.GetNextToken().ToLong(&m_cropW, 16) ) { m_cropW = 0; } }
+			if( tkz.HasMoreTokens() ) { if( !tkz.GetNextToken().ToLong(&m_cropH, 16) ) { m_cropH = 0; } }
 		}
 
 		if( m_flags & SJ_IMGOP_CONTRAST )
@@ -996,13 +996,13 @@ void SjImgOp::SetFromString(const wxString& str)
 			// negative values are found in the area 101..200
 			if( tkz.HasMoreTokens() )
 			{
-				tkz.GetNextToken().ToLong(&m_contrast, 16);
+				if( !tkz.GetNextToken().ToLong(&m_contrast, 16) ) { m_contrast = 0; }
 				if( m_contrast >= 101 && m_contrast <= 200 ) m_contrast -= 201;
 				SetContrast(m_contrast);
 			}
 			if( tkz.HasMoreTokens() )
 			{
-				tkz.GetNextToken().ToLong(&m_brightness, 16);
+				if( !tkz.GetNextToken().ToLong(&m_brightness, 16) ) { m_brightness = 0; }
 				if( m_brightness >= 101 && m_brightness <= 200 ) m_brightness -= 201;
 				SetBrightness(m_brightness);
 			}
@@ -1010,8 +1010,8 @@ void SjImgOp::SetFromString(const wxString& str)
 
 		if( m_flags & SJ_IMGOP_RESIZE )
 		{
-			if( tkz.HasMoreTokens() ) tkz.GetNextToken().ToLong(&m_resizeW, 16);
-			if( tkz.HasMoreTokens() ) tkz.GetNextToken().ToLong(&m_resizeH, 16);
+			if( tkz.HasMoreTokens() ) { if( !tkz.GetNextToken().ToLong(&m_resizeW, 16) ) { m_resizeW = 0; } }
+			if( tkz.HasMoreTokens() ) { if( !tkz.GetNextToken().ToLong(&m_resizeH, 16) ) { m_resizeH = 0; } }
 		}
 	}
 }

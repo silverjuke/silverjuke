@@ -328,7 +328,7 @@ SjLittleEnumLong::SjLittleEnumLong(const wxString& name, const wxString& valuesN
 	for( int i = 0; i < (int)valuesNoptionsArr.GetCount(); i+=2 )
 	{
 		long temp;
-		valuesNoptionsArr[i].ToLong(&temp, 10);
+		if( !valuesNoptionsArr[i].ToLong(&temp, 10) ) { temp = 0; }
 		m_values.Add(temp);
 		m_options.Add(valuesNoptionsArr[i+1]);
 	}

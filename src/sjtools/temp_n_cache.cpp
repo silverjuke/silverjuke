@@ -542,7 +542,7 @@ void SjTempNCache::RemoveFromManagedTemp(const wxString& tempPath)
 	if( idHex.Len()==8 )
 	{
 		long id = 0;
-		idHex.ToLong(&id, 16);
+		if( !idHex.ToLong(&id, 16) ) { id = 0; }
 		if( id
 		        && InitDb() )
 		{
@@ -873,7 +873,7 @@ void SjTempNCache::CleanupOldFiles(bool force)
 			if( currIdHex.Len()==8 )
 			{
 				currId = 0;
-				currIdHex.ToLong(&currId, 16);
+				if( !currIdHex.ToLong(&currId, 16) ) { currId = 0; }
 				if( currId /*sj-00000000.db must not be deleted (note the headroom)*/ )
 				{
 					dirEntries.Add(new SjTempDirEntry(di.m_fullPath, currId, di.m_bytes, di.m_modTime));

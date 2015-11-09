@@ -235,7 +235,7 @@ wxFSFile* SjTaggerFsHandler::OpenFile(wxFileSystem& fs, const wxString& location
 		// get correct picture frame
 		long index;
 		right.Replace(wxT("image"), wxT(""));
-		right.BeforeFirst('.').ToLong(&index);
+		if( !right.BeforeFirst('.').ToLong(&index) ) { index = 0; }
 		index--; // the filenames start with "1", not with "0"
 
 		const ID3v2_FrameList* frameList = id3v2->frameList(wxT("APIC"));

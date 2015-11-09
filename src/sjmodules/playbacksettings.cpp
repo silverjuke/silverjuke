@@ -1574,17 +1574,17 @@ long SjPlaybackSettingsConfigPage::ParseMinutes(const wxString& str)
 	long hh, mm;
 	if( str.Find(':') > 0 )
 	{
-		str.BeforeFirst(':').ToLong(&hh, 10);
+		if( !str.BeforeFirst(':').ToLong(&hh, 10) ) { hh = 0; }
 		if( hh < 0 ) hh = 0; if (hh > 23) hh = 23;
 
-		str.AfterFirst(':').ToLong(&mm, 10);
+		if( !str.AfterFirst(':').ToLong(&mm, 10) ) { mm = 0; }
 		if( mm < 0 ) mm = 0; if (mm > 59) mm = 59;
 
 		return hh*60 + mm;
 	}
 	else
 	{
-		str.ToLong(&mm, 10);
+		if( !str.ToLong(&mm, 10) ) { mm = 0; }
 		if( mm < 0 ) mm = 0;
 
 		return mm;

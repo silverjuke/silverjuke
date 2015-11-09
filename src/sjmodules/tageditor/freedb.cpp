@@ -246,7 +246,7 @@ bool SjFreedbQuery::QueryDoContinued(SjArrayFreedbTrack& tracks, SjFreedbState n
 			{
 				wxString codeStr = currLine.BeforeFirst(' ');
 				long codeLong = 0;
-				codeStr.ToLong(&codeLong, 10);
+				if( !codeStr.ToLong(&codeLong, 10) ) { codeLong = 0; }
 				if( codeLong == 202 )
 				{
 					m_error = _("No matches");
@@ -412,7 +412,7 @@ bool SjFreedbQuery::SelectResultContinued()
 				{
 					wxString codeStr = currLine.BeforeFirst(' ');
 					long codeLong = 0;
-					codeStr.ToLong(&codeLong, 10);
+					if( !codeStr.ToLong(&codeLong, 10) ) { codeLong = 0;  }
 					if( codeLong != 210 )
 					{
 						m_error = wxString::Format(_("Error %i"), (int)codeLong) + wxT(":") + currLine;

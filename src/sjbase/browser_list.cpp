@@ -164,23 +164,23 @@ void SjListBrowser::LoadConfig()
 	// read sort field
 	long l = 0;
 	int i;
-	data[0].ToLong(&l, 10);
+	if( !data[0].ToLong(&l, 10) ) { l = 0; }
 	if( !isPossibleCol(l) )
 		goto LoadConfig_Failed;
 	m_sortField = l;
 
-	data[1].ToLong(&l, 10);
+	if( !data[1].ToLong(&l, 10) ) { l = 0; }
 	m_sortDesc = l!=0;
 
 	// read columns
 	for( i = 4; i < (int)data.GetCount(); i += 2 )
 	{
-		data[i].ToLong(&l, 10);
+		if( !data[i].ToLong(&l, 10) ) { l = 0; }
 		if( !isPossibleCol(l) )
 			goto LoadConfig_Failed;
 		m_columns.Add(l);
 
-		data[i+1].ToLong(&l, 10);
+		if( !data[i+1].ToLong(&l, 10) ) { l = 0; }
 		if( l < MIN_COLUMN_WIDTH || l > MAX_COLUMN_WIDTH)
 			l = MIN_COLUMN_WIDTH;
 		m_columnWidths.Add(l);

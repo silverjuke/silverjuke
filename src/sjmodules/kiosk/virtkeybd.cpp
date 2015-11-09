@@ -379,7 +379,7 @@ bool SjVirtKeybdLayout::LoadLayoutFromFile(const wxString& file__, wxArrayString
 	}
 	else
 	{
-		file__.AfterLast(wxT(',')).ToLong(&wantedIndex, 10);
+		if( !file__.AfterLast(wxT(',')).ToLong(&wantedIndex, 10) ) { wantedIndex = 0; }
 		file = file__.BeforeLast(wxT(','));
 	}
 

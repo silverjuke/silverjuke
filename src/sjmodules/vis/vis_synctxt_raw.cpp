@@ -449,12 +449,12 @@ static bool parseLrcTime(const wxString& str__, long& ms)
 	// read the minutes
 	if( IS_DIG(p[0]) && IS_DIG(p[1]) && IS_SEP(p[2]) )
 	{
-		p.Left(2).ToLong(&minutes);
+		if( !p.Left(2).ToLong(&minutes) ) { minutes = 0; }
 		p = p.Mid(3);
 	}
 	else if( IS_DIG(p[0]) && IS_SEP(p[1]) )
 	{
-		p.Left(1).ToLong(&minutes);
+		if( !p.Left(1).ToLong(&minutes) ) { minutes = 0; }
 		p = p.Mid(2);
 	}
 	else
@@ -465,7 +465,7 @@ static bool parseLrcTime(const wxString& str__, long& ms)
 	// read the seconds
 	if( IS_DIG(p[0]) && IS_DIG(p[1]) && !IS_DIG(p[2]) )
 	{
-		p.Left(2).ToLong(&seconds);
+		if( !p.Left(2).ToLong(&seconds) ) { seconds = 0; }
 		p = p.Mid(2);
 	}
 	else
@@ -478,11 +478,11 @@ static bool parseLrcTime(const wxString& str__, long& ms)
 	{
 		if( IS_DIG(p[3]) )
 		{
-			p.Mid(1, 3).ToLong(&thousands);
+			if( !p.Mid(1, 3).ToLong(&thousands) ) { thousands = 0; }
 		}
 		else
 		{
-			p.Mid(1, 2).ToLong(&thousands);
+			if( !p.Mid(1, 2).ToLong(&thousands) ) { thousands = 0; }
 			thousands *= 10;
 		}
 	}

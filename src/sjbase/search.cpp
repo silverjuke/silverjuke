@@ -435,7 +435,7 @@ wxString SjRule::GetInclExclDescr() const
 		long id, idsPrinted = 0;
 		while( idsPrinted <= 3 && !idsStr.IsEmpty() )
 		{
-			idsStr.AfterLast(',').ToLong(&id, 10);
+			if( !idsStr.AfterLast(',').ToLong(&id, 10) ) { id = 0; }
 			idsStr = idsStr.BeforeLast(',');
 			url = g_mainFrame->m_libraryModule->GetUrl(id);
 			if( !url.IsEmpty() )

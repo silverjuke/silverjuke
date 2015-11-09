@@ -364,7 +364,7 @@ long APE_Tag::year() const
 	if( s.IsEmpty() ) return 0;
 
 	long l;
-	s.ToLong(&l);
+	if( !s.ToLong(&l) ) { l = 0; }
 	return l;
 }
 
@@ -377,7 +377,7 @@ long APE_Tag::beatsPerMinute() const
 	if( s.IsEmpty() ) return 0;
 
 	long l;
-	s.ToLong(&l);
+	if( !s.ToLong(&l) ) { l = 0; }
 	return l;
 }
 

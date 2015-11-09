@@ -1247,7 +1247,7 @@ long SjTagEditorDlg::Dlg2Data_GetLong(int id, long fieldFlag, long& oldAndRetVal
 		newValueString.Trim(FALSE);
 
 		long newValue = 0;
-		newValueString.ToLong(&newValue);
+		if( !newValueString.ToLong(&newValue) ) { newValue = 0; }
 
 		if( newValue != oldAndRetValue
 		        || m_dataMultiEdit )

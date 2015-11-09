@@ -2431,16 +2431,16 @@ bool SjSkinDivItem::Create(const wxHtmlTag& tag, wxString& error)
 			wxString s = tag.GetParam(wxT("INDENT"));
 			long l;
 
-			s.BeforeFirst(wxT(',')).ToLong(&l); s = s.AfterFirst(wxT(','));
+			if( !s.BeforeFirst(wxT(',')).ToLong(&l) ) { l = 0; } s = s.AfterFirst(wxT(','));
 			m_indent.x = l;
 
-			s.BeforeFirst(wxT(',')).ToLong(&l); s = s.AfterFirst(wxT(','));
+			if( !s.BeforeFirst(wxT(',')).ToLong(&l) ) { l = 0; } s = s.AfterFirst(wxT(','));
 			m_indent.y = l;
 
-			s.BeforeFirst(wxT(',')).ToLong(&l); s = s.AfterFirst(wxT(','));
+			if( !s.BeforeFirst(wxT(',')).ToLong(&l) ) { l = 0; } s = s.AfterFirst(wxT(','));
 			m_indent.width = l;
 
-			s.ToLong(&l);
+			if( !s.ToLong(&l) ) { l = 0; }
 			m_indent.height = l;
 		}
 

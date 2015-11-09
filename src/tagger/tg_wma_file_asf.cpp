@@ -338,10 +338,10 @@ int WMA_File::asfReadHeader()
 						{ wmaTag->setGenre(value); }
 
 						if (name == wxT("WM/Year"))
-						{ long l; value.ToLong(&l); wmaTag->setYear(l); }
+						{ long l; if(!value.ToLong(&l)){l=0;} wmaTag->setYear(l); }
 
 						if (name==wxT("WM/TrackNumber"))
-						{ long l; value.ToLong(&l); wmaTag->setTrack(l, 0); }
+						{ long l; if(!value.ToLong(&l)){l=0;} wmaTag->setTrack(l, 0); }
 					}
 				}
 				if ((value_type >= 2) && (value_type <= 5)) // boolean or DWORD or QWORD or WORD

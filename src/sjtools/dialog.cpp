@@ -827,7 +827,7 @@ long SjDlgControls::GetValueLong(long index)  const
 {
 	wxString valueStr = GetValue(index);
 	long valueLong;
-	valueStr.ToLong(&valueLong);
+	if( !valueStr.ToLong(&valueLong) ) { valueLong = 0; }
 	return valueLong;
 }
 
@@ -852,7 +852,7 @@ void SjDlgControls::SetValue(long index, const wxString& value)
 	if( dc.m_wndCtrl )
 	{
 		long valueLong;
-		value.ToLong(&valueLong);
+		if( !value.ToLong(&valueLong) ) { valueLong = 0; }
 
 		if( dc.m_type == SJ_DLG_TEXTCTRL_TYPE )
 		{
@@ -907,7 +907,7 @@ long SjDlgControls::Render(wxWindow* parent, wxSizer* parentSizer, int idButtons
 			SjDlgCtrl& dc = m_ctrl[index];
 
 			long valueLong;
-			dc.m_value.ToLong(&valueLong);
+			if( !dc.m_value.ToLong(&valueLong) ) { valueLong = 0; }
 
 			// create control
 			bool hasLabel = true;

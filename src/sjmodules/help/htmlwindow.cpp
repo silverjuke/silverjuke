@@ -175,7 +175,7 @@ void SjHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link)
 	{
 		// explore the silverjuke homepage
 		long homepageId;
-		rest.AfterLast(',').ToLong(&homepageId);
+		if( !rest.AfterLast(',').ToLong(&homepageId) ) { homepageId = 0; }
 		g_tools->ExploreHomepage((SjHomepageId)homepageId);
 		return;
 	}
@@ -184,7 +184,7 @@ void SjHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link)
 		// just send the id as an command event to the top level window where
 		// this html windows is placed in
 		long id;
-		rest.ToLong(&id);
+		if( !rest.ToLong(&id) ) { id = 0; }
 		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, id);
 		SjDialog::FindTopLevel(this)->GetEventHandler()->AddPendingEvent(fwd);
 		return;

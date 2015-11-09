@@ -818,7 +818,7 @@ bool SjInterfaceBase::ReadFromCache(const wxString& file, wxArrayString& retInfo
 
 	// get cache timestamp
 	long l;
-	info.BeforeFirst(wxT(':')).ToLong(&l, 10);
+	if( !info.BeforeFirst(wxT(':')).ToLong(&l, 10) ) { l = 0; }
 	if( (unsigned long)l != fileTimestamp )
 	{
 		return FALSE; // cache out of date

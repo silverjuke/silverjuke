@@ -72,7 +72,7 @@ SjNumpadPlayReturn SjNumpadPlayHandler::GetPressedDigitsInfo(wxString& digits, w
 
 	// get album number
 	wxASSERT( (long)digits.Len() >= numAlbumDigits );
-	digits.Left(numAlbumDigits).ToLong(&pressedAlbumNumber, 10);
+	if( !digits.Left(numAlbumDigits).ToLong(&pressedAlbumNumber, 10) ) { pressedAlbumNumber = 0; }
 
 	// check album number
 	if( pressedAlbumNumber == 0 )
@@ -121,7 +121,7 @@ SjNumpadPlayReturn SjNumpadPlayHandler::GetPressedDigitsInfo(wxString& digits, w
 	numTrackDigits = m_numpadInput->GetNumDigits(maxTrackNumber);
 
 	// get entered track number
-	digits.Mid(numAlbumDigits).ToLong(&pressedTrackNumber, 10);
+	if( !digits.Mid(numAlbumDigits).ToLong(&pressedTrackNumber, 10) ) { pressedTrackNumber = 0; }
 	if( pressedTrackNumber > maxTrackNumber || pressedTrackNumber < 0 )
 	{
 		ret = SJ_NUMPAD_ERROR;

@@ -286,7 +286,7 @@ wxString ID3v2_Tag::genre() const
 					{
 						//int number = (*itStr).toInt();
 						long number;
-						itStr.ToLong(&number);
+						if( !itStr.ToLong(&number) ) { number = 0; }
 						if(number >= 0 && number <= 255)
 						{
 							hasNumber = true;
@@ -320,7 +320,7 @@ wxString ID3v2_Tag::genre() const
 			{
 				long lng;
 				wxString temp = s.substr(1, s.size() - 2);
-				temp.ToLong(&lng);
+				if( !temp.ToLong(&lng) ) { lng = 0; }
 				return ID3v1_Tag::lookupGenreName(lng);
 			}
 			else
@@ -355,7 +355,7 @@ long ID3v2_Tag::year() const
 	if( !ret.IsEmpty() ) {
 		if(ret.Len()>4) ret = ret.Left(4);
 		long l = 0;
-		ret.ToLong(&l);
+		if( !ret.ToLong(&l) ) { l = 0; }
 		return l;
 	}
 	return 0;
@@ -368,7 +368,7 @@ long ID3v2_Tag::beatsPerMinute() const
 	wxString ret = simpleFrame(wxT("TBPM"));
 	if( !ret.IsEmpty() ) {
 		long l = 0;
-		ret.ToLong(&l);
+		if( !ret.ToLong(&l) ) { l = 0; }
 		return l;
 	}
 	return 0;

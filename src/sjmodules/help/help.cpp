@@ -113,7 +113,7 @@ void SjHelpDialog::OnCommand(wxCommandEvent& event)
 		case IDO_LINKCLICKED:
 			// needed at least for "more..." in the page after buying silverjuke
 			long topicId;
-			m_htmlWindow->GetClickedLink().ToLong(&topicId, 10);
+			if( !m_htmlWindow->GetClickedLink().ToLong(&topicId, 10) ) { topicId = 0; }
 			GotoTopic((SjHelpTopicId)topicId);
 			break;
 	}

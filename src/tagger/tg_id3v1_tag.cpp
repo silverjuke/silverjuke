@@ -96,7 +96,7 @@ wxString ID3v1_Tag::genre() const
 long ID3v1_Tag::year() const
 {
 	long l;
-	m_year.ToLong(&l);
+	if( !m_year.ToLong(&l) ) { l = 0; }
 	return l;
 }
 
