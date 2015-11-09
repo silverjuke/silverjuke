@@ -1438,12 +1438,12 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 	m_autoPlayMusicSelIgnoreCheck->SetValue((flags & SJ_AUTOCTRL_AUTOPLAY_IGNORE)!=0);
 	sizer2->Add(m_autoPlayMusicSelIgnoreCheck, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-	m_autoPlayMusicSelIgnoreChoice = new wxChoice(page, -1, wxDefaultPosition, wxSize(-1, -1));
+	m_autoPlayMusicSelIgnoreChoice = new wxChoice(page, -1, wxDefaultPosition, wxSize(200, -1));
 	sizer2->Add(m_autoPlayMusicSelIgnoreChoice, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
 
 	SjAdvSearchModule::UpdateAdvSearchChoice(m_autoPlayMusicSelIgnoreChoice,
 	        g_mainFrame->m_autoCtrl.m_autoPlayMusicSelIgnoreId);
-	SjDialog::SetCbWidth(m_autoPlayMusicSelIgnoreChoice, 100);
+	SjDialog::SetCbWidth(m_autoPlayMusicSelIgnoreChoice, 200);
 
 	m_autoPlayMusicSelIgnoreButton = new wxButton(page, IDC_AUTOPLAYIGNOREBUTTON, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	sizer2->Add(m_autoPlayMusicSelIgnoreButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
@@ -1486,8 +1486,8 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 		SjDialog::SetCbWidth(m_sleepActionChoice, 140);
 		sizer2->Add(m_sleepActionChoice, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_sleepTimemodeChoice = new wxChoice(page, IDC_SLEEPTIMEMODECHOICE);
-		wxArrayString modes = SjTools::Explode(_("in|after|at|always in|always after|always at"), '|', SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT*2, SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT*2);
+		m_sleepTimemodeChoice = new wxChoice(page, IDC_SLEEPTIMEMODECHOICE, wxDefaultPosition, wxSize(120, -1));
+		wxArrayString modes = SjTools::Explode(_("in|after inactivity of|at|always in|always after inactivity of|always at"), '|', SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT*2, SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT*2);
 		m_sleepTimemodeChoice->Append(modes[0], (void*)SJ_SLEEPMODE_TIMEMODE_IN);
 		m_sleepTimemodeChoice->Append(modes[1], (void*)SJ_SLEEPMODE_TIMEMODE_AFTER);
 		m_sleepTimemodeChoice->Append(modes[2], (void*)SJ_SLEEPMODE_TIMEMODE_AT);
@@ -1495,17 +1495,20 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 		m_sleepTimemodeChoice->Append(modes[4], (void*)SJ_SLEEPMODE_TIMEMODE_ALWAYS_AFTER);
 		m_sleepTimemodeChoice->Append(modes[5], (void*)SJ_SLEEPMODE_TIMEMODE_ALWAYS_AT);
 		SjDialog::SetCbSelection(m_sleepTimemodeChoice, m_sleepTimemodeCurr);
-		SjDialog::SetCbWidth(m_sleepTimemodeChoice, 70);
 		sizer2->Add(m_sleepTimemodeChoice, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 		m_sleepMinutesTextCtrl = new wxTextCtrl(page, -1, FormatMinutes(sleepMinutesCurr, m_sleepTimemodeCurr),
 		                                        wxDefaultPosition, wxSize(SJ_4DIG_SPINCTRL_W, -1));
 		sizer2->Add(m_sleepMinutesTextCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_sleepMinUnitStrings = SjTools::Explode(_("minutes|minutes of inactivity|o'clock"), '|', 3, 3);
-		m_sleepMinUnitStrings.Add(m_sleepMinUnitStrings[0]);
-		m_sleepMinUnitStrings.Add(m_sleepMinUnitStrings[1]);
-		m_sleepMinUnitStrings.Add(m_sleepMinUnitStrings[2]);
+		wxArrayString temp = SjTools::Explode(_("minutes|o'clock"), '|', 2, 2);
+		m_sleepMinUnitStrings.Clear();
+		m_sleepMinUnitStrings.Add(temp[0]);
+		m_sleepMinUnitStrings.Add(temp[0]);
+		m_sleepMinUnitStrings.Add(temp[1]);
+		m_sleepMinUnitStrings.Add(temp[0]);
+		m_sleepMinUnitStrings.Add(temp[0]);
+		m_sleepMinUnitStrings.Add(temp[1]);
 
 		m_sleepMinUnitStatic = new wxStaticText(page, -1, m_sleepMinUnitStrings[m_sleepTimemodeChoice->GetSelection()],
 		                                        wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
@@ -1773,12 +1776,12 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateJinglesPage(wxWindow* parent)
 		m_jinglesMusicSelCheck->SetValue((a->m_flags & SJ_AUTOCTRL_JINGLES_PLAY)!=0);
 		sizer2->Add(m_jinglesMusicSelCheck, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_jinglesMusicSelChoice = new wxChoice(page, -1, wxDefaultPosition, wxSize(-1, -1));
+		m_jinglesMusicSelChoice = new wxChoice(page, -1, wxDefaultPosition, wxSize(200, -1));
 		sizer2->Add(m_jinglesMusicSelChoice, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
 
 		SjAdvSearchModule::UpdateAdvSearchChoice(m_jinglesMusicSelChoice,
 				a->m_jinglesMusicSelId);
-		SjDialog::SetCbWidth(m_jinglesMusicSelChoice, 100);
+		SjDialog::SetCbWidth(m_jinglesMusicSelChoice, 200);
 
 		m_jinglesMusicSelButton = new wxButton(page, IDC_JINGLESMUSICSELBUTTON, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 		sizer2->Add(m_jinglesMusicSelButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
