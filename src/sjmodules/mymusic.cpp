@@ -197,7 +197,7 @@ wxPanel* SjMyMusicConfigPage::CreatePage(wxWindow* parent)
 	SjExtList supportedExt = g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_MUSICFILES); // equals to `g_mainFrame->m_player.GetExtList()`
 	if( supportedExt.GetCount() ) {
 		// _if_ there are media files, we read some other belonging files
-		supportedExt.AddExt(g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_IMAGEFILES|SJ_EXT_ARCHIVES|SJ_EXT_KARAOKE));
+		supportedExt.AddExt(g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_IMAGEFILES|SJ_EXT_KARAOKE));
 	}
 
 	wxArrayString arrayStr;

@@ -265,7 +265,7 @@ void SjPlaylistEntry::VerifyUrl()
 		}
 	}
 
-	// open file - as we also support eg. ZIP archives this is needed for validating,
+	// open file - as we also support eg. ZIP archives this is needed for validating <-- I do not understand this comment.
 	// relative paths are not valid at this moment
 	wxString fsFileLocation;
 	{

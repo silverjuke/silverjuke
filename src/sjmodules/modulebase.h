@@ -697,7 +697,6 @@ public:
 	// get assigned extensions
 	#define         SJ_EXT_MUSICFILES           0x001
 	#define         SJ_EXT_IMAGEFILES           0x002
-	#define         SJ_EXT_ARCHIVES             0x004
 	#define         SJ_EXT_SKINFILES            0x008
 	#define         SJ_EXT_LANGUAGEFILES        0x010
 	#define         SJ_EXT_DATABASES            0x020
