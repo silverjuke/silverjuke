@@ -74,8 +74,7 @@ SjIcon SjFolderScannerSource::GetIcon()
 class SjFolderSettingsDialog : public SjDialog
 {
 public:
-	SjFolderSettingsDialog
-	(SjFolderScannerModule*,SjFolderScannerSource* source, wxWindow* parent);
+	                SjFolderSettingsDialog (SjFolderScannerModule*,SjFolderScannerSource* source, wxWindow* parent);
 
 private:
 	bool            m_initDone;
@@ -198,8 +197,7 @@ SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScan
 
 	// reset button
 	wxButton* button = new wxButton(this, IDC_RESET, _("Reset to default values"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-	sizer2->Add(button,
-	            0, wxALL, SJ_DLG_SPACE);
+	sizer2->Add(button, 0, wxALL, SJ_DLG_SPACE);
 
 	// state stuff
 	{
@@ -475,7 +473,7 @@ void SjFolderScannerModule::SaveSettings__()
 	{
 		#define MAX_DEL 1000
 		if( sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT("*"))==wxT("*") /*check for existance (`*` is an invalid URL)*/
-		        || currSourceIndex > MAX_DEL /*avoid deadlocks*/ )
+		 || currSourceIndex > MAX_DEL /*avoid deadlocks*/ )
 		{
 			break; // done
 		}
@@ -684,7 +682,7 @@ long SjFolderScannerModule::DoAddUrl(const wxString& newUrl, const wxString& new
 	{
 		SjFolderScannerSource* currSourceObj = GetSourceObj__(i);
 		if( currSourceObj->m_url == newUrl
-		        && currSourceObj->m_file == newFile )
+		 && currSourceObj->m_file == newFile )
 		{
 			currSourceObj->m_flags |= SJ_FOLDERSCANNER_ENABLED;
 			sthAdded = FALSE;
@@ -727,13 +725,13 @@ bool SjFolderScannerModule::AddUrl(const wxString& url)
  ******************************************************************************/
 
 
-bool SjFolderScannerModule::IterateFile__(  const wxString&         urlDontRead, // should not be read as it may contain Backslashes instead of Slashes
-        bool                    deepUpdate,
-        const wxString&         arts,
-        unsigned long           crc32,
-        SjFolderScannerSource*  source,
-        SjColModule*            receiver,
-        long&                   retTrackCount   )
+bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, // should not be read as it may contain Backslashes instead of Slashes
+                                          bool                   deepUpdate,
+                                          const wxString&        arts,
+                                          unsigned long          crc32,
+                                          SjFolderScannerSource* source,
+                                          SjColModule*           receiver,
+                                          long&                  retTrackCount )
 {
 	bool                ret = FALSE;
 	wxFileSystem        fileSystem;
@@ -762,7 +760,7 @@ bool SjFolderScannerModule::IterateFile__(  const wxString&         urlDontRead,
 	crc32 = SjTools::Crc32AddLong(crc32, fsFile->GetModificationTime().GetAsDOS());
 
 	if( deepUpdate==FALSE
-	        && receiver->Callback_CheckTrackInfo(fsFile->GetLocation(), crc32) )
+	 && receiver->Callback_CheckTrackInfo(fsFile->GetLocation(), crc32) )
 	{
 		ret = TRUE; // success, the file is already in the database
 		retTrackCount++;
@@ -800,8 +798,8 @@ bool SjFolderScannerModule::IterateFile__(  const wxString&         urlDontRead,
 		}
 
 		if( result == SJ_ERROR
-		        || trackInfo->m_trackName.IsEmpty()
-		        || trackInfo->m_leadArtistName.IsEmpty() )
+		 || trackInfo->m_trackName.IsEmpty()
+		 || trackInfo->m_leadArtistName.IsEmpty() )
 		{
 			m_trackInfoMatcherObj.m_url = fsFile->GetLocation();
 			source->m_trackInfoMatcher.Match(m_trackInfoMatcherObj, *trackInfo);
@@ -856,12 +854,12 @@ Cleanup:
 }
 
 
-bool SjFolderScannerModule::IterateDir__(   const wxString&         url,
-        const wxString&         onlyThisFile,
-        bool                    deepUpdate,
-        SjFolderScannerSource*  source,
-        SjColModule*            receiver,
-        long&                   retTrackCount    )
+bool SjFolderScannerModule::IterateDir__(const wxString&        url,
+                                         const wxString&        onlyThisFile,
+                                         bool                   deepUpdate,
+                                         SjFolderScannerSource* source,
+                                         SjColModule*           receiver,
+                                         long&                  retTrackCount )
 {
 	// progress information
 	if( !SjBusyInfo::Set(url, FALSE) )
@@ -914,7 +912,7 @@ bool SjFolderScannerModule::IterateDir__(   const wxString&         url,
 			wxDir theDir(dirEntryStr);
 			wxString theEntry;
 			bool cont = theDir.GetFirst(&theEntry, wxT("*"),  wxDIR_DIRS
-			                            |   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS)? wxDIR_HIDDEN : 0));
+			        |   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS)? wxDIR_HIDDEN : 0));
 			while ( cont )
 			{
 				theEntry = dirEntryStr + wxT("\\") + theEntry;
@@ -954,8 +952,8 @@ bool SjFolderScannerModule::IterateDir__(   const wxString&         url,
 		currExt = SjTools::GetExt(currUrl);
 
 		if( !::wxDirExists(currUrl)
-		        && !source->m_ignoreExt.LookupExt(currExt)
-		        &&  g_mainFrame->m_moduleSystem.FindImageHandlerByExt(currExt) )
+		 && !source->m_ignoreExt.LookupExt(currExt)
+		 &&  g_mainFrame->m_moduleSystem.FindImageHandlerByExt(currExt) )
 		{
 			if( !SjBusyInfo::Set(currUrl, FALSE) )
 			{

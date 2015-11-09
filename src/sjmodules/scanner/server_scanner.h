@@ -32,8 +32,8 @@
 
 enum SjServerScannerType
 {
-    SJ_SERVERSCANNER_TYPE_UNKNOWN = 0
-                                    ,SJ_SERVERSCANNER_TYPE_HTTP
+     SJ_SERVERSCANNER_TYPE_UNKNOWN = 0
+    ,SJ_SERVERSCANNER_TYPE_HTTP
 };
 
 
@@ -69,7 +69,7 @@ WX_DECLARE_OBJARRAY(SjServerScannerSource, SjArrayServerScannerSource);
 class SjServerScannerModule : public SjScannerModule
 {
 public:
-	SjServerScannerModule(SjInterfaceBase*);
+					SjServerScannerModule(SjInterfaceBase*);
 
 	long            GetSourceCount      () { return m_sources.GetCount(); }
 	wxString        GetSourceUrl        (long index) { return m_sources[index].m_serverName; }
@@ -87,8 +87,7 @@ protected:
 	bool            FirstLoad           ();
 
 private:
-	SjArrayServerScannerSource
-	m_sources;
+	SjArrayServerScannerSource m_sources;
 	void            LoadSettings        ();
 	void            SaveSettings        ();
 

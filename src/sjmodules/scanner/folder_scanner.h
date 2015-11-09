@@ -67,7 +67,7 @@ WX_DECLARE_LIST(SjFolderScannerSource, SjFolderScannerSourceList);
 class SjFolderScannerModule : public SjScannerModule
 {
 public:
-	SjFolderScannerModule(SjInterfaceBase*);
+	                SjFolderScannerModule(SjInterfaceBase*);
 
 	long            GetSourceCount      ();
 	wxString        GetSourceUrl        (long index);

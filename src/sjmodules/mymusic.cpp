@@ -73,15 +73,14 @@ WX_DEFINE_LIST(SjSettingsSourceItemList);
 class SjMyMusicConfigPage : public wxPanel
 {
 public:
-	SjMyMusicConfigPage (SjMyMusicModule* module, wxWindow* parent, int selectedPage);
+	                SjMyMusicConfigPage (SjMyMusicModule* module, wxWindow* parent, int selectedPage);
 
 	bool            m_idxChanged;
 
 private:
 	wxPanel*        CreatePage          (wxWindow* parent);
 	void            InitPage            (const wxString& selSourceName);
-	SjSettingsSourceItem*
-	GetSelFromDialog    ();
+	SjSettingsSourceItem* GetSelFromDialog ();
 	void            OnColClick          (wxListEvent&);
 	void            OnSelectionChange   (wxListEvent&) { UpdateButtons(); }
 	void            OnDoubleClick       (wxListEvent&);
@@ -98,8 +97,7 @@ private:
 	void            OnUpdate            (wxCommandEvent&);
 	void            OnSize              (wxSizeEvent&);
 
-	SjSettingsSourceItemList
-	m_listOfSources;
+	SjSettingsSourceItemList m_listOfSources;
 	int             m_currSortCol;
 
 	wxNotebook*     m_notebook;
@@ -127,8 +125,7 @@ BEGIN_EVENT_TABLE(SjMyMusicConfigPage, wxPanel)
 	EVT_LIST_KEY_DOWN           (IDC_IDXLIST,           SjMyMusicConfigPage::OnListKeyDown      )
 	EVT_BUTTON                  (IDC_IDXUPDATEMENU,     SjMyMusicConfigPage::OnUpdateContextMenu)
 	EVT_BUTTON                  (IDC_IDXADDSOURCES,     SjMyMusicConfigPage::OnAddSourceContextMenu )
-	EVT_MENU_RANGE              (IDC_MODULE00, IDC_MODULE99,
-	                             SjMyMusicConfigPage::OnAddSources       )
+	EVT_MENU_RANGE              (IDC_MODULE00, IDC_MODULE99, SjMyMusicConfigPage::OnAddSources  )
 	EVT_BUTTON                  (IDC_IDXDELSOURCE,      SjMyMusicConfigPage::OnDelSource        )
 	EVT_MENU                    (IDC_IDXDELSOURCE,      SjMyMusicConfigPage::OnDelSource        )
 	EVT_BUTTON                  (IDC_IDXCONFIGSOURCEMENU,SjMyMusicConfigPage::OnOptionsContextMenu)
@@ -263,7 +260,7 @@ SjMyMusicConfigPage::SjMyMusicConfigPage(SjMyMusicModule* myMusicModule, wxWindo
 	}
 
 	if( selectedPage < 0
-	        || selectedPage >= (int)m_notebook->GetPageCount() )
+	 || selectedPage >= (int)m_notebook->GetPageCount() )
 	{
 		selectedPage = 0;
 	}

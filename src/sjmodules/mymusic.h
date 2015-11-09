@@ -35,7 +35,7 @@
 class SjMyMusicModule : public SjCommonModule
 {
 public:
-	SjMyMusicModule     (SjInterfaceBase*);
+	                SjMyMusicModule     (SjInterfaceBase*);
 
 	SjEmbedTo       EmbedTo             () { return SJ_EMBED_TO_MAIN; }
 	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);

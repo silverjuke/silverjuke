@@ -132,9 +132,13 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 
 		wxString cfg = source.m_lastCfgFile;
 		if( cfg.IsEmpty() )
+		{
 			cfg = _("n/a");
+		}
 		else if( cfg.Length() > 128 )
+		{
 			cfg = cfg.Left(120)+wxT("..");
+		}
 
 		AddState(_("Configuration file")+wxString(wxT(":")), cfg);
 	}
@@ -167,7 +171,7 @@ void SjServerScannerConfigDialog::EnableDisable()
 			int         childId = child->GetId();
 
 			if( child->GetClassInfo()->GetClassName() == wxString(wxT("wxStaticBox"))
-			        && child->GetLabel() == _("State") )
+			 && child->GetLabel() == _("State") )
 			{
 				break;
 			}
@@ -225,10 +229,10 @@ bool SjServerScannerConfigDialog::GetChanges(SjServerScannerSource& source)
 
 	// sth. changed?
 	if( newServerName   != source.m_serverName
-	        || newServerType   != source.m_serverType
-	        || newLoginName    != source.m_loginName
-	        || newLoginPassword!= source.m_loginPassword
-	        || newFlags        != source.m_flags )
+	 || newServerType   != source.m_serverType
+	 || newLoginName    != source.m_loginName
+	 || newLoginPassword!= source.m_loginPassword
+	 || newFlags        != source.m_flags )
 	{
 		// sth. changed!
 		source.m_serverName     = newServerName;

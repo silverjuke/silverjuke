@@ -160,7 +160,7 @@ long SjServerScannerModule::AddSources(int sourceType, wxWindow* parent)
 	SjServerScannerConfigDialog dlg(parent, *newSource);
 
 	if(  dlg.ShowModal() != wxID_OK
-	        || !dlg.GetChanges(*newSource) )
+	 || !dlg.GetChanges(*newSource) )
 	{
 		delete newSource;
 		return -1; // dialog canceled, no update required
@@ -197,7 +197,7 @@ bool SjServerScannerModule::ConfigSource(long index, wxWindow* parent)
 	{
 		SjServerScannerConfigDialog dlg(parent, m_sources[index]);
 		if( dlg.ShowModal() == wxID_OK
-		        && dlg.GetChanges(m_sources[index]) )
+		 && dlg.GetChanges(m_sources[index]) )
 		{
 			SaveSettings();
 			return TRUE; // needs update
@@ -252,7 +252,7 @@ SjIcon SjServerScannerModule::GetSourceIcon(long index)
 
 
 bool SjServerScannerModule::IterateCsvOverHttp(SjColModule* receiver, SjServerScannerSource* currSource,
-        SjCfgTokenizer* options)
+                                               SjCfgTokenizer* options)
 {
 	bool            ret = FALSE;
 
@@ -307,21 +307,21 @@ bool SjServerScannerModule::IterateCsvOverHttp(SjColModule* receiver, SjServerSc
 		{
 			str = arr[fieldIndex];
 
-			if( str == wxT("<Nr>") )           { csvTrackInfo.Add(SJ_TI_TRACKNR);          }
+			     if( str == wxT("<Nr>") )           { csvTrackInfo.Add(SJ_TI_TRACKNR);          }
 			else if( str == wxT("<DiskNr>") )       { csvTrackInfo.Add(SJ_TI_DISKNR);           }
 			else if( str == wxT("<Title>") )        { csvTrackInfo.Add(SJ_TI_TRACKNAME);        }
 			else if( str == wxT("<Artist>") )       { csvTrackInfo.Add(SJ_TI_LEADARTISTNAME);   }
 			else if( str == wxT("<OrgArtist>") )    { csvTrackInfo.Add(SJ_TI_ORGARTISTNAME);    }
 			else if( str == wxT("<Composer>") )     { csvTrackInfo.Add(SJ_TI_COMPOSERNAME);     }
 			else if( str == wxT("<Album>") )        { csvTrackInfo.Add(SJ_TI_ALBUMNAME);        }
-			else if( str == wxT("<Album(DiskNr)>") ) { csvTrackInfo.Add(SJ_TI_ALBUMNAME); str = wxT("<Album>"); diskNrInAlbumName = TRUE; }
+			else if( str == wxT("<Album(DiskNr)>") ){ csvTrackInfo.Add(SJ_TI_ALBUMNAME); str = wxT("<Album>"); diskNrInAlbumName = TRUE; }
 			else if( str == wxT("<Year>") )         { csvTrackInfo.Add(SJ_TI_YEAR);             }
 			else if( str == wxT("<Comment>") )      { csvTrackInfo.Add(SJ_TI_COMMENT);          }
 			else if( str == wxT("<Genre>") )        { csvTrackInfo.Add(SJ_TI_GENRENAME);        }
 			else if( str == wxT("<Group>") )        { csvTrackInfo.Add(SJ_TI_GROUPNAME);        }
 			else                                    { csvTrackInfo.Add(0);                      }
 
-			if( str[0] == wxT('<') )           { csvPlaceholder.Add(str);                  }
+			     if( str[0] == wxT('<') )           { csvPlaceholder.Add(str);                  }
 			else                                    { csvPlaceholder.Add(wxT(""));              }
 
 		}
@@ -421,8 +421,8 @@ bool SjServerScannerModule::IterateCsvOverHttp(SjColModule* receiver, SjServerSc
 						suffix.Trim(FALSE);
 
 						if( SjTools::StripPrefix(suffix, wxT("cd"))
-						        || SjTools::StripPrefix(suffix, wxT("disk"))
-						        || SjTools::StripPrefix(suffix, wxT("disc")) )
+						 || SjTools::StripPrefix(suffix, wxT("disk"))
+						 || SjTools::StripPrefix(suffix, wxT("disc")) )
 						{
 							suffix.Trim(FALSE);
 							suffix.Replace(wxT("#"), wxT(""), FALSE/*only the first*/);
