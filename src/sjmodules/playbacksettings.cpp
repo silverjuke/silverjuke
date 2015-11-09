@@ -884,16 +884,13 @@ private:
 	wxChoice*       m_sleepActionChoice;
 	wxChoice*       m_sleepTimemodeChoice;
 	long            m_sleepTimemodeCurr;
-	wxSpinCtrl*     m_sleepMinutesSpinCtrl;
-	long            m_sleepMinutesCurr, m_sleepMinutesPending;
+	wxTextCtrl*     m_sleepMinutesTextCtrl;
 	wxStaticText*   m_sleepMinUnitStatic;
 	wxArrayString   m_sleepMinUnitStrings;
 	SjDlgCheckCtrl  m_sleepFade;
 	void            OnAutoCtrlCheckE    (wxCommandEvent&) { UpdateAutoCtrlChecksE(); }
 	void            OnMusicSelButton    (wxCommandEvent&);
 	void            OnAutoCtrlSleepTimemode(wxCommandEvent&);
-	void            OnAutoCtrlSleepSpin (wxSpinEvent&);
-	void            OnAutoCtrlSleepText (wxCommandEvent&);
 	void            UpdateAutoCtrlChecksE();
 	static wxString FormatMinutes       (long minutes, long mode);
 	static long     ParseMinutes        (const wxString&);
@@ -967,7 +964,6 @@ private:
 #define IDC_AUTOPLAY_MAN_ENQ_INTERRUPT  (IDM_FIRSTPRIVATE+29)
 #define IDC_SLEEPCHECKBOX               (IDM_FIRSTPRIVATE+30)
 #define IDC_SLEEPTIMEMODECHOICE         (IDM_FIRSTPRIVATE+31)
-#define IDC_SLEEPSPIN                   (IDM_FIRSTPRIVATE+32)
 #define IDC_SLEEPFADE                   (IDM_FIRSTPRIVATE+33)
 
 #define IDC_JINGLESCHECK                (IDM_FIRSTPRIVATE+40)
@@ -1002,8 +998,6 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 
 	EVT_CHECKBOX                (IDC_SLEEPCHECKBOX,             SjPlaybackSettingsConfigPage::OnAutoCtrlCheckE          )
 	EVT_CHOICE                  (IDC_SLEEPTIMEMODECHOICE,       SjPlaybackSettingsConfigPage::OnAutoCtrlSleepTimemode   )
-	EVT_SPINCTRL                (IDC_SLEEPSPIN,                 SjPlaybackSettingsConfigPage::OnAutoCtrlSleepSpin       )
-	EVT_TEXT                    (IDC_SLEEPSPIN,                 SjPlaybackSettingsConfigPage::OnAutoCtrlSleepText       )
 	EVT_CHECKBOX                (IDC_SLEEPFADE,                 SjPlaybackSettingsConfigPage::OnAutoCtrlCheckE          )
 
 	EVT_CHECKBOX                (IDC_JINGLESCHECK,              SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
@@ -1473,8 +1467,8 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 	// auto play: sleep mode
 
 	{
-		bool sleepEnabled; SjShutdownEtc sleepAction; bool sleepDoFade; long sleepFadeSeconds;
-		g_mainFrame->m_autoCtrl.GetSleepSettings(sleepEnabled, sleepAction, m_sleepTimemodeCurr, m_sleepMinutesCurr, sleepDoFade, sleepFadeSeconds);
+		bool sleepEnabled; SjShutdownEtc sleepAction; bool sleepDoFade; long sleepFadeSeconds, sleepMinutesCurr;
+		g_mainFrame->m_autoCtrl.GetSleepSettings(sleepEnabled, sleepAction, m_sleepTimemodeCurr, sleepMinutesCurr, sleepDoFade, sleepFadeSeconds);
 
 
 		sizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -1504,11 +1498,9 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 		SjDialog::SetCbWidth(m_sleepTimemodeChoice, 70);
 		sizer2->Add(m_sleepTimemodeChoice, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_sleepMinutesPending = -1;
-		m_sleepMinutesSpinCtrl = new wxSpinCtrl(page, IDC_SLEEPSPIN, FormatMinutes(m_sleepMinutesCurr, m_sleepTimemodeCurr),
-		                                        wxDefaultPosition, wxSize(SJ_4DIG_SPINCTRL_W, -1), wxSP_ARROW_KEYS ,
-		                                        0, (24*60)-1, m_sleepMinutesCurr);
-		sizer2->Add(m_sleepMinutesSpinCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+		m_sleepMinutesTextCtrl = new wxTextCtrl(page, -1, FormatMinutes(sleepMinutesCurr, m_sleepTimemodeCurr),
+		                                        wxDefaultPosition, wxSize(SJ_4DIG_SPINCTRL_W, -1));
+		sizer2->Add(m_sleepMinutesTextCtrl, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 		m_sleepMinUnitStrings = SjTools::Explode(_("minutes|minutes of inactivity|o'clock"), '|', 3, 3);
 		m_sleepMinUnitStrings.Add(m_sleepMinUnitStrings[0]);
@@ -1558,7 +1550,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 wxString SjPlaybackSettingsConfigPage::FormatMinutes(long mm, long timemode)
 {
 	if( timemode == SJ_SLEEPMODE_TIMEMODE_AT
-	        || timemode == SJ_SLEEPMODE_TIMEMODE_ALWAYS_AT  )
+	 || timemode == SJ_SLEEPMODE_TIMEMODE_ALWAYS_AT  )
 	{
 		long hh = mm / 60;
 		mm -= hh*60;
@@ -1613,7 +1605,7 @@ void SjPlaybackSettingsConfigPage::UpdateAutoCtrlChecksE()
 	bool sleepChecked = m_sleepCheckBox->IsChecked();
 	m_sleepActionChoice->Enable(sleepChecked);
 	m_sleepTimemodeChoice->Enable(sleepChecked);
-	m_sleepMinutesSpinCtrl->Enable(sleepChecked);
+	m_sleepMinutesTextCtrl->Enable(sleepChecked);
 	m_sleepMinUnitStatic->SetLabel(m_sleepMinUnitStrings [ m_sleepTimemodeChoice->GetSelection() ] /*index!*/);
 
 	if( (m_sleepFade.IsEnabled()!=FALSE) != (sleepChecked!=FALSE) )
@@ -1647,7 +1639,6 @@ void SjPlaybackSettingsConfigPage::OnMusicSelButton(wxCommandEvent& evt)
 }
 
 
-static bool s_inSleepSpin = false;
 void SjPlaybackSettingsConfigPage::OnAutoCtrlSleepTimemode(wxCommandEvent&)
 {
 	m_sleepMinUnitStatic->SetLabel(m_sleepMinUnitStrings [ m_sleepTimemodeChoice->GetSelection() ] /*index!*/);
@@ -1656,59 +1647,9 @@ void SjPlaybackSettingsConfigPage::OnAutoCtrlSleepTimemode(wxCommandEvent&)
 	if( newTimemode%SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT != m_sleepTimemodeCurr%SJ_SLEEPMODE_TIMEMODE_BASIC_COUNT /*we've three timemodes, that are repeated or not*/ )
 	{
 		wxSpinEvent fwd;
-		m_sleepMinutesSpinCtrl->SetValue(SJ_SLEEPMODE_DEF_MINUTES);
-		m_sleepMinutesPending = -1;
-		OnAutoCtrlSleepSpin(fwd);
+		m_sleepMinutesTextCtrl->SetValue(FormatMinutes(SJ_SLEEPMODE_DEF_MINUTES, newTimemode));
 	}
 	m_sleepTimemodeCurr = newTimemode;
-}
-void SjPlaybackSettingsConfigPage::OnAutoCtrlSleepSpin(wxSpinEvent&)
-{
-	// spinning -> update text
-	if( !s_inSleepSpin )
-	{
-		s_inSleepSpin = true;
-		if( m_sleepMinutesPending != -1 )
-		{
-			m_sleepMinutesSpinCtrl->SetValue(m_sleepMinutesPending);
-			m_sleepMinutesPending = -1;
-		}
-
-		m_sleepMinutesCurr = m_sleepMinutesSpinCtrl->GetValue();
-		long timemode = SjDialog::GetCbSelection(m_sleepTimemodeChoice);
-		m_sleepMinutesSpinCtrl->SetValue(FormatMinutes(m_sleepMinutesCurr, timemode));
-		s_inSleepSpin = false;
-	}
-}
-void SjPlaybackSettingsConfigPage::OnAutoCtrlSleepText(wxCommandEvent& e)
-{
-	// entered text -> update spin value
-	if( !s_inSleepSpin )
-	{
-		s_inSleepSpin = true;
-		long timemode = SjDialog::GetCbSelection(m_sleepTimemodeChoice);
-		if( timemode == SJ_SLEEPMODE_TIMEMODE_AT || timemode == SJ_SLEEPMODE_TIMEMODE_ALWAYS_AT )
-		{
-			wxString str = e.GetString();
-
-			// This all is a whole hack as we cannot really determinate if an update
-			// comes from the spin button or from a text input - the spin input also
-			// emmits a text event :-(
-			// However, under MSW it works if we look at the text and check if there
-			// is a ':' in - in this case we can assume, that the input comes from the
-			// text control as otherwise, the text is just a formatted number.
-			if( str.Find(':') > 0 )
-			{
-				m_sleepMinutesCurr =
-				    m_sleepMinutesPending = ParseMinutes(str);
-			}
-		}
-		else
-		{
-			m_sleepMinutesCurr = m_sleepMinutesSpinCtrl->GetValue();
-		}
-		s_inSleepSpin = false;
-	}
 }
 
 
@@ -1738,10 +1679,14 @@ void SjPlaybackSettingsConfigPage::CloseAutoCtrlPage(bool apply, bool& needsRepl
 			// ^^ 0 should not happen here
 		}
 
+
+		wxString temp = m_sleepMinutesTextCtrl->GetValue();
+		long sleepMinutesCurr = ParseMinutes(temp);
+
 		a->SetSleepSettings(m_sleepCheckBox->IsChecked(),
 		                    (SjShutdownEtc)SjDialog::GetCbSelection(m_sleepActionChoice),
 		                    m_sleepTimemodeCurr,
-		                    m_sleepMinutesCurr,
+		                    sleepMinutesCurr,
 		                    m_sleepFade.IsChecked(),
 		                    m_sleepFade.GetValue());
 
