@@ -1656,7 +1656,9 @@ bool SjTools::ParseDate_(const wxString& str__, bool keepItSimple,
 	long values[7], valueCount = 0;
 	while( tkz.HasMoreTokens() && valueCount < 7)
 	{
-		tkz.GetNextToken().ToLong(&values[valueCount++], 10);
+		values[valueCount] = 0;
+		tkz.GetNextToken().ToLong(&values[valueCount], 10);
+		valueCount++;
 	}
 
 	// read the values and create the date, the optional time and the optional offset
