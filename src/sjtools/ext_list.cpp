@@ -167,7 +167,7 @@ void SjExtList::RepositoryInit()
 		RepositoryAdd(wxT("669 amf bp bp3 cus cust dm2 far ")
 		              wxT("fc fc13 fc14 fc3 fc4 hip it itz mdz mo3 ")
 		              wxT("mod mon mtm nst okt ptm s3m s3z sfx sid1 ")
-		              wxT("stm stz ult umx xm xmz"),                  SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("MOD")));
+		              wxT("stm stz ult umx xm xmz"),        SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("MOD")));
 		RepositoryAdd(wxT("aif aiff"),                      SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("AIFF")));
 		RepositoryAdd(wxT("ani bmp cur dib ico rle"),       SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"),wxT("BMP")));
 		RepositoryAdd(wxT("ape apl mac"),                   SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Monkey")));
