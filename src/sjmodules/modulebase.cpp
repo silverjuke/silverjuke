@@ -83,6 +83,32 @@ SjModuleSystem::~SjModuleSystem()
 }
 
 
+/*
+static void fileName2Url__(wxSqlt& sql, const wxString& table)
+{
+	wxArrayLong   ids;
+	wxArrayString urls;
+	sql.Query("SELECT id, url FROM "+table);
+	while( sql.Next() )
+	{
+		wxString url = sql.GetString(1);
+		if( url.Left(5) != "file:" )
+		{
+			ids.Add(sql.GetLong(0));
+			urls.Add(url);
+		}
+	}
+
+	for( size_t i = 0; i < ids.GetCount(); i++ )
+	{
+		wxFileName filename(urls.Item(i));
+		wxString url = wxFileSystem::FileNameToURL(filename);
+		sql.Query("UPDATE "+table+" SET url='"+sql.QParam(url)+"' WHERE id="+wxString::Format("%i", (int)ids.Item(i)));
+	}
+}
+*/
+
+
 void SjModuleSystem::Init()
 {
 	// add extensions read by wxImage
@@ -152,7 +178,26 @@ void SjModuleSystem::Init()
 		{
 			// subsequent opening
 			wxSqlt sql;
-			if( sql.ConfigRead(wxT("dbversion"), -1) != CURR_DB_VERSION ) {
+			long dbversion = sql.ConfigRead(wxT("dbversion"), -1);
+			/*
+			if( dbversion == 1 )
+			{
+				// in dbversion1 there were some bugs in the file system; most tracks were store using file names, tracks with problems may be stored using file://.  This lead to many confusing situations.
+				// in dbversion2, we expect all tracks to use file://-URLs
+				wxBusyCursor busy;
+				{
+					wxSqltTransaction transaction;
+					fileName2Url__(sql, "tracks");
+					g_mainFrame->UpdateIndexAfterConstruction(); // to update the arts table
+					sql.ConfigWrite(wxT("dbversion"), 2);
+					transaction.Commit();
+				}
+				dbversion = sql.ConfigRead(wxT("dbversion"), -1);
+			}
+			*/
+
+			if( dbversion != CURR_DB_VERSION )
+			{
 				// normally, this should not happen; the database format should be stable.
 				wxMessageBox(wxString::Format(wxT("Bad version of the jukebox file \"%s\". Delete the file and try over; we'll recreate a more correct version then. For now, the program will terminate.")/*n/t*/, g_tools->m_dbFile.c_str()));
 				SjMainApp::FatalError();
