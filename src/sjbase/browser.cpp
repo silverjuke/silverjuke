@@ -220,24 +220,24 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 	if( g_accelModule->m_flags&SJ_ACCEL_CONTEXT_SENSITIVE_WHEEL )
 	{
 		if( (targetId>=IDT_DISPLAY_LINE_FIRST && targetId<=IDT_DISPLAY_LINE_LAST)
-		        ||  targetId==IDT_DISPLAY_UP
-		        ||  targetId==IDT_DISPLAY_DOWN
-		        ||  targetId==IDT_DISPLAY_V_SCROLL )
+		 ||  targetId==IDT_DISPLAY_UP
+		 ||  targetId==IDT_DISPLAY_DOWN
+		 ||  targetId==IDT_DISPLAY_V_SCROLL )
 		{
 			simulateSlider(zDelta, wheelDelta, IDT_DISPLAY_UP, IDT_DISPLAY_DOWN);
 			return;
 		}
 		else if( targetId==IDT_MAIN_VOL_UP
-		         || targetId==IDT_MAIN_VOL_DOWN
-		         || targetId==IDT_MAIN_VOL_SLIDER
-		         || targetId==IDT_MAIN_VOL_MUTE )
+			  || targetId==IDT_MAIN_VOL_DOWN
+		      || targetId==IDT_MAIN_VOL_SLIDER
+		      || targetId==IDT_MAIN_VOL_MUTE )
 		{
 			simulateSlider(zDelta, wheelDelta, IDT_MAIN_VOL_UP, IDT_MAIN_VOL_DOWN);
 			return;
 		}
 		else if( (targetId>=IDT_WORKSPACE_GOTO_A && targetId<=IDT_WORKSPACE_GOTO_0_9)
-		         ||  targetId==IDT_WORKSPACE_GOTO_PREV_AZ
-		         ||  targetId==IDT_WORKSPACE_GOTO_NEXT_AZ )
+		      ||  targetId==IDT_WORKSPACE_GOTO_PREV_AZ
+		      ||  targetId==IDT_WORKSPACE_GOTO_NEXT_AZ )
 		{
 			// added for 2.10, see http://www.silverjuke.net/forum/post.php?p=2720#2720
 			SjSkinValue dummy;
@@ -245,10 +245,10 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 			return;
 		}
 		else if( targetId == IDT_WORKSPACE_H_SCROLL
-		         || targetId == IDT_WORKSPACE_LINE_LEFT
-		         || targetId == IDT_WORKSPACE_LINE_RIGHT
-		         || targetId == IDT_WORKSPACE_PAGE_LEFT
-		         || targetId == IDT_WORKSPACE_PAGE_RIGHT )
+		      || targetId == IDT_WORKSPACE_LINE_LEFT
+		      || targetId == IDT_WORKSPACE_LINE_RIGHT
+		      || targetId == IDT_WORKSPACE_PAGE_LEFT
+		      || targetId == IDT_WORKSPACE_PAGE_RIGHT )
 		{
 			SjSkinValue dummy;
 			g_mainFrame->OnSkinTargetEvent(zDelta>0?IDT_WORKSPACE_PAGE_LEFT:IDT_WORKSPACE_PAGE_RIGHT, dummy, 0);
@@ -268,8 +268,8 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 	}
 
 	if( event.ShiftDown()
-	        || event.ControlDown()
-	        || event.RightIsDown() )
+	 || event.ControlDown()
+	 || event.RightIsDown() )
 	{
 		// toggle direction if shift, ctrl or the right mouse button is down
 		scrollVert = !scrollVert;
@@ -278,19 +278,18 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 	{
 		// regard the scrollbars directions if the mouse is over them
 		if( targetId == IDT_WORKSPACE_H_SCROLL
-		        || targetId == IDT_WORKSPACE_LINE_LEFT
-		        || targetId == IDT_WORKSPACE_LINE_RIGHT
-		        || targetId == IDT_WORKSPACE_PAGE_LEFT
-		        || targetId == IDT_WORKSPACE_PAGE_RIGHT )
+		 || targetId == IDT_WORKSPACE_LINE_LEFT
+		 || targetId == IDT_WORKSPACE_LINE_RIGHT
+		 || targetId == IDT_WORKSPACE_PAGE_LEFT
+		 || targetId == IDT_WORKSPACE_PAGE_RIGHT )
 		{
 			scrollVert = FALSE;
 		}
-		else if(
-		    targetId == IDT_WORKSPACE_V_SCROLL
-		    || targetId == IDT_WORKSPACE_LINE_UP
-		    || targetId == IDT_WORKSPACE_LINE_DOWN
-		    || targetId == IDT_WORKSPACE_PAGE_UP
-		    || targetId == IDT_WORKSPACE_PAGE_DOWN )
+		else if( targetId == IDT_WORKSPACE_V_SCROLL
+			  || targetId == IDT_WORKSPACE_LINE_UP
+		      || targetId == IDT_WORKSPACE_LINE_DOWN
+		      || targetId == IDT_WORKSPACE_PAGE_UP
+		      || targetId == IDT_WORKSPACE_PAGE_DOWN )
 		{
 			scrollVert = TRUE;
 		}
@@ -508,7 +507,7 @@ void SjBrowserWindow::OnPaint(wxPaintEvent& event)
 		{
 			drawStub = true;
 			if(  g_mainFrame->m_libraryModule->GetUnmaskedTrackCount() <= 0
-			        || !g_mainFrame->HasAnySearch() )
+			 || !g_mainFrame->HasAnySearch() )
 			{
 				// the condition above is not perfect, however it works in most cases
 				// (not if the windows is redrawn during the _first_ update with any search set)
@@ -718,7 +717,9 @@ void SjBrowserWindow::RefreshAll()
 void SjBrowserWindow::RefreshSelection()
 {
 	if( m_currView )
+	{
 		m_currView->RefreshSelection();
+	}
 }
 
 
@@ -727,7 +728,9 @@ int SjBrowserWindow::GetView() const
 	for( int i = 0; i < SJ_BROWSER_VIEW_COUNT; i++ )
 	{
 		if( m_views[i] == m_currView )
+		{
 			return i;
+		}
 	}
 
 	wxASSERT( 0 ); // should not happen!
@@ -738,8 +741,8 @@ int SjBrowserWindow::GetView() const
 bool SjBrowserWindow::IsViewAvailable(int i)
 {
 	if( (i == SJ_BROWSER_ALBUM_VIEW && !g_mainFrame->IsOpAvailable(SJ_OP_ALBUM_VIEW))
-	        || (i == SJ_BROWSER_COVER_VIEW && !g_mainFrame->IsOpAvailable(SJ_OP_COVER_VIEW))
-	        || (i == SJ_BROWSER_LIST_VIEW  && !g_mainFrame->IsOpAvailable(SJ_OP_LIST_VIEW)) )
+	 || (i == SJ_BROWSER_COVER_VIEW && !g_mainFrame->IsOpAvailable(SJ_OP_COVER_VIEW))
+	 || (i == SJ_BROWSER_LIST_VIEW  && !g_mainFrame->IsOpAvailable(SJ_OP_LIST_VIEW)) )
 	{
 		return false;
 	}
@@ -756,14 +759,18 @@ void SjBrowserWindow::SetView_(int i, bool keepPosition, bool redraw)
 
 	// corect index
 	if( i < 0 || i >= SJ_BROWSER_VIEW_COUNT )
+	{
 		i = SJ_BROWSER_ALBUM_VIEW;
+	}
 
 	// is the requested view available? anything to change?
 	if( IsViewAvailable(i) && m_currView != m_views[i] )
 	{
 		// get the old position
 		if( m_currView == NULL )
+		{
 			keepPosition = false;
+		}
 
 		if( keepPosition )
 		{
@@ -836,7 +843,9 @@ void SjBrowserWindow::SetZoom_(int targetIdOrAbs)
 	if( g_accelModule->m_flags & SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS )
 	{
 		for( int i = 0; i < SJ_BROWSER_VIEW_COUNT; i++ )
+		{
 			m_views[i]->m_zoom = newZoom;
+		}
 	}
 	g_mainFrame->SetZoom__(newZoom);
 }
@@ -882,7 +891,9 @@ SjBrowserWindow::SjBrowserWindow(SjMainFrame* mainFrame)
 	{
 		m_views[i]->m_zoom = SjMainFrame::CorrectZoom(ser.GetLong());
 		if( ser.HasErrors() )
+		{
 			m_views[i]->m_zoom = 3; // default
+		}
 	}
 }
 
@@ -890,7 +901,7 @@ SjBrowserWindow::SjBrowserWindow(SjMainFrame* mainFrame)
 bool SjBrowserWindow::AreCoversShown() const
 {
 	if(  m_currView
-	        && (m_currView->m_flags&SJ_BROWSER_VIEW_COVER) )
+	 && (m_currView->m_flags&SJ_BROWSER_VIEW_COVER) )
 	{
 		return true;
 	}
@@ -914,13 +925,17 @@ void SjBrowserWindow::Exit()
 	{
 		ser.AddLong(m_views[i]->m_flags);
 	}
+
 	for( i = 0; i < SJ_BROWSER_VIEW_COUNT; i++ )
 	{
 		ser.AddLong(m_views[i]->m_zoom);
 		m_views[i]->Exit();
 	}
+
 	g_tools->m_config->Write(wxT("main/browserFlags"), ser.GetResult());
 }
+
+
 SjBrowserWindow::~SjBrowserWindow()
 {
 	#ifdef __WXDEBUG__
@@ -928,12 +943,14 @@ SjBrowserWindow::~SjBrowserWindow()
 	#endif
 
 	for( int i = 0; i < SJ_BROWSER_VIEW_COUNT; i++ )
+	{
 		delete m_views[i];
+	}
 }
 
 
 /*******************************************************************************
- *  Tools for our friends :-)
+ * Tools for our friends :-)
  ******************************************************************************/
 
 
@@ -1064,7 +1081,7 @@ void SjBrowserWindow::PaintCover(wxDC& dc, SjImgThreadObj* obj, long x, long y, 
 
 	// show the drag image again
 	if( dragImageHidden
-	        && g_mainFrame->m_dragImage )
+	 && g_mainFrame->m_dragImage )
 	{
 		g_mainFrame->m_dragImage->Show();
 	}
@@ -1086,10 +1103,14 @@ void SjBrowserWindow::DrawUpText(wxDC& dc, const wxString& textup, long x, long 
 	textw += 2;
 
 	if( texth > w )
+	{
 		texth = w;
+	}
 
 	if( textw > h )
+	{
 		textw = h;
+	}
 
 	wxBitmap memBitmap1(textw, texth);
 	wxMemoryDC memDc;
@@ -1137,7 +1158,9 @@ void SjBrowserWindow::DrawUpText(wxDC& dc, const wxString& textup, long x, long 
 
 					// space abottom
 					if( h > textw )
+					{
 						dc.DrawRectangle(x, y+textw, w, h-textw);
+					}
 				}
 			}
 		}
