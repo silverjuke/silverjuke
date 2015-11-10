@@ -252,11 +252,12 @@ void SjTestdrive1()
 	eg. by wxFileSystem::FileNameToURL()  */
 	{
 		// create a file with a "#" in its name using wxFile
-		wxString name = wxT("test #1 100% hard.test");
+		wxString name = wxT("test #1 100% hard '\xE4\xF6\xFC\xC4\xD6\xDC\xDF'.test");
 		wxString content = wxT("test content");
 		wxString path = CreateTestFileUsingWxFile(name, content);
 
 		// try to open this file using wxFileSystem
+		{
 		wxString pathAsUrl = wxFileSystem::FileNameToURL(path); // pathAsUrl should be file:/tmp/test %231 100%25 hard.test
 		wxFileSystem fs;
 		wxFSFile* fsFile = fs.OpenFile(pathAsUrl);
@@ -282,6 +283,70 @@ void SjTestdrive1()
 		else
 		{
 			wxLogWarning(wxT("Testdrive: wxFileSystem failed: Cannot open %s."), path.c_str());
+		}
+		}
+
+
+		// check if we can read the file using wxFileSystem::FindFirst()
+		{
+			wxFileName fn(path); // check wxFileName to work with FILEs
+			if(  path.Left(5)=="file:" ) { wxLogWarning("Testdrive: fn should not start with 'file:'"); }
+			if( !fn.IsOk()             ) { wxLogWarning("Testdrive: fn.IsOk() failed"); }
+			if(  fn.IsDir()            ) { wxLogWarning("Testdrive: fn.IsDir() failed"); }
+			if( !fn.FileExists()       ) { wxLogWarning("Testdrive: fn.FileExists() failed"); }
+			if( !fn.DirExists()        ) { wxLogWarning("Testdrive: fn.DirExists() failed"); } // Notice that this function tests the directory part of this object, i.e. the string returned by GetPath(), and not the full path returned by GetFullPath().
+
+			wxString fn2DirStr = fn.GetPath(wxPATH_GET_SEPARATOR);
+			if(  fn2DirStr.Left(5)=="file:" ) { wxLogWarning("Testdrive: fn2DirStr should not start with 'file:'"); }
+			if(  fn2DirStr.Last()!='/' && fn2DirStr.Last()!='\\' ) { wxLogWarning("Testdrive: fn2DirStr: Where is the trailing slash?"); }
+			wxFileName fn2(fn2DirStr);  // the wxFileName constructor creates DIRs without FILEs if there is a trailing slash!s
+			if( !fn2.IsOk() )       { wxLogWarning("Testdrive: fn2.IsOk() failed"); }
+			if( !fn2.IsDir() )      { wxLogWarning("Testdrive: fn2.IsDir() failed"); }
+			if(  fn2.FileExists() ) { wxLogWarning("Testdrive: fn2.FileExists() failed"); }
+			if( !fn2.DirExists() )  { wxLogWarning("Testdrive: fn2.DirExists() failed"); }
+
+			// create filesystem object and let if point to the given directory
+			wxFileSystem fs;
+			wxString locationUrl = wxFileSystem::FileNameToURL(fn2DirStr);
+			if( fn2DirStr.Left(5) == "file:" ) { wxLogWarning("Testdrive: fn2DirStr should not start with 'file:'"); }
+			if( locationUrl.Left(5) != "file:" ) { wxLogWarning("Testdrive: locationUrl should start with 'file:'"); }
+			fs.ChangePathTo(locationUrl, true);
+			wxString pathChangedTo = fs.GetPath();
+			if( pathChangedTo.Left(5) != "file:" ) { wxLogWarning("Testdrive: pathChangedTo should start with 'file:'"); }
+
+			// search for all files in the given directory
+			bool testFileFound = false;
+			wxString dirEntryLocationUrl = fs.FindFirst("*", wxFILE);
+			while( !dirEntryLocationUrl.IsEmpty() )
+			{
+				if( dirEntryLocationUrl.Left(5) != "file:" ) { wxLogWarning("Testdrive: dirEntryLocationUrl should start with 'file:'"); }
+
+				wxFileName dirEntryFileName = wxFileSystem::URLToFileName(dirEntryLocationUrl);
+				if( !dirEntryFileName.IsOk()       ) { wxLogWarning("Testdrive: dirEntryFileName.IsOk() failed"); }
+				if(  dirEntryFileName.IsDir()      ) { wxLogWarning("Testdrive: dirEntryFileName.IsDir() failed"); } // we use wxFILE in FindFirst(), there should be no directories!
+				if( !dirEntryFileName.FileExists() ) { wxLogWarning("Testdrive: dirEntryFileName.FileExists() failed"); }
+				if( !dirEntryFileName.DirExists()  ) { wxLogWarning("Testdrive: dirEntryFileName.DirExists() failed"); }
+
+				wxString dirEntryFileNameFullPathStr = dirEntryFileName.GetFullPath();
+				if( dirEntryFileNameFullPathStr.Left(5) == "file:" ) { wxLogWarning("Testdrive: dirEntryFileNameFullPathStr should start with 'file:'"); }
+
+				wxString dirEntryFileNameFullNameStr = dirEntryFileName.GetFullName();
+				if( dirEntryFileNameFullNameStr.Left(5) == "file:" ) { wxLogWarning("Testdrive: dirEntryFileNameFullNameStr should start with 'file:'"); }
+				if( dirEntryFileNameFullNameStr == name )
+				{
+					testFileFound = true;
+				}
+
+				dirEntryLocationUrl = fs.FindNext();
+			}
+
+			if( !testFileFound ) { wxLogWarning("Testdrive: Testfile not found using wxFileSystem::Find*()"); }
+
+			// finally check, if the seconds parameter (dir/file indicator works as expected)
+			wxString locationUrl2 = wxFileSystem::FileNameToURL(path);
+			fs.ChangePathTo(locationUrl2, false);
+			wxString pathChangedTo2 = fs.GetPath();
+			if( pathChangedTo != pathChangedTo2 ) { wxLogWarning("Testdrive: wxFileSystem::ChangePathTo() dir/file indicator problem"); }
 		}
 
 		// done.
