@@ -370,65 +370,64 @@ void SjTestdrive1()
 		// another test checking the "dirExists" stuff:
 		// since wx2.8, fileName.DirExists() checks if the base dir exists, not if the file is a directory!
 		// (internally, wxFileName::DirExists(GetPath()) is called, for  wx2.6 internally, wxFileName::DirExists(GetFullPath()) was called)
-		#define FILE_ASSERT(c) if( !(c) ) { wxLogWarning(wxT("Testdrive: ") wxT(#c) wxT(" failed for %s"), path.c_str()); }
 		{
 			wxString path = SjTools::GetSilverjukeProgramDir();                             // existant dir
 			wxFileName filename(path);
-			FILE_ASSERT     (  filename.IsDir() );
-			FILE_ASSERT     (  filename.DirExists() );
-			FILE_ASSERT     (  wxFileName::DirExists(path) );
-			FILE_ASSERT     (  ::wxDirExists(path) );
-			FILE_ASSERT     ( !filename.FileExists() );
-			FILE_ASSERT     ( !::wxFileName::FileExists(path) );
-			FILE_ASSERT     ( !::wxFileExists(path) );
+			wxASSERT(  filename.IsDir() );
+			wxASSERT(  filename.DirExists() );
+			wxASSERT(  wxFileName::DirExists(path) );
+			wxASSERT(  ::wxDirExists(path) );
+			wxASSERT( !filename.FileExists() );
+			wxASSERT( !::wxFileName::FileExists(path) );
+			wxASSERT( !::wxFileExists(path) );
 		}
 		{
 			wxString path = SjTools::GetSilverjukeProgramDir() + wxT("Silverjuke.exe");     // existant file in existant dir - do not run this test if the program has not the name "silverjuke.exe"
 			if( ::wxFileExists(path) ) {
 				wxFileName filename(path);
-				FILE_ASSERT     ( !filename.IsDir() );
-				FILE_ASSERT     (  filename.DirExists() );
-				FILE_ASSERT     ( !wxFileName::DirExists(path) );
-				FILE_ASSERT     ( !::wxDirExists(path) );
-				FILE_ASSERT     (  filename.FileExists() );
-				FILE_ASSERT     (  ::wxFileName::FileExists(path) );
-				FILE_ASSERT     (  ::wxFileExists(path) );
+				wxASSERT( !filename.IsDir() );
+				wxASSERT(  filename.DirExists() );
+				wxASSERT( !wxFileName::DirExists(path) );
+				wxASSERT( !::wxDirExists(path) );
+				wxASSERT(  filename.FileExists() );
+				wxASSERT(  ::wxFileName::FileExists(path) );
+				wxASSERT(  ::wxFileExists(path) );
 			}
 		}
 		{
 			wxString path = SjTools::GetSilverjukeProgramDir() + wxT("unexistant.file");    // unexistant file in existant dir
 			wxFileName filename(path);
-			FILE_ASSERT     ( !filename.IsDir() );
-			FILE_ASSERT     (  filename.DirExists() );
-			FILE_ASSERT     ( !wxFileName::DirExists(path) );
-			FILE_ASSERT     ( !::wxDirExists(path) );
-			FILE_ASSERT     ( !filename.FileExists() );
-			FILE_ASSERT     ( !::wxFileName::FileExists(path) );
-			FILE_ASSERT     ( !::wxFileExists(path) );
+			wxASSERT( !filename.IsDir() );
+			wxASSERT(  filename.DirExists() );
+			wxASSERT( !wxFileName::DirExists(path) );
+			wxASSERT( !::wxDirExists(path) );
+			wxASSERT( !filename.FileExists() );
+			wxASSERT( !::wxFileName::FileExists(path) );
+			wxASSERT( !::wxFileExists(path) );
 		}
 		{
 			wxString path = wxT("/unexistant/dir/");                                        // unexistant dir
 			wxFileName filename(path);
-			FILE_ASSERT     (  filename.IsDir() );
-			FILE_ASSERT     ( !filename.DirExists() );
-			FILE_ASSERT     ( !wxFileName::DirExists(path) );
-			FILE_ASSERT     ( !::wxDirExists(path) );
-			FILE_ASSERT     ( !filename.FileExists() );
-			FILE_ASSERT     ( !::wxFileName::FileExists(path) );
-			FILE_ASSERT     ( !::wxFileExists(path) );
+			wxASSERT(  filename.IsDir() );
+			wxASSERT( !filename.DirExists() );
+			wxASSERT( !wxFileName::DirExists(path) );
+			wxASSERT( !::wxDirExists(path) );
+			wxASSERT( !filename.FileExists() );
+			wxASSERT( !::wxFileName::FileExists(path) );
+			wxASSERT( !::wxFileExists(path) );
 		}
 		{
 			wxString path = wxT("/unexistant/unexistant.file");                             // unexistant file in unexistant dir
 			wxFileName filename(path);
-			FILE_ASSERT( !filename.IsDir() );
-			FILE_ASSERT( !filename.DirExists() );
-			FILE_ASSERT( !wxFileName::DirExists(path) );
-			FILE_ASSERT( !::wxDirExists(path) );
-			FILE_ASSERT( !filename.FileExists() );
-			FILE_ASSERT( !::wxFileName::FileExists(path) );
-			FILE_ASSERT( !::wxFileExists(path) );
+			wxASSERT( !filename.IsDir() );
+			wxASSERT( !filename.DirExists() );
+			wxASSERT( !wxFileName::DirExists(path) );
+			wxASSERT( !::wxDirExists(path) );
+			wxASSERT( !filename.FileExists() );
+			wxASSERT( !::wxFileName::FileExists(path) );
+			wxASSERT( !::wxFileExists(path) );
+			wxASSERT( !::wxFileExists("") ); // we rely on this when eg. wxFileSystem::URLToFileName(..).GetFullPath(); fails and returns the empty string
 		}
-		#undef FILE_ASSERT
 	}
 
 
