@@ -406,6 +406,7 @@ void SjFolderScannerModule::LoadSettings__()
 		currSourceStr = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT(""));
 		if( !currSourceStr.IsEmpty() )
 		{
+			currSourceStr = SjTools::EnsureTrailingSlash(currSourceStr);
 			currSourceObj = new SjFolderScannerSource;
 			if( currSourceObj )
 			{
@@ -503,40 +504,6 @@ SjFolderScannerSource* SjFolderScannerModule::GetSourceObj__(long index)
 	wxASSERT(currSourceObj);
 
 	return currSourceObj;
-}
-
-
-SjFolderScannerSource* SjFolderScannerModule::GetSourceObj__(const wxString& fileUrl__)
-{
-	wxString    sourceUrl;
-	wxString    fileUrl(fileUrl__);
-
-	fileUrl.Replace(wxT("\\"), wxT("/"));
-
-	SjFolderScannerSourceList::Node*    currSourceNode = m_listOfSources.GetFirst();
-	SjFolderScannerSource*              currSource;
-
-	while( currSourceNode )
-	{
-		currSource = currSourceNode->GetData();
-		wxASSERT(currSource);
-
-		if( currSource->m_flags&SJ_FOLDERSCANNER_ENABLED )
-		{
-			sourceUrl = currSource->UrlPlusFile();
-			sourceUrl.Replace(wxT("\\"), wxT("/"));
-
-			if( fileUrl.Left(sourceUrl.Len()).CmpNoCase(sourceUrl)==0 )
-			{
-				return currSource;
-			}
-		}
-
-		// next source
-		currSourceNode = currSourceNode->GetNext();
-	}
-
-	return NULL;
 }
 
 
@@ -651,8 +618,10 @@ long SjFolderScannerModule::AddSources(int sourceType, wxWindow* parent)
 }
 
 
-long SjFolderScannerModule::DoAddUrl(const wxString& newUrl, const wxString& newFile, bool& sthAdded)
+long SjFolderScannerModule::DoAddUrl(const wxString& newUrl__, const wxString& newFile, bool& sthAdded)
 {
+	wxString newUrl = SjTools::EnsureTrailingSlash(newUrl__);
+
 	long sourceCount = GetSourceCount();
 	SjFolderScannerSource* defSource = sourceCount>0? GetSourceObj__(sourceCount-1) : NULL;
 
@@ -705,7 +674,18 @@ bool SjFolderScannerModule::AddUrl(const wxString& url)
  ******************************************************************************/
 
 
-bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, // should not be read as it may contain Backslashes instead of Slashes
+static void FileNamesToURLs(wxArrayString& inOut)
+{
+	size_t i, i_cnt = inOut.GetCount();
+	for( i = 0; i < i_cnt; i++ )
+	{
+		wxFileName fn(inOut[i]);
+		inOut[i] = wxFileSystem::FileNameToURL(fn);
+	}
+}
+
+
+bool SjFolderScannerModule::IterateFile__(const wxString&        url,
                                           bool                   deepUpdate,
                                           const wxString&        arts,
                                           unsigned long          crc32,
@@ -713,6 +693,10 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, //
                                           SjColModule*           receiver,
                                           long&                  retTrackCount )
 {
+	wxASSERT( url.Left(5) == "file:" );
+	wxASSERT( url.Find('\\') ==  wxNOT_FOUND );
+	wxASSERT( url.Last()!='\\' && url.Last()!='/' );
+
 	bool                ret = FALSE;
 	wxFileSystem        fileSystem;
 	wxFSFile*           fsFile = NULL;
@@ -720,13 +704,13 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, //
 	SjTrackInfo*        trackInfo = NULL;
 
 	// update info
-	if( !SjBusyInfo::Set(urlDontRead, FALSE) )
+	if( !SjBusyInfo::Set(url, FALSE) )
 	{
 		goto Cleanup; // user abort
 	}
 
 	// get wxFilesSystem object (must be deleted on return), get file size
-	fsFile = fileSystem.OpenFile(urlDontRead,
+	fsFile = fileSystem.OpenFile(url,
 	                             (source->m_flags & SJ_FOLDERSCANNER_READID3)? (wxFS_READ|wxFS_SEEKABLE) : wxFS_READ); // when ID3 reading is enabled, we need seeking
 	if( fsFile == NULL )
 	{
@@ -734,13 +718,14 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, //
 		goto Cleanup;
 	}
 	fileSize = fsFile->GetStream()->GetSize();
+	wxASSERT( fsFile->GetLocation() == url );
 
 	// check if the track or any arts was modified since the last update process,
 	// we don't catch the cases an art was deleted this way...
 	crc32 = SjTools::Crc32AddLong(crc32, fsFile->GetModificationTime().GetAsDOS());
 
 	if( deepUpdate==FALSE
-	 && receiver->Callback_CheckTrackInfo(fsFile->GetLocation(), crc32) )
+	 && receiver->Callback_CheckTrackInfo(url, crc32) )
 	{
 		ret = TRUE; // success, the file is already in the database
 		retTrackCount++;
@@ -748,7 +733,7 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, //
 	}
 
 	// check if the current extension can be handled by the player
-	if( !g_mainFrame->m_player.TestUrl(urlDontRead) )
+	if( !g_mainFrame->m_player.TestUrl(url) )
 	{
 		ret = TRUE; // error, but continue
 		goto Cleanup;
@@ -762,7 +747,7 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, //
 		goto Cleanup;
 	}
 
-	trackInfo->m_url        = fsFile->GetLocation();
+	trackInfo->m_url        = url;
 	trackInfo->m_updatecrc  = crc32;
 
 	{
@@ -781,7 +766,7 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        urlDontRead, //
 		 || trackInfo->m_trackName.IsEmpty()
 		 || trackInfo->m_leadArtistName.IsEmpty() )
 		{
-			m_trackInfoMatcherObj.m_url = fsFile->GetLocation();
+			m_trackInfoMatcherObj.m_url = url;
 			source->m_trackInfoMatcher.Match(m_trackInfoMatcherObj, *trackInfo);
 		}
 
@@ -834,13 +819,16 @@ Cleanup:
 }
 
 
-bool SjFolderScannerModule::IterateDir__(const wxString&        url,
+bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or may not terminate with a slash
                                          const wxString&        onlyThisFile,
                                          bool                   deepUpdate,
                                          SjFolderScannerSource* source,
                                          SjColModule*           receiver,
                                          long&                  retTrackCount )
 {
+	wxASSERT( url.Left(5) == "file:" );
+	wxASSERT( onlyThisFile.Left(5) == "file:" || onlyThisFile.IsEmpty() );
+
 	// progress information
 	if( !SjBusyInfo::Set(url, FALSE) )
 	{
@@ -863,16 +851,24 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url,
 		fileSystem.ChangePathTo(url, TRUE/*is dir*/);
 
 		// collect all FILES
-		wxFileName dirEntryFn  = wxFileSystem::URLToFileName(url);
-		dirEntryStr = dirEntryFn.GetFullPath();
-		if( dirEntryFn.IsOk() && wxDir::Exists(dirEntryStr) )
+		bool scanUsingFS = true;
+
+		if( source->m_flags&SJ_FOLDERSCANNER_READHIDDENFILES )
 		{
-			// ... collect FILES using wxDir (allows us to read HIDDEN files)
-			wxDir::GetAllFiles(dirEntryStr, &fileEntries, wxT("*"),
-			                   wxDIR_FILES
-			                   |   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENFILES)? wxDIR_HIDDEN : 0));
+			wxFileName dirEntryFn  = wxFileSystem::URLToFileName(url);
+			dirEntryStr = dirEntryFn.GetFullPath();
+			if( dirEntryFn.IsOk() && wxDir::Exists(dirEntryStr) )
+			{
+				// ... collect FILES using wxDir (allows us to read HIDDEN files)
+				wxDir::GetAllFiles(dirEntryStr, &fileEntries, wxT("*"),
+								   wxDIR_FILES
+								   |   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENFILES)? wxDIR_HIDDEN : 0));
+				FileNamesToURLs(fileEntries);
+				scanUsingFS = false;
+			}
 		}
-		else
+
+		if( scanUsingFS )
 		{
 			// ... collect FILES using wxFileSystem
 			dirEntryStr = fileSystem.FindFirst(wxT("*"), wxFILE);
@@ -885,22 +881,31 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url,
 
 
 		// collect all DIRECTORIES
-		dirEntryStr = dirEntryFn.GetFullPath();
-		if( dirEntryFn.IsOk() && wxDir::Exists(dirEntryStr) )
+		scanUsingFS = true;
+
+		if( source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS )
 		{
 			// ... collect all DIRECTORIES using wxDir (allows us to read HIDDEN files - see http://www.silverjuke.net/forum/topic-3765.html)
-			wxDir theDir(dirEntryStr);
-			wxString theEntry;
-			bool cont = theDir.GetFirst(&theEntry, wxT("*"),  wxDIR_DIRS
-			        |   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS)? wxDIR_HIDDEN : 0));
-			while ( cont )
+			wxFileName dirEntryFn  = wxFileSystem::URLToFileName(url);
+			wxString dirEntryStr = dirEntryFn.GetFullPath();
+			if( dirEntryFn.IsOk() && wxDir::Exists(dirEntryStr) )
 			{
-				theEntry = dirEntryStr + wxT("\\") + theEntry;
-				subdirEntries.Add(theEntry);
-				cont = theDir.GetNext(&theEntry);
+				wxDir theDir(dirEntryStr);
+				wxString theEntry;
+				bool cont = theDir.GetFirst(&theEntry, wxT("*"),  wxDIR_DIRS
+						|   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS)? wxDIR_HIDDEN : 0));
+				while ( cont )
+				{
+					theEntry = SjTools::EnsureTrailingSlash(dirEntryStr) + theEntry;
+					subdirEntries.Add(SjTools::EnsureTrailingSlash(theEntry));
+					cont = theDir.GetNext(&theEntry);
+				}
+				FileNamesToURLs(subdirEntries);
+				scanUsingFS = false;
 			}
 		}
-		else
+
+		if( scanUsingFS )
 		{
 			// ... collect all DIRECTORIES using wxFileSystem
 			dirEntryStr = fileSystem.FindFirst(wxT("*"), wxDIR);
@@ -1030,15 +1035,14 @@ bool SjFolderScannerModule::IterateTrackInfo(SjColModule* receiver)
 			{
 				// iterate just a single file.
 				wxFileName fn(currSource->m_url, currSource->m_file);
-				fn.Normalize();
-				onlyThisFile = fn.GetFullPath();
+				onlyThisFile = wxFileSystem::FileNameToURL(fn);
 			}
 			else if( !deepUpdate && !(currSource->m_flags&SJ_FOLDERSCANNER_DOUPDATE) )
 			{
 				// this folder should not be updated automatically;
 				// however, the column module may also decide that this is neccessary
-				wxString urlBegin = currSource->m_url;
-				urlBegin.Replace(wxT("\\"), wxT("/"));
+				wxFileName fn(currSource->m_url);
+				wxString urlBegin = wxFileSystem::FileNameToURL(fn);
 				if( urlBegin.Last()!='/' ) urlBegin += '/';
 				if( receiver->Callback_MarkAsUpdated(urlBegin, GetTrackCount__(currSource)) )
 				{
@@ -1049,8 +1053,9 @@ bool SjFolderScannerModule::IterateTrackInfo(SjColModule* receiver)
 			// start source iteration
 			if( doIterateDir )
 			{
+				wxFileName fn(currSource->m_url);
 				long trackCount = 0;
-				if( !IterateDir__(currSource->m_url, onlyThisFile, deepUpdate, currSource, receiver, trackCount) )
+				if( !IterateDir__(wxFileSystem::FileNameToURL(fn), onlyThisFile, deepUpdate, currSource, receiver, trackCount) )
 				{
 					ret = FALSE;  // user abort
 					break;

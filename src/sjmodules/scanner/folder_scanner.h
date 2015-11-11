@@ -78,7 +78,7 @@ public:
 
 	bool            IterateTrackInfo    (SjColModule* receiver);
 	bool            SetTrackInfo        (const wxString& url, SjTrackInfo&);
-	bool            IsMyUrl             (const wxString& url) { return GetSourceObj__(url)!=NULL; }
+	bool            IsMyUrl             (const wxString& url) { return url.Left(5)=="file:"? true : false; }
 
 	bool            AddUrl              (const wxString& url);
 
@@ -88,8 +88,7 @@ protected:
 private:
 	SjFolderScannerSourceList m_listOfSources;
 
-	SjFolderScannerSource* GetSourceObj__      (long index);
-	SjFolderScannerSource* GetSourceObj__      (const wxString& url);
+	SjFolderScannerSource* GetSourceObj__(long index);
 
 	SjTrackInfo     m_trackInfoMatcherObj;
 

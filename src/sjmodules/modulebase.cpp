@@ -83,7 +83,6 @@ SjModuleSystem::~SjModuleSystem()
 }
 
 
-/*
 static void fileName2Url__(wxSqlt& sql, const wxString& table)
 {
 	wxArrayLong   ids;
@@ -106,7 +105,6 @@ static void fileName2Url__(wxSqlt& sql, const wxString& table)
 		sql.Query("UPDATE "+table+" SET url='"+sql.QParam(url)+"' WHERE id="+wxString::Format("%i", (int)ids.Item(i)));
 	}
 }
-*/
 
 
 void SjModuleSystem::Init()
@@ -154,7 +152,7 @@ void SjModuleSystem::Init()
 		// _larger_, the database cannot be opened.  However, the version
 		// normally does not change at all as we can add tables and fields as
 		// needed.
-		#define CURR_DB_VERSION 1L
+		#define CURR_DB_VERSION 2L
 
 		// ...init database...
 		if( !db->ExistsBeforeOpening() )
@@ -179,11 +177,11 @@ void SjModuleSystem::Init()
 			// subsequent opening
 			wxSqlt sql;
 			long dbversion = sql.ConfigRead(wxT("dbversion"), -1);
-			/*
 			if( dbversion == 1 )
 			{
 				// in dbversion1 there were some bugs in the file system; most tracks were store using file names, tracks with problems may be stored using file://.  This lead to many confusing situations.
 				// in dbversion2, we expect all tracks to use file://-URLs
+				// this coversion was added 11/2015 for upgrading Silverjuke 15.4-15.8 to 15.9, thus the conversion is only used by a very small part of users
 				wxBusyCursor busy;
 				{
 					wxSqltTransaction transaction;
@@ -194,7 +192,6 @@ void SjModuleSystem::Init()
 				}
 				dbversion = sql.ConfigRead(wxT("dbversion"), -1);
 			}
-			*/
 
 			if( dbversion != CURR_DB_VERSION )
 			{
