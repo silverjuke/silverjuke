@@ -4084,12 +4084,17 @@ wxString SjTrackInfoMatcher::GetDefaultPattern()
 }
 
 
-wxString SjTrackInfoMatcher::NormalizeUrl(const wxString& filename)
+wxString SjTrackInfoMatcher::NormalizeUrl(const wxString& url)
 {
-	wxString ret(filename);
+	wxString ret(url);
 
 	if( m_tiFieldToSplit == SJ_TI_URL )
 	{
+		if( ret.Left(5)=="file:" )
+		{
+			ret = wxFileSystem::URLToFileName(ret).GetFullPath();
+		}
+
 		ret.Prepend(wxT('/'));
 		m_slashReplacer.ReplaceAll(&ret, wxT("/"));
 	}
