@@ -433,8 +433,8 @@ enum SjIcon
 class SjTools
 {
 public:
-	SjTools();
-	~SjTools();
+	                SjTools();
+	                ~SjTools();
 
 	/********************************************************************
 	 *  Crash Precaution
@@ -460,8 +460,7 @@ public:
 private:
 	void            InitCrashPrecaution ();
 	wxString        m_crashInfoFileName;
-	wxCriticalSection
-	m_crashPrecautionLocker;
+	wxCriticalSection m_crashPrecautionLocker;
 
 
 	/********************************************************************
@@ -500,17 +499,16 @@ public:
 	 ********************************************************************/
 
 public:
-	static unsigned long	Crc32Init           ();
-	static unsigned long	Crc32Add            (unsigned long crc32, const char* buffer, int bufferBytes);
-	static unsigned long	Crc32AddLong        (unsigned long crc32, long lng)	{ return Crc32Add(crc32, (const char*)&lng, sizeof(long)); }
-	static unsigned long	Crc32AddString      (unsigned long crc32, const wxString& string) { const wxCharBuffer stringBuffer = string.mb_str(wxConvUTF8); const char* stringPtr = stringBuffer.data();	return Crc32Add(crc32, stringPtr, strlen(stringPtr)); }
+	static unsigned long Crc32Init      ();
+	static unsigned long Crc32Add       (unsigned long crc32, const char* buffer, int bufferBytes);
+	static unsigned long Crc32AddLong   (unsigned long crc32, long lng)	{ return Crc32Add(crc32, (const char*)&lng, sizeof(long)); }
+	static unsigned long Crc32AddString (unsigned long crc32, const wxString& string) { const wxCharBuffer stringBuffer = string.mb_str(wxConvUTF8); const char* stringPtr = stringBuffer.data();	return Crc32Add(crc32, stringPtr, strlen(stringPtr)); }
 	static void     ToggleFlag          (long& bitfield, long flag) { if(bitfield&flag) {bitfield&=~flag;} else {bitfield|=flag;} }
 	static void     SetFlag             (long& bitfield, long flag, bool set) { if(set) {bitfield|=flag;} else {bitfield&=~flag;} }
 	static bool     SetFlagRetChanged   (long& bitfield, long flag, bool set) { long old=bitfield; SetFlag(bitfield, flag, set); return (old!=bitfield)/*return TRUE if changed*/; }
 private:
 	static bool     m_crc32InitDone;
-	static unsigned long
-	m_crc32Table[256];
+	static unsigned long m_crc32Table[256];
 
 public:
 	static long     Rand                (long n); // returns a value between 0 and n-1
@@ -828,10 +826,10 @@ private:
 class SjCoverFinder
 {
 public:
-	                SjCoverFinder(const wxString& keywords=wxEmptyString) { Init(keywords); }
-	void            Init(const wxString& keywords);
-	long            Apply(const wxArrayString& paths, const wxString& albumName); // returns the index in the given array or -1
-	wxString        GetWords() { return m_keywords;} ;
+	                SjCoverFinder       (const wxString& keywords=wxEmptyString) { Init(keywords); }
+	void            Init                (const wxString& keywords);
+	long            Apply               (const wxArrayString& paths, const wxString& albumName); // returns the index in the given array or -1
+	wxString        GetWords            () { return m_keywords;} ;
 
 private:
 	wxString        m_keywords;
@@ -851,9 +849,9 @@ public:
 	// constructor
 	// if you give a char-buffer to the constructor, this buffer is NOT freed,
 	// but MODIFIED (line ends to zeros)
-	SjLineTokenizer     (const wxString&);
+	                SjLineTokenizer     (const wxString&);
 	//SjLineTokenizer   (wxChar* data, long dataBytes);
-	~SjLineTokenizer    ();
+	                ~SjLineTokenizer    ();
 
 	// get next line, line will be null-terminated.
 	// as SjLineTokenizer treats both, "\n" and "\r" as lineends,
@@ -888,7 +886,7 @@ public:
 	void            Clear               () { m_hash.Clear(); m_keys.Clear(); m_values.Clear(); m_i = 0; }
 
 	// lookup a key
-	wxString Lookup              (const wxString& key, const wxString& defVal) const
+	wxString Lookup(const wxString& key, const wxString& defVal) const
 	{
 		wxString* val = m_hash.Lookup(key);
 		if( val && !val->IsEmpty() )
@@ -921,14 +919,14 @@ class SjStringSerializer
 {
 public:
 	// serialize strings
-	SjStringSerializer  () { m_hasErrors=FALSE; }
+					SjStringSerializer  () { m_hasErrors=FALSE; }
 	void            AddString           (const wxString&);
 	void            AddLong             (long);
 	void            AddFloat            (float);
 	wxString        GetResult           () const { return m_str; }
 
 	// unserialize string
-	SjStringSerializer  (const wxString& str);
+	                SjStringSerializer  (const wxString& str);
 	wxString        GetString           ();
 	long            GetLong             ();
 	float           GetFloat            ();
@@ -951,8 +949,8 @@ private:
 class SjStrReplacer
 {
 public:
-	SjStrReplacer       () { m_compiled = FALSE; }
-	SjStrReplacer       (const wxString& pattern, const wxString& replacement, long flags=0) { Compile(pattern, replacement, flags); }
+	                SjStrReplacer       () { m_compiled = FALSE; }
+	                SjStrReplacer       (const wxString& pattern, const wxString& replacement, long flags=0) { Compile(pattern, replacement, flags); }
 
 	#define         wxRE_WHOLEWORDS     0x10000000L
 	#define         wxRE_REGEX          0x20000000L
@@ -977,7 +975,7 @@ private:
 class SjPlaceholdReplacer
 {
 public:
-	SjPlaceholdReplacer () { }
+	                SjPlaceholdReplacer () { }
 	virtual         ~SjPlaceholdReplacer() { }
 	void            ReplaceAll          (wxString& text);
 
@@ -1031,9 +1029,9 @@ private:
 	wxString        m_highPriorityDelim;
 	wxArrayString   m_goBack;
 	int             m_goForward;
-#ifdef __WXDEBUG__
-	wxString       m_pattern;
-#endif
+    #ifdef __WXDEBUG__
+		wxString    m_pattern;
+    #endif
 };
 
 
