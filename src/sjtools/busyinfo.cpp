@@ -81,7 +81,7 @@ SjBusyInfo::SjBusyInfo(wxWindow *parent, const wxString& title, bool canCancel, 
 	sizer1->Add(sizer2b, 1, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	m_objectNameWindow = new wxStaticText(this, -1, title,
-	                                      wxDefaultPosition, wxSize(TEXT_W, -1), wxALIGN_LEFT | wxST_NO_AUTORESIZE /*| wxBORDER*/);
+	                                      wxDefaultPosition, wxSize(500, -1), wxALIGN_LEFT | wxST_NO_AUTORESIZE /*| wxBORDER*/);
 	sizer2b->Add(m_objectNameWindow, 0, wxGROW|wxLEFT|wxRIGHT|wxTOP
 	             , SJ_DLG_SPACE);
 
@@ -115,7 +115,6 @@ SjBusyInfo::SjBusyInfo(wxWindow *parent, const wxString& title, bool canCancel, 
 
 	// init done, center dialog
 	sizer1->SetSizeHints(this);
-	SetSize(-1, -1, 500,  -1);
 	CentreOnParent();
 
 	// show and disable parent

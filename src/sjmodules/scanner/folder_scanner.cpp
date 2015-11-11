@@ -724,7 +724,7 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        url,
 	SjTrackInfo*        trackInfo = NULL;
 
 	// update info
-	if( !SjBusyInfo::Set(url, FALSE) )
+	if( !SjBusyInfo::Set() )
 	{
 		goto Cleanup; // user abort
 	}
@@ -850,7 +850,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 	wxASSERT( onlyThisFile.Left(5) == "file:" || onlyThisFile.IsEmpty() );
 
 	// progress information
-	if( !SjBusyInfo::Set(url, FALSE) )
+	if( !SjBusyInfo::Set(wxFileSystem::URLToFileName(url).GetFullPath(), FALSE) )
 	{
 		return FALSE;
 	}
@@ -960,7 +960,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 		 && !source->m_ignoreExt.LookupExt(currExt)
 		 &&  g_mainFrame->m_moduleSystem.FindImageHandlerByExt(currExt) )
 		{
-			if( !SjBusyInfo::Set(currUrl, FALSE) )
+			if( !SjBusyInfo::Set() )
 			{
 				return FALSE;
 			}
