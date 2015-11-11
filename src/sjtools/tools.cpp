@@ -1955,8 +1955,15 @@ wxString SjTools::GetLastDir(const wxString& path)
 
 wxString SjTools::ShortenUrl(const wxString& url, long maxChars)
 {
-	// preprocess
 	wxString ret = url;
+
+	// convert file:-URLs to local filename
+	if( ret.Left(5)=="file:" )
+	{
+		ret = wxFileSystem::URLToFileName(ret).GetFullPath();
+	}
+
+	// preprocess
 	bool hasBackslashes = FALSE;
 	if( url.Find('\\')!=-1 )
 	{
