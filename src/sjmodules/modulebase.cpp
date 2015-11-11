@@ -478,6 +478,12 @@ SjExtList SjModuleSystem::GetAssignedExt(long flags)
 	}
 
 	// files types read along with the playable files
+	if( flags & SJ_EXT_ARCHIVES )
+	{
+		ret.AddExt(wxT("tar"));
+		ret.AddExt(wxT("zip"));
+	}
+
 	if( flags & SJ_EXT_IMAGEFILES )
 	{
 		ret.AddExt(m_imageExtList);

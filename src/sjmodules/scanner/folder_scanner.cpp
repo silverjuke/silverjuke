@@ -83,6 +83,7 @@ private:
 	wxCheckBox*     m_doUpdateCheckBox;
 	wxCheckBox*     m_readHiddenFilesCheckBox;
 	wxCheckBox*     m_readHiddenDirsCheckBox;
+	wxCheckBox*     m_readZipCheckBox;
 	wxCheckBox*     m_readId3CheckBox;
 	wxTextCtrl*     m_ignoreExtTextCtrl;
 	wxTextCtrl*     m_infoMaskTextCtrl;
@@ -137,6 +138,7 @@ SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScan
 	m_doUpdateCheckBox = NULL;
 	m_readHiddenFilesCheckBox = NULL;
 	m_readHiddenDirsCheckBox = NULL;
+	m_readZipCheckBox = NULL;
 	if( isDir )
 	{
 		sizer2->Add(new wxStaticText(this, -1,
@@ -164,6 +166,11 @@ SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScan
 		m_readHiddenDirsCheckBox = new wxCheckBox(this, -1, _("Read hidden folders"));
 		m_readHiddenDirsCheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS? TRUE : FALSE);
 		sizer2->Add(m_readHiddenDirsCheckBox, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
+		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
+
+		m_readZipCheckBox = new wxCheckBox(this, -1, _("Read inside ZIP-/TAR-archives"));
+		m_readZipCheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_READZIP? TRUE : FALSE);
+		sizer2->Add(m_readZipCheckBox, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
 	}
 	else
@@ -270,6 +277,11 @@ void SjFolderSettingsDialog::OnReset(wxCommandEvent&)
 		m_readHiddenDirsCheckBox->SetValue((SJ_FOLDERSCANNER_READHIDDENDIRS&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
 	}
 
+	if( m_readZipCheckBox )
+	{
+		m_readZipCheckBox->SetValue((SJ_FOLDERSCANNER_READZIP&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
+	}
+
 	if( m_readId3CheckBox )
 	{
 		m_readId3CheckBox->SetValue((SJ_FOLDERSCANNER_READID3&SJ_FOLDERSCANNER_DEFFLAGS)!=0);
@@ -325,6 +337,14 @@ bool SjFolderScannerModule::ConfigSource(long index, wxWindow* parent)
 	if( dlg.m_readHiddenDirsCheckBox )
 	{
 		if( SjDialog::ApplyToBitfield(dlg.m_readHiddenDirsCheckBox, currSourceObj->m_flags, SJ_FOLDERSCANNER_READHIDDENDIRS) )
+		{
+			needsUpdate = TRUE;
+		}
+	}
+
+	if( dlg.m_readZipCheckBox )
+	{
+		if( SjDialog::ApplyToBitfield(dlg.m_readZipCheckBox, currSourceObj->m_flags, SJ_FOLDERSCANNER_READZIP) )
 		{
 			needsUpdate = TRUE;
 		}
@@ -601,7 +621,7 @@ long SjFolderScannerModule::AddSources(int sourceType, wxWindow* parent)
 		wxFileDialog fileDialog(parent,
 		                        _("Select music-file"),
 		                        defSource? defSource->m_url : wxString(wxT("")),
-		                        wxT(""), g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_MUSICFILES).GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
+		                        wxT(""), g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_MUSICFILES|SJ_EXT_ARCHIVES).GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
 		if( fileDialog.ShowModal() != wxID_OK )
 		{
 			return -1; // nothing added
@@ -649,7 +669,7 @@ long SjFolderScannerModule::DoAddUrl(const wxString& newUrl__, const wxString& n
 
 	if( !newFile.IsEmpty() )
 	{
-		currSourceObj->m_flags |= SJ_FOLDERSCANNER_READHIDDENFILES|SJ_FOLDERSCANNER_READHIDDENDIRS;
+		currSourceObj->m_flags |= SJ_FOLDERSCANNER_READZIP|SJ_FOLDERSCANNER_READHIDDENFILES|SJ_FOLDERSCANNER_READHIDDENDIRS;
 	}
 
 	m_listOfSources.Append(currSourceObj);
@@ -911,6 +931,8 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 			dirEntryStr = fileSystem.FindFirst(wxT("*"), wxDIR);
 			while( !dirEntryStr.IsEmpty() )
 			{
+				dirEntryStr.Replace(wxT("tar:/"), wxT("tar:")); // THIS IS A HACK!!!
+				dirEntryStr.Replace(wxT("zip:/"), wxT("zip:")); // THIS IS A HACK!!!
 				// the files system returns directories as
 				// "c:/bla/bla.zip#zip:/dir" which must be called
 				// "c:/bla/bla.zip#zip:dir"
@@ -964,7 +986,15 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 		currUrl = fileEntries.Item(entryIndex);
 		currExt = SjTools::GetExt(currUrl);
 
-		if( !source->m_ignoreExt.LookupExt(currExt) )
+		if( (source->m_flags&SJ_FOLDERSCANNER_READZIP) && currExt == wxT("zip") )
+		{
+			subdirEntries.Add(currUrl + wxT("#zip:/"));
+		}
+		else if( (source->m_flags&SJ_FOLDERSCANNER_READZIP) && currExt == wxT("tar") )
+		{
+			subdirEntries.Add(currUrl + wxT("#tar:/"));
+		}
+		else if( !source->m_ignoreExt.LookupExt(currExt) )
 		{
 			// the file is an understood media file
 			if( !IterateFile__(currUrl, deepUpdate, arts, crc32, source, receiver, retTrackCount) )
