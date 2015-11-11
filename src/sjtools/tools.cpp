@@ -69,6 +69,7 @@
 
 
 SjTools*    g_tools = NULL;
+int         g_debug = 0; // use debug output as wxASSERT()? can be enabled by `debug=1` in section `[main]` in `globals.ini`
 
 
 SjTools::SjTools()
@@ -125,25 +126,27 @@ SjTools::SjTools()
 		m_oldConfig = NULL;
 	}
 
-	// enable/disable assert
-	#if wxCHECK_VERSION(2, 9, 1)
+	// enable/disable debug
+	g_debug = m_config->Read("main/debug", 0L);
+	if( g_debug )
 	{
-		long assertSetting = m_config->Read("main/assert", 0L);
-		if( assertSetting == 0 )
-		{
-			wxSetAssertHandler(NULL);
-		}
-		else
-		{
-			wxLogInfo(wxT("Asserts enabled by globals.ini"));
+		wxLogInfo(wxT("Debug enabled by globals.ini"));
+		#if wxCHECK_VERSION(2, 9, 1)
 			wxSetDefaultAssertHandler();
-			if( assertSetting == 2 )
+			if( g_debug&0x02 )
 			{
 				wxASSERT_MSG(0, "Just a Test assert");
 			}
-		}
+		#else
+			wxLogWarning("Assert messages cannot be enabled, please use a more recent version of wxWidgets");
+		#endif
 	}
-	#endif
+	else
+	{
+		#if wxCHECK_VERSION(2, 9, 1)
+			wxSetAssertHandler(NULL);
+		#endif
+	}
 
 	// set the desired instance name; the instance name is empty for the default instance
 	// or defaults to the INI-file name

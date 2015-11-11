@@ -1335,7 +1335,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	/* (/) Some Functionality Tests
 	 */
-	if( g_tools->m_config->Read(wxT("main/testdrive"), 0L) )
+	if( g_debug )
 	{
 		SjTestdrive1();
 	}
