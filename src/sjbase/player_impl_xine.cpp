@@ -263,10 +263,33 @@ public:
 		xine_event_create_listener_thread(m_event_queue, xine_event_listener_cb, (void*)this);
 
 		// open a URL for the stream
-		if( !xine_open(m_stream, static_cast<const char*>(m_url.mb_str(wxConvUTF8))) ) {
-			cleanup();
-			wxLogError(wxT("xine_open() failed."));
-			return false;
+		if( !xine_open(m_stream, static_cast<const char*>(m_url.mb_str(wxConvUTF8))) )
+		{
+			// failed, as xine is compatible to file:-URLs, this URL may be http, ZIP or sth. like that.
+			// try over by copying the URL to a local file
+			bool failed = true;
+			wxFileSystem fs;
+			wxFSFile* fsFile = fs.OpenFile(m_url, wxFS_READ);
+			if( fsFile )
+			{
+				wxString tempFileName = g_tools->m_cache.AddToManagedTemp(SjTools::GetExt(m_url), SJ_TEMP_PROTECT_TIL_EXIT);
+				wxFile tempFile(tempFileName, wxFile::write);
+				if( SjTools::CopyStreamToFile(*(fsFile->GetStream()), tempFile) )
+				{
+					if( xine_open(m_stream, static_cast<const char*>(tempFileName.mb_str(wxConvUTF8))) )
+					{
+						failed = false;
+					}
+				}
+				delete fsFile;
+			}
+
+			if( failed )
+			{
+				cleanup();
+				wxLogError(wxT("xine_open() failed."));
+				return false;
+			}
 		}
 
 		// finally, play

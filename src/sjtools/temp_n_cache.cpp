@@ -524,7 +524,7 @@ wxString SjTempNCache::AddToManagedTemp(const wxString& ext__,
 		ext = wxT("tmp");
 	}
 
-	wxString orgFileName = wxString::Format(wxT("temp:%lu-%lu.%s"), (unsigned long)SjTools::GetMsTicks(), SjTools::Rand(0x10000000L), ext.c_str());
+	wxString orgFileName = wxString::Format(wxT("temp:%lu-%lu.%s"), (unsigned long)SjTools::GetMsTicks(), (unsigned long)SjTools::Rand(0x10000000L), ext.c_str());
 	return Add(orgFileName, protectTilExit, TRUE/*do lock*/);
 }
 
@@ -574,7 +574,7 @@ static wxString GetIDdName(const wxString& orgFileName,
 		ext = wxT("tmp");
 	}
 
-	return wxString::Format(SJ_TEMP_PREFIX wxT("%08x.%s"), (unsigned long)id, ext.c_str());
+	return wxString::Format(SJ_TEMP_PREFIX wxT("%08x.%s"), (int)id, ext.c_str());
 }
 
 
