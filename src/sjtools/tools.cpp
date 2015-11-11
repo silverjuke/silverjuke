@@ -1138,6 +1138,31 @@ wxString SjTools::EnsureValidPathChars(const wxString& path)
 }
 
 
+wxString SjTools::EnsureTrailingSlash(const wxString& path)
+{
+	// is there already a trailing slash?
+	if( path.Last() == '/'
+	#if __WXMSW__
+	 || path.Last() == '\\'
+	#endif
+	)
+	{
+		return path;
+	}
+
+	// add a slash, for MSW, we add a forward slash if the path already contains one
+	#if __WXMSW__
+		if( path.Find('/') != wxNOT_FOUND )
+		{
+			return path + "/";
+		}
+		return path + "\\";
+	#else
+		return path + "/";
+	#endif
+}
+
+
 /*******************************************************************************
  * SjTools: String Tools
  ******************************************************************************/

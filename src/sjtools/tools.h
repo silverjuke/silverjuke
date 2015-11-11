@@ -609,9 +609,9 @@ public:
 	static bool             AreFilesSame        (const wxString& src, const wxString& dest);
 	static bool             CopyFile            (const wxString& src, const wxString& dest);
 	static bool             CopyStreamToFile    (wxInputStream&, wxFile&);
-	static wxString         EnsureValidFileNameChars
-	(const wxString&);
+	static wxString         EnsureValidFileNameChars (const wxString&);
 	static wxString         EnsureValidPathChars(const wxString&);
+	static wxString         EnsureTrailingSlash (const wxString&);
 
 
 	/********************************************************************

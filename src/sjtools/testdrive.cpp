@@ -185,6 +185,7 @@ void SjTestdrive1()
         wxASSERT(r==NULL);
 	}
 
+
 	/* test SjStringSerializer
 	*/
 	{
@@ -212,6 +213,20 @@ void SjTestdrive1()
 			wxASSERT( ser.HasErrors() );
 		}
 	}
+
+
+	/* test various string functions
+	*/
+	{
+		wxASSERT( SjTools::EnsureTrailingSlash("/test")  == "/test/" );
+		wxASSERT( SjTools::EnsureTrailingSlash("/test/") == "/test/" );
+		#ifdef __WXMSW__
+			wxASSERT( SjTools::EnsureTrailingSlash("\\test")  == "\\test\\" );
+			wxASSERT( SjTools::EnsureTrailingSlash("\\/test") == "\\/test/" );
+			wxASSERT( SjTools::EnsureTrailingSlash("/\\test") == "/\\test/" );
+		#endif
+	}
+
 
 	/* make sure, SjSLHash, SjSSHash are case-sensitibe while SjExtList is not (important eg. to allow exentensions as "MP3" on linux)
 	*/
