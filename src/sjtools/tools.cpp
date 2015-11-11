@@ -1965,7 +1965,7 @@ wxString SjTools::ShortenUrl(const wxString& url, long maxChars)
 
 	// preprocess
 	bool hasBackslashes = FALSE;
-	if( url.Find('\\')!=-1 )
+	if( ret.Find('\\')!=-1 )
 	{
 		hasBackslashes = TRUE;
 	}
