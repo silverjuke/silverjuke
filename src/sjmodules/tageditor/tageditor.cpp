@@ -990,16 +990,32 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 	wxASSERT( (urlCount == 1 && !m_dataMultiEdit) || (urlCount > 1 && m_dataMultiEdit) );
 	if( !m_dataMultiEdit )
 	{
-		p.Add(_("File name"), m_dataStat.m_url, SJ_PROP_BOLD);
+		wxString filename = m_dataStat.m_url;
+		if( filename.StartsWith("file:") )
+		{
+			filename = wxFileSystem::URLToFileName(filename).GetFullPath();
+		}
+
+		p.Add(_("File name"), filename, SJ_PROP_BOLD);
+
 		cacheName = g_tools->m_cache.LookupCache(m_dataStat.m_url);
 		if( !cacheName.IsEmpty() )
 		{
 			m_dataStat.m_dataBytes = g_tools->GetFileSize(cacheName);
 		}
 	}
-	else for( i = 0; i < urlCount; i++ )
+	else
+	{
+		wxString filename;
+		for( i = 0; i < urlCount; i++ )
 		{
-			p.Add(i==0? _("File names") : wxT(""), m_dataUrls[i], SJ_PROP_BOLD);
+			filename = m_dataUrls[i];
+			if( filename.StartsWith("file:") )
+			{
+				filename = wxFileSystem::URLToFileName(filename).GetFullPath();
+			}
+
+			p.Add(i==0? _("File names") : wxT(""), filename, SJ_PROP_BOLD);
 
 			if( !showMoreInfo && i >= 2 && urlCount > 4 )
 			{
@@ -1010,6 +1026,7 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 
 			finalHtml = wxT("<p>") + SjTools::Htmlentities(_("The shown values are the sum or the average of all single values in the given files.")) + wxT("</p>");
 		}
+	}
 
 	// size
 	if( m_dataStat.m_dataBytes == 0 )
@@ -1124,11 +1141,16 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 			wxString ext = SjTools::GetExt(m_dataStat.m_url);
 			p.Add(_("File type"), ext);
 
-			if( wxFileExists(m_dataStat.m_url)
-			        || (!cacheName.IsEmpty()&&wxFileExists(cacheName)) )
+			wxString filename = m_dataStat.m_url;
+			if( filename.StartsWith("file:") ) {
+				filename = wxFileSystem::URLToFileName(filename).GetFullPath();
+			}
+
+			if( wxFileExists(filename)
+			 || (!cacheName.IsEmpty()&&wxFileExists(cacheName)) )
 			{
 				wxFileSystem fs;
-				wxFSFile* fsFile = fs.OpenFile(cacheName.IsEmpty()? m_dataStat.m_url : cacheName, wxFS_READ|wxFS_SEEKABLE);
+				wxFSFile* fsFile = fs.OpenFile(cacheName.IsEmpty()? filename : cacheName, wxFS_READ|wxFS_SEEKABLE);
 				if( fsFile )
 				{
 					SjGetMoreInfoFromID3Etc(fsFile, p);
@@ -1910,8 +1932,8 @@ void SjTagEditorModule::OpenTagEditor(SjTagEditorDlg* newTagEditorDlg)
 	m_dlg = newTagEditorDlg;
 
 	if( m_dlg->m_dlgNotebook
-	        && g_tagEditorModule->m_selPage >= 0
-	        && g_tagEditorModule->m_selPage < (int)m_dlg->m_dlgNotebook->GetPageCount() )
+	 && g_tagEditorModule->m_selPage >= 0
+	 && g_tagEditorModule->m_selPage < (int)m_dlg->m_dlgNotebook->GetPageCount() )
 	{
 		m_dlg->m_dlgNotebook->SetSelection(g_tagEditorModule->m_selPage);
 	}
