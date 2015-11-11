@@ -72,17 +72,10 @@ wxString SjByteFile::getLocalFileName() const
 	if( m_fsFile__ )
 	{
 		ret = m_fsFile__->GetLocation();
-		if( ret.StartsWith(wxT("file://")) )
+		if( ret.StartsWith(wxT("file:")) )
 		{
-			ret = ret.Mid(7);
+			ret = wxFileSystem::URLToFileName(ret).GetFullPath();
 		}
-		else if( ret.StartsWith(wxT("file:")) )
-		{
-			ret = ret.Mid(5);
-		}
-#ifdef __WXMSW__
-		ret.Replace(wxT("/"), wxT("\\"));
-#endif
 	}
 	return ret;
 }
@@ -97,9 +90,9 @@ bool SjByteFile::openForWriting()
 		{
 			m_file__triedOpening = TRUE;
 			#if defined(__WXMSW__) && wxUSE_UNICODE
-				m_file__ = _wfopen(static_cast<const wxChar*>(getLocalFileName().c_str()), wxT("rb+")); // the "b" for BINARY is really important!!! at least on MSW
+				m_file__ = _wfopen(static_cast<const wxChar*>(localFileName.c_str()), wxT("rb+")); // the "b" for BINARY is really important!!! at least on MSW
 			#else
-				m_file__ = fopen(getLocalFileName().fn_str(), "rb+"); // the "b" for BINARY is really important!!! at least on MSW - is fn_str() wxConvLibc?
+				m_file__ = fopen(localFileName.fn_str(), "rb+"); // the "b" for BINARY is really important!!! at least on MSW - is fn_str() wxConvLibc?
 			#endif
 			if( m_file__ )
 			{

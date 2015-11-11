@@ -668,7 +668,7 @@ bool SjTagEditorDlg::Dsk2Data_CopyAllData(int what, bool logErrors)
 		// supported if "multiEdit" was given to the constructor
 		urlCount = urls.GetCount();
 		if(  urlCount <= 0
-		        || (urlCount >  1 && !m_dataMultiEdit) )
+		 || (urlCount >  1 && !m_dataMultiEdit) )
 		{
 			return FALSE;
 		}
