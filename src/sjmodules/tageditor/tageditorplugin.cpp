@@ -422,12 +422,25 @@ void SjConfirmDlg::OnEdit(wxCommandEvent&)
 			SjModifyItem* item = m_items->GetItem(index);
 			if( item )
 			{
-				wxTextEntryDialog textEntry(this, _("New value")+wxString(wxT(":")), SjTrackInfo::GetFieldDescr(item->GetField()), item->GetNewVal());
+				long field = item->GetField(); bool convertValToUrl = false;
+				wxString valInEdit = item->GetNewVal();
+				if( field == SJ_TI_URL && valInEdit.StartsWith("file:") )
+				{
+					valInEdit = wxFileSystem::URLToFileName(valInEdit).GetFullPath();
+					convertValToUrl = true;
+				}
+
+				wxTextEntryDialog textEntry(this, _("New value")+wxString(wxT(":")), SjTrackInfo::GetFieldDescr(field), valInEdit);
 				if( textEntry.ShowModal() == wxID_OK )
 				{
-					item->SetNewVal(textEntry.GetValue());
-					m_listCtrl->Refresh();
+					valInEdit = textEntry.GetValue();
+					if( convertValToUrl )
+					{
+						valInEdit = wxFileSystem::FileNameToURL(wxFileName(valInEdit));
+					}
 
+					item->SetNewVal(valInEdit);
+					m_listCtrl->Refresh();
 					m_itemsEdited = TRUE; // we have to check for void modifications on close
 				}
 			}
@@ -508,7 +521,7 @@ bool SjConfirmDlg::TransferDataFromWindow()
 		{
 			item = m_items->GetItem(i);
 			if(  item
-			        && !item->IsModified() )
+			 && !item->IsModified() )
 			{
 				m_items->Delete(i);
 				i--; // same index again
