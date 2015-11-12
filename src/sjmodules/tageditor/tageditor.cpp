@@ -1141,6 +1141,8 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 			wxString ext = SjTools::GetExt(m_dataStat.m_url);
 			p.Add(_("File type"), ext);
 
+			p.Add(_("URL"), m_dataStat.m_url);
+
 			wxString filename = m_dataStat.m_url;
 			if( filename.StartsWith("file:") ) {
 				filename = wxFileSystem::URLToFileName(filename).GetFullPath();
