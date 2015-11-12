@@ -235,18 +235,41 @@ wxString SjModifyListCtrl::OnGetItemText(long index, long column) const
 	{
 		switch( column )
 		{
-			case CONFIRM_COL1_OLDURL:   return item->GetOldVal();
-			default:                    return item->GetNewVal();
+			case CONFIRM_COL1_OLDURL:
+				return item->GetOldVal();
+
+			default:
+				return item->GetNewVal();
 		}
 	}
 	else
 	{
 		switch( column )
 		{
-			case CONFIRM_COL2_FIELD:    return SjTrackInfo::GetFieldDescr(item->GetField());
-			case CONFIRM_COL2_OLDVAL:   return GetValDescr(item, FALSE);
-			case CONFIRM_COL2_NEWVAL:   return GetValDescr(item, TRUE);
-			default:                    if( m_items->IsFirstUrl(index) ) return item->GetUrl(); else return wxEmptyString;
+			case CONFIRM_COL2_FIELD:
+				return SjTrackInfo::GetFieldDescr(item->GetField());
+
+			case CONFIRM_COL2_OLDVAL:
+				return GetValDescr(item, FALSE);
+
+			case CONFIRM_COL2_NEWVAL:
+				return GetValDescr(item, TRUE);
+
+			default:
+				if( m_items->IsFirstUrl(index) )
+				{
+					wxString url = item->GetUrl();
+					if( url.StartsWith("file:") )
+					{
+						url = wxFileSystem::URLToFileName(url).GetFullPath();
+					}
+
+					return url;
+				}
+				else
+				{
+					return wxEmptyString;
+				}
 		}
 	}
 }
