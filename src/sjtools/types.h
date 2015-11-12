@@ -38,14 +38,7 @@ extern "C" {
 
 
 
-typedef unsigned char   SjUint8;
-typedef signed char     SjSint8;
-typedef unsigned short  SjUint16;
-typedef signed short    SjSint16;
-typedef unsigned int    SjUint32;
-typedef signed int      SjSint32;
-typedef unsigned int    SjUint;
-typedef signed int      SjSint;
+#define SjUint uint32_t // needed for tagger, _must_ be 32 bit, for future use, we should prefer using uint32_t etc. directly
 
 
 

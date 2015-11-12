@@ -499,16 +499,16 @@ public:
 	 ********************************************************************/
 
 public:
-	static unsigned long Crc32Init      ();
-	static unsigned long Crc32Add       (unsigned long crc32, const char* buffer, int bufferBytes);
-	static unsigned long Crc32AddLong   (unsigned long crc32, long lng)	{ return Crc32Add(crc32, (const char*)&lng, sizeof(long)); }
-	static unsigned long Crc32AddString (unsigned long crc32, const wxString& string) { const wxCharBuffer stringBuffer = string.mb_str(wxConvUTF8); const char* stringPtr = stringBuffer.data();	return Crc32Add(crc32, stringPtr, strlen(stringPtr)); }
+	static uint32_t Crc32Init           ();
+	static uint32_t Crc32Add            (uint32_t crc32, const char* buffer, int bufferBytes);
+	static uint32_t Crc32AddLong        (uint32_t crc32, long lng)	{ return Crc32Add(crc32, (const char*)&lng, sizeof(long)); }
+	static uint32_t Crc32AddString      (uint32_t crc32, const wxString& string) { const wxCharBuffer stringBuffer = string.mb_str(wxConvUTF8); const char* stringPtr = stringBuffer.data();	return Crc32Add(crc32, stringPtr, strlen(stringPtr)); }
 	static void     ToggleFlag          (long& bitfield, long flag) { if(bitfield&flag) {bitfield&=~flag;} else {bitfield|=flag;} }
 	static void     SetFlag             (long& bitfield, long flag, bool set) { if(set) {bitfield|=flag;} else {bitfield&=~flag;} }
 	static bool     SetFlagRetChanged   (long& bitfield, long flag, bool set) { long old=bitfield; SetFlag(bitfield, flag, set); return (old!=bitfield)/*return TRUE if changed*/; }
 private:
 	static bool     m_crc32InitDone;
-	static unsigned long m_crc32Table[256];
+	static uint32_t m_crc32Table[256];
 
 public:
 	static long     Rand                (long n); // returns a value between 0 and n-1

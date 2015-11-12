@@ -1487,7 +1487,7 @@ wxString SjTrackInfo::GetFieldDbName(long ti)
 bool SjTrackInfo::IsEqualTo(const SjTrackInfo& o) const
 {
 	if( // compare longs
-	    m_id            != o.m_id
+	       m_id            != o.m_id
 	    || m_updatecrc     != o.m_updatecrc
 	    || m_timeAdded     != o.m_timeAdded
 	    || m_timeModified  != o.m_timeModified

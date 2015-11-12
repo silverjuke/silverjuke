@@ -100,7 +100,7 @@ private:
 	                                     SjFolderScannerSource*, SjColModule* receiver,
 	                                     long& retTrackCount);
 	bool            IterateFile__       (const wxString& url, bool deepUpdate,
-	                                     const wxString& arts, unsigned long crc32,
+	                                     const wxString& arts, uint32_t crc32,
 	                                     SjFolderScannerSource*, SjColModule* receiver,
 	                                     long& retTrackCount);
 	long            GetTrackCount__     (SjFolderScannerSource*);

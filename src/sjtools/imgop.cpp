@@ -1165,8 +1165,8 @@ wxImage SjImgOp::CreateDummyCover(const wxString& albumDummyUrl, int wh)
 	if( text1.IsEmpty() ) { text1 = text2; text2.Clear(); }
 	if( text1.IsEmpty() ) { text1 = _("Unsorted tracks"); }
 
-	long holdrandArtist = g_tools->Crc32AddString(g_tools->Crc32Init(), text1.Lower());
-	long holdrandAlbum = g_tools->Crc32AddString(g_tools->Crc32Init(), albumDummyUrl.Lower());
+	long holdrandArtist = (long)g_tools->Crc32AddString(g_tools->Crc32Init(), text1.Lower());
+	long holdrandAlbum  = (long)g_tools->Crc32AddString(g_tools->Crc32Init(), albumDummyUrl.Lower());
 
 	switch( SjTools::PrivateRand(holdrandArtist, 3) )
 	{

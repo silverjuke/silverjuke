@@ -237,7 +237,7 @@ private:
 	void            SaveSettings        ();
 
 	bool            Callback_MarkAsUpdated	(const wxString& urlBegin, long checkTrackCount);
-	bool            Callback_CheckTrackInfo	(const wxString& url, unsigned long actualTimestamp);
+	bool            Callback_CheckTrackInfo	(const wxString& url, uint32_t actualTimestamp);
 	bool            Callback_ReceiveTrackInfo (SjTrackInfo*);
 
 	bool            WriteTrackInfo      (SjTrackInfo*, long trackId, bool writeArtIds=TRUE);

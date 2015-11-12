@@ -708,7 +708,7 @@ static void FileNamesToURLs(wxArrayString& inOut)
 bool SjFolderScannerModule::IterateFile__(const wxString&        url,
                                           bool                   deepUpdate,
                                           const wxString&        arts,
-                                          unsigned long          crc32,
+                                          uint32_t               crc32,
                                           SjFolderScannerSource* source,
                                           SjColModule*           receiver,
                                           long&                  retTrackCount )
@@ -948,7 +948,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 	wxString        currUrl;
 	wxString        currExt;
 	wxString        arts;
-	unsigned long   crc32 = SjTools::Crc32Init();
+	uint32_t        crc32 = SjTools::Crc32Init();
 	wxFileSystem    fileSystem;
 	wxFSFile*       fsFile;
 	for( entryIndex = 0; entryIndex < entriesCount; entryIndex++ )

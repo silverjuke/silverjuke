@@ -71,7 +71,7 @@ public:
 
 	wxString        m_url;          // eg. a file
 	long            m_id;           // internal, optional use, normally the URL should be used to identify a track
-	unsigned long   m_updatecrc;    // any number that changes if the track was modified
+	uint32_t        m_updatecrc;    // any number that changes if the track was modified
 	unsigned long   m_timeAdded;
 	unsigned long   m_timeModified;
 	unsigned long   m_timesPlayed;
@@ -383,7 +383,7 @@ public:
 	// it does not exist or is out of date.
 	// if you return TRUE, you should mark the URL as updated as you
 	// ReceiveTrackInfo() won't be called.
-	virtual bool    Callback_CheckTrackInfo(const wxString& url, unsigned long actualCrc32) = 0;
+	virtual bool    Callback_CheckTrackInfo(const wxString& url, uint32_t actualCrc32) = 0;
 
 	// ...receiving track information, the given object is owned by
 	// the function and should be deleted from it when no longer needed

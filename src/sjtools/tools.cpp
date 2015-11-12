@@ -219,7 +219,7 @@ SjTools::~SjTools()
 
 void SjTools::InitCrashPrecaution()
 {
-	unsigned long crc = Crc32AddString(Crc32Init(), wxGetUserId()+m_instance);
+	uint32_t crc = Crc32AddString(Crc32Init(), wxGetUserId()+m_instance);
 
 	m_crashInfoFileName = m_cache.AddToUnmanagedTemp(
 	                          wxString::Format(SJ_TEMP_PREFIX wxT("%08x-cp")
@@ -345,12 +345,12 @@ bool SjTools::CrashPrecaution(const wxString& module, const wxString& func, cons
 
 
 bool          SjTools::m_crc32InitDone = FALSE;
-unsigned long SjTools::m_crc32Table[256];
+uint32_t      SjTools::m_crc32Table[256];
 
 
-static unsigned long Crc32Reflect(unsigned long ref, unsigned char ch)
+static unsigned long Crc32Reflect(uint32_t ref, unsigned char ch)
 {
-	unsigned long value = 0;
+	uint32_t value = 0;
 	int i;
 
 	// Swap bit 0 for bit 7, bit 1 for bit 6, etc.
@@ -366,8 +366,10 @@ static unsigned long Crc32Reflect(unsigned long ref, unsigned char ch)
 }
 
 
-unsigned long SjTools::Crc32Init()
+uint32_t SjTools::Crc32Init()
 {
+	wxASSERT( sizeof(uint32_t) == 4 );
+
 	if( !m_crc32InitDone )
 	{
 		// This is the official polynomial used by CRC-32 in PKZip, WinZip and Ethernet.
@@ -391,11 +393,10 @@ unsigned long SjTools::Crc32Init()
 }
 
 
-unsigned long SjTools::Crc32Add(unsigned long crc32, const char* buffer__, int bufferBytes)
+uint32_t SjTools::Crc32Add(uint32_t crc32, const char* buffer__, int bufferBytes)
 {
 	// add bytes to add?
-	wxASSERT(bufferBytes >= 0);
-	if( bufferBytes == 0 )
+	if( bufferBytes <= 0 )
 	{
 		return crc32;
 	}

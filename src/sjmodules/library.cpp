@@ -710,7 +710,7 @@ bool SjLibraryModule::Callback_MarkAsUpdated(const wxString& urlBegin, long chec
 }
 
 
-bool SjLibraryModule::Callback_CheckTrackInfo(const wxString& url, unsigned long actualCrc)
+bool SjLibraryModule::Callback_CheckTrackInfo(const wxString& url, uint32_t actualCrc)
 {
 	if( !m_deepUpdate )
 	{
@@ -719,7 +719,7 @@ bool SjLibraryModule::Callback_CheckTrackInfo(const wxString& url, unsigned long
 		sql.Query(wxT("SELECT id, updatecrc FROM tracks WHERE url='") + sql.QParam(url) + wxT("'"));
 		if( sql.Next() )
 		{
-			if( (unsigned long)sql.GetLong(1) == actualCrc )
+			if( (uint32_t)sql.GetLong(1) == actualCrc )
 			{
 				m_updatedTracks.Add(sql.GetLong(0));
 				return TRUE;
