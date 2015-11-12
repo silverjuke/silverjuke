@@ -349,7 +349,6 @@ SjConfirmDlg::SjConfirmDlg(wxWindow* parent, SjModifyInfo& items, bool askWriteI
 	okButton->SetDefault();
 
 	m_sizer1->SetSizeHints(this);
-	LoadSize();
 	m_listCtrl->SizeColumns();
 	CenterOnParent();
 }
@@ -658,22 +657,6 @@ void SjTagEditorPlugin::AfterConstructor()
 	              0, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	m_sizer1->SetSizeHints(this);
-	LoadSize();
 	CenterOnParent();
 }
 
-
-void SjTagEditorPlugin::LoadSize()
-{
-	wxRect r = g_tools->ReadRect(wxT("tageditor/")+m_name+wxT("Pos"));
-	SetSize(0, 0, r.width,  r.height);
-}
-
-
-void SjTagEditorPlugin::SaveSize()
-{
-	if( !IsMaximized() )
-	{
-		g_tools->WriteRect(wxT("tageditor/")+m_name+wxT("Pos"), GetRect());
-	}
-}

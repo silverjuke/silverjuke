@@ -63,10 +63,8 @@ public:
 class SjTagEditorPlugin : public SjDialog
 {
 public:
-	SjTagEditorPlugin   (wxWindow* parent, const wxString& name, const wxString& title, SjTrackInfo* exampleTrackInfo);
+	                SjTagEditorPlugin   (wxWindow* parent, const wxString& name, const wxString& title, SjTrackInfo* exampleTrackInfo);
 	virtual         ~SjTagEditorPlugin  () { }
-	void            LoadSize            ();
-	void            SaveSize            ();
 	void            AfterConstructor    ();
 
 	// This function is called once before a serie of ModifyTrackInfo();
@@ -74,7 +72,7 @@ public:
 
 	// Change the given track information; any modifications must
 	// be added to SjConfirm using Add()
-	virtual void     ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&) { }
+	virtual void    ModifyTrackInfo     (SjTrackInfo&, int index, SjModifyInfo&) { }
 
 	// Called after a serie of ModifyTrackInfo(),
 	// you may return a message that should be presented to the user.
@@ -83,7 +81,7 @@ public:
 protected:
 	// misc.
 	void            OnCommand              (wxCommandEvent&);
-	bool            TransferDataFromWindow () { SaveSize(); return TRUE; }
+	bool            TransferDataFromWindow () { return TRUE; }
 	wxString        m_name;
 	wxSizer*        m_sizer1;
 	SjTrackInfo*    m_exampleTrackInfo;
@@ -134,8 +132,7 @@ private:
 	wxCheckBox*     m_writeId3CheckBox;
 	wxCheckBox*     m_delEmptyDirCheckBox;
 
-	SjModifyListCtrl*
-	m_listCtrl;
+	SjModifyListCtrl* m_listCtrl;
 
 	// events
 	#define         IDC_CONFIRM_LIST    (IDM_FIRSTPRIVATE+1)
