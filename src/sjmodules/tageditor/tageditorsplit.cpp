@@ -53,8 +53,8 @@ SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 	: SjTagEditorPlugin(parent, wxT("split"), _("Split field"), exampleTrackInfo)
 {
 	// init some pointers to avoid eg. UpdateExample() to crash when called unexpectedly by an event
+	// (m_exampleTrackInfo is already initialized by the parent constructor)
 	m_exampleCtrl = NULL;
-	m_exampleTrackInfo = NULL;
 	m_patternCtrl = NULL;
 
 	// load configuration
@@ -81,7 +81,7 @@ SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 	sizer3->Add(new wxStaticText(this, -1, _("Field to split:")), 0, wxALIGN_CENTER_VERTICAL|wxALIGN_RIGHT);
 
 	m_splitInChoice = new SjTrackInfoFieldChoice(this, IDC_SPLITIN);
-	m_splitInChoice->AppendFlags(SJ_TI_TRACKNAME
+	m_splitInChoice->AppendFlags( SJ_TI_TRACKNAME
 	                             |SJ_TI_LEADARTISTNAME
 	                             |SJ_TI_ORGARTISTNAME
 	                             |SJ_TI_COMPOSERNAME
@@ -131,11 +131,12 @@ SjSplitPlugin::SjSplitPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo)
 	m_insertButton->AddOption       (wxT("*"),          _("Void information"));
 	sizer4->Add(m_insertButton, 0, wxALIGN_CENTER_VERTICAL);
 
-	// example
+	// example (we use wxTextCtrl as this makes it easier to scroll to all changes and to see that there is more text)
 	wxStaticText* staticText = new wxStaticText(this, -1, _("Example:"));
 	sizer3->Add(staticText, 0, wxALIGN_TOP|wxALIGN_RIGHT);
 
-	m_exampleCtrl = new wxStaticText(this, -1, wxT("\n\n\n\n\n\n\n\n\n"), wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE);
+	m_exampleCtrl = new wxTextCtrl(this, -1, wxT(""), wxDefaultPosition, wxSize(-1, 100), wxTE_MULTILINE);
+	m_exampleCtrl->SetEditable(false);
 	sizer3->Add(m_exampleCtrl, 0, wxALIGN_TOP|wxGROW);
 
 	UpdateExample();
@@ -178,7 +179,7 @@ void SjSplitPlugin::UpdateExample()
 
 		summary.Prepend(SjTrackInfo::GetFieldDescr(fieldToSplit) + wxString(wxT(": ")) + fieldToSplitValue + wxT("\n"));
 
-		m_exampleCtrl->SetLabel(summary);
+		m_exampleCtrl->SetValue(summary);
 	}
 }
 

@@ -46,7 +46,7 @@ private:
 	// controls
 	SjTrackInfoFieldChoice* m_splitInChoice;
 	SjInsertButton* m_insertButton;
-	wxStaticText*   m_exampleCtrl;
+	wxTextCtrl*     m_exampleCtrl;
 	void            UpdateExample       ();
 
 	SjHistoryComboBox* m_patternCtrl;

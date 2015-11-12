@@ -60,7 +60,7 @@ private:
 
 	// controls
 	SjInsertButton* m_insertButton;
-	wxStaticText*   m_exampleCtrl;
+	wxTextCtrl*     m_exampleCtrl;
 	void            UpdateExample       ();
 
 	SjHistoryComboBox* m_patternCtrl;
