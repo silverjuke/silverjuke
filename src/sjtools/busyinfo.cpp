@@ -81,7 +81,7 @@ SjBusyInfo::SjBusyInfo(wxWindow *parent, const wxString& title, bool canCancel, 
 	sizer1->Add(sizer2b, 1, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	m_objectNameWindow = new wxStaticText(this, -1, title,
-	                                      wxDefaultPosition, wxSize(500, -1), wxALIGN_LEFT | wxST_NO_AUTORESIZE /*| wxBORDER*/);
+	                                      wxDefaultPosition, wxSize(600, -1), wxALIGN_LEFT | wxST_NO_AUTORESIZE /*| wxBORDER*/);
 	sizer2b->Add(m_objectNameWindow, 0, wxGROW|wxLEFT|wxRIGHT|wxTOP
 	             , SJ_DLG_SPACE);
 
@@ -217,7 +217,10 @@ bool SjBusyInfo::Set__(const wxString& object, bool forceUpdateForLongOp)
 
 			if( forceUpdateForLongOp || currMs >= m_nextUpdateMs )
 			{
-				m_objectNameWindow->SetLabel(/*SjTools::ShortenUrl*/(object));
+				wxString label(object);
+				if( label.StartsWith("file:") ) { label = wxFileSystem::URLToFileName(object).GetFullPath(); }
+
+				m_objectNameWindow->SetLabel(label);
 				m_objectCountWindow->SetLabel(SjTools::FormatNumber(m_objectCount));
 				m_nextUpdateMs = currMs + UPDATE_INTERVALL_MS;
 			}
