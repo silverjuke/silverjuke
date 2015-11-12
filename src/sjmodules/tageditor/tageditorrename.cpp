@@ -257,11 +257,6 @@ void SjRenamePlugin::UpdateExample()
 	{
 		wxString pathPartNFileName = m_patternCtrl->GetValue();
 		m_tiReplacer.ReplacePath(pathPartNFileName, m_exampleTrackInfo);
-
-		#ifdef __WXMSW__
-			pathPartNFileName.Replace(wxT("&"), wxT("&&")); // "&" is converted to an underscore for the next character on MSW
-		#endif
-
 		m_exampleCtrl->SetValue(pathPartNFileName);
 	}
 }
