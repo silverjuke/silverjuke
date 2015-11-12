@@ -1249,7 +1249,7 @@ long SjTagEditorDlg::Dlg2Data_GetString(int id, long fieldFlag, wxString& oldAnd
 		newValue.Trim(FALSE);
 
 		if( newValue != oldAndRetValue
-		        || m_dataMultiEdit )
+		 || m_dataMultiEdit )
 		{
 			oldAndRetValue = newValue;
 			return fieldFlag;
@@ -1269,10 +1269,13 @@ long SjTagEditorDlg::Dlg2Data_GetLong(int id, long fieldFlag, long& oldAndRetVal
 		newValueString.Trim(FALSE);
 
 		long newValue = 0;
-		if( !newValueString.ToLong(&newValue) ) { newValue = 0; }
+		if( !newValueString.ToLong(&newValue) )
+		{
+			newValue = 0;
+		}
 
 		if( newValue != oldAndRetValue
-		        || m_dataMultiEdit )
+		 || m_dataMultiEdit )
 		{
 			oldAndRetValue = newValue;
 			return fieldFlag;
@@ -1332,8 +1335,8 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 
 	SjLibraryModule* lib = g_mainFrame->m_libraryModule;
 	if( lib == NULL
-	        || !Dlg2Data_PrepareModify()
-	        || (plugin && !plugin->PrepareModify()) )
+	 || !Dlg2Data_PrepareModify()
+	 || (plugin && !plugin->PrepareModify()) )
 	{
 		m_dataStat = backupedStat;
 		canceled = TRUE;
@@ -1424,11 +1427,11 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 	{
 		bool askWriteId3 = FALSE, askDelEmptyDir = FALSE;
 		if( mod.LetConfirm(askWriteId3, askDelEmptyDir)
-		        || urlCount > 1
-		        || plugin )
+		 || urlCount > 1
+		 || plugin )
 		{
 			wxWindowDisabler disabler(this);
-			SjConfirmDlg dlg(this, mod, askWriteId3, askDelEmptyDir);
+			SjConfirmDlg dlg(this, mod, false /*was: askWriteId3, but this is confusing, as the option is already in the menu*/, askDelEmptyDir);
 			if( dlg.ShowModal() != wxID_OK )
 			{
 				m_dataStat = backupedStat;
@@ -1798,8 +1801,8 @@ bool SjTagEditorDlg::Data2Dsk_Write(const wxString& orgUrl, SjTrackInfo& ti, boo
 	bool stopped = FALSE;
 	long stoppedPos;
 	if( !g_mainFrame->IsStopped()
-	        &&  g_mainFrame->GetQueueUrl(-1) == orgUrl
-	        && (orgUrl != ti.m_url || g_tagEditorModule->GetWriteId3Tags()) )
+	 &&  g_mainFrame->GetQueueUrl(-1) == orgUrl
+	 && (orgUrl != ti.m_url || g_tagEditorModule->GetWriteId3Tags()) )
 	{
 		stoppedPos = g_mainFrame->GetElapsedTime();
 		g_mainFrame->Stop();
@@ -1983,7 +1986,7 @@ void SjTagEditorModule::GetLittleOptions(SjArrayLittleOption& lo)
 void SjTagEditorModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_KIOSK_STARTING
-	        || msg == IDMODMSG_WINDOW_CLOSE )
+	 || msg == IDMODMSG_WINDOW_CLOSE )
 	{
 		CloseTagEditor();
 	}
