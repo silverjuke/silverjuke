@@ -143,11 +143,12 @@ void SjReplacePlugin::ModifyField(SjTrackInfo& trackInfo, long field, SjModifyIn
 	wxString scope;
 	if( field == REPL_FILENAME )
 	{
-		scope = SjTools::GetFileNameFromUrl(trackInfo.m_url, NULL, TRUE/*strip extension*/);
+		wxFileName filename = wxFileSystem::URLToFileName(trackInfo.m_url);
+		scope = filename.GetName();
 		if( m_replacer.ReplaceAll(scope) > 0 )
 		{
-			scope = SjTools::SetFileNameToUrl(trackInfo.m_url, scope, TRUE/*leave extension*/);
-			mod.Add(SJ_TI_URL, scope);
+			filename.SetName(scope);
+			mod.Add(SJ_TI_URL, wxFileSystem::FileNameToURL(filename));
 			m_replacementCount++;
 		}
 	}

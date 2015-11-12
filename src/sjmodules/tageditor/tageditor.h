@@ -101,7 +101,7 @@ public:
 	}
 	void            Delete              (int i);
 
-	bool            LetConfirm          (bool& askWriteId3, bool& askDelEmptyDir);
+	bool            LetConfirm          (bool& askWriteId3, bool& askDelEmptyDir, bool& onlyUrlsModified);
 
 private:
 	SjArrayModifyItem
@@ -199,7 +199,7 @@ private:
 	void            WaitForWriteAccess__(const wxString& url);
 	bool            RenameFile__        (const wxString& file1, const wxString& file2);
 	void            RenameDone__        (const wxString& oldUrl, const wxString& newUrl);
-	SjSLHash        m_possiblyEmptyDirs;
+	SjSLHash        m_possiblyEmptyDirUrls;
 
 	// Handle events
 	void            OnButtonBarMenu     (wxCommandEvent&);

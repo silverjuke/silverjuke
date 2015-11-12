@@ -103,13 +103,16 @@ void SjModifyInfo::Delete(int i)
 }
 
 
-bool SjModifyInfo::LetConfirm(bool& askWriteId3, bool& askDelEmptyDir)
+bool SjModifyInfo::LetConfirm(bool& askWriteId3, bool& askDelEmptyDir, bool& onlyUrlsModified)
 {
 	bool letConfirm = FALSE;
 
+	askWriteId3 = FALSE;
+	askDelEmptyDir = FALSE;
+	onlyUrlsModified = TRUE;
+
 	long i, modCount = GetCount();
 	SjModifyItem* modItem;
-	wxString oldPath, newPath;
 	for( i = 0; i < modCount; i++ )
 	{
 		modItem = GetItem(i);
@@ -119,8 +122,8 @@ bool SjModifyInfo::LetConfirm(bool& askWriteId3, bool& askDelEmptyDir)
 			// if the url us modified, ask if to del. empty dir; this implies confirmation
 			if( !askDelEmptyDir )
 			{
-				SjTools::GetFileNameFromUrl(modItem->GetOldVal(), &oldPath);
-				SjTools::GetFileNameFromUrl(modItem->GetNewVal(), &newPath);
+				wxString oldPath = wxFileSystem::URLToFileName(modItem->GetOldVal()).GetPath(),
+				         newPath = wxFileSystem::URLToFileName(modItem->GetNewVal()).GetPath();
 				if( oldPath != newPath )
 				{
 					askDelEmptyDir = TRUE;
@@ -134,6 +137,7 @@ bool SjModifyInfo::LetConfirm(bool& askWriteId3, bool& askDelEmptyDir)
 			// if another field is modified, ask if to update the ID3 tags (only if confirmation
 			// is needed by other reasons, we do not want to pop up the confirmation window too often)
 			askWriteId3 = TRUE;
+			onlyUrlsModified = FALSE;
 		}
 
 		if( !letConfirm )
@@ -233,14 +237,13 @@ wxString SjModifyListCtrl::OnGetItemText(long index, long column) const
 
 	if( m_showUrlsOnly )
 	{
-		switch( column )
+		wxString text = column==CONFIRM_COL1_OLDURL? item->GetOldVal() : item->GetNewVal();
+		if( text.StartsWith("file:") )
 		{
-			case CONFIRM_COL1_OLDURL:
-				return item->GetOldVal();
-
-			default:
-				return item->GetNewVal();
+			text = wxFileSystem::URLToFileName(text).GetFullPath();
 		}
+
+		return text;
 	}
 	else
 	{
@@ -258,13 +261,13 @@ wxString SjModifyListCtrl::OnGetItemText(long index, long column) const
 			default:
 				if( m_items->IsFirstUrl(index) )
 				{
-					wxString url = item->GetUrl();
-					if( url.StartsWith("file:") )
+					wxString text = item->GetUrl();
+					if( text.StartsWith("file:") )
 					{
-						url = wxFileSystem::URLToFileName(url).GetFullPath();
+						text = wxFileSystem::URLToFileName(text).GetFullPath();
 					}
 
-					return url;
+					return text;
 				}
 				else
 				{
@@ -303,7 +306,7 @@ BEGIN_EVENT_TABLE(SjConfirmDlg, SjTagEditorPlugin)
 END_EVENT_TABLE()
 
 
-SjConfirmDlg::SjConfirmDlg(wxWindow* parent, SjModifyInfo& items, bool askWriteId3, bool askDelEmptyDir)
+SjConfirmDlg::SjConfirmDlg(wxWindow* parent, SjModifyInfo& items, bool askWriteId3, bool askDelEmptyDir, bool onlyUrlsModified)
 	: SjTagEditorPlugin(parent, wxT("confirm"), _("Confirm modifications"), NULL)
 {
 	m_items = &items;
@@ -317,7 +320,7 @@ SjConfirmDlg::SjConfirmDlg(wxWindow* parent, SjModifyInfo& items, bool askWriteI
 	m_msgTextCtrl = new wxStaticText(this, -1, GetMsg());
 	m_sizer1->Add(m_msgTextCtrl, 0, wxALL|wxGROW, SJ_DLG_SPACE);
 
-	m_listCtrl = new SjModifyListCtrl(this, IDC_CONFIRM_LIST, items, (askWriteId3==FALSE && askDelEmptyDir==TRUE));
+	m_listCtrl = new SjModifyListCtrl(this, IDC_CONFIRM_LIST, items, onlyUrlsModified);
 	m_sizer1->Add(m_listCtrl, 1, wxALL|wxGROW, SJ_DLG_SPACE);
 
 	wxBoxSizer* buttonSizer = new wxBoxSizer(wxHORIZONTAL);

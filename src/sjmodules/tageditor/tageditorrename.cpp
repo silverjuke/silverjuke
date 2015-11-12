@@ -32,8 +32,9 @@
 #include <sjmodules/tageditor/tageditorrename.h>
 
 
-SjTrackInfoReplacer::SjTrackInfoReplacer(SjTrackInfo* ti)
+SjTrackInfoReplacer::SjTrackInfoReplacer(const SjTrackInfo* ti)
 {
+	// replaces one or more spaces by a simple forward slash, spaces before/after the slash are removed
 	m_ti = ti;
 	m_slashReplacer.Compile(wxT("[[:space:]]*[\\/]+[[:space:]]*"));
 }
@@ -81,7 +82,9 @@ bool SjTrackInfoReplacer::GetReplacement(const wxString& placeholder, long flags
 
 	if( placeholder == wxT("filename") )
 	{
-		replacement = ApplyFlags(SjTools::GetFileNameFromUrl(m_ti->m_url, NULL, TRUE), flags);
+		wxASSERT( m_ti->m_url.Find(':')==4 || m_ti->m_url.Find(':')==5 ); // URLs must start with file:, https: etc.
+		wxFileName filename = wxFileSystem::URLToFileName(m_ti->m_url);
+		replacement = ApplyFlags(filename.GetName(), flags);
 		return TRUE;
 	}
 
@@ -95,12 +98,15 @@ bool SjTrackInfoReplacer::GetReplacement(const wxString& placeholder, long flags
 }
 
 
-void SjTrackInfoReplacer::ReplacePath(wxString& text, SjTrackInfo* ti)
+void SjTrackInfoReplacer::ReplacePath(wxString& text, const SjTrackInfo* ti_mayBeNULL__)
 {
+	// text: in:  pattern as <Artist>-<Album>
+	//       out: new absolute path as /dir/name - NOT: a file:-URL!
+
 	// use the given track info object, if any
-	if( ti )
+	if( ti_mayBeNULL__ )
 	{
-		m_ti = ti;
+		m_ti = ti_mayBeNULL__;
 	}
 
 	// remove spaces before/after path seperators and at the
@@ -117,7 +123,8 @@ void SjTrackInfoReplacer::ReplacePath(wxString& text, SjTrackInfo* ti)
 	{
 		// make sure, the new name is not empty, just use the
 		// old name in this case
-		text = SjTools::GetFileNameFromUrl(m_ti->m_url, NULL, FALSE);
+		wxFileName filename = wxFileSystem::URLToFileName(m_ti->m_url);
+		text = filename.GetFullName();
 	}
 	else if( GetFinalPlaceholder()!=wxT("ext") )
 	{
@@ -136,15 +143,25 @@ void SjTrackInfoReplacer::ReplacePath(wxString& text, SjTrackInfo* ti)
 		text = SjTools::EnsureValidFileNameChars(text);
 	}
 
-	// prepend (parts) of the original URL, if the current path is not yet absolute
-	if( !SjTools::IsAbsUrl(text) )
+	// is the current path in `text` absolute?
+	if( text.Left(1)!="/" && text.Find(":")==wxNOT_FOUND )
 	{
-		wxString path;
-		SjTools::GetFileNameFromUrl(ti->m_url, &path, FALSE, TRUE);
+		// the path in `text` is not absolute, prepend (parts) of the original URL
+		wxString path = wxFileSystem::URLToFileName(m_ti->m_url).GetPath();
+		#ifdef __WXMSW__
+			path.Replace("\\", "/");
+		#endif
+		wxASSERT( path.Last()!='/' ); // GetPath() does not include the trailing slash, we rely on this
+
 		for( ; numPathSep > 0; numPathSep-- )
 		{
-			wxString oldPath(path);
-			SjTools::GetFileNameFromUrl(oldPath, &path, FALSE, TRUE);
+			// remove one directory from the path
+			int i = path.Find('/', true /*fromEnd*/);
+            if( i != wxNOT_FOUND )
+            {
+				path = path.Left(i);
+				wxASSERT( path.Last()!='/' );
+            }
 		}
 
 		if( text[0u] != wxT('/') )
@@ -152,8 +169,15 @@ void SjTrackInfoReplacer::ReplacePath(wxString& text, SjTrackInfo* ti)
 			text.Prepend(wxT('/'));
 		}
 
+
 		text.Prepend(path);
 	}
+
+	#ifdef __WXMSW__
+		text.Replace("/", "\\");
+	#endif
+
+	wxASSERT( !text.StartsWith("file:") );
 }
 
 
@@ -277,5 +301,5 @@ void SjRenamePlugin::ModifyTrackInfo(SjTrackInfo& trackInfo, int index, SjModify
 	wxString newPath(m_pattern[0]);
 	m_tiReplacer.ReplacePath(newPath, &trackInfo);
 
-	mod.Add(SJ_TI_URL, newPath);
+	mod.Add(SJ_TI_URL, wxFileSystem::FileNameToURL(wxFileName(newPath)));
 }

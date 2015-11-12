@@ -118,7 +118,7 @@ private:
 class SjConfirmDlg : public SjTagEditorPlugin
 {
 public:
-	                SjConfirmDlg        (wxWindow* parent, SjModifyInfo&, bool askWriteId3, bool askDelEmptyDir);
+	                SjConfirmDlg        (wxWindow* parent, SjModifyInfo&, bool askWriteId3, bool askDelEmptyDir, bool onlyUrlsModified);
 
 private:
 	// data

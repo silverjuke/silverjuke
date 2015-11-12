@@ -1425,13 +1425,13 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 	// let the user confirm the modification
 
 	{
-		bool askWriteId3 = FALSE, askDelEmptyDir = FALSE;
-		if( mod.LetConfirm(askWriteId3, askDelEmptyDir)
+		bool askWriteId3, askDelEmptyDir, onlyUrlsModified;
+		if( mod.LetConfirm(askWriteId3, askDelEmptyDir, onlyUrlsModified)
 		 || urlCount > 1
 		 || plugin )
 		{
 			wxWindowDisabler disabler(this);
-			SjConfirmDlg dlg(this, mod, false /*was: askWriteId3, but this is confusing, as the option is already in the menu*/, askDelEmptyDir);
+			SjConfirmDlg dlg(this, mod, false /*was: askWriteId3, but this is confusing, as the option is already in the menu*/, askDelEmptyDir, onlyUrlsModified);
 			if( dlg.ShowModal() != wxID_OK )
 			{
 				m_dataStat = backupedStat;
@@ -1454,7 +1454,7 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 
 	// write the modifications
 
-	m_possiblyEmptyDirs.Clear();
+	m_possiblyEmptyDirUrls.Clear();
 
 	{
 		long                modCount = mod.GetCount(); // get again as it may be changed by the user in the confirmation dialog
@@ -1605,11 +1605,13 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 		// delete possibly empty directories,
 		if( g_tagEditorModule->GetDelEmptyDir() )
 		{
-			wxString dir;
+			wxString dirUrl;
 			SjHashIterator iterator;
-			while( m_possiblyEmptyDirs.Iterate(iterator, dir) )
+			while( m_possiblyEmptyDirUrls.Iterate(iterator, dirUrl) )
 			{
-				wxString file = ::wxFindFirstFile(dir+wxT("*.*"));
+				dirUrl = SjTools::EnsureTrailingSlash(dirUrl)+"dummy.file";
+				wxString dir = wxFileSystem::URLToFileName(dirUrl).GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR);
+				wxString file = ::wxFindFirstFile(dir+"*.*");
 				if( file.IsEmpty() )
 				{
 					::wxRmdir(dir);
@@ -1648,11 +1650,11 @@ void SjTagEditorDlg::RenameDone__(const wxString& oldUrl, const wxString& newUrl
 	{
 		wxSqlt sql;
 
-		wxString oldPath, newPath;
-		SjTools::GetFileNameFromUrl(oldUrl, &oldPath);
-		SjTools::GetFileNameFromUrl(newUrl, &newPath);
+		wxString oldPathUrl, newPathUrl;
+		SjTools::GetFileNameFromUrl(oldUrl, &oldPathUrl);
+		SjTools::GetFileNameFromUrl(newUrl, &newPathUrl);
 
-		if( oldPath != newPath )
+		if( oldPathUrl != newPathUrl )
 		{
 			// move all belonging covers if they're are also in the old directory
 			sql.Query(wxT("SELECT artids FROM tracks WHERE url='") + sql.QParam(oldUrl) + wxT("';"));
@@ -1665,11 +1667,11 @@ void SjTagEditorDlg::RenameDone__(const wxString& oldUrl, const wxString& newUrl
 					sql.Query(wxString::Format(wxT("SELECT url FROM arts WHERE id=%lu;"), currArtId));
 					if( sql.Next() )
 					{
-						wxString oldArtUrl = sql.GetString(0); oldArtUrl.Replace(wxT("\\"), wxT("/"));
+						wxString oldArtUrl = sql.GetString(0);
 						wxString oldArtPath; SjTools::GetFileNameFromUrl(oldArtUrl, &oldArtPath);
-						if( oldArtPath == oldPath )
+						if( oldArtPath == oldPathUrl )
 						{
-							wxString newArtUrl = newPath + SjTools::GetFileNameFromUrl(oldArtUrl);
+							wxString newArtUrl = newPathUrl + SjTools::GetFileNameFromUrl(oldArtUrl);
 
 							// rename or copy the art file
 							if( wxFileExists(oldArtUrl) )
@@ -1698,7 +1700,7 @@ void SjTagEditorDlg::RenameDone__(const wxString& oldUrl, const wxString& newUrl
 		}
 
 		// mark the old directory for deletion
-		m_possiblyEmptyDirs.Insert(oldPath, 1);
+		m_possiblyEmptyDirUrls.Insert(oldPathUrl, 1);
 
 		// update database
 		sql.Query(wxT("UPDATE tracks SET url='") + sql.QParam(newUrl) + wxT("' WHERE url='") + sql.QParam(oldUrl) + wxT("';"));
@@ -1720,14 +1722,18 @@ bool SjTagEditorDlg::RenameFile__(const wxString& oldUrl, const wxString& newUrl
 	// The caller should print the error
 	wxLogNull null;
 
+	// convert the given URLs to filenames
+	wxFileName oldFileName = wxFileSystem::URLToFileName(oldUrl);
+	wxFileName newFileName = wxFileSystem::URLToFileName(newUrl);
+
 	// If the dest. url exists, there is currently nothing we can do
-	if( ::wxFileExists(newUrl) )
+	if( newFileName.FileExists() )
 	{
 		return FALSE;
 	}
 
 	// Normal system call
-	if( wxRename(oldUrl, newUrl) == 0 )
+	if( wxRename(oldFileName.GetFullPath(), newFileName.GetFullPath()) == 0 )
 	{
 		RenameDone__(oldUrl, newUrl);
 		return TRUE;  // success
@@ -1735,29 +1741,28 @@ bool SjTagEditorDlg::RenameFile__(const wxString& oldUrl, const wxString& newUrl
 
 	// check if all needed directories exist; if not, create them
 	{
-		wxFileName fn1(newUrl);
-		wxFileName fn2(fn1.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR));
+		wxFileName fn2(newFileName.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR));
 		fn2.Mkdir(0777, wxPATH_MKDIR_FULL);
 	}
 
 	// Normal system call, second try with dirs created
-	if( wxRename(oldUrl, newUrl) == 0 )
+	if( wxRename(oldFileName.GetFullPath(), newFileName.GetFullPath()) == 0 )
 	{
 		RenameDone__(oldUrl, newUrl);
 		return TRUE;  // success
 	}
 
 	// Try to copy
-	if (wxCopyFile(oldUrl, newUrl))
+	if (wxCopyFile(oldFileName.GetFullPath(), newFileName.GetFullPath()))
 	{
-		if( wxRemoveFile(oldUrl) )
+		if( wxRemoveFile(oldFileName.GetFullPath()) )
 		{
 			RenameDone__(oldUrl, newUrl);
 			return TRUE;  // success
 		}
 		else
 		{
-			wxRemoveFile(newUrl);
+			wxRemoveFile(newFileName.GetFullPath());
 		}
 	}
 
@@ -1820,8 +1825,14 @@ bool SjTagEditorDlg::Data2Dsk_Write(const wxString& orgUrl, SjTrackInfo& ti, boo
 
 		if( !RenameFile__(orgUrl, ti.m_url) )
 		{
+			wxString from = orgUrl;
+			if( from.StartsWith("file:") ) { from = wxFileSystem::URLToFileName(from).GetFullPath(); }
+
+			wxString to = ti.m_url;
+			if( to.StartsWith("file:") ) { to = wxFileSystem::URLToFileName(to).GetFullPath(); }
+
 			wxLogError(_("Cannot rename \"%s\" to \"%s\"."),
-			           orgUrl.c_str(), ti.m_url.c_str());
+			           from.c_str(), to.c_str());
 			ti.m_url = orgUrl;
 		}
 		ti.m_validFields &= ~SJ_TI_URL;

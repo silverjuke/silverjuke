@@ -601,9 +601,7 @@ public:
 public:
 	static unsigned long    GetFileSize         (const wxString& name);
 	static wxString         GetFileContent      (wxInputStream* inputStream, wxMBConv*);
-	static wxString         GetFileNameFromUrl  (const wxString& url, wxString* retPath=NULL, bool stripExtension=FALSE, bool removeSepFromPath=FALSE);
-	static wxString         SetFileNameToUrl    (const wxString& url, const wxString& fileName, bool leaveExtension);
-	static bool             IsAbsUrl            (const wxString& url);
+	static wxString         GetFileNameFromUrl  (/*don't use this for future improvements, see comment in implemetnation*/const wxString& url, wxString* retPath=NULL, bool stripExtension=FALSE, bool removeSepFromPath=FALSE);
 	static bool             AreFilesSame        (const wxString& src, const wxString& dest);
 	static bool             CopyFile            (const wxString& src, const wxString& dest);
 	static bool             CopyStreamToFile    (wxInputStream&, wxFile&);

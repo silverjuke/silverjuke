@@ -33,14 +33,14 @@
 class SjTrackInfoReplacer : public SjPlaceholdReplacer
 {
 public:
-	                SjTrackInfoReplacer (SjTrackInfo* ti=NULL);
-	void            ReplacePath         (wxString& text, SjTrackInfo* ti=NULL);
+	                SjTrackInfoReplacer (const SjTrackInfo* ti=NULL);
+	void            ReplacePath         (wxString& text, const SjTrackInfo* ti=NULL);
 
 protected:
 	virtual bool    GetReplacement      (const wxString& placeholder, long flags, wxString& replacement);
 
 private:
-	SjTrackInfo*    m_ti;
+	const SjTrackInfo* m_ti;
 	wxRegEx         m_slashReplacer;
 };
 

@@ -850,6 +850,10 @@ wxString SjTools::GetFileContent(wxInputStream* inputStream, wxMBConv* mbConv)
 
 wxString SjTools::GetFileNameFromUrl(const wxString& url, wxString* retPath, bool stripExtension, bool removeSepFromPath)
 {
+	// CAVE: the given URL may be a real URL, with protocol and escaped, _or_ a normal file name.
+	// you should no longer use this function for new stuff, use eg. wxFileSystem::URLToFileName().GetFullName()
+	// or wxFileSystem::URLToFileName().GetName() instead
+
 	// to be compatible with different path seperators,
 	// use the separator found last
 	int i1  = url.Find(':', TRUE),
@@ -879,45 +883,6 @@ wxString SjTools::GetFileNameFromUrl(const wxString& url, wxString* retPath, boo
 	{
 		return url.Mid(i1+1);
 	}
-}
-
-
-wxString SjTools::SetFileNameToUrl(const wxString& oldUrl, const wxString& fileName, bool leaveExtension)
-{
-	// get the path (incl. the separator)
-	wxString newUrl;
-	GetFileNameFromUrl(oldUrl, &newUrl);
-
-	// add the filename to the path
-	newUrl += fileName;
-
-	if( leaveExtension )
-	{
-		newUrl += wxT(".") + SjTools::GetExt(oldUrl);
-	}
-
-	return newUrl;
-}
-
-
-bool SjTools::IsAbsUrl(const wxString& url)
-{
-	#ifdef __WXMSW__
-		if( url.Find(wxT(':')) != -1 )
-		{
-			return TRUE;
-		}
-	#endif
-
-	if( url.Len() )
-	{
-		if( url[0] == wxT('/') || url[0] == wxT('\\') )
-		{
-			return TRUE;
-		}
-	}
-
-	return FALSE;
 }
 
 
