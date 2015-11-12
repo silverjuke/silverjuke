@@ -1612,8 +1612,13 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 			while( m_possiblyEmptyDirUrls.Iterate(iterator, dirUrl) )
 			{
 				dirUrl = SjTools::EnsureTrailingSlash(dirUrl)+"dummy.file";
-				wxString dir = wxFileSystem::URLToFileName(dirUrl).GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR);
-				wxString file = ::wxFindFirstFile(dir+"*.*");
+				wxString dir = wxFileSystem::URLToFileName(dirUrl).GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR), file;
+
+				{
+					wxLogNull null;
+					file = ::wxFindFirstFile(dir+"*.*");
+				}
+
 				if( file.IsEmpty() )
 				{
 					::wxRmdir(dir);
