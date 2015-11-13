@@ -50,6 +50,8 @@ void* SjImgThread::Entry()
 	bool                        objOk;
 	long                        imagesThisRound;
 
+	wxLog::SetThreadActiveTarget(SjLogGui::s_this);
+
 	/* Start endless loop
 	 *
 	 * NB: the image thread _MUST NOT_ use GUI routines, eg. wxBitmap does not work on GTK.
@@ -119,6 +121,7 @@ void* SjImgThread::Entry()
 			 */
 			{
 				SjLogString logString;
+				bool logError = false;
 
 				objOk = FALSE;
 				if( m_errorousUrls.Index(obj->m_url) == wxNOT_FOUND )
@@ -136,12 +139,19 @@ void* SjImgThread::Entry()
 					if( !objOk )
 					{
 						m_errorousUrls.Add(obj->m_url);
-						wxLogError(_("Cannot open \"%s\"."), obj->m_url.c_str());
+						logError = true;
 					}
 				}
 				else
 				{
-					wxLogError(_("Cannot open \"%s\"."), obj->m_url.c_str());
+					logError = true;
+				}
+
+				if( logError )
+				{
+					wxString filename = obj->m_url;
+					if( filename.StartsWith("file:") ) { filename = wxFileSystem::URLToFileName(filename).GetFullPath(); }
+					wxLogError(_("Cannot open \"%s\"."), filename.c_str());
 				}
 
 				obj->m_errors = logString.GetAndClearErrors();

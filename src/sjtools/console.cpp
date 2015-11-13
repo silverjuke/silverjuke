@@ -708,7 +708,7 @@ SjLogGui::SjLogGui()
 
 	// set active logging target to this
 	m_oldTarget = wxLog::SetActiveTarget(this);
-	wxASSERT( wxLog::GetLogLevel() >= wxLOG_Info ); // true for wx 2.x and 3.x (we want wxLogInfo to work)
+	wxASSERT( wxLog::GetLogLevel() >= wxLOG_Info ); // true for wx 2.x and 3.x (we want wxLogInfo to work, however, we _pop up_ a message dialog only for warnings and errors)
 	wxLog::SetVerbose(true); // verbose defaults to false on wx 3.x and wxLogInfo won't work therefore
 
 
@@ -794,7 +794,7 @@ wxString SjLogGui::GetAndClearCatchedErrors()
 }
 
 
-void SjLogGui::DoLog(wxLogLevel level, const wxChar* msg, time_t timestamp)
+void SjLogGui::DoLogRecord(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info)
 {
 	// this function is called by the logging system eg. if
 	// wxLogError() or wxLogWarning() is called.
@@ -816,17 +816,7 @@ void SjLogGui::DoLog(wxLogLevel level, const wxChar* msg, time_t timestamp)
 	}
 
 	// forward to GUI logging
-	if( level == wxLOG_Info )
-	{
-		m_aMessages.Add(msg);
-		m_aSeverity.Add(wxLOG_Info);
-		m_aTimes.Add((long)timestamp);
-		m_bHasMessages = true;
-	}
-	else
-	{
-		wxLogGui::DoLog(level, msg, timestamp);
-	}
+	wxLogGui::DoLogRecord(level, msg, info);
 }
 
 

@@ -49,7 +49,7 @@ public:
 
 protected:
 	// overwritten methods
-	virtual void    DoLog               (wxLogLevel level, const wxChar* msg, time_t timestamp);
+	virtual void    DoLogRecord         (wxLogLevel level, const wxString& msg, const wxLogRecordInfo&);
 
 	// show all messages that were logged since the last Flush()
 	virtual void    Flush               ();
@@ -77,6 +77,8 @@ private:
 	friend class    SjLogString;
 	friend class    SjLogListCtrl;
 	friend class    SjLogDialog;
+	friend class    SjImgThread;  // to access s_this needed for wxLog::SetThreadActiveTarget()
+	friend class    SjHttpThread; //                - " -
 };
 
 

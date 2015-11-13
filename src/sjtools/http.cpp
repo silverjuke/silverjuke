@@ -28,6 +28,7 @@
 
 #include <sjbase/base.h>
 #include <sjtools/http.h>
+#include <sjtools/console.h>
 #include <wx/dialup.h>
 #include <wx/url.h>
 
@@ -42,7 +43,7 @@
 class SjHttpThread : public wxThread
 {
 public:
-	SjHttpThread        (SjHttp*, const wxString& urlStr, wxMBConv*, const SjSSHash* requestHeader, const wxString& postData);
+	            SjHttpThread        (SjHttp*, const wxString& urlStr, wxMBConv*, const SjSSHash* requestHeader, const wxString& postData);
 	void*       Entry               ();
 
 	SjHttp*         m_http;
@@ -76,6 +77,8 @@ SjHttpThread::SjHttpThread(SjHttp* http, const wxString& urlStr, wxMBConv* mbCon
 
 void* SjHttpThread::Entry()
 {
+	wxLog::SetThreadActiveTarget(SjLogGui::s_this);
+
 	int         httpStatusCode;
 	SjSSHash*   responseHeader = NULL;
 	wxString content = SjHttp::ReadFile_(m_urlStr, m_urlMbConv, m_requestHeader, m_postData, httpStatusCode, &responseHeader);
