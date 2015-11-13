@@ -858,6 +858,7 @@ private:
 	void            EnableDisable       ();
 
 	// Resume page
+	#if 0
 	wxPanel*        CreateResumePage    (wxWindow* parent);
 	int             m_resumePage;
 	wxCheckBox*     m_resumeCheck;
@@ -865,6 +866,7 @@ private:
 	wxCheckBox*     m_resumeStartPlaybackCheck;
 	void            EnableDisableResume ();
 	void            OnEnableDisableResumeCheck(wxCommandEvent&) { EnableDisableResume(); }
+	#endif
 
 	// AutoCtrl page
 	wxPanel*        CreateAutoCtrlPage  (wxWindow* parent);
@@ -899,6 +901,7 @@ private:
 	void            OnAutoVolButton     (wxCommandEvent&);
 
 	// Jingles page
+	#if 0
 	wxPanel*        CreateJinglesPage   (wxWindow* parent);
 	int             m_jinglesPage;
 	void            CloseJinglesPage    (bool apply, bool& needsReplay);
@@ -915,6 +918,7 @@ private:
 	void            EnableDisableJingles();
 	void            OnEnableDisableJngl (wxCommandEvent&) { EnableDisableJingles(); }
 	void            OnJinglesMsgChange  (wxCommandEvent&);
+	#endif
 
 	// Further options page
 	wxPanel*        CreateFurtherOptPage(wxWindow* parent);
@@ -988,7 +992,9 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 	EVT_CHECKBOX                (IDC_BOREDOMTRACKSCHECK,        SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
 	EVT_CHECKBOX                (IDC_BOREDOMARTISTSCHECK,       SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
 
+	#if 0
 	EVT_CHECKBOX                (IDC_RESUME,                    SjPlaybackSettingsConfigPage::OnEnableDisableResumeCheck)
+	#endif
 
 	EVT_CHECKBOX                (IDC_AUTOPLAY,                  SjPlaybackSettingsConfigPage::OnAutoCtrlCheckE          )
 	EVT_BUTTON                  (IDC_AUTOPLAYMUSICSELBUT,       SjPlaybackSettingsConfigPage::OnMusicSelButton          )
@@ -1000,11 +1006,13 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 	EVT_CHOICE                  (IDC_SLEEPTIMEMODECHOICE,       SjPlaybackSettingsConfigPage::OnAutoCtrlSleepTimemode   )
 	EVT_CHECKBOX                (IDC_SLEEPFADE,                 SjPlaybackSettingsConfigPage::OnAutoCtrlCheckE          )
 
+	#if 0
 	EVT_CHECKBOX                (IDC_JINGLESCHECK,              SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
 	EVT_CHECKBOX                (IDC_JINGLESMUSICSELCHECK,      SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
 	EVT_BUTTON                  (IDC_JINGLESMUSICSELBUTTON,     SjPlaybackSettingsConfigPage::OnMusicSelButton          )
 	EVT_CHECKBOX                (IDC_JINGLESMSGCHECK,           SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
 	EVT_TEXT                    (IDC_JINGLESMSGTEXTCTRL,        SjPlaybackSettingsConfigPage::OnJinglesMsgChange        )
+	#endif
 
 	EVT_BUTTON                  (IDC_TRANSITION_BUTTON,         SjPlaybackSettingsConfigPage::OnTransitionButton        )
 	EVT_BUTTON                  (IDC_AUTOVOLBUTTON,             SjPlaybackSettingsConfigPage::OnAutoVolButton           )
@@ -1029,7 +1037,9 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 
 	// save given objects
 	m_playbackSettingsModule= module;
+	#if 0
 	m_jinglesMsgTextCtrl = NULL;
+	#endif
 
 	// create notebook
 	wxSizer* dialogSizer = new wxBoxSizer(wxVERTICAL);
@@ -1042,14 +1052,18 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 	m_notebook->AddPage(CreateQueuePage(m_notebook),  _("Queue"));
 	m_queuePage = m_notebook->GetPageCount();
 
+	#if 0
 	m_notebook->AddPage(CreateResumePage(m_notebook),  _("Resume"));
 	m_resumePage = m_notebook->GetPageCount();
+	#endif
 
 	m_notebook->AddPage(CreateAutoCtrlPage(m_notebook),  _("Automatic control"));
 	m_autoCtrlPage = m_notebook->GetPageCount();
 
+	#if 0
 	m_notebook->AddPage(CreateJinglesPage(m_notebook),  _("Jingles"));
 	m_jinglesPage = m_notebook->GetPageCount();
+	#endif
 
 	m_notebook->AddPage(CreateFurtherOptPage(m_notebook),  _("Further options"));
 	m_furtherOptPage = m_notebook->GetPageCount();
@@ -1061,8 +1075,7 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 
 	// done
 	dialogSizer->SetSizeHints(this);
-	g_playbackConfigPage =
-	    this;
+	g_playbackConfigPage = this;
 
 	// set accelerators
 	SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_PLAYBACKSETTINGS));
@@ -1097,7 +1110,9 @@ void SjPlaybackSettingsConfigPage::CloseAll(bool apply)
 	// apply settings
 	CloseQueueNResumePage(apply, needsReplay);
 	CloseAutoCtrlPage    (apply, needsReplay);
+	#if 0
 	CloseJinglesPage     (apply, needsReplay);
+	#endif
 	CloseFurtherOptPage  (apply, needsReplay);
 
 	// save settings to disk
@@ -1258,9 +1273,11 @@ void SjPlaybackSettingsConfigPage::CloseQueueNResumePage(bool apply, bool& needs
 		g_mainFrame->m_player.m_queue.SetShuffleIntensity(m_shuffleSlider->GetValue());
 
 		// stuff from the "Resume" page (also saved via SetQueueFlags() and we do not want to call the function twice)
+		#if 0
 		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME, m_resumeCheck->IsChecked());
 		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME_LOAD_PLAYED, m_resumeLoadPlayedCheck->IsChecked());
 		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME_START_PLAYBACK, m_resumeStartPlaybackCheck->IsChecked());
+		#endif
 
 		// save stuff now
 		g_mainFrame->m_player.m_queue.SetQueueFlags(queueFlags, boredomTrackMinutes, boredomArtistMinutes);
@@ -1296,6 +1313,7 @@ void SjPlaybackSettingsConfigPage::OnQueueReset(wxCommandEvent&)
  ******************************************************************************/
 
 
+#if 0
 wxPanel* SjPlaybackSettingsConfigPage::CreateResumePage(wxWindow* parent)
 {
 	long queueFlags, boredomTrackMinutes, boredomArtistMinutes;
@@ -1343,6 +1361,7 @@ void SjPlaybackSettingsConfigPage::EnableDisableResume()
 	m_resumeLoadPlayedCheck->Enable(e);
 	m_resumeStartPlaybackCheck->Enable(e);
 }
+#endif
 
 
 /*******************************************************************************
@@ -1632,10 +1651,12 @@ void SjPlaybackSettingsConfigPage::OnMusicSelButton(wxCommandEvent& evt)
 		{
 			preselectId = SjDialog::GetCbSelection(m_autoPlayMusicSelIgnoreChoice);
 		}
+		#if 0
 		else // IDC_JINGLESMUSICSELBUTTON
 		{
 			preselectId = SjDialog::GetCbSelection(m_jinglesMusicSelChoice);
 		}
+		#endif
 
 		g_advSearchModule->OpenDialog(preselectId);
 	}
@@ -1714,6 +1735,7 @@ void SjPlaybackSettingsConfigPage::OnAutoVolButton(wxCommandEvent& event)
  ******************************************************************************/
 
 
+#if 0
 wxPanel* SjPlaybackSettingsConfigPage::CreateJinglesPage(wxWindow* parent)
 {
 	SjAutoCtrl* a = &(g_mainFrame->m_autoCtrl);
@@ -1852,6 +1874,7 @@ void SjPlaybackSettingsConfigPage::CloseJinglesPage(bool apply, bool& needsRepla
 		a->m_jinglesDisplayMsg = m_jinglesMsgTextCtrl->GetValue();
 	}
 }
+#endif
 
 
 /*******************************************************************************

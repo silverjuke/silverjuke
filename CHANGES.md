@@ -2,12 +2,10 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.9 (12.11.2015)
+V15.9 (13.11.2015)
 ================================================================================
 
-- New: "Jingle" options
 - New: "Limit Play Time" option
-- New: "Resume" options
 - New: The settings dialog opens with most recent page used
 - New: INI-Switch "debug", see file "user-guide"
 - Dialog "Automatic control/Further options" moved to a page in the main dialog
