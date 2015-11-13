@@ -224,8 +224,10 @@ public:
 	static void     UnpackFileName      (const wxString& inFileNIndex, wxString& retFile, int& retIndex);
 
 	// Get Unique String IDs for identifying a module.  This also works for unloaded modules.
+	#if 0
 	wxString        GetUniqueStrId      () const { return GetUniqueStrId(m_file, m_fileIndex); }
 	static wxString GetUniqueStrId      (const wxString& file, int fileIndex);
+	#endif
 
 	// Is this module a plugin?
 	virtual bool    IsPlugin            () { return false; }
@@ -636,12 +638,15 @@ public:
 	// the cache, the module is only identified by m_file and NOT by m_fileIndex,
 	// so if a file contains several modules and should be written to the cache, all
 	// information about all modules should be placed in addInfo
+	#if 0
 	void            WriteToCache        (const wxString& file, const wxString& info, unsigned long fileTimestamp=0);
 	bool            ReadFromCache       (const wxString& file, wxArrayString& info, unsigned long fileTimestamp=0);
 	wxString        ReadFromCache       (const wxString& file, unsigned long fileTimestamp=0);
+	#endif
 
 protected:
 
+	#if 0
 	// Some tools that may be useful for derived classes:
 	//
 	// AddModulesFromDir() searches the given directory for *.dll files
@@ -656,10 +661,13 @@ protected:
 	void            AddModulesFromSearchPaths(SjModuleList&, bool suppressNoAccessErrors=FALSE);
 
 	bool            IsModuleAdded       (SjModuleList&, const wxString& file, int fileIndex=0, const wxString& name=wxEmptyString);
+	#endif
 
 private:
 	wxString        m_name;
+	#if 0
 	wxString        GetUniqueStrId      () const { return SjNormaliseString(m_name, 0); }
+	#endif
 
 	friend class    SjModuleSystem;
 };

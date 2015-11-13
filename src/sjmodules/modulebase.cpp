@@ -663,6 +663,7 @@ SjInterfaceBase::SjInterfaceBase(const wxString& name)
 }
 
 
+#if 0
 static bool s_searchedForScripts = false;
 void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirName, bool suppressNoAccessErrors)
 {
@@ -890,6 +891,7 @@ wxString SjInterfaceBase::ReadFromCache(const wxString& file, unsigned long file
 	ReadFromCache(file, a, fileTimestamp);
 	return a.GetCount()? a.Item(0) : wxString();
 }
+#endif
 
 
 /*******************************************************************************
@@ -1134,6 +1136,7 @@ void SjModule::UnpackFileName(const wxString& inFileNIndex, wxString& retFile, i
 }
 
 
+#if 0
 wxString SjModule::GetUniqueStrId(const wxString& file, int fileIndex)
 {
 	wxString str(PackFileName(file, fileIndex));
@@ -1145,6 +1148,7 @@ wxString SjModule::GetUniqueStrId(const wxString& file, int fileIndex)
 
 	return SjNormaliseString(str, 0);
 }
+#endif
 
 
 /*******************************************************************************
