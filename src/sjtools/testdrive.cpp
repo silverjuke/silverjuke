@@ -357,11 +357,11 @@ void SjTestdrive1()
 
 			if( !testFileFound ) { wxLogWarning("Testdrive: Testfile not found using wxFileSystem::Find*()"); }
 
-			// finally check, if the seconds parameter (dir/file indicator works as expected)
+			// finally check, if the second parameter (dir/file indicator works as expected)
 			wxString locationUrl2 = wxFileSystem::FileNameToURL(path);
 			fs.ChangePathTo(locationUrl2, false);
 			wxString pathChangedTo2 = fs.GetPath();
-			if( pathChangedTo != pathChangedTo2 ) { wxLogWarning("Testdrive: wxFileSystem::ChangePathTo() dir/file indicator problem"); }
+			wxASSERT( pathChangedTo.Lower() == pathChangedTo2.Lower() ); // under Windows, there may differences regarding the case of the volume, so test case-insensitive ...
 		}
 
 		// done.
