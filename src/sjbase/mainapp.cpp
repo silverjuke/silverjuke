@@ -323,7 +323,11 @@ bool SjMainApp::OnInit()
 	{
 		FatalError();
 	}
-	s_cmdLine->Parse();
+
+	if( s_cmdLine->Parse() != 0 /*-1: help option shown, >0 syntax error*/ )
+	{
+		return FALSE;
+	}
 
 	// create tools to use, the tools are deleted if SjMainFrame is deleted
 	g_tools = new SjTools;
@@ -373,7 +377,7 @@ bool SjMainApp::OnInit()
 				for( i = 0; i < (int)(sizeof(s_cmdLineDesc)/sizeof(wxCmdLineEntryDesc)); i++ )
 				{
 					if( s_cmdLineDesc[i].kind == wxCMD_LINE_SWITCH
-					        && s_cmdLine->Found(s_cmdLineDesc[i].longName) )
+					 && s_cmdLine->Found(s_cmdLineDesc[i].longName) )
 					{
 						topic = s_cmdLineDesc[i].longName;
 						break;
@@ -381,7 +385,7 @@ bool SjMainApp::OnInit()
 					else if( s_cmdLineDesc[i].kind == wxCMD_LINE_OPTION )
 					{
 						if( s_cmdLineDesc[i].type == wxCMD_LINE_VAL_NUMBER
-						        && s_cmdLine->Found(s_cmdLineDesc[i].longName, &valLong) )
+						 && s_cmdLine->Found(s_cmdLineDesc[i].longName, &valLong) )
 						{
 							topic = s_cmdLineDesc[i].longName;
 							data = wxString::Format(wxT("%i"), (int)valLong);
@@ -424,8 +428,8 @@ bool SjMainApp::OnInit()
 			// There's nothing more we can do here.  We check IsAnotherRunning() again as the prev.
 			// instance may be terminted completly from our last check (see above).
 			if( executedSuccessfully
-			        || s_isRunningChecker == NULL
-			        || s_isRunningChecker->IsAnotherRunning() )
+			 || s_isRunningChecker == NULL
+			 || s_isRunningChecker->IsAnotherRunning() )
 			{
 				if( s_isRunningChecker ) { delete s_isRunningChecker; s_isRunningChecker = NULL; }
 				delete g_tools;

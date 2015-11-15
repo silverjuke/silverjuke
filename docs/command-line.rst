@@ -32,8 +32,8 @@ starting with two dashes ('**-**'). **silverjuke** supports the following option
 --ini=FILE
   set the configuration file to use to FILE
 
---db=FILE
-  set the database file to use to FILE
+--jukebox=FILE
+  set the jukebox file to use to FILE
 
 --temp=DIRECTORY
   set the temporary directory to use to DIRECTORY
