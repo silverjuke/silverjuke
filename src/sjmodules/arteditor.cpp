@@ -753,8 +753,8 @@ void SjArtEditor::CreateBitmapFromImage()
 	SetSize(imgW, imgH);
 
 	if( GetParent()==NULL
-	        || m_centerOnDisplay
-	        || g_mainFrame->IsKioskStarted() )
+	 || m_centerOnDisplay
+	 || g_mainFrame->IsKioskStarted() )
 	{
 		SjDialog::CenterOnDisplay(this, g_mainFrame);
 	}

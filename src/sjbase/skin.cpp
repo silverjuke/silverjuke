@@ -2560,11 +2560,11 @@ BEGIN_EVENT_TABLE(SjSkinWindow, wxFrame)
 	EVT_LEFT_DCLICK         (SjSkinWindow::OnMouseLeftDown      )
 	EVT_LEFT_UP             (SjSkinWindow::OnMouseLeftUp        )
 	EVT_MOUSE_CAPTURE_LOST  (SjSkinWindow::OnMouseCaptureLost   )
-#ifdef __WXMAC__ // the context menu MUST be opened on down on MAC
+    #ifdef __WXMAC__ // the context menu MUST be opened on down on MAC
 	EVT_RIGHT_DOWN          (SjSkinWindow::OnMouseRight         )
-#else
+    #else
 	EVT_RIGHT_UP            (SjSkinWindow::OnMouseRight         )
-#endif
+    #endif
 	EVT_MIDDLE_UP           (SjSkinWindow::OnMouseMiddleUp      )
 	EVT_MOTION              (SjSkinWindow::OnMouseMotion        )
 	EVT_LEAVE_WINDOW        (SjSkinWindow::OnMouseLeave         )
@@ -2769,12 +2769,12 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 			{
 				m_targets[item->m_targetId].m_itemList.Append(item);
 
-#ifdef SJ_SKIN_USE_HIDE
+				#ifdef SJ_SKIN_USE_HIDE
 				if( m_targets[item->m_targetId].m_hidden )
 				{
 					HideSkinTarget(item->m_targetId, TRUE/*hide*/, FALSE/*redraw*/);
 				}
-#endif
+				#endif
 
 				item->SetValue(m_targets[item->m_targetId].m_value);
 			}
@@ -2783,9 +2783,9 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 		}
 	}
 
-#ifdef SJ_SKIN_USE_HIDE
+	#ifdef SJ_SKIN_USE_HIDE
 	HidingSkinTargetsDone(FALSE/*redraw*/);
-#endif
+	#endif
 
 	// create a direct link to the workspace colours;
 	// if the current layout has no workspace, we leave the pointer unchanged.
@@ -2805,8 +2805,8 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 	if( sizeChangeFlag != SJ_NO_SIZE_CHANGE )
 	{
 		bool doSizeChange = (sizeChangeFlag==SJ_FORCE_SIZE_CHANGE
-		                     || g_kioskModule==NULL
-		                     || !g_kioskModule->KioskStarted());
+		                  || g_kioskModule==NULL
+		                  || !g_kioskModule->KioskStarted());
 		wxRect wantedRect = GetRect();
 		if( m_currLayout )
 		{
@@ -2824,7 +2824,7 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 			}
 
 			// set the new tooltip colours
-#if SJ_USE_TOOLTIPS
+			#if SJ_USE_TOOLTIPS
 			if( m_currSkin->HasTooltipColours() )
 			{
 				g_tools->m_toolTipManager.SetColours(m_currSkin->GetTooltipFgColour(), m_currSkin->GetTooltipBgColour(), m_currSkin->GetTooltipBorderColour());
@@ -2833,7 +2833,7 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 			{
 				g_tools->m_toolTipManager.SetDefColours();
 			}
-#endif
+			#endif
 
 			// set "always on top"
 			if( doSizeChange )
@@ -2942,16 +2942,16 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 	{
 		// remember, m_currLayout is not yet set; therefore functions as
 		// this->GetLayoutCount() do not work - use m_currSkin->GetLayoutCount() instead
-#define SAVABLE_SETTINGS_VER 0L
+		#define SAVABLE_SETTINGS_VER 0L
 		SjStringSerializer ser(skinSettings);
 		long        serVersion = ser.GetLong();
 		wxString    serSkinName = ser.GetString();
 		long        serLayoutCount = ser.GetLong();
 		wxString    serDefLayoutName = ser.GetString();
 		if(  serVersion == SAVABLE_SETTINGS_VER
-		        &&  serSkinName == m_currSkin->GetName()
-		        &&  serLayoutCount == m_currSkin->GetLayoutCount()
-		        && !ser.HasErrors() )
+		 &&  serSkinName == m_currSkin->GetName()
+		 &&  serLayoutCount == m_currSkin->GetLayoutCount()
+		 && !ser.HasErrors() )
 		{
 			// load settings as saved from GetSavableSkinSettings()
 			int              l;
@@ -2965,11 +2965,11 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 				serLayoutName = ser.GetString();
 				serRect = SjTools::ParseRect(ser.GetString());
 				if(  serLayout
-				        &&  serLayoutName == serLayout->GetName()
-				        && !ser.HasErrors() )
+				 &&  serLayoutName == serLayout->GetName()
+				 && !ser.HasErrors() )
 				{
 					if( serRect.width > 0
-					        && serRect.height > 0 )
+					 && serRect.height > 0 )
 					{
 						serRect = CheckLayoutWindowRect(serLayout, serRect, &serBadSize);
 						if( !serBadSize )
