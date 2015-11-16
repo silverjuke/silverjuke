@@ -1075,16 +1075,11 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		wxString defaultSkin(wxT("memory:defaultskin.xml"));
 		wxString skin = g_tools->m_config->Read(wxT("main/skinFile"), defaultSkin);
 
-		if( skin != defaultSkin ) {
-			wxLogInfo(wxT("Loading %s"), skin.c_str());
-		}
-
-		SjBusyInfo::Set(skin, TRUE);
+		wxLogInfo(wxT("Loading %s"), skin.c_str());
 
 		if( !LoadSkin(skin, SJ_OP_DEF_NONKIOSK, g_tools->m_config->Read(wxT("main/skinSettings"), wxT(""))) )
 		{
 			wxLogError(wxT("Cannot load %s, falling back to default skin"), skin.c_str());
-			SjBusyInfo::Set(defaultSkin, TRUE);
 
 			LoadSkin(defaultSkin, SJ_OP_DEF_NONKIOSK);
 			g_tools->m_config->Write(wxT("main/skinFile"), defaultSkin);
@@ -1200,10 +1195,10 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 				wxASSERT(module);
 
 				if( module->m_type == SJ_MODULETYPE_COMMON
-				        || module->m_type == SJ_MODULETYPE_SCANNER )
+				 || module->m_type == SJ_MODULETYPE_SCANNER )
 				{
 					if( (i==0 && module->m_interface == g_internalInterface)
-					        || (i==1 && module->m_interface != g_internalInterface) )
+					 || (i==1 && module->m_interface != g_internalInterface) )
 					{
 						module->Load();
 					}
