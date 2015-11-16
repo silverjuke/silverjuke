@@ -347,12 +347,8 @@
 
 #define IDMODMSG_WINDOW_ICONIZED                    11000
 #define IDMODMSG_WINDOW_UNICONIZED                  11001
-#define IDMODMSG_WINDOW_MAXIMIZED                   11002
-#define IDMODMSG_WINDOW_UNMAXIMIZED                 11003
 #define IDMODMSG_WINDOW_CLOSE                       11004 /* sent if the program is about to terminate; objects are valid, player is already stopped, window is already hidden */
-#define IDMODMSG_WINDOW_SIZE_MOVE_BEGIN             11005
 #define IDMODMSG_WINDOW_SIZED_MOVED                 11006
-#define IDMODMSG_WINDOW_SIZE_MOVE_END               11007
 #define IDMODMSG_WINDOW_BEFORE_CLOSE_HIDE_N_STOP    11008 /* send a moment before IDMODMSG_WINDOW_CLOSE is send; objects are valid, player is still playing, window is still visible */
 
 #define IDMODMSG_APP_ACTIVATED                      11010
@@ -361,7 +357,6 @@
 #define IDMODMSG_SETTINGS_CLOSE                     11020 /* sent if the settings dialog is about to be closed, needed only for very special tasks */
 #define IDMODMSG_ADV_SEARCH_CONFIG_CHANGED          11021 /* sent if adv. searches are created/deleted/modified */
 
-#define IDMODMSG_OUTPUT_CHANGED                     11031
 #define IDMODMSG_TRACK_ON_AIR_CHANGED               11032 /* also send if only the player state changes */
 #define IDMODMSG_VIS_STATE_CHANGED                  11033
 #define IDMODMSG_KIOSK_STARTING                     11034

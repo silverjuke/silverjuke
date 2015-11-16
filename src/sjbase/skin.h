@@ -569,25 +569,10 @@ class SjSkinDivItem : public SjSkinItem
 {
 public:
 	bool            Create              (const wxHtmlTag&, wxString& error);
-	void            OnMouseLeftDown     (long x, long y, bool doubleClick, long accelFlags);
-	void            OnMouseMotion       (long x, long y, bool leftDown);
-	SjMouseUsed     OnMouseLeftUp       (long x, long y, long accelFlags, bool captureLost);
 	wxRect          GetIndent           () const { return m_indent; }
 
 private:
-	long            m_onDownMouseScreenX,
-	                m_onDownMouseScreenY,
-	                m_onDownWindowX,
-	                m_onDownWindowY;
-
-	bool            m_inMove,
-	                m_inMotion;
-
 	wxRect          m_indent;
-
-protected:
-	bool            m_cursorChanged;
-	#define         SJ_DRAGMOVE_DELTA 2
 };
 
 

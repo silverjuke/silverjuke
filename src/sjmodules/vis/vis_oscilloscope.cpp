@@ -1659,12 +1659,6 @@ void SjOscModule::ReceiveMsg(int msg)
 		m_trackName = urlInfo.GetTrackName();
 		m_leadArtistName = urlInfo.GetLeadArtistName();
 	}
-	else if( msg == IDMODMSG_WINDOW_SIZE_MOVE_BEGIN )
-	{
-	}
-	else if( msg == IDMODMSG_WINDOW_SIZE_MOVE_END )
-	{
-	}
 }
 
 

@@ -2455,95 +2455,9 @@ bool SjSkinDivItem::Create(const wxHtmlTag& tag, wxString& error)
 	}
 
 	m_usesPaint     = FALSE;
-	m_inMove        = FALSE;
-	m_inMotion      = FALSE;
 	m_itemType      = SJ_DIVITEM;
-	m_cursorChanged = FALSE;
 
 	return TRUE;
-}
-
-
-void SjSkinDivItem::OnMouseLeftDown(long x, long y, bool doubleClick, long accelFlags)
-{
-	wxASSERT(m_skinWindow);
-}
-
-
-void SjSkinDivItem::OnMouseMotion(long x, long y, bool leftDown)
-{
-	wxASSERT(m_skinWindow);
-
-	if( leftDown
-	 && m_inMove
-	 && !m_inMotion )
-	{
-		m_inMotion = TRUE;
-
-		// get screen position of the mouse cursor
-		wxPoint screenMousePoint = ::wxGetMousePosition();
-		long hDiff = screenMousePoint.x - m_onDownMouseScreenX,
-		     vDiff = screenMousePoint.y - m_onDownMouseScreenY;
-
-		// change cursor if not yet done
-		if( !m_cursorChanged )
-		{
-			if( hDiff >  SJ_DRAGMOVE_DELTA
-			 || hDiff < -SJ_DRAGMOVE_DELTA
-			 || vDiff >  SJ_DRAGMOVE_DELTA
-			 || vDiff < -SJ_DRAGMOVE_DELTA )
-			{
-				wxASSERT(g_tools);
-				m_skinWindow->SetCursor(g_tools->m_staticMovehandCursor);
-				m_cursorChanged = TRUE;
-
-				SjSkinValue dummy;
-				m_skinWindow->OnSkinTargetEvent(IDMODMSG_WINDOW_SIZE_MOVE_BEGIN, dummy, 0);
-			}
-		}
-
-		// move window
-		if( m_cursorChanged )
-		{
-			// get old size
-			int windowW, windowH;
-			m_skinWindow->GetSize(&windowW, &windowH);
-
-			// calc new position
-			long newWindowX = m_onDownWindowX + hDiff;
-			long newWindowY = m_onDownWindowY + vDiff;
-
-			// set new size and position
-			m_skinWindow->SetSize(newWindowX, newWindowY, windowW, windowH);
-		}
-
-		m_inMotion = FALSE;
-	}
-}
-
-
-SjMouseUsed SjSkinDivItem::OnMouseLeftUp(long x, long y, long accelFlags, bool captureLost)
-{
-	wxASSERT(m_skinWindow);
-
-	SjMouseUsed ret = SJ_MOUSE_NOT_USED;
-	if( m_inMove )
-	{
-		if( m_cursorChanged )
-		{
-			m_skinWindow->SetCursor(SjVirtKeybdModule::GetStandardCursor());
-			m_cursorChanged = FALSE;
-
-			SjSkinValue dummy;
-			m_skinWindow->OnSkinTargetEvent(IDMODMSG_WINDOW_SIZE_MOVE_END, dummy, accelFlags);
-
-			ret = SJ_MOUSE_USED; // don't send a delayed event
-		}
-
-		m_inMove = FALSE;
-	}
-
-	return ret;
 }
 
 

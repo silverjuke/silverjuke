@@ -1670,11 +1670,6 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 	{
 		switch( targetId )
 		{
-			case IDMODMSG_WINDOW_SIZE_MOVE_BEGIN:
-			case IDMODMSG_WINDOW_SIZE_MOVE_END:
-				m_moduleSystem.BroadcastMsg((int)targetId);
-				break;
-
 			case IDT_SEARCH_BUTTON:
 				if( IsOpAvailable(SJ_OP_SEARCH) )
 				{
