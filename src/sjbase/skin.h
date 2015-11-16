@@ -850,7 +850,6 @@ protected:
 	void            SetInputWindow      (wxWindow*);
 
 	wxRect          CheckLayoutWindowRect(const SjSkinLayout*, const wxRect&, bool* retBadSize=NULL) const;
-	void            SetSkinWindowRect   (const wxRect&);
 
 private:
 	// skin settings of the loaded skin

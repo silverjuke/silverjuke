@@ -2759,7 +2759,7 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 		if( doSizeChange )
 		{
 			SjDialog::EnsureRectDisplayVisibility(wantedRect);
-			SetSkinWindowRect(wantedRect);
+			SetSize(CheckLayoutWindowRect(m_currLayout, wantedRect));
 		}
 	}
 
@@ -2966,12 +2966,6 @@ wxRect SjSkinWindow::CheckLayoutWindowRect(const SjSkinLayout* layout, const wxR
 	SjDialog::EnsureRectDisplayVisibility(r);
 
 	return r;
-}
-
-
-void SjSkinWindow::SetSkinWindowRect(const wxRect& wantedRect)
-{
-	SetSize(CheckLayoutWindowRect(m_currLayout, wantedRect));
 }
 
 
