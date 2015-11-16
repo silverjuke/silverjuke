@@ -52,7 +52,6 @@ class SjSee;
 #undef SJ_SKIN_USE_HIDE
 
 
-
 #define         SJ_OP_KIOSKON           0x00000001L
 #define         SJ_OP_MAIN_VOL          0x00000002L
 #define         SJ_OP_PLAYPAUSE         0x00000004L
@@ -85,7 +84,7 @@ class SjSee;
 class SjSkinPos
 {
 public:
-	SjSkinPos       () { Init(); }
+					SjSkinPos           () { Init(); }
 	void            Init                () { m_relTo10000=0; m_absPixels=0; m_special=0; }
 	bool            Parse               (const wxString&);
 	void            SetAbs              (long absPixels)  { m_relTo10000=0;          m_absPixels=absPixels; m_special=0; }
@@ -111,7 +110,7 @@ private:
 class SjSkinColour
 {
 public:
-	SjSkinColour        ();
+	                SjSkinColour        ();
 	void            SetFromTag          (const wxHtmlTag& tag);
 
 	wxColour        bgColour;
@@ -226,8 +225,8 @@ class SjSkinItem
 public:
 
 	// constructor/destructor
-	SjSkinItem      ();
-	virtual         ~SjSkinItem     ();
+					SjSkinItem          ();
+	virtual         ~SjSkinItem         ();
 
 	// the type and the name of the item, usually set by Create() in derived classes
 	// the name may be used to re-use the item
@@ -266,8 +265,7 @@ public:
 	// Mouse events; they're only sent to items with m_clickable set to TRUE.
 	// Mouse capturing is done by SjSkin on OnMouseDown()
 	virtual void    OnMouseLeftDown     (long x, long y, bool doubleClick, long accelFlags);
-	virtual SjMouseUsed
-	OnMouseLeftUp       (long x, long y, long accelFlags, bool captureLost);
+	virtual SjMouseUsed OnMouseLeftUp   (long x, long y, long accelFlags, bool captureLost);
 	virtual bool    OnMouseMiddle       (long x, long y) { return FALSE; }
 	virtual void    OnMouseMotion       (long x, long y, bool leftDown);
 	virtual void    OnMouseLeave        ();
@@ -287,12 +285,11 @@ public:
 
 	// start/stop a timer, running timers will call OnTimer()
 	void            CreateTimer         (long ms);
-	SjSkinItemTimer*
-	m_timer; // may be NULL!
+	SjSkinItemTimer* m_timer; // may be NULL!
 	virtual void    OnTimer             ();
 
 	// subimages for this item, may be NULL
-	SjSkinImage* m_image;
+	SjSkinImage*    m_image;
 	long            m_imageIndex;
 	bool            CheckImage          (wxString& error);
 
@@ -304,8 +301,8 @@ public:
 	#endif
 
 	// the RELATIVE or absolute position as given in file "commands.sjs"
-	SjSkinPos   m_x, m_y;
-	SjSkinPos   m_width, m_height;
+	SjSkinPos       m_x, m_y;
+	SjSkinPos       m_width, m_height;
 
 	// the ABSOLUTE position, set by SjSkin::CalcItemRectangles()
 	wxRect          m_rect;
@@ -321,16 +318,14 @@ public:
 	#define         SJ_COLOUR_VERTTEXT          7
 	#define         SJ_COLOUR_STUBTEXT          8
 	#define         SJ_COLOUR_COUNT             9
-	SjSkinColour* m_colours; // points to SjSkinSkin::m_dummyColours on default
+	SjSkinColour*   m_colours; // points to SjSkinSkin::m_dummyColours on default
 
 	// pointer to the skin window, NULL on Create()
-	SjSkinWindow*
-	m_skinWindow;
+	SjSkinWindow*   m_skinWindow;
 
 	// child and parent items
-	SjSkinItem*  m_parent;
-	SjSkinItemList
-	m_children;
+	SjSkinItem*     m_parent;
+	SjSkinItemList  m_children;
 
 	// some special properties
 	#define         SJ_SKIN_PROP_AUTO_START_VIS         0x01    // for SjSkinDivItem
@@ -342,7 +337,7 @@ public:
 class SjSkinItemTimer : public wxTimer
 {
 public:
-	SjSkinItemTimer (SjSkinItem* i) { m_item = i; }
+	                SjSkinItemTimer     (SjSkinItem* i) { m_item = i; }
 	void            Notify              () { wxASSERT(m_item); if( m_item ) { m_item->OnTimer(); } }
 
 private:
@@ -527,16 +522,11 @@ private:
 	long            m_minThumbWidth;
 	wxRect          m_allRect;
 
-	SjSkinScrollbarItemPart
-	m_pageLeftPart,
-	m_thumbPart,
-	m_pageRightPart;
+	SjSkinScrollbarItemPart m_pageLeftPart, m_thumbPart, m_pageRightPart;
 
-	SjSkinScrollbarItemPart*
-	m_hoverPart;
+	SjSkinScrollbarItemPart* m_hoverPart;
 
-	SjSkinScrollbarItemPart*
-	m_trackPart;
+	SjSkinScrollbarItemPart* m_trackPart;
 	long            m_trackStartValue,
 	                m_trackStartX,
 	                m_trackStartY;
@@ -548,9 +538,9 @@ private:
 	bool            m_hideIfUnused,
 	                m_hideScrollbar;
 	void            SwapNDrawPart       (wxDC& dc, SjSkinScrollbarItemPart&, bool alignMToR = FALSE);
-	SjSkinScrollbarItemPart* SwapNFindPart       (long x, long y);
+	SjSkinScrollbarItemPart* SwapNFindPart (long x, long y);
 	void            CheckNSendValue     (long newValue);
-	void             Swap                (long& x, long& y) { if( !m_horizontal ) { long temp = x; x = y; y = temp; } }
+	void            Swap                (long& x, long& y) { if( !m_horizontal ) { long temp = x; x = y; y = temp; } }
 };
 
 
@@ -612,8 +602,7 @@ private:
 	}
 	// this list reflects the items handling the given target in the current layout
 	// (normally identified by the index in an array of targets)
-	SjSkinItemList
-	m_itemList;
+	SjSkinItemList  m_itemList;
 
 	// the value of the target
 	SjSkinValue  m_value;
@@ -628,8 +617,8 @@ private:
 class SjSkinImage
 {
 public:
-	SjSkinImage     ();
-	~SjSkinImage    ();
+	                SjSkinImage         ();
+	                ~SjSkinImage        ();
 
 	wxBitmap*       GetSubimage         (int indexX, int indexY);
 	int             GetSubimageXCount   () { return m_subimageXCount; }
@@ -657,8 +646,8 @@ class SjSkinLayout
 {
 public:
 	// constructor / destructor
-	SjSkinLayout        (SjSkinSkin*, const wxString& name, int index);
-	~SjSkinLayout   ();
+	                SjSkinLayout        (SjSkinSkin*, const wxString& name, int index);
+	                ~SjSkinLayout       ();
 
 	// get information
 	wxString        GetName             () const { return m_name; }
@@ -666,10 +655,10 @@ public:
 
 private:
 	// layout settings
-	SjSkinSkin* m_skin;  // pointer back to the skin
+	SjSkinSkin*     m_skin;  // pointer back to the skin
 	int             m_index;
 	wxString        m_name;
-	SjSkinItemList m_itemList;
+	SjSkinItemList  m_itemList;
 	int             m_linesCount;
 	bool            m_hasWorkspace,
 	                m_hasInput;
@@ -697,12 +686,12 @@ WX_DECLARE_LIST(SjSkinLayout, SjSkinLayoutList);
 class SjSkinSkin : public wxObject // wxObject needed for SjSkinMlParser::GetProduct()
 {
 public:
-	SjSkinSkin      (
-		#if SJ_USE_SCRIPTS
-	    SjSee*
-		#endif
-	);
-	~SjSkinSkin     ();
+	               SjSkinSkin           (
+		                                 #if SJ_USE_SCRIPTS
+	                                     SjSee*
+		                                 #endif
+										);
+	                ~SjSkinSkin         ();
 
 	wxString        GetUrl              () const { return m_givenUrl; }
 	wxString        GetName             () const { return m_name; }
@@ -728,11 +717,10 @@ private:
 	wxString        m_baseDir;
 	wxString        m_name;
 	wxString        m_about;
-	SjSkinLayoutList
-	m_layoutList;
+	SjSkinLayoutList m_layoutList;
 
 	// the dummy colours used by an item if no other colours are set
-	SjSkinColour m_itemDefColours[SJ_COLOUR_COUNT];
+	SjSkinColour    m_itemDefColours[SJ_COLOUR_COUNT];
 
 	// debug settings
 	bool            m_debugInfo,
@@ -781,8 +769,8 @@ enum SjLoadLayoutFlag
 class SjSkinWindow : public wxFrame
 {
 public:
-	SjSkinWindow        (wxWindow* parent, wxWindowID id, long skinFlags, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE);
-	~SjSkinWindow   ();
+	                SjSkinWindow        (wxWindow* parent, wxWindowID id, long skinFlags, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_FRAME_STYLE);
+	                ~SjSkinWindow       ();
 
 	// load a skin, errors are given to wxLog* and should be displayed automatically
 	bool            LoadSkin            (const wxString& path, long conditions, const wxString& skinSettings=wxEmptyString, bool reloadScripts=true);
@@ -805,15 +793,13 @@ public:
 	int             GetLinesCount       () const { return m_currLayout? m_currLayout->m_linesCount : 0; }
 	void            GetLayoutMinMax     (const SjSkinLayout* l, wxSize& min, wxSize& max)  const { if(l) {l->GetMinMax(min,max);} else {min.x=32; min.y=32; max.x=32000; max.y=32000;} }
 	bool            GetVisEmbedRect     (wxRect* r=NULL, bool* retIsOverWorkspace=NULL, bool* retVisAutoStart=NULL) const;
-	wxString        GetSavableSkinSettings
-	();
+	wxString        GetSavableSkinSettings();
 	long            GetTargetProp       (int targetId);
 
 	// tooltip handling, using "data", the tooltips may also be
 	// used for child windows
 	#if SJ_USE_TOOLTIPS
-	virtual SjToolTipProvider*
-	GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) = 0;
+	virtual SjToolTipProvider* GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) = 0;
 	#endif
 	bool            IsMouseInDisplayMove() const { return m_mouseInDisplayMove; }
 
@@ -844,8 +830,8 @@ public:
 	int             FindTargetId        (long x, long y) const { SjSkinItem* i=FindClickableItem(x, y); return i? i->m_targetId : 0; }
 
 	// direct links to some items in the current layout
-	SjSkinColour* m_workspaceColours;
-	SjSkinColour  m_workspaceColours__[SJ_COLOUR_COUNT];
+	SjSkinColour*   m_workspaceColours;
+	SjSkinColour    m_workspaceColours__[SJ_COLOUR_COUNT];
 
 	// The Image Thread
 	SjImgThread*    m_imgThread;
@@ -878,15 +864,13 @@ protected:
 	void            SetWorkspaceWindow  (wxWindow*);
 	void            SetInputWindow      (wxWindow*);
 
-	wxRect          CheckLayoutWindowRect
-	(const SjSkinLayout*, const wxRect&, bool* retBadSize=NULL) const;
+	wxRect          CheckLayoutWindowRect(const SjSkinLayout*, const wxRect&, bool* retBadSize=NULL) const;
 	void            SetSkinWindowRect   (const wxRect&);
 
 private:
 	// skin settings of the loaded skin
-	SjSkinSkin* m_currSkin;
-	SjSkinLayout*
-	m_currLayout; // use the layout to check if the skin is okay!
+	SjSkinSkin*     m_currSkin;
+	SjSkinLayout*   m_currLayout; // use the layout to check if the skin is okay!
 	wxWindow*       m_workspaceWindow;
 	bool            m_workspaceMovedAway;
 	wxWindow*       m_inputWindow;
@@ -902,15 +886,14 @@ private:
 	// calculate all positions, working with positions
 	void            CalcItemRectangles  (long width, long height);
 	void            CalcChildItemRectangles (SjSkinItem* parent);
-	SjSkinItem*  FindClickableItem  (long x, long y) const;
-	SjSkinItem*  FindFirstItemByTargetId (int targetId) const;
+	SjSkinItem*     FindClickableItem   (long x, long y) const;
+	SjSkinItem*     FindFirstItemByTargetId (int targetId) const;
 	void            SaveSizes           ();
 
 	// mouse handling
 	SjSkinItem*  m_mouseItem;
 	#if SJ_USE_TOOLTIPS
-	SjSkinWindowToolTipProvider
-	m_skinWindowToolTipProvider;
+	SjSkinWindowToolTipProvider m_skinWindowToolTipProvider;
 	#endif
 	bool            m_mouseInDisplayMove;
 
@@ -935,7 +918,7 @@ private:
 	// drawing
 	void            RedrawAll           (wxDC&, const wxRect* rect = NULL, long finalMoveX = 0, long finalMoveY = 0);
 	void            RedrawFinalLines    (wxDC&, long finalMoveX = 0, long finalMoveY = 0);
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 
 	// friend classes
 	friend class    SjSkinItem;

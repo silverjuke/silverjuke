@@ -2751,12 +2751,12 @@ void SjMainFrame::SetDefaultWindowSize(bool init)
 bool SjMainFrame::IsAnyDialogOpened()
 {
 	if(  SjSettingsModule::IsDialogOpen()
-	        || (g_openFilesModule && g_openFilesModule->IsDialogOpened() )
-	        || (g_helpModule && g_helpModule->IsHelpOpen() )
-	        || (g_tagEditorModule && g_tagEditorModule->IsTagEditorOpened())
-	        || (g_advSearchModule && g_advSearchModule->IsDialogOpen())
-	        || (g_virtKeybd && g_virtKeybd->IsKeybdOpened())
-	        || (g_kioskModule && g_kioskModule->IsPasswordDlgOpened()) )
+	 || (g_openFilesModule && g_openFilesModule->IsDialogOpened() )
+	 || (g_helpModule && g_helpModule->IsHelpOpen() )
+	 || (g_tagEditorModule && g_tagEditorModule->IsTagEditorOpened())
+	 || (g_advSearchModule && g_advSearchModule->IsDialogOpen())
+	 || (g_virtKeybd && g_virtKeybd->IsKeybdOpened())
+	 || (g_kioskModule && g_kioskModule->IsPasswordDlgOpened()) )
 	{
 		return TRUE;
 	}
@@ -2792,7 +2792,9 @@ void SjMainFrame::SetSkinAzValues(int az)
 		{
 			bool hasThisTarget = HasSkinTarget(testId);
 			if( hasThisTarget )
+			{
 				hasAnyTarget = true;
+			}
 
 			if( testId == sollId || markNext )
 			{
@@ -2860,7 +2862,7 @@ void SjMainFrame::OnSimpleSearchInput(wxCommandEvent& event)
 	// prepare performung the search
 	WXTYPE eventType = event.GetEventType();
 	if( (eventType == wxEVT_COMMAND_TEXT_UPDATED && (g_advSearchModule->m_flags&SJ_SEARCHFLAG_SEARCHWHILETYPING))
-	        ||  eventType == wxEVT_COMMAND_TEXT_ENTER )
+	 ||  eventType == wxEVT_COMMAND_TEXT_ENTER )
 	{
 		// avoid recursion and disable further calls of this functions
 		static bool inSearchInput = FALSE;
@@ -2915,7 +2917,7 @@ void SjMainFrame::UpdateSearchInfo(long numTracksRemoved)
 	SjSkinValue v;
 	v.value = SJ_VFLAG_CENTER;
 	if( !m_search.m_simple.IsSet()
-	        && (!m_search.m_adv.IsSet() || m_searchStat.m_totalResultCount>0 || m_libraryModule->GetUnmaskedTrackCount()==0) )
+	 && (!m_search.m_adv.IsSet() || m_searchStat.m_totalResultCount>0 || m_libraryModule->GetUnmaskedTrackCount()==0) )
 	{
 		if( m_search.m_adv.IsSet()
 		        && (IsOpAvailable(SJ_OP_MUSIC_SEL) || IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
@@ -2962,7 +2964,7 @@ void SjMainFrame::SetSearch(long flags, const wxString& newSimpleSearch, const S
 
 		// add previous search to the history if SJ_HISTORY_DELAY_MS have expired
 		if(   thisSearchTime > lastSearchTime+SJ_HISTORY_DELAY_MS
-		        || !(flags&SJ_SETSEARCH_NOAUTOHISTORYADD) )
+		 || !(flags&SJ_SETSEARCH_NOAUTOHISTORYADD) )
 		{
 			if( m_search.IsSet() && m_searchStat.m_totalResultCount > 0 )
 			{
@@ -2974,7 +2976,7 @@ void SjMainFrame::SetSearch(long flags, const wxString& newSimpleSearch, const S
 		// modify the search object - first we modify the adv. search as
 		// the simple search may check this.
 		if( (flags&SJ_SETSEARCH_CLEARADV)
-		        && (IsOpAvailable(SJ_OP_MUSIC_SEL) || IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
+		 && (IsOpAvailable(SJ_OP_MUSIC_SEL) || IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
 		{
 			bool doClear = TRUE;
 			if( IsKioskStarted() )
@@ -2998,7 +3000,7 @@ void SjMainFrame::SetSearch(long flags, const wxString& newSimpleSearch, const S
 			}
 		}
 		else if( (flags&SJ_SETSEARCH_SETADV)
-		         && (IsOpAvailable(SJ_OP_MUSIC_SEL) || IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
+		      && (IsOpAvailable(SJ_OP_MUSIC_SEL) || IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
 		{
 			wxASSERT( newAdvSearch );
 			/*if( m_search.m_adv != *newAdvSearch )
@@ -3095,7 +3097,7 @@ void SjMainFrame::SetSearch(long flags, const wxString& newSimpleSearch, const S
 			// update the browser
 			m_browser->ReloadColumnMixer(false);
 			if(  !m_search.m_simple.IsSet()
-			        && (!columnGuid.IsEmpty() || !m_searchLastColumnGuid.IsEmpty())  )
+			 && (!columnGuid.IsEmpty() || !m_searchLastColumnGuid.IsEmpty())  )
 			{
 				if( !columnGuid.IsEmpty() )
 				{
@@ -3157,7 +3159,7 @@ void SjMainFrame::OnSearchHistory(wxCommandEvent& event)
 		SjSearch                newSearch = historyItem->GetSearch();
 
 		SetSearch(      (newSearch.m_simple.IsSet()? SJ_SETSEARCH_SETSIMPLE : SJ_SETSEARCH_CLEARSIMPLE)
-		                |   (newSearch.m_adv.IsSet()?    SJ_SETSEARCH_SETADV    : SJ_SETSEARCH_CLEARADV),
+		            |   (newSearch.m_adv.IsSet()?    SJ_SETSEARCH_SETADV    : SJ_SETSEARCH_CLEARADV),
 		                newSearch.m_simple.GetWords(),
 		                &newSearch.m_adv    );
 	}
@@ -3170,7 +3172,7 @@ void SjMainFrame::OnSearchGenre(wxCommandEvent& event)
 	wxArrayString data = m_libraryModule->GetUniqueValues(SJ_TI_GENRENAME);
 	int index = event.GetId() - IDO_SEARCHGENRE000;
 	if( index >= 0 && index < (int)data.GetCount()
-	        && IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE) )
+	 && IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE) )
 	{
 		GotInputFromUser();
 
@@ -3188,7 +3190,7 @@ void SjMainFrame::OnSearchMusicSel(wxCommandEvent& event)
 	int iCount = g_advSearchModule->GetSearchCount();
 	int index = event.GetId() - IDO_SEARCHMUSICSEL000;
 	if( index >= 0 && index < iCount
-	        && IsOpAvailable(SJ_OP_MUSIC_SEL) )
+	 && IsOpAvailable(SJ_OP_MUSIC_SEL) )
 	{
 		GotInputFromUser();
 
