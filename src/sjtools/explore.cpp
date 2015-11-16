@@ -49,44 +49,13 @@ void SjTools::InitExplore()
  ******************************************************************************/
 
 
-static bool wxFileSystemHandler_IsSupportedProtocol(const wxString& location, int hashPos)
-{
-	// check the rough syntax of a protocol to allow filenames with a '#' sign
-	wxString test = location.Mid(hashPos+1);
-	int doublePointPos = test.Find(':');
-	return (doublePointPos>=2 && doublePointPos<=6); // max. known length is "memory:"
-}
-
-
-static wxString wxFileSystemHandler_GetLeftLocation(const wxString& location)
-{
-	int i;
-	bool fnd;
-
-	fnd = FALSE;
-	for (i = location.Length()-1; i >= 0; i--) {
-		if ((location[i] == wxT(':')) && (i != 1 /*win: C:\path*/)) fnd = TRUE;
-		else if (fnd && (location[i] == wxT('#') && wxFileSystemHandler_IsSupportedProtocol(location,i))) return location.Left(i);
-	}
-	return location;
-}
-
 
 bool SjTools::IsUrlExplorable(const wxString& url)
 {
-	wxString left = wxFileSystemHandler_GetLeftLocation(url);
-	if( ::wxFileExists(url) || ::wxDirExists(url)
-	        || ::wxFileExists(left) || ::wxDirExists(left) )
-	{
-		return true;
-	}
-
-	wxString prot = left.BeforeFirst(wxT(':'));
-	if( prot == wxT("memory")
-	        || prot == wxT("http")
-	        || prot == wxT("https")
-	        || ::wxFileExists(url) || ::wxDirExists(url)
-	        || ::wxFileExists(left) || ::wxDirExists(left) )
+	wxString prot = url.BeforeFirst(wxT(':'));
+	if( prot == wxT("file")
+	 || prot == wxT("http")
+	 || prot == wxT("https") )
 	{
 		return true;
 	}
@@ -107,24 +76,25 @@ void SjTools::ExploreUrl(const wxString& url)
 		return;
 	}
 
-	wxString left = wxFileSystemHandler_GetLeftLocation(url);
-	wxString prot = left.BeforeFirst(':');
+	wxString prot = url.BeforeFirst(':');
 	if( prot == wxT("http") || prot == wxT("https") )
 	{
 		::wxLaunchDefaultBrowser(url);
+		return; // done
 	}
-	else if( ::wxFileExists(url) || ::wxDirExists(url) )
+	else if( prot == "file" )
+	{
+		ExploreFile_(wxFileSystem::URLToFileName(url).GetFullPath(), m_exploreProgram);
+		return; // done
+	}
+	else if( wxFileExists(url) || wxDirExists(url) )
 	{
 		ExploreFile_(url, m_exploreProgram);
+		return; // done, however, this is a little hack as the argument is not a URL but a native file. The caller should use ExploreFile() instead.
 	}
-	else if( ::wxFileExists(left) || ::wxDirExists(left) )
-	{
-		ExploreFile_(left, m_exploreProgram);
-	}
-	else
-	{
-		wxLogError(_("Cannot open \"%s\"."), url.c_str());
-	}
+
+	// error
+	wxLogError(_("Cannot open \"%s\"."), url.c_str());
 }
 
 
