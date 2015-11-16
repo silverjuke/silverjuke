@@ -56,7 +56,7 @@ public:
 		m_isServer = isServer;
 	}
 
-	bool OnExecute(const wxString& topic, wxChar* data__, int size, wxIPCFormat format);
+	bool OnExecute(const wxString& topic, const void*, size_t, wxIPCFormat format);
 
 	bool OnDisconnect()
 	{
@@ -87,12 +87,12 @@ void SjConnection::Raise()
 }
 
 
-bool SjConnection::OnExecute(const wxString& topic, wxChar* data_, int size_, wxIPCFormat format_)
+bool SjConnection::OnExecute(const wxString& topic, const void* data_, size_t size_, wxIPCFormat format_)
 {
 	// can we handle the request?
 	if( SjMainApp::IsInShutdown()
-	        || g_mainFrame ==NULL
-	        || (SjMainFrame*)wxWindow::FindWindowById(IDC_MAINFRAME) == NULL )
+	 || g_mainFrame ==NULL
+	 || (SjMainFrame*)wxWindow::FindWindowById(IDC_MAINFRAME) == NULL )
 	{
 		return FALSE;
 	}
@@ -101,7 +101,7 @@ bool SjConnection::OnExecute(const wxString& topic, wxChar* data_, int size_, wx
 	wxArrayString data;
 	if( data_ )
 	{
-		wxStringTokenizer tkz(data_, wxT("\n\r"), wxTOKEN_RET_EMPTY_ALL);
+		wxStringTokenizer tkz(GetTextFromData(data_, size_, format_), "\n\r", wxTOKEN_RET_EMPTY_ALL);
 		while( tkz.HasMoreTokens() )
 		{
 			wxString token = tkz.GetNextToken();
@@ -185,6 +185,13 @@ bool SjConnection::OnExecute(const wxString& topic, wxChar* data_, int size_, wx
 				                                      (topic==wxT("setcredit")? SJ_ADDCREDIT_SET_TO_NULL_BEFORE_ADD : 0)
 				                                     );
 			}
+		}
+	}
+	else if( topic=="displaymsg" ) // this is mainly for testing IPC
+	{
+		if( data.GetCount() )
+		{
+			g_mainFrame->SetDisplayMsg(data[0], 10000);
 		}
 	}
 	else if( topic==wxT("execute") )
@@ -304,6 +311,7 @@ bool SjMainApp::OnInit()
 		{ wxCMD_LINE_SWITCH, NULL, wxT_2("enqueue"),     wxT_2("Enqueue the given file(s)") },
 		{ wxCMD_LINE_OPTION, NULL, wxT_2("setcredit"),   wxT_2("Set the number of credits in the credit system"), wxCMD_LINE_VAL_NUMBER },
 		{ wxCMD_LINE_OPTION, NULL, wxT_2("addcredit"),   wxT_2("Add the number of credits to the credit system"), wxCMD_LINE_VAL_NUMBER },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("displaymsg"),  wxT_2("Show the given message on the display"), wxCMD_LINE_VAL_STRING }, // this is mainly for testing IPC
 		{ wxCMD_LINE_OPTION, NULL, wxT_2("execute"),     wxT_2("Execute the given scripting commands") },
 		// environment settings
 		{ wxCMD_LINE_SWITCH, NULL, wxT_2("skiperrors"),  wxT_2("Do not show startup errors") },
@@ -404,7 +412,7 @@ bool SjMainApp::OnInit()
 				wxConnectionBase* connection = client->MakeConnection(wxT("localhost"), serviceName, topic);
 				if( connection )
 				{
-					executedSuccessfully = connection->Execute(static_cast<const wxChar*>(data.c_str()), -1);
+					executedSuccessfully = connection->Execute(data);
 					connection->Disconnect();
 					delete connection;
 				}
