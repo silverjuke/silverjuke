@@ -1090,7 +1090,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	/* (/) Load Skin, Set Icons
 	 */
-	SetDefaultWindowSize(TRUE/*init*/);
+	SetDefaultWindowSize();
 	{
 		wxString defaultSkin(wxT("memory:defaultskin.xml"));
 		wxString skin = g_tools->m_config->Read(wxT("main/skinFile"), defaultSkin);
@@ -2718,26 +2718,18 @@ void SjMainFrame::SetFontNCoverBase(const wxString& fontFace, long fontSize, lon
 
 
 
-void SjMainFrame::SetDefaultWindowSize(bool init)
+void SjMainFrame::SetDefaultWindowSize()
 {
 	// set wanted window size
-	wxRect displRect = SjDialog::GetDisplayWorkspaceRect(init? NULL : this);
+	wxRect displRect = SjDialog::GetDisplayWorkspaceRect(NULL);
 	wxRect wantedRect;
 
 	wantedRect = wxRect(displRect.x + displRect.width/20,     displRect.y + displRect.height/20,
 	                    displRect.width - displRect.width/10, displRect.height - displRect.height/4);
 
-	if( init )
-	{
-		// just set the default size; the size may be corrected
-		// when a skin gets loaded
-		SetSize(wantedRect);
-	}
-	else
-	{
-		// set size through skin
-		SetSkinWindowRect(wantedRect);
-	}
+	// just set the default size; the size may be corrected
+	// when a skin gets loaded
+	SetSize(wantedRect);
 }
 
 

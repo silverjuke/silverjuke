@@ -164,7 +164,7 @@ public:
 	long            GetBaseColumnWidth  () const { return m_baseColumnWidth; }
 	long            GetBaseCoverHeight  () const { return m_baseCoverHeight; }
 	void            SetFontNCoverBase   (const wxString& fontFace, long fontSize, long columnWidth, long coverHeight);
-	void            SetDefaultWindowSize(bool init=FALSE);
+	void            SetDefaultWindowSize();
 
 	long            m_currColumnWidth,
 	                m_currCoverWidth,
