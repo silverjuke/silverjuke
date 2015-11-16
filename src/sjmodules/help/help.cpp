@@ -379,9 +379,9 @@ void SjHelpModule::CloseHelp()
 void SjHelpModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_WINDOW_ICONIZED
-	        || msg == IDMODMSG_KIOSK_STARTING
-	        || msg == IDMODMSG_KIOSK_ENDED
-	        || msg == IDMODMSG_WINDOW_CLOSE )
+	 || msg == IDMODMSG_KIOSK_STARTING
+	 || msg == IDMODMSG_KIOSK_ENDED
+	 || msg == IDMODMSG_WINDOW_CLOSE )
 	{
 		CloseHelp();
 	}

@@ -1400,8 +1400,8 @@ void SjVirtKeybdModule::LastUnload()
 void SjVirtKeybdModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_KIOSK_STARTING
-	        || msg == IDMODMSG_KIOSK_ENDED
-	        || msg == IDMODMSG_WINDOW_CLOSE )
+	 || msg == IDMODMSG_KIOSK_ENDED
+	 || msg == IDMODMSG_WINDOW_CLOSE )
 	{
 		CloseKeybd();
 	}
@@ -1415,7 +1415,7 @@ void SjVirtKeybdModule::SetFlag(long flag, bool set)
 
 	SjVirtKeybdFrame* frame = GetVirtKeybdFrame();
 	if( frame
-	        && flag == SJ_VIRTKEYBD_BLACK )
+	 && flag == SJ_VIRTKEYBD_BLACK )
 	{
 		frame->InitKeybdFrame();
 		frame->Refresh();
@@ -1450,7 +1450,7 @@ void SjVirtKeybdModule::SetTransparency(int transp)
 
 	SjVirtKeybdFrame* frame = GetVirtKeybdFrame();
 	if( frame
-	        && g_tools->CanSetWindowTransparency() )
+	 && g_tools->CanSetWindowTransparency() )
 	{
 		g_tools->SetWindowTransparency(frame, transp);
 	}

@@ -264,7 +264,7 @@ void SjOpenFilesModule::CloseDialog()
 void SjOpenFilesModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_KIOSK_STARTING
-	        || msg == IDMODMSG_WINDOW_CLOSE )
+	 || msg == IDMODMSG_WINDOW_CLOSE )
 	{
 		CloseDialog();
 	}

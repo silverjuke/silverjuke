@@ -72,7 +72,6 @@ void SjMainFrame::OpenSettings(const wxString& selFile, int selIndex, int selPag
 }
 
 
-
 void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
                           bool urlsVerified, bool autoPlay, bool uiChecks)
 {
@@ -196,7 +195,6 @@ void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
 }
 
 
-
 void SjMainFrame::UnqueueByPos(long queuePos)
 {
 	if( queuePos >= 0 && queuePos < m_player.m_queue.GetCount() )
@@ -216,7 +214,6 @@ void SjMainFrame::UnqueueByPos(long queuePos)
 		UpdateMenuBarQueue();
 	}
 }
-
 
 
 bool SjMainFrame::GotoNextRegardAP(bool fadeToNext, bool ignoreTimeouts)
@@ -243,7 +240,6 @@ bool SjMainFrame::GotoNextRegardAP(bool fadeToNext, bool ignoreTimeouts)
 }
 
 
-
 void SjMainFrame::ReplayIfPlaying()
 {
 	// this function may be used to reflect new audio/player settings
@@ -265,7 +261,6 @@ void SjMainFrame::ReplayIfPlaying()
 }
 
 
-
 void SjMainFrame::SetAbsMainVol(long v)
 {
 	SjSkinValue value;
@@ -282,7 +277,6 @@ void SjMainFrame::SetAbsMainVol(long v)
 	value.value = m_player.GetMainVolMute()? 1 : 0;
 	SetSkinTargetValue(IDT_MAIN_VOL_MUTE, value);
 }
-
 
 
 bool SjMainFrame::UpdateIndex(wxWindow* parent, bool deepUpdate)
@@ -343,7 +337,6 @@ bool SjMainFrame::UpdateIndex(wxWindow* parent, bool deepUpdate)
 }
 
 
-
 bool SjMainFrame::QueryEndSession(bool onShutdown)
 {
 	if( !m_mainApp->IsInShutdown() )
@@ -393,11 +386,9 @@ void SjMainFrame::DoEndSession()
 }
 
 
-
 /*******************************************************************************
- *  Drag'n'Drop / Open Files
+ * Drag'n'Drop / Open Files
  ******************************************************************************/
-
 
 
 class SjDropTarget : public wxDropTarget
@@ -469,7 +460,6 @@ public:
 };
 
 
-
 void SjMainFrame::OnIDO_DND_ONDATA(wxCommandEvent& evt)
 {
 	SjDropTarget* dropTarget = (SjDropTarget*)evt.GetClientData();
@@ -480,7 +470,6 @@ void SjMainFrame::OnIDO_DND_ONDATA(wxCommandEvent& evt)
 }
 
 
-
 bool SjMainFrame::DragNDrop(SjDragNDropAction action,
                             wxWindow* dndOwner, const wxPoint& dndOwnerPos,
                             SjDataObject* data,
@@ -489,14 +478,11 @@ bool SjMainFrame::DragNDrop(SjDragNDropAction action,
 	static wxWindow*        s_currWindow = NULL;
 	static SjCommonModule*  s_currModule = NULL;
 
-
 	//
 	// save the given data and get the screen position of the dnd action
 	//
 
-
 	wxPoint screenPos = dndOwner->ClientToScreen(dndOwnerPos);
-
 
 	//
 	// init drag'n'drop - this message is NOT forwarded to any module at this moment
@@ -545,7 +531,6 @@ bool SjMainFrame::DragNDrop(SjDragNDropAction action,
 		m_internalDragNDrop = FALSE;
 		return FALSE; // the caller should not call this function for the dnd progress anymore
 	}
-
 
 	//
 	// find the top-level window under the mouse
@@ -598,7 +583,6 @@ bool SjMainFrame::DragNDrop(SjDragNDropAction action,
 			}
 		}
 	}
-
 
 	//
 	// move the drag'n'drop image or, if no image is present, test if the dnd target
@@ -741,14 +725,12 @@ bool SjMainFrame::DragNDrop(SjDragNDropAction action,
 }
 
 
-
 bool SjMainFrame::OpenFiles(const wxArrayString& files, int command, int x, int y)
 {
 	SjDataObject data(wxDragMove);
 	data.AddFiles(files);
 	return OpenData(&data, command, x, y);
 }
-
 
 
 bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mouseY)
@@ -951,11 +933,9 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 }
 
 
-
 /*******************************************************************************
- *  Constructor / Destructor
+ * Constructor / Destructor
  ******************************************************************************/
-
 
 
 SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoint& pos, const wxSize& size) :
@@ -1424,7 +1404,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 }
 
 
-
 SjMainFrame::~SjMainFrame(void)
 {
 	/* =======================================================
@@ -1516,12 +1495,9 @@ SjMainFrame::~SjMainFrame(void)
 }
 
 
-
-
 /*******************************************************************************
- *  Events
+ * Events
  ******************************************************************************/
-
 
 
 BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
@@ -1586,7 +1562,6 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 END_EVENT_TABLE()
 
 
-
 #if SJ_USE_SCRIPTS
 void SjMainFrame::CmdLineAndDdeSeeExecute(const wxString& cmds__)
 {
@@ -1622,7 +1597,6 @@ void SjMainFrame::CmdLineAndDdeSeeExecute(const wxString& cmds__)
 	m_cmdLineAndDdeSee->Execute(cmds);
 }
 #endif
-
 
 
 void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accelFlags)
@@ -2242,8 +2216,6 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 }
 
 
-
-
 void SjMainFrame::OnPaste(wxCommandEvent& event)
 {
 	if( IsAllAvailable() )
@@ -2293,13 +2265,11 @@ void SjMainFrame::OnPaste(wxCommandEvent& event)
 }
 
 
-
 void SjMainFrame::OnFwdToSkin(wxCommandEvent& event)
 {
 	SjSkinValue dummy;
 	OnSkinTargetEvent(event.GetId(), dummy, 0);
 }
-
 
 
 void SjMainFrame::OnFwdToModules(wxCommandEvent& event)
@@ -2352,7 +2322,6 @@ void SjMainFrame::OnFwdToModules(wxCommandEvent& event)
 }
 
 
-
 void SjMainFrame::OnFwdToPlayer(wxCommandEvent& event)
 {
 	/* This function just forward command events between IDPLAYER_FIRST and IDPLAYER_LAST
@@ -2377,7 +2346,6 @@ void SjMainFrame::OnFwdToPlayer(wxCommandEvent& event)
 }
 
 
-
 void SjMainFrame::OnCloseWindow(wxCloseEvent& event)
 {
 	if( QueryEndSession() )
@@ -2389,7 +2357,6 @@ void SjMainFrame::OnCloseWindow(wxCloseEvent& event)
 		event.Veto();
 	}
 }
-
 
 
 void SjMainFrame::OnIconizeWindow(wxIconizeEvent& event)
@@ -2420,8 +2387,6 @@ void SjMainFrame::OnIconizeWindow(wxIconizeEvent& event)
 }
 
 
-
-
 void SjMainFrame::OnEsc(wxCommandEvent& event)
 {
 	if( g_visModule->IsVisStarted() && g_visModule->IsOverWorkspace() )
@@ -2449,7 +2414,6 @@ void SjMainFrame::OnEsc(wxCommandEvent& event)
 }
 
 
-
 void SjMainFrame::OnTab(wxCommandEvent& event)
 {
 	if( wxWindow::FindFocus() == m_simpleSearchInputWindow )
@@ -2463,11 +2427,9 @@ void SjMainFrame::OnTab(wxCommandEvent& event)
 }
 
 
-
 /*******************************************************************************
- *  Handling Tool Tips
+ * Handling Tool Tips
  ******************************************************************************/
-
 
 
 #if SJ_USE_TOOLTIPS
@@ -2562,12 +2524,9 @@ wxString SjMainFrameToolTipProvider::GetText(long& flags)
 #endif
 
 
-
-
 /*******************************************************************************
- *  Handling Zoom and Font
+ * Handling Zoom and Font
  ******************************************************************************/
-
 
 
 long SjMainFrame::CorrectColumnWidth(long columnWidth)
@@ -2578,7 +2537,6 @@ long SjMainFrame::CorrectColumnWidth(long columnWidth)
 }
 
 
-
 long SjMainFrame::CorrectCoverHeight(long coverHeight)
 {
 	if( coverHeight < 10  ) return 10;
@@ -2587,14 +2545,12 @@ long SjMainFrame::CorrectCoverHeight(long coverHeight)
 }
 
 
-
 long SjMainFrame::CorrectFontSize(long fontsize)
 {
 	if( fontsize < SJ_MIN_FONT_SIZE ) return SJ_MIN_FONT_SIZE;
 	if( fontsize > SJ_MAX_FONT_SIZE ) return SJ_MAX_FONT_SIZE;
 	return fontsize;
 }
-
 
 
 void SjMainFrame::CalcCurrFontSizesFromZoom()
@@ -2643,7 +2599,6 @@ void SjMainFrame::CalcCurrFontSizesFromZoom()
 }
 
 
-
 void SjMainFrame::CreateFontObjects()
 {
 	m_baseStdFont       = wxFont(m_baseFontSize,        wxSWISS, wxNORMAL, wxNORMAL, FALSE, m_baseFontFace);
@@ -2655,14 +2610,12 @@ void SjMainFrame::CreateFontObjects()
 }
 
 
-
 long SjMainFrame::CorrectZoom(long zoom)
 {
 	if( zoom < SJ_ZOOM_MIN ) return SJ_ZOOM_MIN;
 	if( zoom > SJ_ZOOM_MAX ) return SJ_ZOOM_MAX;
 	return zoom;
 }
-
 
 
 void SjMainFrame::SetZoom__(long newZoom, bool redraw)
@@ -2684,7 +2637,6 @@ void SjMainFrame::SetZoom__(long newZoom, bool redraw)
 		}
 	}
 }
-
 
 
 void SjMainFrame::SetFontNCoverBase(const wxString& fontFace, long fontSize, long columnWidth, long coverHeight)
@@ -2717,7 +2669,6 @@ void SjMainFrame::SetFontNCoverBase(const wxString& fontFace, long fontSize, lon
 }
 
 
-
 void SjMainFrame::SetDefaultWindowSize()
 {
 	// set wanted window size
@@ -2733,11 +2684,9 @@ void SjMainFrame::SetDefaultWindowSize()
 }
 
 
-
 /*******************************************************************************
- *  Misc.
+ * Misc.
  ******************************************************************************/
-
 
 
 bool SjMainFrame::IsAnyDialogOpened()
@@ -2759,11 +2708,9 @@ bool SjMainFrame::IsAnyDialogOpened()
 }
 
 
-
 /*******************************************************************************
- *  Handling the search input field
+ * Handling the search input field
  ******************************************************************************/
-
 
 
 void SjMainFrame::SetSkinAzValues(int az)
@@ -2812,7 +2759,6 @@ void SjMainFrame::SetSkinAzValues(int az)
 }
 
 
-
 wxString SjMainFrame::NormalizeSearchText(const wxString& text__)
 {
 	wxString text(text__);
@@ -2824,7 +2770,6 @@ wxString SjMainFrame::NormalizeSearchText(const wxString& text__)
 	}
 	return text;
 }
-
 
 
 void SjMainFrame::OnSimpleSearchInput(wxCommandEvent& event)
@@ -2894,7 +2839,6 @@ void SjMainFrame::OnSimpleSearchInputTimer(wxTimerEvent& event)
 }
 
 
-
 void SjMainFrame::UpdateSearchInfo(long numTracksRemoved)
 {
 	if( numTracksRemoved )
@@ -2931,7 +2875,6 @@ void SjMainFrame::UpdateSearchInfo(long numTracksRemoved)
 
 	SetSkinTargetValue(IDT_SEARCH_INFO, v);
 }
-
 
 
 void SjMainFrame::SetSearch(long flags, const wxString& newSimpleSearch, const SjAdvSearch* newAdvSearch)
@@ -3138,7 +3081,6 @@ void SjMainFrame::SetSearch(long flags, const wxString& newSimpleSearch, const S
 }
 
 
-
 void SjMainFrame::OnSearchHistory(wxCommandEvent& event)
 {
 	int index = event.GetId() - IDO_SEARCHHISTORY00;
@@ -3158,7 +3100,6 @@ void SjMainFrame::OnSearchHistory(wxCommandEvent& event)
 }
 
 
-
 void SjMainFrame::OnSearchGenre(wxCommandEvent& event)
 {
 	wxArrayString data = m_libraryModule->GetUniqueValues(SJ_TI_GENRENAME);
@@ -3174,7 +3115,6 @@ void SjMainFrame::OnSearchGenre(wxCommandEvent& event)
 		            wxT(""), &m_tempSearch );
 	}
 }
-
 
 
 void SjMainFrame::OnSearchMusicSel(wxCommandEvent& event)
@@ -3193,12 +3133,10 @@ void SjMainFrame::OnSearchMusicSel(wxCommandEvent& event)
 }
 
 
-
 /*******************************************************************************
- *  Strings used by wx/Silverjuke that should be localizable;
- *  There is no need to include them into the project, only needed by poEdit.
+ * Strings used by wx/Silverjuke that should be localizable;
+ * There is no need to include them into the project, only needed by poEdit.
  ******************************************************************************/
-
 
 
 #ifdef __ANY_LABEL_THAT_SHOULDNT_BE_DEFINED__
