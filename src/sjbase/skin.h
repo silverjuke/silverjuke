@@ -845,6 +845,14 @@ public:
 	void            MoveWorkspaceAway   (bool);
 	bool            IsWorkspaceMovedAway() const { return (m_workspaceMovedAway || (m_currLayout&&!m_currLayout->m_hasWorkspace)); }
 
+	// our workaround for the GTK-SetSizeHack
+	#ifdef __WXGTK__
+		wxTimer         m_setSizeHackTimer;
+		wxRect			m_setSizeHackRect;
+		long            m_setSizeHackCnt;
+		void            OnSetSizeHackTimer  (wxTimerEvent& event);
+	#endif
+
 protected:
 	void            SetWorkspaceWindow  (wxWindow*);
 	void            SetInputWindow      (wxWindow*);

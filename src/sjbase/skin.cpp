@@ -2485,6 +2485,9 @@ BEGIN_EVENT_TABLE(SjSkinWindow, wxFrame)
 	EVT_PAINT               (SjSkinWindow::OnPaint              )
 	EVT_ERASE_BACKGROUND    (SjSkinWindow::OnEraseBackground    )
 	EVT_IMAGE_THERE         (SjSkinWindow::OnImageThere         )
+	#ifdef __WXGTK__
+	EVT_TIMER               (IDTIMER_SETSIZEHACK, SjMainFrame::OnSetSizeHackTimer)
+	#endif
 END_EVENT_TABLE()
 
 
@@ -2759,13 +2762,13 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 		if( doSizeChange )
 		{
 			SjDialog::EnsureRectDisplayVisibility(wantedRect);
+			wxRect rectToSet = CheckLayoutWindowRect(m_currLayout, wantedRect);
+			SetSize(rectToSet);
 			#ifdef __WXGTK__
-			if( IsVisible() ) // THIS IS A HACK, SetSize() does not work as expected on GTK, the IsVisible()-check simply leaves to size to the initial position set by SetDefaultWindowSize()
-			{                 // see https://github.com/r10s/silverjuke/issues/34
-			#endif
-				SetSize(CheckLayoutWindowRect(m_currLayout, wantedRect));
-			#ifdef __WXGTK__
-			}
+				m_setSizeHackRect = rectToSet; // SETSIZEHACK, Hack the bad SetSize() implementation
+				m_setSizeHackCnt = 0;
+				m_setSizeHackTimer.SetOwner(this, IDTIMER_SETSIZEHACK);
+				m_setSizeHackTimer.Start(50);
 			#endif
 		}
 	}
@@ -2790,6 +2793,28 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 		Refresh();
 	}
 }
+
+
+#ifdef __WXGTK__
+void SjSkinWindow::OnSetSizeHackTimer(wxTimerEvent& event)
+{
+	// the first moments, GetRect() is simelar to the wanted rect, but after realisation, it is different.
+	// exactly, at this moment, we call SetSize() again with the wanted rect.
+	// if all this takes longer than 1 seconds, we give up (and we do not want to disturb systems that have no bug).
+	if( GetRect() != m_setSizeHackRect )
+	{
+		m_setSizeHackTimer.Stop();
+		SetSize(m_setSizeHackRect);
+		return;
+	}
+
+	m_setSizeHackCnt++;
+	if( m_setSizeHackCnt > 20 )
+	{
+		m_setSizeHackTimer.Stop();
+	}
+}
+#endif
 
 
 void SjSkinWindow::ShowAlwaysOnTop(bool alwaysOnTop)

@@ -2339,10 +2339,11 @@ void SjKioskModule::DoExit(bool restoreWindow)
 	{
 		// (7)  restore fullscreen
 		g_mainFrame->ShowFullScreen(m_backupFullScreen);
+		g_mainFrame->SetSize(m_backupMainFrameRect);
 		#ifdef __WXGTK__
-			g_mainFrame->SetDefaultWindowSize(); // THIS IS A HACK, SetSize() does not work as expected on GTK, see https://github.com/r10s/silverjuke/issues/34
-		#else
-			g_mainFrame->SetSize(m_backupMainFrameRect);
+		g_mainFrame->m_setSizeHackRect = m_backupMainFrameRect; // HACK the SETSIZE-BUG
+		g_mainFrame->m_setSizeHackCnt = 0;
+		g_mainFrame->m_setSizeHackTimer.Start(50);
 		#endif
 
 		g_mainFrame->ReloadSkin(SJ_OP_DEF_NONKIOSK, false/*reloadScripts*/, SJ_FORCE_SIZE_CHANGE);
