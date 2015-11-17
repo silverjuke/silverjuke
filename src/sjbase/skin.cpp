@@ -2759,7 +2759,14 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 		if( doSizeChange )
 		{
 			SjDialog::EnsureRectDisplayVisibility(wantedRect);
-			SetSize(CheckLayoutWindowRect(m_currLayout, wantedRect));
+			#ifdef __WXGTK__
+			if( IsVisible() ) // THIS IS A HACK, SetSize() does not work as expected on GTK, the IsVisible()-check simply leaves to size to the initial position set by SetDefaultWindowSize()
+			{                 // see https://github.com/r10s/silverjuke/issues/34
+			#endif
+				SetSize(CheckLayoutWindowRect(m_currLayout, wantedRect));
+			#ifdef __WXGTK__
+			}
+			#endif
 		}
 	}
 
