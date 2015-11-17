@@ -523,15 +523,13 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 		return; // error
 	}
 
-	if( signal == THREAD_PREPARE_NEXT )
+	if( signal == THREAD_PREPARE_NEXT || signal == THREAD_OUT_OF_DATA )
 	{
 		// find out the next url to play
 		wxString	newUrl;
-		//long		newQueueId = 0;
-		long		newQueuePos = m_queue.GetCurrPos();
 
 		// try to get next url from queue
-		newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
+		long newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
 		if( newQueuePos == -1 )
 		{
 			// try to enqueue auto-play url
@@ -541,7 +539,11 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 			if( newQueuePos == -1 )
 			{
 				// no chance, there is nothing more to play ...
-				if( signal == THREAD_OUT_OF_DATA )
+				if( signal == THREAD_PREPARE_NEXT )
+				{
+					g_mainFrame->m_player.SendSignalToMainThread(THREAD_OUT_OF_DATA); // send a modified signal, no direct call as Receivesignal() will handle some cases exclusively
+				}
+				else if( signal == THREAD_OUT_OF_DATA )
 				{
 					wxLogDebug(wxT(" ... receiving THREAD_OUT_OF_DATA, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ"));
 					Stop();
@@ -551,7 +553,6 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 			}
 		}
 		newUrl = m_queue.GetUrlByPos(newQueuePos);
-		//newQueueId = m_queue.GetIdByPos(newQueuePos);
 
 		// has the URL just failed? try again in the next message look
 		wxLogDebug(wxT(" ... new URL is \"%s\""), newUrl.c_str());
