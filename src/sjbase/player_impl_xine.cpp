@@ -516,7 +516,10 @@ void SjPlayer::DoGetVisData(unsigned char* pcmBuffer, long bytes, long visLatenc
 
 void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 {
+	wxLogDebug("SjPlayer::DoReceiveSignal() called ... ");
+
 	if( !m_impl->InitXine() ) {
+		wxLogDebug(wxT(" ... error: xine ist not ready."));
 		return; // error
 	}
 
@@ -540,6 +543,7 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 				// no chance, there is nothing more to play ...
 				if( signal == THREAD_OUT_OF_DATA )
 				{
+					wxLogDebug(wxT(" ... receiving THREAD_OUT_OF_DATA, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ"));
 					Stop();
 					SendSignalToMainThread(IDMODMSG_PLAYER_STOPPED_BY_EOQ);
 				}
@@ -550,11 +554,11 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 		//newQueueId = m_queue.GetIdByPos(newQueuePos);
 
 		// has the URL just failed? try again in the next message look
-		wxLogDebug(wxT(" ... SjPlayer::ReceiveSignal(): new URL is \"%s\""), newUrl.c_str());
+		wxLogDebug(wxT(" ... new URL is \"%s\""), newUrl.c_str());
 
 		if( m_failedUrls.Index( newUrl ) != wxNOT_FOUND )
 		{
-			wxLogDebug(wxT(" ... SjPlayer::ReceiveSignal(): the URL has failed before, starting over."));
+			wxLogDebug(wxT(" ... the URL has failed before, starting over."));
 			m_queue.SetCurrPos(newQueuePos);
 			SendSignalToMainThread(signal); // start over
 			return;
@@ -567,7 +571,7 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 		}
 		m_impl->m_currStream = new SjXineStream(m_impl, newUrl);
 		if( !m_impl->m_currStream->XinePlay() ) {
-			wxLogDebug(wxT(" ... SjPlayer::ReceiveSignal(): cannot create the new stream."));
+			wxLogDebug(wxT(" ... cannot create the new stream."));
 			delete m_impl->m_currStream;
 			m_impl->m_currStream = NULL;
 		}

@@ -2282,7 +2282,9 @@ void SjMainFrame::OnFwdToModules(wxCommandEvent& event)
 		// new track or a manual stop/pause
 		long queuef = m_player.m_queue.GetQueueFlags();
 		if( queuef&SJ_QUEUEF_REMOVE_PLAYED )
+		{
 			m_player.m_queue.UnqueuePlayed();
+		}
 
 		UpdateDisplay();
 	}
@@ -2292,7 +2294,7 @@ void SjMainFrame::OnFwdToModules(wxCommandEvent& event)
 		// as the end of the queue is reached (eg. if repeat is on, this is never send)
 		// when we receive this message, we've received IDMODMSG_TRACK_ON_AIR_CHANGED before.
 		if( m_player.IsStopped()
-		        && m_player.m_queue.MoveToTopOnEoq() )
+		 && m_player.m_queue.MoveToTopOnEoq() )
 		{
 			m_player.GotoAbsPos(0);
 			UpdateDisplay();
