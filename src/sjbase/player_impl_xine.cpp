@@ -501,7 +501,7 @@ void SjPlayer::DoSeekAbs(long seekMs)
 {
 	if( m_impl->m_currStream )
 	{
-		if( xine_play(m_impl->m_currStream->GetXineStream(), 0, seekMs) ) {
+		if( !xine_play(m_impl->m_currStream->GetXineStream(), 0, seekMs) ) {
 			wxLogDebug(wxT("DoSeekAbs() failed."));
 		}
 	}
