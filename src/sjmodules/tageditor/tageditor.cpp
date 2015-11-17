@@ -1068,7 +1068,7 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 			#ifdef __WXDEBUG__
 				long playCount = g_mainFrame->m_player.m_queue.GetPlayCount(allQueuePositions[0]);
 				long repeatRound = g_mainFrame->m_player.m_queue.GetRepeatRound();
-				p.Add(wxT("Play count / repeat round"),
+				p.Add(wxT("Queue play count / repeat round"), // this has nothing to do with the "times played" from above
 					  wxString::Format(wxT("%i / %i"), (int)playCount, (int)repeatRound));
 			#endif
 		}

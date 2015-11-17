@@ -428,7 +428,12 @@ void SjPlaylist::OnUrlChanged(const wxString& oldUrl, const wxString& newUrl)
 		{
 			if( m_array[i].GetUnverifiedUrl()==oldUrl )
 			{
-				m_array[i].UrlChanged();
+				SjPlaylistEntry& e = m_array[i];
+				long playCount = e.GetPlayCount(); // as UrlChanged() simply forgets everything about the URL, preserve some data manually
+				long flags = e.GetFlags();
+				e.UrlChanged();
+				e.SetPlayCount(playCount);
+				e.SetFlags(flags);
 			}
 		}
 	}

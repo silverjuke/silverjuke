@@ -138,8 +138,7 @@ private:
 	static long     s_nextId;
 
 	// additional information are loaded as needed
-	SjPlaylistAddInfo*
-	m_addInfo;
+	SjPlaylistAddInfo* m_addInfo;
 	void            CheckAddInfo        (long what) { if(m_addInfo==NULL||!(m_addInfo->m_what&what)) { LoadAddInfo(what); } }
 	void            LoadAddInfo         (long what);
 	void            VerifyUrl           ();
@@ -152,7 +151,7 @@ WX_DECLARE_OBJARRAY(SjPlaylistEntry, SjArrayPlaylistEntry);
 class SjPlaylist
 {
 public:
-	SjPlaylist          () { m_cacheFlags=0; }
+	                SjPlaylist          () { m_cacheFlags=0; }
 
 	// clear playlist
 	void            Clear               () { m_cacheFlags=0; m_array.Clear(); m_urlCounts.Clear(); };
@@ -237,8 +236,7 @@ public:
 private:
 	// The playlist data - we hold the data as an sorted array
 	// and as a hash for fast lookup a specific URL
-	SjArrayPlaylistEntry
-	m_array;
+	SjArrayPlaylistEntry m_array;
 	SjSLHash        m_urlCounts;
 
 	// meta data
