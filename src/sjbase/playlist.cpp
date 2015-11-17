@@ -82,8 +82,8 @@ void SjPlaylistEntry::LoadAddInfo(long what)
 	}
 
 	// load track, artist and album name, if needed
-	if(               (what&SJ_ADDINFO_MISC)
-	                  && !(m_addInfo->m_what&SJ_ADDINFO_MISC) )
+	if(  (what&SJ_ADDINFO_MISC)
+	 && !(m_addInfo->m_what&SJ_ADDINFO_MISC) )
 	{
 		// try to get them from the library
 		if( !g_mainFrame->m_columnMixer.GetQuickInfo(GetUrl(), m_addInfo->m_trackName, m_addInfo->m_leadArtistName, m_addInfo->m_albumName, m_addInfo->m_playtimeMs) )
@@ -94,8 +94,8 @@ void SjPlaylistEntry::LoadAddInfo(long what)
 			{
 				wxString testUrl = GetUrl();
 				if( !testUrl.StartsWith(wxT("http:")) // this may be a steam - in this case (or in others) we get into an endless loop
-				        && !testUrl.StartsWith(wxT("https:"))
-				        && !testUrl.StartsWith(wxT("ftp:")) )
+				 && !testUrl.StartsWith(wxT("https:"))
+				 && !testUrl.StartsWith(wxT("ftp:")) )
 				{
 					SjTrackInfo trackInfo;
 					wxFileSystem fs;
@@ -163,13 +163,19 @@ void SjPlaylistEntry::SetRealtimeInfo(const wxString& info__)
 	wxString info(info__);
 	info.Replace(wxT("--"), wxT("-"));
 	if( info.Upper() == info || info.Lower() == info )
+	{
 		info = SjTools::Capitalize(info);
+	}
 
 	while( info.Len() > 0 && (info[0] == wxT('-') || info[0] == wxT(' ')) )
+	{
 		info = info.Mid(1);
+	}
 
 	while( info.Len() > 0 && (info.Last() == wxT('-') || info.Last() == wxT(' ')) )
+	{
 		info = info.Left(info.Len()-1);
+	}
 
 	// set the normalized info string as
 	CheckAddInfo(SJ_ADDINFO_MISC);
@@ -287,9 +293,9 @@ void SjPlaylistEntry::VerifyUrl()
 			wxFSFile* fsFile = NULL;
 
 			if( !url.StartsWith(wxT(".."))
-			        && !url.StartsWith(wxT("./"))
-			        && !url.StartsWith(wxT(".\\"))
-			        && !url.StartsWith(wxT("stub:")) )
+			 && !url.StartsWith(wxT("./"))
+			 && !url.StartsWith(wxT(".\\"))
+			 && !url.StartsWith(wxT("stub:")) )
 			{
 				wxFileSystem fileSystem;
 				fsFile = fileSystem.OpenFile(url);
@@ -685,9 +691,13 @@ bool SjPlaylist::AddFromM3u(wxFSFile* fsFile, long addMax, long flags)
 {
 	// get file content
 	wxString ext = SjTools::GetExt(fsFile->GetLocation());
+
 	wxMBConv* fileContentMbConv = &wxConvISO8859_1;
 	if( ext == wxT("m3u8") )
+	{
 		fileContentMbConv = &wxConvUTF8;
+	}
+
 	wxString content = SjTools::GetFileContent(fsFile->GetStream(), fileContentMbConv); // GetFileContent() will also check for the BOM (Byte order mark)
 
 	// process
@@ -712,8 +722,10 @@ bool SjPlaylist::AddFromM3u(wxFSFile* fsFile, long addMax, long flags)
 				currTitle = currTitle.AfterFirst(',');              // skip seconds parameter from "#EXTINF:seconds,artiest ..."
 
 				if( currTitle.Replace(wxT(" - "), wxT("\t\t")) < 1 )// normally, the format ist "Artist - Title" ...
-					currTitle.Replace(wxT("-"), wxT("\t\t"));       // ... however, since 3.02, we also allow "Artist-Title" ...
-			}                                                       // ... and, later in VerifyUrl() also "Title - Artist" and "Title-Artist" :-)
+				{                                                   // ... however, since 3.02, we also allow "Artist-Title" ...
+					currTitle.Replace(wxT("-"), wxT("\t\t"));       // ... and, later in VerifyUrl() also "Title - Artist" and "Title-Artist" :-)
+				}
+			}
 			continue;
 		}
 

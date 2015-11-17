@@ -290,7 +290,9 @@ long SjQueue::GetNextPos(int flags)
 				// however, do not pop up a message box, this may disturb alot as this may happen _any_time, not only just after enqueing
 				long markPosAsMoved;
 				for( markPosAsMoved = newPos; markPosAsMoved < betterPos; markPosAsMoved++ )
+				{
 					m_playlist.Item(markPosAsMoved).SetFlag(SJ_PLAYLISTENTRY_MOVED_DOWN);
+				}
 
 				wxLogInfo(wxT("%s moved up due to avoid bordedom settings"), m_playlist.Item(betterPos).GetUrl().c_str());
 
