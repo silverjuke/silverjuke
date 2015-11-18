@@ -355,9 +355,7 @@ private:
 	friend class    SjAutoCtrl;
 	friend class    SjDisplay;
 	friend class    SjAutoFader;
-#ifdef __WXDEBUG__
 	friend class    SjTagEditorDlg;
-#endif
 };
 
 

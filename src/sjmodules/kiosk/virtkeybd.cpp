@@ -1667,18 +1667,21 @@ bool SjVirtKeybdModule::IsKeybdOpened()
 wxCursor SjVirtKeybdModule::GetStandardCursor()
 {
 	if(  g_mainFrame==NULL
-	        || !g_mainFrame->IsKioskStarted()
-	        ||  g_virtKeybd==NULL
-	        || !(g_virtKeybd->m_flags&SJ_VIRTKEYBD_HIDE_CURSOR) )
+	 || !g_mainFrame->IsKioskStarted()
+	 ||  g_virtKeybd==NULL
+	 || !(g_virtKeybd->m_flags&SJ_VIRTKEYBD_HIDE_CURSOR) )
 	{
 		return *wxSTANDARD_CURSOR; // wxNullCursor does not work!, see http://www.silverjuke.net/forum/topic-1478.html
 	}
 	else
 	{
-		#ifdef __WXDEBUG__
+		if( g_debug )
+		{
 			return wxCursor(wxCURSOR_CROSS);
-		#else
+		}
+		else
+		{
 			return wxCursor(wxCURSOR_BLANK);
-		#endif
+		}
 	}
 }

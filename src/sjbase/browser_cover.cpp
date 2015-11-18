@@ -973,9 +973,7 @@ bool SjCoverBrowser::GotoUrl(const wxString& url)
 		delete col;
 
 		// check index
-		#ifdef __WXDEBUG__
 		col = NULL;
-		#endif
 		if( colIndex >= 0 )
 		{
 			// goto column
@@ -1072,9 +1070,7 @@ void SjCoverBrowser::GotoPos(const wxString& guid, long viewOffset)
 		delete col;
 
 		// check index
-		#ifdef __WXDEBUG__
 		col = NULL;
-		#endif
 		if( colIndex >= 0 )
 		{
 			// goto column

@@ -483,11 +483,12 @@ wxPanel* SjKioskConfigPage::CreateStartPage(wxWindow* parent)
 	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_AT, wxString::Format(_("Disable %s"), disableKey.c_str()));
 
 	disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_ALT|wxACCEL_CTRL, WXK_DELETE);
-	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_CAD, wxString::Format(_("Disable %s"), disableKey.c_str())
-		#ifdef __WXDEBUG__
-	      + wxT(" (not in debug-mode)")
-		#endif
-	     );
+	wxString disableKeyDescr = wxString::Format(_("Disable %s"), disableKey.c_str());
+	if( g_debug )
+	{
+		disableKeyDescr += " (not in debug-mode)";
+	}
+	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_CAD, disableKeyDescr);
 
 	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_SHUTDOWN, _("Disable shutdown"));
 
@@ -2055,10 +2056,11 @@ void SjKioskModule::DoStart()
 	{
 		m_backupAlwaysOnTop = g_mainFrame->IsAlwaysOnTop();
 
-		#ifndef __WXDEBUG__
-		g_mainFrame->SetWindowStyle(g_mainFrame->GetWindowStyle() | wxSTAY_ON_TOP);
-		// we don't do this in debug mode as an always-on-top windows makes debugging almost impossible
-		#endif
+		if( !g_debug )
+		{
+			g_mainFrame->SetWindowStyle(g_mainFrame->GetWindowStyle() | wxSTAY_ON_TOP);
+			// we don't do this in debug mode as an always-on-top windows makes debugging almost impossible
+		}
 	}
 
 	#ifndef __WXMAC__ // on mac, this must be very last !
@@ -2166,9 +2168,10 @@ void SjKioskModule::DoStart()
 
 			if( !g_mainFrame->IsAllAvailable() )
 			{
-				#ifndef __WXDEBUG__
-				ClipMouse(&geom); // makes debugging impossible ...
-				#endif
+				if( !g_debug )
+				{
+					ClipMouse(&geom); // makes debugging impossible ...
+				}
 			}
 		}
 

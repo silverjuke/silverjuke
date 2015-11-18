@@ -1065,12 +1065,13 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 		{
 			p.Add(_("Queue position"), SjTools::FormatNumbers(allQueuePositions, 1/*we want to show numbers starting at 1*/));
 
-			#ifdef __WXDEBUG__
+			if( g_debug )
+			{
 				long playCount = g_mainFrame->m_player.m_queue.GetPlayCount(allQueuePositions[0]);
 				long repeatRound = g_mainFrame->m_player.m_queue.GetRepeatRound();
-				p.Add(wxT("Queue play count / repeat round"), // this has nothing to do with the "times played" from above
-					  wxString::Format(wxT("%i / %i"), (int)playCount, (int)repeatRound));
-			#endif
+				p.Add(wxT("Queue play count"), playCount); // this has nothing to do with the "times played" from above
+				p.Add(wxT("Queue repeat round"), repeatRound);
+			}
 		}
 	}
 

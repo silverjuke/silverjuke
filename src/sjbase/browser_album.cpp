@@ -1190,9 +1190,7 @@ bool SjAlbumBrowser::GotoUrl(const wxString& url)
 		// check index
 		delete col;
 
-		#ifdef __WXDEBUG__
-			col = NULL;
-		#endif
+		col = NULL;
 		if( colIndex >= 0 )
 		{
 			// goto column
