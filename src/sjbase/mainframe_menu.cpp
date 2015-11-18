@@ -551,6 +551,12 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 		mainMenu.Append(0, _("Playback"), playbackMenu);
 	}
 	*/
+
+	// help
+	if( IsKioskStarted() )
+	{
+		mainMenu.Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
+	}
 }
 
 

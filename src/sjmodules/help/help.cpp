@@ -174,10 +174,18 @@ wxString SjHelpDialog::GetAboutTopic() const
 	ret = wxT("<center>")
 	      wxT("<p>&nbsp;<img src=\"memory:aboutlogo.gif\">&nbsp;</p>") // the &nbsp; left and right are needed for wxHTML to calculate the correct height; a simple image is not sufficient
 	      wxT("<h1>") + wxString::Format(wxT("%s %i.%i"), SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR) + wxT("</h1>")
-	      wxT("<p>The Jukebox. Grown up.</p>") /*n/t*/
-	      wxT("<p><a href=\"web:0\">") + wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME) + wxT("...</a></p>")
-	      wxT("<p>Copyright &copy; 2015 Bj&ouml;rn Petersen Software Design and Development</p>")
-	      /*wxT("<p>All rights reserved!</p>") */  /*not _all_ but _some_ rights reserved. however, as the term seems not to add an extra value, we leave it out*/
+	      wxT("<p>The Jukebox. Grown up.</p>") /*n/t*/;
+
+	if( g_mainFrame->IsAllAvailable() )
+	{
+		ret += wxT("<p><a href=\"web:0\">") + wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME) + wxT("...</a></p>");
+	}
+	else
+	{
+		ret += wxT("<p>http://www.silverjuke.net</p>");
+	}
+
+	ret += wxT("<p>Copyright &copy; 2015 Bj&ouml;rn Petersen Software Design and Development</p>")
 	      wxT("<p><a href=\"page:3\">Credits and License notes...</a></p>")
 	      wxT("</center>");
 
