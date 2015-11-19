@@ -4120,6 +4120,26 @@ void SjLibraryModule::HandleMenu(int id)
 						sql.Query(wxString::Format(wxT("UPDATE tracks SET rating=%i WHERE id=%i;"),
 						                           (int)(id-IDM_RATINGSELECTION00), (int)trackId));
 					}
+
+					/*
+					if( g_tagEditorModule->GetWriteId3Tags() )
+					{
+						SjHashIterator iterator8;
+						while( m_selectedTrackIds.Iterate(iterator7, &trackId) )
+						{
+							SjTrackInfo ti;
+							ti.m_validFields |= SJ_TI_RATING|SJ_TI_URL;
+							ti.m_url = GetUrl(trackId);
+							ti.m_rating = (long)(id-IDM_RATINGSELECTION00);
+							SjScannerModule* scannerModule = g_mainFrame->m_moduleSystem.FindScannerModuleByUrl(ti.m_url);
+							if( scannerModule )
+							{
+								wxASSERT( scannerModule->IsLoaded() );
+								scannerModule->SetTrackInfo(ti.m_url, ti);
+							}
+						}
+					}
+					*/
 				}
 
 				g_mainFrame->m_browser->RefreshAll();
