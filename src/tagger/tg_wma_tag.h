@@ -84,6 +84,7 @@ public:
 	 */
 	virtual long year() const { return m_year; }
 	virtual long beatsPerMinute() const { return 0; }
+	virtual long rating() const { return 0; }
 
 	/*!
 	 * Returns the track number; if there is no track number set, this will
@@ -133,6 +134,7 @@ public:
 	 */
 	virtual void setYear(long i) { m_year = i; }
 	virtual void setBeatsPerMinute(long i) { }
+	virtual void setRating(long i) { }
 
 	/*!
 	 * Sets the track to \a i.  If \a s is 0 then this value will be cleared.

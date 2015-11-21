@@ -1323,7 +1323,7 @@ wxString SjTrackInfo::GetFormattedValue(long ti) const
 		}
 
 		case SJ_TI_RATING:
-			if( m_rating > 0 )
+			if( m_rating >= 1 && m_rating <= 5 )
 			{
 				wxString chars;
 				for( long i = 0; i < m_rating; i++)

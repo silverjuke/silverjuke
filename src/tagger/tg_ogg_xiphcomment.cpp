@@ -116,6 +116,11 @@ long Ogg_XiphComment::beatsPerMinute() const
 	return ret;
 }
 
+long Ogg_XiphComment::rating() const
+{
+	return 0;
+}
+
 void Ogg_XiphComment::track(long& nr, long& count) const
 {
 	explodeNrAndCount(m_fieldListMapFirstString(wxT("TRACKNUMBER")), nr, count);
@@ -195,6 +200,10 @@ void Ogg_XiphComment::setBeatsPerMinute(long i)
 	{
 		addField(wxT("BPM"), wxString::Format(wxT("%i"), (int)i));
 	}
+}
+
+void Ogg_XiphComment::setRating(long i)
+{
 }
 
 void Ogg_XiphComment::setTrack(long nr, long count)

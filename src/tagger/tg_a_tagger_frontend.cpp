@@ -394,6 +394,11 @@ SjResult SjGetTrackInfoFromID3Etc(wxFSFile* fsFile, SjTrackInfo& ti, long flags)
 			// get the beats per minute
 			ti.m_beatsPerMinute = tag->beatsPerMinute();
 			if( ti.m_beatsPerMinute > 0 ) ti.m_validFields |= SJ_TI_BEATSPERMINUTE;
+
+			// get the rating
+			ti.m_rating = tag->rating();
+			wxASSERT( ti.m_rating >= 0 && ti.m_rating <= 5 );
+			if( ti.m_rating > 0 ) ti.m_validFields |= SJ_TI_RATING;
 		}
 
 		// check for special tags (ID3v2, MP4)
@@ -800,8 +805,7 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 		}
 
 		// Write out generic tag - debug mode only as this does not generate any additional information
-#ifdef __WXDEBUG__
-		if( mp4tag )
+		if( g_debug && mp4tag )
 		{
 			Tagger_Tag* anytag = mp4tag;
 
@@ -816,6 +820,7 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 			prop.Add(wxT("Group"),          anytag->group(),            SJ_PROP_EMPTYIFEMPTY);
 			prop.Add(wxT("Year"),           anytag->year(),             SJ_PROP_EMPTYIFEMPTY);
 			prop.Add(wxT("BPM"),            anytag->beatsPerMinute(),   SJ_PROP_EMPTYIFEMPTY);
+			prop.Add(wxT("Rating"),         anytag->rating(),           SJ_PROP_EMPTYIFEMPTY);
 			long l1, l2;
 			anytag->track(l1, l2);
 			prop.Add(wxT("Track"),          wxString::Format(wxT("%i/%i"), (int)l1, (int)l2));
@@ -826,7 +831,6 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 			prop.Add(wxT("Samplerate"),     audioProp->sampleRate(),    SJ_PROP_EMPTYIFEMPTY);
 			prop.Add(wxT("Channels"),       audioProp->channels(),      SJ_PROP_EMPTYIFEMPTY);
 		}
-#endif
 
 		// done so far, deleting the file delete all related tags & Co.
 		delete file;
@@ -950,6 +954,13 @@ bool SjSetTrackInfoToID3Etc(const wxString& url, const SjTrackInfo& ti)
 				if( ti.m_validFields & SJ_TI_BEATSPERMINUTE )
 				{
 					tag->setBeatsPerMinute(ti.m_beatsPerMinute);
+				}
+
+				// set RATING
+				if( ti.m_validFields & SJ_TI_RATING )
+				{
+					wxASSERT( ti.m_rating >= 0 && ti.m_rating <= 5 );
+					tag->setRating(ti.m_rating);
 				}
 
 				// save the file

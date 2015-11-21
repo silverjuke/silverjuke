@@ -514,7 +514,7 @@ bool SjLibraryModule::FirstLoad()
 			    wxT("groupname TEXT, ")
 			    wxT("comment TEXT, ")
 			    wxT("beatsperminute INTEGER, ")
-			    wxT("rating INTEGER, ")
+			    wxT("rating INTEGER, ") // 0=unset, 1-5=1-5 stars
 			    wxT("year INTEGER, ")
 			    wxT("vis INTEGER, ")
 			    wxT("artids TEXT);")

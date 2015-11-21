@@ -76,6 +76,7 @@ public:
 	virtual wxString group() const {return m_group;}
 	virtual long year() const {return m_year;}
 	virtual long beatsPerMinute() const {return m_beatsPerMinute;}
+	virtual long rating() const {return 0;}
 	virtual void track(long& nr, long& count) const {nr=m_trackNr; count=m_trackCnt;}
 	virtual void disk(long& nr, long& count) const {nr=m_diskNr; count=m_diskCnt;}
 
@@ -89,6 +90,7 @@ public:
 	virtual void setGroup(const wxString &s) {m_group=s; m_isEmpty=false;}
 	virtual void setYear(long i) {m_year=i; m_isEmpty=false;}
 	virtual void setBeatsPerMinute(long i) {m_beatsPerMinute=i; m_isEmpty=false;}
+	virtual void setRating(long i) {}
 	virtual void setTrack(long nr, long cnt) {m_trackNr=nr; m_trackCnt=cnt; m_isEmpty=false;}
 	virtual void setDisk(long nr, long cnt) {m_diskNr=nr; m_diskCnt=cnt; m_isEmpty=false;}
 

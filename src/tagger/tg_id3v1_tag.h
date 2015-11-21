@@ -112,6 +112,7 @@ public:
 	virtual wxString    group               () const { return wxEmptyString; }
 	virtual long        year                () const;
 	virtual long        beatsPerMinute      () const { return 0; }
+	virtual long        rating              () const { return 0; }
 	virtual void        track               (long& nr, long& count) const { nr = m_track; count = 0; }
 	virtual void        disk                (long& nr, long& count) const { nr = 0; count = 0; }
 	virtual void        setTitle            (const wxString &s) { m_title = s; }
@@ -124,6 +125,7 @@ public:
 	virtual void        setGroup            (const wxString &s) {}
 	virtual void        setYear             (long i);
 	virtual void        setBeatsPerMinute   (long i) {}
+	virtual void        setRating           (long i) {}
 	virtual void        setTrack            (long nr, long count);
 	virtual void        setDisk             (long nr, long count) {}
 

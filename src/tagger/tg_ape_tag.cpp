@@ -383,6 +383,13 @@ long APE_Tag::beatsPerMinute() const
 
 
 
+long APE_Tag::rating() const
+{
+	return 0; // unset/unknown
+}
+
+
+
 void APE_Tag::track(long& nr, long& count) const
 {
 	nr = 0; count = 0;
@@ -481,6 +488,12 @@ void APE_Tag::setBeatsPerMinute(long i)
 		removeItem(wxT("BPM"));
 	else
 		addValue(wxT("BPM"), wxString::Format(wxT("%i"), (int)i), true);
+}
+
+
+
+void APE_Tag::setRating(long i)
+{
 }
 
 

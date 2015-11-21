@@ -376,6 +376,13 @@ long ID3v2_Tag::beatsPerMinute() const
 
 
 
+long ID3v2_Tag::rating() const
+{
+	return 0;
+}
+
+
+
 void ID3v2_Tag::track(long& nr, long& count) const
 {
 	explodeNrAndCount(simpleFrame(wxT("TRCK")), nr, count);
@@ -475,6 +482,12 @@ void ID3v2_Tag::setBeatsPerMinute(long i)
 	}
 
 	setTextFrame(wxT("TBPM"), wxString::Format(wxT("%i"), (int)i));
+}
+
+
+
+void ID3v2_Tag::setRating(long i)
+{
 }
 
 

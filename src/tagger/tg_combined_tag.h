@@ -118,6 +118,7 @@ public:
 
 	IMPLEMENT_GET_LONG_FUNC(year)
 	IMPLEMENT_GET_LONG_FUNC(beatsPerMinute)
+	IMPLEMENT_GET_LONG_FUNC(rating)
 
 #define IMPLEMENT_GET_LONG2_FUNC(func) \
           virtual void func(long& nr, long& count) const \
@@ -171,6 +172,7 @@ public:
 
 	IMPLEMENT_SET_LONG_FUNC(setYear);
 	IMPLEMENT_SET_LONG_FUNC(setBeatsPerMinute);
+	IMPLEMENT_SET_LONG_FUNC(setRating);
 
 #define IMPLEMENT_SET_LONG2_FUNC(func) \
           virtual void func(long nr, long count) \

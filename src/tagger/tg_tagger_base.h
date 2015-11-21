@@ -164,10 +164,11 @@ public:
 	virtual wxString group() const = 0;
 
 	/*!
-	 * Returns the year; if there is no year set, this will return 0.
+	 * Returns the year/bpm/rating; if not year set, this will return 0.
 	 */
 	virtual long year() const = 0;
 	virtual long beatsPerMinute() const = 0;
+	virtual long rating() const = 0;
 
 	/*!
 	 * Returns the track number; if there is no track number set, this will
@@ -213,10 +214,11 @@ public:
 	virtual void setGroup(const wxString &s) = 0;
 
 	/*!
-	 * Sets the year to \a i.  If \a s is 0 then this value will be cleared.
+	 * Sets the year/bpm/rating to \a i.  If \a s is 0 then this value will be cleared.
 	 */
 	virtual void setYear(long i) = 0;
 	virtual void setBeatsPerMinute(long i) = 0;
+	virtual void setRating(long i) = 0;
 
 	/*!
 	 * Sets the track to \a i.  If \a s is 0 then this value will be cleared.
