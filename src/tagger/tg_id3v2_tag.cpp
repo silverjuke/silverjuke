@@ -375,10 +375,49 @@ long ID3v2_Tag::beatsPerMinute() const
 }
 
 
-
 long ID3v2_Tag::rating() const
 {
-	return 0;
+	ID3v2_PopularimeterFrame* frame = NULL;
+	bool                      exactMatch = false;
+	ID3v2_FrameList*          list = frameList("POPM");
+	if( list )
+	{
+		for ( ID3v2_FrameList::Node* node = list->GetLast(); node; node = node->GetPrevious() )
+		{
+			frame = (ID3v2_PopularimeterFrame*)node->GetData();
+			if( frame->GetEmail() == g_taggerOptions->m_ratingUser ) {
+				exactMatch = true;
+				break;
+			}
+		}
+	}
+
+	if( frame && (exactMatch || g_taggerOptions->m_flags&SJTF_READ_OTHERS_RATINGS) )
+	{
+		int rating255 = frame->GetRating255();
+		if( rating255 >= 224 )      // accept 224-255 for "5 Stars", write 255
+		{
+			return 5;
+		}
+		else if( rating255 >= 160 ) // accept 160-223 for "4 Stars", write 196
+		{
+			return 4;
+		}
+		else if( rating255 >= 96 )  // accept 96-159 for "3 Stars", write 128
+		{
+			return 3;
+		}
+		else if( rating255 >= 32 )  // accept 32-95 for "2 Stars", write 64
+		{
+			return 2;
+		}
+		else if( rating255 >= 1 )   // accept 1-31 for "1 Star", write 1
+		{
+			return 1;
+		}
+	}
+
+	return 0; // unset
 }
 
 
@@ -486,10 +525,55 @@ void ID3v2_Tag::setBeatsPerMinute(long i)
 
 
 
-void ID3v2_Tag::setRating(long i)
+void ID3v2_Tag::setRating(long rating5)
 {
-}
+	ID3v2_PopularimeterFrame* frame = NULL;
+	bool                      exactMatch = false;
 
+	if( g_taggerOptions->m_flags&SJTF_REMOVE_OTHERS_RATINGS )
+	{
+		removeFrames("POPM");
+	}
+	else
+	{
+		ID3v2_FrameList* list = frameList("POPM");
+		if( list )
+		{
+			for ( ID3v2_FrameList::Node* node = list->GetLast(); node; node = node->GetPrevious() )
+			{
+				frame = (ID3v2_PopularimeterFrame*)node->GetData();
+				if( frame->GetEmail() == g_taggerOptions->m_ratingUser ) {
+					exactMatch = true;
+					break;
+				}
+			}
+		}
+	}
+
+	if( frame == NULL || (!exactMatch && !(g_taggerOptions->m_flags&SJTF_CHANGE_OTHERS_RATINGS)) )
+	{
+		if( rating5 == 0 ) {
+			return; // done - no rating defined, no rating frame existant, fine
+		}
+
+		frame = new ID3v2_PopularimeterFrame();
+		frame->SetEmail(g_taggerOptions->m_ratingUser);
+		addFrame(frame);
+	}
+
+	int rating255;
+	switch( rating5 )
+	{
+		case 1:  rating255 =   1; break;
+		case 2:  rating255 =  64; break;
+		case 3:  rating255 = 128; break;
+		case 4:  rating255 = 196; break;
+		case 5:  rating255 = 255; break;
+		default: rating255 =   0; break; // unset
+	}
+
+	frame->SetRating255(rating255);
+}
 
 
 void ID3v2_Tag::setTrack(long nr, long count)

@@ -4121,7 +4121,6 @@ void SjLibraryModule::HandleMenu(int id)
 						                           (int)(id-IDM_RATINGSELECTION00), (int)trackId));
 					}
 
-					/*
 					if( g_tagEditorModule->GetWriteId3Tags() )
 					{
 						SjHashIterator iterator8;
@@ -4135,11 +4134,13 @@ void SjLibraryModule::HandleMenu(int id)
 							if( scannerModule )
 							{
 								wxASSERT( scannerModule->IsLoaded() );
-								scannerModule->SetTrackInfo(ti.m_url, ti);
+								if( !scannerModule->SetTrackInfo(ti.m_url, ti) )
+								{
+									wxLogError(_("Cannot write \"%s\"."), ti.m_url.c_str());
+								}
 							}
 						}
 					}
-					*/
 				}
 
 				g_mainFrame->m_browser->RefreshAll();

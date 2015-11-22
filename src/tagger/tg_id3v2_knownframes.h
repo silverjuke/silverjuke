@@ -649,6 +649,39 @@ private:
 #endif
 
 
+/*******************************************************************************
+ *  ID3v2_PopularimeterFrame
+ ******************************************************************************/
+
+
+class ID3v2_PopularimeterFrame : public ID3v2_Frame
+{
+public:
+	// constructor
+	                     ID3v2_PopularimeterFrame();
+	                     ID3v2_PopularimeterFrame(const SjByteVector& data);
+
+	// get/set functions
+	wxString             GetEmail                () const            { return m_email; }
+	int                  GetRating255            () const            { return m_rating255; } // 0..255
+	long                 GetCounter              () const            { return m_counter; }
+	void                 SetEmail                (const wxString& e) { m_email = e; }
+	void                 SetRating255            (int rating255)     { m_rating255 = rating255; } // 0..255
+	void                 SetCounter              (long cnt)          { m_counter = cnt; }
+
+	// methods for rendering the content
+	virtual wxString     toString                () const;
+	virtual SjByteVector renderFields            () const;
+
+protected:
+	void			     parseFields             (const SjByteVector& data);
+
+private:
+	wxString             m_email;
+	int                  m_rating255; // 0..255
+	long                 m_counter;
+};
+
 
 /*******************************************************************************
  *  ID3v2_UnknownFrame

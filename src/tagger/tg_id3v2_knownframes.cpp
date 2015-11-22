@@ -478,6 +478,72 @@ ID3v2_UniqueFileIdentifierFrame::ID3v2_UniqueFileIdentifierFrame(const SjByteVec
 #endif // TAGGER_USE_UNIQUE_FILE_IDENTIFIER_FRAME
 
 
+
+/*******************************************************************************
+ * ID3v2_PopularimeterFrame
+ ******************************************************************************/
+
+ID3v2_PopularimeterFrame::ID3v2_PopularimeterFrame()
+	: ID3v2_Frame((unsigned char*)"POPM")
+{
+	m_rating255 = 0;
+	m_counter = 0;
+}
+
+ID3v2_PopularimeterFrame::ID3v2_PopularimeterFrame(const SjByteVector &data)
+	: ID3v2_Frame(data)
+{
+	setData(data);
+}
+
+
+void ID3v2_PopularimeterFrame::parseFields(const SjByteVector& data)
+{
+	m_email.Empty();
+	m_rating255 = 0;
+	m_counter = 0;
+
+	int offset, pos = 0, size = (int)data.size();
+	offset = data.find(textDelimiter(SJ_LATIN1), pos);
+	if( offset < pos ) {
+		return;
+	}
+
+	m_email = data.mid(pos, offset - pos).toString(SJ_LATIN1);
+	pos = offset + 1;
+
+	if(pos < size)
+	{
+		m_rating255 = (int)(data[pos]);
+		pos++;
+
+		if(pos < size)
+		{
+			m_counter = data.mid(pos, 4).toUInt();
+		}
+	}
+}
+
+
+wxString ID3v2_PopularimeterFrame::toString() const
+{
+	return wxString::Format("user=%s, rating=%i, cnt=%i", m_email.c_str(), (int)m_rating255, (int)m_counter);
+}
+
+
+SjByteVector ID3v2_PopularimeterFrame::renderFields() const
+{
+	SjByteVector data;
+
+	data.appendString(m_email, SJ_LATIN1);
+	data.append(textDelimiter(SJ_LATIN1));
+	data.append((unsigned char)m_rating255);
+	data.append(SjByteVector::fromUint((SjUint)m_counter));
+
+	return data;
+}
+
+
 /*******************************************************************************
  *  ID3v2_UnknownFrame
  ******************************************************************************/

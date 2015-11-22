@@ -167,6 +167,13 @@ ID3v2_Frame *ID3v2_FrameFactory::createFrame(const SjByteVector &data, SjUint ve
 		return f;
 	}
 
+	// Popularimeter
+	if( frameID == "POPM" )
+	{
+		ID3v2_PopularimeterFrame* f = new ID3v2_PopularimeterFrame(data);
+		return f;
+	}
+
 	// Relative Volume Adjustment (frames 4.11) -- not implemented
 	/*
 	  if(frameID == "RVA2")

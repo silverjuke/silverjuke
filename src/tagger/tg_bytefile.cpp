@@ -131,13 +131,18 @@ SjByteVector SjByteFile::ReadBlock(unsigned long length)
 }
 
 
-void SjByteFile::WriteBlock(const SjByteVector &data)
+bool SjByteFile::WriteBlock(const SjByteVector &data)
 {
 	if( !openForWriting() )
-		return;
+		return false;
 
 	wxASSERT( m_file__ );
-	fwrite(data.getReadableData(), sizeof(char), data.size(), m_file__);
+	size_t towrite = data.size();
+	if( fwrite(data.getReadableData(), sizeof(char), towrite, m_file__) != towrite )
+	{
+		return false;
+	}
+	return true;
 }
 
 
@@ -272,21 +277,21 @@ long SjByteFile::RFind(const SjByteVector &pattern, long fromOffset, const SjByt
 }
 
 
-void SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned long replace)
+bool SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned long replace)
 {
 	if(!openForWriting())
-		return;
+		return false;
 
 	if(data.size() == replace) {
 		Seek(start);
-		WriteBlock(data);
-		return;
+		return WriteBlock(data);
 	}
 	else if(data.size() < replace) {
 		Seek(start);
-		WriteBlock(data);
-		RemoveBlock(start + data.size(), replace - data.size());
-		return;
+		if( !WriteBlock(data) ) {
+			return false;
+		}
+		return RemoveBlock(start + data.size(), replace - data.size());
 	}
 
 	// Woohoo!  Faster (about 20%) than id3lib at last.  I had to get hardcore
@@ -322,7 +327,9 @@ void SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned 
 	readPosition += bufferLength;
 
 	Seek(writePosition);
-	WriteBlock(data);
+	if( !WriteBlock(data) ) {
+		return false;
+	}
 	writePosition += data.size();
 
 	buffer = aboutToOverwrite;
@@ -350,7 +357,9 @@ void SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned 
 		// writePosition.
 
 		Seek(writePosition);
-		fwrite(buffer.getReadableData(), sizeof(char), bufferLength, m_file__);
+		if( fwrite(buffer.getReadableData(), sizeof(char), bufferLength, m_file__) != bufferLength ) {
+			return false;
+		}
 		writePosition += bufferLength;
 
 		// Make the current buffer the data that we read in the beginning.
@@ -363,13 +372,15 @@ void SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned 
 
 		bufferLength = bytesRead;
 	}
+
+	return true;
 }
 
 
-void SjByteFile::RemoveBlock(unsigned long start, unsigned long length)
+bool SjByteFile::RemoveBlock(unsigned long start, unsigned long length)
 {
 	if(!openForWriting())
-		return;
+		return false;
 
 	unsigned long bufferLength = BufferSize();
 
@@ -393,10 +404,13 @@ void SjByteFile::RemoveBlock(unsigned long start, unsigned long length)
 			Clear();
 
 		Seek(writePosition);
-		fwrite(buffer.getReadableData(), sizeof(char), bytesRead, m_file__);
+		if( fwrite(buffer.getReadableData(), sizeof(char), bytesRead, m_file__) != bytesRead ) {
+			return false;
+		}
 		writePosition += bytesRead;
 	}
 	Truncate(writePosition);
+	return true;
 }
 
 

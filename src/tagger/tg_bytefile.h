@@ -57,7 +57,7 @@ public:
 
 	// Attempts to write the block at the current pointer.  If the
 	// file is currently only opened read only, this attempts to reopen the file in read/write mode.
-	void            WriteBlock          (const SjByteVector &data);
+	bool            WriteBlock          (const SjByteVector &data);
 
 	// Find() returns the offset in the file where "pattern" occurs at or -1 if it can not be found.
 	// If "before" is set, the search will only continue until the pattern "before" is found.
@@ -75,11 +75,11 @@ public:
 
 	// Insert "data" at position "start" in the file overwriting "replace" bytes of the original content.
 	// Note: This method is slow since it requires rewriting all of the file after the insertion point.
-	void            Insert              (const SjByteVector &data, unsigned long start = 0, unsigned long replace = 0);
+	bool            Insert              (const SjByteVector &data, unsigned long start = 0, unsigned long replace = 0);
 
 	// Removes a block of the file starting at "start" and continuing for "length" bytes.
 	// Note: This method is slow since it involves rewriting all of the file after the removed portion.
-	void            RemoveBlock         (unsigned long start = 0, unsigned long length = 0);
+	bool            RemoveBlock         (unsigned long start = 0, unsigned long length = 0);
 
 	// Returns true if the file is read only (or if the file can not be opened).
 	bool            ReadOnly            ();

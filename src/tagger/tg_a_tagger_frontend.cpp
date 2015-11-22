@@ -64,8 +64,20 @@ enum SjFileType
 };
 
 
+Tagger_Options* g_taggerOptions = NULL;
+
+
 static Tagger_File* getTaggerFile(const wxString& url, wxFSFile* fsFile, SjFileType& ftOut)
 {
+	// create globals
+	if( g_taggerOptions == NULL )
+	{
+		g_taggerOptions = new Tagger_Options();
+		g_taggerOptions->m_flags = g_tools->m_config->Read("tageditor/tagflags",  SJTF_DEFAULTS);
+		g_taggerOptions->m_ratingUser = g_tools->m_config->Read("tageditor/ratinguser",  "r@silverjuke.net");
+	}
+
+	// create file
 	Tagger_File* file = NULL;
 
 	// get file type by extension
@@ -125,8 +137,8 @@ static Tagger_File* getTaggerFile(const wxString& url, wxFSFile* fsFile, SjFileT
 	{
 		file = new MPEG_File(fsFile, NULL, Tagger_ReadTags|Tagger_ReadAudioProperties);
 		if( file->IsValid()
-		        && file->audioProperties()
-		        && ((MPEG_Properties*)file->audioProperties())->IsValid() )
+		 && file->audioProperties()
+		 && ((MPEG_Properties*)file->audioProperties())->IsValid() )
 		{
 			ftOut = SJ_FT_MP1_2_3;
 		}
@@ -396,9 +408,12 @@ SjResult SjGetTrackInfoFromID3Etc(wxFSFile* fsFile, SjTrackInfo& ti, long flags)
 			if( ti.m_beatsPerMinute > 0 ) ti.m_validFields |= SJ_TI_BEATSPERMINUTE;
 
 			// get the rating
-			ti.m_rating = tag->rating();
-			wxASSERT( ti.m_rating >= 0 && ti.m_rating <= 5 );
-			if( ti.m_rating > 0 ) ti.m_validFields |= SJ_TI_RATING;
+			if( g_taggerOptions->m_flags&SJTF_READ_RATINGS )
+			{
+				ti.m_rating = tag->rating();
+				wxASSERT( ti.m_rating >= 0 && ti.m_rating <= 5 );
+				if( ti.m_rating > 0 ) ti.m_validFields |= SJ_TI_RATING;
+			}
 		}
 
 		// check for special tags (ID3v2, MP4)
@@ -960,7 +975,10 @@ bool SjSetTrackInfoToID3Etc(const wxString& url, const SjTrackInfo& ti)
 				if( ti.m_validFields & SJ_TI_RATING )
 				{
 					wxASSERT( ti.m_rating >= 0 && ti.m_rating <= 5 );
-					tag->setRating(ti.m_rating);
+					if( g_taggerOptions->m_flags&SJTF_WRITE_RATINGS )
+					{
+						tag->setRating(ti.m_rating);
+					}
 				}
 
 				// save the file
@@ -984,7 +1002,5 @@ bool SjSetTrackInfoToID3Etc(const wxString& url, const SjTrackInfo& ti)
 
 	return success;
 }
-
-
 
 
