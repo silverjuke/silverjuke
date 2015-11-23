@@ -228,20 +228,25 @@ void SjPlaylistEntry::VerifyUrl()
 	wxString url(m_url.BeforeFirst('\t'));
 
 	// get the long and absolute version of the URL
-	if( !url.StartsWith(wxT("stub:")) )
+	if( url.StartsWith(wxT("file:")) )
+	{
+		wxFileName urlFn = wxFileSystem::URLToFileName(url);
+		url = urlFn.GetLongPath();
+	}
+	else if( !url.StartsWith(wxT("stub:")) )
 	{
 		wxFileName urlFn(url, wxPATH_NATIVE);
 		if( !urlFn.IsAbsolute() )
 		{
 			// try relative paths from m_playlist->GetContainerUrls()
-			wxArrayString   containerUrls = m_playlist->GetContainerUrls();
-			for( int containerIndex = (int)containerUrls.GetCount()-1; containerIndex >=0; containerIndex-- )
+			wxArrayString containerFiles = m_playlist->GetContainerFiles();
+			for( int containerIndex = (int)containerFiles.GetCount()-1; containerIndex >=0; containerIndex-- )
 			{
 				// re-assign the relatice path to urlFn - needed if for() has more than one iteration
 				urlFn.Assign(url, wxPATH_NATIVE);
 
 				// make urlFn absolute using MakeAbsolute(GetPath()) (GetPath() does not return the name, so this should work just fine)
-				wxString tempStr(containerUrls[containerIndex]);
+				wxString tempStr(containerFiles[containerIndex]);
 				#ifdef __WXMSW__
 					tempStr.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
 				#endif
@@ -256,22 +261,17 @@ void SjPlaylistEntry::VerifyUrl()
 				}
 			}
 		}
-		else if( url.StartsWith(wxT("file:")) )
-		{
-			urlFn = wxFileSystem::URLToFileName(url);
-			url = urlFn.GetLongPath();
-		}
 		else
 		{
 			url = urlFn.GetLongPath();
 		}
 	}
 
-	// open file - as we also support eg. ZIP archives this is needed for validating <-- I do not understand this comment.
+	// open file - as we also support eg. ZIP archives this is needed for validating
 	// relative paths are not valid at this moment
 	wxString fsFileLocation;
 	{
-		if(  url.Len()>2
+		if(  0 && url.Len()>2
 		        &&
 			#ifdef __WXMSW__
 		        url[1u]==wxT(':')
@@ -324,6 +324,17 @@ void SjPlaylistEntry::VerifyUrl()
 			delete fsFile;
 		}
 	}
+
+	// convert the file name to a URL
+	if( !fsFileLocation.StartsWith("file:")
+	 && !fsFileLocation.StartsWith("http:")
+	 && !fsFileLocation.StartsWith("https:")
+	 && !fsFileLocation.StartsWith("ftp:") )
+	{
+		wxFileName fn(fsFileLocation);
+		fsFileLocation = wxFileSystem::FileNameToURL(fsFileLocation);
+	}
+
 
 	// make sure, we're using the correct case, see
 	// http://www.silverjuke.net/forum/topic-2406.html
@@ -675,10 +686,10 @@ void SjPlaylist::MergeMetaData(const SjPlaylist& o)
 		m_playlistUrl = o.m_playlistUrl;
 	}
 
-	int oContainerIndex, oContainerCount = o.m_containerUrls.GetCount();
+	int oContainerIndex, oContainerCount = o.m_containerFiles.GetCount();
 	for( oContainerIndex = 0; oContainerIndex < oContainerCount; oContainerIndex++ )
 	{
-		AddContainerUrl(o.m_containerUrls[oContainerIndex]);
+		AddContainerFile(o.m_containerFiles[oContainerIndex]);
 	}
 }
 
@@ -1365,13 +1376,15 @@ bool SjPlaylist::AddFromFile(wxFSFile* playlistFsFile, long addMax, long flags)
 		ret = AddFromM3u(playlistFsFile, addMax, flags);
 	}
 
+	wxString nativeFileName = wxFileSystem::URLToFileName(playlistFsFile->GetLocation()).GetFullPath();
+
 	if( !ret )
 	{
-		wxLogError(_("Cannot open \"%s\"."), playlistFsFile->GetLocation().c_str());
+		wxLogError(_("Cannot open \"%s\"."), nativeFileName.c_str());
 		return FALSE;
 	}
 
-	AddContainerUrl(playlistFsFile->GetLocation());
+	AddContainerFile(nativeFileName);
 
 	return TRUE;
 }

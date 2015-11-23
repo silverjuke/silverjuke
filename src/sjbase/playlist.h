@@ -222,8 +222,8 @@ public:
 
 	// Handling relative paths and container URLs.
 	// Container URLs are URLs of files referencing tracks such as *.m3u files.
-	void            AddContainerUrl     (const wxString& b) { if(m_containerUrls.Index(b)==wxNOT_FOUND) { m_containerUrls.Add(b); } }
-	wxArrayString   GetContainerUrls    () const { return m_containerUrls; }
+	void            AddContainerFile    (const wxString& b) { if(m_containerFiles.Index(b)==wxNOT_FOUND) { m_containerFiles.Add(b); } }
+	wxArrayString   GetContainerFiles   () const { return m_containerFiles; }
 	void            RehashUrl           (const wxString& oldUrl, const wxString& newUrl);
 
 	// OnUrlChanged() checks if the old url is in the playlist. If so,
@@ -259,7 +259,7 @@ private:
 	bool            AddFromXspfOrXmlOrWpl   (wxFSFile*, long addMax, long flags);
 
 	// container urls
-	wxArrayString   m_containerUrls;
+	wxArrayString   m_containerFiles;
 };
 
 
