@@ -1144,16 +1144,9 @@ void SjTagEditorDlg::Data2Dlg_CopyInfo(bool showMoreInfo)
 
 			p.Add(_("URL"), m_dataStat.m_url);
 
-			wxString filename = m_dataStat.m_url;
-			if( filename.StartsWith("file:") ) {
-				filename = wxFileSystem::URLToFileName(filename).GetFullPath();
-			}
-
-			if( wxFileExists(filename)
-			 || (!cacheName.IsEmpty()&&wxFileExists(cacheName)) )
 			{
 				wxFileSystem fs;
-				wxFSFile* fsFile = fs.OpenFile(cacheName.IsEmpty()? filename : cacheName, wxFS_READ|wxFS_SEEKABLE);
+				wxFSFile* fsFile = fs.OpenFile(m_dataStat.m_url, wxFS_READ|wxFS_SEEKABLE);
 				if( fsFile )
 				{
 					SjGetMoreInfoFromID3Etc(fsFile, p);
