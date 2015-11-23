@@ -33,8 +33,8 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-WMA_File::WMA_File(const wxFSFile* fsFile, wxInputStream* inputStream, bool readProperties)
-	: Tagger_File(fsFile, inputStream)
+WMA_File::WMA_File(const wxString& url, wxInputStream* inputStream, bool readProperties)
+	: Tagger_File(url, inputStream)
 {
 	wmaTag = NULL;
 	wmaProperties = NULL;

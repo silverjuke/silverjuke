@@ -67,7 +67,7 @@ enum SjFileType
 Tagger_Options* g_taggerOptions = NULL;
 
 
-static Tagger_File* getTaggerFile(const wxString& url, wxFSFile* fsFile, SjFileType& ftOut)
+static Tagger_File* getTaggerFile(const wxString& url, wxInputStream* inputStream/*NULL=open file for writing*/, SjFileType& ftOut)
 {
 	// create globals
 	if( g_taggerOptions == NULL )
@@ -86,43 +86,43 @@ static Tagger_File* getTaggerFile(const wxString& url, wxFSFile* fsFile, SjFileT
 	wxString ext = SjTools::GetExt(url);
 	if( ext == wxT("mp1") || ext == wxT("mp2") || ext == wxT("mp3") || ext == wxT("mp3pro") )
 	{
-		file = new MPEG_File(fsFile, NULL, Tagger_ReadTags|Tagger_ReadAudioProperties);
+		file = new MPEG_File(url, inputStream, Tagger_ReadTags|Tagger_ReadAudioProperties);
 		ftOut = SJ_FT_MP1_2_3;
 		mpegTried = TRUE;
 	}
 	else if( ext == wxT("ogg") )
 	{
-		file = new OggVorbis_File(fsFile);
+		file = new OggVorbis_File(url, inputStream);
 		ftOut = SJ_FT_OGG_VORBIS;
 	}
 	else if( ext == wxT("fla") || ext == wxT("flac") )
 	{
-		file = new FLAC_File(fsFile);
+		file = new FLAC_File(url, inputStream);
 		ftOut = SJ_FT_FLAC;
 	}
 	else if( ext == wxT("wma") || ext == wxT("wmv") || ext == wxT("asf") )
 	{
-		file = new WMA_File(fsFile);
+		file = new WMA_File(url, inputStream);
 		ftOut = SJ_FT_WMA;
 	}
 	else if( ext == wxT("mp+") || ext == wxT("mpc") || ext == wxT("mpp") )
 	{
-		file = new MPC_File(fsFile);
+		file = new MPC_File(url, inputStream);
 		ftOut = SJ_FT_MUSEPACK;
 	}
 	else if( ext == wxT("ape") )
 	{
-		file = new Monkeys_File(fsFile);
+		file = new Monkeys_File(url, inputStream);
 		ftOut = SJ_FT_MONKEYS_AUDIO;
 	}
 	else if( ext == wxT("wv") )
 	{
-		file = new WavPack_File(fsFile);
+		file = new WavPack_File(url, inputStream);
 		ftOut = SJ_FT_WAVPACK;
 	}
 	else if( ext == wxT("m4a") )
 	{
-		file = new MP4_File(fsFile);
+		file = new MP4_File(url, inputStream);
 		ftOut = SJ_FT_MP4;
 	}
 
@@ -135,7 +135,7 @@ static Tagger_File* getTaggerFile(const wxString& url, wxFSFile* fsFile, SjFileT
 	// final try with MPEG type
 	if( file == NULL && !mpegTried )
 	{
-		file = new MPEG_File(fsFile, NULL, Tagger_ReadTags|Tagger_ReadAudioProperties);
+		file = new MPEG_File(url, inputStream, Tagger_ReadTags|Tagger_ReadAudioProperties);
 		if( file->IsValid()
 		 && file->audioProperties()
 		 && ((MPEG_Properties*)file->audioProperties())->IsValid() )
@@ -217,7 +217,7 @@ wxFSFile* SjTaggerFsHandler::OpenFile(wxFileSystem& fs, const wxString& location
 
 		wxFSFile* fsFile = fs.OpenFile(left, wxFS_READ|wxFS_SEEKABLE);
 		if( fsFile == NULL ) { return NULL; }
-		MP4_File   mp4File(fsFile, NULL);
+		MP4_File   mp4File(left, fsFile->GetStream());
 		modTime = fsFile->GetModificationTime();
 		delete fsFile;
 
@@ -236,7 +236,7 @@ wxFSFile* SjTaggerFsHandler::OpenFile(wxFileSystem& fs, const wxString& location
 		// to read tags eg. from zipped files.
 		wxFSFile* fsFile = fs.OpenFile(left, wxFS_READ|wxFS_SEEKABLE);
 		if( fsFile == NULL ) { return NULL; }
-		MPEG_File   mpegFile(fsFile, NULL, Tagger_ReadTags);
+		MPEG_File   mpegFile(left, fsFile->GetStream(), Tagger_ReadTags);
 		modTime = fsFile->GetModificationTime();
 		delete fsFile;
 
@@ -332,7 +332,7 @@ SjResult SjGetTrackInfoFromID3Etc(wxFSFile* fsFile, SjTrackInfo& ti, long flags)
 
 	// get tag...
 	SjFileType fileTypeOut;
-	Tagger_File* file = getTaggerFile(url, fsFile, fileTypeOut);
+	Tagger_File* file = getTaggerFile(url, fsFile->GetStream(), fileTypeOut);
 	if( file )
 	{
 		Tagger_Tag* tag = file->tag();
@@ -491,7 +491,7 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 
 	// get tag...
 	SjFileType fileTypeOut;
-	Tagger_File* file = getTaggerFile(url, fsFile, fileTypeOut);
+	Tagger_File* file = getTaggerFile(url, fsFile->GetStream(), fileTypeOut);
 	if( file )
 	{
 		// set up the different tags and properties
@@ -870,14 +870,12 @@ bool SjSetTrackInfoToID3Etc(const wxString& url, const SjTrackInfo& ti)
 
 	// open file
 	bool            success = FALSE;
-	wxFileSystem    fs;
-	wxFSFile*       fsFile = fs.OpenFile(url, wxFS_READ|wxFS_SEEKABLE);
-	if( fsFile )
 	{
 		SjFileType fileTypeOut;
-		Tagger_File* file = getTaggerFile(url, fsFile, fileTypeOut);
+		Tagger_File* file = getTaggerFile(url, NULL /*force write access*/, fileTypeOut);
 		if( file )
 		{
+			wxASSERT( !file->ReadOnly() );
 			Tagger_Tag* tag = file->tag();
 			if( tag )
 			{
@@ -990,14 +988,16 @@ bool SjSetTrackInfoToID3Etc(const wxString& url, const SjTrackInfo& ti)
 
 			delete file;
 		}
-
-		delete fsFile;
 	}
 
 	// some so far
 	if( !success )
 	{
-		wxLogError(_("Cannot write \"%s\".")/*n/t*/, url.c_str());
+		wxString filename(url);
+		if( filename.StartsWith("file:") ) {
+			filename = wxFileSystem::URLToFileName(filename).GetFullPath();
+		}
+		wxLogError(_("Cannot write \"%s\".")/*n/t*/, filename.c_str());
 	}
 
 	return success;

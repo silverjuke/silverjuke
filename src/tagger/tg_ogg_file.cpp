@@ -503,8 +503,8 @@ Ogg_Page::Ogg_Page(const SjArrayByteVector &packets,
 
 
 
-Ogg_File::Ogg_File(const wxFSFile* fsFile, wxInputStream* inputStream)
-	: Tagger_File(fsFile, inputStream)
+Ogg_File::Ogg_File(const wxString& url, wxInputStream* inputStream)
+	: Tagger_File(url, inputStream)
 {
 	m_streamSerialNumber    = 0;
 	m_firstPageHeader       = NULL;

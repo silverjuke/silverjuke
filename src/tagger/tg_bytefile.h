@@ -45,12 +45,12 @@ class SjByteFile
 {
 public:
 	// constructor / destructor
-	SjByteFile          (const wxFSFile* fsFile, wxInputStream* inputStream);
+	// If inputStream is given, the file is opened for reading, else for writing.
+	                SjByteFile          (const wxString& url, wxInputStream*);
 	virtual         ~SjByteFile         ();
 
 	// IsValid() Returns true if the file is open and readable and/or valid information were found
 	bool            IsValid             () const;
-
 
 	// Reads a block of the given length at the current pointer.
 	SjByteVector    ReadBlock           (unsigned long length);
@@ -111,13 +111,7 @@ private:
 	SjByteFile &operator=(const SjByteFile &) { wxLogWarning(wxT("do not copy SjByteFile objects this way!")); return *this; }
 #endif
 
-	wxString            getLocalFileName() const;
-	bool                openForWriting();
-
-	const wxFSFile*     m_fsFile__;
-
 	FILE*               m_file__;
-	bool                m_file__triedOpening;
 
 	wxInputStream*      m_inputStream__;
 

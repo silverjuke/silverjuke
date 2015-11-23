@@ -39,8 +39,8 @@
 
 
 
-Tagger_File::Tagger_File(const wxFSFile* fsFile__, wxInputStream* inputStream__)
-	: SjByteFile(fsFile__, inputStream__)
+Tagger_File::Tagger_File(const wxString& url, wxInputStream* inputStream)
+	: SjByteFile(url, inputStream)
 {
 }
 

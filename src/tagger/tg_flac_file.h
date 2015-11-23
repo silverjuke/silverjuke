@@ -71,7 +71,7 @@ private:
 class FLAC_File : public Tagger_File
 {
 public:
-	FLAC_File           (const wxFSFile* file, wxInputStream* inputStream = NULL, bool readProperties = true, ID3v2_FrameFactory* frameFactory = NULL);
+	                    FLAC_File           (const wxString& url, wxInputStream*, bool readProperties = true, ID3v2_FrameFactory* frameFactory = NULL);
 	virtual             ~FLAC_File          ();
 	void                setID3v2FrameFactory(const ID3v2_FrameFactory *factory) {m_ID3v2FrameFactory = factory;}
 

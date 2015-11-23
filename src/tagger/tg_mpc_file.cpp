@@ -96,8 +96,8 @@ MPC_Properties::MPC_Properties(const SjByteVector& data, long streamLength)
 
 
 
-MPC_File::MPC_File(const wxFSFile* fsFile, wxInputStream* inputStream, bool readProperties)
-	: Tagger_File(fsFile, inputStream)
+MPC_File::MPC_File(const wxString& url, wxInputStream* inputStream, bool readProperties)
+	: Tagger_File(url, inputStream)
 {
 	m_APETag        = 0;
 	m_APELocation   = -1;

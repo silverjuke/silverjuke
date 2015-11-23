@@ -106,8 +106,8 @@ enum FLAC_BLOCK_TYPE
 
 
 
-FLAC_File::FLAC_File(const wxFSFile* fsFile, wxInputStream* inputStream, bool readProperties, ID3v2_FrameFactory* frameFactory)
-	: Tagger_File(fsFile, inputStream)
+FLAC_File::FLAC_File(const wxString& url, wxInputStream* inputStream, bool readProperties, ID3v2_FrameFactory* frameFactory)
+	: Tagger_File(url, inputStream)
 {
 	m_ID3v2Tag          = 0;
 	m_ID3v2Location     = -1;

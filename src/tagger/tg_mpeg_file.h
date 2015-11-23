@@ -74,10 +74,7 @@ public:
 	 * file's audio properties will also be read using \a propertiesStyle.  If
 	 * false, \a propertiesStyle is ignored.
 	 */
-	MPEG_File(
-	    const wxFSFile* file,                // you should give either fsFile
-	    wxInputStream* inputStream = NULL,   // in inputStream, not both!
-	    int readStyle = Tagger_ReadTags|Tagger_ReadAudioProperties);
+	MPEG_File(const wxString& url, wxInputStream*, int readStyle = Tagger_ReadTags|Tagger_ReadAudioProperties);
 
 	/*!
 	 * Destroys this instance of the File.

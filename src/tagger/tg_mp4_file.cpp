@@ -371,10 +371,8 @@ static void fillTagFromProxy( MP4_TagsProxy& proxy, MP4_Tag& mp4tag );
 
 
 
-MP4_File::MP4_File(
-    const wxFSFile* file,        // you should give either fsFile
-    wxInputStream* inputStream)  // in inputStream, not both!
-	:   Tagger_File(file, inputStream)
+MP4_File::MP4_File(const wxString& url, wxInputStream* inputStream)
+	:   Tagger_File(url, inputStream)
 {
 	// create member container
 	d = new MP4_FilePrivate();

@@ -38,10 +38,8 @@
 class WavPack_File : public MPEG_File
 {
 public:
-	WavPack_File(
-	    const wxFSFile* file,                // you should give either fsFile
-	    wxInputStream* inputStream = NULL)   // in inputStream, not both!
-		: MPEG_File(file, inputStream, Tagger_ReadTags)
+	WavPack_File(const wxString& url, wxInputStream* inputStream)
+		: MPEG_File(url, inputStream, Tagger_ReadTags)
 	{
 	}
 

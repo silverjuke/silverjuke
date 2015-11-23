@@ -1781,8 +1781,6 @@ bool SjTagEditorDlg::RenameFile__(const wxString& oldUrl, const wxString& newUrl
 
 void SjTagEditorDlg::WaitForWriteAccess__(const wxString& url)
 {
-	wxFileSystem    fs;
-	wxFSFile*       fsFile;
 	unsigned long   startWaiting = SjTools::GetMsTicks();
 	bool            hasWriteAccess = false;
 
@@ -1792,14 +1790,10 @@ void SjTagEditorDlg::WaitForWriteAccess__(const wxString& url)
 		wxThread::Sleep(150);
 
 		// try to access the file
-		if( (fsFile=fs.OpenFile(url, wxFS_READ|wxFS_SEEKABLE)) != NULL )
+		SjByteFile byteFile(url, NULL /*force write access*/);
+		if( !byteFile.ReadOnly() )
 		{
-			SjByteFile byteFile(fsFile, NULL);
-			if( !byteFile.ReadOnly() )
-			{
-				hasWriteAccess = true;
-			}
-			delete fsFile;
+			hasWriteAccess = true;
 		}
 	}
 }

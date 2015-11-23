@@ -55,7 +55,7 @@ public:
 	 * file's audio properties will also be read using \a propertiesStyle.  If
 	 * false, \a propertiesStyle is ignored.
 	 */
-	OggVorbis_File(const wxFSFile* file, wxInputStream* inputStream = NULL, bool readProperties = true);
+	OggVorbis_File(const wxString& url, wxInputStream*, bool readProperties = true);
 
 	/*!
 	 * Destroys this instance of the File.

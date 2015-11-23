@@ -354,10 +354,7 @@ private:
 class MP4_File : public Tagger_File
 {
 public:
-	MP4_File(
-	    const wxFSFile* file,                // you should give either fsFile
-	    wxInputStream* inputStream = NULL);  // in inputStream, not both!
-
+	        MP4_File (const wxString& url, wxInputStream*);
 	virtual ~MP4_File();
 
 	/*!

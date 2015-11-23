@@ -24,36 +24,59 @@
  ***************************************************************************/
 
 
-
 #include "tg_tagger_base.h"
-
 
 
 #define BUFFER_SIZE 1024
 
 
-SjByteFile::SjByteFile(const wxFSFile* fsFile, wxInputStream* inputStream)
+SjByteFile::SjByteFile(const wxString& url, wxInputStream* inputStream)
 {
-	wxASSERT(  (fsFile != NULL && inputStream == NULL)
-	           || (fsFile == NULL && inputStream != NULL) );
+	if( inputStream )
+	{
+		m_inputStream__     = inputStream;
+		m_file__ = NULL;
 
+		// seek to position 0 (this may be needed if the stream was used before;
+		// I'm not sure, if Tagger does a seekback in all cases, so we do it here)
 
-	m_fsFile__          = fsFile;
-	m_inputStream__     = fsFile? fsFile->GetStream() : inputStream;
-	m_file__            = NULL;
-	m_file__triedOpening= FALSE;
-	m_valid             = TRUE;
-	m_size              = 0;
+		wxASSERT( m_inputStream__->IsSeekable() );
 
-	// seek to position 0 (this may be needed if the stream was used before;
-	// I'm not sure, if Tagger does a seekback in all cases, so we do it here)
+		off_t newpos = m_inputStream__->SeekI(0, wxFromStart);
 
-	wxASSERT( m_inputStream__ );
-	wxASSERT( m_inputStream__->IsSeekable() );
+		wxASSERT( newpos != wxInvalidOffset ); // this may happen if wxFS_SEEKABLE was not given to wxFileSystem::OpenFile()
+	}
+	else
+	{
+		m_inputStream__     = NULL;
+		m_file__ = NULL;
 
-	off_t newpos = m_inputStream__->SeekI(0, wxFromStart);
+		wxString localFileName(url);
+		if( localFileName.StartsWith("file:") )
+		{
+			localFileName = wxFileSystem::URLToFileName(localFileName).GetFullPath();
+		}
 
-	wxASSERT( newpos != wxInvalidOffset ); // this may happen if wxFS_SEEKABLE was not given to wxFileSystem::OpenFile()
+		if( !localFileName.IsEmpty() )
+		{
+			#if defined(__WXMSW__) && wxUSE_UNICODE
+				m_file__ = _wfopen(static_cast<const wxChar*>(localFileName.c_str()), wxT("rb+")); // the "b" for BINARY is really important!!! at least on MSW
+			#else
+				m_file__ = fopen(localFileName.fn_str(), "rb+"); // the "b" for BINARY is really important!!! at least on MSW - is fn_str() wxConvLibc?
+			#endif
+			if( m_file__ )
+			{
+				if( fseek(m_file__, (long)0, SEEK_SET) == -1 )
+				{
+					fclose(m_file__);
+					m_file__ = NULL;
+				}
+			}
+		}
+	}
+
+	m_valid = true;
+	m_size = 0;
 }
 
 
@@ -63,46 +86,8 @@ SjByteFile::~SjByteFile()
 	{
 		fclose(m_file__);
 	}
-}
 
-
-wxString SjByteFile::getLocalFileName() const
-{
-	wxString ret;
-	if( m_fsFile__ )
-	{
-		ret = m_fsFile__->GetLocation();
-		if( ret.StartsWith(wxT("file:")) )
-		{
-			ret = wxFileSystem::URLToFileName(ret).GetFullPath();
-		}
-	}
-	return ret;
-}
-
-
-bool SjByteFile::openForWriting()
-{
-	if( !m_file__triedOpening )
-	{
-		wxString localFileName = getLocalFileName();
-		if( !localFileName.IsEmpty() )
-		{
-			m_file__triedOpening = TRUE;
-			#if defined(__WXMSW__) && wxUSE_UNICODE
-				m_file__ = _wfopen(static_cast<const wxChar*>(localFileName.c_str()), wxT("rb+")); // the "b" for BINARY is really important!!! at least on MSW
-			#else
-				m_file__ = fopen(localFileName.fn_str(), "rb+"); // the "b" for BINARY is really important!!! at least on MSW - is fn_str() wxConvLibc?
-			#endif
-			if( m_file__ )
-			{
-				off_t offset = m_inputStream__->TellI();
-				fseek(m_file__, (long)offset, SEEK_SET);
-			}
-		}
-	}
-
-	return (m_file__ != NULL);
+	// m_inputStream__ is owned by the caller and must not be freed here!
 }
 
 
@@ -133,13 +118,14 @@ SjByteVector SjByteFile::ReadBlock(unsigned long length)
 
 bool SjByteFile::WriteBlock(const SjByteVector &data)
 {
-	if( !openForWriting() )
+	if( m_file__ == NULL )
 		return false;
 
-	wxASSERT( m_file__ );
 	size_t towrite = data.size();
-	if( fwrite(data.getReadableData(), sizeof(char), towrite, m_file__) != towrite )
+	size_t written = fwrite(data.getReadableData(), sizeof(char), towrite, m_file__);
+	if( written != towrite )
 	{
+		wxLogError("ferror() returns %i", ferror(m_file__));
 		return false;
 	}
 	return true;
@@ -279,7 +265,7 @@ long SjByteFile::RFind(const SjByteVector &pattern, long fromOffset, const SjByt
 
 bool SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned long replace)
 {
-	if(!openForWriting())
+	if( m_file__==NULL )
 		return false;
 
 	if(data.size() == replace) {
@@ -379,7 +365,7 @@ bool SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned 
 
 bool SjByteFile::RemoveBlock(unsigned long start, unsigned long length)
 {
-	if(!openForWriting())
+	if( m_file__==NULL )
 		return false;
 
 	unsigned long bufferLength = BufferSize();
@@ -416,13 +402,13 @@ bool SjByteFile::RemoveBlock(unsigned long start, unsigned long length)
 
 bool SjByteFile::ReadOnly()
 {
-	return !openForWriting();
+	return m_file__? false : true;
 }
 
 
 bool SjByteFile::IsValid() const
 {
-	return m_inputStream__ && m_valid;
+	return (m_inputStream__||m_file__) && m_valid;
 }
 
 void SjByteFile::Seek(long offset, SjByteFileSeek p)
@@ -514,19 +500,19 @@ long SjByteFile::Length()
 #endif
 bool SjByteFile::Truncate(long length)
 {
-	if( openForWriting() )
+	if( m_file__ )
 	{
-#ifdef __WXMSW__
+		#ifdef __WXMSW__
 		if( _chsize(_fileno(m_file__), length) == 0 )
 		{
 			return true;
 		}
-#else
+		#else
 		if( ftruncate(fileno(m_file__), length) == 0 )
 		{
 			return true;
 		}
-#endif
+		#endif
 	}
 
 	return false;

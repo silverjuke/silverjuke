@@ -37,10 +37,8 @@
 class Monkeys_File : public MPEG_File
 {
 public:
-	Monkeys_File(
-	    const wxFSFile* file,                // you should give either fsFile
-	    wxInputStream* inputStream = NULL)   // in inputStream, not both!
-		: MPEG_File(file, inputStream, Tagger_ReadTags)
+	Monkeys_File(const wxString& url, wxInputStream* inputStream)
+		: MPEG_File(url, inputStream, Tagger_ReadTags)
 	{
 	}
 

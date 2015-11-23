@@ -81,10 +81,8 @@ private:
 
 
 
-MPEG_File::MPEG_File(   const wxFSFile*     fsFile,
-                        wxInputStream*      inputStream,
-                        int                 readStyle) :
-	Tagger_File(fsFile, inputStream)
+MPEG_File::MPEG_File(const wxString& url, wxInputStream* inputStream, int readStyle) :
+	Tagger_File(url, inputStream)
 {
 	m_id3v2Tag          = NULL;
 	m_id3v2Location     = -1;

@@ -53,7 +53,7 @@ public:
 	 * \deprecated This constructor will be dropped in favor of the one below
 	 * in a future version.
 	 */
-	WMA_File(const wxFSFile* file, wxInputStream* inputStream = NULL, bool readProperties = true);
+	WMA_File(const wxString& url, wxInputStream*, bool readProperties = true);
 
 	/*!
 	 * Destroys this instance of the File.

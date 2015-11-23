@@ -56,8 +56,8 @@ static const unsigned char vorbisCommentHeaderID[] = { 0x03, 'v', 'o', 'r', 'b',
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-OggVorbis_File::OggVorbis_File(const wxFSFile* fsFile, wxInputStream* inputStream, bool readProperties)
-	: Ogg_File(fsFile, inputStream)
+OggVorbis_File::OggVorbis_File(const wxString& url, wxInputStream* inputStream, bool readProperties)
+	: Ogg_File(url, inputStream)
 {
 	d = new OggVorbis_FilePrivate;
 	read(readProperties);

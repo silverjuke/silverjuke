@@ -83,7 +83,7 @@ class MPC_File : public Tagger_File
 {
 public:
 
-	MPC_File            (const wxFSFile* file, wxInputStream* inputStream = NULL, bool readProperties = true);
+	                    MPC_File            (const wxString& url, wxInputStream*, bool readProperties = true);
 	virtual             ~MPC_File           ();
 
 

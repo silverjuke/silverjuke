@@ -465,7 +465,7 @@ protected:
 	 * instantiated directly but rather should be used through the codec
 	 * specific subclasses.
 	 */
-	Ogg_File            (const wxFSFile* file, wxInputStream* inputStream);
+	Ogg_File            (const wxString& url, wxInputStream*);
 
 private:
 #ifdef __WXDEBUG__

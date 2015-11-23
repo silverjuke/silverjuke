@@ -109,15 +109,12 @@ public: // to the user ...
 
 protected:
 	/*!
-	 * Construct a File object and opens the \a file.  \a file should be a
-	 * be a C-string in the local file system encoding.
+	 * Construct a File object and opens the file.
 	 *
 	 * \note Constructor is protected since this class should only be
 	 * instantiated through subclasses.
-	 *
-	 * You should give either a fsFile object or an inputStream, not both.
 	 */
-	Tagger_File(const wxFSFile* fsFile, wxInputStream* inputStream);
+	Tagger_File(const wxString& url, wxInputStream*);
 
 private:
 #ifdef __WXDEBUG__
