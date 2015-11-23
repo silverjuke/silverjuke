@@ -118,7 +118,21 @@ long Ogg_XiphComment::beatsPerMinute() const
 
 long Ogg_XiphComment::rating() const
 {
-	return 0;
+	wxString str = m_fieldListMapFirstString("RATING");
+	long ret = 0;
+	if( !str.ToLong(&ret) ) {
+		ret = 0;
+	}
+
+	// see setRating() for details about the mapping
+	     if( ret >= 100 ) { ret = 5; }
+	else if( ret >=  80 ) { ret = 4; }
+	else if( ret >=  60 ) { ret = 3; }
+	else if( ret >=  40 ) { ret = 2; }
+	else if( ret >=  20 ) { ret = 1; }
+	else                  { ret = 0; }
+
+	return ret;
 }
 
 void Ogg_XiphComment::track(long& nr, long& count) const
@@ -202,8 +216,29 @@ void Ogg_XiphComment::setBeatsPerMinute(long i)
 	}
 }
 
-void Ogg_XiphComment::setRating(long i)
+void Ogg_XiphComment::setRating(long rating5)
 {
+
+	if( rating5 == 0 )
+	{
+		removeField("RATING");
+	}
+	else
+	{
+		// from https://en.wikipedia.org/wiki/Vorbis_comment :
+		// "Most applications also support common de facto standards, such as DISCNUMBER, RATING, [...]
+		// Ratings are usually mapped as 1-5 stars with 20,40,60,80,100 as the actual string values."
+		int rating100;
+		switch( rating5 )
+		{
+			case 1:  rating100 =  20; break;
+			case 2:  rating100 =  40; break;
+			case 3:  rating100 =  60; break;
+			case 4:  rating100 =  80; break;
+			case 5:  rating100 = 100; break;
+		}
+		addField(wxT("RATING"), wxString::Format(wxT("%i"), (int)rating100));
+	}
 }
 
 void Ogg_XiphComment::setTrack(long nr, long count)
