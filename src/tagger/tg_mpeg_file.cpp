@@ -170,7 +170,7 @@ bool MPEG_File::save(int tags, bool stripOthers)
 				m_id3v2Location = 0;
 			}
 
-			Insert(m_id3v2Tag->render(), m_id3v2Location, m_id3v2OriginalSize);
+			success = Insert(m_id3v2Tag->render(), m_id3v2Location, m_id3v2OriginalSize) && success;
 		}
 		else if(stripOthers)
 		{
@@ -188,7 +188,7 @@ bool MPEG_File::save(int tags, bool stripOthers)
 		{
 			int offset = m_hasId3v1 ? -128 : 0;
 			Seek(offset, SJ_SEEK_END);
-			WriteBlock(m_id3v1Tag->render());
+			success = WriteBlock(m_id3v1Tag->render()) && success;
 		}
 		else if(stripOthers)
 		{
@@ -206,13 +206,13 @@ bool MPEG_File::save(int tags, bool stripOthers)
 	{
 		if(m_hasApe)
 		{
-			Insert(m_apeTag->render(), m_apeLocation, m_apeOriginalSize);
+			success = Insert(m_apeTag->render(), m_apeLocation, m_apeOriginalSize) && success;
 		}
 		else
 		{
 			if(m_hasId3v1)
 			{
-				Insert(m_apeTag->render(), m_id3v1Location, 0);
+				success = Insert(m_apeTag->render(), m_id3v1Location, 0) && success;
 				m_apeOriginalSize = m_apeTag->footer()->completeTagSize();
 				m_hasApe = true;
 				m_apeLocation = m_id3v1Location;
@@ -222,7 +222,7 @@ bool MPEG_File::save(int tags, bool stripOthers)
 			{
 				Seek(0, SJ_SEEK_END);
 				m_apeLocation = Tell();
-				WriteBlock(m_apeTag->render());
+				success = WriteBlock(m_apeTag->render()) && success;
 				m_apeOriginalSize = m_apeTag->footer()->completeTagSize();
 				m_hasApe = true;
 			}
@@ -293,7 +293,8 @@ bool MPEG_File::strip(int tags, bool freeMemory)
 
 	if((tags & MPEG_ID3v2) && m_hasId3v2)
 	{
-		RemoveBlock(m_id3v2Location, m_id3v2OriginalSize);
+		if( !RemoveBlock(m_id3v2Location, m_id3v2OriginalSize) )
+			return false;
 		m_id3v2Location = -1;
 		m_id3v2OriginalSize = 0;
 		m_hasId3v2 = false;
@@ -326,7 +327,8 @@ bool MPEG_File::strip(int tags, bool freeMemory)
 
 	if((tags & MPEG_APE) && m_hasApe)
 	{
-		RemoveBlock(m_apeLocation, m_apeOriginalSize);
+		if( !RemoveBlock(m_apeLocation, m_apeOriginalSize) )
+			return false;
 		m_apeLocation = -1;
 		m_hasApe = false;
 		if(m_hasId3v1)
