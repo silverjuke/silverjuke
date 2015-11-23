@@ -34,7 +34,7 @@ SjByteFile::SjByteFile(const wxString& url, wxInputStream* inputStream)
 {
 	if( inputStream )
 	{
-		m_inputStream__     = inputStream;
+		m_inputStream__ = inputStream;
 		m_file__ = NULL;
 
 		// seek to position 0 (this may be needed if the stream was used before;
@@ -48,7 +48,7 @@ SjByteFile::SjByteFile(const wxString& url, wxInputStream* inputStream)
 	}
 	else
 	{
-		m_inputStream__     = NULL;
+		m_inputStream__ = NULL;
 		m_file__ = NULL;
 
 		wxString localFileName(url);
@@ -93,8 +93,8 @@ SjByteFile::~SjByteFile()
 
 SjByteVector SjByteFile::ReadBlock(unsigned long length)
 {
-	if(length > BUFFER_SIZE &&
-	        length > (unsigned long)SjByteFile::Length())
+	if( length > BUFFER_SIZE
+	 && length > (unsigned long)SjByteFile::Length())
 	{
 		length = SjByteFile::Length();
 	}
@@ -137,7 +137,7 @@ bool SjByteFile::WriteBlock(const SjByteVector &data)
 
 long SjByteFile::Find(const SjByteVector &pattern, long fromOffset, const SjByteVector &before)
 {
-	if(!m_inputStream__ || pattern.size() > BUFFER_SIZE)
+	if( (m_inputStream__==NULL&&m_file__==NULL) || pattern.size() > BUFFER_SIZE )
 	{
 		return -1;
 	}
@@ -216,7 +216,7 @@ long SjByteFile::Find(const SjByteVector &pattern, long fromOffset, const SjByte
 
 long SjByteFile::RFind(const SjByteVector &pattern, long fromOffset, const SjByteVector &before)
 {
-	if(!m_inputStream__ || pattern.size() > BUFFER_SIZE)
+	if( (m_inputStream__==NULL&&m_file__==NULL) || pattern.size() > BUFFER_SIZE)
 	{
 		return -1;
 	}
