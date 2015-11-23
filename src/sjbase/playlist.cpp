@@ -132,21 +132,17 @@ void SjPlaylistEntry::LoadAddInfo(long what)
 }
 
 
-wxString SjPlaylistEntry::GetLocalUrl(const wxString& containerUrl)
+wxString SjPlaylistEntry::GetLocalFile(const wxString& containerFile__)
 {
-	wxString temp = GetUrl();
-	#ifdef __WXMSW__
-		temp.Replace(wxT("/"), wxT("\\"));
-	#endif
-	wxFileName urlFn(temp, wxPATH_NATIVE);
+	wxFileName urlFn = wxFileSystem::URLToFileName(GetUrl());
 
-	if( !containerUrl.IsEmpty() )
+	if( !containerFile__.IsEmpty() )
 	{
-		temp = containerUrl;
+		wxString containerFile(containerFile__);
 		#ifdef __WXMSW__
-			temp.Replace(wxT("/"), wxT("\\"));
+			containerFile.Replace(wxT("/"), wxT("\\"));
 		#endif
-		wxFileName containerFn(temp, wxPATH_NATIVE);
+		wxFileName containerFn(containerFile);
 
 		urlFn.MakeRelativeTo(containerFn.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR));
 	}
@@ -749,7 +745,7 @@ bool SjPlaylist::AddFromM3u(wxFSFile* fsFile, long addMax, long flags)
 }
 
 
-wxString SjPlaylist::SaveAsM3u(const wxString& containerUrl, long flags)
+wxString SjPlaylist::SaveAsM3u(const wxString& containerFile, long flags)
 {
 	wxString    ret;
 	wxString    linebreak = SjTools::GetLineBreak();
@@ -763,7 +759,7 @@ wxString SjPlaylist::SaveAsM3u(const wxString& containerUrl, long flags)
 	long i, iCount = GetCount(), seconds;
 	for( i = 0; i < iCount; i++ )
 	{
-		urlToSave = Item(i).GetLocalUrl(containerUrl);
+		urlToSave = Item(i).GetLocalFile(containerFile);
 		if( Item(i).IsUrlOk() )
 		{
 			if( !(flags & SJ_M3U_NO_EXT) )
@@ -867,7 +863,7 @@ bool SjPlaylist::AddFromPls(wxFSFile* fsFile, long addMax, long flags)
 }
 
 
-wxString SjPlaylist::SaveAsPls(const wxString& containerUrl, long flags)
+wxString SjPlaylist::SaveAsPls(const wxString& containerFile, long flags)
 {
 	wxString    ret;
 	wxString    linebreak = SjTools::GetLineBreak();
@@ -885,7 +881,7 @@ wxString SjPlaylist::SaveAsPls(const wxString& containerUrl, long flags)
 	long i, iCount = GetCount(), savedCount = 0, seconds;
 	for( i = 0; i < iCount; i++ )
 	{
-		urlToSave = Item(i).GetLocalUrl(wxEmptyString/*always save abs. path*/);
+		urlToSave = Item(i).GetLocalFile(wxEmptyString/*always save abs. path*/);
 
 		if( Item(i).IsUrlOk() )
 		{
@@ -964,7 +960,7 @@ bool SjPlaylist::AddFromCue(wxFSFile* fsFile, long addMax, long flags)
 }
 
 
-wxString SjPlaylist::SaveAsCue(const wxString& containerUrl, long flags)
+wxString SjPlaylist::SaveAsCue(const wxString& containerFile, long flags)
 {
 	wxString    ret;
 	wxString    linebreak = SjTools::GetLineBreak();
@@ -976,7 +972,7 @@ wxString SjPlaylist::SaveAsCue(const wxString& containerUrl, long flags)
 	long i, iCount = GetCount();
 	for( i = 0; i < iCount; i++ )
 	{
-		urlToSave = Item(i).GetLocalUrl(wxEmptyString/*always save abs. path*/);
+		urlToSave = Item(i).GetLocalFile(wxEmptyString/*always save abs. path*/);
 
 		if( Item(i).IsUrlOk() )
 		{
@@ -1141,7 +1137,7 @@ bool SjPlaylist::AddFromXspfOrXmlOrWpl(wxFSFile* fsFile, long addMax, long flags
 }
 
 
-wxString SjPlaylist::SaveAsXspf(const wxString& containerUrl, long flags)
+wxString SjPlaylist::SaveAsXspf(const wxString& containerFile, long flags)
 {
 	wxString    ret, url, realUrl;
 	wxString    linebreak = SjTools::GetLineBreak();
@@ -1163,24 +1159,8 @@ wxString SjPlaylist::SaveAsXspf(const wxString& containerUrl, long flags)
 	{
 		ret << wxT("\t<track>") << linebreak;
 
-		// get url
-		url = Item(i).GetUrl();
-
-		// convert the url to sth. like file: ...
-		realUrl = url;
-		if( !realUrl.StartsWith(wxT("http:")) // this may be a steam - in this case (or in others) we get into an endless loop
-		        && !realUrl.StartsWith(wxT("https:"))
-		        && !realUrl.StartsWith(wxT("ftp:")) )
-		{
-			#ifdef __WXMSW__
-				realUrl.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
-			#endif
-			realUrl = wxFileSystem::FileNameToURL(wxFileName(realUrl, wxPATH_NATIVE));
-		}
-		realUrl.Replace(wxT(" "), wxT("%20"));
-
 		// write url
-		ret << wxT("\t\t<location>") << SjTools::Htmlentities(realUrl) << wxT("</location>") << linebreak;
+		ret << wxT("\t\t<location>") << SjTools::Htmlentities(Item(i).GetUrl()) << wxT("</location>") << linebreak;
 
 		// write title
 		ret << wxT("\t\t<title>") << SjTools::Htmlentities(Item(i).GetTrackName()) << wxT("</title>") << linebreak;

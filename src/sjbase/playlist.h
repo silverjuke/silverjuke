@@ -92,7 +92,7 @@ public:
 	wxString        GetUnverifiedUrl    () { return m_url; }
 	void            RenameUrl           (const wxString& oldUrl, const wxString& newUrl) { if(m_url==oldUrl) m_url=newUrl; }
 	void            UrlChanged          () { if(m_addInfo) { delete m_addInfo; m_addInfo=NULL; } }
-	wxString        GetLocalUrl         (const wxString& containerUrl);
+	wxString        GetLocalFile        (const wxString& containerUrl);
 
 	// get the ID, the ID is unique even for different URLs that are several times in the playlist
 	// and they stay equal if the playlist is modified
@@ -205,10 +205,10 @@ public:
 
 	bool            SaveAsDlg           (wxWindow* parent);
 	bool            SaveAsFile          (const wxString& path, const wxString& type, long flags=0);
-	wxString        SaveAsM3u           (const wxString& containerUrl, long flags=0);
-	wxString        SaveAsPls           (const wxString& containerUrl, long flags=0);
-	wxString        SaveAsCue           (const wxString& containerUrl, long flags=0);
-	wxString        SaveAsXspf          (const wxString& containerUrl, long flags=0);
+	wxString        SaveAsM3u           (const wxString& containerFile, long flags=0);
+	wxString        SaveAsPls           (const wxString& containerFile, long flags=0);
+	wxString        SaveAsCue           (const wxString& containerFile, long flags=0);
+	wxString        SaveAsXspf          (const wxString& containerFile, long flags=0);
 
 	// handling meta data, on merging, the meta data of the
 	// given playlist have a higher priority.
