@@ -119,13 +119,16 @@ SjByteVector SjByteFile::ReadBlock(unsigned long length)
 bool SjByteFile::WriteBlock(const SjByteVector &data)
 {
 	if( m_file__ == NULL )
+	{
+		wxLogError("SjByteFile::WriteBlock(): File not ready.");
 		return false;
+	}
 
 	size_t towrite = data.size();
 	size_t written = fwrite(data.getReadableData(), sizeof(char), towrite, m_file__);
 	if( written != towrite )
 	{
-		wxLogError("ferror() returns %i", ferror(m_file__));
+		wxLogError("SjByteFile::WriteBlock(): fwrite() wrote %i instead of %i bytes, ferror() returns %i", written, towrite, ferror(m_file__));
 		return false;
 	}
 	return true;
@@ -266,7 +269,10 @@ long SjByteFile::RFind(const SjByteVector &pattern, long fromOffset, const SjByt
 bool SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned long replace)
 {
 	if( m_file__==NULL )
+	{
+		wxLogError("SjByteFile::Insert(): File not ready.");
 		return false;
+	}
 
 	if(data.size() == replace) {
 		Seek(start);
@@ -343,7 +349,9 @@ bool SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned 
 		// writePosition.
 
 		Seek(writePosition);
-		if( fwrite(buffer.getReadableData(), sizeof(char), bufferLength, m_file__) != bufferLength ) {
+		size_t written = fwrite(buffer.getReadableData(), sizeof(char), bufferLength, m_file__);
+		if( written != bufferLength ) {
+			wxLogError("SjByteFile::Insert(): fwrite() wrote %i instead of %i bytes, ferror() returns %i", written, bufferLength, ferror(m_file__));
 			return false;
 		}
 		writePosition += bufferLength;
@@ -366,7 +374,10 @@ bool SjByteFile::Insert(const SjByteVector &data, unsigned long start, unsigned 
 bool SjByteFile::RemoveBlock(unsigned long start, unsigned long length)
 {
 	if( m_file__==NULL )
+	{
+		wxLogError("SjByteFile::RemoveBlock(): File not ready.");
 		return false;
+	}
 
 	unsigned long bufferLength = BufferSize();
 
@@ -390,7 +401,9 @@ bool SjByteFile::RemoveBlock(unsigned long start, unsigned long length)
 			Clear();
 
 		Seek(writePosition);
-		if( fwrite(buffer.getReadableData(), sizeof(char), bytesRead, m_file__) != bytesRead ) {
+		size_t written = fwrite(buffer.getReadableData(), sizeof(char), bytesRead, m_file__);
+		if( written != bytesRead ) {
+			wxLogError("SjByteFile::RemoveBlock(): fwrite() wrote %i instead of %i bytes, ferror() returns %i", written, bytesRead, ferror(m_file__));
 			return false;
 		}
 		writePosition += bytesRead;
