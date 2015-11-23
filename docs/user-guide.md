@@ -1263,7 +1263,7 @@ The options in detail:
   you can use your harddisk to cache images. When using this option your 
   harddisk should be "large" enough to cache all possible covers; however, for 
   actual hardware this should be no problem. You can use the temporary directory 
-  cache in two ways: asynchony or directly. Asynchony means, the images to
+  cache in two ways: _asynchony_ or _directly_. Asynchony means, the images to
   display are rendered in a second thread and displayed when ready; in between,
   Silverjuke shows an empty square at the place of the cover. Directly means,
   the program display is halted until the image is ready and therefore no empty
@@ -1273,8 +1273,8 @@ The options in detail:
 
 - **Index file:** This option displays the index file location (the index file
   contains the database for your music library). If you want to use another 
-  index file, you have to add the parameter -db=FILE to the command line when
-  starting Silverjuke.
+  index file, you have to add the parameter --jukebox=FILE to the command line
+  when starting Silverjuke.
 
 - **Show files with:** By default when selecting the menu entry "Explore...",
   files are shown eg. with the Explorer under Windows or with the Finder on 

@@ -92,7 +92,7 @@ starting with two dashes ('**-**'). **silverjuke** supports the following option
   are created as needed.
 
   If you want to use different music libraries for each instance, you have to
-  use the --db=FILE option as described above.
+  use the --jukebox=FILE option as described above.
 
 --update
   This will automatically update the index as if you hit F5 just after starting
