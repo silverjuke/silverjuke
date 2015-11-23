@@ -4134,10 +4134,7 @@ void SjLibraryModule::HandleMenu(int id)
 							if( scannerModule )
 							{
 								wxASSERT( scannerModule->IsLoaded() );
-								if( !scannerModule->SetTrackInfo(ti.m_url, ti) )
-								{
-									wxLogError(_("Cannot write \"%s\"."), ti.m_url.c_str());
-								}
+								scannerModule->SetTrackInfo(ti.m_url, ti);
 							}
 						}
 					}
