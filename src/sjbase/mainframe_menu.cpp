@@ -257,25 +257,12 @@ void SjMainFrame::UpdateMenuBarQueue()
 	m_menuBar->Enable(IDT_GOTO_CURR, enableQueue);
 
 	m_viewMenu->Check (IDT_TOGGLE_TIME_MODE, m_showRemainingTime);
-	m_viewMenu->Enable(IDT_TOGGLE_TIME_MODE, enableQueue);
-
 	m_viewMenu->Check (IDO_TOGGLE_TIME_MODE2, !m_showRemainingTime);
-	m_viewMenu->Enable(IDO_TOGGLE_TIME_MODE2, enableQueue);
-
 	m_viewMenu->Check (IDO_DISPLAY_TOTAL_TIME, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME)!=0);
-	m_viewMenu->Enable(IDO_DISPLAY_TOTAL_TIME, enableQueue);
-
 	m_viewMenu->Check (IDO_DISPLAY_TRACKNR, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_TRACKNR)!=0);
-	m_viewMenu->Enable(IDO_DISPLAY_TRACKNR, enableQueue);
-
 	m_viewMenu->Check (IDO_DISPLAY_ARTIST, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_ARTIST)!=0);
-	m_viewMenu->Enable(IDO_DISPLAY_ARTIST, enableQueue);
-
 	m_viewMenu->Check (IDO_DISPLAY_AUTOPLAY, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_AUTOPLAY)!=0);
-	m_viewMenu->Enable(IDO_DISPLAY_AUTOPLAY, enableQueue);
-
 	m_viewMenu->Check (IDO_DISPLAY_PREFERALBCV, (m_skinFlags&SJ_SKIN_PREFER_TRACK_COVER)==0);
-	m_viewMenu->Enable(IDO_DISPLAY_PREFERALBCV, enableQueue);
 }
 
 
@@ -367,6 +354,8 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
 		viewMenu->AppendCheckItem(IDT_START_VIS, _("Video screen"));
 		viewMenu->Check(IDT_START_VIS, g_visModule->IsVisStarted());
 	}
+
+	UpdateMenuBarQueue();
 }
 
 

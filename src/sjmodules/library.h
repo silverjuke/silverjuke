@@ -185,6 +185,8 @@ public:
 
 	// misc.
 	bool            PlayOnDblClick      () const { return (m_flags&SJ_LIB_PLAYONCOVERDBLCLICK) != 0; }
+	long            GetFlags            () const { return m_flags; }
+	void            SetFlags            (long f) { m_flags = f; SaveSettings(); }
 
 protected:
 	bool            FirstLoad           ();

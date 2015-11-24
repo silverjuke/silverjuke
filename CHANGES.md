@@ -2,10 +2,11 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.? (23.11.2015)
+V15.? (24.11.2015)
 ================================================================================
 
 - New: Read and write ratings from MP3, MPC, FLAC and OGG-files
+- New: "Columns" and "Display" options in view menu
 - Bug fixes
 
 

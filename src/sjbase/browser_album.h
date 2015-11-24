@@ -62,7 +62,8 @@ public:
 	wxRect          GetToolTipRect      (int mouseX, int mouseY);
 	wxString        GetToolTipText      (int mouseX, int mouseY, long &flags);
 
-	void            AddItemsToColMenu   (SjMenu*) {}
+	void            AddItemsToColMenu   (SjMenu*);
+	void            UpdateItemsInColMenu(SjMenu*);
 
 	// selection handling & scrolling
 	bool            OnSkinTargetEvent   (int targetId, SjSkinValue& value, long accelFlags); // return true if the key/event was used

@@ -531,9 +531,26 @@ void SjCoverBrowser::OnContextMenu(wxMouseEvent& event)
 }
 
 
+#define IDC_L_FIRST                  (IDM_LASTPRIVATE-17) // range start
+#define IDC_L_SHOWLEADARTISTNAME     (IDM_LASTPRIVATE-12)
+#define IDC_L_SHOWALBUMNAME          (IDM_LASTPRIVATE-8)
+#define IDC_L_SHOWYEAR               (IDM_LASTPRIVATE-5)
+#define IDC_L_LAST                   (IDM_LASTPRIVATE-1) // range end
+
+
 void SjCoverBrowser::OnContextMenuSelect(int id)
 {
-	if( m_lastClickedCover )
+	if( id >= IDC_L_FIRST && id <= IDC_L_LAST )
+	{
+		long flags = g_mainFrame->m_libraryModule->GetFlags();
+		if( id == IDC_L_SHOWLEADARTISTNAME )     { SjTools::ToggleFlag(flags, SJ_LIB_SHOWLEADARTISTNAME); }
+		if( id == IDC_L_SHOWALBUMNAME )          { SjTools::ToggleFlag(flags, SJ_LIB_SHOWALBUMNAME); }
+		if( id == IDC_L_SHOWYEAR )               { SjTools::ToggleFlag(flags, SJ_LIB_SHOWYEAR); }
+		g_mainFrame->m_libraryModule->SetFlags(flags);
+		g_mainFrame->m_browser->RefreshAll();
+		UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
+	}
+	else if( m_lastClickedCover )
 	{
 		m_lastClickedCover->m_rows[0]->OnContextMenu(id);
 	}
@@ -597,6 +614,26 @@ wxString SjCoverBrowser::GetToolTipText(int mouseX, int mouseY, long &flags)
 
 	retString.Replace(wxT("\t"), wxT("")); // TAB is used for hiliting
 	return retString;
+}
+
+
+void SjCoverBrowser::AddItemsToColMenu(SjMenu* m)
+{
+	m->AppendSeparator();
+	m->AppendCheckItem(IDC_L_SHOWLEADARTISTNAME,     _("Artist"));
+	m->AppendCheckItem(IDC_L_SHOWALBUMNAME,          _("Album"));
+	m->AppendCheckItem(IDC_L_SHOWYEAR,               _("Year"));
+
+	UpdateItemsInColMenu(m);
+}
+
+
+void SjCoverBrowser::UpdateItemsInColMenu(SjMenu* m)
+{
+	long flags = g_mainFrame->m_libraryModule->GetFlags();
+	m->Check(IDC_L_SHOWLEADARTISTNAME,     (flags&SJ_LIB_SHOWLEADARTISTNAME)!=0);
+	m->Check(IDC_L_SHOWALBUMNAME,          (flags&SJ_LIB_SHOWALBUMNAME)!=0);
+	m->Check(IDC_L_SHOWYEAR,               (flags&SJ_LIB_SHOWYEAR)!=0);
 }
 
 

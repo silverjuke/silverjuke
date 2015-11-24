@@ -396,26 +396,7 @@ SjLittleLibBit::SjLittleLibBit( SjLibraryModule* module,
 
 void SjLibraryModule::GetLittleOptions(SjArrayLittleOption& lo)
 {
-	SjLittleOption::SetSection(_("Track list"));
-
-	lo.Add(new SjLittleLibBit(this, _("Show double tracks"),        SJ_LIB_SHOWDOUBLETRACKS));
-	lo.Add(new SjLittleLibBit(this, _("Show track number"),         SJ_LIB_SHOWTRACKNR));
-	lo.Add(new SjLittleLibBit(this, _("Automatic track number"),    SJ_LIB_AUTOMTRACKNR));
-	lo.Add(new SjLittleLibBit(this, _("Show disk number"),          SJ_LIB_SHOWDISKNR));
-	lo.Add(new SjLittleLibBit(this, _("Show artist name"),          SJ_LIB_SHOWLEADARTISTNAME));
-	lo.Add(new SjLittleLibBit(this, _("Show different artist names"),SJ_LIB_SHOWDIFFLEADARTISTNAME));
-	lo.Add(new SjLittleLibBit(this, _("Show original artist"),      SJ_LIB_SHOWORGARTISTNAME));
-	lo.Add(new SjLittleLibBit(this, _("Show composer"),             SJ_LIB_SHOWCOMPOSERNAME));
-	lo.Add(new SjLittleLibBit(this, _("Show album name"),           SJ_LIB_SHOWALBUMNAME));
-	lo.Add(new SjLittleLibBit(this, _("Show different album names"),SJ_LIB_SHOWDIFFALBUMNAME));
-	lo.Add(new SjLittleLibBit(this, _("Show time"),                 SJ_LIB_SHOWTIME));
-	lo.Add(new SjLittleLibBit(this, _("Show year"),                 SJ_LIB_SHOWYEAR));
-	lo.Add(new SjLittleLibBit(this, _("Show comment"),              SJ_LIB_SHOWCOMMENT));
-	lo.Add(new SjLittleLibBit(this, _("Show genre"),                SJ_LIB_SHOWGENRE));
-	lo.Add(new SjLittleLibBit(this, _("Show rating"),               SJ_LIB_SHOWRATING));
-
 	SjLittleOption::SetSection(_("Mouse"));
-
 	lo.Add(new SjLittleLibBit(this, _("Double click on covers"),    SJ_LIB_PLAYONCOVERDBLCLICK,
 	                          _("Cover editor")+wxString(wxT("/"))+_("Toggle view")+wxString(wxT("|"))
 	                          +_("Select/play album")));
@@ -465,7 +446,7 @@ void SjLibraryModule::SaveSettings()
 	config->Write(wxT("library/n1"),                  m_n1);
 	config->Write(wxT("library/n2"),                  m_n2);
 	config->Write(wxT("library/sort"),                (long)m_sort);
-	config->Write(wxT("library/flags"),              m_flags);
+	config->Write(wxT("library/flags"),               m_flags);
 	config->Write(wxT("library/omitArtistWords"),     m_omitArtist.GetWords());
 	config->Write(wxT("library/omitAlbumWords"),      m_omitAlbum.GetWords());
 	config->Write(wxT("library/coverKeywords"),       m_coverFinder.GetWords());

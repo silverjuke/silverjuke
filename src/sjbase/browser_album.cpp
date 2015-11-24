@@ -307,15 +307,15 @@ void SjAlbumBrowser::OnMouseMotion(wxMouseEvent& event)
 		hDifference = xPos - m_dragStartX;
 		vDifference = yPos - m_dragStartY;
 		if( hDifference >  DRAGSCROLL_DELTA
-		        || hDifference < -DRAGSCROLL_DELTA
-		        || vDifference >  DRAGSCROLL_DELTA
-		        || vDifference < -DRAGSCROLL_DELTA )
+		 || hDifference < -DRAGSCROLL_DELTA
+		 || vDifference >  DRAGSCROLL_DELTA
+		 || vDifference < -DRAGSCROLL_DELTA )
 		{
 			SjCol* col;
 			SjRow* row;
 			if( g_accelModule->m_selDragNDrop
-			        && FindRow(m_dragStartX, m_dragStartY, &col, &row) == FOUND_ROW
-			        && row->IsSelected() )
+			 && FindRow(m_dragStartX, m_dragStartY, &col, &row) == FOUND_ROW
+			 && row->IsSelected() )
 			{
 				// do object dragging
 				m_window->m_dragUrls.Clear();
@@ -331,7 +331,7 @@ void SjAlbumBrowser::OnMouseMotion(wxMouseEvent& event)
 				}
 			}
 			else if( g_accelModule->m_flags&SJ_ACCEL_CONTENT_DRAG
-			         && m_applColCount )
+			      && m_applColCount )
 			{
 				// start dragscroll
 				m_window->m_mouseAction = SJ_ACTION_DRAGSCROLL;
@@ -560,12 +560,53 @@ void SjAlbumBrowser::OnContextMenu(wxMouseEvent& event)
 }
 
 
+#define IDC_L_FIRST                  (IDM_LASTPRIVATE-17) // range start
+#define IDC_L_SHOWDOUBLETRACKS       (IDM_LASTPRIVATE-16)
+#define IDC_L_SHOWTRACKNR            (IDM_LASTPRIVATE-15)
+#define IDC_L_AUTOMTRACKNR           (IDM_LASTPRIVATE-14)
+#define IDC_L_SHOWDISKNR             (IDM_LASTPRIVATE-13)
+#define IDC_L_SHOWLEADARTISTNAME     (IDM_LASTPRIVATE-12)
+#define IDC_L_SHOWDIFFLEADARTISTNAME (IDM_LASTPRIVATE-11)
+#define IDC_L_SHOWORGARTISTNAME      (IDM_LASTPRIVATE-10)
+#define IDC_L_SHOWCOMPOSERNAME       (IDM_LASTPRIVATE-9)
+#define IDC_L_SHOWALBUMNAME          (IDM_LASTPRIVATE-8)
+#define IDC_L_SHOWDIFFALBUMNAME      (IDM_LASTPRIVATE-7)
+#define IDC_L_SHOWTIME               (IDM_LASTPRIVATE-6)
+#define IDC_L_SHOWYEAR               (IDM_LASTPRIVATE-5)
+#define IDC_L_SHOWCOMMENT            (IDM_LASTPRIVATE-4)
+#define IDC_L_SHOWGENRE              (IDM_LASTPRIVATE-3)
+#define IDC_L_SHOWRATING             (IDM_LASTPRIVATE-2)
+#define IDC_L_LAST                   (IDM_LASTPRIVATE-1) // range end
+
+
 void SjAlbumBrowser::OnContextMenuSelect(int id)
 {
 	SjCol*  col;
 	SjRow*  row;
 
-	if( m_lastClickedCol && m_lastClickedRow )
+	if( id >= IDC_L_FIRST && id <= IDC_L_LAST )
+	{
+		long flags = g_mainFrame->m_libraryModule->GetFlags();
+		if( id == IDC_L_SHOWDOUBLETRACKS )       { SjTools::ToggleFlag(flags, SJ_LIB_SHOWDOUBLETRACKS); }
+		if( id == IDC_L_SHOWTRACKNR )            { SjTools::ToggleFlag(flags, SJ_LIB_SHOWTRACKNR); }
+		if( id == IDC_L_AUTOMTRACKNR )           { SjTools::ToggleFlag(flags, SJ_LIB_AUTOMTRACKNR); }
+		if( id == IDC_L_SHOWDISKNR )             { SjTools::ToggleFlag(flags, SJ_LIB_SHOWDISKNR); }
+		if( id == IDC_L_SHOWLEADARTISTNAME )     { SjTools::ToggleFlag(flags, SJ_LIB_SHOWLEADARTISTNAME); }
+		if( id == IDC_L_SHOWDIFFLEADARTISTNAME ) { SjTools::ToggleFlag(flags, SJ_LIB_SHOWDIFFLEADARTISTNAME); }
+		if( id == IDC_L_SHOWORGARTISTNAME )      { SjTools::ToggleFlag(flags, SJ_LIB_SHOWORGARTISTNAME); }
+		if( id == IDC_L_SHOWCOMPOSERNAME )       { SjTools::ToggleFlag(flags, SJ_LIB_SHOWCOMPOSERNAME); }
+		if( id == IDC_L_SHOWALBUMNAME )          { SjTools::ToggleFlag(flags, SJ_LIB_SHOWALBUMNAME); }
+		if( id == IDC_L_SHOWDIFFALBUMNAME )      { SjTools::ToggleFlag(flags, SJ_LIB_SHOWDIFFALBUMNAME); }
+		if( id == IDC_L_SHOWTIME )               { SjTools::ToggleFlag(flags, SJ_LIB_SHOWTIME); }
+		if( id == IDC_L_SHOWYEAR )               { SjTools::ToggleFlag(flags, SJ_LIB_SHOWYEAR); }
+		if( id == IDC_L_SHOWCOMMENT )            { SjTools::ToggleFlag(flags, SJ_LIB_SHOWCOMMENT); }
+		if( id == IDC_L_SHOWGENRE )              { SjTools::ToggleFlag(flags, SJ_LIB_SHOWGENRE); }
+		if( id == IDC_L_SHOWRATING )             { SjTools::ToggleFlag(flags, SJ_LIB_SHOWRATING); }
+		g_mainFrame->m_libraryModule->SetFlags(flags);
+		g_mainFrame->m_browser->RefreshAll();
+		UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
+	}
+	else if( m_lastClickedCol && m_lastClickedRow )
 	{
 		m_lastClickedRow->OnContextMenu(id);
 	}
@@ -626,6 +667,51 @@ wxString SjAlbumBrowser::GetToolTipText(int mouseX, int mouseY, long &flags)
 	}
 
 	return retString;
+}
+
+
+void SjAlbumBrowser::AddItemsToColMenu(SjMenu* m)
+{
+	m->AppendSeparator();
+	m->AppendCheckItem(IDC_L_SHOWTIME,               _("Duration"));
+	m->AppendCheckItem(IDC_L_SHOWLEADARTISTNAME,     _("Artist"));
+	m->AppendCheckItem(IDC_L_SHOWORGARTISTNAME,      _("Original artist"));
+	m->AppendCheckItem(IDC_L_SHOWCOMPOSERNAME,       _("Composer"));
+	m->AppendCheckItem(IDC_L_SHOWALBUMNAME,          _("Album"));
+	m->AppendCheckItem(IDC_L_SHOWTRACKNR,            _("Track number"));
+	m->AppendCheckItem(IDC_L_AUTOMTRACKNR,           _("Automatic track number"));
+	m->AppendCheckItem(IDC_L_SHOWDISKNR,             _("Disk number"));
+	m->AppendCheckItem(IDC_L_SHOWGENRE,              _("Genre"));
+	m->AppendCheckItem(IDC_L_SHOWYEAR,               _("Year"));
+	m->AppendCheckItem(IDC_L_SHOWRATING,             _("Rating"));
+	m->AppendCheckItem(IDC_L_SHOWCOMMENT,            _("Comment"));
+	m->AppendSeparator();
+	m->AppendCheckItem(IDC_L_SHOWDOUBLETRACKS,       _("Show double tracks"));
+	m->AppendCheckItem(IDC_L_SHOWDIFFLEADARTISTNAME, _("Show different artist names"));
+	m->AppendCheckItem(IDC_L_SHOWDIFFALBUMNAME,      _("Show different album names"));
+
+	UpdateItemsInColMenu(m);
+}
+
+
+void SjAlbumBrowser::UpdateItemsInColMenu(SjMenu* m)
+{
+	long flags = g_mainFrame->m_libraryModule->GetFlags();
+	m->Check(IDC_L_SHOWTIME,               (flags&SJ_LIB_SHOWTIME)!=0);
+	m->Check(IDC_L_SHOWLEADARTISTNAME,     (flags&SJ_LIB_SHOWLEADARTISTNAME)!=0);
+	m->Check(IDC_L_SHOWORGARTISTNAME,      (flags&SJ_LIB_SHOWORGARTISTNAME)!=0);
+	m->Check(IDC_L_SHOWCOMPOSERNAME,       (flags&SJ_LIB_SHOWCOMPOSERNAME)!=0);
+	m->Check(IDC_L_SHOWALBUMNAME,          (flags&SJ_LIB_SHOWALBUMNAME)!=0);
+	m->Check(IDC_L_SHOWTRACKNR,            (flags&SJ_LIB_SHOWTRACKNR)!=0);
+	m->Check(IDC_L_AUTOMTRACKNR,           (flags&SJ_LIB_AUTOMTRACKNR)!=0);
+	m->Check(IDC_L_SHOWDISKNR,             (flags&SJ_LIB_SHOWDISKNR)!=0);
+	m->Check(IDC_L_SHOWGENRE,              (flags&SJ_LIB_SHOWGENRE)!=0);
+	m->Check(IDC_L_SHOWYEAR,               (flags&SJ_LIB_SHOWYEAR)!=0);
+	m->Check(IDC_L_SHOWRATING,             (flags&SJ_LIB_SHOWRATING)!=0);
+	m->Check(IDC_L_SHOWCOMMENT,            (flags&SJ_LIB_SHOWCOMMENT)!=0);
+	m->Check(IDC_L_SHOWDOUBLETRACKS,       (flags&SJ_LIB_SHOWDOUBLETRACKS)!=0);
+	m->Check(IDC_L_SHOWDIFFLEADARTISTNAME, (flags&SJ_LIB_SHOWDIFFLEADARTISTNAME)!=0);
+	m->Check(IDC_L_SHOWDIFFALBUMNAME,      (flags&SJ_LIB_SHOWDIFFALBUMNAME)!=0);
 }
 
 
@@ -1435,7 +1521,7 @@ long SjAlbumBrowser::FindRow(long xPos, long yPos, SjCol** retCol, SjRow** retRo
 						if( yPos < row->m_bottom )
 						{
 							if( row->m_roughType == SJ_RRTYPE_COVER
-							        && (xPos > col->m_textlLeft+g_mainFrame->m_currCoverWidth || !(m_flags&SJ_BROWSER_VIEW_COVER)) )
+							 && (xPos > col->m_textlLeft+g_mainFrame->m_currCoverWidth || !(m_flags&SJ_BROWSER_VIEW_COVER)) )
 							{
 								return FOUND_NOTHING;
 							}

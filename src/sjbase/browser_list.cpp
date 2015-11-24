@@ -1069,10 +1069,12 @@ void SjListBrowser::OnDropImage(SjDataObject* data, int mouseX, int mouseY)
 
 void SjListBrowser::AddItemsToColMenu(SjMenu* m)
 {
+	m->AppendSeparator();
 	for( int i = 0; s_possibleCols[i]; i++ )
 	{
 		m->AppendCheckItem(IDC_FIRST_COL_ID+i, SjTrackInfo::GetFieldDescr(s_possibleCols[i]));
 	}
+	m->AppendSeparator();
 	m->Append(IDC_RESET_COL, _("Reset to default values"));
 	UpdateItemsInColMenu(m);
 }
