@@ -234,6 +234,7 @@ void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 			break;
 
 		case IDT_TOGGLE_TIME_MODE:
+		case IDO_TOGGLE_TIME_MODE2:
 			UpdateMenuBarQueue();
 			break;
 
@@ -253,10 +254,28 @@ void SjMainFrame::UpdateMenuBarQueue()
 
 	bool enableQueue = m_player.m_queue.GetCount()!=0;
 
-	m_viewMenu->SetLabel(IDT_TOGGLE_TIME_MODE, m_showRemainingTime? _("Show elapsed time") : _("Show remaining time"));
+	m_menuBar->Enable(IDT_GOTO_CURR, enableQueue);
+
+	m_viewMenu->Check (IDT_TOGGLE_TIME_MODE, m_showRemainingTime);
 	m_viewMenu->Enable(IDT_TOGGLE_TIME_MODE, enableQueue);
 
-	m_menuBar->Enable(IDT_GOTO_CURR, enableQueue);
+	m_viewMenu->Check (IDO_TOGGLE_TIME_MODE2, !m_showRemainingTime);
+	m_viewMenu->Enable(IDO_TOGGLE_TIME_MODE2, enableQueue);
+
+	m_viewMenu->Check (IDO_DISPLAY_TOTAL_TIME, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME)!=0);
+	m_viewMenu->Enable(IDO_DISPLAY_TOTAL_TIME, enableQueue);
+
+	m_viewMenu->Check (IDO_DISPLAY_TRACKNR, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_TRACKNR)!=0);
+	m_viewMenu->Enable(IDO_DISPLAY_TRACKNR, enableQueue);
+
+	m_viewMenu->Check (IDO_DISPLAY_ARTIST, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_ARTIST)!=0);
+	m_viewMenu->Enable(IDO_DISPLAY_ARTIST, enableQueue);
+
+	m_viewMenu->Check (IDO_DISPLAY_AUTOPLAY, (m_skinFlags&SJ_SKIN_SHOW_DISPLAY_AUTOPLAY)!=0);
+	m_viewMenu->Enable(IDO_DISPLAY_AUTOPLAY, enableQueue);
+
+	m_viewMenu->Check (IDO_DISPLAY_PREFERALBCV, (m_skinFlags&SJ_SKIN_PREFER_TRACK_COVER)==0);
+	m_viewMenu->Enable(IDO_DISPLAY_PREFERALBCV, enableQueue);
 }
 
 
@@ -275,13 +294,45 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
 {
 	bool enableQueue = m_player.m_queue.GetCount()!=0;
 
+	// goto options
+
 	viewMenu->Append(IDT_GOTO_CURR);
 	viewMenu->Enable(IDT_GOTO_CURR, enableQueue);
 	viewMenu->Append(IDT_WORKSPACE_GOTO_RANDOM);
 
 	viewMenu->AppendSeparator();
 
+	// display options
+
+	if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
+	{
+		SjMenu* displayMenu = new SjMenu(viewMenu->ShowShortcuts());
+			displayMenu->AppendCheckItem(IDT_TOGGLE_TIME_MODE, _("Show remaining time"));
+			displayMenu->AppendCheckItem(IDO_TOGGLE_TIME_MODE2, _("Show elapsed time"));
+			if( IsAllAvailable() )
+			{
+				displayMenu->AppendCheckItem(IDO_DISPLAY_TOTAL_TIME, _("Show total time"));
+				displayMenu->AppendCheckItem(IDO_DISPLAY_TRACKNR, _("Show track number"));
+				displayMenu->AppendCheckItem(IDO_DISPLAY_ARTIST, _("Show artist name"));
+				displayMenu->AppendCheckItem(IDO_DISPLAY_AUTOPLAY, _("Show AutoPlay"));
+				displayMenu->AppendCheckItem(IDO_DISPLAY_PREFERALBCV, _("Prefer album- to track-cover"));
+			}
+		viewMenu->Append(0, _("Display"), displayMenu);
+
+		viewMenu->AppendSeparator();
+	}
+
+	// browser options
+
 	viewMenu->Append(IDT_WORKSPACE_TOGGLE_VIEW);
+
+	if( IsAllAvailable() )
+	{
+		wxString showCoverText; // default by SjAccelModule
+		if( m_browser->GetView() == SJ_BROWSER_COVER_VIEW ) showCoverText = _("Show album name");
+		viewMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, showCoverText);
+		viewMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
+	}
 
 	if( IsOpAvailable(SJ_OP_ZOOM) )
 	{
@@ -295,17 +346,7 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
 		viewMenu->Append(0, _("Zoom"), zoomMenu);
 	}
 
-	if( IsAllAvailable() )
-	{
-		wxString showCoverText; // default by SjAccelModule
-		if( m_browser->GetView() == SJ_BROWSER_COVER_VIEW ) showCoverText = _("Show album name");
-		viewMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, showCoverText);
-		viewMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
-	}
-
-	viewMenu->Append(IDT_TOGGLE_TIME_MODE, m_showRemainingTime? _("Show elapsed time") : _("Show remaining time"));
-	viewMenu->Enable(IDT_TOGGLE_TIME_MODE, enableQueue);
-
+	// window options
 
 	if( !IsKioskStarted() )
 	{
@@ -317,8 +358,8 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
 
 	viewMenu->AppendSeparator();
 
-	// add vis. toggle
-	if( g_visModule ) {
+	if( g_visModule )
+	{
 		viewMenu->AppendCheckItem(IDT_START_VIS, _("Video screen"));
 		viewMenu->Check(IDT_START_VIS, g_visModule->IsVisStarted());
 	}

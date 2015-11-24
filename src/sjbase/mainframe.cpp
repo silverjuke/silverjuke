@@ -1497,8 +1497,14 @@ SjMainFrame::~SjMainFrame(void)
 
 BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU_RANGE  (IDT_FIRST, IDT_LAST,                       SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_TOGGLE_TIME_MODE2,                     SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_DISPLAY_COVER,                         SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_DISPLAY_COVER_EXPLR,                   SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_DISPLAY_TOTAL_TIME,                    SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_DISPLAY_TRACKNR,                       SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_DISPLAY_ARTIST,                        SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_DISPLAY_AUTOPLAY,                      SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_DISPLAY_PREFERALBCV,                   SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_START_PB_ON_ENQUEUE,                   SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_GOTO_CURR_MARK,                        SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_GOTOCURRAUTO,                          SjMainFrame::OnFwdToSkin     )
@@ -1860,9 +1866,28 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					break;
 				/*else fall through*/
 			case IDT_TOGGLE_TIME_MODE:
+			case IDO_TOGGLE_TIME_MODE2:
 				if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
 				{
 					m_showRemainingTime = !m_showRemainingTime;
+					UpdateDisplay();
+					UpdateMenuBarQueue();
+				}
+				break;
+
+			case IDO_DISPLAY_TOTAL_TIME:
+			case IDO_DISPLAY_TRACKNR:
+			case IDO_DISPLAY_ARTIST:
+			case IDO_DISPLAY_AUTOPLAY:
+			case IDO_DISPLAY_PREFERALBCV:
+				if( IsAllAvailable() )
+				{
+					if( targetId==IDO_DISPLAY_TOTAL_TIME )  { SjTools::ToggleFlag(m_skinFlags, SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME); }
+					if( targetId==IDO_DISPLAY_TRACKNR )     { SjTools::ToggleFlag(m_skinFlags, SJ_SKIN_SHOW_DISPLAY_TRACKNR); }
+					if( targetId==IDO_DISPLAY_ARTIST )      { SjTools::ToggleFlag(m_skinFlags, SJ_SKIN_SHOW_DISPLAY_ARTIST); }
+					if( targetId==IDO_DISPLAY_AUTOPLAY )    { SjTools::ToggleFlag(m_skinFlags, SJ_SKIN_SHOW_DISPLAY_AUTOPLAY); }
+					if( targetId==IDO_DISPLAY_PREFERALBCV ) { SjTools::ToggleFlag(m_skinFlags, SJ_SKIN_PREFER_TRACK_COVER); }
+					g_tools->m_config->Write(wxT("main/skinFlags"), m_skinFlags);
 					UpdateDisplay();
 					UpdateMenuBarQueue();
 				}

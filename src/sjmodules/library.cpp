@@ -2673,7 +2673,7 @@ bool SjLibraryModule::GetTrackInfo(const wxString& url, SjTrackInfo& trackInfo, 
 		if( flags & SJ_TI_TRACKCOVERURL )
 		{
 			// try to set TRACK cover - this is the first embedded cover; else the ALBUM cover will be returned
-			if( g_mainFrame->m_skinFlags&SJ_SKIN_SHOW_TRACK_COVER )
+			if( g_mainFrame->m_skinFlags&SJ_SKIN_PREFER_TRACK_COVER )
 			{
 				wxArrayLong artIds;
 				wxArrayString artUrls;

@@ -233,6 +233,12 @@
 #define IDO_SETTINGS_ADDFILES   8004
 #define IDO_ESC                 8005
 #define IDO_DEBUGSKIN_RELOAD    8006
+#define IDO_DISPLAY_TRACKNR     8007
+#define IDO_DISPLAY_ARTIST      8008
+#define IDO_DISPLAY_TOTAL_TIME  8009
+#define IDO_DISPLAY_AUTOPLAY    8010
+#define IDO_DISPLAY_PREFERALBCV 8011
+#define IDO_TOGGLE_TIME_MODE2   8012
 #define IDO_SMOOTH              8109
 #define IDO_SEARCHINPUT         8110
 #define IDO_TAB                 8111

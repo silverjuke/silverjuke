@@ -827,7 +827,7 @@ public:
 	#define         SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME 0x00000020L
 	#define         SJ_SKIN_IMG_SMOOTH              0x00000080L
 	#define         SJ_SKIN_SHOW_DISPLAY_AUTOPLAY   0x00010000L
-	#define         SJ_SKIN_SHOW_TRACK_COVER        0x00020000L
+	#define         SJ_SKIN_PREFER_TRACK_COVER      0x00020000L
 	#define         SJ_SKIN_DEFAULT_FLAGS           0x0000FFFFL
 	long            m_skinFlags;
 

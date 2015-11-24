@@ -848,29 +848,6 @@ void SjBasicSettingsConfigPage::OnLittleReset(wxCommandEvent&)
  ******************************************************************************/
 
 
-class SjLittleBitSkinUpdate : public SjLittleBit
-{
-public:
-	SjLittleBitSkinUpdate(const wxString& name, const wxString& options, long bitInBitfield, SjIcon icon=SJ_ICON_LITTLEDEFAULT, SjBasicSettingsConfigPage* pleaseRestart=NULL)
-		: SjLittleBit(name, options, &g_mainFrame->m_skinFlags, SJ_SKIN_DEFAULT_FLAGS&bitInBitfield, bitInBitfield, wxT("main/skinFlags"), icon)
-	{
-		m_pleaseRestart = pleaseRestart;
-	}
-
-	void OnFeedback()
-	{
-		if( m_pleaseRestart )
-			SjDialog::PleaseRestartMsg(m_pleaseRestart);
-		else
-			g_mainFrame->UpdateDisplay();
-		m_pleaseRestart = NULL; // show the message only once
-	}
-
-private:
-	SjBasicSettingsConfigPage* m_pleaseRestart;
-};
-
-
 #if SJ_USE_SCRIPTS
 class SjLittleScript : public SjLittleOption
 {
@@ -993,19 +970,6 @@ void SjBasicSettingsConfigPage::GetLittleMiscOptions(SjArrayLittleOption& lo)
 		}
 		lo.Add(new SjLittlePathList(_("Search paths"), paths, defPaths, wxT("main/searchPath")));
 	}
-
-	// ...display
-	SjLittleOption::SetSection(_("Display"));
-	lo.Add(new SjLittleBitSkinUpdate (_("Show total time"), wxT("yn"),
-	                                  SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME));
-	lo.Add(new SjLittleBitSkinUpdate (_("Show track number"), wxT("yn"),
-	                                  SJ_SKIN_SHOW_DISPLAY_TRACKNR));
-	lo.Add(new SjLittleBitSkinUpdate (_("Show artist name"), wxT("yn"),
-	                                  SJ_SKIN_SHOW_DISPLAY_ARTIST));
-	lo.Add(new SjLittleBitSkinUpdate (_("Show AutoPlay"), wxT("yn"),
-	                                  SJ_SKIN_SHOW_DISPLAY_AUTOPLAY));
-	lo.Add(new SjLittleBitSkinUpdate (_("Preferred cover"), _("Album cover")+SEP+_("Track cover"),
-	                                  SJ_SKIN_SHOW_TRACK_COVER));
 }
 
 
