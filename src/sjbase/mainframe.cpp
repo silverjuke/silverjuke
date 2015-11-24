@@ -957,7 +957,12 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	#endif
 	m_updateIndexAfterConstruction  = false;
 	m_menuBar                       = NULL;
+	m_fileMenu                      = NULL;
+	m_editMenu                      = NULL;
+	m_viewMenu                      = NULL;
 	m_playbackMenu                  = NULL;
+	m_kioskMenu                     = NULL;
+	m_helpMenu                      = NULL;
 	m_editMenu                      = NULL;
 	m_menuBarComplete               = FALSE;
 	m_haltedManually                = FALSE;

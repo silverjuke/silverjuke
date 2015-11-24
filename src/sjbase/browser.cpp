@@ -421,6 +421,10 @@ void SjBrowserWindow::OnSkinTargetEvent (int targetId, SjSkinValue& value, long 
 			{
 				SjTools::ToggleFlag(m_currView->m_flags, SJ_BROWSER_VIEW_COVER);
 				RefreshAll();
+				if( g_mainFrame->m_viewMenu )
+				{
+					g_mainFrame->m_viewMenu->Check(IDT_WORKSPACE_SHOW_COVERS, AreCoversShown());
+				}
 			}
 		}
 		else
@@ -433,7 +437,7 @@ void SjBrowserWindow::OnSkinTargetEvent (int targetId, SjSkinValue& value, long 
 					// "enter" not used by the current view, play/enqueue the files
 					int action = IDT_ENQUEUE_LAST;
 					if(  g_mainFrame->IsOpAvailable(SJ_OP_EDIT_QUEUE)
-					        && (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK) )
+					 && (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK) )
 					{
 						action = IDT_ENQUEUE_NOW;
 					}
