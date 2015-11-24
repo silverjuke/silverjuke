@@ -50,7 +50,7 @@
 
 static const long s_possibleCols[] =
 {
-	SJ_TI_TRACKNAME
+	 SJ_TI_TRACKNAME
 	,SJ_TI_PLAYTIMEMS
 
 	,SJ_TI_LEADARTISTNAME
@@ -1067,6 +1067,26 @@ void SjListBrowser::OnDropImage(SjDataObject* data, int mouseX, int mouseY)
 }
 
 
+void SjListBrowser::AddItemsToColMenu(SjMenu* m)
+{
+	for( int i = 0; s_possibleCols[i]; i++ )
+	{
+		m->AppendCheckItem(IDC_FIRST_COL_ID+i, SjTrackInfo::GetFieldDescr(s_possibleCols[i]));
+	}
+	m->Append(IDC_RESET_COL, _("Reset to default values"));
+	UpdateItemsInColMenu(m);
+}
+
+
+void SjListBrowser::UpdateItemsInColMenu(SjMenu* m)
+{
+	for( int i = 0; s_possibleCols[i]; i++ )
+	{
+		m->Check(IDC_FIRST_COL_ID+i, m_columns.Index(s_possibleCols[i]) != wxNOT_FOUND);
+	}
+}
+
+
 void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 {
 	SjMenu  mainMenu(0);
@@ -1098,13 +1118,7 @@ void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 		// build the header context menu
 		if( g_mainFrame->IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) /*toggle columns?*/ )
 		{
-			for( int i = 0; s_possibleCols[i]; i++ )
-			{
-				mainMenu.AppendCheckItem(IDC_FIRST_COL_ID+i, SjTrackInfo::GetFieldDescr(s_possibleCols[i]));
-				if( m_columns.Index(s_possibleCols[i]) != wxNOT_FOUND )
-					mainMenu.Check(IDC_FIRST_COL_ID+i, true);
-			}
-			mainMenu.Append(IDC_RESET_COL, _("Reset to default values"));
+			AddItemsToColMenu(&mainMenu);
 		}
 
 		m_lastContextMenuColIndex = index;
@@ -1154,6 +1168,7 @@ void SjListBrowser::OnContextMenuSelect(int id)
 			InitCols();
 			CalcRefreshNUpdateHeaderNTracks();
 		}
+		UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
 	}
 	else if( id>=IDC_FIRST_COL_ID && id<=IDC_LAST_COL_ID )
 	{
@@ -1180,6 +1195,7 @@ void SjListBrowser::OnContextMenuSelect(int id)
 			}
 			CalcRefreshNUpdateHeaderNTracks();
 		}
+		UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
 	}
 	else
 	{

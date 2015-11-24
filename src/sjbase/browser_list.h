@@ -73,6 +73,9 @@ public:
 	wxString        GetToolTipText      (int mouseX, int mouseY, long &flags);
 	bool            ResetSpecialMouseAction();
 
+	void            AddItemsToColMenu   (SjMenu*);
+	void            UpdateItemsInColMenu(SjMenu*);
+
 	// selection handling & scrolling
 	bool            OnSkinTargetEvent   (int targetId, SjSkinValue& value, long accelFlags); // return true if the key/the event was used
 	bool            DoChangeSelection   (long dir, bool shiftSelection);

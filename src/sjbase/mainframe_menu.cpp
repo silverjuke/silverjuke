@@ -326,12 +326,16 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
 
 	viewMenu->Append(IDT_WORKSPACE_TOGGLE_VIEW);
 
-	if( IsAllAvailable() )
+	if( IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) )
 	{
-		wxString showCoverText; // default by SjAccelModule
-		if( m_browser->GetView() == SJ_BROWSER_COVER_VIEW ) showCoverText = _("Show album name");
-		viewMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, showCoverText);
-		viewMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
+		SjMenu* colMenu = new SjMenu(viewMenu->ShowShortcuts());
+
+			colMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, (m_browser->GetView()==SJ_BROWSER_COVER_VIEW)? _("Show cover titles") : _("Show covers"));
+			colMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
+
+			m_browser->AddItemsToColMenu(colMenu);
+
+		viewMenu->Append(0, _("Columns"), colMenu);
 	}
 
 	if( IsOpAvailable(SJ_OP_ZOOM) )

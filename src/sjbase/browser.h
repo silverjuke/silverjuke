@@ -123,6 +123,9 @@ public:
 
 	void            SetZoom_            (int targetIdOrAbs);
 
+	// menu
+	void            AddItemsToColMenu   (SjMenu*);
+
 private:
 	// events
 	void            OnPaint             (wxPaintEvent&);
@@ -213,6 +216,9 @@ public:
 
 	virtual wxRect   GetToolTipRect     (int mouseX, int mouseY) = 0;
 	virtual wxString GetToolTipText     (int mouseX, int mouseY, long &flags) = 0;
+
+	// add items to the columns menu
+	virtual void    AddItemsToColMenu   (SjMenu*) = 0;
 
 	// selection handling & scrolling
 	virtual bool    OnSkinTargetEvent   (int targetId, SjSkinValue& value, long accelFlags) = 0; // return true if the key/event was used

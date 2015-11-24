@@ -588,7 +588,9 @@ wxString SjCoverBrowser::GetToolTipText(int mouseX, int mouseY, long &flags)
 	else
 	{
 		if( found == FOUND_COVER_ARROW  )
-			retString = _("Show album name");
+		{
+			retString = _("Show cover titles");
+		}
 
 		m_lastTooltipCover = NULL;
 	}

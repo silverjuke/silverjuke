@@ -14,7 +14,7 @@ Silverjuke User Guide
     - Queue
     - Automatic Control and Fading
     - Karaoke
-- Skins, fonts and covers
+- Skins, fonts, covers and view
 - Kiosk Mode
     - Functionality
     - Monitors
@@ -528,7 +528,7 @@ of the Visualization. You can also place the Karaoke prompt on a secondary
 monitor; please see the chapter Monitors for details.
 
 
-Skins, fonts and covers
+Skins, fonts, covers and view
 ================================================================================
 
 With the options placed at "Jukebox Settings / Skins" you can change the 
@@ -559,6 +559,23 @@ The given sizes refer to a zoom setting of 100%. If you change the zoom in the
 main window eg. by the keys "+" and "-", the font and the cover sizes change
 proportionally. Btw. the key "*" brings you back to a zoom of 100%.
 
+
+**View options**
+
+In the "View" part of the main menu, you can define several view options. Most
+of them are self-explaining, however, we'd like to mention some of them here:
+
+- **Columns / Automatic track number:** If this option is set to "yes",
+  Silverjuke automatically enumerates all tracks of an album with no gaps
+  starting at "1". This will ignore the information stored in the database or in 
+  the (ID3-)tags which will be used otherwise.  
+  Available in album view only.
+
+- **Columns / Track list: Show different...** For the artist- and album names
+  you can define if they should be shown if they differ from the artist-/album
+  names of the whole album.  
+  Available in album view only.
+  
 
 Kiosk Mode
 ================================================================================
@@ -1292,22 +1309,6 @@ The options in detail:
   request and there is still some music playing, Silverjuke can ask you whether
   really to quit. This option has no effect if the program is closed by other
   reasons, eg. by a shutdown of windows.
-
-- **Display:** With the "Show"-options, you can define whether the artist name,
-  the total time and/or the track number (queue position) should be shown in the
-  display.
-
-- **Track list: Automatic track number:** If this option is set to "yes",
-  Silverjuke automatically enumerates all tracks of an album with no gaps
-  starting at "1". This will ignore the information stored in the database or in 
-  the (ID3-)tags which will be used otherwise.
-
-- **Track list: Show:** With the "Show"-options, you can define which details
-  should be displayed in the track list. You can switch on and off the display
-  of album names, composers, (original) Artists, disk numbers, track numbers,
-  year, and double tracks. Moreover, for the artist- and album names you can 
-  define if they should be shown if they differ from the artist-/album names of 
-  the whole album.
 
 - **Search: Lookup genre on simple search:** If this option is set to "yes", you
   can type in a genre into the simple search field in the main window. If the 

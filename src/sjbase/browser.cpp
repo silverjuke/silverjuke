@@ -855,6 +855,15 @@ void SjBrowserWindow::SetZoom_(int targetIdOrAbs)
 }
 
 
+void SjBrowserWindow::AddItemsToColMenu(SjMenu* m)
+{
+	if( m_currView )
+	{
+		m_currView->AddItemsToColMenu(m);
+	}
+}
+
+
 /*******************************************************************************
  * Constructor / Destructor
  ******************************************************************************/
