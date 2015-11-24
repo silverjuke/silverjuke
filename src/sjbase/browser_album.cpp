@@ -521,7 +521,6 @@ void SjAlbumBrowser::OnContextMenu(wxMouseEvent& event)
 	// add module items to menu
 	SjCol* col;
 	SjRow* row;
-	bool   prependOpen = false;
 	int    clickX = event.GetX();
 	int    clickY = event.GetY();
 	if( FindRow(clickX, clickY, &col, &row) == FOUND_ROW )
@@ -548,11 +547,10 @@ void SjAlbumBrowser::OnContextMenu(wxMouseEvent& event)
 		{
 			mainMenu.Append(IDO_SELECTALL);
 		}
-		prependOpen = true;
 	}
 
 	// add main items to menu
-	g_mainFrame->CreateContextMenu_(mainMenu, prependOpen);
+	g_mainFrame->CreateContextMenu_(mainMenu);
 
 	// show menu
 	if( mainMenu.GetMenuItemCount() )

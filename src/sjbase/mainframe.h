@@ -196,11 +196,11 @@ public:
 public:
 	void            AllocMainMenu       ();
 	void            InitMainMenu        ();
-	void            CreateContextMenu_  (SjMenu&, bool prependOpen, int idmSettings=IDT_SETTINGS, bool appendGotoCurrMark=FALSE, bool embedFastSearch=FALSE);
-	void            CreatePlaybackMenu  (SjMenu* playbackMenu, bool createMainMenu);
+	void            CreateContextMenu_  (SjMenu&, bool embedFastSearch=FALSE);
+	void            CreatePlaybackMenu  (SjMenu* playbackMenu);
 	void            CreateKioskMenu     (SjMenu* extrasMenu);
 	void            CreateExtrasMenu    (SjMenu* extrasMenu);
-	void            CreateViewMenu      (SjMenu* viewMenu, bool createMainMenu, bool appendGotoCurrMark=FALSE);
+	void            CreateViewMenu      (SjMenu* viewMenu);
 	void            CreateUnqueueMenu   (SjMenu&);
 	void            CreateSearchMenu    (SjMenu&);
 	#if SJ_USE_TOOLTIPS

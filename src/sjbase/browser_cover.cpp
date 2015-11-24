@@ -496,7 +496,6 @@ void SjCoverBrowser::OnContextMenu(wxMouseEvent& event)
 	SjMenu  mainMenu(0);
 	int    clickX = event.GetX();
 	int    clickY = event.GetY();
-	bool   prependOpen = false;
 	SjCol* cover;
 	long found = FindCover(clickX, clickY, &cover);
 	if( found == FOUND_COVER && cover->m_rowCount > 0 && cover->m_rows[0]->m_roughType == SJ_RRTYPE_COVER )
@@ -519,11 +518,10 @@ void SjCoverBrowser::OnContextMenu(wxMouseEvent& event)
 		{
 			mainMenu.Append(IDO_SELECTALL);
 		}
-		prependOpen = true;
 	}
 
 	// add main items to menu
-	g_mainFrame->CreateContextMenu_(mainMenu, prependOpen);
+	g_mainFrame->CreateContextMenu_(mainMenu);
 
 	// show menu
 	if( mainMenu.GetMenuItemCount() )

@@ -140,14 +140,13 @@ void SjMainFrame::InitMainMenu()
 		// view menu
 
 		m_viewMenu->Clear();
-
-		CreateViewMenu(m_viewMenu, TRUE);
+		CreateViewMenu(m_viewMenu);
 
 		// playback menu
 
 		m_playbackMenu->AppendSeparator();
 
-		CreatePlaybackMenu(m_playbackMenu, TRUE);
+		CreatePlaybackMenu(m_playbackMenu);
 
 		// kiosk menu
 		if( !m_menuBarComplete )
@@ -219,14 +218,15 @@ void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 			break;
 
 		case IDT_REPEAT:
-			if( v.value==1 ) { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat one")); }
+			     if( v.value==1 ) { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat one")); }
 			else if( v.value==2 ) { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat all")); }
 			else                  { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat playlist")); }
 			m_playbackMenu->Check(IDT_REPEAT, v.value!=0);
 			break;
 
 		case IDT_WORKSPACE_ALBUM_VIEW: // IDT_WORKSPACE_ALBUM_VIEW, IDT_WORKSPACE_COVER_VIEW and IDT_WORKSPACE_LIST_VIEW always come "together"; so catching one event is sufficient here
-			m_viewMenu->SetLabel(IDT_WORKSPACE_SHOW_COVERS, m_browser->GetView()==SJ_BROWSER_COVER_VIEW? _("Show album name") : _("Show covers") );
+			m_viewMenu->Clear();
+			CreateViewMenu(m_viewMenu);
 			break;
 
 		case IDT_SEARCH_BUTTON:
@@ -271,25 +271,19 @@ void SjMainFrame::UpdateMenuBarView()
  ******************************************************************************/
 
 
-void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool appendGotoCurrMark)
+void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
 {
 	bool enableQueue = m_player.m_queue.GetCount()!=0;
 
-	if( appendGotoCurrMark )
-	{
-		viewMenu->Append(IDO_GOTO_CURR_MARK);
-	}
-
 	viewMenu->Append(IDT_GOTO_CURR);
 	viewMenu->Enable(IDT_GOTO_CURR, enableQueue);
-
 	viewMenu->Append(IDT_WORKSPACE_GOTO_RANDOM);
 
 	viewMenu->AppendSeparator();
 
 	viewMenu->Append(IDT_WORKSPACE_TOGGLE_VIEW);
 
-	if( createMainMenu || IsOpAvailable(SJ_OP_ZOOM) )
+	if( IsOpAvailable(SJ_OP_ZOOM) )
 	{
 		SjMenu* zoomMenu = new SjMenu(viewMenu->ShowShortcuts());
 		zoomMenu->Append(IDT_ZOOM_IN);
@@ -301,7 +295,7 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool app
 		viewMenu->Append(0, _("Zoom"), zoomMenu);
 	}
 
-	if( createMainMenu || IsAllAvailable() )
+	if( IsAllAvailable() )
 	{
 		wxString showCoverText; // default by SjAccelModule
 		if( m_browser->GetView() == SJ_BROWSER_COVER_VIEW ) showCoverText = _("Show album name");
@@ -313,7 +307,7 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool app
 	viewMenu->Enable(IDT_TOGGLE_TIME_MODE, enableQueue);
 
 
-	if( createMainMenu || !IsKioskStarted() )
+	if( !IsKioskStarted() )
 	{
 		viewMenu->AppendSeparator();
 
@@ -336,7 +330,7 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu, bool createMainMenu, bool app
  ******************************************************************************/
 
 
-void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
+void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 {
 	bool anythingInQueue = GetQueueCount()>0;
 	playbackMenu->Append(IDT_MORE_FROM_CURR_ALBUM);
@@ -345,7 +339,7 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
 	playbackMenu->Enable(IDT_MORE_FROM_CURR_ARTIST, anythingInQueue);
 	playbackMenu->AppendSeparator();
 
-	if( createMainMenu || IsOpAvailable(SJ_OP_PLAYPAUSE) )
+	if( IsOpAvailable(SJ_OP_PLAYPAUSE) )
 	{
 		playbackMenu->AppendRadioItem(IDT_PLAY);
 		playbackMenu->Check(IDT_PLAY, m_player.IsPlaying());
@@ -363,7 +357,7 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
 		playbackMenu->Check(IDT_STOP_AFTER_EACH_TRACK, m_player.StopAfterEachTrack());
 	}
 
-	if( createMainMenu || IsOpAvailable(SJ_OP_EDIT_QUEUE) )
+	if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 	{
 		if( !IsOpAvailable(SJ_OP_PLAYPAUSE) ) playbackMenu->AppendSeparator();
 
@@ -379,7 +373,7 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
 
 	}
 
-	if( createMainMenu || IsOpAvailable(SJ_OP_MAIN_VOL) )
+	if( IsOpAvailable(SJ_OP_MAIN_VOL) )
 	{
 		SjMenu* volMenu = new SjMenu(playbackMenu->ShowShortcuts());
 
@@ -393,11 +387,11 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
 		playbackMenu->Append(0, _("Volume"), volMenu);
 	}
 
-	if( createMainMenu || IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_REPEAT) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
+	if( IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_REPEAT) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
 	{
 		playbackMenu->AppendSeparator();
 
-		if( createMainMenu || IsOpAvailable(SJ_OP_REPEAT) )
+		if( IsOpAvailable(SJ_OP_REPEAT) )
 		{
 			wxString repeatText; // default by SjAccelModule
 			if( m_player.m_queue.GetRepeat()==1 ) repeatText = _("Repeat one");
@@ -406,13 +400,13 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu, bool createMainMenu)
 			playbackMenu->Check(IDT_REPEAT, m_player.m_queue.GetRepeat()!=0);
 		}
 
-		if( createMainMenu || IsOpAvailable(SJ_OP_EDIT_QUEUE) )
+		if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 		{
 			playbackMenu->AppendCheckItem(IDT_SHUFFLE);
 			playbackMenu->Check(IDT_SHUFFLE, m_player.m_queue.GetShuffle());
 		}
 
-		if( createMainMenu || IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
+		if( IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
 		{
 			SjMenu* queueMenu = new SjMenu(playbackMenu->ShowShortcuts());
 
@@ -477,29 +471,8 @@ wxString SjMainFrame::GetNextMenuTitle()
 
 
 void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
-                                     bool prependOpen, int idmSettings, bool appendGotoCurrMark,
                                      bool embedFastSearch)
 {
-	// prepend open/save items (reverse order!)
-	/* -- as we have a normal menu bar since 15.1, the context menu can be more focused
-	if( prependOpen && IsAllAvailable() )
-	{
-		if(  mainMenu.GetMenuItemCount() )
-		{
-			mainMenu.InsertSeparator(0);
-		}
-
-		bool enableQueue = m_player.m_queue.GetCount()!=0;
-		mainMenu.Insert(0, IDT_UNQUEUE_ALL);
-		mainMenu.Enable(IDT_UNQUEUE_ALL, enableQueue);
-
-		mainMenu.Insert(0, IDT_SAVE_PLAYLIST);
-		mainMenu.Enable(IDT_SAVE_PLAYLIST, enableQueue);
-
-		mainMenu.Insert(0, IDT_OPEN_FILES);
-	}
-	*/
-
 	// search
 	// -- as we have a normal menu bar since 15.1, the context menu can be more focused (search only added if embedFastSearch set, formally this was always the case)
 	if( embedFastSearch && IsOpAvailable(SJ_OP_SEARCH) )
@@ -525,32 +498,6 @@ void SjMainFrame::CreateContextMenu_(SjMenu& mainMenu,
 		mainMenu.Append(IDO_REALLYENDSEARCH, _("End search"));
 		mainMenu.Enable(IDO_REALLYENDSEARCH, HasAnySearch());
 	}
-
-	// settings / view  / control
-	/* -- as we have a normal menu bar since 15.1, the context menu can be more focused
-	if( IsAllAvailable() )
-	{
-
-		// seperator abottom (sth. will follow in any case, at least "Go to random album")
-		if( mainMenu.GetMenuItemCount() )
-		{
-			mainMenu.AppendSeparator();
-		}
-
-		// settings
-		mainMenu.Append(idmSettings);
-
-		// view menu
-		SjMenu* viewMenu = new SjMenu(mainMenu.ShowShortcuts());
-		CreateViewMenu(viewMenu, false, appendGotoCurrMark);
-		mainMenu.Append(0, _("View"), viewMenu);
-
-		// control menu
-		SjMenu* playbackMenu = new SjMenu(mainMenu.ShowShortcuts());
-		CreatePlaybackMenu(playbackMenu, false);
-		mainMenu.Append(0, _("Playback"), playbackMenu);
-	}
-	*/
 
 	// help
 	if( IsKioskStarted() )
@@ -655,9 +602,6 @@ void SjMainFrame::CreateSearchMenu(SjMenu& m)
 void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 {
 	SjMenu      mainMenu(0);
-	int         idtSettings = IDT_SETTINGS;
-	bool        appendGotoCurrMark = FALSE;
-	bool        prependOpen = TRUE;
 	bool        embedFastSearch = FALSE;
 	long        unmarkQueueId = 0;
 
@@ -673,8 +617,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 	 ||  targetId==IDT_NEXT_TRACK )
 	{
 		// queue menu items
-		if(  IsAllAvailable()
-		        && (targetId==IDT_CURR_TRACK || targetId==IDT_NEXT_TRACK) )
+		if(  IsAllAvailable() )
 		{
 			if( targetId==IDT_CURR_TRACK || targetId==IDT_NEXT_TRACK )
 			{
@@ -720,7 +663,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 
 					m_contextMenuClickedUrls = m_player.m_queue.GetUrlsByIds(m_display.m_selectedIds);
 
-					appendGotoCurrMark = TRUE;
+					mainMenu.Append(IDO_GOTO_CURR_MARK);
 				}
 			}
 
@@ -769,7 +712,6 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 			case IDT_SEARCH_BUTTON:
 			case IDT_SEARCH_INFO:
 				// "Search" menu
-				prependOpen = FALSE;
 				if( IsAllAvailable() )
 				{
 					embedFastSearch = TRUE;
@@ -782,7 +724,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 		}
 	}
 
-	CreateContextMenu_(mainMenu, prependOpen, idtSettings, appendGotoCurrMark, embedFastSearch);
+	CreateContextMenu_(mainMenu, embedFastSearch);
 
 	if( targetId == IDT_MAINMENU && !IsKioskStarted() )
 	{

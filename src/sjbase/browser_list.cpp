@@ -1070,7 +1070,7 @@ void SjListBrowser::OnDropImage(SjDataObject* data, int mouseX, int mouseY)
 void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 {
 	SjMenu  mainMenu(0);
-	bool prependOpen = true, inSizer;
+	bool    inSizer;
 
 	int clickX = event.GetX();
 	int clickY = event.GetY();
@@ -1091,7 +1091,6 @@ void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 
 		// build the context menu
 		m_listView->CreateContextMenu(index, mainMenu);
-		prependOpen = false;
 		m_lastContextMenuTrackIndex = index;
 	}
 	else if( MouseInHeader(clickX, clickY, index, inSizer) )
@@ -1099,7 +1098,6 @@ void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 		// build the header context menu
 		if( g_mainFrame->IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) /*toggle columns?*/ )
 		{
-			prependOpen = false;
 			for( int i = 0; s_possibleCols[i]; i++ )
 			{
 				mainMenu.AppendCheckItem(IDC_FIRST_COL_ID+i, SjTrackInfo::GetFieldDescr(s_possibleCols[i]));
@@ -1117,7 +1115,6 @@ void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 	{
 		cover->m_rows[0]->CreateContextMenu(mainMenu);
 		m_lastClickedCover = cover;
-		prependOpen = false;
 	}
 	else
 	{
@@ -1128,7 +1125,7 @@ void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 	}
 
 	// add main items to menu
-	g_mainFrame->CreateContextMenu_(mainMenu, prependOpen);
+	g_mainFrame->CreateContextMenu_(mainMenu);
 
 	// show menu
 	if( mainMenu.GetMenuItemCount() )
