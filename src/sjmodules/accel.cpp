@@ -781,7 +781,7 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	#endif
 
 	// shortcuts (should be last as the last option will save all the stuff)
-	SjLittleOption::SetSection(_("Shortcut"));
+	SjLittleOption::ClearSection();
 	int cmdIndex;
 	SjAccelCmd* cmd;
 	bool addOption;

@@ -49,8 +49,8 @@
 #define IDC_OPTIONRESET             (IDM_LASTPRIVATE-185)
 #define IDC_DUMMYINTERFACE          (IDM_LASTPRIVATE-186)
 
-#define PAGE_FIRSTEMBEDDED      2
-#define PAGE_LITTLEOPTIONS      -1 // the IDs 666, 667 and 668 may also be used for this
+#define PAGE_SHORTCUTS      0 // the IDs 666, 667 and 668 may also be used for this
+#define PAGE_FURTHEROPTIONS 1
 
 
 /*******************************************************************************
@@ -324,7 +324,7 @@ private:
 
 
 /*******************************************************************************
- * SjBasicSettingsConfigPage
+ * SjFutherOptPanel
  ******************************************************************************/
 
 
@@ -336,163 +336,38 @@ enum SjPreselect
 };
 
 
-class SjBasicSettingsConfigPage : public wxPanel
+
+class SjFurtherOptPanel : public wxPanel
 {
 public:
-	                SjBasicSettingsConfigPage (SjBasicSettingsModule* basicSettingsModule, wxWindow* parent, int selectedPage);
-	                ~SjBasicSettingsConfigPage();
+					SjFurtherOptPanel   (wxWindow* parent, SjArrayLittleOption&, int page, SjPreselect);
 
 private:
-	// further options
-	wxPanel*        CreateLittlePage    (wxWindow* parent);
-	void            InitLittlePage      (SjPreselect);
-	void            UpdateLittleOption  (SjLittleOption*);
-	void            ShowLittleContextMenu (wxWindow*, const wxPoint&);
+
 	wxArrayLong     GetSelectedOptions  ();
 	SjLittleOption* GetSelectedOption   ();
-	wxListCtrl*     m_littleListCtrl;
-	wxButton*       m_littleCustomizeButton;
-	SjArrayLittleOption m_littleOptions; // needed by compare function
-	static long     s_littleListSelection;
+
 	void            OnLittleDoubleClick (wxListEvent&);
 	void            OnLittleOptionsMenu (wxCommandEvent&) { ShowLittleContextMenu(m_littleCustomizeButton, wxPoint(0, 0)); }
 	void            OnLittleContextMenu (wxListEvent&) { ShowLittleContextMenu(this, ScreenToClient(::wxGetMousePosition())); }
 	void            OnLittleOption      (wxCommandEvent&);
 	void            OnLittleReset       (wxCommandEvent&);
 
-	// little "Misc" settings
-	void            GetLittleMiscOptions(SjArrayLittleOption&);
-	void            ApplyOrCancelLittleMisc (bool apply, bool& wantsToBeRestarted);
-	long            m_miscOldIdxCacheIndex, m_miscNewIdxCacheIndex,
-	                m_miscOldIdxSync, m_miscNewIdxSync,
-	                m_miscIndexImgDiskCache,
-	                m_miscIndexImgRamCache,
-	                m_miscIndexImgRegardTimestamp;
-	wxString		m_oldLanguageValue, m_newLanguageValue;
-
-	// other
-	SjBasicSettingsModule* m_basicSettingsModule;
-	wxNotebook*     m_notebook;
-	bool            m_constructorDone;
+	void            UpdateLittleOption  (SjLittleOption*);
+	void            ShowLittleContextMenu (wxWindow*, const wxPoint&);
+	wxListCtrl*     m_littleListCtrl;
+	wxButton*       m_littleCustomizeButton;
 	                DECLARE_EVENT_TABLE ()
-
-	friend class    SjBasicSettingsModule;
 };
 
 
-BEGIN_EVENT_TABLE(SjBasicSettingsConfigPage, wxPanel)
-	EVT_LIST_ITEM_RIGHT_CLICK   (IDC_LITTLELIST,        SjBasicSettingsConfigPage::OnLittleContextMenu )
-	EVT_LIST_ITEM_ACTIVATED     (IDC_LITTLELIST,        SjBasicSettingsConfigPage::OnLittleDoubleClick )
-	EVT_BUTTON                  (IDC_LITTLEMENUBUTTON,  SjBasicSettingsConfigPage::OnLittleOptionsMenu )
-	EVT_COMMAND_RANGE           (IDC_OPTIONFIRST, IDC_OPTIONLAST, wxEVT_COMMAND_MENU_SELECTED, SjBasicSettingsConfigPage::OnLittleOption      )
-	EVT_MENU                    (IDC_OPTIONRESET,       SjBasicSettingsConfigPage::OnLittleReset       )
+BEGIN_EVENT_TABLE(SjFurtherOptPanel, wxPanel)
+	EVT_LIST_ITEM_RIGHT_CLICK   (IDC_LITTLELIST,        SjFurtherOptPanel::OnLittleContextMenu )
+	EVT_LIST_ITEM_ACTIVATED     (IDC_LITTLELIST,        SjFurtherOptPanel::OnLittleDoubleClick )
+	EVT_BUTTON                  (IDC_LITTLEMENUBUTTON,  SjFurtherOptPanel::OnLittleOptionsMenu )
+	EVT_COMMAND_RANGE           (IDC_OPTIONFIRST, IDC_OPTIONLAST, wxEVT_COMMAND_MENU_SELECTED, SjFurtherOptPanel::OnLittleOption      )
+	EVT_MENU                    (IDC_OPTIONRESET,       SjFurtherOptPanel::OnLittleReset       )
 END_EVENT_TABLE()
-
-
-static SjBasicSettingsConfigPage* g_configPage = NULL;
-
-
-SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basicSettingsModule, wxWindow* parent, int selectedPage)
-	: wxPanel(parent) // wxCLIP_CHILDREN has problems with wxListCtrl
-{
-	// save given objects
-	m_basicSettingsModule   = basicSettingsModule;
-	m_constructorDone       = FALSE;
-	SjPreselect preselectKeys= SJ_PRESELECT_NONE;
-
-	// create notebook
-	wxSizer* dialogSizer = new wxBoxSizer(wxVERTICAL);
-	SetSizer(dialogSizer);
-
-	m_notebook = new wxNotebook(this, IDC_NOTEBOOK, wxDefaultPosition, wxDefaultSize, 0/*wxCLIP_CHILDREN - problems with wxChoice/wxComboBox*/);
-
-	wxNotebook* notebookSizer = m_notebook; // wxNotebookSizer is no longer needed in 2.6.0
-
-	SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_COMMON);
-	SjModuleList::Node* moduleNode = moduleList->GetFirst();
-	while( moduleNode )
-	{
-		SjCommonModule* commonModule = (SjCommonModule*)moduleNode->GetData();
-		if( commonModule->EmbedTo() == SJ_EMBED_TO_BASICSETTINGS )
-		{
-			m_notebook->AddPage(commonModule->GetConfigPage(m_notebook, 0), commonModule->m_name);
-		}
-		moduleNode = moduleNode->GetNext();
-	}
-
-	m_notebook->AddPage(CreateLittlePage(m_notebook),  _("Further options"));
-
-	if( selectedPage == 666 /*further options*/ )
-	{
-		selectedPage = (int)m_notebook->GetPageCount()+PAGE_LITTLEOPTIONS;
-	}
-	else if( selectedPage == 667 /*further options*/ )
-	{
-		selectedPage = (int)m_notebook->GetPageCount()+PAGE_LITTLEOPTIONS;
-		preselectKeys = SJ_PRESELECT_NUMPAD;
-	}
-	else if( selectedPage == 668 /*further options*/ )
-	{
-		selectedPage = (int)m_notebook->GetPageCount()+PAGE_LITTLEOPTIONS;
-		preselectKeys = SJ_PRESELECT_ADDCREDIT;
-	}
-
-	if( selectedPage < 0
-	 || selectedPage >= (int)m_notebook->GetPageCount() )
-	{
-		selectedPage = 0;
-	}
-
-	InitLittlePage(preselectKeys);
-
-	m_notebook->SetSelection(selectedPage);
-
-	dialogSizer->Add(notebookSizer, 1, wxALL|wxGROW, SJ_DLG_SPACE);
-
-	// init done, center dialog
-	dialogSizer->SetSizeHints(this);
-	m_constructorDone = TRUE;
-	g_configPage = this;
-}
-
-
-SjBasicSettingsConfigPage::~SjBasicSettingsConfigPage()
-{
-	g_configPage = NULL;
-}
-
-
-/*******************************************************************************
- * SjBasicSettingsConfigPage - Little Options
- ******************************************************************************/
-
-
-long SjBasicSettingsConfigPage::s_littleListSelection = -1;
-
-
-wxPanel* SjBasicSettingsConfigPage::CreateLittlePage(wxWindow* parent)
-{
-	wxPanel* page = new wxPanel(parent, -1);
-	wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
-	page->SetSizer(sizer1);
-
-	sizer1->Add(1, SJ_DLG_SPACE); // some space
-
-	wxStaticText* staticText = new wxStaticText(page, -1,
-	        _("Beside several options, you can change the shortcuts to use here.\nThis page is for experienced users only."));
-	sizer1->Add(staticText, 0, wxALL, SJ_DLG_SPACE);
-
-	m_littleListCtrl = new wxListCtrl(page, IDC_LITTLELIST, wxDefaultPosition, wxSize(550, 200),
-	                                  wxLC_REPORT | wxSUNKEN_BORDER);
-	m_littleListCtrl->InsertColumn(0, _("Command or option"));
-	m_littleListCtrl->InsertColumn(1, _("Setting"));
-	m_littleListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
-	sizer1->Add(m_littleListCtrl, 1/*grow*/, wxGROW|wxALL, SJ_DLG_SPACE);
-
-	m_littleCustomizeButton = new wxButton(page, IDC_LITTLEMENUBUTTON, _("Customize")+wxString(SJ_BUTTON_MENU_ARROW));
-	sizer1->Add(m_littleCustomizeButton, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
-	return page;
-}
 
 
 static int sortableIcon(SjIcon icon)
@@ -536,70 +411,70 @@ static int wxCALLBACK LittleCompareFunction(long item1__, long item2__, long sor
 }
 
 
-void SjBasicSettingsConfigPage::InitLittlePage(SjPreselect preselectKeys)
+SjFurtherOptPanel::SjFurtherOptPanel(wxWindow* parent, SjArrayLittleOption& littleOptions, int page, SjPreselect preselectKeys)
+	: wxPanel(parent, -1)
 {
-	wxBusyCursor busy;
+	//m_littleOptions = littleOptions;
 
-	// get "little" settings from the modules
+	wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
+	this->SetSizer(sizer1);
+
+	sizer1->Add(1, SJ_DLG_SPACE); // some space
+
+	if( page == PAGE_FURTHEROPTIONS )
 	{
-		SjModuleList* listOfModules = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_ALL);
-		SjModuleList::Node* moduleNode = listOfModules->GetFirst();
-		while( moduleNode )
-		{
-			SjModule* module = moduleNode->GetData();
-
-			SjLittleOption::ClearSection();
-			module->GetLittleOptions(m_littleOptions);
-
-			moduleNode = moduleNode->GetNext();
-		}
+		wxStaticText* staticText = new wxStaticText(this, -1,
+				_("The following settings are for experienced users only."));
+		sizer1->Add(staticText, 0, wxALL, SJ_DLG_SPACE);
 	}
 
-	// get "little" misc. options
-	GetLittleMiscOptions(m_littleOptions);
+	m_littleListCtrl = new wxListCtrl(this, IDC_LITTLELIST, wxDefaultPosition, wxSize(550, 180),
+									  wxLC_REPORT | wxSUNKEN_BORDER);
+	m_littleListCtrl->InsertColumn(0, _("Command or option"));
+	m_littleListCtrl->InsertColumn(1, _("Setting"));
+	m_littleListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
+	sizer1->Add(m_littleListCtrl, 1/*grow*/, wxGROW|wxALL, SJ_DLG_SPACE);
 
-	// add all options to the list control
-	int i, iCount = m_littleOptions.GetCount();
+	m_littleCustomizeButton = new wxButton(this, IDC_LITTLEMENUBUTTON, _("Customize")+wxString(SJ_BUTTON_MENU_ARROW));
+	sizer1->Add(m_littleCustomizeButton, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+
+	// ... add all options to the list control
+
+	int i, iCount = littleOptions.GetCount();
 	{
 		wxListItem listitem;
 		listitem.m_mask = wxLIST_MASK_TEXT | wxLIST_MASK_DATA;
 		for( i = 0; i < iCount; i++ )
 		{
-			listitem.m_itemId   = i;
-			listitem.m_data     = (long)&m_littleOptions[i];
-			listitem.m_text     = m_littleOptions[i].GetName();
-			m_littleListCtrl->InsertItem(listitem);
+			SjIcon icon = littleOptions[i].GetIcon();
+			if( ( page == PAGE_SHORTCUTS      && (icon==SJ_ICON_NORMALKEY||icon==SJ_ICON_SYSTEMKEY) )
+			 || ( page == PAGE_FURTHEROPTIONS && (icon!=SJ_ICON_NORMALKEY&&icon!=SJ_ICON_SYSTEMKEY) ) )
+			{
+				listitem.m_itemId   = i;
+				listitem.m_data     = (long)&littleOptions[i];
+				listitem.m_text     = littleOptions[i].GetName();
+				m_littleListCtrl->InsertItem(listitem);
+			}
 		}
 
 		UpdateLittleOption(NULL);
 	}
 
-	// sort listbox, init listbox selection
+	// ... sort listbox, init listbox selection
 	m_littleListCtrl->SortItems(LittleCompareFunction, 0);
-
 	if( preselectKeys != SJ_PRESELECT_NONE )
 	{
-		s_littleListSelection = 0;
-		wxString searchFor = SjLittleOption::ApplySection(_("Shortcut"), preselectKeys==SJ_PRESELECT_NUMPAD? _("Numpad") : _("Add credit"));
+		wxString searchFor = preselectKeys==SJ_PRESELECT_NUMPAD? _("Numpad") : _("Add credit");
 		for( i = 0; i < iCount; i++ )
 		{
-			if( m_littleOptions[i].GetName().StartsWith(searchFor) )
+			if( littleOptions[i].GetName().StartsWith(searchFor) )
 			{
-				s_littleListSelection = m_littleListCtrl->FindItem(-1, (long)&m_littleOptions[i]);
+				long littleListSelection = m_littleListCtrl->FindItem(-1, (long)&littleOptions[i]);
+				m_littleListCtrl->SetItemState(littleListSelection, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
 				break;
 			}
 		}
 	}
-	else if( s_littleListSelection >= 0 && s_littleListSelection < iCount )
-	{
-		s_littleListSelection = m_littleListCtrl->FindItem(-1, (long)&m_littleOptions[s_littleListSelection]);
-	}
-	else
-	{
-		s_littleListSelection = 0;
-	}
-
-	m_littleListCtrl->SetItemState(s_littleListSelection, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
 
 	m_littleListCtrl->SetColumnWidth(0, wxLIST_AUTOSIZE);
 	m_littleListCtrl->SetColumnWidth(1, wxLIST_AUTOSIZE);
@@ -607,7 +482,7 @@ void SjBasicSettingsConfigPage::InitLittlePage(SjPreselect preselectKeys)
 }
 
 
-wxArrayLong SjBasicSettingsConfigPage::GetSelectedOptions()
+wxArrayLong SjFurtherOptPanel::GetSelectedOptions()
 {
 	wxArrayLong ret;
 	long i, iCount = m_littleListCtrl->GetItemCount();
@@ -622,14 +497,14 @@ wxArrayLong SjBasicSettingsConfigPage::GetSelectedOptions()
 }
 
 
-SjLittleOption* SjBasicSettingsConfigPage::GetSelectedOption()
+SjLittleOption* SjFurtherOptPanel::GetSelectedOption()
 {
 	wxArrayLong selectedOptions = GetSelectedOptions();
 	return selectedOptions.GetCount()==1? (SjLittleOption*)(selectedOptions[0]) : NULL;
 }
 
 
-void SjBasicSettingsConfigPage::UpdateLittleOption(SjLittleOption* updatePtr)
+void SjFurtherOptPanel::UpdateLittleOption(SjLittleOption* updatePtr)
 {
 	int             i, iCount = m_littleListCtrl->GetItemCount();
 	SjLittleOption* o;
@@ -667,7 +542,7 @@ void SjBasicSettingsConfigPage::UpdateLittleOption(SjLittleOption* updatePtr)
 }
 
 
-void SjBasicSettingsConfigPage::ShowLittleContextMenu(wxWindow* window, const wxPoint& pt)
+void SjFurtherOptPanel::ShowLittleContextMenu(wxWindow* window, const wxPoint& pt)
 {
 	SjMenu          m(0);
 	wxArrayLong     selectedOptions = GetSelectedOptions();
@@ -727,7 +602,7 @@ void SjBasicSettingsConfigPage::ShowLittleContextMenu(wxWindow* window, const wx
 }
 
 
-void SjBasicSettingsConfigPage::OnLittleDoubleClick(wxListEvent&)
+void SjFurtherOptPanel::OnLittleDoubleClick(wxListEvent&)
 {
 	SjLittleOption* o = GetSelectedOption();
 	if( o )
@@ -745,7 +620,7 @@ void SjBasicSettingsConfigPage::OnLittleDoubleClick(wxListEvent&)
 }
 
 
-void SjBasicSettingsConfigPage::OnLittleOption(wxCommandEvent& event)
+void SjFurtherOptPanel::OnLittleOption(wxCommandEvent& event)
 {
 	SjLittleOption* o = GetSelectedOption();
 	if( o )
@@ -756,7 +631,7 @@ void SjBasicSettingsConfigPage::OnLittleOption(wxCommandEvent& event)
 }
 
 
-void SjBasicSettingsConfigPage::OnLittleReset(wxCommandEvent&)
+void SjFurtherOptPanel::OnLittleReset(wxCommandEvent&)
 {
 	wxWindow*   topLevelWindow = SjDialog::FindTopLevel(this);
 	wxArrayLong selectedOptions = GetSelectedOptions();
@@ -812,6 +687,125 @@ void SjBasicSettingsConfigPage::OnLittleReset(wxCommandEvent&)
 
 		UpdateLittleOption(singleOptionToUpdate);
 	}
+}
+
+
+/*******************************************************************************
+ * SjBasicSettingsConfigPage
+ ******************************************************************************/
+
+
+class SjBasicSettingsConfigPage : public wxPanel
+{
+public:
+	                SjBasicSettingsConfigPage (SjBasicSettingsModule* basicSettingsModule, wxWindow* parent, int selectedPage);
+	                ~SjBasicSettingsConfigPage();
+
+private:
+	// further options
+	SjArrayLittleOption m_littleOptions; // needed by compare function
+
+	// little "Misc" settings
+	void            GetLittleMiscOptions(SjArrayLittleOption&);
+	void            ApplyOrCancelLittleMisc (bool apply, bool& wantsToBeRestarted);
+	long            m_miscOldIdxCacheIndex, m_miscNewIdxCacheIndex,
+	                m_miscOldIdxSync, m_miscNewIdxSync,
+	                m_miscIndexImgDiskCache,
+	                m_miscIndexImgRamCache,
+	                m_miscIndexImgRegardTimestamp;
+	wxString		m_oldLanguageValue, m_newLanguageValue;
+
+	// other
+	SjBasicSettingsModule* m_basicSettingsModule;
+	wxNotebook*     m_notebook;
+	bool            m_constructorDone;
+	                DECLARE_EVENT_TABLE ()
+
+	friend class    SjBasicSettingsModule;
+};
+
+
+BEGIN_EVENT_TABLE(SjBasicSettingsConfigPage, wxPanel)
+END_EVENT_TABLE()
+
+
+static SjBasicSettingsConfigPage* g_configPage = NULL;
+
+
+SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basicSettingsModule, wxWindow* parent, int selectedPage)
+	: wxPanel(parent) // wxCLIP_CHILDREN has problems with wxListCtrl
+{
+	wxBusyCursor busy;
+
+	// save given objects
+	m_basicSettingsModule   = basicSettingsModule;
+	m_constructorDone       = FALSE;
+
+
+	// init the little options array
+	{
+		SjModuleList* listOfModules = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_ALL);
+		SjModuleList::Node* moduleNode = listOfModules->GetFirst();
+		while( moduleNode )
+		{
+			SjModule* module = moduleNode->GetData();
+
+			SjLittleOption::ClearSection();
+			module->GetLittleOptions(m_littleOptions);
+
+			moduleNode = moduleNode->GetNext();
+		}
+	}
+
+	GetLittleMiscOptions(m_littleOptions);
+
+	// create notebook
+	wxSizer* dialogSizer = new wxBoxSizer(wxVERTICAL);
+	SetSizer(dialogSizer);
+
+	m_notebook = new wxNotebook(this, IDC_NOTEBOOK, wxDefaultPosition, wxDefaultSize, 0/*wxCLIP_CHILDREN - problems with wxChoice/wxComboBox*/);
+
+	wxNotebook* notebookSizer = m_notebook; // wxNotebookSizer is no longer needed in 2.6.0
+
+	SjPreselect preselectKeys= SJ_PRESELECT_NONE;
+	if( selectedPage == 666 /*further options*/ )
+	{
+		selectedPage = PAGE_SHORTCUTS;
+	}
+	else if( selectedPage == 667 /*further options*/ )
+	{
+		selectedPage = PAGE_SHORTCUTS;
+		preselectKeys = SJ_PRESELECT_NUMPAD;
+	}
+	else if( selectedPage == 668 /*further options*/ )
+	{
+		selectedPage = PAGE_SHORTCUTS;
+		preselectKeys = SJ_PRESELECT_ADDCREDIT;
+	}
+
+	m_notebook->AddPage(new SjFurtherOptPanel(m_notebook, m_littleOptions, PAGE_SHORTCUTS, preselectKeys), _("Shortcuts"));
+	m_notebook->AddPage(new SjFurtherOptPanel(m_notebook, m_littleOptions, PAGE_FURTHEROPTIONS, preselectKeys), _("Further options"));
+
+	if( selectedPage < 0
+	 || selectedPage >= (int)m_notebook->GetPageCount() )
+	{
+		selectedPage = 0;
+	}
+
+	m_notebook->SetSelection(selectedPage);
+
+	dialogSizer->Add(notebookSizer, 1, wxALL|wxGROW, SJ_DLG_SPACE);
+
+	// init done, center dialog
+	dialogSizer->SetSizeHints(this);
+	m_constructorDone = TRUE;
+	g_configPage = this;
+}
+
+
+SjBasicSettingsConfigPage::~SjBasicSettingsConfigPage()
+{
+	g_configPage = NULL;
 }
 
 
@@ -1020,38 +1014,13 @@ void SjBasicSettingsModule::DoneConfigPage(wxWindow* configPage__, int doneCode_
 		int i, iCount = configPage->m_littleOptions.GetCount();
 		if( apply )
 		{
-			for( i = 0; i < iCount; i++ ) configPage->m_littleOptions[i].OnApply();
+			for( i = 0; i < iCount; i++ ) { configPage->m_littleOptions[i].OnApply(); }
 		}
 		else
 		{
-			for( i = 0; i < iCount; i++ ) configPage->m_littleOptions[i].OnCancel();
+			for( i = 0; i < iCount; i++ ) { configPage->m_littleOptions[i].OnCancel(); }
 		}
 		configPage->ApplyOrCancelLittleMisc(apply, wantsToBeRestarted);
-
-		// remember listbox selection
-		SjLittleOption* o = configPage->GetSelectedOption();
-		SjBasicSettingsConfigPage::s_littleListSelection = o? configPage->m_littleOptions.Index(*o) : -1;
-	}
-
-	// cancel / apply embedded pages
-	SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_COMMON);
-	SjModuleList::Node* moduleNode = moduleList->GetFirst();
-	int embeddedIndex = PAGE_FIRSTEMBEDDED;
-	while( moduleNode )
-	{
-		SjColModule* embeddedModule = (SjColModule*)moduleNode->GetData();
-		if( embeddedModule->EmbedTo() == SJ_EMBED_TO_BASICSETTINGS )
-		{
-			wxWindow* embeddedPage = configPage->m_notebook->GetPage(embeddedIndex);
-			if( embeddedPage )
-			{
-				embeddedModule->DoneConfigPage(embeddedPage, doneCode__);
-				embeddedIndex++;
-			}
-		}
-
-		// next
-		moduleNode = moduleNode->GetNext();
 	}
 
 	// restart?
@@ -1062,8 +1031,5 @@ void SjBasicSettingsModule::DoneConfigPage(wxWindow* configPage__, int doneCode_
 		             SJ_PROGRAM_NAME, wxOK|wxICON_INFORMATION, SjDialog::FindTopLevel(configPage__));
 	}
 }
-
-
-
 
 
