@@ -60,8 +60,7 @@ public:
 
 	// Update some information, urlVerified should normally be TRUE as
 	// this function is normally called after an continious playback.
-	void            UpdateUrl           (const wxString& url, bool urlVerified, long playtimeMs)
-	{ m_playlist.UpdateUrl(url, urlVerified, playtimeMs); }
+	void            UpdateUrl           (const wxString& url, bool urlVerified, long playtimeMs) { m_playlist.UpdateUrl(url, urlVerified, playtimeMs); }
 
 	// queue information
 	long            GetCount            () const                    { return m_playlist.GetCount(); }

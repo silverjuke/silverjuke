@@ -809,9 +809,7 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 				options.Add(wxString::Format(_("Also install the script to \"%s\" for permanent use"), destfile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR).c_str()));
 				int selOption = 0;
 				if( SjMessageBox(wxString::Format(_("Execute the script \"%s\"?"), srcfile.GetFullPath().c_str()),
-								   SJ_PROGRAM_NAME,
-								   wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this,
-								   &options, &selOption) != wxYES )
+								 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this, &options, &selOption) != wxYES )
 				{
 					return false;
 				}
@@ -847,7 +845,7 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 		return true;
 	}
 	else if( (filenamesCount == 1 && m_moduleSystem.FindImageHandlerByExt(ext))
-	         || (data->m_bitmapData && data->m_bitmapData->GetBitmap().IsOk()) )
+	      || (data->m_bitmapData && data->m_bitmapData->GetBitmap().IsOk()) )
 	{
 		// open an image - this should be handled by the browser
 		if( m_browser )

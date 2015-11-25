@@ -19,7 +19,7 @@
  *
  *******************************************************************************
  *
- * File:    playlistsj.cpp ("sj" added to avoid double file names)
+ * File:    playlist.cpp
  * Authors: Björn Petersen
  * Purpose: Silverjuke playlist handling
  *
@@ -30,11 +30,15 @@
  *
  *  Further notes:
  * - Relative URLs supported on load
+ * - We do a very lazy but _fast_ load: We just take the strings as given and
+ *   remember the containing playlist file (if any), later on, we verify the
+ *   entry as needed.  This allows us to load playlists with thousands tracks
+ *   in a fragment of a second.
  * - We're using arist and title information in *.m3u and *.pls files if the URL
  *   is not found.  This allows moving playlists with relative paths if the
  *   title is in the library.
  * - Hack: The artist/title is added after a tab to the unverified URL
- * - NERO does not like spaces in CUE filenames :-(
+ * - Nero does not like spaces in CUE filenames
  *
  ******************************************************************************/
 

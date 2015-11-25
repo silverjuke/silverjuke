@@ -858,7 +858,6 @@ private:
 	void            EnableDisable       ();
 
 	// Resume page
-	#if 0
 	wxPanel*        CreateResumePage    (wxWindow* parent);
 	int             m_resumePage;
 	wxCheckBox*     m_resumeCheck;
@@ -866,7 +865,6 @@ private:
 	wxCheckBox*     m_resumeStartPlaybackCheck;
 	void            EnableDisableResume ();
 	void            OnEnableDisableResumeCheck(wxCommandEvent&) { EnableDisableResume(); }
-	#endif
 
 	// AutoCtrl page
 	wxPanel*        CreateAutoCtrlPage  (wxWindow* parent);
@@ -992,9 +990,7 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 	EVT_CHECKBOX                (IDC_BOREDOMTRACKSCHECK,        SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
 	EVT_CHECKBOX                (IDC_BOREDOMARTISTSCHECK,       SjPlaybackSettingsConfigPage::OnEnableDisableCheck      )
 
-	#if 0
 	EVT_CHECKBOX                (IDC_RESUME,                    SjPlaybackSettingsConfigPage::OnEnableDisableResumeCheck)
-	#endif
 
 	EVT_CHECKBOX                (IDC_AUTOPLAY,                  SjPlaybackSettingsConfigPage::OnAutoCtrlCheckE          )
 	EVT_BUTTON                  (IDC_AUTOPLAYMUSICSELBUT,       SjPlaybackSettingsConfigPage::OnMusicSelButton          )
@@ -1052,10 +1048,8 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 	m_notebook->AddPage(CreateQueuePage(m_notebook),  _("Queue"));
 	m_queuePage = m_notebook->GetPageCount();
 
-	#if 0
 	m_notebook->AddPage(CreateResumePage(m_notebook),  _("Resume"));
 	m_resumePage = m_notebook->GetPageCount();
-	#endif
 
 	m_notebook->AddPage(CreateAutoCtrlPage(m_notebook),  _("Automatic control"));
 	m_autoCtrlPage = m_notebook->GetPageCount();
@@ -1273,11 +1267,9 @@ void SjPlaybackSettingsConfigPage::CloseQueueNResumePage(bool apply, bool& needs
 		g_mainFrame->m_player.m_queue.SetShuffleIntensity(m_shuffleSlider->GetValue());
 
 		// stuff from the "Resume" page (also saved via SetQueueFlags() and we do not want to call the function twice)
-		#if 0
 		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME, m_resumeCheck->IsChecked());
 		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME_LOAD_PLAYED, m_resumeLoadPlayedCheck->IsChecked());
 		SjTools::SetFlag(queueFlags, SJ_QUEUEF_RESUME_START_PLAYBACK, m_resumeStartPlaybackCheck->IsChecked());
-		#endif
 
 		// save stuff now
 		g_mainFrame->m_player.m_queue.SetQueueFlags(queueFlags, boredomTrackMinutes, boredomArtistMinutes);
@@ -1313,7 +1305,6 @@ void SjPlaybackSettingsConfigPage::OnQueueReset(wxCommandEvent&)
  ******************************************************************************/
 
 
-#if 0
 wxPanel* SjPlaybackSettingsConfigPage::CreateResumePage(wxWindow* parent)
 {
 	long queueFlags, boredomTrackMinutes, boredomArtistMinutes;
@@ -1361,7 +1352,6 @@ void SjPlaybackSettingsConfigPage::EnableDisableResume()
 	m_resumeLoadPlayedCheck->Enable(e);
 	m_resumeStartPlaybackCheck->Enable(e);
 }
-#endif
 
 
 /*******************************************************************************
