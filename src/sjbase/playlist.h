@@ -200,8 +200,7 @@ public:
 	#define         SJ_M3U_NO_EXT       0x01
 	#define         SJ_CUE_SHORTPATHS   0x02
 	bool            AddFromFileDlg      (wxWindow* parent);
-	bool            AddFromFile         (const wxString& path, long addMax=0, long flags=0);
-	bool            AddFromFile         (wxFSFile*, long addMax=0, long flags=0);
+	bool            AddFromFile         (const wxString& nativePath, long addMax=0, long flags=0);
 
 	bool            SaveAsDlg           (wxWindow* parent);
 	bool            SaveAsFile          (const wxString& path, const wxString& type, long flags=0);
@@ -220,10 +219,6 @@ public:
 	wxString        SuggestPlaylistName ();
 	wxString        SuggestPlaylistFileName ();
 
-	// Handling relative paths and container URLs.
-	// Container URLs are URLs of files referencing tracks such as *.m3u files.
-	void            AddContainerFile    (const wxString& b) { if(m_containerFiles.Index(b)==wxNOT_FOUND) { m_containerFiles.Add(b); } }
-	wxArrayString   GetContainerFiles   () const { return m_containerFiles; }
 	void            RehashUrl           (const wxString& oldUrl, const wxString& newUrl);
 
 	// OnUrlChanged() checks if the old url is in the playlist. If so,
@@ -253,13 +248,10 @@ private:
 	void            LoadOverallNames    ();
 
 	// import / export
-	bool            AddFromM3u              (wxFSFile*, long addMax, long flags);
-	bool            AddFromPls              (wxFSFile*, long addMax, long flags);
-	bool            AddFromCue              (wxFSFile*, long addMax, long flags);
-	bool            AddFromXspfOrXmlOrWpl   (wxFSFile*, long addMax, long flags);
-
-	// container urls
-	wxArrayString   m_containerFiles;
+	bool            AddFromM3uFile          (const wxString& nativePath, long addMax, long flags);
+	bool            AddFromPlsFile          (const wxString& nativePath, long addMax, long flags);
+	bool            AddFromCueFile          (const wxString& nativePath, long addMax, long flags);
+	bool            AddFromXspfXmlWplFile   (const wxString& nativePath, long addMax, long flags);
 };
 
 

@@ -37,7 +37,8 @@
  * - We're using arist and title information in *.m3u and *.pls files if the URL
  *   is not found.  This allows moving playlists with relative paths if the
  *   title is in the library.
- * - Hack: The artist/title is added after a tab to the unverified URL
+ * - The playlistLocation/artist/album/track is added after a tab to the
+ *   unverified URL
  * - Nero does not like spaces in CUE filenames
  *
  ******************************************************************************/
@@ -227,8 +228,8 @@ void SjPlaylistEntry::VerifyUrl()
 	wxASSERT( !m_urlVerified );
 	m_urlVerified = TRUE;
 
-	// copy the original url as it will be modified;
-	// the original url should only be overwritten on total success
+	// the unverified URL has the format "url.mp3 \t playlist.m3u \t Artist \t Album \t Track" (without spaces around tabs);
+	// copy the original url as it will be modified; the original url should only be overwritten on total success
 	wxString url(m_url.BeforeFirst('\t'));
 
 	// get the long and absolute version of the URL
@@ -242,26 +243,24 @@ void SjPlaylistEntry::VerifyUrl()
 		wxFileName urlFn(url, wxPATH_NATIVE);
 		if( !urlFn.IsAbsolute() )
 		{
-			// try relative paths from m_playlist->GetContainerUrls()
-			wxArrayString containerFiles = m_playlist->GetContainerFiles();
-			for( int containerIndex = (int)containerFiles.GetCount()-1; containerIndex >=0; containerIndex-- )
+			// try relative paths from the second part of the unverified URL
+			wxString containerPath = m_url.AfterFirst('\t').BeforeFirst('\t');
+			if( !containerPath.IsEmpty() )
 			{
 				// re-assign the relatice path to urlFn - needed if for() has more than one iteration
 				urlFn.Assign(url, wxPATH_NATIVE);
 
 				// make urlFn absolute using MakeAbsolute(GetPath()) (GetPath() does not return the name, so this should work just fine)
-				wxString tempStr(containerFiles[containerIndex]);
 				#ifdef __WXMSW__
-					tempStr.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
+					containerPath.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
 				#endif
-				wxFileName tempFn(tempStr, wxPATH_NATIVE);
+				wxFileName tempFn(containerPath, wxPATH_NATIVE);
 				urlFn.MakeAbsolute(tempFn.GetPath(wxPATH_GET_VOLUME));
 
 				// success?
 				if( urlFn.FileExists() )
 				{
 					url = urlFn.GetLongPath();
-					break;
 				}
 			}
 		}
@@ -304,8 +303,8 @@ void SjPlaylistEntry::VerifyUrl()
 			if( fsFile == NULL )
 			{
 				// try to lookup the URL by artist/album/track
-				wxString artistName = m_url.AfterFirst('\t').BeforeFirst('\t');
-				wxString albumName  = m_url.AfterFirst('\t').AfterFirst('\t').BeforeFirst('\t');
+				wxString artistName = m_url.AfterFirst('\t').AfterFirst('\t').BeforeFirst('\t');
+				wxString albumName  = m_url.AfterFirst('\t').AfterFirst('\t').AfterFirst('\t').BeforeFirst('\t');
 				wxString trackName  = m_url.AfterLast('\t');
 				if( !artistName.IsEmpty() && !trackName.IsEmpty() /*album may be empty, eg. for m3u*/)
 				{
@@ -338,7 +337,6 @@ void SjPlaylistEntry::VerifyUrl()
 		wxFileName fn(fsFileLocation);
 		fsFileLocation = wxFileSystem::FileNameToURL(fsFileLocation);
 	}
-
 
 	// make sure, we're using the correct case, see
 	// http://www.silverjuke.net/forum/topic-2406.html
@@ -689,12 +687,6 @@ void SjPlaylist::MergeMetaData(const SjPlaylist& o)
 	{
 		m_playlistUrl = o.m_playlistUrl;
 	}
-
-	int oContainerIndex, oContainerCount = o.m_containerFiles.GetCount();
-	for( oContainerIndex = 0; oContainerIndex < oContainerCount; oContainerIndex++ )
-	{
-		AddContainerFile(o.m_containerFiles[oContainerIndex]);
-	}
 }
 
 
@@ -703,10 +695,19 @@ void SjPlaylist::MergeMetaData(const SjPlaylist& o)
  ******************************************************************************/
 
 
-bool SjPlaylist::AddFromM3u(wxFSFile* fsFile, long addMax, long flags)
+bool SjPlaylist::AddFromM3uFile(const wxString& nativePath, long addMax, long flags)
 {
+	// open file
+	wxFileSystem fileSystem;
+	wxFSFile* fsFile = fileSystem.OpenFile(nativePath, wxFS_READ|wxFS_SEEKABLE);
+	if( fsFile == NULL )
+	{
+		wxLogError(_("Cannot open \"%s\"."), nativePath.c_str());
+		return false;
+	}
+
 	// get file content
-	wxString ext = SjTools::GetExt(fsFile->GetLocation());
+	wxString ext = SjTools::GetExt(nativePath);
 
 	wxMBConv* fileContentMbConv = &wxConvISO8859_1;
 	if( ext == wxT("m3u8") )
@@ -745,7 +746,7 @@ bool SjPlaylist::AddFromM3u(wxFSFile* fsFile, long addMax, long flags)
 			continue;
 		}
 
-		Add(currLinePtr + (wxT("\t") + currTitle), FALSE, 0);
+		Add(wxString(currLinePtr) + "\t" + nativePath + "\t" + currTitle, FALSE, 0);
 		currTitle.Empty();
 
 		filesAdded++;
@@ -756,6 +757,7 @@ bool SjPlaylist::AddFromM3u(wxFSFile* fsFile, long addMax, long flags)
 		}
 	}
 
+	delete fsFile;
 	return TRUE;
 }
 
@@ -798,8 +800,18 @@ wxString SjPlaylist::SaveAsM3u(const wxString& containerFile, long flags)
  ******************************************************************************/
 
 
-bool SjPlaylist::AddFromPls(wxFSFile* fsFile, long addMax, long flags)
+bool SjPlaylist::AddFromPlsFile(const wxString& nativePath, long addMax, long flags)
 {
+	// open file
+	wxFileSystem fileSystem;
+	wxFSFile* fsFile = fileSystem.OpenFile(nativePath, wxFS_READ|wxFS_SEEKABLE);
+	if( fsFile == NULL )
+	{
+		wxLogError(_("Cannot open \"%s\"."), nativePath.c_str());
+		return false;
+	}
+
+	// parse file
 	wxString            content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1);
 	SjLineTokenizer     tkz(content);
 	wxChar*             currLinePtr;
@@ -864,7 +876,7 @@ bool SjPlaylist::AddFromPls(wxFSFile* fsFile, long addMax, long flags)
 		{
 			if( urlIndex < titleCount )
 			{
-				currLine += wxT("\t") + titles[urlIndex] /*may be empty*/;
+				currLine += "\t" + nativePath + "\t" + titles[urlIndex] /*may be empty*/;
 			}
 
 			Add(currLine, FALSE/*not verified*/, 0);
@@ -874,6 +886,7 @@ bool SjPlaylist::AddFromPls(wxFSFile* fsFile, long addMax, long flags)
 		}
 	}
 
+	delete fsFile;
 	return TRUE;
 }
 
@@ -927,8 +940,18 @@ wxString SjPlaylist::SaveAsPls(const wxString& containerFile, long flags)
  ******************************************************************************/
 
 
-bool SjPlaylist::AddFromCue(wxFSFile* fsFile, long addMax, long flags)
+bool SjPlaylist::AddFromCueFile(const wxString& nativePath, long addMax, long flags)
 {
+	// open file
+	wxFileSystem fileSystem;
+	wxFSFile* fsFile = fileSystem.OpenFile(nativePath, wxFS_READ|wxFS_SEEKABLE);
+	if( fsFile == NULL )
+	{
+		wxLogError(_("Cannot open \"%s\"."), nativePath.c_str());
+		return false;
+	}
+
+	// parse file
 	wxString            content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1);
 	SjLineTokenizer     tkz(content);
 	wxChar*             currLinePtr;
@@ -965,12 +988,13 @@ bool SjPlaylist::AddFromCue(wxFSFile* fsFile, long addMax, long flags)
 		if( GetPosByUrl(currLine) != wxNOT_FOUND ) continue;
 
 		// add file
-		Add(currLine, FALSE/*not verified*/, 0);
+		Add(currLine + "\t" + nativePath, FALSE/*not verified*/, 0);
 		filesAdded++;
 
 		if( filesAdded >= addMax ) break;
 	}
 
+	delete fsFile;
 	return TRUE;
 }
 
@@ -1018,8 +1042,17 @@ wxString SjPlaylist::SaveAsCue(const wxString& containerFile, long flags)
  ******************************************************************************/
 
 
-bool SjPlaylist::AddFromXspfOrXmlOrWpl(wxFSFile* fsFile, long addMax, long flags)
+bool SjPlaylist::AddFromXspfXmlWplFile(const wxString& nativePath, long addMax, long flags)
 {
+	// open file
+	wxFileSystem fileSystem;
+	wxFSFile* fsFile = fileSystem.OpenFile(nativePath, wxFS_READ|wxFS_SEEKABLE);
+	if( fsFile == NULL )
+	{
+		wxLogError(_("Cannot open \"%s\"."), nativePath.c_str());
+		return false;
+	}
+
 	/* desired XSPF-Format ...
 	<track>
 	    <creator>We Are Scientists</creator>
@@ -1135,7 +1168,7 @@ bool SjPlaylist::AddFromXspfOrXmlOrWpl(wxFSFile* fsFile, long addMax, long flags
 
 			if( !lastLocation.IsEmpty() )
 			{
-				Add(lastLocation + wxT("\t") + lastArtistName + wxT("\t") + lastAlbumName + wxT("\t") + lastTrackName, FALSE/*not verified*/, 0);
+				Add(lastLocation + "\t" + nativePath + "\t" + lastArtistName + "\t" + lastAlbumName + "\t" + lastTrackName, FALSE/*not verified*/, 0);
 				filesAdded++;
 				if( filesAdded >= addMax )
 					break;
@@ -1148,6 +1181,7 @@ bool SjPlaylist::AddFromXspfOrXmlOrWpl(wxFSFile* fsFile, long addMax, long flags
 		}
 	}
 
+	delete fsFile;
 	return TRUE;
 }
 
@@ -1338,25 +1372,9 @@ bool SjPlaylist::AddFromFileDlg(wxWindow* parentWindow)
 }
 
 
-bool SjPlaylist::AddFromFile(const wxString& path, long addMax, long flags)
+bool SjPlaylist::AddFromFile(const wxString& nativePath, long addMax, long flags)
 {
-	wxFileSystem fileSystem;
-	wxFSFile* fsFile = fileSystem.OpenFile(path, wxFS_READ|wxFS_SEEKABLE);
-	if( fsFile == NULL )
-	{
-		wxLogError(_("Cannot open \"%s\"."), path.c_str());
-		return FALSE;
-	}
-
-	bool ret = AddFromFile(fsFile, addMax, flags);
-	delete fsFile;
-	return ret;
-}
-
-
-bool SjPlaylist::AddFromFile(wxFSFile* playlistFsFile, long addMax, long flags)
-{
-	wxString        ext = SjTools::GetExt(playlistFsFile->GetLocation());
+	wxString        ext = SjTools::GetExt(nativePath);
 	bool            ret;
 
 	if( !g_mainFrame ) return FALSE;
@@ -1365,30 +1383,26 @@ bool SjPlaylist::AddFromFile(wxFSFile* playlistFsFile, long addMax, long flags)
 	// load basic urls - the AddFrom*() function should not validate the files!
 	if( ext == wxT("pls") )
 	{
-		ret = AddFromPls(playlistFsFile, addMax, flags);
+		ret = AddFromPlsFile(nativePath, addMax, flags);
 	}
 	else if( ext == wxT("cue") )
 	{
-		ret = AddFromCue(playlistFsFile, addMax, flags);
+		ret = AddFromCueFile(nativePath, addMax, flags);
 	}
 	else if( ext == wxT("xspf") || ext == wxT("xml") || ext == wxT("wpl") )
 	{
-		ret = AddFromXspfOrXmlOrWpl(playlistFsFile, addMax, flags);
+		ret = AddFromXspfXmlWplFile(nativePath, addMax, flags);
 	}
 	else /* "m3u", "m3u8" */
 	{
-		ret = AddFromM3u(playlistFsFile, addMax, flags);
+		ret = AddFromM3uFile(nativePath, addMax, flags);
 	}
-
-	wxString nativeFileName = wxFileSystem::URLToFileName(playlistFsFile->GetLocation()).GetFullPath();
 
 	if( !ret )
 	{
-		wxLogError(_("Cannot open \"%s\"."), nativeFileName.c_str());
+		wxLogError(_("Cannot open \"%s\"."), nativePath.c_str());
 		return FALSE;
 	}
-
-	AddContainerFile(nativeFileName);
 
 	return TRUE;
 }
