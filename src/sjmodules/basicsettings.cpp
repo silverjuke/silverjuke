@@ -350,7 +350,6 @@ private:
 	void            ShowLittleContextMenu (wxWindow*, const wxPoint&);
 	wxArrayLong     GetSelectedOptions  ();
 	SjLittleOption* GetSelectedOption   ();
-	bool            m_littlePageInitialized;
 	wxListCtrl*     m_littleListCtrl;
 	wxButton*       m_littleCustomizeButton;
 	SjArrayLittleOption m_littleOptions; // needed by compare function
@@ -375,7 +374,6 @@ private:
 	SjBasicSettingsModule* m_basicSettingsModule;
 	wxNotebook*     m_notebook;
 	bool            m_constructorDone;
-	void            OnNotebookChange    (wxNotebookEvent&);
 	                DECLARE_EVENT_TABLE ()
 
 	friend class    SjBasicSettingsModule;
@@ -383,7 +381,6 @@ private:
 
 
 BEGIN_EVENT_TABLE(SjBasicSettingsConfigPage, wxPanel)
-	EVT_NOTEBOOK_PAGE_CHANGED   (IDC_NOTEBOOK,          SjBasicSettingsConfigPage::OnNotebookChange    )
 	EVT_LIST_ITEM_RIGHT_CLICK   (IDC_LITTLELIST,        SjBasicSettingsConfigPage::OnLittleContextMenu )
 	EVT_LIST_ITEM_ACTIVATED     (IDC_LITTLELIST,        SjBasicSettingsConfigPage::OnLittleDoubleClick )
 	EVT_BUTTON                  (IDC_LITTLEMENUBUTTON,  SjBasicSettingsConfigPage::OnLittleOptionsMenu )
@@ -400,7 +397,6 @@ SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basi
 {
 	// save given objects
 	m_basicSettingsModule   = basicSettingsModule;
-	m_littlePageInitialized = FALSE;
 	m_constructorDone       = FALSE;
 	SjPreselect preselectKeys= SJ_PRESELECT_NONE;
 
@@ -447,12 +443,7 @@ SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basi
 		selectedPage = 0;
 	}
 
-
-	if( selectedPage == (int)m_notebook->GetPageCount()+PAGE_LITTLEOPTIONS )
-	{
-		InitLittlePage(preselectKeys);
-		m_littlePageInitialized = TRUE;
-	}
+	InitLittlePage(preselectKeys);
 
 	m_notebook->SetSelection(selectedPage);
 
@@ -471,25 +462,8 @@ SjBasicSettingsConfigPage::~SjBasicSettingsConfigPage()
 }
 
 
-void SjBasicSettingsConfigPage::OnNotebookChange(wxNotebookEvent& event)
-{
-	if( m_constructorDone )
-	{
-		if( event.GetSelection() == (int)m_notebook->GetPageCount()+PAGE_LITTLEOPTIONS )
-		{
-			if( !m_littlePageInitialized )
-			{
-				wxBusyCursor busy;
-				InitLittlePage(SJ_PRESELECT_NONE);
-				m_littlePageInitialized = TRUE;
-			}
-		}
-	}
-}
-
-
 /*******************************************************************************
- *  SjBasicSettingsConfigPage - Little Options
+ * SjBasicSettingsConfigPage - Little Options
  ******************************************************************************/
 
 
@@ -508,7 +482,7 @@ wxPanel* SjBasicSettingsConfigPage::CreateLittlePage(wxWindow* parent)
 	        _("Beside several options, you can change the shortcuts to use here.\nThis page is for experienced users only."));
 	sizer1->Add(staticText, 0, wxALL, SJ_DLG_SPACE);
 
-	m_littleListCtrl = new wxListCtrl(page, IDC_LITTLELIST, wxDefaultPosition, wxSize(550, 100),
+	m_littleListCtrl = new wxListCtrl(page, IDC_LITTLELIST, wxDefaultPosition, wxSize(550, 200),
 	                                  wxLC_REPORT | wxSUNKEN_BORDER);
 	m_littleListCtrl->InsertColumn(0, _("Command or option"));
 	m_littleListCtrl->InsertColumn(1, _("Setting"));
@@ -1042,7 +1016,6 @@ void SjBasicSettingsModule::DoneConfigPage(wxWindow* configPage__, int doneCode_
 	bool                        apply = (doneCode__!=SJ_CONFIGPAGE_DONE_CANCEL_CLICKED);
 
 	// cancel / apply embedded "little" options
-	if( configPage->m_littlePageInitialized )
 	{
 		int i, iCount = configPage->m_littleOptions.GetCount();
 		if( apply )
