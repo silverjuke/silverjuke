@@ -298,7 +298,7 @@ public:
 			for( size_t i = 0; i < m_paths.GetCount(); i++ )
 			{
 				if( ::wxDirExists(m_paths[i])
-				        && !g_tools->IsStaticSearchPath(m_paths[i]) )
+				 && !g_tools->IsStaticSearchPath(m_paths[i]) )
 				{
 					g_tools->m_config->Write(wxString::Format(wxT("main/searchPath%i"), (int)userCount++), m_paths[i]);
 				}
@@ -660,7 +660,6 @@ void SjBasicSettingsConfigPage::UpdateLittleOption(SjLittleOption* updatePtr)
 	int             i, iCount = m_littleListCtrl->GetItemCount();
 	SjLittleOption* o;
 
-
 	wxColour    colourWhite = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
 	wxColour    colourBlack = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
 	wxFont      normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
@@ -669,7 +668,6 @@ void SjBasicSettingsConfigPage::UpdateLittleOption(SjLittleOption* updatePtr)
 		normalFont = g_mainFrame->m_baseStdFont;
 	}
 	wxFont      boldFont = normalFont; if(boldFont.GetWeight()==wxBOLD) {boldFont.SetStyle(wxITALIC);} else {boldFont.SetWeight(wxBOLD);}
-
 
 	for( i = 0; i < iCount; i++ )
 	{
@@ -719,9 +717,9 @@ void SjBasicSettingsConfigPage::ShowLittleContextMenu(wxWindow* window, const wx
 				else
 				{
 					long checkable = o->IsOptionCheckable(i);
-					if( checkable==2 ) { m.AppendRadioItem (IDC_OPTIONFIRST+i, optStr);    }
-					else if( checkable==1 ) { m.AppendCheckItem (IDC_OPTIONFIRST+i, optStr);    }
-					else                    { m.Append          (IDC_OPTIONFIRST+i, optStr);    }
+					     if( checkable==2 ) { m.AppendRadioItem (IDC_OPTIONFIRST+i, optStr); }
+					else if( checkable==1 ) { m.AppendCheckItem (IDC_OPTIONFIRST+i, optStr); }
+					else                    { m.Append          (IDC_OPTIONFIRST+i, optStr); }
 
 					m.Enable(IDC_OPTIONFIRST+i, o->IsOptionEnabled(i));
 

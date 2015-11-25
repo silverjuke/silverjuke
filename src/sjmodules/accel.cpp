@@ -339,13 +339,13 @@ private:
 		long keycode = event.GetKeyCode();
 
 		if( keycode == WXK_LBUTTON
-				|| keycode == WXK_RBUTTON
-				|| keycode == WXK_MBUTTON
-				|| keycode == WXK_SHIFT
-				|| keycode == WXK_ALT
-				|| keycode == WXK_CONTROL
-				|| keycode == WXK_MENU
-				|| keycode == WXK_CAPITAL )
+		 || keycode == WXK_RBUTTON
+		 || keycode == WXK_MBUTTON
+		 || keycode == WXK_SHIFT
+		 || keycode == WXK_ALT
+		 || keycode == WXK_CONTROL
+		 || keycode == WXK_MENU
+		 || keycode == WXK_CAPITAL )
 		{
 			return;
 		}
@@ -473,7 +473,7 @@ bool SjLittleAccelOption::AreTempAndOrgEqual() const
 	if( m_cmdPtr->m_tempKeyCount==m_cmdPtr->m_orgKeyCount )
 	{
 		if( m_cmdPtr->m_tempKeyCount == 0
-		        || memcmp(m_cmdPtr->m_tempKey, m_cmdPtr->m_orgKey, m_cmdPtr->m_tempKeyCount*sizeof(long))==0 )
+		 || memcmp(m_cmdPtr->m_tempKey, m_cmdPtr->m_orgKey, m_cmdPtr->m_tempKeyCount*sizeof(long))==0 )
 		{
 			return TRUE;
 		}
@@ -508,8 +508,8 @@ wxString SjLittleAccelOption::GetDisplayValue() const
 	}
 
 	if( m_cmdPtr->m_id == IDT_NUMPAD_MENU
-	        && ret.IsEmpty()
-	        && g_kioskModule )
+	 && ret.IsEmpty()
+	 && g_kioskModule )
 	{
 		// if no numpad-"menu" key is defined, the menu can be opened
 		// by pressing "0" several times (more exact: the number of album digits)
@@ -581,7 +581,7 @@ bool SjLittleAccelOption::AddKey(long newKey, wxWindow* parent)
 		for( keyIndex = 0; keyIndex < cmd->m_tempKeyCount; keyIndex++ )
 		{
 			if(  (cmd->m_tempKey[keyIndex]&(~(wxACCEL_SYSTEMWIDE<<16))) == (newKey&(~(wxACCEL_SYSTEMWIDE<<16)))
-			        && ((cmd->m_flags&SJA_MASK) & (m_cmdPtr->m_flags&SJA_MASK)) ) // is the key used in the same part?
+			 && ((cmd->m_flags&SJA_MASK) & (m_cmdPtr->m_flags&SJA_MASK)) ) // is the key used in the same part?
 			{
 				if( cmd == m_cmdPtr )
 				{
@@ -802,14 +802,14 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 		}
 
 		if(  (cmd->m_id >= IDT_NUMPAD_FIRST && cmd->m_id <= IDT_NUMPAD_LAST)
-		        && !(g_accelModule->m_flags&SJ_ACCEL_USE_NUMPAD_IN_KIOSK) )
+		 && !(g_accelModule->m_flags&SJ_ACCEL_USE_NUMPAD_IN_KIOSK) )
 		{
 			wxASSERT( cmdIndex!=m_cmdCount-1 ); // ensure, the "last" flag gets set
 			addOption = false;
 		}
 
 		if( (cmd->m_id >= IDT_ADD_CREDIT_01 && cmd->m_id <= IDT_ADD_CREDIT_16)
-		        && (!g_kioskModule->m_creditBase.IsCreditSystemEnabled() || !g_kioskModule->m_creditBase.ListenToShortcuts()) )
+		 && (!g_kioskModule->m_creditBase.IsCreditSystemEnabled() || !g_kioskModule->m_creditBase.ListenToShortcuts()) )
 		{
 			wxASSERT( cmdIndex!=m_cmdCount-1 ); // ensure, the "last" flag gets set
 			addOption = false;
@@ -944,7 +944,7 @@ wxAcceleratorTable SjAccelModule::GetAccelTable(long flags, wxAcceleratorEntry* 
 	{
 		// add numpad keys?
 		if( (flags & SJA_MAIN)
-		        &&  UseNumpad() )
+		 &&  UseNumpad() )
 		{
 			flags |= SJA_MAINNUMPAD;
 		}
@@ -981,8 +981,8 @@ wxAcceleratorTable SjAccelModule::GetAccelTable(long flags, wxAcceleratorEntry* 
 					}
 
 					if(  addToAccelTable(key)
-					        || (cmd->m_flags&SJA_MAINNUMPAD)
-					        || (flags&SJA_ADDNOMODIFIERKEYS) )
+					 || (cmd->m_flags&SJA_MAINNUMPAD)
+					 || (flags&SJA_ADDNOMODIFIERKEYS) )
 					{
 						if( !keysAdded.Lookup(key) )
 						{
@@ -1109,7 +1109,7 @@ wxString SjAccelModule::GetReadableShortcutsByPtr(const long userKey[], int user
 		modifier = key >> 16;
 
 		if( ( (modifier&wxACCEL_SYSTEMWIDE) && (flags&SJ_SHORTCUTS_SYSTEMWIDE))
-		        || (!(modifier&wxACCEL_SYSTEMWIDE) && (flags&SJ_SHORTCUTS_LOCAL)) )
+		 || (!(modifier&wxACCEL_SYSTEMWIDE) && (flags&SJ_SHORTCUTS_LOCAL)) )
 		{
 			if( !ret.IsEmpty() ) ret += wxT(", ");
 			ret += GetReadableShortcutByComprKey(key);
@@ -1155,10 +1155,10 @@ wxString SjAccelModule::GetCmdNameByIndex(int cmdIndex, bool shortName)
 	if( !shortName )
 	{
 		if( (cmd.m_id >= IDT_WORKSPACE_LINE_LEFT && cmd.m_id <= IDT_WORKSPACE_LINE_DOWN)
-		        || (cmd.m_id >= IDT_WORKSPACE_PAGE_LEFT && cmd.m_id <= IDT_WORKSPACE_ENTER)
-		        ||  cmd.m_id == IDT_WORKSPACE_HOME
-		        ||  cmd.m_id == IDT_WORKSPACE_END
-		        ||  cmd.m_id == IDT_WORKSPACE_SHOW_COVERS )
+		 || (cmd.m_id >= IDT_WORKSPACE_PAGE_LEFT && cmd.m_id <= IDT_WORKSPACE_ENTER)
+		 ||  cmd.m_id == IDT_WORKSPACE_HOME
+		 ||  cmd.m_id == IDT_WORKSPACE_END
+		 ||  cmd.m_id == IDT_WORKSPACE_SHOW_COVERS )
 		{
 			ret = SjLittleOption::ApplySection(_("Workspace"), ret);
 		}
@@ -1184,7 +1184,7 @@ int SjAccelModule::KeyEvent2CmdIndex(wxKeyEvent& event, long flags)
 {
 	// add numpad keys?
 	if( (flags & SJA_MAIN)
-	        &&  UseNumpad() )
+	 &&  UseNumpad() )
 	{
 		flags |= SJA_MAINNUMPAD;
 	}
@@ -1223,7 +1223,7 @@ int SjAccelModule::KeyEvent2CmdIndex(wxKeyEvent& event, long flags)
 			for( keyIndex = 0; keyIndex < cmd.m_userKeyCount && cmdIndex == 0; keyIndex++ )
 			{
 				if( (cmd.m_userKey[keyIndex]&(~(wxACCEL_SYSTEMWIDE<<16))) == key
-				        && (cmd.m_flags & flags) )
+				 && (cmd.m_flags & flags) )
 				{
 					cmdIndex = c;
 					break;
