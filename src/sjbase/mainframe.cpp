@@ -1326,7 +1326,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	UpdateDisplay();
 	m_browser->SetFocus();
 
-	/* open files from the command line
+	/* open files from the command line or resume
 	 */
 	bool startStartupDisplay = FALSE;
 	if( SjMainApp::s_cmdLine->GetParamCount() )
@@ -1345,11 +1345,15 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 			startStartupDisplay = TRUE;
 		}
 	}
+	else if( m_player.m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME )
+	{
+		m_player.m_queue.LoadFromResumeFile();
+	}
 
 	/* show startup display also if autoplay is set to 0 minutes
 	 */
 	if( (m_autoCtrl.m_flags&SJ_AUTOCTRL_AUTOPLAY_ENABLED)
-	        &&  m_autoCtrl.m_autoPlayWaitMinutes==0 )
+	 &&  m_autoCtrl.m_autoPlayWaitMinutes==0 )
 	{
 		startStartupDisplay = TRUE;
 	}
@@ -1447,6 +1451,12 @@ SjMainFrame::~SjMainFrame(void)
 
 	/* (/) Save some settings
 	 */
+
+	if( m_player.m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME )
+	{
+		m_player.m_queue.SaveToResumeFile();
+	}
+
 	if( !IsIconized()
 	 && !IsMaximized() // don't check for IsFakedMaximized(); the faked maximized positions can be used
 	 && !IsFullScreen() )

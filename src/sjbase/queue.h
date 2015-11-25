@@ -149,6 +149,10 @@ public:
 
 	void            OnUrlChanged        (const wxString& oldUrl, const wxString& newUrl) { m_playlist.OnUrlChanged(oldUrl, newUrl); }
 
+	// resume
+	void            SaveToResumeFile    () const;
+	void            LoadFromResumeFile  ();
+
 	// move tracks
 	long            MoveByIds           (const SjLLHash& idsToMove, long motionAmount);
 
@@ -208,6 +212,7 @@ private:
 
 	// Misc.
 	SjPlaylistEntry m_dummyPlaylistInfo;
+	wxString        GetResumeFile       () const;
 };
 
 

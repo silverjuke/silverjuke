@@ -308,15 +308,15 @@ bool SjTools::CrashPrecaution(const wxString& module, const wxString& func, cons
 	wxASSERT(func.IsEmpty()==FALSE);
 
 	if( module == m_lastCrashModule
-	        && func == m_lastCrashFunc
-	        && object == m_lastCrashObject )
+	 && func == m_lastCrashFunc
+	 && object == m_lastCrashObject )
 	{
 		ret = FALSE; // the given objects are the possible reason for the last crash
 	}
 
 	#ifndef __WXDEBUG__
 	if(  s_doCrashLogging
-	        && !SjMainApp::IsInShutdown() ) // on shutdown, NotCrashed() may not be called in time if Windows kills us - so no crash precaution on shutdown
+	 && !SjMainApp::IsInShutdown() ) // on shutdown, NotCrashed() may not be called in time if Windows kills us - so no crash precaution on shutdown
 	#endif
 	{
 		wxString info = module;

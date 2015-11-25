@@ -1153,8 +1153,8 @@ bool SjQueue::MoveToTopOnEoq() const
 	// to select the first queue item (this is useful eg. if the user hits "play" again)
 
 	if( !m_isInitialized
-	        || !g_mainFrame->IsOpAvailable(SJ_OP_PLAYPAUSE)
-	        ||  GetCount()<=0 )
+	 || !g_mainFrame->IsOpAvailable(SJ_OP_PLAYPAUSE)
+	 ||  GetCount()<=0 )
 	{
 		return FALSE;   // we recomment the caller to leave the queue position as is
 		// (as "play" is not avalable the user cannot play the song again,
@@ -1162,7 +1162,7 @@ bool SjQueue::MoveToTopOnEoq() const
 	}
 
 	if( (g_mainFrame->m_autoCtrl.m_flags&SJ_AUTOCTRL_AUTOPLAY_ENABLED)
-	        &&  g_mainFrame->m_autoCtrl.m_autoPlayWaitMinutes==0 )
+	 &&  g_mainFrame->m_autoCtrl.m_autoPlayWaitMinutes==0 )
 	{
 		return FALSE;   // we recomment the caller to leave the queue position as is
 		// (autoplay will enqueue the next song at once)
@@ -1171,4 +1171,53 @@ bool SjQueue::MoveToTopOnEoq() const
 	return TRUE;        // we recomment the caller to move the queue position to position #0
 	// (the user may hit "play" and does not want to hear the last
 	// song again)
+}
+
+
+/*******************************************************************************
+ * Resume
+ ******************************************************************************/
+
+
+wxString SjQueue::GetResumeFile() const
+{
+	wxSqltDb* db = wxSqltDb::GetDefault();
+	wxASSERT( db ); if( db == NULL ) return "";
+
+	wxFileName fn(db->GetFile());
+	fn.SetFullName("." + fn.GetFullName() + "-resume");
+	return fn.GetFullPath(); // results in ".filename.jukebox-resume", a hidden file
+}
+
+
+void SjQueue::SaveToResumeFile() const
+{
+	wxString content("resumeversion=1\n");
+	int i, iCount = m_playlist.GetCount();
+	bool addPlayed = m_queueFlags&SJ_QUEUEF_RESUME_LOAD_PLAYED;
+	long playcount;
+	for( i = 0; i < iCount; i++ )
+	{
+		SjPlaylistEntry& e = m_playlist[i];
+		playcount = e.GetPlayCount();
+		if( playcount==0 || addPlayed )
+		{
+			if( playcount > 0 ) {
+				content += wxString::Format("played=%i\n", (int)playcount); // setting for the URL following
+			}
+			content += "url=" + e.GetUnverifiedUrl() + "\n";
+		}
+	}
+
+	// this function is called on shutdown, where our program may be _killed_ by the operating system.
+	// so we do not risk to write larger data to the sqlite database but use a simple text file instead.
+	wxFile file(GetResumeFile(), wxFile::write);
+	if( !file.IsOpened() )
+		return; // do not log any error, we're in shutdown
+	file.Write(content, wxConvUTF8);
+}
+
+
+void SjQueue::LoadFromResumeFile()
+{
 }
