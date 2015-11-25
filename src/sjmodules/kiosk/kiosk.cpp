@@ -328,10 +328,10 @@ SjKioskConfigPage::SjKioskConfigPage(wxWindow* parent, int selectedPage)
 	wxNotebook* notebookSizer = m_notebook;
 
 	#define PAGE_START 0
-	m_notebook->AddPage(CreateStartPage(m_notebook),  _("Start kiosk mode"));
+	m_notebook->AddPage(CreateStartPage(m_notebook),  _("Exit"));
 
 	#define PAGE_FUNCTIONS 1
-	m_notebook->AddPage(CreateFunctionPage(m_notebook),  _("Functionality"));
+	m_notebook->AddPage(CreateFunctionPage(m_notebook),  _("Functions"));
 
 	#define PAGE_MONITOR 2
 	m_notebook->AddPage(CreateMonitorPage(m_notebook),  _("Monitors"));
