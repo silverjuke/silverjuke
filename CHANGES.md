@@ -2,9 +2,10 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.? (25.11.2015)
+V15.? (26.11.2015)
 ================================================================================
 
+- New "Resume" options at "Settings / Playback"
 - New: Read and write ratings from MP3, MPC, FLAC and OGG-files
 - New: "Columns" and "Display" options in view menu
 - New "Shortcuts" page in the advanced settings
