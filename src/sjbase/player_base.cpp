@@ -613,5 +613,77 @@ wxString SjPlayer::GetUrlOnAir()
 
 
 
+/*******************************************************************************
+ * Resume
+ ******************************************************************************/
+
+
+wxString SjPlayer::GetResumeFile() const
+{
+	wxSqltDb* db = wxSqltDb::GetDefault();
+	wxASSERT( db ); if( db == NULL ) return "";
+
+	wxFileName fn(db->GetFile());
+	fn.SetFullName("." + fn.GetFullName() + "-resume");
+	return fn.GetFullPath(); // results in ".filename.jukebox-resume", a hidden file
+}
+
+
+void SjPlayer::SaveToResumeFile()
+{
+	// this function is called on shutdown, where our program may be _killed_ by the operating system.
+	// so we do not risk to write larger data to the sqlite database but use a simple text file instead.
+
+	// create header with common information
+	unsigned long startMs = SjTools::GetMsTicks();
+	wxString content("resumeversion=2\n");
+	int i, iCount = m_queue.GetCount(), iPos = m_queue.GetCurrPos();
+
+	// collect all URLs
+	bool addPlayed = m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_LOAD_PLAYED;
+	long playcount, entryflags;
+	for( i = 0; i < iCount; i++ )
+	{
+		SjPlaylistEntry& e = m_queue.GetInfo(i);
+		playcount = e.GetPlayCount();
+		entryflags = e.GetFlags();
+		if( playcount==0 || addPlayed || i==iPos )
+		{
+			if( playcount > 0 ) {
+				content += "played=1\n"; // setting for the URL following
+			}
+
+			if( entryflags & SJ_PLAYLISTENTRY_AUTOPLAY ) {
+				content += "autoplay=1\n"; // setting for the URL following
+			}
+
+			if( i==iPos && IsPlaying() ) {
+				long totalMs, elapsedMs, remainingMs;
+				GetTime(totalMs, elapsedMs, remainingMs);
+				content += wxString::Format("playing=%i\n", (int)elapsedMs); // setting for the URL following, save independingly of SJ_QUEUEF_RESUME_START_PLAYBACK as we always init the queue positions
+			}
+
+			content += "url=" + e.GetUnverifiedUrl() + "\n"; // the unverified URL may contain Tabs! When we reload the information. If we load the file later, we treat all URLs as unverfied (eg. the files may have changed)
+		}
+	}
+
+	// open file to write
+	wxFile file(GetResumeFile(), wxFile::write);
+	if( !file.IsOpened() )
+		return; // do not log any error, we're in shutdown
+
+	// add some footer information and write
+	wxDateTime dt = wxDateTime::Now().ToUTC();
+	content += dt.Format("created=%Y-%m-%dT%H:%M:%S+00:00\n");
+
+	content += wxString::Format("ms=%i\n", (int)(SjTools::GetMsTicks()-startMs)); // speed is about 500 tracks per millisecond on my system from the year 2012
+	file.Write(content, wxConvUTF8);
+}
+
+
+void SjPlayer::LoadFromResumeFile()
+{
+	wxString resumeFile = GetResumeFile();
+}
 
 

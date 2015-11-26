@@ -1347,7 +1347,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	}
 	else if( m_player.m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME )
 	{
-		m_player.m_queue.LoadFromResumeFile();
+		m_player.LoadFromResumeFile();
 	}
 
 	/* show startup display also if autoplay is set to 0 minutes
@@ -1451,11 +1451,6 @@ SjMainFrame::~SjMainFrame(void)
 
 	/* (/) Save some settings
 	 */
-
-	if( m_player.m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME )
-	{
-		m_player.m_queue.SaveToResumeFile();
-	}
 
 	if( !IsIconized()
 	 && !IsMaximized() // don't check for IsFakedMaximized(); the faked maximized positions can be used
@@ -2378,6 +2373,11 @@ void SjMainFrame::OnFwdToPlayer(wxCommandEvent& event)
 
 void SjMainFrame::OnCloseWindow(wxCloseEvent& event)
 {
+	if( m_player.m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME )
+	{
+		m_player.SaveToResumeFile(); // this should be done _very_ first, the OS may kill us at any time and it is a good idea to have the resume file ready then.
+	}
+
 	if( QueryEndSession() )
 	{
 		DoEndSession();

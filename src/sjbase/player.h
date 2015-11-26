@@ -65,6 +65,11 @@ public:
 	void            LoadSettings        ();
 	void            SaveSettings        () const;
 
+	// resume
+	void            SaveToResumeFile    ();
+	void            LoadFromResumeFile  ();
+	wxString        GetResumeFile       () const;
+
 	// Check if a given file is playable
 	bool            TestUrl             (const wxString& url);
 	const SjExtList* GetExtList         ();
