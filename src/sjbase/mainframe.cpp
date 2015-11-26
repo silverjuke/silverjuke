@@ -188,9 +188,8 @@ void SjMainFrame::Enqueue(const wxArrayString& urls, long enqueuePos,
 		m_display.m_scrollPos = -1;
 	}
 
-	UpdateDisplay();
+	UpdateDisplay(); // visualize the changes
 	m_browser->RefreshSelection();
-
 	UpdateMenuBarQueue();
 }
 

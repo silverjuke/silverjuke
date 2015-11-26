@@ -657,9 +657,11 @@ void SjPlayer::SaveToResumeFile()
 				content += "autoplay=1\n"; // setting for the URL following
 			}
 
-			if( i==iPos && IsPlaying() ) {
-				long totalMs, elapsedMs, remainingMs;
-				GetTime(totalMs, elapsedMs, remainingMs);
+			if( i==iPos ) {
+				long totalMs, elapsedMs = -1, remainingMs;
+				if( IsPlaying() ) {
+					GetTime(totalMs, elapsedMs, remainingMs);
+				}
 				content += wxString::Format("playing=%i\n", (int)elapsedMs); // setting for the URL following, save independingly of SJ_QUEUEF_RESUME_START_PLAYBACK as we always init the queue positions
 			}
 
@@ -668,22 +670,109 @@ void SjPlayer::SaveToResumeFile()
 	}
 
 	// open file to write
-	wxFile file(GetResumeFile(), wxFile::write);
-	if( !file.IsOpened() )
-		return; // do not log any error, we're in shutdown
+	{
+		wxLogNull null;
+		wxFile file(GetResumeFile(), wxFile::write);
+		if( !file.IsOpened() )
+		{
+			return; // do not log any error, we're in shutdown
+		}
 
-	// add some footer information and write
-	wxDateTime dt = wxDateTime::Now().ToUTC();
-	content += dt.Format("created=%Y-%m-%dT%H:%M:%S+00:00\n");
+		// add some footer information and write
+		wxDateTime dt = wxDateTime::Now().ToUTC();
+		content += dt.Format("created=%Y-%m-%dT%H:%M:%S+00:00\n");
 
-	content += wxString::Format("ms=%i\n", (int)(SjTools::GetMsTicks()-startMs)); // speed is about 500 tracks per millisecond on my system from the year 2012
-	file.Write(content, wxConvUTF8);
+		content += wxString::Format("ms=%i\n", (int)(SjTools::GetMsTicks()-startMs)); // speed is about 500 tracks per millisecond on my system from the year 2012
+		file.Write(content, wxConvUTF8);
+	}
 }
 
 
 void SjPlayer::LoadFromResumeFile()
 {
-	wxString resumeFile = GetResumeFile();
+	// load content from file
+    // we do not delete the file physically after loading.
+    // If the next shutdown fails it is better to load "too many" tracks with a repeated playing position than nothing.	wxString content;
+	wxString content;
+	{
+		wxString resumeFile = GetResumeFile();
+		wxFileSystem fileSystem;
+		wxFSFile* fsFile = fileSystem.OpenFile(resumeFile, wxFS_READ);
+		if( fsFile == NULL )
+		{
+			return; // do not log any error, there is simply no resume file
+		}
+
+		wxLogInfo("Loading %s", resumeFile.c_str());
+		content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvUTF8);
+		delete fsFile;
+	}
+
+	// go through all lines of the content
+	wxString            istVersion;
+	SjLineTokenizer     tkz(content);
+	wxChar*             currLinePtr;
+	wxString            currLine, currKey, currValue;
+	long                currPlayed = 0, currAutoplay = 0;
+	wxArrayString       allUrls;
+	wxArrayLong         allPlayed;
+	wxArrayLong         allAutoplay;
+	long                allPos = -1, allElapsed = -1;
+	while( (currLinePtr=tkz.GetNextLine()) )
+	{
+		currLine  = currLinePtr;
+		currKey   = currLine.BeforeFirst('=');
+		currValue = currLine.AfterFirst('=');
+
+		if( currKey == "played" )
+		{
+			currPlayed = 1;
+		}
+		else if( currKey == "autoplay" )
+		{
+			currAutoplay = 1;
+		}
+		else if( currKey == "playing" )
+		{
+			allPos = allUrls.Count(); // the next added URL is our queue position
+			if( !currValue.ToLong(&allElapsed) ) {
+				allElapsed = -1;
+			}
+		}
+		else if( currKey == "url" )
+		{
+			allUrls.Add(currValue);
+			allPlayed.Add(currPlayed);
+			allAutoplay.Add(currAutoplay);
+
+			// prepare for next URL
+			currPlayed = 0;
+			currAutoplay = 0;
+		}
+	}
+
+	// enqueue the urls
+	g_mainFrame->Enqueue(allUrls, -1, false, NULL, 0);
+
+
+	// mark URLs as autoplay/played
+	wxASSERT( allUrls.Count() == allPlayed.Count() );
+	wxASSERT( allUrls.Count() == allAutoplay.Count() );
+	int i, iCount = m_queue.GetCount(); if( iCount > (int)allUrls.Count() ) { iCount = (int)allUrls.Count(); } // get min
+	for( i = 0; i < iCount; i++ )
+	{
+		SjPlaylistEntry& e = m_queue.GetInfo(i);
+		if( allPlayed[i] ) { e.SetPlayCount(1); }
+		if( allAutoplay[i] ) { e.SetFlags(e.GetFlags()|SJ_PLAYLISTENTRY_AUTOPLAY); }
+	}
+
+	// start playback
+	if( allPos >= 0 && allPos < m_queue.GetCount() )
+	{
+		m_queue.SetCurrPos(allPos);
+		if( m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_START_PLAYBACK )
+		{
+			g_mainFrame->Play(allElapsed>=0? allElapsed : -1);
+		}
+	}
 }
-
-
