@@ -255,7 +255,6 @@ public:
 	SjDisplay       m_display;
 private:
 	// Display stuff - Private
-	bool            DisplayBusyInfo     (const wxString& text, bool forceUpdateForLongOp);
 	void            OnStartupDisplayTimer(wxTimerEvent&) { m_display.m_showStartupDisplay=FALSE; UpdateDisplay(); }
 	void            MarkDisplayTrack    (int targetId, bool mouseDown, long accelFlags);
 	void            OnSkinTargetMotion  (int targetId, int motionAmount);
@@ -348,7 +347,6 @@ private:
 	DECLARE_EVENT_TABLE ();
 
 	friend class    SjMainFrameToolTipProvider;
-	friend class    SjBusyInfo; // for calling DisplayBusyInfo()
 	friend class    SjBasicSettingsConfigPage; // for m_locale
 	friend class    SjKioskModule;
 	friend class    SjDisplayEditDlg;

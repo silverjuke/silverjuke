@@ -41,7 +41,6 @@ END_EVENT_TABLE()
 
 SjBusyInfo*  SjBusyInfo::s_busyInfo = NULL;
 long         SjBusyInfo::s_busyInfoUsage = 0;
-SjMainFrame* SjBusyInfo::s_mainFrame = NULL;
 long         SjBusyInfo::s_inYield = 0;
 bool         SjBusyInfo::s_dlgOpen = FALSE;
 
@@ -248,10 +247,6 @@ bool SjBusyInfo::Set(const wxString& object, bool forceUpdateForLongOp)
 	{
 		return s_busyInfo->Set__(object, forceUpdateForLongOp);
 	}
-	else if( s_mainFrame && !object.IsEmpty() )
-	{
-		return s_mainFrame->DisplayBusyInfo(object, forceUpdateForLongOp);
-	}
 	else
 	{
 		return TRUE;
@@ -259,8 +254,4 @@ bool SjBusyInfo::Set(const wxString& object, bool forceUpdateForLongOp)
 }
 
 
-void SjBusyInfo::SetMainFrame(SjMainFrame* mainFrame)
-{
-	s_mainFrame = mainFrame;
-}
 

@@ -141,7 +141,6 @@ void SjModuleSystem::Init()
 	// init database...
 	{
 		wxLogInfo(wxT("Loading %s"), g_tools->m_dbFile.c_str());
-		SjBusyInfo::Set(g_tools->m_dbFile, TRUE);
 
 		// ...open database
 		wxSqltDb* db = new wxSqltDb(g_tools->m_dbFile);

@@ -1259,18 +1259,3 @@ void SjMainFrame::SetDisplayMsg(const wxString& text, long holdMs)
 }
 
 
-bool SjMainFrame::DisplayBusyInfo(const wxString& text, bool forceUpdateForLongOp)
-{
-	long lineCount = GetLinesCount();
-
-	if( lineCount )
-	{
-		SjSkinValue value;
-
-		value.value = SJ_VFLAG_CENTER;
-		value.string = SjTools::ShortenUrl(text);
-		SetSkinTargetValue(IDT_DISPLAY_LINE_FIRST+lineCount/2, value);
-	}
-
-	return TRUE;
-}

@@ -1119,36 +1119,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		startMinimized = false;
 	}
 
-	// do show window
-	Enable(false);
-	if( startMinimized )
-	{
-		Iconize(true);
-	}
-
-	#ifndef __WXMAC__ // under MAC, the window is shown when the menu is complete (otherwise some def. entries as "about", "preferences" or "quit" are not catched
-		Show();
-		Update();
-	#endif
-
-	#ifdef __WXGTK__
-	{
-		wxSizeEvent fwd; // this update window on GTK works (2015: is this still needed?)
-		OnSize(fwd);
-	}
-	#endif
-
-	wxBusyCursor busy;
-	SjBusyInfo::SetMainFrame(this);
-
-	/* =======================================================
-	 * now the window is visible, init operations that may take
-	 * a longer time
-	 * =======================================================
-	 */
-
-	SjBusyInfo::Set(wxString::Format(_("Loading %s"), SJ_PROGRAM_NAME), TRUE);
-
 	/* (/) Load settings if not yet done as needed before window showing
 	 */
 	m_baseColumnWidth       = CorrectColumnWidth(g_tools->m_config->Read(wxT("main/fontCoverSize")/*historical*/, SJ_DEF_COLUMN_WIDTH));
@@ -1175,8 +1145,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	wxASSERT(m_libraryModule);
 
 	m_columnMixer.LoadModules(&m_moduleSystem); // this will also load the library module
-
-	SjBusyInfo::Set(wxString::Format(_("Loading %s"), SJ_PROGRAM_NAME), TRUE);
 
 	m_player.Init();
 	m_player.LoadSettings();
@@ -1262,8 +1230,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 			SjAdvSearch lastSearch = g_advSearchModule->GetSearchById(lastAdvSearchId);
 			if( lastSearch.GetId() )
 			{
-				SjBusyInfo::Set(wxString::Format(_("Loading %s"), lastSearch.GetName().c_str()), TRUE);
-
 				SetSearch(SJ_SETSEARCH_SETADV, wxT(""), &lastSearch);
 				if( m_searchStat.m_totalResultCount == 0 )
 				{
@@ -1283,7 +1249,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		m_browser->GotoPos(g_tools->m_config->Read(wxT("main/selAlbumUrl"), wxT("")));
 	}
 
-
 	/* (/) set accelerators
 	 * (some accelerators as "space" are done in the browser window
 	 * as they're also used in the input window)
@@ -1294,21 +1259,28 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	SetSkinTargetValue(IDT_TOGGLE_REMOVE_PLAYED, (m_player.m_queue.GetQueueFlags()&SJ_QUEUEF_REMOVE_PLAYED)? 1 : 0);
 
-	/* (/) Init main menu (mainly used by OS X)
+	/* (/) Init main menu
 	 */
 	InitMainMenu();
 
-	#ifdef __WXMAC__
-		Show();
-		Update();
-	#endif
+	/* (/) Show the window
+	 */
+	if( startMinimized )
+	{
+		Iconize(true);
+	}
 
-	/* (/) Init Drag'n'Drop (don't wonder: this will start 2 threads under MSW)
+	UpdateDisplay();
+	Show();
+	Update();
+
+	/* (/) Init Drag'n'Drop (don't wonder: this will start 2 threads under MSW) and set the focus to the browser
 	 */
 	SetDropTarget(new SjDropTarget(this));
 	#ifdef __WXMAC__
 		m_browser->SetDropTarget(new SjDropTarget(m_browser));
 	#endif
+	m_browser->SetFocus();
 
 	/* (/) Some Functionality Tests
 	 */
@@ -1316,14 +1288,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	{
 		SjTestdrive1();
 	}
-
-	/* (/) Done so far, enable the window and update the display
-	 *     to remove the busy info and to display the current settings
-	 */
-	Enable(TRUE);
-	SjBusyInfo::SetMainFrame(NULL);
-	UpdateDisplay();
-	m_browser->SetFocus();
 
 	/* open files from the command line or resume
 	 */

@@ -52,7 +52,6 @@ public:
 private:
 	static SjBusyInfo* s_busyInfo;
 	static long     s_busyInfoUsage;
-	static SjMainFrame* s_mainFrame;
 	static long     s_inYield;
 	static bool     s_dlgOpen;
 
