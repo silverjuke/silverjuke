@@ -38,7 +38,10 @@
  *   is not found.  This allows moving playlists with relative paths if the
  *   title is in the library.
  * - The playlistLocation/artist/album/track is added after a tab to the
- *   unverified URL
+ *   unverified URL.  We use the tab as a separator as it should cause less
+ *   problems with the information stored; using eg. the pipe ("|") may cause
+ *   problems with some URLs (although http://www.ietf.org/rfc/rfc2396.txt
+ *   stated the use of the pipe in URLs "unwise").  So, the tab is it.
  * - Nero does not like spaces in CUE filenames
  *
  ******************************************************************************/
@@ -1406,5 +1409,4 @@ bool SjPlaylist::AddFromFile(const wxString& nativePath, long addMax, long flags
 
 	return TRUE;
 }
-
 

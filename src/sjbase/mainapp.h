@@ -26,10 +26,8 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_MAINAPP_H__
 #define __SJ_MAINAPP_H__
-
 
 
 enum SjShutdownEtc
@@ -46,8 +44,6 @@ enum SjShutdownEtc
 };
 
 
-
-
 class SjMainApp : public wxApp
 {
 public:
@@ -58,8 +54,8 @@ public:
 	void            SetIsInShutdown     ();
 	static bool     IsInShutdown        () { return s_isInShutdown; }
 	static void     DoShutdownEtc       (SjShutdownEtc, long restoreOrgVol=-1);
-	static wxCmdLineParser*
-	s_cmdLine;
+	static wxCmdLineParser* s_cmdLine;
+
 private:
 	static bool     s_isInShutdown;
 	void            OnActivate          (wxActivateEvent&);
@@ -69,7 +65,6 @@ private:
 };
 
 DECLARE_APP(SjMainApp);
-
 
 
 #endif /* __SJ_MAINAPP_H__ */

@@ -369,7 +369,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 
 		// check offset
 		if( queuePos < 0
-		        || queuePos >= m_queue.GetCount() )
+		 || queuePos >= m_queue.GetCount() )
 		{
 			inHere = false; // don't forget this!
 			return;

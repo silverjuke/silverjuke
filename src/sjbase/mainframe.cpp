@@ -356,7 +356,7 @@ bool SjMainFrame::QueryEndSession(bool onShutdown)
 		}
 
 		if( !onShutdown
-		        &&  IsPlaying() )
+		 &&  IsPlaying() )
 		{
 			// wxWindowDisabler disabler(this); -- done by YesNo()
 			if( g_accelModule->YesNo(
@@ -2998,7 +2998,7 @@ void SjMainFrame::SetSearch(long flags, const wxString& newSimpleSearch, const S
 				searchModified = TRUE;
 				gatherStatistics = TRUE;
 				if( (m_allSearchMs / m_allSearchCount) > 500
-				        ||  m_allSearchCount < 3 )
+				 ||  m_allSearchCount < 3 )
 				{
 					useHourglass = TRUE;
 				}
