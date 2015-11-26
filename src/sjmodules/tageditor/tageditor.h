@@ -104,8 +104,7 @@ public:
 	bool            LetConfirm          (bool& askWriteId3, bool& askDelEmptyDir, bool& onlyUrlsModified);
 
 private:
-	SjArrayModifyItem
-	m_items;
+	SjArrayModifyItem m_items;
 	SjSLHash        m_hash;
 	SjTrackInfo*    m_scope;
 	wxString        m_orgUrl;
@@ -127,7 +126,7 @@ public:
 	// You should derive from SjTagEditorDlg() and overwrite GetUrls().
 	// "what" is: 0=get current selection, 1=get next or -1=get previous.
 	// Use Init__() just after construction.
-	SjTagEditorDlg      (wxWindow* parent, bool multiEdit);
+	                SjTagEditorDlg      (wxWindow* parent, bool multiEdit);
 	virtual bool    GetUrls             (wxArrayString&, int what) = 0;
 	bool            Init__              ();
 	virtual         ~SjTagEditorDlg     ();
@@ -157,10 +156,8 @@ private:
 
 	// Transferring dialog -> data
 	void            Dlg2Data_CopyAll    (SjTagEditorPlugin*, bool& reloadData, bool& canceled);
-	bool            Dlg2Data_PrepareModify
-	();
-	void            Dlg2Data_ModifyTrackInfo
-	(SjTrackInfo&, int index, SjModifyInfo&);
+	bool            Dlg2Data_PrepareModify ();
+	void            Dlg2Data_ModifyTrackInfo (SjTrackInfo&, int index, SjModifyInfo&);
 	long            Dlg2Data_GetString  (int id, long fieldFlag, wxString& oldAndRetValue);
 	long            Dlg2Data_GetLong    (int id, long fieldFlag, long& oldAndRetValue);
 	wxString        Dlg2Data_GetValue   (int id);
@@ -212,7 +209,7 @@ private:
 	void            OnOK                (wxCommandEvent&);
 	void            OnPrevOrNext        (wxCommandEvent&);
 	void            OnClose             (wxCloseEvent&) { wxCommandEvent fwd; OnCancel(fwd); }
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 
 	friend class    SjTagEditorModule;
 };
@@ -226,7 +223,7 @@ private:
 class SjTagEditorModule : public SjCommonModule
 {
 public:
-	SjTagEditorModule   (SjInterfaceBase*);
+					SjTagEditorModule   (SjInterfaceBase*);
 
 	void            OpenTagEditor       (SjTagEditorDlg*);
 	void            CloseTagEditor      ();

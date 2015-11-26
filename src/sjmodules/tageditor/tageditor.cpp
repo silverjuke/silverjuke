@@ -1890,6 +1890,7 @@ SjTagEditorModule::SjTagEditorModule(SjInterfaceBase* interf)
 {
 	m_file                  = wxT("memory:tageditor.lib");
 	m_name                  = _("Edit track");
+	m_selPage               = 0;
 	m_dlg                   = NULL;
 }
 
@@ -1930,7 +1931,6 @@ void SjTagEditorModule::SetDelEmptyDir(bool delEmptyDir)
 void SjTagEditorModule::OpenTagEditor(SjTagEditorDlg* newTagEditorDlg)
 {
 	// load settings
-	m_selPage       =  g_tools->m_config->Read(wxT("tageditor/selPage"), 0L);
 	m_writeId3Tags  = (g_tools->m_config->Read(wxT("tageditor/writeId3"), 1L)!=0);
 	m_delEmptyDir   = (g_tools->m_config->Read(wxT("tageditor/delEmptyDir"), 1L)!=0);
 
@@ -1941,10 +1941,10 @@ void SjTagEditorModule::OpenTagEditor(SjTagEditorDlg* newTagEditorDlg)
 	m_dlg = newTagEditorDlg;
 
 	if( m_dlg->m_dlgNotebook
-	 && g_tagEditorModule->m_selPage >= 0
-	 && g_tagEditorModule->m_selPage < (int)m_dlg->m_dlgNotebook->GetPageCount() )
+	 && m_selPage >= 0
+	 && m_selPage < (int)m_dlg->m_dlgNotebook->GetPageCount() )
 	{
-		m_dlg->m_dlgNotebook->SetSelection(g_tagEditorModule->m_selPage);
+		m_dlg->m_dlgNotebook->SetSelection(m_selPage);
 	}
 
 	m_dlg->CenterOnParent();
@@ -1972,8 +1972,7 @@ void SjTagEditorModule::CloseTagEditor()
 		// save position
 		if( m_dlg->m_dlgNotebook )
 		{
-			g_tagEditorModule->m_selPage = m_dlg->m_dlgNotebook->GetSelection();
-			g_tools->m_config->Write(wxT("tageditor/selPage"), g_tagEditorModule->m_selPage);
+			m_selPage = m_dlg->m_dlgNotebook->GetSelection();
 		}
 
 		m_dlg->Destroy();
