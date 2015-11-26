@@ -551,7 +551,7 @@ void SjMainApp::OnQueryEndSession(wxCloseEvent& event)
 		SjMainFrame* mainFrame = (SjMainFrame*)GetTopWindow();
 		if( mainFrame )
 		{
-			if( mainFrame->QueryEndSession(TRUE/*onShutdown*/) )
+			if( !event.CanVeto() || mainFrame->QueryEndSession(TRUE/*onShutdown*/) )
 			{
 				mainFrame->DoEndSession();
 			}

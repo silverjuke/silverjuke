@@ -2341,7 +2341,7 @@ void SjMainFrame::OnCloseWindow(wxCloseEvent& event)
 		m_player.SaveToResumeFile(); // this should be done _very_ first, the OS may kill us at any time and it is a good idea to have the resume file ready then.
 	}
 
-	if( QueryEndSession() )
+	if( !event.CanVeto() || QueryEndSession() )
 	{
 		DoEndSession();
 	}
