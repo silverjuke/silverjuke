@@ -44,7 +44,6 @@ SjDisplay::SjDisplay()
 	m_msgCancelAtTimestamp          = 0;
 	m_selectedIdsTimestamp          = 0;
 	m_selectedAnchorId              = 0;
-	m_showStartupDisplay            = true;
 	m_tagEditorJustOpened           = false;
 	m_backupedCurrLine              = -1;
 }
@@ -540,7 +539,7 @@ void SjMainFrame::UpdateDisplay()
 
 	// update cover
 	{
-		if( !m_display.m_showStartupDisplay && queuePlayingPos != -1 )
+		if( queuePlayingPos != -1 )
 		{
 			value.string = m_columnMixer.GetTrackCoverUrl(recentPlayer->m_queue.GetUrlByPos(-1));
 			value.value = SJ_VFLAG_STRING_IS_IMAGE_URL;
@@ -556,7 +555,7 @@ void SjMainFrame::UpdateDisplay()
 	{
 		totalMs = recentPlayer->GetTotalTime();
 		value.string.Empty();
-		if( !m_display.m_showStartupDisplay && !recentPlayer->IsStopped() && totalMs > 0 )
+		if( !recentPlayer->IsStopped() && totalMs > 0 )
 		{
 			elapsedMs = recentPlayer->GetElapsedTime();
 
@@ -573,7 +572,7 @@ void SjMainFrame::UpdateDisplay()
 	}
 
 	// update main window title and the "currTrack" target
-	if( !m_display.m_showStartupDisplay && !IsStopped() )
+	if( !IsStopped() )
 	{
 		wxString title, titleArtistName(currArtistName), titleTrackName(currTrackName);
 		if( recentPlayer != &m_player )
@@ -644,7 +643,7 @@ void SjMainFrame::UpdateDisplay()
 			}
 		}
 	}
-	else if( m_display.m_showStartupDisplay || queueTrackCount == 0 )
+	else if( queueTrackCount == 0 )
 	{
 		// ...nothing in queue, display logo
 		m_display.m_firstLineQueuePos = -1;
@@ -972,7 +971,7 @@ void SjMainFrame::OnElapsedTimeTimer(wxTimerEvent& event)
 		}
 	}
 
-	if( !m_display.m_showStartupDisplay && recentPlayer && !recentPlayer->IsStopped() )
+	if( recentPlayer && !recentPlayer->IsStopped() )
 	{
 		SjSkinValue     value;
 		long            totalMs = recentPlayer->GetTotalTime();

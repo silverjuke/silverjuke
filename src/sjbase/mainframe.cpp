@@ -1061,7 +1061,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	m_simpleSearchInputTimer.SetOwner(this, IDTIMER_SEARCHINPUT);
 	m_elapsedTimeTimer.SetOwner(this, IDTIMER_ELAPSEDTIME);
-	m_display.m_startupDisplayTimer.SetOwner(this, IDTIMER_STARTUPDISPLAY);
 
 	// init search info text
 	{	SjSkinValue v;
@@ -1087,7 +1086,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 			g_tools->m_config->Write(wxT("main/skinFile"), defaultSkin);
 		}
 	}
-	UpdateDisplay();
 
 	m_iconBundle.AddIcon(wxIcon(xpm_sj_32));
 	m_iconBundle.AddIcon(wxIcon(xpm_sj_16));
@@ -1263,35 +1261,8 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	 */
 	InitMainMenu();
 
-	/* (/) Show the window
-	 */
-	if( startMinimized )
-	{
-		Iconize(true);
-	}
-
-	UpdateDisplay();
-	Show();
-	Update();
-
-	/* (/) Init Drag'n'Drop (don't wonder: this will start 2 threads under MSW) and set the focus to the browser
-	 */
-	SetDropTarget(new SjDropTarget(this));
-	#ifdef __WXMAC__
-		m_browser->SetDropTarget(new SjDropTarget(m_browser));
-	#endif
-	m_browser->SetFocus();
-
-	/* (/) Some Functionality Tests
-	 */
-	if( g_debug )
-	{
-		SjTestdrive1();
-	}
-
 	/* open files from the command line or resume
 	 */
-	bool startStartupDisplay = FALSE;
 	if( SjMainApp::s_cmdLine->GetParamCount() )
 	{
 		wxArrayString filenames;
@@ -1303,35 +1274,36 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 		int commandId = SJ_OPENFILES_DEFCMD;
 		if( SjMainApp::s_cmdLine->Found(wxT("enqueue")) ) commandId = SJ_OPENFILES_ENQUEUE;
-		if( OpenFiles(filenames, commandId) )
-		{
-			startStartupDisplay = TRUE;
-		}
+		OpenFiles(filenames, commandId);
 	}
 	else if( m_player.m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME )
 	{
 		m_player.LoadFromResumeFile();
 	}
 
-	/* show startup display also if autoplay is set to 0 minutes
+	/* (/) Show the window, init Drag'n'Drop
 	 */
-	if( (m_autoCtrl.m_flags&SJ_AUTOCTRL_AUTOPLAY_ENABLED)
-	 &&  m_autoCtrl.m_autoPlayWaitMinutes==0 )
+	if( startMinimized )
 	{
-		startStartupDisplay = TRUE;
+		Iconize(true);
 	}
 
-	/* init startup display timer
-	 * (the first few seconds we'll always show the program name in the display)
+	UpdateDisplay();
+	Show();
+	Update();
+
+	SetDropTarget(new SjDropTarget(this)); // Init Drag'n'Drop (don't wonder: this will start 2 threads under MSW) and set the focus to the browser
+	#ifdef __WXMAC__
+		m_browser->SetDropTarget(new SjDropTarget(m_browser));
+	#endif
+
+	m_browser->SetFocus();
+
+	/* (/) Some Functionality Tests
 	 */
-	if( startStartupDisplay )
+	if( g_debug )
 	{
-		m_display.m_showStartupDisplay = TRUE;
-		m_display.m_startupDisplayTimer.Start(4000/*4 seconds*/, TRUE/*one shot*/);
-	}
-	else
-	{
-		m_display.m_showStartupDisplay = FALSE;
+		SjTestdrive1();
 	}
 
 	/* start kiosk mode?
@@ -1522,7 +1494,6 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	                 IDO_SEARCHMUSICSEL999,     SjMainFrame::OnSearchMusicSel       )
 	EVT_TIMER       (IDTIMER_SEARCHINPUT,       SjMainFrame::OnSimpleSearchInputTimer)
 	EVT_TIMER       (IDTIMER_ELAPSEDTIME,       SjMainFrame::OnElapsedTimeTimer     )
-	EVT_TIMER       (IDTIMER_STARTUPDISPLAY,    SjMainFrame::OnStartupDisplayTimer  )
 	EVT_CLOSE       (                           SjMainFrame::OnCloseWindow          )
 	EVT_ICONIZE     (                           SjMainFrame::OnIconizeWindow        )
 	//EVT_IDLE      (                           SjMainFrame::OnIdle                 )
@@ -2080,35 +2051,8 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				if( IsAllAvailable() && g_openFilesModule )
 				{
 					g_openFilesModule->OpenDialog(targetId==IDT_APPEND_FILES);
-					/*
-					wxWindowDisabler disabler(this);
-					wxFileDialog dlg(this,
-					    targetId==IDT_APPEND_FILES? _("Append playlist or files") : _("Open playlist or files"),
-					    wxT(""), wxT(""), m_moduleSystem.GetAssignedExt(SJ_EXT_ALL).GetFileDlgStr(), wxOPEN|wxCHANGE_DIR|wxMULTIPLE);
-					if( dlg.ShowModal() != wxID_OK ) { return; }
-					wxArrayString filenames;
-					dlg.GetPaths(filenames);
-					OpenFiles(filenames, targetId==IDT_APPEND_FILES? SJ_OPENFILES_ENQUEUE : SJ_OPENFILES_DEFCMD);
-					*/
 				}
 				break;
-
-			/*
-			case IDT_OPEN_URL:
-				if( IsAllAvailable() )
-				{
-					wxWindowDisabler disabler(this);
-					wxTextEntryDialog dlg(this,
-						_("Open URL")+wxString(wxT(":")), _("Open URL"));
-					if( dlg.ShowModal() != wxID_OK ) { return; }
-					wxString url = dlg.GetValue().Trim(TRUE).Trim(FALSE);
-					if( url.IsEmpty() ) return;
-					wxArrayString filenames;
-					filenames.Add(url);
-					OpenFiles(filenames, SJ_OPENFILES_DEFCMD);
-				}
-				break;
-			*/
 
 			case IDO_ABOUT_OPEN_WWW:
 				if( IsAllAvailable() )

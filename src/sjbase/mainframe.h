@@ -255,7 +255,6 @@ public:
 	SjDisplay       m_display;
 private:
 	// Display stuff - Private
-	void            OnStartupDisplayTimer(wxTimerEvent&) { m_display.m_showStartupDisplay=FALSE; UpdateDisplay(); }
 	void            MarkDisplayTrack    (int targetId, bool mouseDown, long accelFlags);
 	void            OnSkinTargetMotion  (int targetId, int motionAmount);
 	void            OnSkinDisplayEvent  (int targetId, SjSkinValue&, long accelFlags);

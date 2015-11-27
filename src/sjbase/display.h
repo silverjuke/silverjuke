@@ -64,9 +64,6 @@ public:
 	unsigned long   m_selectedIdsLockMs;
 	long            m_selectionDoneOnMouseDown;
 	void            ClearDisplaySelection();
-
-	bool            m_showStartupDisplay;
-	wxTimer         m_startupDisplayTimer;
 };
 
 
