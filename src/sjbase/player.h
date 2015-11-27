@@ -107,7 +107,7 @@ public:
 	bool            HasPrev             ()                      { return m_queue.GetPrevPos(SJ_PREVNEXT_LOOKUP_ONLY)!=-1; }
 	void            GotoPrev            (bool fadeToPrev)       { long p=m_queue.GetPrevPos(0); if(p!=-1) { GotoAbsPos(p, fadeToPrev); } }
 	bool            HasNextIgnoreAP     ()                      { return m_queue.GetNextPos(SJ_PREVNEXT_LOOKUP_ONLY)!=-1; }
-	void            GotoNextIgnoreAP    (bool fadeToNext)       { long p=m_queue.GetNextPos(0); if(p!=-1) { GotoAbsPos(p, fadeToNext); } }
+	bool            GotoNextIgnoreAP    (bool fadeToNext)       { long p=m_queue.GetNextPos(0); if(p!=-1) { GotoAbsPos(p, fadeToNext); return true; } else { return false; } }
 	void            GotoRelPos          (long p)                { GotoAbsPos(m_queue.GetCurrPos()+p); }
 	void            GotoUrl             (const wxString& url)   { long p=m_queue.GetClosestPosByUrl(url); if(p!=-1) { GotoAbsPos(p); } }
 	void            GotoAbsPos          (long, bool fadeToPos=false);

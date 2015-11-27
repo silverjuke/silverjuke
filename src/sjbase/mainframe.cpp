@@ -227,7 +227,7 @@ bool SjMainFrame::GotoNextRegardAP(bool fadeToNext, bool ignoreTimeouts)
 		}
 	}
 
-	m_player.GotoNextIgnoreAP(fadeToNext);
+	bool success = m_player.GotoNextIgnoreAP(fadeToNext);
 	m_display.m_scrollPos=-1;
 	if( !IsPlaying() )
 	{
@@ -235,7 +235,7 @@ bool SjMainFrame::GotoNextRegardAP(bool fadeToNext, bool ignoreTimeouts)
 	}
 
 	UpdateMenuBarQueue();
-	return true;
+	return success;
 }
 
 
