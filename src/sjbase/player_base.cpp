@@ -658,9 +658,12 @@ void SjPlayer::SaveToResumeFile()
 			}
 
 			if( i==iPos ) {
-				long totalMs, elapsedMs = -1, remainingMs;
+				long totalMs, elapsedMs = -1/*stop or pause*/, remainingMs;
 				if( IsPlaying() ) {
-					GetTime(totalMs, elapsedMs, remainingMs);
+					GetTime(totalMs, elapsedMs/*may be -1 for 'unknown'*/, remainingMs);
+					if( elapsedMs < 0 ) {
+						elapsedMs = 0; // >=0: playing
+					}
 				}
 				content += wxString::Format("playing=%i\n", (int)elapsedMs); // setting for the URL following, save independingly of SJ_QUEUEF_RESUME_START_PLAYBACK as we always init the queue positions
 			}
@@ -736,7 +739,7 @@ void SjPlayer::LoadFromResumeFile()
 		{
 			allPos = allUrls.Count(); // the next added URL is our queue position
 			if( !currValue.ToLong(&allElapsed) ) {
-				allElapsed = -1;
+				allElapsed = -1; // stopped or paused, to not play
 			}
 		}
 		else if( currKey == "url" )
@@ -770,9 +773,9 @@ void SjPlayer::LoadFromResumeFile()
 	if( allPos >= 0 && allPos < m_queue.GetCount() )
 	{
 		m_queue.SetCurrPos(allPos);
-		if( m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_START_PLAYBACK )
+		if( m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_START_PLAYBACK && allElapsed >= 0 )
 		{
-			g_mainFrame->Play(allElapsed>=0? allElapsed : -1);
+			g_mainFrame->Play(allElapsed);
 		}
 	}
 }
