@@ -257,11 +257,13 @@ void SjAutoCtrl::LoadAutoCtrlSettings()
 	m_sleepAction                       = (SjShutdownEtc)(sleepFlags&SJ_SLEEPMODE_ACTION_MASK);
 	m_sleepTimemode                     = sleepFlags&SJ_SLEEPMODE_TIMEMODE_MASK;
 
-	m_jinglesRndMin                     = c->Read(wxT("autoctrl/jinglesRndMin"),    SJ_JINGLES_DEF_RNDMIN);
-	m_jinglesRndMax                     = c->Read(wxT("autoctrl/jinglesRndMax"),    SJ_JINGLES_DEF_RNDMAX);
-	m_jinglesRndUnit                    = (SjUnit)c->Read(wxT("autoctrl/jinglesRndUnit"), (long)SJ_JINGLES_DEF_RNDUNIT);
-	m_jinglesMusicSelId                 = c->Read(wxT("autoctrl/jinglesId"),        0L/*=none*/);
-	m_jinglesDisplayMsg                 = c->Read(wxT("autoctrl/jinglesMsg"),       _("Welcome to my Jukebox!"));
+	m_jingleFlags                       = c->Read(wxT("autoctrl/jingleFlags"),     0L);
+	m_jingleEvery                       = c->Read(wxT("autoctrl/jingleEvery"),     SJ_JINGLE_DEF_MINUTES);
+	m_jingleEveryMusicSelId             = c->Read(wxT("autoctrl/jingleEveryId"),   0L/*=none*/);
+	m_jingleAt[0]                       = c->Read(wxT("autoctrl/jingleAt0"),       0L);
+	m_jingleAtMusicSelId[0]             = c->Read(wxT("autoctrl/jingleAtId0"),     0L/*=none*/);
+	m_jingleAt[1]                       = c->Read(wxT("autoctrl/jingleAt1"),       0L);
+	m_jingleAtMusicSelId[1]             = c->Read(wxT("autoctrl/jingleAtId1"),     0L/*=none*/);
 
 	m_stateStartVisTimestamp            = 0;
 	m_stateStopVisTimestamp             = 0;
@@ -329,11 +331,13 @@ void SjAutoCtrl::SaveAutoCtrlSettings()
 	c->Write(wxT("autoctrl/sleepFlags"),        m_sleepAction|m_sleepTimemode);
 	c->Write(wxT("autoctrl/sleepFadeSeconds"),  m_sleepFadeSeconds);
 
-	c->Write(wxT("autoctrl/jinglesRndMin"),      m_jinglesRndMin);
-	c->Write(wxT("autoctrl/jinglesRndMax"),      m_jinglesRndMax);
-	c->Write(wxT("autoctrl/jinglesRndUnit"),     (long)m_jinglesRndUnit);
-	c->Write(wxT("autoctrl/jinglesId"),          m_jinglesMusicSelId);
-	c->Write(wxT("autoctrl/jinglesMsg"),         m_jinglesDisplayMsg);
+	c->Write(wxT("autoctrl/jingleFlags"),       m_jingleFlags);
+	c->Write(wxT("autoctrl/jingleEvery"),       m_jingleEvery);
+	c->Write(wxT("autoctrl/jingleEveryId"),     m_jingleEveryMusicSelId);
+	c->Write(wxT("autoctrl/jingleAt0"),         m_jingleAt[0]);
+	c->Write(wxT("autoctrl/jingleAtId0"),       m_jingleAtMusicSelId[0]);
+	c->Write(wxT("autoctrl/jingleAt1"),         m_jingleAt[1]);
+	c->Write(wxT("autoctrl/jingleAtId1"),       m_jingleAtMusicSelId[1]);
 
 	// if the previous number of tracks to play was larger than the new one,
 	// align the number of left tracks
@@ -402,10 +406,10 @@ void SjAutoCtrl::ValidateSettings()
 	if( m_sleepFadeSeconds > SJ_SLEEPMODE_MAX_FADE_SECONDS ) m_sleepFadeSeconds = SJ_SLEEPMODE_MAX_FADE_SECONDS;
 
 	// jingles
-	if( m_jinglesRndMin < SJ_JINGLES_RND_MIN || m_jinglesRndMin > SJ_JINGLES_RND_MAX ) { m_jinglesRndMin = SJ_JINGLES_DEF_RNDMIN; }
-	if( m_jinglesRndMax < SJ_JINGLES_RND_MIN || m_jinglesRndMax > SJ_JINGLES_RND_MAX ) { m_jinglesRndMax = SJ_JINGLES_DEF_RNDMAX; }
-	if( m_jinglesRndMin > m_jinglesRndMax ) { m_jinglesRndMin = SJ_JINGLES_DEF_RNDMIN; m_jinglesRndMax = SJ_JINGLES_DEF_RNDMAX; }
-	if( m_jinglesRndUnit != SJ_UNIT_MINUTES && m_jinglesRndUnit != SJ_UNIT_TRACKS ) { m_jinglesRndUnit = SJ_JINGLES_DEF_RNDUNIT; }
+	if( m_jingleEvery < SJ_JINGLE_MIN_MINUTES || m_jingleEvery > SJ_JINGLE_MAX_MINUTES ) { m_jingleEvery = SJ_JINGLE_DEF_MINUTES; }
+	for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ ) {
+		if( m_jingleAt[i] < 0 || m_jingleAt[i] >= 24*60 ) { m_jingleAt[i] = 0; }
+	}
 }
 
 

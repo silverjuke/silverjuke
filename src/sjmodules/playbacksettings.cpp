@@ -898,25 +898,26 @@ private:
 	void            OnTransitionButton  (wxCommandEvent&);
 	void            OnAutoVolButton     (wxCommandEvent&);
 
-	// Jingles page
-	#if 0
-	wxPanel*        CreateJinglesPage   (wxWindow* parent);
-	int             m_jinglesPage;
-	void            CloseJinglesPage    (bool apply, bool& needsReplay);
-	wxCheckBox*     m_jinglesCheck;
-	wxSpinCtrl*     m_jinglesRndMinSpin;
-	wxStaticText*   m_jinglesToStaticText;
-	wxSpinCtrl*     m_jinglesRndMaxSpin;
-	wxChoice*       m_jinglesRndUnitChoice;
-	wxCheckBox*     m_jinglesMusicSelCheck;
-	wxChoice*       m_jinglesMusicSelChoice;
-	wxButton*       m_jinglesMusicSelButton;
-	wxCheckBox*     m_jinglesMsgCheck;
-	wxTextCtrl*     m_jinglesMsgTextCtrl;
-	void            EnableDisableJingles();
-	void            OnEnableDisableJngl (wxCommandEvent&) { EnableDisableJingles(); }
-	void            OnJinglesMsgChange  (wxCommandEvent&);
-	#endif
+	// Jingle page
+	wxPanel*        CreateJinglePage    (wxWindow* parent);
+	int             m_jinglePage;
+	void            CloseJinglePage     (bool apply, bool& needsReplay);
+	wxCheckBox*     m_jingleEveryCheck;
+	wxSpinCtrl*     m_jingleEveryMinutesSpin;
+	wxStaticText*   m_jingleEveryStaticA;
+	wxStaticText*   m_jingleEveryStaticB;
+	wxChoice*       m_jingleEveryMusicSelChoice;
+	wxButton*       m_jingleEveryMusicSelButton;
+	wxCheckBox*     m_jingleAtCheck[SJ_JINGLE_AT_CNT];
+	wxTextCtrl*     m_jingleAtTextCtrl[SJ_JINGLE_AT_CNT];
+	wxStaticText*   m_jingleAtStaticA[SJ_JINGLE_AT_CNT];
+	wxStaticText*   m_jingleAtStaticB[SJ_JINGLE_AT_CNT];
+	wxChoice*       m_jingleAtMusicSelChoice[SJ_JINGLE_AT_CNT];
+	wxButton*       m_jingleAtMusicSelButton[SJ_JINGLE_AT_CNT];
+	wxCheckBox*     m_jingleAtDailyCheck[SJ_JINGLE_AT_CNT];
+	wxCheckBox*     m_jingleAtWaitCheck[SJ_JINGLE_AT_CNT];
+	void            EnableDisableJingle();
+	void            OnEnableDisableJngl (wxCommandEvent&) { EnableDisableJingle(); }
 
 	// Further options page
 	wxPanel*        CreateFurtherOptPage(wxWindow* parent);
@@ -968,11 +969,12 @@ private:
 #define IDC_SLEEPTIMEMODECHOICE         (IDM_FIRSTPRIVATE+31)
 #define IDC_SLEEPFADE                   (IDM_FIRSTPRIVATE+33)
 
-#define IDC_JINGLESCHECK                (IDM_FIRSTPRIVATE+40)
-#define IDC_JINGLESMUSICSELCHECK        (IDM_FIRSTPRIVATE+41)
-#define IDC_JINGLESMUSICSELBUTTON       (IDM_FIRSTPRIVATE+42)
-#define IDC_JINGLESMSGCHECK             (IDM_FIRSTPRIVATE+43)
-#define IDC_JINGLESMSGTEXTCTRL          (IDM_FIRSTPRIVATE+44)
+#define IDC_JINGLEEVERYCHECK            (IDM_FIRSTPRIVATE+40)
+#define IDC_JINGLEEVERYMUSICSELBUTTON   (IDM_FIRSTPRIVATE+41)
+#define IDC_JINGLEAT0CHECK              (IDM_FIRSTPRIVATE+42)
+#define IDC_JINGLEAT1CHECK              (IDM_FIRSTPRIVATE+43)
+#define IDC_JINGLEAT0MUSICSELBUTTON     (IDM_FIRSTPRIVATE+44)
+#define IDC_JINGLEAT1MUSICSELBUTTON     (IDM_FIRSTPRIVATE+45)
 
 #define IDC_LIMIT_PLAY_TIME             (IDM_FIRSTPRIVATE+49)
 #define IDC_FOLLOW_PLAYLIST             (IDM_FIRSTPRIVATE+50)
@@ -1002,13 +1004,12 @@ BEGIN_EVENT_TABLE(SjPlaybackSettingsConfigPage, wxPanel)
 	EVT_CHOICE                  (IDC_SLEEPTIMEMODECHOICE,       SjPlaybackSettingsConfigPage::OnAutoCtrlSleepTimemode   )
 	EVT_CHECKBOX                (IDC_SLEEPFADE,                 SjPlaybackSettingsConfigPage::OnAutoCtrlCheckE          )
 
-	#if 0
-	EVT_CHECKBOX                (IDC_JINGLESCHECK,              SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
-	EVT_CHECKBOX                (IDC_JINGLESMUSICSELCHECK,      SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
-	EVT_BUTTON                  (IDC_JINGLESMUSICSELBUTTON,     SjPlaybackSettingsConfigPage::OnMusicSelButton          )
-	EVT_CHECKBOX                (IDC_JINGLESMSGCHECK,           SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
-	EVT_TEXT                    (IDC_JINGLESMSGTEXTCTRL,        SjPlaybackSettingsConfigPage::OnJinglesMsgChange        )
-	#endif
+	EVT_CHECKBOX                (IDC_JINGLEEVERYCHECK,          SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
+	EVT_CHECKBOX                (IDC_JINGLEAT0CHECK,            SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
+	EVT_CHECKBOX                (IDC_JINGLEAT1CHECK,            SjPlaybackSettingsConfigPage::OnEnableDisableJngl       )
+	EVT_BUTTON                  (IDC_JINGLEEVERYMUSICSELBUTTON, SjPlaybackSettingsConfigPage::OnMusicSelButton          )
+	EVT_BUTTON                  (IDC_JINGLEAT0MUSICSELBUTTON,   SjPlaybackSettingsConfigPage::OnMusicSelButton          )
+	EVT_BUTTON                  (IDC_JINGLEAT1MUSICSELBUTTON,   SjPlaybackSettingsConfigPage::OnMusicSelButton          )
 
 	EVT_BUTTON                  (IDC_TRANSITION_BUTTON,         SjPlaybackSettingsConfigPage::OnTransitionButton        )
 	EVT_BUTTON                  (IDC_AUTOVOLBUTTON,             SjPlaybackSettingsConfigPage::OnAutoVolButton           )
@@ -1033,9 +1034,6 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 
 	// save given objects
 	m_playbackSettingsModule= module;
-	#if 0
-	m_jinglesMsgTextCtrl = NULL;
-	#endif
 
 	// create notebook
 	wxSizer* dialogSizer = new wxBoxSizer(wxVERTICAL);
@@ -1054,10 +1052,8 @@ SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsMod
 	m_notebook->AddPage(CreateAutoCtrlPage(m_notebook),  _("Automatic control"));
 	m_autoCtrlPage = m_notebook->GetPageCount();
 
-	#if 0
-	m_notebook->AddPage(CreateJinglesPage(m_notebook),  _("Jingles"));
-	m_jinglesPage = m_notebook->GetPageCount();
-	#endif
+	m_notebook->AddPage(CreateJinglePage(m_notebook),  _("Jingles"));
+	m_jinglePage = m_notebook->GetPageCount();
 
 	m_notebook->AddPage(CreateFurtherOptPage(m_notebook),  _("Further options"));
 	m_furtherOptPage = m_notebook->GetPageCount();
@@ -1104,9 +1100,7 @@ void SjPlaybackSettingsConfigPage::CloseAll(bool apply)
 	// apply settings
 	CloseQueueNResumePage(apply, needsReplay);
 	CloseAutoCtrlPage    (apply, needsReplay);
-	#if 0
-	CloseJinglesPage     (apply, needsReplay);
-	#endif
+	CloseJinglePage      (apply, needsReplay);
 	CloseFurtherOptPage  (apply, needsReplay);
 
 	// save settings to disk
@@ -1633,20 +1627,14 @@ void SjPlaybackSettingsConfigPage::OnMusicSelButton(wxCommandEvent& evt)
 	if( g_advSearchModule )
 	{
 		long preselectId = 0;
-		if( evt.GetId() == IDC_AUTOPLAYMUSICSELBUT )
+		switch( evt.GetId() )
 		{
-			preselectId = SjDialog::GetCbSelection(m_autoPlayMusicSelChoice); // may be 0 (for "Current view"), however, OpenDialog() below accepts this and uses the most recent music selection
+			case IDC_AUTOPLAYMUSICSELBUT:       preselectId = SjDialog::GetCbSelection(m_autoPlayMusicSelChoice);       break; // may be 0 (for "Current view"), however, OpenDialog() below accepts this and uses the most recent music selection
+			case IDC_AUTOPLAYIGNOREBUTTON:      preselectId = SjDialog::GetCbSelection(m_autoPlayMusicSelIgnoreChoice); break;
+			case IDC_JINGLEEVERYMUSICSELBUTTON: preselectId = SjDialog::GetCbSelection(m_jingleEveryMusicSelChoice);    break;
+			case IDC_JINGLEAT0MUSICSELBUTTON:   preselectId = SjDialog::GetCbSelection(m_jingleAtMusicSelChoice[0]);    break;
+			case IDC_JINGLEAT1MUSICSELBUTTON:   preselectId = SjDialog::GetCbSelection(m_jingleAtMusicSelChoice[1]);    break;
 		}
-		else if( evt.GetId() == IDC_AUTOPLAYIGNOREBUTTON )
-		{
-			preselectId = SjDialog::GetCbSelection(m_autoPlayMusicSelIgnoreChoice);
-		}
-		#if 0
-		else // IDC_JINGLESMUSICSELBUTTON
-		{
-			preselectId = SjDialog::GetCbSelection(m_jinglesMusicSelChoice);
-		}
-		#endif
 
 		g_advSearchModule->OpenDialog(preselectId);
 	}
@@ -1721,20 +1709,31 @@ void SjPlaybackSettingsConfigPage::OnAutoVolButton(wxCommandEvent& event)
 
 
 /*******************************************************************************
- * SjPlaybackSettingsConfigPage - Jingles
+ * SjPlaybackSettingsConfigPage - Jingle
  ******************************************************************************/
 
 
-#if 0
-wxPanel* SjPlaybackSettingsConfigPage::CreateJinglesPage(wxWindow* parent)
+wxPanel* SjPlaybackSettingsConfigPage::CreateJinglePage(wxWindow* parent)
 {
 	SjAutoCtrl* a = &(g_mainFrame->m_autoCtrl);
 
-	// make sure, the "jingles" music selection is just fine (otherweise disable the option)
-	if( g_advSearchModule && g_advSearchModule->GetSearchById(a->m_jinglesMusicSelId, false).GetId() == 0 )
+	// make sure, the "jingle" music selection is just fine (otherweise disable the option)
+	if( g_advSearchModule )
 	{
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_JINGLES_PLAY, false);
-		a->SaveAutoCtrlSettings();
+		if( g_advSearchModule->GetSearchById(a->m_jingleEveryMusicSelId, false).GetId() == 0 )
+		{
+			SjTools::SetFlag(a->m_jingleFlags, SJ_JINGLE_EVERY, false);
+			a->SaveAutoCtrlSettings();
+		}
+
+		for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
+		{
+			if( g_advSearchModule->GetSearchById(a->m_jingleAtMusicSelId[i], false).GetId() == 0 )
+			{
+				SjTools::SetFlag(a->m_jingleFlags, (SJ_JINGLE_AT0<<i), false);
+				a->SaveAutoCtrlSettings();
+			}
+		}
 	}
 
 	// create dialog
@@ -1744,38 +1743,24 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateJinglesPage(wxWindow* parent)
 	sizer1->Add(1, SJ_DLG_SPACE); // some space
 
 	// hints
-	wxStaticText* staticText = new wxStaticText(page, -1,
-	        _(  "Jingles are normal tracks from your music library that are played randomly\nfrom time to time. In kiosk mode, jingles cannot be enqueued manually."
-	         ));
+	wxStaticText* staticText = new wxStaticText(page, -1, _("Jingles are normal tracks from your music library that are played\nunder certain conditions."));
 	sizer1->Add(staticText, 0, wxALL, SJ_DLG_SPACE);
 
-	// Add the following controls: [X] If the jukebox is playing, every [2] to [3] [Tracks ][v]
+	// Add the following controls: [X] If the jukebox is playing, about every [_____] minutes
 	wxSizer* sizer2 = new wxBoxSizer(wxHORIZONTAL);
 	sizer1->Add(sizer2, 0, wxLEFT|wxTOP|wxRIGHT|wxGROW, SJ_DLG_SPACE);
 
-		m_jinglesCheck = new wxCheckBox(page, IDC_JINGLESCHECK, _("If the jukebox is playing, every"));
-		m_jinglesCheck->SetValue((a->m_flags&SJ_AUTOCTRL_JINGLES)!=0);
-		sizer2->Add(m_jinglesCheck, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+		m_jingleEveryCheck = new wxCheckBox(page, IDC_JINGLEEVERYCHECK, _("If the jukebox is playing, about every"));
+		m_jingleEveryCheck->SetValue((a->m_jingleFlags&SJ_JINGLE_EVERY)!=0);
+		sizer2->Add(m_jingleEveryCheck, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_jinglesRndMinSpin = new wxSpinCtrl(page, -1, wxString::Format(wxT("%i"), (int)a->m_jinglesRndMin),
+		m_jingleEveryMinutesSpin = new wxSpinCtrl(page, -1, wxString::Format(wxT("%i"), (int)a->m_jingleEvery),
 		                                        wxDefaultPosition, wxSize(SJ_3DIG_SPINCTRL_W, -1), wxSP_ARROW_KEYS ,
-		                                        SJ_JINGLES_RND_MIN, SJ_JINGLES_RND_MAX, a->m_jinglesRndMin);
-		sizer2->Add(m_jinglesRndMinSpin, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+		                                        SJ_JINGLE_MIN_MINUTES, SJ_JINGLE_MAX_MINUTES, a->m_jingleEvery);
+		sizer2->Add(m_jingleEveryMinutesSpin, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_jinglesToStaticText = new wxStaticText(page, -1, _("to"));
-		sizer2->Add(m_jinglesToStaticText, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
-
-		m_jinglesRndMaxSpin = new wxSpinCtrl(page, -1, wxString::Format(wxT("%i"), (int)a->m_jinglesRndMax),
-		                                        wxDefaultPosition, wxSize(SJ_3DIG_SPINCTRL_W, -1), wxSP_ARROW_KEYS ,
-		                                        SJ_JINGLES_RND_MIN, SJ_JINGLES_RND_MAX, a->m_jinglesRndMax);
-		sizer2->Add(m_jinglesRndMaxSpin, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
-
-		m_jinglesRndUnitChoice = new wxChoice(page, -1);
-		wxArrayString modes = SjTools::Explode(_("minutes|tracks"), '|', 2, 2);
-		m_jinglesRndUnitChoice->Append(modes[0], (void*)SJ_UNIT_MINUTES);
-		m_jinglesRndUnitChoice->Append(modes[1], (void*)SJ_UNIT_TRACKS);
-		SjDialog::SetCbSelection(m_jinglesRndUnitChoice, (long)a->m_jinglesRndUnit);
-		sizer2->Add(m_jinglesRndUnitChoice, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+		m_jingleEveryStaticA = new wxStaticText(page, -1, _("minutes,"));
+		sizer2->Add(m_jingleEveryStaticA, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 	// Add the following controls: [X] play a jingle from the music selection [Jingles  ][v]
 	sizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -1783,88 +1768,121 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateJinglesPage(wxWindow* parent)
 
 		sizer2->Add(SJ_DLG_SPACE*6, SJ_DLG_SPACE);
 
-		m_jinglesMusicSelCheck = new wxCheckBox(page, IDC_JINGLESMUSICSELCHECK,
-				_("Play a jingle from the music selection"));
-		m_jinglesMusicSelCheck->SetValue((a->m_flags & SJ_AUTOCTRL_JINGLES_PLAY)!=0);
-		sizer2->Add(m_jinglesMusicSelCheck, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+		m_jingleEveryStaticB = new wxStaticText(page, -1, _("play a track from the music selection"));
+		sizer2->Add(m_jingleEveryStaticB, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_jinglesMusicSelChoice = new wxChoice(page, -1, wxDefaultPosition, wxSize(200, -1));
-		sizer2->Add(m_jinglesMusicSelChoice, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
+		m_jingleEveryMusicSelChoice = new wxChoice(page, -1, wxDefaultPosition, wxSize(200, -1));
+		sizer2->Add(m_jingleEveryMusicSelChoice, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
 
-		SjAdvSearchModule::UpdateAdvSearchChoice(m_jinglesMusicSelChoice,
-				a->m_jinglesMusicSelId);
-		SjDialog::SetCbWidth(m_jinglesMusicSelChoice, 200);
+		SjAdvSearchModule::UpdateAdvSearchChoice(m_jingleEveryMusicSelChoice, a->m_jingleEveryMusicSelId);
+		SjDialog::SetCbWidth(m_jingleEveryMusicSelChoice, 200);
 
-		m_jinglesMusicSelButton = new wxButton(page, IDC_JINGLESMUSICSELBUTTON, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-		sizer2->Add(m_jinglesMusicSelButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
+		m_jingleEveryMusicSelButton = new wxButton(page, IDC_JINGLEEVERYMUSICSELBUTTON, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+		sizer2->Add(m_jingleEveryMusicSelButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
 
-	// Add the following controls: [X] Show message: [ Welcome to my jukebox!________ ]
-	sizer2 = new wxBoxSizer(wxHORIZONTAL);
-	sizer1->Add(sizer2, 0, wxLEFT|wxRIGHT|wxGROW, SJ_DLG_SPACE);
+	for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
+	{
+		// Add the following controls: [X] At [_____] o'clock,
+		sizer2 = new wxBoxSizer(wxHORIZONTAL);
+		sizer1->Add(sizer2, 0, wxLEFT|wxTOP|wxRIGHT|wxGROW, SJ_DLG_SPACE);
 
-		sizer2->Add(SJ_DLG_SPACE*6, SJ_DLG_SPACE);
+			m_jingleAtCheck[i] = new wxCheckBox(page, IDC_JINGLEAT0CHECK+i, _("At"));
+			m_jingleAtCheck[i]->SetValue((a->m_jingleFlags&(SJ_JINGLE_AT0<<i))!=0);
+			sizer2->Add(m_jingleAtCheck[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_jinglesMsgCheck = new wxCheckBox(page, IDC_JINGLESMSGCHECK,
-				_("Show message:"));
-		m_jinglesMsgCheck->SetValue((a->m_flags & SJ_AUTOCTRL_JINGLES_DISPLAY_MSG)!=0);
-		sizer2->Add(m_jinglesMsgCheck, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+			m_jingleAtTextCtrl[i] = new wxTextCtrl(page, -1, FormatMinutes(a->m_jingleAt[i], SJ_SLEEPMODE_TIMEMODE_AT), wxDefaultPosition, wxSize(SJ_4DIG_SPINCTRL_W, -1));
+			sizer2->Add(m_jingleAtTextCtrl[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_jinglesMsgTextCtrl = new wxTextCtrl(page, IDC_JINGLESMSGTEXTCTRL, a->m_jinglesDisplayMsg);
-		sizer2->Add(m_jinglesMsgTextCtrl, 1, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE*4);
+			m_jingleAtStaticA[i] = new wxStaticText(page, -1, _("o'clock,"));
+			sizer2->Add(m_jingleAtStaticA[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-	EnableDisableJingles();
+		// Add the following controls: [X] play a jingle from the music selection [Jingle  ][v]
+		sizer2 = new wxBoxSizer(wxHORIZONTAL);
+		sizer1->Add(sizer2, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
+
+			sizer2->Add(SJ_DLG_SPACE*6, SJ_DLG_SPACE);
+
+			m_jingleAtStaticB[i] = new wxStaticText(page, -1, _("play a track from the music selection"));
+			sizer2->Add(m_jingleAtStaticB[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+
+			m_jingleAtMusicSelChoice[i] = new wxChoice(page, -1, wxDefaultPosition, wxSize(200, -1));
+			sizer2->Add(m_jingleAtMusicSelChoice[i], 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
+
+			SjAdvSearchModule::UpdateAdvSearchChoice(m_jingleAtMusicSelChoice[i], a->m_jingleAtMusicSelId[i]);
+			SjDialog::SetCbWidth(m_jingleAtMusicSelChoice[i], 200);
+
+			m_jingleAtMusicSelButton[i] = new wxButton(page, IDC_JINGLEAT0MUSICSELBUTTON+i, wxT("..."), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+			sizer2->Add(m_jingleAtMusicSelButton[i], 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
+
+		// add the following controls: [X] Daily  [X] Wait for end of playing track
+		sizer2 = new wxBoxSizer(wxHORIZONTAL);
+		sizer1->Add(sizer2, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
+
+			sizer2->Add(SJ_DLG_SPACE*6, SJ_DLG_SPACE);
+
+			m_jingleAtDailyCheck[i] = new wxCheckBox(page, -1, _("Daily"));
+			m_jingleAtDailyCheck[i]->SetValue((a->m_jingleFlags&(SJ_JINGLE_AT0_DAILY<<i))!=0);
+			sizer2->Add(m_jingleAtDailyCheck[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+
+			m_jingleAtWaitCheck[i] = new wxCheckBox(page, -1, _("Wait for end of playing track"));
+			m_jingleAtWaitCheck[i]->SetValue((a->m_jingleFlags&(SJ_JINGLE_AT0_WAIT<<i))!=0);
+			sizer2->Add(m_jingleAtWaitCheck[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+	}
+
+	EnableDisableJingle();
 	page->SetSizer(sizer1);
 	return page;
 }
 
 
-void SjPlaybackSettingsConfigPage::EnableDisableJingles()
+void SjPlaybackSettingsConfigPage::EnableDisableJingle()
 {
-	bool allEnabled  = m_jinglesCheck->IsChecked();
-	bool playEnabled = (allEnabled && m_jinglesMusicSelCheck->IsChecked());
-	bool msgEnabled  = (allEnabled && m_jinglesMsgCheck->IsChecked());
+	bool enabled = m_jingleEveryCheck->IsChecked();
 
-	m_jinglesRndMinSpin->Enable(allEnabled);
-	m_jinglesToStaticText->Enable(allEnabled);
-	m_jinglesRndMaxSpin->Enable(allEnabled);
-	m_jinglesRndUnitChoice->Enable(allEnabled);
+	m_jingleEveryMinutesSpin->Enable(enabled);
+	m_jingleEveryStaticA->Enable(enabled);
 
-	m_jinglesMusicSelCheck->Enable(allEnabled);
-	m_jinglesMusicSelChoice->Enable(playEnabled);
-	m_jinglesMusicSelButton->Enable(playEnabled);
+	m_jingleEveryStaticB->Enable(enabled);
+	m_jingleEveryMusicSelChoice->Enable(enabled);
+	m_jingleEveryMusicSelButton->Enable(enabled);
 
-	m_jinglesMsgCheck->Enable(allEnabled);
-	m_jinglesMsgTextCtrl->Enable(msgEnabled);
-}
-
-
-void SjPlaybackSettingsConfigPage::OnJinglesMsgChange(wxCommandEvent&)
-{
-	if( m_jinglesMsgTextCtrl )
+	for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
 	{
-		wxString text = m_jinglesMsgTextCtrl->GetValue();
-		g_mainFrame->SetDisplayMsg(text, 10000);
+		enabled = m_jingleAtCheck[i]->IsChecked();
+
+		m_jingleAtTextCtrl[i]->Enable(enabled);
+		m_jingleAtStaticA[i]->Enable(enabled);
+
+		m_jingleAtStaticB[i]->Enable(enabled);
+		m_jingleAtMusicSelChoice[i]->Enable(enabled);
+		m_jingleAtMusicSelButton[i]->Enable(enabled);
+
+		m_jingleAtDailyCheck[i]->Enable(enabled);
+		m_jingleAtWaitCheck[i]->Enable(enabled);
 	}
 }
 
 
-void SjPlaybackSettingsConfigPage::CloseJinglesPage(bool apply, bool& needsReplay)
+void SjPlaybackSettingsConfigPage::CloseJinglePage(bool apply, bool& needsReplay)
 {
 	if( apply )
 	{
 		SjAutoCtrl* a = &(g_mainFrame->m_autoCtrl);
 
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_JINGLES, m_jinglesCheck->IsChecked());
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_JINGLES_PLAY, m_jinglesMusicSelCheck->IsChecked());
-		SjTools::SetFlag(a->m_flags, SJ_AUTOCTRL_JINGLES_DISPLAY_MSG, m_jinglesMsgCheck->IsChecked());
-		a->m_jinglesRndMin = m_jinglesRndMinSpin->GetValue();
-		a->m_jinglesRndMax = m_jinglesRndMaxSpin->GetValue();
-		a->m_jinglesRndUnit = (SjUnit)SjDialog::GetCbSelection(m_jinglesRndUnitChoice, (long)SJ_JINGLES_DEF_RNDUNIT);
-		a->m_jinglesMusicSelId = (SjUnit)SjDialog::GetCbSelection(m_jinglesMusicSelChoice, (long)SJ_JINGLES_DEF_RNDUNIT);
-		a->m_jinglesDisplayMsg = m_jinglesMsgTextCtrl->GetValue();
+		SjTools::SetFlag(a->m_jingleFlags, SJ_JINGLE_EVERY, m_jingleEveryCheck->IsChecked());
+		a->m_jingleEvery = m_jingleEveryMinutesSpin->GetValue();
+		a->m_jingleEveryMusicSelId = SjDialog::GetCbSelection(m_jingleEveryMusicSelChoice);
+
+		for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
+		{
+			SjTools::SetFlag(a->m_jingleFlags, (SJ_JINGLE_AT0<<i), m_jingleAtCheck[i]->IsChecked());
+			SjTools::SetFlag(a->m_jingleFlags, (SJ_JINGLE_AT0_DAILY<<i), m_jingleAtDailyCheck[i]->IsChecked());
+			SjTools::SetFlag(a->m_jingleFlags, (SJ_JINGLE_AT0_WAIT<<i), m_jingleAtWaitCheck[i]->IsChecked());
+			a->m_jingleAt[i] = ParseMinutes(m_jingleAtTextCtrl[i]->GetValue());
+			a->m_jingleAtMusicSelId[i] = SjDialog::GetCbSelection(m_jingleAtMusicSelChoice[i]);
+		}
 	}
 }
-#endif
 
 
 /*******************************************************************************
@@ -2045,6 +2063,15 @@ void SjPlaybackSettingsModule::ReceiveMsg(int msg)
 			SjAdvSearchModule::UpdateAdvSearchChoice(g_playbackConfigPage->m_autoPlayMusicSelIgnoreChoice,
 			        0 // ignored, the current selection is used
 			                                        );
+			SjAdvSearchModule::UpdateAdvSearchChoice(g_playbackConfigPage->m_jingleEveryMusicSelChoice,
+			        0 // ignored, the current selection is used
+			                                        );
+			for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
+			{
+				SjAdvSearchModule::UpdateAdvSearchChoice(g_playbackConfigPage->m_jingleAtMusicSelChoice[i],
+					0 // ignored, the current selection is used
+													);
+			}
 		}
 	}
 }

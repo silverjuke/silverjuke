@@ -45,9 +45,6 @@ public:
 	#define         SJ_AUTOCTRL_FOLLOW_PLAYLIST             0x00010000L
 	#define         SJ_AUTOCTRL_RESET_VIEW                  0x00020000L
 	#define         SJ_AUTOCTRL_LIMIT_PLAY_TIME             0x00040000L
-	#define         SJ_AUTOCTRL_JINGLES                     0x00080000L
-	#define         SJ_AUTOCTRL_JINGLES_PLAY                0x00400000L
-	#define         SJ_AUTOCTRL_JINGLES_DISPLAY_MSG         0x00000002L
 	#define         SJ_AUTOCTRL_START_VIS                   0x00100000L
 	#define         SJ_AUTOCTRL_STOP_VIS                    0x00200000L
 	#define         SJ_AUTOCTRL_AUTOPLAY_ENABLED            0x01000000L
@@ -98,16 +95,22 @@ public:
 	long            m_autoPlayMusicSelIgnoreId;
 	bool            HasInterruptibleAutoPlay    () const { return (m_flags&(SJ_AUTOCTRL_AUTOPLAY_ENABLED|SJ_AUTOCTRL_AUTOPLAY_MAN_ENQ_INTERRUPT)) == (SJ_AUTOCTRL_AUTOPLAY_ENABLED|SJ_AUTOCTRL_AUTOPLAY_MAN_ENQ_INTERRUPT); }
 
-	#define         SJ_JINGLES_DEF_RNDMIN                  10L
-	#define         SJ_JINGLES_DEF_RNDMAX                  20L
-	#define         SJ_JINGLES_DEF_RNDUNIT                 SJ_UNIT_MINUTES
-	#define         SJ_JINGLES_RND_MIN                     1L
-	#define         SJ_JINGLES_RND_MAX                     999L
-	long            m_jinglesRndMin;
-	long            m_jinglesRndMax;
-	SjUnit          m_jinglesRndUnit; // SJ_UNIT_MINUTES or SJ_UNIT_TRACKS
-	long            m_jinglesMusicSelId;
-	wxString        m_jinglesDisplayMsg;
+	#define         SJ_JINGLE_EVERY        0x10000000L
+	#define         SJ_JINGLE_AT0          0x00000001L
+	#define         SJ_JINGLE_AT1          0x00000002L
+	#define         SJ_JINGLE_AT0_DAILY    0x00000100L
+	#define         SJ_JINGLE_AT1_DAILY    0x00000200L
+	#define         SJ_JINGLE_AT0_WAIT     0x00010000L
+	#define         SJ_JINGLE_AT1_WAIT     0x00020000L
+	long            m_jingleFlags;
+	#define         SJ_JINGLE_AT_CNT           2
+	#define         SJ_JINGLE_DEF_MINUTES     30
+	#define         SJ_JINGLE_MIN_MINUTES      1
+	#define         SJ_JINGLE_MAX_MINUTES    999
+	long            m_jingleEvery;
+	long            m_jingleEveryMusicSelId;
+	long            m_jingleAt[SJ_JINGLE_AT_CNT];
+	long            m_jingleAtMusicSelId[SJ_JINGLE_AT_CNT];
 
 	// pending events: events are added to this array for some events that
 	// happen eg. while an database update. They should be delayed until
