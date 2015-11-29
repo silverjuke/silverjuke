@@ -640,7 +640,7 @@ void SjPlayer::SaveToResumeFile()
 	int i, iCount = m_queue.GetCount(), iPos = m_queue.GetCurrPos();
 
 	// collect all URLs
-	bool addPlayed = m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_LOAD_PLAYED;
+	bool addPlayed = (m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_LOAD_PLAYED)!=0;
 	long playcount, entryflags;
 	for( i = 0; i < iCount; i++ )
 	{
