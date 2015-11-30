@@ -260,10 +260,13 @@ void SjAutoCtrl::LoadAutoCtrlSettings()
 	m_jingleFlags                       = c->Read(wxT("autoctrl/jingleFlags"),     0L);
 	m_jingleEvery                       = c->Read(wxT("autoctrl/jingleEvery"),     SJ_JINGLE_DEF_MINUTES);
 	m_jingleEveryMusicSelId             = c->Read(wxT("autoctrl/jingleEveryId"),   0L/*=none*/);
-	m_jingleAt[0]                       = c->Read(wxT("autoctrl/jingleAt0"),       0L);
-	m_jingleAtMusicSelId[0]             = c->Read(wxT("autoctrl/jingleAtId0"),     0L/*=none*/);
-	m_jingleAt[1]                       = c->Read(wxT("autoctrl/jingleAt1"),       0L);
-	m_jingleAtMusicSelId[1]             = c->Read(wxT("autoctrl/jingleAtId1"),     0L/*=none*/);
+	m_jingleEveryTriggerTimestamp       = SjTools::GetMsTicks(); // do as if a jingle was played on program startup
+	for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
+	{
+		m_jingleAt[i]                   = c->Read(wxString::Format("autoctrl/jingleAt%i", i),    0L);
+		m_jingleAtMusicSelId[i]         = c->Read(wxString::Format("autoctrl/jingleAtId%i", i),  0L/*=none*/);
+		m_jingleAtTriggerTimestamp[i]   = 0; // not: SjTools::GetMsTicks() - this will force the first trigger without any timeouts
+	}
 
 	m_stateStartVisTimestamp            = 0;
 	m_stateStopVisTimestamp             = 0;
@@ -334,10 +337,11 @@ void SjAutoCtrl::SaveAutoCtrlSettings()
 	c->Write(wxT("autoctrl/jingleFlags"),       m_jingleFlags);
 	c->Write(wxT("autoctrl/jingleEvery"),       m_jingleEvery);
 	c->Write(wxT("autoctrl/jingleEveryId"),     m_jingleEveryMusicSelId);
-	c->Write(wxT("autoctrl/jingleAt0"),         m_jingleAt[0]);
-	c->Write(wxT("autoctrl/jingleAtId0"),       m_jingleAtMusicSelId[0]);
-	c->Write(wxT("autoctrl/jingleAt1"),         m_jingleAt[1]);
-	c->Write(wxT("autoctrl/jingleAtId1"),       m_jingleAtMusicSelId[1]);
+	for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
+	{
+		c->Write(wxString::Format("autoctrl/jingleAt%i", i),   m_jingleAt[i]);
+		c->Write(wxString::Format("autoctrl/jingleAtId%i", i), m_jingleAtMusicSelId[i]);
+	}
 
 	// if the previous number of tracks to play was larger than the new one,
 	// align the number of left tracks
@@ -558,6 +562,58 @@ void SjAutoCtrl::OnOneSecondTimer()
 			}
 		}
 
+		// automatic control: jingles
+		//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+		if( m_jingleFlags&(SJ_JINGLE_EVERY|SJ_JINGLE_AT0|SJ_JINGLE_AT1)
+		 && !g_mainFrame->m_inConstruction
+		 && !g_mainFrame->m_mainApp->IsInShutdown() )
+		{
+			if( m_jingleFlags&SJ_JINGLE_EVERY // the normal jingles are only played if the jukebox is playing.
+			 && g_mainFrame->IsPlaying() )
+			{
+				unsigned long nextTimestamp = m_jingleEveryTriggerTimestamp+m_jingleEvery*60*1000;
+				if( thisTimestamp > nextTimestamp )
+				{
+					m_jingleEveryTriggerTimestamp = thisTimestamp;
+					SjAdvSearch advSearch = g_advSearchModule->GetSearchById(m_jingleEveryMusicSelId);
+					if( advSearch.GetId()==0 )
+					{
+						SjTools::SetFlag(m_jingleFlags, SJ_JINGLE_EVERY, false);
+						SaveAutoCtrlSettings();
+					}
+					wxString url = advSearch.GetRandomUrl();
+					if( !url.IsEmpty() ) {
+						g_mainFrame->Enqueue(url, -2/*enqueue next*/, TRUE/*verified*/);
+					}
+				}
+			}
+
+			for( int i = 0; i < SJ_JINGLE_AT_CNT; i++ )
+			{
+				if( m_jingleFlags&(SJ_JINGLE_AT0<<i) ) // the jingles at conctrete times are played even if the jukebox is paused/stopped.
+				{
+					wxDateTime now = wxDateTime::Now();
+					long thisMinuteOfToday = now.GetHour()*60 + now.GetMinute();
+					if( m_jingleAt[i] == thisMinuteOfToday
+					 && thisTimestamp > m_jingleAtTriggerTimestamp[i]+70*1000 )
+					{
+						m_jingleAtTriggerTimestamp[i] = thisTimestamp;
+						SjAdvSearch advSearch = g_advSearchModule->GetSearchById(m_jingleAtMusicSelId[i]);
+						if( advSearch.GetId()==0 || (m_jingleFlags&(SJ_JINGLE_AT0_DAILY<<i))==0 )
+						{
+							SjTools::SetFlag(m_jingleFlags, SJ_JINGLE_AT0<<i, false);
+							SaveAutoCtrlSettings();
+						}
+						wxString url = advSearch.GetRandomUrl();
+						if( !url.IsEmpty() ) {
+							g_mainFrame->Enqueue(url, (m_jingleFlags&(SJ_JINGLE_AT0_WAIT<<i))? -2 : -3, TRUE/*verified*/);
+						}
+					}
+				}
+			}
+		}
 
 		// automatic control: limit play time
 		//////////////////////////////////////////////////////////////////////////////////////////////
@@ -690,7 +746,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 						wxDateTime now = wxDateTime::Now();
 						long thisMinuteOfToday = now.GetHour()*60 + now.GetMinute();
 						if(  m_sleepMinutes == thisMinuteOfToday
-						        && (s_thisTriggerTimestamp == 0 || (thisTimestamp>s_thisTriggerTimestamp+70*1000)) )
+						 && (s_thisTriggerTimestamp == 0 || (thisTimestamp>s_thisTriggerTimestamp+70*1000)) )
 						{
 							m_stateTriggerSleep = TRUE;
 							s_thisTriggerTimestamp = thisTimestamp;
@@ -705,7 +761,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 					m_stateSleepWaitTimestamp = 0;
 					if( m_flags&SJ_AUTOCTRL_SLEEP_FADE
-					        && g_mainFrame->IsPlaying() )
+					 && g_mainFrame->IsPlaying() )
 					{
 						m_stateTriggerSleep = FALSE;
 						if( m_stateSleepAutoFader )

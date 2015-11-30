@@ -759,7 +759,7 @@ wxString SjRule::GetAsSql() const
 		}
 		else
 		{
-			ret = m_field == SJ_PSEUDOFIELD_INCLUDE? wxT("id IN (") : wxT("id NOT IN (");
+			ret  = m_field == SJ_PSEUDOFIELD_INCLUDE? wxT("id IN (") : wxT("id NOT IN (");
 			ret += m_value[0].Mid(1, m_value[0].Len()-2);
 			ret += wxT(")");
 		}
@@ -772,9 +772,9 @@ wxString SjRule::GetAsSql() const
 	else if( m_field == SJ_PSEUDOFIELD_TRACKARTISTALBUM )
 	{
 		return    wxT("(") + GetAsSql(m_value[0], SJ_FIELD_TRACKNAME,       m_op, m_unit, FALSE)
-		          + wxT(" OR ") + GetAsSql(m_value[0], SJ_FIELD_LEADARTISTNAME, m_op, m_unit, FALSE)
-		          + wxT(" OR ") + GetAsSql(m_value[0], SJ_FIELD_ALBUMNAME,       m_op, m_unit, FALSE)
-		          +    wxT(")");
+		        + wxT(" OR ") + GetAsSql(m_value[0], SJ_FIELD_LEADARTISTNAME, m_op, m_unit, FALSE)
+		        + wxT(" OR ") + GetAsSql(m_value[0], SJ_FIELD_ALBUMNAME,       m_op, m_unit, FALSE)
+		        +    wxT(")");
 	}
 	else
 	{
@@ -782,13 +782,13 @@ wxString SjRule::GetAsSql() const
 		{
 			case SJ_FIELDOP_IS_NOT_IN_RANGE:
 				return    wxT("(") + GetAsSql(m_value[0], m_field, SJ_FIELDOP_IS_LESS_THAN, m_unit, FALSE)
-				          + wxT(" OR ") + GetAsSql(m_value[1], m_field, SJ_FIELDOP_IS_GREATER_THAN, m_unit, FALSE)
-				          + wxT(")");
+				        + wxT(" OR ") + GetAsSql(m_value[1], m_field, SJ_FIELDOP_IS_GREATER_THAN, m_unit, FALSE)
+				        + wxT(")");
 
 			case SJ_FIELDOP_IS_IN_RANGE:
 				return    wxT("(") + GetAsSql(m_value[0], m_field, SJ_FIELDOP_IS_GREATER_OR_EQUAL, m_unit, FALSE)
-				          + wxT(" AND ") + GetAsSql(m_value[1], m_field, SJ_FIELDOP_IS_LESS_OR_EQUAL, m_unit, FALSE)
-				          +     wxT(")");
+				        + wxT(" AND ") + GetAsSql(m_value[1], m_field, SJ_FIELDOP_IS_LESS_OR_EQUAL, m_unit, FALSE)
+				        +     wxT(")");
 
 			default:
 				return  GetAsSql(m_value[0], m_field, m_op, m_unit, TRUE/*force that the value is set, if needed*/);
@@ -1218,7 +1218,7 @@ bool SjAdvSearch::IsOk(wxString& retError, wxString& retWarning) const
 class LimitValues
 {
 public:
-	LimitValues         () { m_fieldIndex = 0; m_max = 0; m_curr = 0; }
+	                LimitValues         () { m_fieldIndex = 0; m_max = 0; m_curr = 0; }
 	bool            Set                 (int fieldIndex, long max__, long multiplier);
 	bool            IsSet               () const { return (m_fieldIndex!=0); }
 
@@ -1605,6 +1605,41 @@ SjSearchStat SjAdvSearch::GetAsSql(SjLLHash* retHash, wxString& retSql) const
 	}
 
 	return stat;
+}
+
+
+wxString SjAdvSearch::GetRandomUrl() const
+{
+	// advanced search valid?
+	if( GetId() == 0 ) {
+		return ""; // advanced search not valid.
+	}
+
+	// get all hash IDs
+	SjLLHash trackIdsHash;
+	{
+		wxString dummySelectSql;
+		GetAsSql(&trackIdsHash, dummySelectSql);
+		if( trackIdsHash.GetCount()==0 ) {
+			return ""; // no tracks at all.
+		}
+	}
+
+	// select a random track ID
+	long selectedTrackId;
+	{
+		long wantedIndex = SjTools::Rand(trackIdsHash.GetCount());
+		SjHashIterator iterator;
+		while( (trackIdsHash.Iterate(iterator, &selectedTrackId)) ) {
+			wantedIndex--;
+			if( wantedIndex < 0 ) {
+				break;
+			}
+		}
+	}
+
+	// get URL for this track ID, may be empty
+	return g_mainFrame->m_libraryModule->GetUrl(selectedTrackId);
 }
 
 

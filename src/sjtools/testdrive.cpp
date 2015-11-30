@@ -546,6 +546,10 @@ void SjTestdrive1()
 		wxASSERT(!floatingpointstring.IsEmpty());
 	}
 
+	// other math tests
+	wxASSERT( SjTools::Rand(0) == 0 );
+	wxASSERT( SjTools::Rand(1) == 0 );
+
 	/* Done */
 	wxLogInfo(wxT("Testdrive: Done."));
 }

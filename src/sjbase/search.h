@@ -337,6 +337,9 @@ public:
 	// Normally, the function returns sth. like "(1)", "(0)" or "INFILTER(tracks.id)"
 	SjSearchStat    GetAsSql            (SjLLHash*, wxString&) const;
 
+	// Get concrete URLs
+	wxString        GetRandomUrl        () const;
+
 	// (un-)serialize
 	void            Serialize           (SjStringSerializer&) const;
 	bool            Unserialize         (SjStringSerializer&);

@@ -109,8 +109,10 @@ public:
 	#define         SJ_JINGLE_MAX_MINUTES    999
 	long            m_jingleEvery;
 	long            m_jingleEveryMusicSelId;
+	unsigned long   m_jingleEveryTriggerTimestamp;
 	long            m_jingleAt[SJ_JINGLE_AT_CNT];
 	long            m_jingleAtMusicSelId[SJ_JINGLE_AT_CNT];
+	unsigned long   m_jingleAtTriggerTimestamp[SJ_JINGLE_AT_CNT];
 
 	// pending events: events are added to this array for some events that
 	// happen eg. while an database update. They should be delayed until
