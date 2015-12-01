@@ -59,7 +59,7 @@ private:
 
 	void        OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseLeftDown(this, e); }
 	void        OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseLeftUp(this, e); }
-	void        OnMouseRightUp      (wxMouseEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseRightUp(this, e); }
+	void        OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseRightUp(this, e); }
 	void        OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseLeftDClick(this, e); }
 
 	DECLARE_EVENT_TABLE ();
@@ -70,7 +70,7 @@ BEGIN_EVENT_TABLE(SjVidoutWindow, wxWindow)
 	EVT_LEFT_DOWN       (                       SjVidoutWindow::OnMouseLeftDown     )
 	EVT_LEFT_UP         (                       SjVidoutWindow::OnMouseLeftUp           )
 	EVT_LEFT_DCLICK     (                       SjVidoutWindow::OnMouseLeftDClick       )
-	EVT_RIGHT_UP        (                       SjVidoutWindow::OnMouseRightUp          )
+	EVT_CONTEXT_MENU    (                       SjVidoutWindow::OnMouseRightUp          )
 
 	EVT_ERASE_BACKGROUND(                       SjVidoutWindow::OnEraseBackground   )
 	EVT_PAINT           (                       SjVidoutWindow::OnPaint             )

@@ -2474,11 +2474,7 @@ BEGIN_EVENT_TABLE(SjSkinWindow, wxFrame)
 	EVT_LEFT_DCLICK         (SjSkinWindow::OnMouseLeftDown      )
 	EVT_LEFT_UP             (SjSkinWindow::OnMouseLeftUp        )
 	EVT_MOUSE_CAPTURE_LOST  (SjSkinWindow::OnMouseCaptureLost   )
-    #ifdef __WXMAC__ // the context menu MUST be opened on down on MAC
-	EVT_RIGHT_DOWN          (SjSkinWindow::OnMouseRight         )
-    #else
-	EVT_RIGHT_UP            (SjSkinWindow::OnMouseRight         )
-    #endif
+	EVT_CONTEXT_MENU        (SjSkinWindow::OnMouseRight         )
 	EVT_MIDDLE_UP           (SjSkinWindow::OnMouseMiddleUp      )
 	EVT_MOTION              (SjSkinWindow::OnMouseMotion        )
 	EVT_LEAVE_WINDOW        (SjSkinWindow::OnMouseLeave         )
@@ -3508,25 +3504,24 @@ void SjSkinWindow::OnMouseCaptureLost(wxMouseCaptureLostEvent& event)
 }
 
 
-void SjSkinWindow::OnMouseRight(wxMouseEvent& event)
+void SjSkinWindow::OnMouseRight(wxContextMenuEvent& event)
 {
 	if( !HasCapture() )
 	{
-		long    x = event.GetX(),
-		        y = event.GetY();
+		wxPoint clickPoint = ScreenToClient(event.GetPosition());
 
-#if SJ_USE_TOOLTIPS
-		g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+		#if SJ_USE_TOOLTIPS
+			g_tools->m_toolTipManager.ClearToolTipProvider();
+		#endif
 
-		SjSkinItem* item = FindClickableItem(x, y);
+		SjSkinItem* item = FindClickableItem(clickPoint.x, clickPoint.y);
 		if( item )
 		{
-			OnSkinTargetContextMenu(item->m_targetId, x, y);
+			OnSkinTargetContextMenu(item->m_targetId, clickPoint.x, clickPoint.y);
 		}
 		else
 		{
-			OnSkinTargetContextMenu(IDT_NONE, x, y);
+			OnSkinTargetContextMenu(IDT_NONE, clickPoint.x, clickPoint.y);
 		}
 	}
 }

@@ -301,9 +301,9 @@ void SjVisImpl::OnMouseLeftUp(wxWindow* from, wxMouseEvent& event)
 }
 
 
-void SjVisImpl::OnMouseRightUp(wxWindow* from, wxMouseEvent& event)
+void SjVisImpl::OnMouseRightUp(wxWindow* from, wxContextMenuEvent& event)
 {
-	wxPoint mousePt = GetEventMousePosition(from, event);
+	wxPoint mousePt = m_thisWindow->ScreenToClient(event.GetPosition());
 
 	ShowContextMenu(mousePt.x, mousePt.y);
 }
@@ -548,7 +548,7 @@ BEGIN_EVENT_TABLE(SjVisFrame, wxFrame)
 	EVT_LEFT_DOWN       (                       SjVisFrame::OnMouseLeftDown     )
 	EVT_LEFT_UP         (                       SjVisFrame::OnMouseLeftUp       )
 	EVT_LEFT_DCLICK     (                       SjVisFrame::OnMouseLeftDClick   )
-	EVT_RIGHT_UP        (                       SjVisFrame::OnMouseRightUp      )
+	EVT_CONTEXT_MENU    (                       SjVisFrame::OnMouseRightUp      )
 	EVT_ENTER_WINDOW    (                       SjVisFrame::OnMouseEnter        )
 	EVT_MENU_RANGE      (IDCI_FIRST, IDCI_LAST, SjVisFrame::OnCommand           )
 	EVT_MENU_RANGE      (IDT_FIRST, IDT_LAST,   SjVisFrame::OnFwdToMainFrame    )
@@ -565,7 +565,7 @@ BEGIN_EVENT_TABLE(SjVisEmbed, wxWindow)
 	EVT_LEFT_DOWN       (                       SjVisEmbed::OnMouseLeftDown     )
 	EVT_LEFT_UP         (                       SjVisEmbed::OnMouseLeftUp       )
 	EVT_LEFT_DCLICK     (                       SjVisEmbed::OnMouseLeftDClick   )
-	EVT_RIGHT_UP        (                       SjVisEmbed::OnMouseRightUp      )
+	EVT_CONTEXT_MENU    (                       SjVisEmbed::OnMouseRightUp      )
 	EVT_ENTER_WINDOW    (                       SjVisEmbed::OnMouseEnter        )
 	EVT_MENU_RANGE      (IDCI_FIRST, IDCI_LAST, SjVisEmbed::OnCommand           )
 END_EVENT_TABLE()

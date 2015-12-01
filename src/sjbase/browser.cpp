@@ -48,11 +48,7 @@ BEGIN_EVENT_TABLE(SjBrowserWindow, wxWindow)
 	EVT_ENTER_WINDOW        (   SjBrowserWindow::OnMouseEnter       )
 	EVT_MOTION              (   SjBrowserWindow::OnMouseMotion      )
 	EVT_MOUSEWHEEL          (   SjBrowserWindow::OnMouseWheel       )
-	#ifdef __WXMAC__ // the context menu MUST be opened on down on MAC: TODO: we should use EVT_CONTEXT_MENU here
-	EVT_RIGHT_DOWN          (   SjBrowserWindow::OnMouseRight       )
-	#else
-	EVT_RIGHT_UP            (   SjBrowserWindow::OnMouseRight       )
-	#endif
+	EVT_CONTEXT_MENU        (   SjBrowserWindow::OnMouseRight       )
 	EVT_MIDDLE_UP           (   SjBrowserWindow::OnMouseMiddleUp    )
 	EVT_KEY_DOWN            (   SjBrowserWindow::OnKeyDown          )
 END_EVENT_TABLE()
@@ -306,7 +302,7 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 }
 
 
-void SjBrowserWindow::OnMouseRight(wxMouseEvent& event)
+void SjBrowserWindow::OnMouseRight(wxContextMenuEvent& event)
 {
 	#if SJ_USE_TOOLTIPS
 		g_tools->m_toolTipManager.ClearToolTipProvider();
@@ -325,7 +321,8 @@ void SjBrowserWindow::OnMouseRight(wxMouseEvent& event)
 
 	/* give the event to the current view
 	 */
-	m_currView->OnContextMenu(event);
+	wxPoint clickPoint = ScreenToClient(event.GetPosition());
+	m_currView->OnContextMenu(clickPoint.x, clickPoint.y);
 }
 void SjBrowserWindow::OnModuleUserId(int id)
 {

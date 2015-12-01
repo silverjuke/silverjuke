@@ -71,7 +71,7 @@ private:
 
 	long            FindMonitorByPoint  (int x, int y) const;
 
-	void            OnMouseRightUp      (wxMouseEvent& event) { OnContextMenu(event.GetX(), event.GetY()); }
+	void            OnMouseRightUp      (wxContextMenuEvent& event) { wxPoint p = ScreenToClient(event.GetPosition()); OnContextMenu(p.x, p.y); }
 	void            OnMouseLeftDClick   (wxMouseEvent& event);
 	void            OnContextMenu       (int x, int y);
 	void            OnMenuSelect        (wxCommandEvent& e);

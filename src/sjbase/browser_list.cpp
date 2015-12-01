@@ -1089,13 +1089,11 @@ void SjListBrowser::UpdateItemsInColMenu(SjMenu* m)
 }
 
 
-void SjListBrowser::OnContextMenu(wxMouseEvent& event)
+void SjListBrowser::OnContextMenu(int clickX, int clickY)
 {
 	SjMenu  mainMenu(0);
 	bool    inSizer;
 
-	int clickX = event.GetX();
-	int clickY = event.GetY();
 	long index;
 	m_columnDragIndex = -1;
 	m_lastClickedCover = NULL;
@@ -1146,7 +1144,7 @@ void SjListBrowser::OnContextMenu(wxMouseEvent& event)
 	// show menu
 	if( mainMenu.GetMenuItemCount() )
 	{
-		m_window->PopupMenu(&mainMenu, clickX, clickY);
+		m_window->PopupMenu(&mainMenu);
 	}
 
 	// deselect header (if selected before)

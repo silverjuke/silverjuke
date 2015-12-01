@@ -1382,7 +1382,7 @@ private:
 	void                OnKeyUp             (wxKeyEvent& e)     { if(ImplOk()) m_oscModule->m_impl->OnKeyUp(e); }
 	void                OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDown(this, e); }
 	void                OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftUp(this, e); }
-	void                OnMouseRightUp      (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseRightUp(this, e); }
+	void                OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseRightUp(this, e); }
 	void                OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDClick(this, e); }
 	void                OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseEnter(this, e); }
 	void                OnShowFigures       (wxCommandEvent&) { ShowFigures(-1); }
@@ -1408,7 +1408,7 @@ BEGIN_EVENT_TABLE(SjOscWindow, wxWindow)
 	EVT_LEFT_DOWN       (                       SjOscWindow::OnMouseLeftDown        )
 	EVT_LEFT_UP         (                       SjOscWindow::OnMouseLeftUp          )
 	EVT_LEFT_DCLICK     (                       SjOscWindow::OnMouseLeftDClick      )
-	EVT_RIGHT_UP        (                       SjOscWindow::OnMouseRightUp         )
+	EVT_CONTEXT_MENU    (                       SjOscWindow::OnMouseRightUp         )
 	EVT_TIMER           (IDC_TIMER,             SjOscWindow::OnTimer                )
 END_EVENT_TABLE()
 

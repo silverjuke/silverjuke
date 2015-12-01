@@ -46,7 +46,7 @@ public:
 	void            OnKeyUp             (wxKeyEvent&);
 	void            OnMouseLeftDown     (wxWindow* from, wxMouseEvent&) { m_mouseDown = true; }
 	void            OnMouseLeftUp       (wxWindow* from, wxMouseEvent&);
-	void            OnMouseRightUp      (wxWindow* from, wxMouseEvent&);
+	void            OnMouseRightUp      (wxWindow* from, wxContextMenuEvent&);
 	void            OnMouseLeftDClick   (wxWindow* from, wxMouseEvent&);
 	void            OnMouseEnter        (wxWindow* from, wxMouseEvent&);
 	void            OnCommand           (wxCommandEvent& e);
@@ -108,7 +108,7 @@ private:
 	void            OnKeyUp             (wxKeyEvent& e)     { m_impl.OnKeyUp(e); }
 	void            OnMouseLeftDown     (wxMouseEvent& e)   { m_impl.OnMouseLeftDown(this, e); }
 	void            OnMouseLeftUp       (wxMouseEvent& e)   { m_impl.OnMouseLeftUp(this, e); }
-	void            OnMouseRightUp      (wxMouseEvent& e)   { m_impl.OnMouseRightUp(this, e); }
+	void            OnMouseRightUp      (wxContextMenuEvent& e)   { m_impl.OnMouseRightUp(this, e); }
 	void            OnMouseLeftDClick   (wxMouseEvent& e)   { m_impl.OnMouseLeftDClick(this, e); }
 	void            OnMouseEnter        (wxMouseEvent& e)   { m_impl.OnMouseEnter(this, e); }
 	void            OnCommand           (wxCommandEvent& e) { m_impl.OnCommand(e); }
@@ -139,7 +139,7 @@ private:
 	void            OnKeyUp             (wxKeyEvent& e)     { m_impl.OnKeyUp(e); }
 	void            OnMouseLeftDown     (wxMouseEvent& e)   { m_impl.OnMouseLeftDown(this, e); }
 	void            OnMouseLeftUp       (wxMouseEvent& e)   { m_impl.OnMouseLeftUp(this, e); }
-	void            OnMouseRightUp      (wxMouseEvent& e)   { m_impl.OnMouseRightUp(this, e); }
+	void            OnMouseRightUp      (wxContextMenuEvent& e)   { m_impl.OnMouseRightUp(this, e); }
 	void            OnMouseLeftDClick   (wxMouseEvent& e)   { m_impl.OnMouseLeftDClick(this, e); }
 	void            OnMouseEnter        (wxMouseEvent& e)   { m_impl.OnMouseEnter(this, e); }
 	void            OnCommand           (wxCommandEvent& e) { m_impl.OnCommand(e); }

@@ -55,7 +55,7 @@ public:
 	void            OnMouseWheel        (wxMouseEvent& event, bool scrollVert);
 	void            OnDropImage         (SjDataObject* data, int mouseX, int mouseY);
 
-	void            OnContextMenu       (wxMouseEvent& event);
+	void            OnContextMenu       (int clickX, int clickY);
 	void            OnContextMenuSelect (int id);
 
 	wxRect          GetToolTipRect      (int mouseX, int mouseY);

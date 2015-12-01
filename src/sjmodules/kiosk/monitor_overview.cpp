@@ -43,7 +43,7 @@ BEGIN_EVENT_TABLE(SjMonitorOverview, wxWindow)
 	EVT_SIZE            (               SjMonitorOverview::OnSize               )
 	EVT_ERASE_BACKGROUND(               SjMonitorOverview::OnEraseBackground    )
 	EVT_PAINT           (               SjMonitorOverview::OnPaint              )
-	EVT_RIGHT_UP        (               SjMonitorOverview::OnMouseRightUp       )
+	EVT_CONTEXT_MENU    (               SjMonitorOverview::OnMouseRightUp       )
 	EVT_LEFT_DCLICK     (               SjMonitorOverview::OnMouseLeftDClick    )
 	EVT_MENU            (IDC_FOR_MAIN,  SjMonitorOverview::OnMenuSelect         )
 	EVT_MENU            (IDC_FOR_VIS,   SjMonitorOverview::OnMenuSelect         )
@@ -402,7 +402,7 @@ void SjMonitorOverview::OnContextMenu(int x, int y)
 			menu.Check(IDC_FOR_VIS, (monitorUsage & MONITOR_USAGE_VIS)!=0);
 		}
 
-		PopupMenu(&menu, ScreenToClient(::wxGetMousePosition()));
+		PopupMenu(&menu);
 	}
 }
 

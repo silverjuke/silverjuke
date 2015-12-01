@@ -396,7 +396,7 @@ void SjConfirmDlg::OnContextMenu(wxListEvent&)
 	m.Append(IDC_CONFIRM_DELETE, _("Delete"));
 	m.Enable(IDC_CONFIRM_DELETE, selItemCount>0);
 
-	PopupMenu(&m, ScreenToClient(::wxGetMousePosition()));
+	PopupMenu(&m);
 }
 
 

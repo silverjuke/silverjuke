@@ -514,15 +514,13 @@ void SjAlbumBrowser::OnDropImage(SjDataObject* data, int mouseX, int mouseY)
 }
 
 
-void SjAlbumBrowser::OnContextMenu(wxMouseEvent& event)
+void SjAlbumBrowser::OnContextMenu(int clickX, int clickY)
 {
 	SjMenu  mainMenu(0);
 
 	// add module items to menu
 	SjCol* col;
 	SjRow* row;
-	int    clickX = event.GetX();
-	int    clickY = event.GetY();
 	if( FindRow(clickX, clickY, &col, &row) == FOUND_ROW )
 	{
 		// select the item under the mouse
@@ -555,7 +553,7 @@ void SjAlbumBrowser::OnContextMenu(wxMouseEvent& event)
 	// show menu
 	if( mainMenu.GetMenuItemCount() )
 	{
-		m_window->PopupMenu(&mainMenu, clickX, clickY);
+		m_window->PopupMenu(&mainMenu);
 	}
 }
 

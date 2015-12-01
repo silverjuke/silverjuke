@@ -187,7 +187,7 @@ void SjSearchPathDlg::OnContextMenu(wxListEvent&)
 	m.AppendSeparator();
 	m.Append(IDC_SHOWSEARCHPATH, _("Show file"));
 
-	PopupMenu(&m, ScreenToClient(::wxGetMousePosition()));
+	PopupMenu(&m);
 }
 
 

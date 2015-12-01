@@ -491,11 +491,9 @@ void SjCoverBrowser::OnDropImage(SjDataObject* data, int mouseX, int mouseY)
 }
 
 
-void SjCoverBrowser::OnContextMenu(wxMouseEvent& event)
+void SjCoverBrowser::OnContextMenu(int clickX, int clickY)
 {
 	SjMenu  mainMenu(0);
-	int    clickX = event.GetX();
-	int    clickY = event.GetY();
 	SjCol* cover;
 	long found = FindCover(clickX, clickY, &cover);
 	if( found == FOUND_COVER && cover->m_rowCount > 0 && cover->m_rows[0]->m_roughType == SJ_RRTYPE_COVER )
@@ -526,7 +524,7 @@ void SjCoverBrowser::OnContextMenu(wxMouseEvent& event)
 	// show menu
 	if( mainMenu.GetMenuItemCount() )
 	{
-		m_window->PopupMenu(&mainMenu, clickX, clickY);
+		m_window->PopupMenu(&mainMenu);
 	}
 }
 

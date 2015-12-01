@@ -899,7 +899,7 @@ private:
 	void            OnMouseLeftDown     (wxMouseEvent&);
 	void            OnMouseLeftUp       (wxMouseEvent&);
 	void            OnMouseCaptureLost  (wxMouseCaptureLostEvent&);
-	void            OnMouseRight        (wxMouseEvent&);
+	void            OnMouseRight        (wxContextMenuEvent&);
 	void            OnMouseMiddleUp     (wxMouseEvent&);
 	void            OnMouseMotion       (wxMouseEvent&);
 	void            OnMouseLeave        (wxMouseEvent&);

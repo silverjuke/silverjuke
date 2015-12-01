@@ -301,7 +301,7 @@ private:
 	// /*
 	void            OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftDown(this, e); }
 	void            OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftUp(this, e); }
-	void            OnMouseRightUp      (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseRightUp(this, e); }
+	void            OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseRightUp(this, e); }
 	void            OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftDClick(this, e); }
 	// */
 	void            OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseEnter(this, e); }
@@ -330,7 +330,7 @@ BEGIN_EVENT_TABLE(SjKaraokeWindow, wxWindow)
 	EVT_LEFT_DOWN       (                       SjKaraokeWindow::OnMouseLeftDown    )
 	EVT_LEFT_UP         (                       SjKaraokeWindow::OnMouseLeftUp      )
 	EVT_LEFT_DCLICK     (                       SjKaraokeWindow::OnMouseLeftDClick  )
-	EVT_RIGHT_UP        (                       SjKaraokeWindow::OnMouseRightUp     )
+	EVT_CONTEXT_MENU    (                       SjKaraokeWindow::OnMouseRightUp     )
 	EVT_ENTER_WINDOW    (                       SjKaraokeWindow::OnMouseEnter       )
 	EVT_TIMER           (IDC_TIMER,             SjKaraokeWindow::OnTimer            )
 END_EVENT_TABLE()

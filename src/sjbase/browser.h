@@ -139,7 +139,7 @@ private:
 	void            OnMouseMotion       (wxMouseEvent&);
 	void            OnMouseEnter        (wxMouseEvent&);
 	void            OnMouseWheel        (wxMouseEvent&);
-	void            OnMouseRight        (wxMouseEvent&);
+	void            OnMouseRight        (wxContextMenuEvent&);
 	void            OnMouseMiddleUp     (wxMouseEvent&);
 	void            OnMouseSelect       (wxMouseEvent&);
 	void            OnKeyDown           (wxKeyEvent&);
@@ -211,7 +211,7 @@ public:
 	virtual void    OnMouseWheel        (wxMouseEvent& event, bool scrollVert) = 0;
 	virtual void    OnDropImage         (SjDataObject* data, int mouseX, int mouseY) = 0;
 
-	virtual void    OnContextMenu       (wxMouseEvent& event) = 0;
+	virtual void    OnContextMenu       (int clickX, int clickY) = 0;
 	virtual void    OnContextMenuSelect (int id) = 0;
 
 	virtual wxRect   GetToolTipRect     (int mouseX, int mouseY) = 0;

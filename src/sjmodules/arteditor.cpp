@@ -103,7 +103,7 @@ private:
 	void            OnMouseLeftDown     (wxMouseEvent&);
 	void            OnMouseLeftUp       (wxMouseEvent&);
 	void            OnMouseCaptureLost  (wxMouseCaptureLostEvent&);
-	void            OnMouseRight        (wxMouseEvent&);
+	void            OnMouseRight        (wxContextMenuEvent&);
 	void            OnMouseMotion       (wxMouseEvent&);
 	void            OnEraseBackground   (wxEraseEvent&) { }
 	void            OnPaint             (wxPaintEvent&);
@@ -122,11 +122,7 @@ BEGIN_EVENT_TABLE(SjArtEditor, wxFrame)
 	EVT_LEFT_UP             (                       SjArtEditor::OnMouseLeftUp      )
 	EVT_MOUSE_CAPTURE_LOST  (                       SjArtEditor::OnMouseCaptureLost )
 	EVT_MOTION              (                       SjArtEditor::OnMouseMotion      )
-	#ifdef __WXMAC__ // the context menu MUST be opened on down on MAC: TODO: We should use EVT_CONTEXT_MENU instead
-	EVT_RIGHT_DOWN          (                       SjArtEditor::OnMouseRight       )
-	#else
-	EVT_RIGHT_UP            (                       SjArtEditor::OnMouseRight       )
-	#endif
+	EVT_CONTEXT_MENU        (                       SjArtEditor::OnMouseRight       )
 	EVT_PAINT               (                       SjArtEditor::OnPaint            )
 	EVT_ERASE_BACKGROUND    (                       SjArtEditor::OnEraseBackground  )
 	EVT_ACTIVATE            (                       SjArtEditor::OnActivate         )
@@ -507,7 +503,7 @@ void SjArtEditor::OnMouseMotion(wxMouseEvent& event)
 }
 
 
-void SjArtEditor::OnMouseRight(wxMouseEvent& event)
+void SjArtEditor::OnMouseRight(wxContextMenuEvent& event)
 {
 	// stop cropping?
 	if( m_cropRectDrawn )
@@ -534,11 +530,11 @@ void SjArtEditor::OnMouseRight(wxMouseEvent& event)
 	}
 
 	if( g_mainFrame->IsAllAvailable()
-	        && menu.GetMenuItemCount() )
+	 && menu.GetMenuItemCount() )
 	{
 		m_mouseLeftDown = -1; // ignore next click as it will only close the menu
 		m_stay++;
-			PopupMenu(&menu, event.GetX(), event.GetY());
+			PopupMenu(&menu);
 		m_stay--;
 	}
 }

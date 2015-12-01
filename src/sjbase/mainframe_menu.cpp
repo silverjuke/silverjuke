@@ -768,7 +768,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 
 	if( mainMenu.GetMenuItemCount() )
 	{
-		PopupMenu(&mainMenu, x, y);
+		PopupMenu(&mainMenu);
 	}
 
 	if(  unmarkQueueId
