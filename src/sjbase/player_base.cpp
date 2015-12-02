@@ -757,6 +757,15 @@ void SjPlayer::LoadFromResumeFile()
 	// enqueue the urls
 	g_mainFrame->Enqueue(allUrls, -1, false, NULL, 0);
 
+	// start playback
+	if( allPos >= 0 && allPos < m_queue.GetCount() )
+	{
+		m_queue.SetCurrPos(allPos);
+		if( m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_START_PLAYBACK && allElapsed >= 0 )
+		{
+			g_mainFrame->Play(allElapsed);
+		}
+	}
 
 	// mark URLs as autoplay/played
 	wxASSERT( allUrls.Count() == allPlayed.Count() );
@@ -765,17 +774,18 @@ void SjPlayer::LoadFromResumeFile()
 	for( i = 0; i < iCount; i++ )
 	{
 		SjPlaylistEntry& e = m_queue.GetInfo(i);
-		if( allPlayed[i] ) { e.SetPlayCount(1); }
-		if( allAutoplay[i] ) { e.SetFlags(e.GetFlags()|SJ_PLAYLISTENTRY_AUTOPLAY); }
-	}
-
-	// start playback
-	if( allPos >= 0 && allPos < m_queue.GetCount() )
-	{
-		m_queue.SetCurrPos(allPos);
-		if( m_queue.GetQueueFlags()&SJ_QUEUEF_RESUME_START_PLAYBACK && allElapsed >= 0 )
+		if( allPlayed[i] )
 		{
-			g_mainFrame->Play(allElapsed);
+			e.SetPlayCount(1);
+		}
+		else if( e.GetPlayCount() > 0 )
+		{
+			e.SetPlayCount(0); // the Play() call above may have marked previous track as being played. fix that.
+		}
+
+		if( allAutoplay[i] )
+		{
+			e.SetFlags(e.GetFlags()|SJ_PLAYLISTENTRY_AUTOPLAY);
 		}
 	}
 }
