@@ -1016,7 +1016,7 @@ wxString SjAutoCtrl::GetAutoPlayUrl()
 
 	wxSqlt sql;
 	unsigned long now = SjTools::GetMsTicks();
-	long selectedTrackId;
+	long selectedTrackId = 0;
 	for( int iterations = 0; iterations < MAX_ITERATIONS; iterations++ )
 	{
 		long testIndex = SjTools::Rand(trackIdsCount);

@@ -636,7 +636,7 @@ wxString SjTools::GetUserAppDataDir()
 
 wxString SjTools::GetGlobalAppDataDir()
 {
-	#ifdef __WXMSW__
+	#if defined(__WXMSW__)
 		wxString str = GetSilverjukeProgramDir();
 		if( !str.IsEmpty() )
 		{
@@ -645,6 +645,8 @@ wxString SjTools::GetGlobalAppDataDir()
 			str = fn.GetFullPath();
 		}
 		return str;
+	#elif defined(__WXMAC__)
+		return GetUserAppDataDir();
 	#else
 		// The constant PKGDATADIR gets defined on the
 		// command line while running make. See Makefile.am
@@ -1463,7 +1465,7 @@ wxString SjTools::FormatTime(long seconds, long flags)
 
 bool SjTools::ParseTime(const wxString& str__, long* retSeconds)
 {
-	long minutes, seconds;
+	long minutes, seconds = 0;
 	wxString str(str__);
 	str.Replace(wxT("'"), wxT(":"));
 	str.Replace(wxT(" "), wxT(""));

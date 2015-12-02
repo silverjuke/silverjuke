@@ -381,7 +381,7 @@ bool SjMainApp::OnInit()
 
 				// get topic ("raise", "open" or one of the command line switches)
 				wxString topic(data.IsEmpty()? wxT("raise") : wxT("open")), valString;
-				long valLong;
+				long valLong = 0;
 				for( i = 0; i < (int)(sizeof(s_cmdLineDesc)/sizeof(wxCmdLineEntryDesc)); i++ )
 				{
 					if( s_cmdLineDesc[i].kind == wxCMD_LINE_SWITCH

@@ -560,7 +560,7 @@ SjOscHands::SjOscHands()
 void SjOscHands::Draw(wxDC& dc, const wxSize& clientSize,
                       long volume, long light, bool newTitle)
 {
-	long i, offset;
+	long i, offset = 0;
 
 	// (re-)calculate log. hand data
 	if( m_logHandMode == HAND_MODE_NOP )

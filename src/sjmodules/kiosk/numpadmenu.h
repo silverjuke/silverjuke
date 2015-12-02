@@ -27,7 +27,7 @@
 
 
 #ifndef __SJ_NUMPADMENU_H___
-#define __SJ_NUMPADMANU_H___
+#define __SJ_NUMPADMENU_H___
 
 
 class SjNumpadMenuEntry

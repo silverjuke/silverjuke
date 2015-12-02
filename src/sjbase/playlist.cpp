@@ -277,21 +277,6 @@ void SjPlaylistEntry::VerifyUrl()
 	// relative paths are not valid at this moment
 	wxString fsFileLocation;
 	{
-		if(  0 && url.Len()>2
-		        &&
-			#ifdef __WXMSW__
-		        url[1u]==wxT(':')
-			#else
-		        url[0]=='/'
-			#endif
-		        && ::wxFileExists(url) )
-		{
-			// some speed improvements for "normal" files
-			fsFileLocation = url;
-			fsFileLocation.Replace(wxT("\\"), wxT("/"));
-		}
-		else
-		{
 			wxFSFile* fsFile = NULL;
 
 			if( !url.StartsWith(wxT(".."))
@@ -328,7 +313,6 @@ void SjPlaylistEntry::VerifyUrl()
 
 			fsFileLocation = fsFile->GetLocation();
 			delete fsFile;
-		}
 	}
 
 	// convert the file name to a URL

@@ -1339,7 +1339,7 @@ wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind ki
 	wxMenuItem* mi = new wxMenuItem(this, id, text, wxT(""), kind==wxITEM_RADIO? wxITEM_CHECK : kind, subMenu);
 
 	// set font (wxMenuItem::SetFont() is not available in GTK)
-    #if !defined(__WXGTK__)
+    #if defined(__WXMSW__)
 	if( g_accelModule->m_flags&SJ_ACCEL_USE_VIEW_FONT_IN_DLG )
 	{
 		mi->SetFont(g_mainFrame->m_baseStdFont);

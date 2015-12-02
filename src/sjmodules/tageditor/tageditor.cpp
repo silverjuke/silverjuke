@@ -1799,7 +1799,7 @@ bool SjTagEditorDlg::Data2Dsk_Write(const wxString& orgUrl, SjTrackInfo& ti, boo
 	// Stop the player?
 	// This is needed if the file is renamed or ID3 tags should be written.
 	bool stopped = FALSE;
-	long stoppedPos;
+	long stoppedPos = 0;
 	if( !g_mainFrame->IsStopped()
 	 &&  g_mainFrame->GetQueueUrl(-1) == orgUrl
 	 && (orgUrl != ti.m_url || g_tagEditorModule->GetWriteId3Tags()) )

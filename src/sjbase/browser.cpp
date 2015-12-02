@@ -755,7 +755,7 @@ bool SjBrowserWindow::IsViewAvailable(int i)
 void SjBrowserWindow::SetView_(int i, bool keepPosition, bool redraw)
 {
 	wxString        viewPos;
-	long            viewOffset, j;
+	long            viewOffset = 0, j;
 	SjSkinValue value;
 
 	// corect index

@@ -81,7 +81,7 @@ void SjMainFrame::InitMainMenu()
 
 		#ifdef __WXMAC__
 		wxApp::s_macHelpMenuTitleName = _("Help");
-		wxApp::s_macAboutMenuItemId = IDO_ABOUT_SILVERJUKE;
+		wxApp::s_macAboutMenuItemId = IDO_ABOUT;
 		wxApp::s_macExitMenuItemId = IDT_QUIT;
 		#endif
 

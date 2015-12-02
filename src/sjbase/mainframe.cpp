@@ -53,6 +53,7 @@
 #include <wx/cmdline.h>
 #include <wx/clipbrd.h>
 #include <wx/stdpaths.h>
+#include <wx/sysopt.h>
 
 #include <sjdata/icons/xpm_sj_32.xpm>
 #include <sjdata/icons/xpm_sj_16.xpm>

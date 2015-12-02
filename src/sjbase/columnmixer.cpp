@@ -123,7 +123,7 @@ long SjColumnMixer::DelInsSelection(bool delPressed)
 
 	// remember the first selection position on delete
 	// (the new item at the same position will be restored after deletion)
-	long oldColIndex, oldRowIndex;
+	long oldColIndex = 0, oldRowIndex = 0;
 	wxString oldUrl;
 	if( delPressed )
 	{

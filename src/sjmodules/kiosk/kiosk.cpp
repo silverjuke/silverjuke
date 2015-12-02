@@ -476,7 +476,7 @@ wxPanel* SjKioskConfigPage::CreateStartPage(wxWindow* parent)
 
 	wxString disableKey;
 	#ifdef __WXMAC__
-		disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_CTRL, WXK_TAB, true) + wxT(" etc.");
+		disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_CTRL, WXK_TAB) + wxT(" etc.");
 	#else
 		disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_ALT, WXK_TAB);
 	#endif
@@ -1134,7 +1134,7 @@ void SjKioskConfigPage::OnMonitorChoice(wxCommandEvent& e)
 
 		size_t displayCount = wxDisplay::GetCount();
 		size_t newDisplayIndex = monitorChoice->GetSelection();
-		if( newDisplayIndex >= 0 && newDisplayIndex < displayCount )
+		if( newDisplayIndex < displayCount )
 		{
 			long flag = monitorSetting == 0? MONITOR_USAGE_MAIN : MONITOR_USAGE_VIS;
 			m_monitorOverview->SetMonitorUsage(g_kioskModule->m_configMonitor[monitorSetting], flag, false);

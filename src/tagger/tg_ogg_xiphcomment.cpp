@@ -228,14 +228,14 @@ void Ogg_XiphComment::setRating(long rating5)
 		// from https://en.wikipedia.org/wiki/Vorbis_comment :
 		// "Most applications also support common de facto standards, such as DISCNUMBER, RATING, [...]
 		// Ratings are usually mapped as 1-5 stars with 20,40,60,80,100 as the actual string values."
-		int rating100;
+		int rating100 = 100;
 		switch( rating5 )
 		{
 			case 1:  rating100 =  20; break;
 			case 2:  rating100 =  40; break;
 			case 3:  rating100 =  60; break;
 			case 4:  rating100 =  80; break;
-			case 5:  rating100 = 100; break;
+			default: rating100 = 100; break;
 		}
 		addField(wxT("RATING"), wxString::Format(wxT("%i"), (int)rating100));
 	}
