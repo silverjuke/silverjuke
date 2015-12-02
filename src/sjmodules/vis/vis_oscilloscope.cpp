@@ -791,8 +791,8 @@ void SjOscRotor::Draw(wxDC& dc, const wxSize& clientSize, bool otherRunning, boo
 class SjOscOscilloscope
 {
 public:
-	SjOscOscilloscope   (long sampleCount);
-	~SjOscOscilloscope  ();
+	                SjOscOscilloscope   (long sampleCount);
+	                ~SjOscOscilloscope  ();
 	void            Calc                (const wxSize& clientSize,
 	                                     const unsigned char* bufferStart,
 	                                     long& retVolume);
@@ -900,8 +900,8 @@ void SjOscOscilloscope::Draw(wxDC& dc, bool forceAnim)
 class SjOscSpectrumChData
 {
 public:
-#define         NUM_BOXES 20
-#define         SPEC_NUM        576
+    #define         NUM_BOXES 20
+    #define         SPEC_NUM        576
 	long            chNum;
 	double          m_boxMax[NUM_BOXES];
 	double          m_boxY[NUM_BOXES];
@@ -911,8 +911,8 @@ public:
 class SjOscSpectrum
 {
 public:
-	SjOscSpectrum       (long sampleCount);
-	~SjOscSpectrum      ();
+	                SjOscSpectrum       (long sampleCount);
+	                ~SjOscSpectrum      ();
 	void            Calc                (const wxSize& clientSize,
 	                                     const unsigned char* bufferStart);
 	void            Draw                (wxDC& dc, bool volumeBeat, bool showFigures, bool forceAnim)
@@ -1353,8 +1353,8 @@ void SjOscTitle::CalcCurrTitleSize(wxDC& dc)
 class SjOscWindow : public wxWindow
 {
 public:
-	SjOscWindow         (SjOscModule*, wxWindow* parent);
-	~SjOscWindow		();
+	                    SjOscWindow         (SjOscModule*, wxWindow* parent);
+	                    ~SjOscWindow        ();
 
 private:
 	SjOscModule*        m_oscModule;
@@ -1385,10 +1385,10 @@ private:
 	void                OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseRightUp(this, e); }
 	void                OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDClick(this, e); }
 	void                OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseEnter(this, e); }
-	void                OnShowFigures       (wxCommandEvent&) { ShowFigures(-1); }
+	void                OnShowFigures       (wxCommandEvent&)   { ShowFigures(-1); }
 	void                OnTimer             (wxTimerEvent&);
 	friend class        SjOscModule;
-	DECLARE_EVENT_TABLE ();
+	                    DECLARE_EVENT_TABLE ();
 };
 
 
