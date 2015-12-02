@@ -68,10 +68,6 @@ void SjMainFrame::AllocMainMenu()
 
 	m_helpMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_menuBar->Append(m_helpMenu, _("Help"));
-
-	#ifndef __WXMAC__
-		SetMenuBar(m_menuBar);
-	#endif
 }
 
 

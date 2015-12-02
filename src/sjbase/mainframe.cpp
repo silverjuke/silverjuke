@@ -1260,6 +1260,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	/* (/) Init main menu
 	 */
 	InitMainMenu();
+	SetMenuBar(m_menuBar);
 
 	/* open files from the command line or resume
 	 */
