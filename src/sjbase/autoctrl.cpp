@@ -40,7 +40,7 @@
 
 enum SjFadeDir
 {
-    SJ_FADEDIR_IN
+     SJ_FADEDIR_IN
     ,SJ_FADEDIR_OUT
 };
 
@@ -48,7 +48,7 @@ enum SjFadeDir
 class SjAutoFader : public wxTimer
 {
 public:
-	SjAutoFader     (long secondsToFade, SjFadeDir dir);
+	                SjAutoFader     (long secondsToFade, SjFadeDir dir);
 	void            Notify              ();
 	virtual void    OnFadingDone        ();
 	long            GetOrgVolume        () const { return m_orgVol; }
