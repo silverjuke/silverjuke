@@ -37,9 +37,9 @@ Silverjuke does not accept any files after a successful compilation?  One reason
 for this are missing xine codecs, install eg. libxine-plugins in this case.
 
 
-**Windows:**  For Windows, an installation program with the most recent version
-is available at http://silverjuke.net .  Note, that the windows binaries are not
-opened sourced.
+**Windows, Mac:**  For Windows and Mac OS X, ready-to-use programs with the most
+recent version are available at http://silverjuke.net .  Note, that these 
+binaries are not opened sourced.
 
 
 Issues
