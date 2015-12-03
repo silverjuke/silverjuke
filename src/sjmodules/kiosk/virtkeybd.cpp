@@ -69,9 +69,9 @@ SjVirtKeybdTextCtrl::SjVirtKeybdTextCtrl(wxWindow* parent, wxWindowID id, const 
 void SjVirtKeybdTextCtrl::OnMyMouseDown(wxMouseEvent& e)
 {
 	if( g_virtKeybd
-	        && !s_inTimeredClose
-	        && IsShown()
-	        && IsEnabled() )
+	 && !s_inTimeredClose
+	 && IsShown()
+	 && IsEnabled() )
 	{
 		wxWindow* topLevel = SjDialog::FindTopLevel(this);
 		if( topLevel->IsShown()
@@ -99,7 +99,7 @@ void SjVirtKeybdTextCtrl::OnMyMouseDownDo(wxCommandEvent& e)
 SjVirtKeybdTextCtrl::~SjVirtKeybdTextCtrl()
 {
 	if( g_virtKeybd
-	        && g_virtKeybd->GetInputReceiver() == this )
+	 && g_virtKeybd->GetInputReceiver() == this )
 	{
 		g_virtKeybd->CloseKeybd();
 	}
@@ -146,8 +146,8 @@ void SjVirtKeybdKey::SetKey(const wxString& type__, const wxString& key)
 	{
 		long l;
 		if( type.Mid(3).ToLong(&l, 10)
-		        && l >= 1
-		        && l <  SJ_VK_MAX_ALT )
+		 && l >= 1
+		 && l <  SJ_VK_MAX_ALT )
 		{
 			alt = l;
 			altSet = TRUE;
@@ -200,12 +200,12 @@ wxString SjVirtKeybdKey::ParseKey(const wxString& key__, const wxString& default
 		return defaultKey;
 	}
 	else if( key == wxT("nextline")
-	         || key == wxT("shift")
-	         || key == wxT("nop")
-	         || key == wxT("backsp")
-	         || key == wxT("clearall")
-	         || key == wxT("enter")
-	         || key == wxT("spacer") )
+	      || key == wxT("shift")
+	      || key == wxT("nop")
+	      || key == wxT("backsp")
+	      || key == wxT("clearall")
+	      || key == wxT("enter")
+	      || key == wxT("spacer") )
 	{
 		return key;
 	}
@@ -213,8 +213,8 @@ wxString SjVirtKeybdKey::ParseKey(const wxString& key__, const wxString& default
 	{
 		long l;
 		if( key.Mid(3).ToLong(&l, 10)
-		        && l >= 0
-		        && l < SJ_VK_MAX_ALT )
+		 && l >= 0
+		 && l < SJ_VK_MAX_ALT )
 		{
 			return key;
 		}
@@ -227,14 +227,16 @@ wxString SjVirtKeybdKey::ParseKey(const wxString& key__, const wxString& default
 	{
 		long l;
 		if( key.Mid(2).ToLong(&l, 16)
-		        && l >= 0 )
+		 && l >= 0 )
 		{
 			#if wxUSE_UNICODE
 				// in ISO8859-1 the "Euro" sign has the code 0x80 where
 				// in Unicode the code is 0x20AC - fix this little incompatibility as the file encoding
 				// is defined to use ISO8859-1.
 				if( l == 0x0080 )
+				{
 					l = 0x20AC;
+				}
 			#endif
 
 			return wxString((wxChar)l);
@@ -249,7 +251,9 @@ wxString SjVirtKeybdKey::ParseKey(const wxString& key__, const wxString& default
 		#if wxUSE_UNICODE
 			// see remark above
 			if( key[0] == 0x0080 )
+			{
 				return wxString((wxChar)0x20AC);
+			}
 		#endif
 
 		return key;
@@ -278,7 +282,7 @@ wxString SjVirtKeybdKey::GetKeyTitle(int inShifted, int inAlt) const
 		return wxT("");
 	}
 	else if( !m_keyTitles[outShifted][outAlt].IsEmpty()
-	         || m_keys[outShifted][outAlt] == wxT("nop") )
+	      ||  m_keys[outShifted][outAlt] == wxT("nop") )
 	{
 		title = m_keyTitles[outShifted][outAlt];
 	}
@@ -287,12 +291,12 @@ wxString SjVirtKeybdKey::GetKeyTitle(int inShifted, int inAlt) const
 		title = m_keys[outShifted][outAlt];
 	}
 
-	if( title == wxT("shift") )                        { return TranslTitle(0);    }
+	     if( title == wxT("shift") )                         { return TranslTitle(0);    }
 	else if( title == wxT("altgr") || title == wxT("alt1") ) { return TranslTitle(1);    }
-	else if( title == wxT("backsp") )                       { return TranslTitle(2);    }
-	else if( title == wxT("clearall") )                     { return TranslTitle(3);    }
-	else if( title == wxT("enter") )                        { return TranslTitle(4);    }
-	else                                                    { return title;             }
+	else if( title == wxT("backsp") )                        { return TranslTitle(2);    }
+	else if( title == wxT("clearall") )                      { return TranslTitle(3);    }
+	else if( title == wxT("enter") )                         { return TranslTitle(4);    }
+	else                                                     { return title;             }
 }
 
 
@@ -576,8 +580,7 @@ void SjVirtKeybdLayout::CalcRects(const wxRect& totalRect)
 
 	if( m_enterKey && m_enterCont )
 	{
-		m_enterCont->m_rect.width =
-		    (m_enterKey->m_rect.x + m_enterKey->m_rect.width) - m_enterCont->m_rect.x;
+		m_enterCont->m_rect.width = (m_enterKey->m_rect.x + m_enterKey->m_rect.width) - m_enterCont->m_rect.x;
 	}
 }
 
@@ -589,9 +592,9 @@ SjVirtKeybdKey* SjVirtKeybdLayout::FindKey(int x, int y)
 	{
 		SjVirtKeybdKey* key = &(m_keys[i]);
 		if( x >= key->m_rect.x
-		        && x <  key->m_rect.x + key->m_rect.width
-		        && y >= key->m_rect.y
-		        && y <  key->m_rect.y + key->m_rect.height )
+		 && x <  key->m_rect.x + key->m_rect.width
+		 && y >= key->m_rect.y
+		 && y <  key->m_rect.y + key->m_rect.height )
 		{
 			if( key->IsEnterCont() && m_enterKey )
 			{
@@ -612,10 +615,10 @@ SjVirtKeybdKey* SjVirtKeybdLayout::FindKey(int x, int y)
 class SjVirtKeybdFrame : public wxFrame
 {
 public:
-	SjVirtKeybdFrame    (wxWindow* parent);
+	                SjVirtKeybdFrame    (wxWindow* parent);
 	void            InitKeybdFrame      ();
 	void            InitCloseWatchTimer () { m_closeWatchTimer.Start(300); }
-	~SjVirtKeybdFrame   ();
+	                ~SjVirtKeybdFrame   ();
 
 private:
 	SjVirtKeybdLayout
@@ -664,7 +667,7 @@ private:
 	void            OnMouseLeave        (wxMouseEvent&);
 	void            OnCloseWatchTimer   (wxTimerEvent&);
 	void            OnActivate          (wxActivateEvent&);
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 };
 
 
@@ -679,8 +682,7 @@ BEGIN_EVENT_TABLE(SjVirtKeybdFrame, wxFrame)
 	EVT_RIGHT_UP        (SjVirtKeybdFrame::OnMouseUp            )
 	EVT_MIDDLE_UP       (SjVirtKeybdFrame::OnMouseUp            )
 	EVT_LEAVE_WINDOW    (SjVirtKeybdFrame::OnMouseLeave         )
-	EVT_TIMER           (IDTIMER_VIRTKEYBD,
-	                     SjVirtKeybdFrame::OnCloseWatchTimer    )
+	EVT_TIMER           (IDTIMER_VIRTKEYBD, SjVirtKeybdFrame::OnCloseWatchTimer    )
 	EVT_ACTIVATE        (SjVirtKeybdFrame::OnActivate           )
 END_EVENT_TABLE()
 
@@ -692,7 +694,7 @@ SjVirtKeybdFrame::SjVirtKeybdFrame(wxWindow* parent)
 	// set the window shaded
 	int transparency = g_virtKeybd->GetTransparency();
 	if( transparency
-	        && g_tools->CanSetWindowTransparency() )
+	 && g_tools->CanSetWindowTransparency() )
 	{
 		g_tools->SetWindowTransparency(this, transparency);
 	}
@@ -752,11 +754,14 @@ void SjVirtKeybdFrame::InitKeybdFrame()
 	m_textPen    .SetColour(m_textBrush.GetColour());
 
 	// load the layout
-	if( !m_layout.LoadLayoutFromFile(g_virtKeybd->GetKeybdLayout(), NULL) ) {
-		if( g_virtKeybd->GetKeybdLayout().IsEmpty() ) {
+	if( !m_layout.LoadLayoutFromFile(g_virtKeybd->GetKeybdLayout(), NULL) )
+	{
+		if( g_virtKeybd->GetKeybdLayout().IsEmpty() )
+		{
 			wxLogError(_("No virtual keyboard found, please add the *.sjk files to the search paths."));
 		}
-		else {
+		else
+		{
 			wxLogError(_("Cannot open \"%s\"."), wxT("*.sjk"));
 		}
 	}
@@ -940,8 +945,8 @@ void SjVirtKeybdFrame::RedrawButtonOnscreen(wxDC& dc, SjVirtKeybdKey* button)
 	// invert?
 	bool invert = FALSE;
 	if( (m_shift && button->IsShift()               == m_shift)
-	        || (m_alt   && button->IsAlt  (m_shift, m_alt) == m_alt  )
-	        || (button == m_clicked)  )
+	 || (m_alt   && button->IsAlt  (m_shift, m_alt) == m_alt  )
+	 || (button == m_clicked)  )
 	{
 		invert = TRUE;
 	}
@@ -1117,9 +1122,9 @@ void SjVirtKeybdFrame::OnMouseDown(wxMouseEvent& event)
 	if( button == NULL )
 	{
 		if( x > m_closeClickRect.x
-		        && x < m_closeClickRect.x+m_closeClickRect.width
-		        && y > m_closeClickRect.y
-		        && y < m_closeClickRect.y+m_closeClickRect.height )
+		 && x < m_closeClickRect.x+m_closeClickRect.width
+		 && y > m_closeClickRect.y
+		 && y < m_closeClickRect.y+m_closeClickRect.height )
 		{
 			s_inTimeredClose = TRUE;
 			m_closeWatchTimer.Stop();
@@ -1210,10 +1215,14 @@ void SjVirtKeybdFrame::OnMouseUp(wxMouseEvent& event)
 		if( m_alt || m_shift )
 		{
 			if( !m_altLock )
+			{
 				m_alt = 0;
+			}
 
 			if( !m_shiftLock )
+			{
 				m_shift = 0;
+			}
 
 			redrawAll = true;
 		}
@@ -1487,7 +1496,8 @@ wxString SjVirtKeybdModule::GetKeybdLayout()
 			m_layoutFile_dontUse.Clear();
 			SjArrayVirtKeybdLayout layouts;
 			GetAvailKeybdLayouts(layouts);
-			if( layouts.GetCount() ) {
+			if( layouts.GetCount() )
+			{
 				m_layoutFile_dontUse = layouts[0].m_file;
 			}
 

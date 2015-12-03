@@ -50,7 +50,7 @@ private:
 
 	void            OnMyMouseDown       (wxMouseEvent&);
 	void            OnMyMouseDownDo     (wxCommandEvent&);
-	DECLARE_EVENT_TABLE ();
+	                DECLARE_EVENT_TABLE ();
 };
 
 
@@ -58,7 +58,7 @@ class SjVirtKeybdKey
 {
 public:
 	// define a key
-	SjVirtKeybdKey      (const wxString& keyNormal);
+	                SjVirtKeybdKey      (const wxString& keyNormal);
 	void            SetKey              (const wxString& type, const wxString& key);
 	void            SetRelWidth         (const wxString& s) { m_relWidth = SjTools::ParseFloat(s); }
 	void            SetRelXPos          (float x) { m_relXPos = x; }
@@ -79,12 +79,12 @@ public:
 	wxRect          m_rect;
 
 private:
-#define         SJ_VK_MAX_SHIFT     2
-#define         SJ_VK_MAX_ALT       33 /* 32 keys -- 1..32 */
+	#define         SJ_VK_MAX_SHIFT     2
+	#define         SJ_VK_MAX_ALT       33 /* 32 keys -- 1..32 */
 	wxString        m_keys[SJ_VK_MAX_SHIFT][SJ_VK_MAX_ALT];
 	wxString        m_keyTitles[SJ_VK_MAX_SHIFT][SJ_VK_MAX_ALT];
 
-#define         SJ_VK_LOCK          0x01
+	#define         SJ_VK_LOCK          0x01
 	long            m_keyFlags[SJ_VK_MAX_SHIFT][SJ_VK_MAX_ALT];
 
 	float           m_relXPos;
@@ -104,12 +104,11 @@ WX_DECLARE_OBJARRAY(SjVirtKeybdKey, SjArrayVirtKeybdKey);
 class SjVirtKeybdLayout
 {
 public:
-	SjVirtKeybdLayout   ();
+	                SjVirtKeybdLayout   ();
 	bool            LoadLayoutFromFile  (const wxString& file, wxArrayString* allNames);
 	wxString        m_name;
 	wxString        m_file;
-	SjArrayVirtKeybdKey
-	m_keys;
+	SjArrayVirtKeybdKey m_keys;
 
 	// the "relative width" is - more or less - the number of buttons in
 	// a single line of the keyboard; however, the buttons may have
@@ -136,7 +135,7 @@ class SjVirtKeybdFrame;
 class SjVirtKeybdModule : public SjCommonModule
 {
 public:
-	SjVirtKeybdModule   (SjInterfaceBase*);
+	                SjVirtKeybdModule   (SjInterfaceBase*);
 
 	// open / close the keyboard
 	void            OpenKeybd           (wxWindow* inputReceiver, bool forceForTesting=FALSE);
@@ -149,20 +148,20 @@ public:
 	void            SetKeybdLayout      (const wxString& file);
 
 	// transparency
-#define         SJ_DEF_VIRTKEYBD_TRANSP 26L  // 26 is a nice value close to black (0=fully opaque, 100=fully transparent)
+	#define         SJ_DEF_VIRTKEYBD_TRANSP 26L  // 26 is a nice value close to black (0=fully opaque, 100=fully transparent)
 	int             GetTransparency     () ;
 	void            SetTransparency     (int transp);
 
 	// misc. settings
-#define         SJ_VIRTKEYBD_BLACK                  0x00000010L
-#define         SJ_VIRTKEYBD_USE_IN_KIOSK           0x00010000L
-#define         SJ_VIRTKEYBD_USE_OUTSIDE_KIOSK      0x00020000L
-#define         SJ_VIRTKEYBD_HIDE_CURSOR            0x00040000L
-#define         SJ_VIRTKEYBD_DEFAULT                0x0000FFFFL
+	#define         SJ_VIRTKEYBD_BLACK                  0x00000010L
+	#define         SJ_VIRTKEYBD_USE_IN_KIOSK           0x00010000L
+	#define         SJ_VIRTKEYBD_USE_OUTSIDE_KIOSK      0x00020000L
+	#define         SJ_VIRTKEYBD_HIDE_CURSOR            0x00040000L
+	#define         SJ_VIRTKEYBD_DEFAULT                0x0000FFFFL
 	long            GetKeybdFlags       () const { return m_flags; }
 	void            SetFlag             (long flag, bool set);
 	bool            GetForceForTesting  () const { return m_forceForTesting; };
-	wxWindow*        GetInputReceiver   () const { return m_inputReceiver; }
+	wxWindow*       GetInputReceiver    () const { return m_inputReceiver; }
 
 	// the cursor
 	static wxCursor GetStandardCursor   ();
@@ -174,8 +173,7 @@ protected:
 
 private:
 	// the frame window
-	SjVirtKeybdFrame*
-	GetVirtKeybdFrame   ();
+	SjVirtKeybdFrame* GetVirtKeybdFrame   ();
 	wxWindow*       m_inputReceiver; // may be NULL at any time!
 
 	// the settings
@@ -184,10 +182,8 @@ private:
 	wxString        m_layoutFile_dontUse;   // use GetKeybdLayout() instead
 	int             m_transp_dontUse;       // use GetTransparency() instead
 	void            SaveSettings        ();
-	void            GetAvailKeybdLayoutsFromDir
-	(SjArrayVirtKeybdLayout& list, const wxString& dir);
-	void            GetAvailKeybdLayoutsFromFile
-	(SjArrayVirtKeybdLayout& list, const wxString& file);
+	void            GetAvailKeybdLayoutsFromDir (SjArrayVirtKeybdLayout& list, const wxString& dir);
+	void            GetAvailKeybdLayoutsFromFile (SjArrayVirtKeybdLayout& list, const wxString& file);
 
 };
 
