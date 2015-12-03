@@ -63,7 +63,7 @@ private:
 	bool            TransferDataToWindow() { SetFocusToDefaultButton(); return TRUE; }
 
 	void            OnNo                (wxCommandEvent&);
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 };
 
 
@@ -296,14 +296,16 @@ int SjMessageBox        (const wxString& message, const wxString& caption,
 	if( g_accelModule )
 	{
 		if( g_accelModule->m_flags&SJ_ACCEL_USE_VIEW_FONT_IN_DLG )
+		{
 			useViewFontInDlg = true;
+		}
 	}
 
 	#ifndef __WXMAC__
 	if( yesTitle.IsEmpty()
-	        && noTitle.IsEmpty()
-	        && options == NULL
-	        && !useViewFontInDlg )
+	 && noTitle.IsEmpty()
+	 && options == NULL
+	 && !useViewFontInDlg )
 	{
 		// fallback to the default message box
 		// (under wxMac, wxMessageBox() forces a context switch (?) which re-allows eg. Cmd+Tab in the kiosk mode - so we don't use it there)
