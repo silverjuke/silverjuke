@@ -43,3 +43,7 @@ po/remove-potcdate.sed
 po/*.gmo
 po/*.insert-header
 silverjuke.1
+
+# ignore other files
+.DS_Store
+
