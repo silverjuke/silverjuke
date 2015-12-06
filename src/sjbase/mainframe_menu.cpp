@@ -285,65 +285,83 @@ void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
 
 	viewMenu->AppendSeparator();
 
-	// display options
+	// view select / view toggle
 
-	if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
-	{
-		SjMenu* displayMenu = new SjMenu(viewMenu->ShowShortcuts());
-			displayMenu->AppendCheckItem(IDT_TOGGLE_TIME_MODE, _("Show remaining time"));
-			displayMenu->AppendCheckItem(IDO_TOGGLE_TIME_MODE2, _("Show elapsed time"));
-			if( IsAllAvailable() )
-			{
-				displayMenu->AppendCheckItem(IDO_DISPLAY_TOTAL_TIME, _("Show total time"));
-				displayMenu->AppendCheckItem(IDO_DISPLAY_TRACKNR, _("Show track number"));
-				displayMenu->AppendCheckItem(IDO_DISPLAY_ARTIST, _("Show artist name"));
-				displayMenu->AppendCheckItem(IDO_DISPLAY_AUTOPLAY, _("Show AutoPlay"));
-				displayMenu->AppendCheckItem(IDO_DISPLAY_PREFERALBCV, _("Prefer album- to track-cover"));
-			}
-		viewMenu->Append(0, _("Display"), displayMenu);
+	int view = m_browser->GetView();
 
-		viewMenu->AppendSeparator();
-	}
+	viewMenu->AppendRadioItem(IDT_WORKSPACE_ALBUM_VIEW);
+	viewMenu->Check(IDT_WORKSPACE_ALBUM_VIEW, (view==SJ_BROWSER_ALBUM_VIEW));
 
-	// browser options
+	viewMenu->AppendRadioItem(IDT_WORKSPACE_COVER_VIEW);
+	viewMenu->Check(IDT_WORKSPACE_COVER_VIEW, (view==SJ_BROWSER_COVER_VIEW));
+
+	viewMenu->AppendRadioItem(IDT_WORKSPACE_LIST_VIEW);
+	viewMenu->Check(IDT_WORKSPACE_LIST_VIEW, (view==SJ_BROWSER_LIST_VIEW));
 
 	viewMenu->Append(IDT_WORKSPACE_TOGGLE_VIEW);
 
-	if( IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) )
+	viewMenu->AppendSeparator();
+
+	if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) || IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) || IsOpAvailable(SJ_OP_ZOOM) )
 	{
-		SjMenu* colMenu = new SjMenu(viewMenu->ShowShortcuts());
 
-			colMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, (m_browser->GetView()==SJ_BROWSER_COVER_VIEW)? _("Show cover titles") : _("Show covers"));
-			colMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
+		// display options
 
-			m_browser->AddItemsToColMenu(colMenu);
+		if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
+		{
+			SjMenu* displayMenu = new SjMenu(viewMenu->ShowShortcuts());
+				displayMenu->AppendCheckItem(IDT_TOGGLE_TIME_MODE, _("Show remaining time"));
+				displayMenu->AppendCheckItem(IDO_TOGGLE_TIME_MODE2, _("Show elapsed time"));
+				if( IsAllAvailable() )
+				{
+					displayMenu->AppendCheckItem(IDO_DISPLAY_TOTAL_TIME, _("Show total time"));
+					displayMenu->AppendCheckItem(IDO_DISPLAY_TRACKNR, _("Show track number"));
+					displayMenu->AppendCheckItem(IDO_DISPLAY_ARTIST, _("Show artist name"));
+					displayMenu->AppendCheckItem(IDO_DISPLAY_AUTOPLAY, _("Show AutoPlay"));
+					displayMenu->AppendCheckItem(IDO_DISPLAY_PREFERALBCV, _("Prefer album- to track-cover"));
+				}
+			viewMenu->Append(0, _("Display"), displayMenu);
+		}
 
-		viewMenu->Append(0, _("Columns"), colMenu);
-	}
+		// browser options
 
-	if( IsOpAvailable(SJ_OP_ZOOM) )
-	{
-		SjMenu* zoomMenu = new SjMenu(viewMenu->ShowShortcuts());
-		zoomMenu->Append(IDT_ZOOM_IN);
-		zoomMenu->Append(IDT_ZOOM_OUT);
-		zoomMenu->Append(IDT_ZOOM_NORMAL);
-		zoomMenu->AppendSeparator();
-		zoomMenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
-		zoomMenu->Check(IDO_SAMEZOOMINALLVIEWS, (g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS)!=0);
-		viewMenu->Append(0, _("Zoom"), zoomMenu);
+		if( IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) )
+		{
+			SjMenu* colMenu = new SjMenu(viewMenu->ShowShortcuts());
+
+				colMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, (m_browser->GetView()==SJ_BROWSER_COVER_VIEW)? _("Show cover titles") : _("Show covers"));
+				colMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
+
+				m_browser->AddItemsToColMenu(colMenu);
+
+			viewMenu->Append(0, _("Columns"), colMenu);
+		}
+
+		if( IsOpAvailable(SJ_OP_ZOOM) )
+		{
+			SjMenu* zoomMenu = new SjMenu(viewMenu->ShowShortcuts());
+			zoomMenu->Append(IDT_ZOOM_IN);
+			zoomMenu->Append(IDT_ZOOM_OUT);
+			zoomMenu->Append(IDT_ZOOM_NORMAL);
+			zoomMenu->AppendSeparator();
+			zoomMenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
+			zoomMenu->Check(IDO_SAMEZOOMINALLVIEWS, (g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS)!=0);
+			viewMenu->Append(0, _("Zoom"), zoomMenu);
+		}
+
+		viewMenu->AppendSeparator();
 	}
 
 	// window options
 
 	if( !IsKioskStarted() )
 	{
-		viewMenu->AppendSeparator();
-
 		viewMenu->AppendCheckItem(IDT_ALWAYS_ON_TOP);
 		viewMenu->Check(IDT_ALWAYS_ON_TOP, IsAlwaysOnTop());
+
+		viewMenu->AppendSeparator();
 	}
 
-	viewMenu->AppendSeparator();
 
 	if( g_visModule )
 	{
