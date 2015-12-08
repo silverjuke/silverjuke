@@ -36,8 +36,8 @@ class SjHttpThread;
 class SjHttp
 {
 public:
-	SjHttp              ();
-	~SjHttp             () { Cleanup(); }
+	                SjHttp              ();
+	                ~SjHttp             () { Cleanup(); }
 
 	void            Init                (wxEvtHandler* rcvEvtHandler, int rcvCommandId);
 
@@ -72,8 +72,6 @@ private:
 		friend class    SjHttpThread;
 	#endif
 };
-
-
 
 
 #endif // __SJ_HTTP_H__

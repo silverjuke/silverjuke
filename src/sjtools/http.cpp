@@ -43,8 +43,8 @@
 class SjHttpThread : public wxThread
 {
 public:
-	            SjHttpThread        (SjHttp*, const wxString& urlStr, wxMBConv*, const SjSSHash* requestHeader, const wxString& postData);
-	void*       Entry               ();
+	                SjHttpThread        (SjHttp*, const wxString& urlStr, wxMBConv*, const SjSSHash* requestHeader, const wxString& postData);
+	void*           Entry               ();
 
 	SjHttp*         m_http;
 	wxString        m_urlStr;
@@ -52,10 +52,9 @@ public:
 	const SjSSHash* m_requestHeader;
 	wxString        m_postData;
 
-	static wxCriticalSection
-	s_critical;
-	static long s_httpThreadCount;
-	static bool s_httpThreadInitialized;
+	static wxCriticalSection s_critical;
+	static long     s_httpThreadCount;
+	static bool     s_httpThreadInitialized;
 };
 
 wxCriticalSection   SjHttpThread::s_critical;
@@ -108,8 +107,8 @@ void* SjHttpThread::Entry()
 
 SjHttp::SjHttp()
 {
-	m_rcvEvtHandler = NULL;
-	m_rcvCommandId  = 0;
+	m_rcvEvtHandler  = NULL;
+	m_rcvCommandId   = 0;
 	m_httpStatusCode = 400; // Bad Request
 	m_responseHeader = NULL;
 
@@ -196,7 +195,9 @@ wxString SjHttp::ReadFile_(const wxString& urlStr, wxMBConv* mbConv, const SjSSH
 		SjHashIterator iterator;
 		wxString headerName, *headerValue;
 		while( (headerValue=requestHeader->Iterate(iterator, headerName))!=NULL )
+		{
 			http->SetHeader(headerName, *headerValue);
+		}
 
 	}
 
@@ -217,8 +218,10 @@ wxString SjHttp::ReadFile_(const wxString& urlStr, wxMBConv* mbConv, const SjSSH
 			if( allHeaders )
 			{
 				typedef wxStringToStringHashMap::iterator iterator;
-				for (iterator it = allHeaders->begin(), en = allHeaders->end(); it != en; ++it )
+				for( iterator it = allHeaders->begin(), en = allHeaders->end(); it != en; ++it )
+				{
 					responseHeader->Insert(it->first.Lower(), it->second);
+				}
 			}
 		#endif
 	}
@@ -238,7 +241,9 @@ wxString SjHttp::GetHttpResponseHeader(const wxString& key_) const
 	{
 		ptr = m_responseHeader->Lookup(keyLower);
 		if( ptr )
+		{
 			ret = *ptr;
+		}
 	}
 	return ret;
 }
@@ -274,10 +279,12 @@ void SjHttp::OnSilverjukeShutdown()
 {
 	#ifdef SJ_HTTP_THREAD
 		if( SjHttpThread::s_httpThreadInitialized
-				&& SjHttpThread::s_httpThreadCount == 0 )
+		 && SjHttpThread::s_httpThreadCount == 0 )
 		{
 			if( wxSocketBase::IsInitialized() )
+			{
 				wxSocketBase::Shutdown();
+			}
 		}
 	#endif
 }
