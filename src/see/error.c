@@ -38,11 +38,11 @@
 # include <stdarg.h>
 #endif
 
-#if HAVE_ERRNO_H
-# include <errno.h>
-#else
-extern int errno;
-#endif
+//#if HAVE_ERRNO_H
+#include <errno.h>
+//#else
+//extern int errno;
+//#endif
 
 #include "see_value.h"
 #include "see_object.h"
@@ -59,7 +59,7 @@ extern int errno;
 int SEE_error_debug = 0;
 #endif
 
-static void error_throw(struct SEE_interpreter *, struct SEE_object *, int, 
+static void error_throw(struct SEE_interpreter *, struct SEE_object *, int,
 			const char *, int, const char *, va_list) SEE_dead;
 
 /*
@@ -92,10 +92,10 @@ SEE_error__throw_string(interp, obj, filename, lineno, s)
 		/* NOTREACHED */
 	}
 
-	/* 
+	/*
 	 * Temporarily remove the current try-catch context
 	 * so that any exceptions thrown recusively during the construction
-	 * of the error cause an interpreter abort in the block above. 
+	 * of the error cause an interpreter abort in the block above.
 	 */
 	ctxt_save = interp->try_context;
 	interp->try_context = NULL;
@@ -103,8 +103,8 @@ SEE_error__throw_string(interp, obj, filename, lineno, s)
 		struct SEE_string *msg;
 		struct SEE_value v, *argv[1];
 
-		msg = SEE_string_concat(interp, 
-		    SEE_location_string(interp, interp->try_location), 
+		msg = SEE_string_concat(interp,
+		    SEE_location_string(interp, interp->try_location),
 		    	s ? s : STR(error));
 		SEE_SET_STRING(&v, msg);
 		argv[0] = &v;
@@ -140,7 +140,7 @@ error_throw(interp, obj, errval, filename, lineno, fmt, ap)
 	if (!interp->try_context) {
 		struct SEE_value v;
 		SEE_SET_OBJECT(&v, obj);
-		SEE_throw_abort(interp, &v, filename, lineno); 
+		SEE_throw_abort(interp, &v, filename, lineno);
 	}
 	ctxt_save = interp->try_context;
 	interp->try_context = NULL;

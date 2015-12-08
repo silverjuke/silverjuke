@@ -26,12 +26,12 @@
  ******************************************************************************/
 
 
+#include <sjbase/base.h>
+#include <sjmodules/kiosk/kiosk.h>
+#include <sjbase/browser.h>
+#include <see_dom/sj_see.h>
+#include <see_dom/sj_see_helpers.h>
 
-#include "../basesj.h"
-#include "../modules/kiosk/kiosk.h"
-#include "../browser.h"
-#include "sj_see.h"
-#include "sj_see_helpers.h"
 
 // data used by our object
 struct rights_object
@@ -40,12 +40,9 @@ struct rights_object
 };
 
 
-
-
 /*******************************************************************************
- *  Misc.
+ * Misc.
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(rights, construct)
@@ -61,26 +58,25 @@ IMPLEMENT_FUNCTION(rights, viewMode)
 
 
 /*******************************************************************************
- *  Properties
+ * Properties
  ******************************************************************************/
-
 
 
 IMPLEMENT_HASPROPERTY(rights)
 {
 	if(
 	    VAL_PROPERTY( all )
-	    || VAL_PROPERTY( credits )
-	    || VAL_PROPERTY( useCredits )
-	    || VAL_PROPERTY( play )
-	    || VAL_PROPERTY( pause )
-	    || VAL_PROPERTY( stop )
-	    || VAL_PROPERTY( editQueue )
-	    || VAL_PROPERTY( multiEnqueue )
-	    || VAL_PROPERTY( search )
-	    || VAL_PROPERTY( startVis )
-	    || VAL_PROPERTY( volume )
-	    || VAL_PROPERTY( zoom )
+	 || VAL_PROPERTY( credits )
+	 || VAL_PROPERTY( useCredits )
+	 || VAL_PROPERTY( play )
+	 || VAL_PROPERTY( pause )
+	 || VAL_PROPERTY( stop )
+	 || VAL_PROPERTY( editQueue )
+	 || VAL_PROPERTY( multiEnqueue )
+	 || VAL_PROPERTY( search )
+	 || VAL_PROPERTY( startVis )
+	 || VAL_PROPERTY( volume )
+	 || VAL_PROPERTY( zoom )
 	)
 	{
 		RETURN_HAS;
@@ -90,7 +86,6 @@ IMPLEMENT_HASPROPERTY(rights)
 		RETURN_HASNOT;
 	}
 }
-
 
 
 IMPLEMENT_GET(rights)
@@ -186,7 +181,7 @@ IMPLEMENT_PUT(rights)
 
 
 /*******************************************************************************
- *  Let SEE know about this class (this part is a little more complicated)
+ * Let SEE know about this class (this part is a little more complicated)
  ******************************************************************************/
 
 
@@ -206,7 +201,6 @@ static SEE_objectclass rights_inst_class = {
 };
 
 
-
 /* object class for Rights constructor */
 static SEE_objectclass rights_constructor_class = {
 	"RightsConstructor",        /* Class */
@@ -220,7 +214,6 @@ static SEE_objectclass rights_constructor_class = {
 	rights_construct,           /* Construct */
 	NULL                        /* Call */
 };
-
 
 
 void SjSee::Rights_init()
@@ -247,7 +240,6 @@ void SjSee::Rights_init()
 	PUT_OBJECT(m_interpr->Global, str_Rights,    Rights);
 	PUT_OBJECT(m_interpr->Global, str_rights,    Rights_new());
 }
-
 
 
 SEE_object* SjSee::Rights_new()

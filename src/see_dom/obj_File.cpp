@@ -27,10 +27,10 @@
 
 
 
-#include "../basesj.h"
-#include "../tools/bytefile.h"
-#include "sj_see.h"
-#include "sj_see_helpers.h"
+#include <sjbase/base.h>
+#include <tagger/tg_bytefile.h>
+#include <see_dom/sj_see.h>
+#include <see_dom/sj_see_helpers.h>
 
 // data used by our object
 struct file_object
@@ -478,7 +478,7 @@ static file_object* toFile(SEE_interpreter* interpr, SEE_object* o, int init)
 		if( fo->fsFile )
 		{
 			// create byteFile, seek to old position if flush() was called before
-			fo->byteFile = new SjByteFile(fo->fsFile, NULL);
+			fo->byteFile = new SjByteFile("", fo->fsFile->GetStream());
 			if( fo->backupPos )
 				fo->byteFile->Seek(fo->backupPos, SJ_SEEK_BEG);
 		}

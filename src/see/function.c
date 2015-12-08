@@ -60,7 +60,7 @@
  * Function instance creation (13.2) 'struct function' pointer comparison
  * is sufficient for telling if two Function instances are joined.
  */
- 
+
 /*
  * Create a new function 'core' entity (struct function) with a initial
  * common function object instance.
@@ -86,7 +86,7 @@ SEE_function_make(interp, name, params, body)
 	/*
 	 * Convert the linked list of parameter name strings into
 	 * a fixed array of string pointers. This is done because
-	 * the Arguments object needs to seek the list. 
+	 * the Arguments object needs to seek the list.
 	 */
 	f->nparams = 0;
 	for (v = params; v; v = v->next)
@@ -121,7 +121,7 @@ SEE_function_make(interp, name, params, body)
 
 	/* 13.2 step 10 - the prototype's 'constructor' property */
 	SEE_SET_OBJECT(&val, F);
-	SEE_OBJECT_PUT(interp, r9.u.object, STR(constructor), &val, 
+	SEE_OBJECT_PUT(interp, r9.u.object, STR(constructor), &val,
 		SEE_ATTR_DONTENUM);
 
 	/* 13.2 step 11 + 15.3.5.2 - add the 'prototype' property */
@@ -133,7 +133,7 @@ SEE_function_make(interp, name, params, body)
 		struct SEE_value v;
 		SEE_SET_NULL(&v);
 		SEE_OBJECT_PUT(interp, F,
-			STR(arguments), &v, SEE_ATTR_DONTDELETE | 
+			STR(arguments), &v, SEE_ATTR_DONTDELETE |
 			SEE_ATTR_READONLY | SEE_ATTR_DONTENUM);
 	}
 
@@ -158,9 +158,9 @@ SEE_function_put_args(context, f, argc, argv)
 
 	/* Install the actual arguments */
 	SEE_SET_UNDEFINED(&undefv);
-	for (i = 0; i < f->nparams; i++) 
+	for (i = 0; i < f->nparams; i++)
 	    SEE_OBJECT_PUT(context->interpreter,
-		context->variable, 
+		context->variable,
 		f->params[i],
 		i < argc ? argv[i] : &undefv,
 		context->varattr);

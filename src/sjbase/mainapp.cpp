@@ -197,7 +197,7 @@ bool SjConnection::OnExecute(const wxString& topic, const void* data_, size_t si
 	else if( topic==wxT("execute") )
 	{
 		#if SJ_USE_SCRIPTS
-			g_mainFrame->CmdLineAndDdeSeeExecute(data_);
+			// g_mainFrame->CmdLineAndDdeSeeExecute(data_); TODO_SEE
 		#else
 			wxLogError(wxT("Scripts are not supported in this build."));
 		#endif

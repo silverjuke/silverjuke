@@ -26,20 +26,20 @@
  ******************************************************************************/
 
 
-
-#include "../basesj.h"
-#include "../tools/consolesj.h"
-#include "../modules/advsearch.h"
-#include "../modules/openfiles.h"
-#include "sj_see.h"
-#include "sj_see_helpers.h"
+#include <sjbase/base.h>
+#include <sjtools/console.h>
+#include <sjtools/msgbox.h>
+#include <sjmodules/advsearch.h>
+#include <sjmodules/openfiles.h>
+#include <see_dom/sj_see.h>
+#include <see_dom/sj_see_helpers.h>
 
 
 // data used by our object
 class SjApiDlg : public SjDialog
 {
 public:
-	SjApiDlg                (struct dialog_object* dlo, wxWindow* parent, SjDialogMode mode);
+	                        SjApiDlg                (struct dialog_object* dlo, wxWindow* parent, SjDialogMode mode);
 	void                    DoReallyClose           ();
 	SjDialogMode            m_mode;
 	long                    m_lastButtonIndex;
@@ -48,8 +48,9 @@ private:
 	struct dialog_object*   m_dlo;
 	void                    OnAnyButton             (wxCommandEvent&);
 	void                    OnClose                 (wxCloseEvent&) { wxCommandEvent fwd(wxEVT_COMMAND_BUTTON_CLICKED, wxID_CANCEL); OnAnyButton(fwd); }
-	DECLARE_EVENT_TABLE     ()
+	                        DECLARE_EVENT_TABLE     ()
 };
+
 
 struct dialog_object
 {
@@ -62,6 +63,8 @@ struct dialog_object
 #define         MAX_CONTROLS 1024
 	SEE_object*     m_callbacks[MAX_CONTROLS]; // here they are handled by the garbage collection :-)
 };
+
+
 static void dialog_finalize_(SEE_interpreter* interpr, void* ptr, void* closure)
 {
 	// this function is also used as the "unexpected exit" for persistent objects;
@@ -80,6 +83,8 @@ static void dialog_finalize_(SEE_interpreter* interpr, void* ptr, void* closure)
 		obj->m_controls = NULL;
 	}
 }
+
+
 static dialog_object* alloc_dialog_object(SEE_interpreter* interpr)
 {
 	dialog_object* dlo = (dialog_object*)SEE_malloc_finalize(interpr, sizeof(dialog_object), dialog_finalize_, NULL);
@@ -88,20 +93,21 @@ static dialog_object* alloc_dialog_object(SEE_interpreter* interpr)
 	dlo->m_see = (SjSee*)interpr->host_data;
 	return dlo;
 }
+
+
 static dialog_object* get_dialog_object(SEE_interpreter* interpr, SEE_object* o);
 
 
-
 /*******************************************************************************
- *  Constructing
+ * Constructing
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(dialog, construct)
 {
 	RETURN_OBJECT( HOST_DATA->Dialog_new() );
 }
+
 
 IMPLEMENT_FUNCTION(dialog, addTextCtrl)
 {
@@ -110,6 +116,7 @@ IMPLEMENT_FUNCTION(dialog, addTextCtrl)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, addMultilineCtrl)
 {
 	dialog_object* dlo = get_dialog_object(interpr_, this_);
@@ -117,12 +124,14 @@ IMPLEMENT_FUNCTION(dialog, addMultilineCtrl)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, addPasswordCtrl)
 {
 	dialog_object* dlo = get_dialog_object(interpr_, this_);
 	dlo->m_controls->AddTextCtrl(ARG_STRING(0), ARG_STRING(1), ARG_STRING(2), wxT(""), wxTE_PASSWORD);
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(dialog, addSelectCtrl)
 {
@@ -134,12 +143,14 @@ IMPLEMENT_FUNCTION(dialog, addSelectCtrl)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, addCheckCtrl)
 {
 	dialog_object* dlo = get_dialog_object(interpr_, this_);
 	dlo->m_controls->AddCheckCtrl(ARG_STRING(0), ARG_STRING(1), ARG_LONG(2), 0);
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(dialog, addStaticText)
 {
@@ -158,6 +169,7 @@ IMPLEMENT_FUNCTION(dialog, addStaticText)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, addButton)
 {
 	dialog_object* dlo = get_dialog_object(interpr_, this_);
@@ -167,12 +179,14 @@ IMPLEMENT_FUNCTION(dialog, addButton)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, getValue)
 {
 	dialog_object* dlo = get_dialog_object(interpr_, this_);
 	wxString value = dlo->m_controls->GetValue(dlo->m_controls->Id2Index(ARG_STRING(0)));
 	RETURN_STRING( value );
 }
+
 
 IMPLEMENT_FUNCTION(dialog, setValue)
 {
@@ -182,14 +196,13 @@ IMPLEMENT_FUNCTION(dialog, setValue)
 }
 
 
-
 /*******************************************************************************
- *  Dialog Handling
+ * Dialog Handling
  ******************************************************************************/
 
 
-
 #define IDC_USER_BUTTON     (IDM_FIRSTPRIVATE+3)
+
 
 BEGIN_EVENT_TABLE(SjApiDlg, SjDialog)
 	EVT_BUTTON  (IDC_USER_BUTTON,       SjApiDlg::OnAnyButton       )
@@ -197,6 +210,7 @@ BEGIN_EVENT_TABLE(SjApiDlg, SjDialog)
 	EVT_BUTTON  (wxID_CANCEL,           SjApiDlg::OnAnyButton       )
 	EVT_CLOSE   (                       SjApiDlg::OnClose           )
 END_EVENT_TABLE()
+
 
 SjApiDlg::SjApiDlg(dialog_object* dlo, wxWindow* parent, SjDialogMode mode)
 	: SjDialog(parent, dlo->m_see->GetFineName(), mode, SJ_NEVER_RESIZEABLE)
@@ -235,18 +249,19 @@ SjApiDlg::SjApiDlg(dialog_object* dlo, wxWindow* parent, SjDialogMode mode)
 	CentreOnParent();
 }
 
+
 void SjApiDlg::OnAnyButton(wxCommandEvent& event)
 {
 	switch( event.GetId() )
 	{
 		case wxID_OK:       m_lastButtonIndex = m_dlo->m_controls->Id2Index(wxT("ok"));     break;
 		case wxID_CANCEL:   m_lastButtonIndex = m_dlo->m_controls->Id2Index(wxT("cancel")); break;
-		default:            { wxWindow* button = (wxWindow*)event.GetEventObject(); m_lastButtonIndex = (int)button->GetClientData(); } break;
+		default:            { wxWindow* button = (wxWindow*)event.GetEventObject(); m_lastButtonIndex = (long)button->GetClientData(); } break;
 	}
 
 	if( m_lastButtonIndex >= 0
-	        && m_lastButtonIndex < MAX_CONTROLS
-	        && m_dlo->m_callbacks[m_lastButtonIndex] )
+	 && m_lastButtonIndex < MAX_CONTROLS
+	 && m_dlo->m_callbacks[m_lastButtonIndex] )
 	{
 		// the script part may call close() which will close the dialog then
 		SeeCallCallback(m_dlo->m_see->m_interpr,
@@ -260,6 +275,7 @@ void SjApiDlg::OnAnyButton(wxCommandEvent& event)
 		// this may destroy the object through the garbage collection!
 	}
 }
+
 
 void SjApiDlg::DoReallyClose()
 {
@@ -278,6 +294,7 @@ void SjApiDlg::DoReallyClose()
 	m_dlo->m_window = NULL;
 	m_dlo->m_see->RemovePersistentObject((SEE_object*)m_dlo);
 }
+
 
 IMPLEMENT_FUNCTION(dialog, showModal)
 {
@@ -303,7 +320,10 @@ IMPLEMENT_FUNCTION(dialog, showModal)
 	RETURN_UNDEFINED;
 }
 
+
 extern SEE_objectclass dialog_constructor_class;
+
+
 IMPLEMENT_FUNCTION(dialog, show)
 {
 	if( this_->objectclass == &dialog_constructor_class )
@@ -362,11 +382,9 @@ IMPLEMENT_FUNCTION(dialog, close)
 }
 
 
-
 /*******************************************************************************
- *  Globals
+ * Globals
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(dialog, alert)
@@ -379,6 +397,7 @@ IMPLEMENT_FUNCTION(dialog, alert)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, confirm)
 {
 	wxWindow* parent = SjDialog::GetSuitableDlgParent();
@@ -388,6 +407,7 @@ IMPLEMENT_FUNCTION(dialog, confirm)
 
 	RETURN_BOOL( ret );
 }
+
 
 IMPLEMENT_FUNCTION(dialog, prompt)
 {
@@ -401,6 +421,7 @@ IMPLEMENT_FUNCTION(dialog, prompt)
 	else
 		RETURN_FALSE;
 }
+
 
 IMPLEMENT_FUNCTION(dialog, fileSel)
 {
@@ -419,6 +440,7 @@ IMPLEMENT_FUNCTION(dialog, fileSel)
 		RETURN_FALSE;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, logError)
 {
 	wxString msg = ARG_STRING(0);
@@ -426,12 +448,14 @@ IMPLEMENT_FUNCTION(dialog, logError)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(dialog, logWarning)
 {
 	wxString msg = ARG_STRING(0);
 	wxLogWarning(wxT("%s [%s]"), msg.c_str(), HOST_DATA->m_executionScope.c_str());
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(dialog, print)
 {
@@ -442,9 +466,8 @@ IMPLEMENT_FUNCTION(dialog, print)
 
 
 /*******************************************************************************
- *  Let SEE know about this class (this part is a little more complicated)
+ * Let SEE know about this class (this part is a little more complicated)
  ******************************************************************************/
-
 
 
 /* object class for Dialog.prototype and dialog instances */
@@ -463,7 +486,6 @@ static SEE_objectclass dialog_inst_class = {
 };
 
 
-
 /* object class for Dialog constructor */
 SEE_objectclass dialog_constructor_class = {
 	"DialogConstructor",        /* Class */
@@ -477,7 +499,6 @@ SEE_objectclass dialog_constructor_class = {
 	dialog_construct,           /* Construct */
 	NULL                        /* Call */
 };
-
 
 
 void SjSee::Dialog_init()
@@ -524,7 +545,6 @@ void SjSee::Dialog_init()
 }
 
 
-
 SEE_object* SjSee::Dialog_new()
 {
 	dialog_object* obj = alloc_dialog_object(m_interpr);
@@ -534,7 +554,6 @@ SEE_object* SjSee::Dialog_new()
 
 	return (SEE_object *)obj;
 }
-
 
 
 static dialog_object* get_dialog_object(SEE_interpreter* interpr, SEE_object* o)

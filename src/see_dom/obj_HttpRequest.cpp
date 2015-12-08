@@ -26,11 +26,10 @@
  ******************************************************************************/
 
 
-
-
-#include "../basesj.h"
-#include "sj_see.h"
-#include "sj_see_helpers.h"
+#include <sjbase/base.h>
+#include <see_dom/sj_see.h>
+#include <see_dom/sj_see_helpers.h>
+#include <wx/socket.h>
 
 
 // data used by our object

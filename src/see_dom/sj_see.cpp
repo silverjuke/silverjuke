@@ -26,20 +26,17 @@
  ******************************************************************************/
 
 
-
-#include "../basesj.h"
-
-#include "sj_see.h"
+#include <sjbase/base.h>
+#include <see_dom/sj_see.h>
 #define SJ_IMPLEMENT_HELPERS
-#include "sj_see_helpers.h"
+#include <see_dom/sj_see_helpers.h>
 
 #if SJ_USE_SCRIPTS
 
 
 /*******************************************************************************
- *  Callbacks for SEE_system
+ * Callbacks for SEE_system
  ******************************************************************************/
-
 
 
 static void SjSee_abort(SEE_interpreter* interpr_, const char* msgPtr)
@@ -50,20 +47,16 @@ static void SjSee_abort(SEE_interpreter* interpr_, const char* msgPtr)
 }
 
 
-
 static void* SjSee_malloc(SEE_interpreter* interpr, SEE_size_t size)
 {
 	return SjGcAlloc(size, (interpr?0:SJ_GC_ALLOC_STATIC));
 }
 
 
-
 static void* SjSee_malloc_string(SEE_interpreter* interpr, SEE_size_t size)
 {
 	return SjGcAlloc(size, (interpr?0:SJ_GC_ALLOC_STATIC) | SJ_GC_ALLOC_STRING);
 }
-
-
 
 
 static void* SjSee_malloc_finalize(SEE_interpreter* interpr, SEE_size_t size,
@@ -75,21 +68,18 @@ static void* SjSee_malloc_finalize(SEE_interpreter* interpr, SEE_size_t size,
 }
 
 
-
 static void SjSee_free(SEE_interpreter* interpr, void* ptr)
 {
 	SjGcUnref(ptr);
 }
 
 
-
 /*******************************************************************************
- *  SjSee constructor / destructor
+ * SjSee constructor / destructor
  ******************************************************************************/
 
 
 SjSee* SjSee::s_first = NULL;
-
 
 
 SjSee::SjSee()
@@ -115,7 +105,6 @@ SjSee::SjSee()
 	m_next = s_first;
 	s_first = this;
 }
-
 
 
 SjSee::~SjSee()
@@ -151,27 +140,27 @@ SjSee::~SjSee()
 
 	// remove from list
 	{
-#ifdef __WXDEBUG__
-		bool dbg_removed = false;
-		long dbg_oldCnt = 0;
-		{
-			SjSee* dbg_cur = s_first;
-			while( dbg_cur )
+		#ifdef __WXDEBUG__
+			bool dbg_removed = false;
+			long dbg_oldCnt = 0;
 			{
-				dbg_oldCnt++;
-				dbg_cur = dbg_cur->m_next;
+				SjSee* dbg_cur = s_first;
+				while( dbg_cur )
+				{
+					dbg_oldCnt++;
+					dbg_cur = dbg_cur->m_next;
+				}
 			}
-		}
-#endif
+		#endif
 
 		SjSee *cur = s_first, **prev = &s_first;
 		while( cur )
 		{
 			if( cur==this )
 			{
-#ifdef __WXDEBUG__
-				dbg_removed = true;
-#endif
+				#ifdef __WXDEBUG__
+					dbg_removed = true;
+				#endif
 				*prev = m_next;
 				break;
 			}
@@ -179,28 +168,26 @@ SjSee::~SjSee()
 			cur = cur->m_next;
 		}
 
-#ifdef __WXDEBUG__
-		wxASSERT( dbg_removed );
-		{
-			long dbg_newCnt = 0;
-			SjSee* dbg_cur = s_first;
-			while( dbg_cur )
+		#ifdef __WXDEBUG__
+			wxASSERT( dbg_removed );
 			{
-				dbg_newCnt++;
-				dbg_cur = dbg_cur->m_next;
+				long dbg_newCnt = 0;
+				SjSee* dbg_cur = s_first;
+				while( dbg_cur )
+				{
+					dbg_newCnt++;
+					dbg_cur = dbg_cur->m_next;
+				}
+				wxASSERT( dbg_newCnt == dbg_oldCnt - 1 );
 			}
-			wxASSERT( dbg_newCnt == dbg_oldCnt - 1 );
-		}
-#endif
+		#endif
 	}
 }
 
 
-
 /*******************************************************************************
- *  SjSee - embedding and events
+ * SjSee - embedding and events
  ******************************************************************************/
-
 
 
 void SjSee::ReceiveMsg(int msg)
@@ -224,7 +211,6 @@ bool SjSee::HasGlobalEmbeddings(SjSeePersistent embedId) const
 }
 
 
-
 wxArrayString SjSee::GetGlobalEmbeddings(SjSeePersistent embedId)
 {
 	wxArrayString strings;
@@ -236,7 +222,6 @@ wxArrayString SjSee::GetGlobalEmbeddings(SjSeePersistent embedId)
 	}
 	return strings;
 }
-
 
 
 bool SjSee::OnGlobalEmbedding(SjSeePersistent embedId, int globalIndex, SjSee* doDefaultAction)
@@ -253,7 +238,7 @@ bool SjSee::OnGlobalEmbedding(SjSeePersistent embedId, int globalIndex, SjSee* d
 		localCount = strings.GetCount();
 
 		if( (globalIndex >= localIndexStart && globalIndex < localIndexStart+localCount)
-		        ||  doDefaultAction == cur )
+		 ||  doDefaultAction == cur )
 		{
 			return cur->Program_onGlobalEmbed(embedId, doDefaultAction? 0 : globalIndex-localIndexStart);
 		}
@@ -266,10 +251,8 @@ bool SjSee::OnGlobalEmbedding(SjSeePersistent embedId, int globalIndex, SjSee* d
 }
 
 
-
-
 /*******************************************************************************
- *  SjSee - execute scripts
+ * SjSee - execute scripts
  ******************************************************************************/
 
 
@@ -339,7 +322,7 @@ static void SeeLogErrorObj(SEE_interpreter* interpr_, SEE_value* errorValue)
 	          );
 
 	// old stuff
-#if 0
+	#if 0
 	{
 		SEE_value errorObjAsStr;
 		SEE_ToString(interpr_, errorValue, &errorObjAsStr);
@@ -350,9 +333,8 @@ static void SeeLogErrorObj(SEE_interpreter* interpr_, SEE_value* errorValue)
 
 		wxLogError(wxT("%s [%s]"), error.c_str(), HOST_DATA->m_executionScope.c_str());
 	}
-#endif
+	#endif
 }
-
 
 
 bool SjSee::Execute(const wxString& script__)
@@ -438,7 +420,6 @@ bool SjSee::Execute(const wxString& script__)
 }
 
 
-
 bool SjSee::ExecuteAsFunction(const wxString& script)
 {
 	wxASSERT( !m_executionScope.IsEmpty() );
@@ -459,12 +440,10 @@ bool SjSee::ExecuteAsFunction(const wxString& script)
 }
 
 
-
 bool SjSee::IsResultDefined()
 {
 	return SEE_VALUE_GET_TYPE(m_executeResult)!=SEE_UNDEFINED;
 }
-
 
 
 wxString SjSee::GetResultString()
@@ -494,7 +473,6 @@ wxString SjSee::GetResultString()
 	// done
 	return ret;
 }
-
 
 
 double SjSee::GetResultDouble()
@@ -528,7 +506,6 @@ double SjSee::GetResultDouble()
 }
 
 
-
 long SjSee::GetResultLong()
 {
 	SjGcLocker gcLocker;
@@ -558,15 +535,14 @@ long SjSee::GetResultLong()
 }
 
 
-
 wxString SjSee::GetFineName(const wxString& scope, const wxString& append)
 {
 	wxString fineName(scope);
 
 
 	if( fineName.Find(wxT('/')) != -1
-	        || fineName.Find(wxT('\\')) != -1
-	        || fineName.Find(wxT(':')) != -1 )
+	 || fineName.Find(wxT('\\')) != -1
+	 || fineName.Find(wxT(':')) != -1 )
 	{
 		// strip path
 		fineName = SjTools::GetFileNameFromUrl(fineName, NULL, true);
@@ -591,9 +567,8 @@ wxString SjSee::GetFineName(const wxString& scope, const wxString& append)
 
 
 /*******************************************************************************
- *  Some Tools as declared in sj_see_helper.h
+ * Some Tools as declared in sj_see_helper.h
  ******************************************************************************/
-
 
 
 wxString SeeValueToWxString(SEE_interpreter* interpr, SEE_value* value)
@@ -610,21 +585,21 @@ wxString SeeValueToWxString(SEE_interpreter* interpr, SEE_value* value)
 
 	if( ret )
 	{
-#ifdef __WXMSW__
-		wxASSERT( sizeof(SEE_char_t) == sizeof(wxChar) );
-		return wxString((const wxChar *) ret->data, ret->length); // (const wxChar *) added on VC2008 migration
-#else
-		SEE_char_t* retPtr = ret->data;
-		long i, iCount = (long)ret->length;
-		wxChar* wxBase = (wxChar*)malloc((iCount+1)*sizeof(wxChar)); if( wxBase == NULL ) { return wxEmptyString; }
-		wxChar* wxPtr = wxBase;
-		for( i = 0; i < iCount; i++ )
-			wxPtr[i] = (wxChar)retPtr[i];
-		wxPtr[iCount] = 0;
-		wxString wx(wxBase);
-		free(wxBase);
-		return wx;
-#endif
+		#ifdef __WXMSW__
+			wxASSERT( sizeof(SEE_char_t) == sizeof(wxChar) );
+			return wxString((const wxChar *) ret->data, ret->length); // (const wxChar *) added on VC2008 migration
+		#else
+			SEE_char_t* retPtr = ret->data;
+			long i, iCount = (long)ret->length;
+			wxChar* wxBase = (wxChar*)malloc((iCount+1)*sizeof(wxChar)); if( wxBase == NULL ) { return wxEmptyString; }
+			wxChar* wxPtr = wxBase;
+			for( i = 0; i < iCount; i++ )
+				wxPtr[i] = (wxChar)retPtr[i];
+			wxPtr[iCount] = 0;
+			wxString wx(wxBase);
+			free(wxBase);
+			return wx;
+		#endif
 	}
 	else
 	{
@@ -693,7 +668,7 @@ double SeeValueToDouble(SEE_interpreter* interpr, SEE_value* value)
 SEE_string* WxStringToSeeString(SEE_interpreter* interpr, const wxString& src)
 {
 	long            srcLen = src.Len(), i;
-	const wxChar*   srcPtr = static_cast<const wxChar*>src.c_str();
+	const wxChar*   srcPtr = static_cast<const wxChar*>(src.c_str());
 	SEE_string*     dest = SEE_string_new(interpr, srcLen); // the object is freed in the garbage collection
 	SEE_char_t*     destPtr = dest->data;
 
@@ -703,7 +678,6 @@ SEE_string* WxStringToSeeString(SEE_interpreter* interpr, const wxString& src)
 	dest->length = srcLen;
 	return dest;
 }
-
 
 
 SEE_object* WxArrayStringToSeeObject(SEE_interpreter* interpr, const wxArrayString& wx)
@@ -723,7 +697,6 @@ SEE_object* WxArrayStringToSeeObject(SEE_interpreter* interpr, const wxArrayStri
 
 	return A;
 }
-
 
 
 SEE_object* WxArrayLongToSeeObject(SEE_interpreter* interpr, const wxArrayLong& wx)

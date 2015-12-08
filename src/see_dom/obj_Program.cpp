@@ -26,17 +26,14 @@
  ******************************************************************************/
 
 
-
-#include "../basesj.h"
-#include "../modules/kiosk/kiosk.h"
-#include "../browser.h"
-#include "../browser_list.h"
-#include "../modules/plugin_interface.h"
-#include "../modules/advsearch.h"
-#include "sj_see.h"
-#include "sj_see_helpers.h"
-
-
+#include <sjbase/base.h>
+#include <sjbase/browser.h>
+#include <sjbase/browser_list.h>
+#include <sjmodules/kiosk/kiosk.h>
+#include <sjmodules/advsearch.h>
+#include <sjmodules/vis/vis_module.h>
+#include <see_dom/sj_see.h>
+#include <see_dom/sj_see_helpers.h>
 
 
 // data used by our object
@@ -54,6 +51,7 @@ struct program_object
 	SEE_object*     m_onTimeout;
 };
 
+
 static program_object* alloc_program_object(SEE_interpreter* interpr)
 {
 	program_object* po = (program_object*)SEE_malloc(interpr, sizeof(program_object));
@@ -62,11 +60,9 @@ static program_object* alloc_program_object(SEE_interpreter* interpr)
 }
 
 
-
 /*******************************************************************************
- *  Constructor
+ * Constructor
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(program, construct)
@@ -75,11 +71,9 @@ IMPLEMENT_FUNCTION(program, construct)
 }
 
 
-
 /*******************************************************************************
- *  Embedding
+ * Embedding
  ******************************************************************************/
-
 
 
 void SjSee::Program_getGlobalEmbed(SjSeePersistent scope, wxArrayString& ret) const
@@ -94,6 +88,7 @@ void SjSee::Program_getGlobalEmbed(SjSeePersistent scope, wxArrayString& ret) co
 		cur = cur->m_next;
 	}
 }
+
 
 bool SjSee::Program_onGlobalEmbed(SjSeePersistent scope, int index)
 {
@@ -113,6 +108,7 @@ bool SjSee::Program_onGlobalEmbed(SjSeePersistent scope, int index)
 	}
 	return false;
 }
+
 
 static void addEntry(SEE_interpreter* interpr_, SjSeePersistent scope, int argc_,
                      SEE_value** argv_, SEE_value* res_)
@@ -134,9 +130,9 @@ static void addEntry(SEE_interpreter* interpr_, SjSeePersistent scope, int argc_
 		while( cur )
 		{
 			if( cur->m_scope == scope
-			        && cur->m_param2
-			        && SEE_VALUE_GET_TYPE(cur->m_param2) == SEE_STRING
-			        && SEE_string_cmp(cur->m_param2->u.string, argv_[0]->u.string)==0 )
+			 && cur->m_param2
+			 && SEE_VALUE_GET_TYPE(cur->m_param2) == SEE_STRING
+			 && SEE_string_cmp(cur->m_param2->u.string, argv_[0]->u.string)==0 )
 			{
 				HOST_DATA->RemovePersistentObject(cur->m_object);
 				success = true;
@@ -164,21 +160,25 @@ static void addEntry(SEE_interpreter* interpr_, SjSeePersistent scope, int argc_
 	RETURN_BOOL( success );
 }
 
+
 IMPLEMENT_FUNCTION(program, addMenuEntry)
 {
 	addEntry(interpr_, SJ_PERSISTENT_MENU_ENTRY, argc_, argv_, res_);
-	g_mainFrame->UpdateExtrasMenu();
+	// g_mainFrame->UpdateExtrasMenu(); TODO_SEE
 }
+
 
 IMPLEMENT_FUNCTION(program, addConfigButton)
 {
 	addEntry(interpr_, SJ_PERSISTENT_CONFIG_BUTTON, argc_, argv_, res_);
 }
 
+
 IMPLEMENT_FUNCTION(program, addSkinsButton)
 {
 	addEntry(interpr_, SJ_PERSISTENT_SKINS_BUTTON, argc_, argv_, res_);
 }
+
 
 IMPLEMENT_FUNCTION(program, addExitOption)
 {
@@ -187,9 +187,8 @@ IMPLEMENT_FUNCTION(program, addExitOption)
 
 
 /*******************************************************************************
- *  Timers
+ * Timers
  ******************************************************************************/
-
 
 
 SjProgramTimer::SjProgramTimer(SEE_interpreter* interpr, program_object* po)
@@ -198,6 +197,7 @@ SjProgramTimer::SjProgramTimer(SEE_interpreter* interpr, program_object* po)
 	m_po = po;
 	m_inTimer = false;
 }
+
 
 void SjProgramTimer::Notify()
 {
@@ -222,6 +222,7 @@ void SjProgramTimer::Notify()
 		m_inTimer = false;
 	}
 }
+
 
 IMPLEMENT_FUNCTION(program, setTimeout)
 {
@@ -255,9 +256,8 @@ IMPLEMENT_FUNCTION(program, setTimeout)
 }
 
 
-
 /*******************************************************************************
- *  Import / Export
+ * Import / Export
  ******************************************************************************/
 
 
@@ -269,6 +269,7 @@ IMPLEMENT_FUNCTION(program, exportFunction)
 
 	HOST_DATA->AddPersistentObject(function, SJ_PERSISTENT_EXPORT, NULL);
 }
+
 
 static void copyVal(SEE_interpreter* srcInterpr, const SEE_value* srcVal,
                     SEE_interpreter* destInterpr, SEE_value* destVal)
@@ -296,6 +297,7 @@ static void copyVal(SEE_interpreter* srcInterpr, const SEE_value* srcVal,
 			break;
 	}
 }
+
 
 IMPLEMENT_FUNCTION(program, callExported)
 {
@@ -344,8 +346,10 @@ IMPLEMENT_FUNCTION(program, callExported)
 	SEE_error_throw(interpr_, interpr_->Error, "export not found");
 }
 
+
 IMPLEMENT_FUNCTION(program, callPlugin)
 {
+	/* -- cplugins are currently not supported --
 	SjCPlugin* p = HOST_DATA->m_plugin;
 	if( p == NULL )
 		SEE_error_throw(interpr_, interpr_->Error, "no plugin");
@@ -355,17 +359,14 @@ IMPLEMENT_FUNCTION(program, callPlugin)
 		RETURN_BOOL( ret );
 	else
 		RETURN_STRING( p->DecodeString(ret) );
+	*/
+	RETURN_BOOL( FALSE );
 }
 
 
-
-
-
-
 /*******************************************************************************
- *  Misc.
+ * Misc.
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(program, selectAll)
@@ -383,6 +384,7 @@ IMPLEMENT_FUNCTION(program, selectAll)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(program, getSelection)
 {
 	wxArrayString selUrls;
@@ -397,6 +399,7 @@ IMPLEMENT_FUNCTION(program, getSelection)
 	RETURN_ARRAY_STRING( selUrls );
 }
 
+
 IMPLEMENT_FUNCTION(program, getMusicSels)
 {
 	wxArrayString musicSels;
@@ -409,6 +412,7 @@ IMPLEMENT_FUNCTION(program, getMusicSels)
 	RETURN_ARRAY_STRING( musicSels );
 }
 
+
 IMPLEMENT_FUNCTION(program, run)
 {
 	if( !::wxExecute(ARG_STRING(0), wxEXEC_ASYNC) )
@@ -416,11 +420,13 @@ IMPLEMENT_FUNCTION(program, run)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(program, launchBrowser)
 {
 	g_tools->ExploreUrl(ARG_STRING(0));
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(program, iniRead)
 {
@@ -456,6 +462,7 @@ IMPLEMENT_FUNCTION(program, iniRead)
 	}
 }
 
+
 IMPLEMENT_FUNCTION(program, iniWrite)
 {
 	if( !ARG_IS_STRING(0) )
@@ -467,7 +474,7 @@ IMPLEMENT_FUNCTION(program, iniWrite)
 	wxString                key = ARG_STRING(0);
 	wxConfigBase::EntryType keyType = g_tools->m_config->GetEntryType(key);
 	if( ( keyType == wxConfigBase::Type_Integer || keyType == wxConfigBase::Type_Boolean || keyType == wxConfigBase::Type_Unknown )
-	        && ( ARG_IS_BOOL(1) || ARG_STRING(1) == wxString::Format(wxT("%i"), (int)ARG_LONG(1)) ) )
+	 && ( ARG_IS_BOOL(1) || ARG_STRING(1) == wxString::Format(wxT("%i"), (int)ARG_LONG(1)) ) )
 	{
 		// keep/write long
 		g_tools->m_config->Write(key, ARG_LONG(1));
@@ -481,17 +488,20 @@ IMPLEMENT_FUNCTION(program, iniWrite)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(program, setDisplayMsg)
 {
 	g_mainFrame->SetDisplayMsg(ARG_STRING(0), ARG_LONG_OR_DEF(1, 10000));
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(program, setSkinText)
 {
 	g_mainFrame->SetSkinText(ARG_STRING(0), ARG_STRING(1));
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(program, refreshWindows)
 {
@@ -518,11 +528,13 @@ IMPLEMENT_FUNCTION(program, refreshWindows)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(program, shutdown)
 {
 	SjMainApp::DoShutdownEtc((SjShutdownEtc)ARG_LONG(0));
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(program, gc)
 {
@@ -531,43 +543,40 @@ IMPLEMENT_FUNCTION(program, gc)
 }
 
 
-
-
 /*******************************************************************************
- *  Properties
+ * Properties
  ******************************************************************************/
-
 
 
 IMPLEMENT_HASPROPERTY(program)
 {
 	if(
 	    VAL_PROPERTY( version )
-	    || VAL_PROPERTY( os )
-	    || VAL_PROPERTY( locale )
-	    || VAL_PROPERTY( loaded )
-	    || VAL_PROPERTY( zoom )
-	    || VAL_PROPERTY( viewMode )
-	    || VAL_PROPERTY( listModeColumns )
-	    || VAL_PROPERTY( listModeOrder )
-	    || VAL_PROPERTY( memory )
-	    || VAL_PROPERTY( memoryPeak )
-	    || VAL_PROPERTY( hwnd )
-	    || VAL_PROPERTY( onLoad )
-	    || VAL_PROPERTY( onUnload )
-	    || VAL_PROPERTY( onKioskStarting )
-	    || VAL_PROPERTY( onKioskStarted )
-	    || VAL_PROPERTY( onKioskEnding )
-	    || VAL_PROPERTY( onKioskEnded )
-	    || VAL_PROPERTY( kioskMode )
-	    || VAL_PROPERTY( visMode )
-	    || VAL_PROPERTY( sleepMode )
-	    || VAL_PROPERTY( sleepMinutes )
-	    || VAL_PROPERTY( autoPlay )
-	    || VAL_PROPERTY( musicSel )
-	    || VAL_PROPERTY( search )
-	    || VAL_PROPERTY( layout )
-	    || VAL_PROPERTY( lastUserInput )
+	 || VAL_PROPERTY( os )
+	 || VAL_PROPERTY( locale )
+	 || VAL_PROPERTY( loaded )
+	 || VAL_PROPERTY( zoom )
+	 || VAL_PROPERTY( viewMode )
+	 || VAL_PROPERTY( listModeColumns )
+	 || VAL_PROPERTY( listModeOrder )
+	 || VAL_PROPERTY( memory )
+	 || VAL_PROPERTY( memoryPeak )
+	 || VAL_PROPERTY( hwnd )
+	 || VAL_PROPERTY( onLoad )
+	 || VAL_PROPERTY( onUnload )
+	 || VAL_PROPERTY( onKioskStarting )
+	 || VAL_PROPERTY( onKioskStarted )
+	 || VAL_PROPERTY( onKioskEnding )
+	 || VAL_PROPERTY( onKioskEnded )
+	 || VAL_PROPERTY( kioskMode )
+	 || VAL_PROPERTY( visMode )
+	 || VAL_PROPERTY( sleepMode )
+	 || VAL_PROPERTY( sleepMinutes )
+	 || VAL_PROPERTY( autoPlay )
+	 || VAL_PROPERTY( musicSel )
+	 || VAL_PROPERTY( search )
+	 || VAL_PROPERTY( layout )
+	 || VAL_PROPERTY( lastUserInput )
 	)
 	{
 		RETURN_HAS;
@@ -590,19 +599,19 @@ IMPLEMENT_GET(program)
 	}
 	else if( VAL_PROPERTY( version ) )
 	{
-		RETURN_LONG( SJ_VERSION_HEX );
+		RETURN_LONG( ((SJ_VERSION_MAJOR<<24)|(SJ_VERSION_MINOR<<16)|(SJ_VERSION_REVISION<<8)) );
 	}
 	else if( VAL_PROPERTY( os ) )
 	{
-#if defined(__WXMSW__)
-		RETURN_STRING(wxT("win"));
-#elif defined(__WXMAC__)
-		RETURN_STRING(wxT("mac"));
-#elif defined(__WXGTK__)
-		RETURN_STRING(wxT("gtk"));
-#else
-#error Your OS here!
-#endif
+		#if defined(__WXMSW__)
+			RETURN_STRING(wxT("win"));
+		#elif defined(__WXMAC__)
+			RETURN_STRING(wxT("mac"));
+		#elif defined(__WXGTK__)
+			RETURN_STRING(wxT("gtk"));
+		#else
+			#error Your OS here!
+		#endif
 	}
 	else if( VAL_PROPERTY( locale ) )
 	{
@@ -767,7 +776,6 @@ IMPLEMENT_GET(program)
 		RETURN_GET_DEFAULTS;
 	}
 }
-
 
 
 IMPLEMENT_PUT(program)
@@ -963,9 +971,8 @@ IMPLEMENT_PUT(program)
 }
 
 
-
 /*******************************************************************************
- *  Let SEE know about this class (this part is a little more complicated)
+ * Let SEE know about this class (this part is a little more complicated)
  ******************************************************************************/
 
 
@@ -985,7 +992,6 @@ static SEE_objectclass program_inst_class = {
 };
 
 
-
 /* object class for Program constructor */
 static SEE_objectclass program_constructor_class = {
 	"ProgramConstructor",       /* Class */
@@ -999,7 +1005,6 @@ static SEE_objectclass program_constructor_class = {
 	program_construct,          /* Construct */
 	NULL                        /* Call */
 };
-
 
 
 void SjSee::Program_init()
@@ -1049,7 +1054,6 @@ void SjSee::Program_init()
 }
 
 
-
 SEE_object* SjSee::Program_new()
 {
 	program_object* obj = alloc_program_object(m_interpr);
@@ -1059,7 +1063,6 @@ SEE_object* SjSee::Program_new()
 
 	return (SEE_object *)obj;
 }
-
 
 
 void SjSee::Program_receiveMsg(int msg)

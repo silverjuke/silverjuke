@@ -31,6 +31,7 @@
 #include <sjtools/imgthread.h>
 #include <sjtools/testdrive.h>
 #include <sjtools/console.h>
+#include <sjtools/msgbox.h>
 #include <sjmodules/settings.h>
 #include <sjmodules/arteditor.h>
 #include <sjmodules/help/help.h>

@@ -509,7 +509,7 @@ void SjTestdrive1()
 		see.Execute(wxT("2+2"));
 
 		if( see.GetResultString()!=wxT("4")
-		  || see.GetResultLong()!=4
+		 || see.GetResultLong()!=4
 		 || see.GetResultDouble()!=4.0 )
 		{
 			wxLogWarning(wxT("Testdrive: SjSee::Execute(\"2+2\") failed"));
@@ -526,8 +526,8 @@ void SjTestdrive1()
 		}
 
 		wxString testStr;
-		testStr.Append(0xF6); // small german "o" with two points
-		testStr.Append(0x1F82); // greek extended alpha
+		testStr.Append((wxChar)0xF6); // small german "o" with two points
+		testStr.Append((wxChar)0x1F82); // greek extended alpha
 		see.Execute(wxT("test1='") + testStr + wxT("'; test2=test1; test2=encodeURI(test2); test2=decodeURI(test2); test1==test2;"));
 		if( !see.GetResultLong() )
 		{

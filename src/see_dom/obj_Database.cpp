@@ -26,8 +26,7 @@
  ******************************************************************************/
 
 
-
-#include "../basesj.h"
+#include <sjbase/base.h>
 #include "sj_see.h"
 #include "sj_see_helpers.h"
 

@@ -30,7 +30,7 @@
 #define __SJ_SEE_HELPERS_H__
 
 
-#include "../tools/gcalloc.h"
+#include <sjtools/gcalloc.h>
 #include "../see/see_see.h"
 extern "C" {
 #include "../see/see_array.h"

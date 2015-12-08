@@ -436,7 +436,7 @@ void SjViewSettingsPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 		if( iCount )
 		{
 			for( i = 0; i < iCount; i++ )
-				menu.Append(IDC_SCRIPT_CONFIG+i, arr[i], SJ_ICON_MODULE);
+				menu.Append(IDC_SCRIPT_CONFIG+i, arr[i]);
 		}
 	#endif
 

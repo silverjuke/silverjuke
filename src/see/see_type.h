@@ -11,7 +11,7 @@
 
 #if defined(WIN32)
 	#include "see_type_msw_add.h"
-#elif defined(__WXMAC__)
+#elif defined(__WXMAC__) || defined(__WXGTK__)
 	#include "see_type_mac_add.h"
 #else
 	#error
@@ -168,7 +168,7 @@ typedef SEE_uint32_t	  SEE_unicode_t;  /* UCS-4 encoding */
 #endif
 
 /* IEEE-754 constants defined in value.o */
-extern const unsigned char 
+extern const unsigned char
 	SEE_literal_NaN[8],
 	SEE_literal_Inf[8],
 	SEE_literal_Max[8],

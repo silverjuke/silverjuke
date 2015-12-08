@@ -26,11 +26,11 @@
  ******************************************************************************/
 
 
+#include <sjbase/base.h>
+#include <sjbase/browser.h>
+#include <see_dom/sj_see.h>
+#include <see_dom/sj_see_helpers.h>
 
-#include "../basesj.h"
-#include "../browser.h"
-#include "sj_see.h"
-#include "sj_see_helpers.h"
 
 // data used by our object
 struct player_object
@@ -41,6 +41,7 @@ struct player_object
 	SEE_object* m_onPlaybackDone;
 };
 
+
 static player_object* alloc_player_object(SEE_interpreter* interpr)
 {
 	player_object* po = (player_object*)SEE_malloc(interpr, sizeof(player_object));
@@ -48,20 +49,20 @@ static player_object* alloc_player_object(SEE_interpreter* interpr)
 	return po;
 }
 
+
 static player_object* get_player_object(SEE_interpreter* interpr, SEE_object* o);
 
 
-
 /*******************************************************************************
- *  play, pause(), next() etc.
+ * play, pause(), next() etc.
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(player, construct)
 {
-	RETURN_OBJECT( HOST_DATA->Player_new(false) );
+	RETURN_OBJECT( HOST_DATA->Player_new() );
 }
+
 
 IMPLEMENT_FUNCTION(player, play)
 {
@@ -69,11 +70,13 @@ IMPLEMENT_FUNCTION(player, play)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(player, pause)
 {
 	g_mainFrame->Pause();
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(player, stop)
 {
@@ -81,11 +84,13 @@ IMPLEMENT_FUNCTION(player, stop)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(player, prev)
 {
 	g_mainFrame->GotoPrev(false);
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(player, next)
 {
@@ -94,25 +99,30 @@ IMPLEMENT_FUNCTION(player, next)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(player, isPlaying)
 {
 	RETURN_BOOL( g_mainFrame->IsPlaying() );
 }
+
 
 IMPLEMENT_FUNCTION(player, isPaused)
 {
 	RETURN_BOOL( g_mainFrame->IsPaused() );
 }
 
+
 IMPLEMENT_FUNCTION(player, isStopped)
 {
 	RETURN_BOOL( g_mainFrame->IsStopped() );
 }
 
+
 IMPLEMENT_FUNCTION(player, hasPrev)
 {
 	RETURN_BOOL( g_mainFrame->HasPrev() );
 }
+
 
 IMPLEMENT_FUNCTION(player, hasNext)
 {
@@ -127,49 +137,55 @@ IMPLEMENT_FUNCTION(player, hasNext)
 }
 
 
-
 /*******************************************************************************
- *  queuePos, addAtPos()  etc.
+ * queuePos, addAtPos()  etc.
  ******************************************************************************/
 
 
-
 #define ARG_POS ARG_LONG_OR_DEF(0,-1)
+
 
 IMPLEMENT_FUNCTION(player, getUrlAtPos)
 {
 	RETURN_STRING( g_mainFrame->GetQueueUrl(ARG_POS));
 }
 
+
 IMPLEMENT_FUNCTION(player, getAutoplayAtPos)
 {
 	RETURN_BOOL( (g_mainFrame->GetQueueInfo(ARG_POS).GetFlags()&SJ_PLAYLISTENTRY_AUTOPLAY)!=0 );
 }
+
 
 IMPLEMENT_FUNCTION(player, getPlayCountAtPos)
 {
 	RETURN_LONG( g_mainFrame->GetQueueInfo(ARG_POS).GetPlayCount() );
 }
 
+
 IMPLEMENT_FUNCTION(player, getArtistAtPos)
 {
 	RETURN_STRING( g_mainFrame->GetQueueInfo(ARG_POS).GetLeadArtistName() );
 }
+
 
 IMPLEMENT_FUNCTION(player, getAlbumAtPos)
 {
 	RETURN_STRING( g_mainFrame->GetQueueInfo(ARG_POS).GetAlbumName() );
 }
 
+
 IMPLEMENT_FUNCTION(player, getTitleAtPos)
 {
 	RETURN_STRING( g_mainFrame->GetQueueInfo(ARG_POS).GetTrackName() );
 }
 
+
 IMPLEMENT_FUNCTION(player, getDurationAtPos)
 {
 	RETURN_LONG( g_mainFrame->GetQueueInfo(ARG_POS).GetPlaytimeMs() );
 }
+
 
 IMPLEMENT_FUNCTION(player, addAtPos)
 {
@@ -178,11 +194,13 @@ IMPLEMENT_FUNCTION(player, addAtPos)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(player, removeAtPos)
 {
 	g_mainFrame->UnqueueByPos(ARG_POS);
 	RETURN_UNDEFINED;
 }
+
 
 IMPLEMENT_FUNCTION(player, removeAll)
 {
@@ -192,29 +210,27 @@ IMPLEMENT_FUNCTION(player, removeAll)
 }
 
 
-
 /*******************************************************************************
- *  Properties
+ * Properties
  ******************************************************************************/
-
 
 
 IMPLEMENT_HASPROPERTY(player)
 {
 	if(
 	    VAL_PROPERTY( time )
-	    || VAL_PROPERTY( duration )
-	    || VAL_PROPERTY( queueLength )
-	    || VAL_PROPERTY( queuePos )
-	    || VAL_PROPERTY( volume )
-	    || VAL_PROPERTY( onTrackChange )
-	    || VAL_PROPERTY( onPlaybackDone )
-	    || VAL_PROPERTY( repeat )
-	    || VAL_PROPERTY( shuffle )
-	    || VAL_PROPERTY( stopAfterThisTrack )
-	    || VAL_PROPERTY( stopAfterEachTrack )
-	    || VAL_PROPERTY( removePlayed )
-	    || VAL_PROPERTY( avoidBoredom )
+	 || VAL_PROPERTY( duration )
+	 || VAL_PROPERTY( queueLength )
+	 || VAL_PROPERTY( queuePos )
+	 || VAL_PROPERTY( volume )
+	 || VAL_PROPERTY( onTrackChange )
+	 || VAL_PROPERTY( onPlaybackDone )
+	 || VAL_PROPERTY( repeat )
+	 || VAL_PROPERTY( shuffle )
+	 || VAL_PROPERTY( stopAfterThisTrack )
+	 || VAL_PROPERTY( stopAfterEachTrack )
+	 || VAL_PROPERTY( removePlayed )
+	 || VAL_PROPERTY( avoidBoredom )
 	)
 	{
 		RETURN_HAS;
@@ -224,7 +240,6 @@ IMPLEMENT_HASPROPERTY(player)
 		RETURN_HASNOT;
 	}
 }
-
 
 
 IMPLEMENT_GET(player)
@@ -295,7 +310,6 @@ IMPLEMENT_GET(player)
 		RETURN_GET_DEFAULTS;
 	}
 }
-
 
 
 IMPLEMENT_PUT(player)
@@ -369,11 +383,9 @@ IMPLEMENT_PUT(player)
 }
 
 
-
 /*******************************************************************************
- *  Let SEE know about this class (this part is a little more complicated)
+ * Let SEE know about this class (this part is a little more complicated)
  ******************************************************************************/
-
 
 
 /* object class for Player.prototype and player instances */
@@ -392,7 +404,6 @@ static SEE_objectclass player_inst_class = {
 };
 
 
-
 /* object class for Player constructor */
 static SEE_objectclass player_constructor_class = {
 	"PlayerConstructor",        /* Class */
@@ -406,7 +417,6 @@ static SEE_objectclass player_constructor_class = {
 	player_construct,           /* Construct */
 	NULL                        /* Call */
 };
-
 
 
 void SjSee::Player_init()
@@ -441,7 +451,6 @@ void SjSee::Player_init()
 	PUT_FUNC(m_Player_prototype, player, removeAtPos,       0);
 	PUT_FUNC(m_Player_prototype, player, removeAll,         0);
 
-
 	// create the "Player" object
 	SEE_object* Player = (SEE_object *)SEE_malloc(m_interpr, sizeof(SEE_native));
 
@@ -458,7 +467,6 @@ void SjSee::Player_init()
 }
 
 
-
 SEE_object* SjSee::Player_new()
 {
 	player_object* obj = alloc_player_object(m_interpr);
@@ -470,7 +478,6 @@ SEE_object* SjSee::Player_new()
 }
 
 
-
 static player_object* get_player_object(SEE_interpreter* interpr, SEE_object* o)
 {
 	if( o->objectclass != &player_inst_class )
@@ -478,7 +485,6 @@ static player_object* get_player_object(SEE_interpreter* interpr, SEE_object* o)
 
 	return (player_object *)o;
 }
-
 
 
 void SjSee::Player_receiveMsg(int msg)
@@ -491,7 +497,6 @@ void SjSee::Player_receiveMsg(int msg)
 		}
 	}
 }
-
 
 
 void SjSee::Player_onPlaybackDone(const wxString& url__)
