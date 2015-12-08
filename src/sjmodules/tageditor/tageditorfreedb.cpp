@@ -92,7 +92,7 @@ void SjFreedbPlugin::OnMyOkDo()
 
 	// anything to select?
 	if( !m_freedbQuery.IsQueryDone()
-	        ||  m_freedbQuery.GetPossibleResultCount() <= 0 )
+	 ||  m_freedbQuery.GetPossibleResultCount() <= 0 )
 	{
 		EndModal(wxID_OK);
 		return;
@@ -141,7 +141,7 @@ void SjFreedbPlugin::FillListbox(bool alsoAddSecondary)
 		const SjFreedbPossibleResult* currResult = m_freedbQuery.GetPossibleResult(i);
 
 		if( !currResult->m_isSecondary
-		        ||  alsoAddSecondary )
+		 ||  alsoAddSecondary )
 		{
 			m_listBox->Append(currResult->m_discName, (void*)(uintptr_t)i);
 		}
@@ -171,7 +171,7 @@ void SjFreedbPlugin::OnSocketEvent(wxSocketEvent&)
 	m_freedbQuery.OnHttpEvent();
 
 	if( !queryDoneBefore
-	        &&  m_freedbQuery.IsQueryDone() )
+	 &&  m_freedbQuery.IsQueryDone() )
 	{
 		// query just done
 		if( m_freedbQuery.HasErrors() )
@@ -186,7 +186,7 @@ void SjFreedbPlugin::OnSocketEvent(wxSocketEvent&)
 		}
 	}
 	else if( !resultSelectedBefore
-	         &&  m_freedbQuery.IsResultSelected() )
+	      &&  m_freedbQuery.IsResultSelected() )
 	{
 		// result just selected - continued from (**)
 		if( m_freedbQuery.HasErrors() )
@@ -201,7 +201,7 @@ void SjFreedbPlugin::OnSocketEvent(wxSocketEvent&)
 bool SjFreedbPlugin::PrepareModify()
 {
 	if(  m_freedbQuery.HasErrors()
-	        || !m_freedbQuery.IsResultSelected() )
+	 || !m_freedbQuery.IsResultSelected() )
 	{
 		return FALSE;
 	}
