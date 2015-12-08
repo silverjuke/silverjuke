@@ -66,7 +66,7 @@ private:
 	static wxString ReadFile_           (const wxString& urlStr, wxMBConv*, const SjSSHash* requestHeader, const wxString& postData, int& retHttpStatusCode, SjSSHash** responseHeader);
 	void            ReadReady           ();
 
-	#define SJ_HTTP_THREAD
+	#undef SJ_HTTP_THREAD // using thread with wxHTTP/wxURL makes problems at least under Linux
 	#ifdef SJ_HTTP_THREAD
 		SjHttpThread*   m_thread;
 		friend class    SjHttpThread;

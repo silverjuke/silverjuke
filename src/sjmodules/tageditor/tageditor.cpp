@@ -459,7 +459,6 @@ void SjTagEditorDlg::OnButtonBarMenu(wxCommandEvent& event)
 		menu.Append(IDC_PLUGIN_REPLACE);
 		menu.Append(IDC_PLUGIN_SPLIT);
 		menu.Append(IDC_PLUGIN_RENAME);
-		menu.AppendSeparator();
 		menu.Append(IDC_PLUGIN_FREEDB);
 		menu.AppendSeparator();
 		menu.AppendCheckItem(IDC_WRITEID3TAGS, _("Write (ID3-)tags"));

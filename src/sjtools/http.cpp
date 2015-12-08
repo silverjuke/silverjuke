@@ -161,7 +161,7 @@ void SjHttp::OpenFile(const wxString& urlStr, wxMBConv* mbConv, const SjSSHash* 
 
 	#else
 
-		m_content = ReadFile_(urlStr, mbConv, requestHeader, postData, m_httpStatusCode);
+		m_content = ReadFile_(urlStr, mbConv, requestHeader, postData, m_httpStatusCode, &m_responseHeader);
 		ReadReady();
 
 	#endif
@@ -186,7 +186,8 @@ wxString SjHttp::ReadFile_(const wxString& urlStr, wxMBConv* mbConv, const SjSSH
 	// set post buffer (if any) (this forces the POST method, otherwise GET is used)
 	if( !postData.IsEmpty() )
 	{
-		http->SetPostBuffer(postData);
+		http->SetPostText("", // eg. "application/x-www-form-urlencoded; charset=UTF-8," however, this can also be set using the request header
+						  postData, wxConvUTF8);
 	}
 
 	// set header (if any) (when using POST, make sure, you use eg. "Content-Type: application/x-www-form-urlencoded" here)
@@ -198,7 +199,6 @@ wxString SjHttp::ReadFile_(const wxString& urlStr, wxMBConv* mbConv, const SjSSH
 		{
 			http->SetHeader(headerName, *headerValue);
 		}
-
 	}
 
 	// read the returned content
