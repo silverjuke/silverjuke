@@ -124,6 +124,7 @@ public:
 	#define         SJ_TI_RATING            0x00004000L
 	#define         SJ_TI_YEAR              0x00008000L
 	#define         SJ_TI_PLAYTIMEMS        0x00010000L
+	#define         SJ_TI_BITS_COUNT                17  // the number of used bits above - as we may iterate the fields, there should be no gaps!
 	#define         SJ_TI_X_TIMEADDED       0x0000001FL // the SJ_TI_X_* values are only used by the list view, but they're stored in the db, no bit-tests are possible!
 	#define         SJ_TI_X_TIMEMODIFIED    0x0000002FL
 	#define         SJ_TI_X_LASTPLAYED      0x0000003FL

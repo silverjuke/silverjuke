@@ -205,16 +205,30 @@ bool SjSplitPlugin::PrepareModify()
 
 void SjSplitPlugin::ModifyTrackInfo(SjTrackInfo& retTi, int index, SjModifyInfo& mod)
 {
-	SjTrackInfo destTi;
-
-	m_matcher.Match(retTi, destTi);
-
-	int i;
-	for( i = 0; i < 31; i++ )
+	if( m_pattern[0] == "<update>" )
 	{
-		if( destTi.m_validFields & (1<<i) )
+		// The _very_ inofficial pattern "<update>" forces the database content to be flushed to the ID3-Tags of the selected files.
+		// If, for any reason, the ID3-Tags get out of sync, this may be a handy solution.
+		// (on normal usage, this should not be needed - write ID3-Tags is enabled by default)
+		for( int i = 1 /*do not modify the URL*/; i < SJ_TI_BITS_COUNT; i++ )
 		{
-			mod.Add(1<<i, destTi.GetValue(1<<i));
+			wxString newVal = retTi.GetValue(1<<i);
+			mod.Add(retTi.m_url, 1<<i, _("n/a") + " " /*make sure, the strings are not equal*/, newVal);
+		}
+	}
+	else
+	{
+		SjTrackInfo destTi;
+
+		m_matcher.Match(retTi, destTi);
+
+		int i;
+		for( i = 0; i < 31; i++ )
+		{
+			if( destTi.m_validFields & (1<<i) )
+			{
+				mod.Add(1<<i, destTi.GetValue(1<<i));
+			}
 		}
 	}
 }
