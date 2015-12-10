@@ -88,7 +88,7 @@ private:
 
 
 SjLogListCtrl::SjLogListCtrl(SjLogGui* logGui, wxWindow* parent, wxWindowID id, long aIndex)
-	: wxListCtrl(parent, id, wxDefaultPosition, wxSize(-1, 160), wxLC_REPORT | wxLC_VIRTUAL /*| wxLC_NO_HEADER*/)
+	: wxListCtrl(parent, id, wxDefaultPosition, wxSize(600, 160), wxLC_REPORT | wxLC_VIRTUAL /*| wxLC_NO_HEADER*/)
 {
 	m_logGui = logGui;
 
@@ -362,32 +362,22 @@ SjLogDialog::SjLogDialog(SjLogGui* logGui,
 	m_sizerDetails->Add(sizer4, 0, wxGROW|wxTOP, SJ_DLG_SPACE/2);
 
 	#if SJ_USE_SCRIPTS
-	m_evalInput = new wxTextCtrl(this, IDC_EVAL_INPUT, wxT(""), wxDefaultPosition, wxSize(300, -1), wxTE_PROCESS_ENTER);
-	sizer4->Add(m_evalInput, 1, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
-	#else
-	m_autoOpenCheckBox = new wxCheckBox(this, IDC_AUTO_OPEN_CHECKBOX, _("Open console on errors and warnings"));
-	m_autoOpenCheckBox->SetValue(SjLogGui::GetAutoOpen());
-	sizer4->Add(m_autoOpenCheckBox, 1, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE*8);
+		m_evalInput = new wxTextCtrl(this, IDC_EVAL_INPUT, wxT(""), wxDefaultPosition, wxSize(300, -1), wxTE_PROCESS_ENTER);
+		sizer4->Add(m_evalInput, 1, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
+
+		m_evalButton = new wxButton(this, IDC_EVAL_BUTTON, _("Evaluate"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+		sizer4->Add(m_evalButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
 	#endif
 
-	#define TOOLBAR_BUTTON(id, name) new wxButton(this, id, name, wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT)
-
-	#if SJ_USE_SCRIPTS
-	m_evalButton = TOOLBAR_BUTTON(IDC_EVAL_BUTTON, _("Evaluate"));
-	sizer4->Add(m_evalButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
-	#endif
-
-	m_clearButton = TOOLBAR_BUTTON(IDC_CLEAR_BUTTON, _("Clear"));
+	m_clearButton = new wxButton(this, IDC_CLEAR_BUTTON, _("Clear"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	sizer4->Add(m_clearButton, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
 
-	m_saveButton = TOOLBAR_BUTTON(IDC_SAVE_BUTTON, _("Save"));
+	m_saveButton = new wxButton(this, IDC_SAVE_BUTTON, _("Save"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	sizer4->Add(m_saveButton, 0, wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
 
-	#ifndef SJ_USE_SCRIPTS
 	m_autoOpenCheckBox = new wxCheckBox(this, IDC_AUTO_OPEN_CHECKBOX, _("Open console on errors and warnings"));
 	m_autoOpenCheckBox->SetValue(SjLogGui::GetAutoOpen());
 	m_sizerDetails->Add(m_autoOpenCheckBox, 0, wxTOP, SJ_DLG_SPACE);
-	#endif
 
 	// buttons
 	sizer1->Add(CreateButtons(SJ_DLG_MENU|SJ_DLG_OK, _("Close")),
