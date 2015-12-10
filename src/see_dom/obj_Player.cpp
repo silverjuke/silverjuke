@@ -27,6 +27,11 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include <sjbase/browser.h>
 #include <see_dom/sj_see.h>
 #include <see_dom/sj_see_helpers.h>
@@ -530,3 +535,6 @@ void SjSee::Player_onPlaybackDone(const wxString& url__)
 		curSee = curSee->m_next;
 	}
 }
+
+
+#endif // SJ_USE_SCRIPTS

@@ -28,9 +28,15 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include <tagger/tg_bytefile.h>
 #include <see_dom/sj_see.h>
 #include <see_dom/sj_see_helpers.h>
+
 
 // data used by our object
 struct file_object
@@ -488,4 +494,5 @@ static file_object* toFile(SEE_interpreter* interpr, SEE_object* o, int init)
 }
 
 
+#endif // SJ_USE_SCRIPTS
 

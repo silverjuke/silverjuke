@@ -27,11 +27,15 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include <see_dom/sj_see.h>
 #define SJ_IMPLEMENT_HELPERS
 #include <see_dom/sj_see_helpers.h>
 
-#if SJ_USE_SCRIPTS
 
 
 /*******************************************************************************

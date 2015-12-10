@@ -27,6 +27,11 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include <sjbase/browser.h>
 #include <sjbase/browser_list.h>
 #include <sjmodules/kiosk/kiosk.h>
@@ -1109,4 +1114,5 @@ void SjSee::Program_receiveMsg(int msg)
 }
 
 
+#endif // SJ_USE_SCRIPTS
 

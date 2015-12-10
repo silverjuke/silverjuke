@@ -27,6 +27,11 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include <sjtools/console.h>
 #include <sjtools/msgbox.h>
 #include <sjmodules/advsearch.h>
@@ -563,3 +568,6 @@ static dialog_object* get_dialog_object(SEE_interpreter* interpr, SEE_object* o)
 
 	return (dialog_object *)o;
 }
+
+
+#endif // SJ_USE_SCRIPTS

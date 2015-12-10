@@ -497,7 +497,7 @@ void SjMainFrame::AddScriptMenuEntries(SjMenu& m)
 {
 	// add the menu entries creted by the scripts to the given menu; the function is used in the main menu and
 	// for the context menus.  Before any entry is added, a separator is added (if there are no entries, no separator is added)
-	#ifdef SJ_USE_SCRIPTS
+	#if SJ_USE_SCRIPTS
 		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
 		int iCount = arr.GetCount();
 		if( iCount )

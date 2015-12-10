@@ -27,6 +27,11 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include <sjmodules/kiosk/kiosk.h>
 #include <sjbase/browser.h>
 #include <see_dom/sj_see.h>
@@ -251,3 +256,6 @@ SEE_object* SjSee::Rights_new()
 
 	return (SEE_object *)obj;
 }
+
+
+#endif // SJ_USE_SCRIPTS

@@ -27,8 +27,14 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include "sj_see.h"
 #include "sj_see_helpers.h"
+
 
 // data used by our object
 struct database_object
@@ -243,4 +249,5 @@ static database_object* toDatabase(SEE_interpreter* interpr, SEE_object* o)
 }
 
 
+#endif // SJ_USE_SCRIPTS
 

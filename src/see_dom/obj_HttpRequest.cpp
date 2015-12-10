@@ -27,6 +27,11 @@
 
 
 #include <sjbase/base.h>
+
+
+#if SJ_USE_SCRIPTS
+
+
 #include <see_dom/sj_see.h>
 #include <see_dom/sj_see_helpers.h>
 #include <wx/socket.h>
@@ -395,4 +400,7 @@ static httprequest_object* get_httprequest_object_(SEE_interpreter* interpr, SEE
 
 	return (httprequest_object *)o;
 }
+
+
+#endif // SJ_USE_SCRIPTS
 
