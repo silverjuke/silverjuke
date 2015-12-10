@@ -898,10 +898,10 @@ long SjDlgControls::Render(wxWindow* parent, wxSizer* parentSizer, int idButtons
 	if( iCount )
 	{
 		wxGridBagSizer* gbsizer = new wxGridBagSizer(SJ_DLG_SPACE/2, SJ_DLG_SPACE);
-		gbsizer->AddGrowableCol(1);
 		parentSizer->Add(gbsizer, 0, wxALL|wxGROW, SJ_DLG_SPACE);
 
 		int posY = 0;
+		bool growableColSet = false;
 		for( index = 0; index < iCount; index++ )
 		{
 			SjDlgCtrl& dc = m_ctrl[index];
@@ -978,7 +978,17 @@ long SjDlgControls::Render(wxWindow* parent, wxSizer* parentSizer, int idButtons
 			gbsizer->Add(dc.m_wndCtrl, 0, wxALIGN_CENTER_VERTICAL|controlSizeStyle);
 			gbsizer->SetItemPosition(dc.m_wndCtrl, wxGBPosition(posY, hasLabel?1:0));
 			if( !hasLabel )
+			{
 				gbsizer->SetItemSpan(dc.m_wndCtrl, wxGBSpan(1, 2));
+			}
+			else
+			{
+				if( !growableColSet )
+				{
+					gbsizer->AddGrowableCol(1);
+					growableColSet = true;
+				}
+			}
 
 			posY ++;
 		}
