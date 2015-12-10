@@ -822,7 +822,7 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 			#if SJ_USE_SCRIPTS
 			if( cmd->m_id-IDO_EXTRAS_MENU00 < extrasCount )
 			{
-				cmd->m_name = _("Tools") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_EXTRAS_MENU00];
+				cmd->m_name = _("Script") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_EXTRAS_MENU00];
 				addOption = true;
 			}
 			#endif
@@ -1154,15 +1154,7 @@ wxString SjAccelModule::GetCmdNameByIndex(int cmdIndex, bool shortName)
 
 	if( !shortName )
 	{
-		if( (cmd.m_id >= IDT_WORKSPACE_LINE_LEFT && cmd.m_id <= IDT_WORKSPACE_LINE_DOWN)
-		 || (cmd.m_id >= IDT_WORKSPACE_PAGE_LEFT && cmd.m_id <= IDT_WORKSPACE_ENTER)
-		 ||  cmd.m_id == IDT_WORKSPACE_HOME
-		 ||  cmd.m_id == IDT_WORKSPACE_END
-		 ||  cmd.m_id == IDT_WORKSPACE_SHOW_COVERS )
-		{
-			ret = SjLittleOption::ApplySection(_("Workspace"), ret);
-		}
-		else if( cmd.m_id == IDO_SMOOTH /*is a global command, but shown at the cover editor options*/ )
+		if( cmd.m_id == IDO_SMOOTH /*is a global command, but shown at the cover editor options*/ )
 		{
 			ret = SjLittleOption::ApplySection(_("Cover editor"), ret);
 		}

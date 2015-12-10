@@ -377,7 +377,7 @@ IMPLEMENT_FUNCTION(program, selectAll)
 	g_mainFrame->m_browser->RefreshSelection();
 
 	if( !doSelect )
-	{	// as getSelection also returns URLs selected in the display,
+	{	                                                // as getSelection also returns URLs selected in the display,
 		g_mainFrame->m_display.ClearDisplaySelection(); // they should be cleared as well. For "select all" this is not needed as
 	}                                                   // they are included in the workspace.
 

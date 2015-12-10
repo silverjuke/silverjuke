@@ -872,7 +872,9 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 			{
 				wxString scriptFile = tag.GetParam(wxT("SRC"));
 				if( skin->m_debugInfo )
+				{
 					wxLogInfo(wxT("Including \"%s\" [%s]")/*n/t*/, scriptFile.c_str(), m_skinMlParser->m_data->GetUrl().c_str());
+				}
 
 				scriptContent = m_skinMlParser->m_data->LoadFile_(scriptFile);
 

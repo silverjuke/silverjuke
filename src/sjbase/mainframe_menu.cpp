@@ -665,7 +665,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 	 ||  targetId==IDT_NEXT_TRACK )
 	{
 		// queue menu items
-		if(  IsAllAvailable() )
+		if( IsAllAvailable() )
 		{
 			if( targetId==IDT_CURR_TRACK || targetId==IDT_NEXT_TRACK )
 			{
