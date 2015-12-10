@@ -951,8 +951,7 @@ void SjLogGui::Flush()
 			// ... open modal
 			if( s_dlg && s_dlg->IsModal() )
 			{
-				wxASSERT( 0 );
-				s_dlg->MessagesChanged(firstNewIndex); // no raise - normally, this should not happen at all ...
+				s_dlg->MessagesChanged(firstNewIndex); // no raise - normally, this should not happen at all ... maybe on shutdown
 			}
 			else
 			{

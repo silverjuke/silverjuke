@@ -627,7 +627,7 @@ void SjModuleSystem::UnloadPending(bool ignoreTimestamp)
 		wxASSERT( m->m_pushPendingTimestamp != 0 );
 
 		if( ignoreTimestamp
-		        || SjTimestampDiff(m->m_pushPendingTimestamp, thisTimestamp) > SJ_PENDING_MODULES_MS )
+		 || SjTimestampDiff(m->m_pushPendingTimestamp, thisTimestamp) > SJ_PENDING_MODULES_MS )
 		{
 			m->m_pushPendingTimestamp = 0; // prepare for the next pending
 			m->LastUnload();
@@ -694,10 +694,10 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 	{
 		wxString lastDir = g_tools->GetLastDir(entryStr).Lower();
 		if( lastDir == wxT("plugins")           // common
-		        || lastDir == wxT("plug-ins")          // common
-		        || lastDir == wxT("modules")           // common
-		        || lastDir == wxT("input")             // used eg. by XMMS
-		        || lastDir == wxT("visualization")     // used eg. by XMMS
+		 || lastDir == wxT("plug-ins")          // common
+		 || lastDir == wxT("modules")           // common
+		 || lastDir == wxT("input")             // used eg. by XMMS
+		 || lastDir == wxT("visualization")     // used eg. by XMMS
 		  )
 		{
 			entryStrings.Add(entryStr);

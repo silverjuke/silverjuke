@@ -788,17 +788,13 @@ void SjSee::AddPersistentObject(SEE_object* newObj, SjSeePersistent scope, SEE_v
 		cur->m_param2                   = param2;
 		cur->m_unexpectedUnpersistent   = unexpectedUnpersistent;
 
-#if 0
-		// add as first object, very easy and fast
-		cur->m_next = m_persistentAnchor->m_next;
-		m_persistentAnchor->m_next = cur;
-#else
-		// add as last object, little slower, but we need this eg. for proper menu ordering
+		// add as last object (little slower as adding as first, but we need this eg. for proper menu ordering)
 		persistent_object* test = m_persistentAnchor;
 		while( test->m_next )
+		{
 			test = test->m_next;
+		}
 		test->m_next = cur;
-#endif
 	}
 }
 
@@ -807,9 +803,7 @@ void SjSee::RemovePersistentObject(SEE_object* oldObj)
 {
 	if( oldObj )
 	{
-#ifdef __WXDEBUG__
 		bool dbg_removed = false;
-#endif
 		persistent_object *cur = m_persistentAnchor, *prev = NULL;
 		while( cur )
 		{
@@ -817,9 +811,7 @@ void SjSee::RemovePersistentObject(SEE_object* oldObj)
 			{
 				wxASSERT( prev ); // as we have a "dummy" anchor, prev should always be valid here
 				prev->m_next = cur->m_next;
-#ifdef __WXDEBUG__
 				dbg_removed = true;
-#endif
 				break;
 			}
 
