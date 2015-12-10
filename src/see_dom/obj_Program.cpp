@@ -307,8 +307,10 @@ static void copyVal(SEE_interpreter* srcInterpr, const SEE_value* srcVal,
 IMPLEMENT_FUNCTION(program, callExported)
 {
 	if( argc_ < 1
-	        || SEE_VALUE_GET_TYPE(argv_[0]) != SEE_STRING )
+	 || SEE_VALUE_GET_TYPE(argv_[0]) != SEE_STRING )
+	{
 		SEE_error_throw(interpr_, interpr_->TypeError, "no function");
+	}
 
 	SEE_string *wantedFuncName = argv_[0]->u.string, *otherFuncName;
 	SjSee* otherSee = SjSee::s_first;
