@@ -41,14 +41,14 @@
 struct GcBlock // total size of the structure is 8*4 = 32 - this is a fine size!
 {
 	GcBlock*        next;
-	unsigned long   size;
-	long            flags;
+	uint32_t        size;
+	int32_t         flags;
 
-	long            references; // 0   : known to have no references, please free!
-	// 1   : may have references through other blocks, please check!
-	// >=2 : known to have static references, do not free, use as anchor
+	int32_t         references; // 0   : known to have no references, please free!
+	                            // 1   : may have references through other blocks, please check!
+	                            // >=2 : known to have static references, do not free, use as anchor
 
-	long            oneRefValidated; // used only during cleanup
+	int32_t         oneRefValidated; // used only during cleanup
 	SJ_GC_PROC      finalizeFn;
 	void*           finalizeUserData1;
 	void*           finalizeUserData2;
