@@ -58,11 +58,9 @@ static database_object* alloc_database_object(SEE_interpreter* interpr)
 static database_object* toDatabase(SEE_interpreter* interpr, SEE_object* o);
 
 
-
 /*******************************************************************************
- *  Database methods
+ * Database methods
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(database, construct)
@@ -70,11 +68,13 @@ IMPLEMENT_FUNCTION(database, construct)
 	RETURN_OBJECT( HOST_DATA->Database_new(ARG_STRING(0)) );
 }
 
+
 IMPLEMENT_FUNCTION(database, openQuery)
 {
 	database_object* dbo = toDatabase(interpr_, this_);
 	RETURN_BOOL( dbo->sql->Query(ARG_STRING(0)) );
 }
+
 
 IMPLEMENT_FUNCTION(database, nextRecord)
 {
@@ -82,11 +82,13 @@ IMPLEMENT_FUNCTION(database, nextRecord)
 	RETURN_BOOL( dbo->sql->Next() );
 }
 
+
 IMPLEMENT_FUNCTION(database, getFieldCount)
 {
 	database_object* dbo = toDatabase(interpr_, this_);
 	RETURN_LONG( dbo->sql->GetFieldCount() );
 }
+
 
 IMPLEMENT_FUNCTION(database, getField)
 {
@@ -114,13 +116,13 @@ IMPLEMENT_FUNCTION(database, getField)
 	}
 }
 
+
 IMPLEMENT_FUNCTION(database, closeQuery)
 {
 	database_object* dbo = toDatabase(interpr_, this_);
 	dbo->sql->CloseQuery();
 	RETURN_UNDEFINED;
 }
-
 
 
 IMPLEMENT_FUNCTION(database, getFile)
@@ -136,9 +138,8 @@ IMPLEMENT_FUNCTION(database, getFile)
 
 
 /*******************************************************************************
- *  Database statics
+ * Database statics
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(database, update)
@@ -151,9 +152,8 @@ IMPLEMENT_FUNCTION(database, update)
 
 
 /*******************************************************************************
- *  Let SEE know about this class (this part is a little more complicated)
+ * Let SEE know about this class (this part is a little more complicated)
  ******************************************************************************/
-
 
 
 /* object class for Database.prototype and database instances */
@@ -172,7 +172,6 @@ static SEE_objectclass database_inst_class = {
 };
 
 
-
 /* object class for Database constructor */
 static SEE_objectclass database_constructor_class = {
 	"DatabaseConstructor",      /* Class */
@@ -186,7 +185,6 @@ static SEE_objectclass database_constructor_class = {
 	database_construct,         /* Construct */
 	NULL                        /* Call */
 };
-
 
 
 void SjSee::Database_init()
@@ -220,7 +218,6 @@ void SjSee::Database_init()
 }
 
 
-
 SEE_object* SjSee::Database_new(const wxString& name)
 {
 	database_object* obj = alloc_database_object(m_interpr);
@@ -237,7 +234,6 @@ SEE_object* SjSee::Database_new(const wxString& name)
 
 	return (SEE_object *)obj;
 }
-
 
 
 static database_object* toDatabase(SEE_interpreter* interpr, SEE_object* o)

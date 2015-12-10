@@ -48,12 +48,16 @@ struct file_object
 	wxFSFile*       fsFile;
 	SjByteFile*     byteFile;
 };
+
+
 static void file_finalize(SEE_interpreter* interpr, void* ptr, void* closure)
 {
 	file_object* fo = (file_object*)ptr;
 	delete fo->byteFile;
 	delete fo->fsFile;
 }
+
+
 static file_object* alloc_file_object(SEE_interpreter* interpr, SEE_value* name_, bool binary_)
 {
 	file_object* fo = (file_object*)SEE_malloc_finalize(interpr, sizeof(file_object), file_finalize, NULL);
@@ -63,14 +67,14 @@ static file_object* alloc_file_object(SEE_interpreter* interpr, SEE_value* name_
 	fo->binary_ = binary_;
 	return fo;
 }
+
+
 static file_object* toFile(SEE_interpreter* interpr, SEE_object* o, int init);
 
 
-
 /*******************************************************************************
- *  File Object Functions
+ * File Object Functions
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(file, construct)
@@ -80,6 +84,7 @@ IMPLEMENT_FUNCTION(file, construct)
 	                   ARG_LONG(1)!=0              /*binary?*/
 	               ) );
 }
+
 
 IMPLEMENT_FUNCTION(file, read)
 {
@@ -139,6 +144,7 @@ IMPLEMENT_FUNCTION(file, read)
 	}
 }
 
+
 IMPLEMENT_FUNCTION(file, write)
 {
 	file_object* fo = toFile(interpr_, this_, 2/*init+create*/);
@@ -186,6 +192,7 @@ IMPLEMENT_FUNCTION(file, write)
 	RETURN_UNDEFINED;
 }
 
+
 IMPLEMENT_FUNCTION(file, flush)
 {
 	file_object* fo = toFile(interpr_, this_, 0/*no init*/);
@@ -203,9 +210,8 @@ IMPLEMENT_FUNCTION(file, flush)
 }
 
 
-
 /*******************************************************************************
- *  File Object Properties
+ * File Object Properties
  ******************************************************************************/
 
 
@@ -223,7 +229,6 @@ IMPLEMENT_HASPROPERTY(file)
 		RETURN_HASNOT;
 	}
 }
-
 
 
 IMPLEMENT_GET(file)
@@ -249,7 +254,6 @@ IMPLEMENT_GET(file)
 		RETURN_GET_DEFAULTS;
 	}
 }
-
 
 
 IMPLEMENT_PUT(file)
@@ -284,7 +288,7 @@ IMPLEMENT_PUT(file)
 
 
 /*******************************************************************************
- *  Statics
+ * Statics
  ******************************************************************************/
 
 
@@ -295,12 +299,10 @@ IMPLEMENT_FUNCTION(file, exists)
 }
 
 
-
 IMPLEMENT_FUNCTION(file, isdir)
 {
 	RETURN_BOOL( ::wxDirExists(ARG_STRING(0)) );
 }
-
 
 
 IMPLEMENT_FUNCTION(file, dir)
@@ -332,12 +334,10 @@ IMPLEMENT_FUNCTION(file, dir)
 }
 
 
-
 IMPLEMENT_FUNCTION(file, mkdir)
 {
 	RETURN_BOOL( ::wxMkdir(ARG_STRING(0)) );
 }
-
 
 
 IMPLEMENT_FUNCTION(file, copy)
@@ -346,12 +346,10 @@ IMPLEMENT_FUNCTION(file, copy)
 }
 
 
-
 IMPLEMENT_FUNCTION(file, rename)
 {
 	RETURN_BOOL( ::wxRenameFile(ARG_STRING(0), ARG_STRING(1)) );
 }
-
 
 
 IMPLEMENT_FUNCTION(file, remove)
@@ -364,18 +362,15 @@ IMPLEMENT_FUNCTION(file, remove)
 }
 
 
-
 IMPLEMENT_FUNCTION(file, time)
 {
 	RETURN_LONG( ::wxFileModificationTime(ARG_STRING(0)) );
 }
 
 
-
 /*******************************************************************************
- *  Let SEE know about this class (this part is a little more complicated)
+ * Let SEE know about this class (this part is a little more complicated)
  ******************************************************************************/
-
 
 
 /* object class for File.prototype and file instances */
@@ -394,7 +389,6 @@ static SEE_objectclass file_inst_class = {
 };
 
 
-
 /* object class for File constructor */
 static SEE_objectclass file_constructor_class = {
 	"FileConstructor",          /* Class */
@@ -408,7 +402,6 @@ static SEE_objectclass file_constructor_class = {
 	file_construct,             /* Construct */
 	NULL                        /* Call */
 };
-
 
 
 void SjSee::File_init()
@@ -446,7 +439,6 @@ void SjSee::File_init()
 }
 
 
-
 SEE_object* SjSee::File_new(SEE_value* name, bool binary)
 {
 	file_object* obj = alloc_file_object(m_interpr, name, binary);
@@ -456,7 +448,6 @@ SEE_object* SjSee::File_new(SEE_value* name, bool binary)
 
 	return (SEE_object *)obj;
 }
-
 
 
 static file_object* toFile(SEE_interpreter* interpr, SEE_object* o, int init)

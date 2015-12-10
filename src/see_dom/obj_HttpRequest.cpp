@@ -40,6 +40,7 @@
 // data used by our object
 class SjHttpEvtHandler;
 
+
 struct httprequest_object
 {
 	SEE_native          m_native; // MUST be first!!!
@@ -55,11 +56,13 @@ struct httprequest_object
 
 static void httprequest_freeAll_(httprequest_object* hro, bool removePersistance);
 
+
 static void httprequest_finalize_(SEE_interpreter* interpr, void* ptr, void* closure)
 {
 	httprequest_object* hro = ((httprequest_object*)ptr);
 	httprequest_freeAll_(hro, true /*remove persistance*/);
 }
+
 
 static void httprequest_unexpected_unpersistent_(SEE_interpreter* interpr, void* ptr, void* closure)
 {
@@ -78,14 +81,13 @@ static httprequest_object* alloc_httprequest_object_(SEE_interpreter* interpr)
 	return hro;
 }
 
+
 static httprequest_object* get_httprequest_object_(SEE_interpreter* interpr, SEE_object* o);
 
 
-
 /*******************************************************************************
- *  The Little Event Handler
+ * The Little Event Handler
  ******************************************************************************/
-
 
 
 class SjHttpEvtHandler : public wxEvtHandler
@@ -123,13 +125,11 @@ public:
 };
 
 
-
 #define IDO_SEESOCKET (IDM_FIRSTPRIVATE+1)
 
 BEGIN_EVENT_TABLE(SjHttpEvtHandler, wxEvtHandler)
 	EVT_SOCKET(IDO_SEESOCKET, SjHttpEvtHandler::OnSocketDone)
 END_EVENT_TABLE()
-
 
 
 static void httprequest_freeResponse_(httprequest_object* hro, bool removePersistance)
@@ -161,7 +161,6 @@ static void httprequest_freeResponse_(httprequest_object* hro, bool removePersis
 }
 
 
-
 static void httprequest_freeAll_(httprequest_object* hro, bool removePersistance)
 {
 	httprequest_freeResponse_(hro, removePersistance);
@@ -174,18 +173,15 @@ static void httprequest_freeAll_(httprequest_object* hro, bool removePersistance
 }
 
 
-
 /*******************************************************************************
- *  Functions
+ * Functions
  ******************************************************************************/
-
 
 
 IMPLEMENT_FUNCTION(httprequest, construct)
 {
 	RETURN_OBJECT( HOST_DATA->HttpRequest_new() );
 }
-
 
 
 IMPLEMENT_FUNCTION(httprequest, setRequestHeader)
@@ -204,7 +200,6 @@ IMPLEMENT_FUNCTION(httprequest, setRequestHeader)
 }
 
 
-
 IMPLEMENT_FUNCTION(httprequest, getResponseHeader)
 {
 	httprequest_object* hro = get_httprequest_object_(interpr_, this_);
@@ -213,7 +208,6 @@ IMPLEMENT_FUNCTION(httprequest, getResponseHeader)
 		ret = hro->m_sjHttp->GetHttpResponseHeader(ARG_STRING(0));
 	RETURN_STRING(ret);
 }
-
 
 
 IMPLEMENT_FUNCTION(httprequest, request)
@@ -251,7 +245,6 @@ IMPLEMENT_FUNCTION(httprequest, request)
 }
 
 
-
 IMPLEMENT_FUNCTION(httprequest, abort)
 {
 	httprequest_object* hro = get_httprequest_object_(interpr_, this_);
@@ -261,11 +254,9 @@ IMPLEMENT_FUNCTION(httprequest, abort)
 }
 
 
-
 /*******************************************************************************
- *  Properties
+ * Properties
  ******************************************************************************/
-
 
 
 IMPLEMENT_HASPROPERTY(httprequest)
@@ -282,7 +273,6 @@ IMPLEMENT_HASPROPERTY(httprequest)
 		RETURN_HASNOT;
 	}
 }
-
 
 
 IMPLEMENT_GET(httprequest)
@@ -310,11 +300,9 @@ IMPLEMENT_GET(httprequest)
 }
 
 
-
 /*******************************************************************************
- *  Let SEE know about this class (this part is a little more complicated)
+ * Let SEE know about this class (this part is a little more complicated)
  ******************************************************************************/
-
 
 
 /* object class for HttpRequest.prototype and httprequest instances */
@@ -333,7 +321,6 @@ static SEE_objectclass httprequest_inst_class = {
 };
 
 
-
 /* object class for HttpRequest constructor */
 SEE_objectclass httprequest_constructor_class = {
 	"HttpRequestConstructor",   /* Class */
@@ -347,7 +334,6 @@ SEE_objectclass httprequest_constructor_class = {
 	httprequest_construct,      /* Construct */
 	NULL                        /* Call */
 };
-
 
 
 void SjSee::HttpRequest_init()
@@ -378,7 +364,6 @@ void SjSee::HttpRequest_init()
 }
 
 
-
 SEE_object* SjSee::HttpRequest_new()
 {
 	httprequest_object* obj = alloc_httprequest_object_(m_interpr);
@@ -388,7 +373,6 @@ SEE_object* SjSee::HttpRequest_new()
 
 	return (SEE_object *)obj;
 }
-
 
 
 static httprequest_object* get_httprequest_object_(SEE_interpreter* interpr, SEE_object* o)

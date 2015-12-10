@@ -514,7 +514,6 @@ void SjMainFrame::AddScriptMenuEntries(SjMenu& m)
 			}
 		}
 	#endif
-
 }
 
 

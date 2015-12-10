@@ -827,5 +827,6 @@ void SjSee::RemovePersistentObject(SEE_object* oldObj)
 	}
 }
 
+
 #endif // SJ_USE_SCRIPTS
 
