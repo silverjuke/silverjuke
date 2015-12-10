@@ -197,17 +197,15 @@ public:
 	void            AllocMainMenu       ();
 	void            InitMainMenu        ();
 	void            CreateContextMenu_  (SjMenu&, bool embedFastSearch=FALSE);
-	void            CreatePlaybackMenu  (SjMenu* playbackMenu);
-	void            CreateKioskMenu     (SjMenu* extrasMenu);
-	void            CreateExtrasMenu    (SjMenu* extrasMenu);
-	void            CreateViewMenu      (SjMenu* viewMenu);
+	void            CreatePlaybackMenu  (SjMenu*);
+	void            CreateKioskMenu     (SjMenu*);
+	void            CreateViewMenu      (SjMenu*);
 	void            CreateUnqueueMenu   (SjMenu&);
 	void            CreateSearchMenu    (SjMenu&);
+	void            AddScriptMenuEntries(SjMenu&);
 	#if SJ_USE_TOOLTIPS
-	SjMainFrameToolTipProvider
-	m_toolTipProvider;
-	SjToolTipProvider*
-	GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) { m_toolTipProvider.m_targetId = targetId; m_toolTipProvider.m_subitem = subitem; m_toolTipProvider.m_rect = rect; return &m_toolTipProvider; }
+	SjMainFrameToolTipProvider m_toolTipProvider;
+	SjToolTipProvider* GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) { m_toolTipProvider.m_targetId = targetId; m_toolTipProvider.m_subitem = subitem; m_toolTipProvider.m_rect = rect; return &m_toolTipProvider; }
 	#endif
 	SjMenu          *m_fileMenu, *m_editMenu, *m_viewMenu, *m_playbackMenu, *m_kioskMenu, *m_helpMenu;
 private:

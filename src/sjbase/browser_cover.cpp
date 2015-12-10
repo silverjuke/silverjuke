@@ -512,10 +512,6 @@ void SjCoverBrowser::OnContextMenu(int clickX, int clickY)
 	else
 	{
 		m_lastClickedCover = NULL;
-		if( g_mainFrame->IsAllAvailable() )
-		{
-			mainMenu.Append(IDO_SELECTALL);
-		}
 	}
 
 	// add main items to menu

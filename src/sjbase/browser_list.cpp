@@ -1130,13 +1130,6 @@ void SjListBrowser::OnContextMenu(int clickX, int clickY)
 		cover->m_rows[0]->CreateContextMenu(mainMenu);
 		m_lastClickedCover = cover;
 	}
-	else
-	{
-		if( g_mainFrame->IsAllAvailable() )
-		{
-			mainMenu.Append(IDO_SELECTALL);
-		}
-	}
 
 	// add main items to menu
 	g_mainFrame->CreateContextMenu_(mainMenu);

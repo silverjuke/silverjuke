@@ -164,7 +164,7 @@ static void addEntry(SEE_interpreter* interpr_, SjSeePersistent scope, int argc_
 IMPLEMENT_FUNCTION(program, addMenuEntry)
 {
 	addEntry(interpr_, SJ_PERSISTENT_MENU_ENTRY, argc_, argv_, res_);
-	// g_mainFrame->UpdateExtrasMenu(); TODO_SEE
+	g_mainFrame->InitMainMenu();
 }
 
 

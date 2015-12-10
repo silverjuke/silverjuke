@@ -493,6 +493,31 @@ void SjMainFrame::CreateKioskMenu(SjMenu* kioskMenu)
  ******************************************************************************/
 
 
+void SjMainFrame::AddScriptMenuEntries(SjMenu& m)
+{
+	// add the menu entries creted by the scripts to the given menu; the function is used in the main menu and
+	// for the context menus.  Before any entry is added, a separator is added (if there are no entries, no separator is added)
+	#ifdef SJ_USE_SCRIPTS
+		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
+		int iCount = arr.GetCount();
+		if( iCount )
+		{
+			if( iCount > (IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00)+1 )
+			{
+				iCount = IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00+1;
+			}
+
+			m.AppendSeparator();
+			for( int i = 0; i<iCount; i++ )
+			{
+				m.Append(IDO_EXTRAS_MENU00+i, arr[i]);
+			}
+		}
+	#endif
+
+}
+
+
 wxString SjMainFrame::GetNextMenuTitle()
 {
 	if( !HasNextIgnoreAP()
@@ -710,25 +735,30 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 					}
 
 					m_contextMenuClickedUrls = m_player.m_queue.GetUrlsByIds(m_display.m_selectedIds);
-
-					mainMenu.Append(IDO_GOTO_CURR_MARK);
+					if( m_contextMenuClickedUrls.GetCount() )
+					{
+						mainMenu.Append(IDO_GOTO_CURR_MARK);
+					}
 				}
 			}
 
 			long markedCount = m_contextMenuClickedUrls.GetCount();
+			if( markedCount > 0 )
+			{
+				CreateUnqueueMenu(mainMenu);
 
-			CreateUnqueueMenu(mainMenu);
+				mainMenu.AppendSeparator();
 
-			mainMenu.AppendSeparator();
+				mainMenu.Append(IDO_EDITQUEUE, _("Edit tracks/Get info")+wxString(wxT("...")));
 
-			mainMenu.Append(IDO_EDITQUEUE, _("Edit tracks/Get info")+wxString(wxT("...")));
-			mainMenu.Enable(IDO_EDITQUEUE, (markedCount>0));
+				m_libraryModule->CreateRatingMenu(mainMenu, IDO_RATINGQUEUE00, m_contextMenuClickedUrls);
+				m_libraryModule->CreateArtistInfoMenu(mainMenu, IDO_ARTISTINFQUEUE00, m_contextMenuClickedUrls);
 
-			m_libraryModule->CreateRatingMenu(mainMenu, IDO_RATINGQUEUE00, m_contextMenuClickedUrls);
-			m_libraryModule->CreateArtistInfoMenu(mainMenu, IDO_ARTISTINFQUEUE00, m_contextMenuClickedUrls);
+				mainMenu.Append(IDO_EXPLOREQUEUE, _("Show file"));
+				mainMenu.Enable(IDO_EXPLOREQUEUE, (markedCount==1));
 
-			mainMenu.Append(IDO_EXPLOREQUEUE, _("Show file"));
-			mainMenu.Enable(IDO_EXPLOREQUEUE, (markedCount==1));
+				AddScriptMenuEntries(mainMenu);
+			}
 		}
 	}
 	else

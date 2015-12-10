@@ -541,10 +541,6 @@ void SjAlbumBrowser::OnContextMenu(int clickX, int clickY)
 		// no item under the mouse
 		m_lastClickedCol = NULL;
 		m_lastClickedRow = NULL;
-		if( g_mainFrame->IsAllAvailable() )
-		{
-			mainMenu.Append(IDO_SELECTALL);
-		}
 	}
 
 	// add main items to menu
