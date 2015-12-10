@@ -662,17 +662,16 @@ SjInterfaceBase::SjInterfaceBase(const wxString& name)
 }
 
 
-#if 0
 static bool s_searchedForScripts = false;
 void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirName, bool suppressNoAccessErrors)
 {
 	wxFileSystem        fs;
 	wxString            entryStr;
 	wxArrayString       entryStrings;
-	size_t              e;
 
 	fs.ChangePathTo(dirName, TRUE);
 
+	#if 0
 	// first, go through some special subdirectories.
 	// we don't recurse all directories for speed reasons
 	// as the program path is also in the search path and we don't know
@@ -706,7 +705,7 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 		entryStr = fs.FindNext();
 	}
 
-	for( e = 0; e < entryStrings.GetCount(); e++ )
+	for( size_t e = 0; e < entryStrings.GetCount(); e++ )
 	{
 		AddModulesFromDir(list, entryStrings.Item(e), suppressNoAccessErrors);
 	}
@@ -735,15 +734,16 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 		entryStr = fs.FindNext();
 	}
 
-	for( e = 0; e < entryStrings.GetCount(); e++ )
+	for( size_t e = 0; e < entryStrings.GetCount(); e++ )
 		AddModulesFromFile(list, entryStrings.Item(e), suppressNoAccessErrors);
+	#endif
 
 	// search for scripts
 
 	if( !s_searchedForScripts )
 	{
 		entryStrings.Clear();
-		entryStr = fs.FindFirst(wxT("*.sj"), wxFILE);
+		entryStr = fs.FindFirst(wxT("*.js"), wxFILE);
 		while( !entryStr.IsEmpty() )
 		{
 			m_moduleSystem->m_scripts.Add(entryStr);
@@ -766,6 +766,7 @@ void SjInterfaceBase::AddModulesFromSearchPaths(SjModuleList& list, bool suppres
 }
 
 
+#if 0
 bool SjInterfaceBase::IsModuleAdded(SjModuleList& list,
                                     const wxString& file, int fileIndex, const wxString& name)
 {
@@ -798,8 +799,10 @@ bool SjInterfaceBase::IsModuleAdded(SjModuleList& list,
 
 	return FALSE;
 }
+#endif // 0
 
 
+#if 0
 void SjInterfaceBase::WriteToCache(const wxString& file, const wxString& info__, unsigned long fileTimestamp)
 {
 	// This function may only be called from the main thread.

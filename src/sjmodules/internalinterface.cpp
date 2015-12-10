@@ -91,6 +91,9 @@ void SjInternalInterface::LoadModules(SjModuleList& list)
 	#if SJ_USE_VIDEO
 	list.Append   (new SjVidoutModule             (this));
 	#endif
+
+	// add scripts - they are no real modules but loaded here (execteud later in mainframe.cpp)
+	AddModulesFromSearchPaths(list, true);
 }
 
 

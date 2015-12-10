@@ -646,7 +646,6 @@ public:
 
 protected:
 
-	#if 0
 	// Some tools that may be useful for derived classes:
 	//
 	// AddModulesFromDir() searches the given directory for *.dll files
@@ -660,6 +659,7 @@ protected:
 	// and returns TRUE if sth. was changed.
 	void            AddModulesFromSearchPaths(SjModuleList&, bool suppressNoAccessErrors=FALSE);
 
+	#if 0
 	bool            IsModuleAdded       (SjModuleList&, const wxString& file, int fileIndex=0, const wxString& name=wxEmptyString);
 	#endif
 
