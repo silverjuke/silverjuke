@@ -859,12 +859,8 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 		/* Handle <SCRIPT>
 		 ***********************************************************************************/
 
-		#if SJ_USE_SCRIPTS
-			if( skin->m_see == NULL )
-			{
-				return FALSE; // not needed for names loading
-			}
-
+		if( !m_skinMlParser->m_data->m_loadNameOnly )
+		{
 			wxString scriptContent;
 
 			// first, execute external file
@@ -878,7 +874,8 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 
 				scriptContent = m_skinMlParser->m_data->LoadFile_(scriptFile);
 
-				skin->m_see->Execute(scriptContent);
+				skin->m_globalScript += scriptContent + "\n\n";
+				skin->m_hasScripts = true;
 			}
 
 			// second, execute stuff between <script> and </script>
@@ -895,12 +892,11 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 					if( scriptContent.Right(3) == wxT("-->") )
 						scriptContent = scriptContent.Left(scriptContent.Len()-3);
 
-					skin->m_see->Execute(scriptContent);
+					skin->m_globalScript += scriptContent + "\n\n";
+					skin->m_hasScripts = true;
 				}
 			}
-		#else
-			wxLogError(wxT("Scripts are not supported in this build."));
-		#endif
+		}
 
 		return FALSE; // parse inner not called
 	}
@@ -952,6 +948,12 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 		{
 			m_skinMlParser->m_data->LogError(wxT("Invalid tag")/*n/t*/, &tag);
 			return FALSE;
+		}
+
+		// check for scripting
+		if( tag.HasParam(wxT("ONCLICK")) )
+		{
+			skin->m_hasScripts = true;
 		}
 
 		// initalize the colours
@@ -1256,14 +1258,9 @@ SjSkinMlParser::~SjSkinMlParser()
 
 
 SjSkinSkin* SjSkinMlParser::ParseFile(const wxString& url,
-                                      bool loadNameOnly
-                                      #if SJ_USE_SCRIPTS
-                                      , SjSee* see /*NULL if scripts should not be executed*/
-                                      #endif
-                                     )
+                                      bool loadNameOnly)
 {
 	wxASSERT(m_deleteData==TRUE);
-
 
 	// In versions before 1.11 silverjuke crashed if an erroneous skin was loaded;
 	// the reason for this was an uninitialized m_currTag pointer used in LogError,
@@ -1284,11 +1281,7 @@ SjSkinSkin* SjSkinMlParser::ParseFile(const wxString& url,
 	}
 
 	// create and setup new skin
-	m_data->m_skin = new SjSkinSkin(
-	    #if SJ_USE_SCRIPTS
-	    see
-	    #endif
-	);
+	m_data->m_skin = new SjSkinSkin();
 	if( !m_data->m_skin )
 	{
 		return NULL;
@@ -1858,15 +1851,12 @@ SjSkinLayout::~SjSkinLayout()
  ******************************************************************************/
 
 
-SjSkinSkin::SjSkinSkin(
-    #if SJ_USE_SCRIPTS
-    SjSee* see
-    #endif
-)
+SjSkinSkin::SjSkinSkin()
 {
 	#if SJ_USE_SCRIPTS
-	m_see           = see;
+	m_see               = NULL;
 	#endif
+	m_hasScripts        = FALSE;
 	m_debugInfo         = FALSE;
 	m_debugOutline      = FALSE;
 	m_tooltipColoursSet = FALSE;

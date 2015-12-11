@@ -398,6 +398,7 @@ void SjViewSettingsPage::OnChangeSkin(wxListEvent& event)
 
 			g_mainFrame->LoadSkin(currSkin->m_url, SJ_OP_DEF_NONKIOSK);
 			g_mainFrame->Refresh();
+			g_mainFrame->InitMainMenu(); // skins menu entries may be deleted
 
 			g_tools->m_config->Write(wxT("main/skinFile"), g_mainFrame->GetSkinUrl());
 			g_tools->m_config->Flush();
@@ -689,6 +690,7 @@ void SjViewSettingsModule::DoneConfigPage(wxWindow* configPage__, int doneAction
 
 			g_mainFrame->LoadSkin(configPage->m_orgSkinPath, SJ_OP_DEF_NONKIOSK);
 			g_mainFrame->Refresh();
+			g_mainFrame->InitMainMenu(); // skins menu entries may be deleted
 
 			wxASSERT(g_tools);
 			g_tools->m_config->Write(wxT("main/skinFile"), g_mainFrame->GetSkinUrl());

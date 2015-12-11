@@ -85,11 +85,7 @@ class SjSkinMlParser : public wxHtmlParser
 public:
 	                SjSkinMlParser      (SjSkinMlParserData* data, long conditions);
 	                ~SjSkinMlParser     ();
-	SjSkinSkin*     ParseFile           (const wxString& givenPath, bool loadNameOnly = false
-	                                      #if SJ_USE_SCRIPTS
-	                                         , SjSee* see=NULL
-									      #endif
-	                                    );
+	SjSkinSkin*     ParseFile           (const wxString& givenPath, bool loadNameOnly = false);
 
 	void            InitParser          (const wxString& source);
 	void            AddText             (const wxChar* txt);

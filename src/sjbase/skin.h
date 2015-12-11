@@ -671,11 +671,7 @@ WX_DECLARE_LIST(SjSkinLayout, SjSkinLayoutList);
 class SjSkinSkin : public wxObject // wxObject needed for SjSkinMlParser::GetProduct()
 {
 public:
-	               SjSkinSkin           (
-		                                 #if SJ_USE_SCRIPTS
-	                                     SjSee*
-		                                 #endif
-										);
+	               SjSkinSkin           ();
 	                ~SjSkinSkin         ();
 
 	wxString        GetUrl              () const { return m_givenUrl; }
@@ -692,8 +688,11 @@ public:
 	wxColour        GetTooltipBgColour  () const { return m_tooltipBgColour; }
 	wxColour        GetTooltipBorderColour () const { return m_tooltipBorderColour; }
 
+	// m_hasScripts is TRUE if either m_globalScripts is set or there is any onclick-handler
+	bool            m_hasScripts;
+	wxString        m_globalScript;
 	#if SJ_USE_SCRIPTS
-	SjSee*          m_see;
+	SjSee*          m_see;  // may be used by the caller to execute scripts - we only load the scripts but do not execute them
 	#endif
 
 private:

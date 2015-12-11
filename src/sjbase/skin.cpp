@@ -2838,20 +2838,7 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 	g_tools->UpdateFacenames();
 
 	// load the new skin - if reloadScripts is false, SjSee of the current skin is reused and the scripts are not parsed again.
-	#if SJ_USE_SCRIPTS
-		SjSee* see = NULL;
-		if( reloadScripts || m_currSkin == NULL )
-		{
-			see = new SjSee();
-			see->SetExecutionScope(path);
-		}
-	#endif
-
-	SjSkinSkin* newSkin = parser.ParseFile(path, false
-											#if SJ_USE_SCRIPTS
-	                                       , see
-											#endif
-	                                      );
+	SjSkinSkin* newSkin = parser.ParseFile(path, false);
 	if( !newSkin )
 	{
 		wxLogError(_("Cannot open \"%s\"."), path.c_str());
@@ -2859,12 +2846,25 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 	}
 
 	#if SJ_USE_SCRIPTS
-	if( see == NULL )
-	{
-		wxASSERT( m_currSkin );
-		newSkin->m_see = m_currSkin->m_see;
-		m_currSkin->m_see = NULL;
-	}
+		if( reloadScripts || m_currSkin == NULL )
+		{
+			// this is the normal case, just load a new skin with a new scripting engine
+			if( newSkin->m_hasScripts )
+			{
+				newSkin->m_see = new SjSee();
+				newSkin->m_see->SetExecutionScope(path);
+				if( !newSkin->m_globalScript.IsEmpty() ) // if m_globalScript is unset, m_hasScripts may be true due to onclick-handlers
+				{
+					newSkin->m_see->Execute(newSkin->m_globalScript);
+				}
+			}
+		}
+		else
+		{
+			// re-use the existing scripting engine, if any
+			newSkin->m_see = m_currSkin->m_see;
+			m_currSkin->m_see = NULL;
+		}
 	#endif
 
 	// deselect the old layout (if any)
