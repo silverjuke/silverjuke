@@ -585,7 +585,7 @@ void SjMainApp::DoShutdownEtc(SjShutdownEtc action, long restoreOrgVol)
 	if( action>=SJ_SHUTDOWN_USER_DEF_SCRIPT && action<=SJ_SHUTDOWN_USER_DEF_SCRIPT_LAST )
 	{
 		#if SJ_USE_SCRIPTS
-			SjSee::OnGlobalEmbedding(SJ_PERSISTENT_EXIT_OPTION, action-SJ_SHUTDOWN_USER_DEF_SCRIPT);
+			SjSee::OnGlobalEmbedding(SJ_PERSISTENT_EXIT_OPTION_deprecated, action-SJ_SHUTDOWN_USER_DEF_SCRIPT);
 		#endif
 		return;
 	}

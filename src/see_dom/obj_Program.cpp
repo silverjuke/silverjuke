@@ -187,9 +187,9 @@ IMPLEMENT_FUNCTION(program, addSkinsButton) /*deprecated*/
 }
 
 
-IMPLEMENT_FUNCTION(program, addExitOption)
+IMPLEMENT_FUNCTION(program, addExitOption) /*deprecated*/
 {
-	addEntry(interpr_, SJ_PERSISTENT_EXIT_OPTION, argc_, argv_, res_);
+	addEntry(interpr_, SJ_PERSISTENT_EXIT_OPTION_deprecated, argc_, argv_, res_);
 }
 
 

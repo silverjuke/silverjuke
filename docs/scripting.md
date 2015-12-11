@@ -30,7 +30,6 @@ Scripting in Silverjuke
     - Program.autoPlay
     - Program.addMenuEntry()
     - Program.addConfigButton()
-    - Program.addExitOption()
     - Program.setTimeout()
     - Program.setDisplayMsg()
     - Program.setSkinText()
@@ -841,7 +840,7 @@ Program.kioskMode
 Read/write property that is set to true if Silverjuke is currently running the
 kiosk mode, else this property is set to false.
 
-See also: Program.onKiosk, Program.shutdown(), Program.addExitOption()
+See also: Program.onKiosk, Program.shutdown()
 
 
 Program.sleepMode
@@ -943,7 +942,7 @@ name of the menu entry is defined by name. If the user selects one of "your"
 menu entry, the given function is called. You can also add shortcuts for a menu
 entry; see "Advanced / Shortcut" for this purpose.
 
-See also: Program.addConfigButton(), Program.addExitOption()
+See also: Program.addConfigButton()
 
 
 Program.addConfigButton()
@@ -954,29 +953,7 @@ Program.addConfigButton()
 Adds a button or a menu entry eg. for your plugin's configuration dialog. If the
 user clicks the button or selects the menu entry, the given function is called.
 
-See also: Program.addMenuEntry(), Program.addExitOption()
-
-
-Program.addExitOption()
---------------------------------------------------------------------------------
-
-    program.addExitOption(name, callbackFn);
-
-Adds an option for terminating the kiosk mode and/or the sleep mode. If the
-user selects the action - either as the default action or as an action selected
-on "Ask" - the given function is called.
-
-Example:
-
-    function doWhatToDo()
-    {
-      // well, just do what to do here ...
-    }
-
-    program.addExitOption('Special task', doWhatToDo);
-
-See also: Program.addMenuEntry(), Program.addConfigButton(),
-Program.shutdown()
+See also: Program.addMenuEntry()
 
 
 Program.setTimeout()
@@ -1301,7 +1278,7 @@ following values:
 
 Note that your script may terminate immediately when calling this function.
 
-See also: Program.kioskMode, Program.addExitOption()
+See also: Program.kioskMode
 
 
 Player Object
