@@ -509,7 +509,7 @@ void SjMainFrame::AddScriptMenuEntries(SjMenu& m, bool addConfigButtons)
 
 			for( int i = 0; i<iCountMenu; i++ )
 			{
-				m.Append(IDO_SCRIPT_MENU00+i, arrMenu[i]);
+				m.Append(IDO_SCRIPT_MENU00+i, _("Script") + ": " + arrMenu[i]);
 			}
 
 			if( iCountConfig > 0 )
