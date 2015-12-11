@@ -46,6 +46,7 @@
 #define IDC_COVERHEIGHTSLIDER       (IDM_FIRSTPRIVATE+14)
 #define IDC_FONTDEFAULT             (IDM_FIRSTPRIVATE+23)
 #define IDC_LOADSKINSMENUBUTTON     (IDM_FIRSTPRIVATE+24)
+#define IDC_CANCELSKINSELECTION     (IDM_FIRSTPRIVATE+25)
 
 
 /*******************************************************************************
@@ -66,12 +67,11 @@ private:
 	// skin settings
 	wxPanel*        CreateSkinPage      (wxWindow* parent);
 
-	SjSkinEnumeratorItem*
-	GetSkinFromDialog   ();
-	void            SetSkinToDialog     (const wxString& skin);
+	SjSkinEnumeratorItem* GetSkinFromDialog   ();
 	void            UpdateSkinList      (const wxString& selSkin);
 
 	void            OnUpdateSkinList    (wxCommandEvent& event);
+	void            OnCancelSkinSelection(wxCommandEvent& event);
 	void            OnSkinContextMenu   (wxListEvent&) { ShowContextMenu(this, ScreenToClient(::wxGetMousePosition())); }
 	void            OnLoadSkinsContextMenu (wxCommandEvent&) { if(m_loadSkinsMenuButton) { ShowContextMenu(m_loadSkinsMenuButton, wxPoint(0,0)); } }
 	void            OnChangeSkin        (wxListEvent&);
@@ -87,8 +87,7 @@ private:
 	int             m_skinChangeFromMe;
 	wxListCtrl*     m_listCtrl;
 	wxButton*       m_loadSkinsMenuButton;
-	SjSkinEnumerator*
-	m_skinEnumerator;
+	SjSkinEnumerator* m_skinEnumerator;
 	wxString        m_orgSkinPath;
 
 	// font settings
@@ -134,10 +133,10 @@ BEGIN_EVENT_TABLE(SjViewSettingsPage, wxPanel)
 	EVT_MENU                    (IDC_SKININFO,          SjViewSettingsPage::OnSkinInfo              )
 	EVT_MENU                    (IDC_SKINEXPLORE,       SjViewSettingsPage::OnSkinExplore           )
 	EVT_MENU                    (IDC_SKINUPDATELIST,    SjViewSettingsPage::OnUpdateSkinList        )
+	EVT_MENU                    (IDC_CANCELSKINSELECTION, SjViewSettingsPage::OnCancelSkinSelection   )
 	EVT_MENU                    (IDC_SKINWWW,           SjViewSettingsPage::OnSkinWWW               )
 	EVT_BUTTON                  (IDC_SKINWWW,           SjViewSettingsPage::OnSkinWWW               )
-	EVT_BUTTON                  (IDC_LOADSKINSMENUBUTTON,
-	                             SjViewSettingsPage::OnLoadSkinsContextMenu  )
+	EVT_BUTTON                  (IDC_LOADSKINSMENUBUTTON, SjViewSettingsPage::OnLoadSkinsContextMenu  )
 	EVT_CHOICE                  (IDC_FONTFACECHOICE,    SjViewSettingsPage::OnFontFaceChoice        )
 	EVT_COMMAND_SCROLL          (IDC_FONTPTSLIDER,      SjViewSettingsPage::OnFontPtSlider          )
 	EVT_BUTTON                  (IDC_FONTDEFAULT,       SjViewSettingsPage::OnFontDefault           )
@@ -271,6 +270,7 @@ void SjViewSettingsPage::OnUpdateSkinList(wxCommandEvent& event)
 }
 
 
+
 void SjViewSettingsPage::UpdateSkinList(const wxString& selSkin)
 {
 	m_skinChangeFromMe++;
@@ -333,29 +333,6 @@ SjSkinEnumeratorItem* SjViewSettingsPage::GetSkinFromDialog()
 }
 
 
-void SjViewSettingsPage::SetSkinToDialog(const wxString& skin)
-{
-	wxASSERT( m_skinEnumerator );
-
-	int i, itemCount = m_skinEnumerator->GetCount();
-	for( i = 0; i < itemCount; i++ )
-	{
-		SjSkinEnumeratorItem* item = m_skinEnumerator->GetSkin(i);
-		wxASSERT(item);
-		if( item->m_url.CmpNoCase(skin)==0 )
-		{
-			i = m_listCtrl->FindItem(-1, i);
-			if( i >= 0 )
-			{
-				m_listCtrl->SetItemState(i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
-				m_listCtrl->EnsureVisible(i);
-			}
-			return;
-		}
-	}
-}
-
-
 void SjViewSettingsPage::OnSkinExplore(wxCommandEvent& event)
 {
 	g_mainFrame->Enable(FALSE);
@@ -396,14 +373,26 @@ void SjViewSettingsPage::OnChangeSkin(wxListEvent& event)
 		{
 			wxBusyCursor busy;
 
-			g_mainFrame->LoadSkin(currSkin->m_url, SJ_OP_DEF_NONKIOSK);
+			if( g_mainFrame->LoadSkin(currSkin->m_url, SJ_OP_DEF_NONKIOSK, wxEmptyString, true, this) )
+			{
+				g_tools->m_config->Write(wxT("main/skinFile"), g_mainFrame->GetSkinUrl());
+				g_tools->m_config->Flush();
+			}
+			else
+			{
+				wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_CANCELSKINSELECTION);
+				AddPendingEvent(fwd);
+			}
+
 			g_mainFrame->Refresh();
 			g_mainFrame->InitMainMenu(); // skins menu entries may be deleted
-
-			g_tools->m_config->Write(wxT("main/skinFile"), g_mainFrame->GetSkinUrl());
-			g_tools->m_config->Flush();
 		}
 	}
+}
+void SjViewSettingsPage::OnCancelSkinSelection(wxCommandEvent& event)
+{
+	UpdateSkinList(g_mainFrame->GetSkinUrl());
+	SjDialog::EnsureSelListCtrlItemVisible(m_listCtrl);
 }
 
 

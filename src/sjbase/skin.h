@@ -757,7 +757,7 @@ public:
 	                ~SjSkinWindow       ();
 
 	// load a skin, errors are given to wxLog* and should be displayed automatically
-	bool            LoadSkin            (const wxString& path, long conditions, const wxString& skinSettings=wxEmptyString, bool reloadScripts=true);
+	bool            LoadSkin            (const wxString& path, long conditions, const wxString& skinSettings=wxEmptyString, bool reloadScripts=true, wxWindow* parent = NULL);
 	void            LoadLayout          (SjSkinLayout*, SjLoadLayoutFlag sizeChangeFlag=SJ_AUTO_SIZE_CHANGE);
 	bool            SkinOk              () const { return m_currLayout? TRUE : FALSE; }
 	void            ReloadSkin          (long conditions, bool alsoReloadScripts, SjLoadLayoutFlag sizeChangeFlag=SJ_AUTO_SIZE_CHANGE);

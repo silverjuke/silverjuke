@@ -36,6 +36,7 @@
 
 #include <sjbase/base.h>
 #include <sjtools/imgthread.h>
+#include <sjtools/msgbox.h>
 #include <sjbase/skin.h>
 #include <sjbase/skinml.h>
 #include <sjmodules/kiosk/kiosk.h>
@@ -2830,7 +2831,7 @@ void SjSkinWindow::ShowAlwaysOnTop(bool alwaysOnTop)
 }
 
 
-bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxString& skinSettings, bool reloadScripts)
+bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxString& skinSettings, bool reloadScripts, wxWindow* parent)
 {
 	SjSkinMlParser parser(NULL, conditions);
 
@@ -2851,6 +2852,21 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 			// this is the normal case, just load a new skin with a new scripting engine
 			if( newSkin->m_hasScripts )
 			{
+				bool askForScriptExecution = true;
+				if( m_currSkin == NULL ) {
+					askForScriptExecution = false;
+				}
+
+				if( askForScriptExecution )
+				{
+					if( SjMessageBox(wxString::Format(_("Execute the script embedded in the skin \"%s\"?"), newSkin->GetName().c_str()),
+									 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent? parent : this) != wxYES )
+					{
+						delete newSkin;
+						return false;
+					}
+				}
+
 				newSkin->m_see = new SjSee();
 				newSkin->m_see->SetExecutionScope(path);
 				if( !newSkin->m_globalScript.IsEmpty() ) // if m_globalScript is unset, m_hasScripts may be true due to onclick-handlers
