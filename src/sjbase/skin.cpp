@@ -2831,7 +2831,7 @@ void SjSkinWindow::ShowAlwaysOnTop(bool alwaysOnTop)
 }
 
 
-bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxString& skinSettings, bool reloadScripts, wxWindow* parent)
+bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxString& skinSettings, bool reloadScripts, wxWindow* askForScriptExecution)
 {
 	SjSkinMlParser parser(NULL, conditions);
 
@@ -2852,17 +2852,12 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 			// this is the normal case, just load a new skin with a new scripting engine
 			if( newSkin->m_hasScripts )
 			{
-				bool askForScriptExecution = true;
-				if( m_currSkin == NULL ) {
-					askForScriptExecution = false;
-				}
-
 				if( askForScriptExecution )
 				{
-					if( SjMessageBox(wxString::Format(_("Execute the script embedded in the skin \"%s\"?")+"\n\n"+
+					if( SjMessageBox(wxString::Format(_("Do you want to execute the scripts embedded in the skin \"%s\"?")+"\n\n"+
 					                 _("CAUTION: Scripts may slow down Silverjuke or damage your data. Please use only scripts you trust."),
 					                 newSkin->GetName().c_str()),
-					                 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent? parent : this) != wxYES )
+					                 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, askForScriptExecution) != wxYES )
 					{
 						delete newSkin;
 						return false;
