@@ -3650,7 +3650,7 @@ void SjLibraryModule::CreateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool cre
 		editMenu->Append(IDM_EXPLORE);
 	}
 
-	g_mainFrame->AddScriptMenuEntries(*editMenu);
+	g_mainFrame->AddScriptMenuEntries(*editMenu, createMainMenu);
 }
 
 

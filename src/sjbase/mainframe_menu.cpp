@@ -493,24 +493,35 @@ void SjMainFrame::CreateKioskMenu(SjMenu* kioskMenu)
  ******************************************************************************/
 
 
-void SjMainFrame::AddScriptMenuEntries(SjMenu& m)
+void SjMainFrame::AddScriptMenuEntries(SjMenu& m, bool addConfigButtons)
 {
 	// add the menu entries creted by the scripts to the given menu; the function is used in the main menu and
 	// for the context menus.  Before any entry is added, a separator is added (if there are no entries, no separator is added)
 	#if SJ_USE_SCRIPTS
-		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
-		int iCount = arr.GetCount();
-		if( iCount )
+		wxArrayString arrMenu   = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
+		wxArrayString arrConfig; if( addConfigButtons ) { arrConfig = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_CONFIG_BUTTON); }
+		int iCountMenu   = arrMenu.GetCount(); if( iCountMenu   > (IDO_SCRIPT_MENU99-IDO_SCRIPT_MENU00)+1 ) { iCountMenu = IDO_SCRIPT_MENU99-IDO_SCRIPT_MENU00+1; }
+		int iCountConfig = arrConfig.GetCount(); if( iCountConfig > (IDO_SCRIPTCONFIG_MENU99-IDO_SCRIPTCONFIG_MENU00)+1 ) { iCountConfig = IDO_SCRIPTCONFIG_MENU99-IDO_SCRIPTCONFIG_MENU00+1; }
+
+		if( iCountMenu > 0 || iCountConfig > 0 )
 		{
-			if( iCount > (IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00)+1 )
+			m.AppendSeparator();
+
+			for( int i = 0; i<iCountMenu; i++ )
 			{
-				iCount = IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00+1;
+				m.Append(IDO_SCRIPT_MENU00+i, arrMenu[i]);
 			}
 
-			m.AppendSeparator();
-			for( int i = 0; i<iCount; i++ )
+			if( iCountConfig > 0 )
 			{
-				m.Append(IDO_EXTRAS_MENU00+i, arr[i]);
+				SjMenu* submenu = new SjMenu(m.ShowShortcuts());
+
+				for( int i = 0; i<iCountConfig; i++ )
+				{
+					submenu->Append(IDO_SCRIPTCONFIG_MENU00+i, arrConfig[i]);
+				}
+
+				m.Append(0, _("Script options"), submenu);
 			}
 		}
 	#endif

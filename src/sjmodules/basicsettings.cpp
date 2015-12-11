@@ -824,49 +824,13 @@ SjBasicSettingsConfigPage::~SjBasicSettingsConfigPage()
  ******************************************************************************/
 
 
-#if SJ_USE_SCRIPTS
-class SjLittleScript : public SjLittleOption
-{
-public:
-	SjLittleScript(const wxString& name, int index)
-		: SjLittleOption(name, SJ_ICON_MODULE)
-	{
-		m_scriptIndex = index;
-	}
-
-	wxString GetDisplayValue() const { return wxT("..."); }
-	long GetOptionCount() const { return 1; }
-	wxString GetOption(long i) const { return _("Edit..."); }
-	bool OnOption(wxWindow* parent, long i) { return OnDoubleClick(parent); }
-	bool OnDoubleClick(wxWindow* parent)
-	{
-		SjSee::OnGlobalEmbedding(SJ_PERSISTENT_CONFIG_BUTTON, m_scriptIndex);
-		return false; // other options are not affected
-	}
-
-private:
-	int m_scriptIndex;
-};
-#endif
-
-
 void SjBasicSettingsConfigPage::GetLittleMiscOptions(SjArrayLittleOption& lo)
 {
 	// init special commands...
 	#define SEP wxString(wxT("|"))
 
-	// ...scripts
-	SjLittleOption::ClearSection();
-	#if SJ_USE_SCRIPTS
-	{
-		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_CONFIG_BUTTON);
-		int i, iCount = arr.GetCount();
-		for( i = 0; i < iCount; i++ )
-			lo.Add(new SjLittleScript(arr[i], i));
-	}
-	#endif
-
 	// ...language
+	SjLittleOption::ClearSection();
 	{
 		const wxLanguageInfo* info = wxLocale::GetLanguageInfo(wxLocale::GetSystemLanguage());
 		wxString defaultLanguageValue = info? info->CanonicalName : wxString(wxT("en_GB"));

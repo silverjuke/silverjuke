@@ -276,9 +276,11 @@
 #define IDO_BROWSER_RELOAD_VIEW 8609
 #define IDO_ABOUT_OPEN_WWW      8610
 #define IDO_ABOUT               8611
-#define IDO_EXTRAS_MENU00       8613 /* range start */
-#define IDO_EXTRAS_MENU99       8712 /* range end */
+#define IDO_SCRIPT_MENU00       8613 /* range start */
+#define IDO_SCRIPT_MENU99       8712 /* range end */
 #define IDO_CONSOLE             8713
+#define IDO_SCRIPTCONFIG_MENU00 8714 /* range start */
+#define IDO_SCRIPTCONFIG_MENU99 8813 /* range end */
 /* take care, we're close to end!*/
 
 /* [PLAYER] [ID]s, IDPLAYER_*, posted from SjPlayer -> SjMainFrame -> SjPlayer.OnPostBack()

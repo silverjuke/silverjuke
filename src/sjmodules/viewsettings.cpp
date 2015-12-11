@@ -46,8 +46,6 @@
 #define IDC_COVERHEIGHTSLIDER       (IDM_FIRSTPRIVATE+14)
 #define IDC_FONTDEFAULT             (IDM_FIRSTPRIVATE+23)
 #define IDC_LOADSKINSMENUBUTTON     (IDM_FIRSTPRIVATE+24)
-#define IDC_SCRIPT_CONFIG           (IDM_FIRSTPRIVATE+100)
-#define IDC_SCRIPT_CONFIG_LAST      (IDM_FIRSTPRIVATE+200)
 
 
 /*******************************************************************************
@@ -78,7 +76,6 @@ private:
 	void            OnLoadSkinsContextMenu (wxCommandEvent&) { if(m_loadSkinsMenuButton) { ShowContextMenu(m_loadSkinsMenuButton, wxPoint(0,0)); } }
 	void            OnChangeSkin        (wxListEvent&);
 	void            OnDoubleClick       (wxListEvent&);
-	void            OnScriptConfig      (wxCommandEvent&);
 	void            OnSkinInfo          (wxCommandEvent&) {SkinInfo();}
 	void            SkinInfo            ();
 	void            OnSkinExplore       (wxCommandEvent&);
@@ -146,10 +143,6 @@ BEGIN_EVENT_TABLE(SjViewSettingsPage, wxPanel)
 	EVT_BUTTON                  (IDC_FONTDEFAULT,       SjViewSettingsPage::OnFontDefault           )
 	EVT_COMMAND_SCROLL          (IDC_COLUMNWIDTHSLIDER, SjViewSettingsPage::OnColumnWidthSlider     )
 	EVT_COMMAND_SCROLL          (IDC_COVERHEIGHTSLIDER, SjViewSettingsPage::OnCoverHeightSlider     )
-	EVT_COMMAND_RANGE           (IDC_SCRIPT_CONFIG,
-	                             IDC_SCRIPT_CONFIG_LAST,
-	                             wxEVT_COMMAND_MENU_SELECTED,
-	                             SjViewSettingsPage::OnScriptConfig          )
 	EVT_SIZE                    (                       SjViewSettingsPage::OnSize                  )
 END_EVENT_TABLE()
 
@@ -377,22 +370,9 @@ void SjViewSettingsPage::OnSkinExplore(wxCommandEvent& event)
 }
 
 
-void SjViewSettingsPage::OnScriptConfig(wxCommandEvent& e)
-{
-	wxASSERT( e.GetId() >= IDC_SCRIPT_CONFIG && e.GetId() <= IDC_SCRIPT_CONFIG_LAST );
-	#if SJ_USE_SCRIPTS
-		int index = e.GetId()-IDC_SCRIPT_CONFIG;
-		SjSee::OnGlobalEmbedding(SJ_PERSISTENT_SKINS_BUTTON, index);
-	#endif
-}
-
-
 void SjViewSettingsPage::OnDoubleClick(wxListEvent& event)
 {
-	#if SJ_USE_SCRIPTS
-		if( !SjSee::OnGlobalEmbedding(SJ_PERSISTENT_SKINS_BUTTON, -1/*def. action*/, g_mainFrame->GetSkinSee()) )
-	#endif
-			SkinInfo();
+	SkinInfo();
 }
 
 
@@ -429,16 +409,6 @@ void SjViewSettingsPage::OnChangeSkin(wxListEvent& event)
 void SjViewSettingsPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 {
 	SjMenu menu(0);
-
-	#if SJ_USE_SCRIPTS
-		wxArrayString arr = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_SKINS_BUTTON);
-		int i, iCount = arr.GetCount();
-		if( iCount )
-		{
-			for( i = 0; i < iCount; i++ )
-				menu.Append(IDC_SCRIPT_CONFIG+i, arr[i]);
-		}
-	#endif
 
 	menu.Append(IDC_SKININFO, _("Info..."));
 

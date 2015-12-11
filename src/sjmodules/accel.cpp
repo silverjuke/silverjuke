@@ -176,12 +176,12 @@ bool SjAccelModule::FirstLoad()
 		//  - all menu entries of ALL scripts are defined by a zero-based index
 		//  - therefore program.removeMenuEntry() or sth. like that will disturb the shortcuts and need a re-assign
 		// see also http://www.silverjuke.net/forum/topic-1726.html
-		int i, iCount = (IDO_EXTRAS_MENU99-IDO_EXTRAS_MENU00)+1, id;
+		int i, iCount = (IDO_SCRIPT_MENU99-IDO_SCRIPT_MENU00)+1, id;
 		for( i = 0; i < iCount; i++ )
 		{
-			id = IDO_EXTRAS_MENU00+i;
-			wxASSERT(id>=IDO_EXTRAS_MENU00 && id<=IDO_EXTRAS_MENU99);
-			OrgCmd(_("Tools")+wxString::Format(wxT(" #%i"), i+1), id, SJA_MAIN);
+			id = IDO_SCRIPT_MENU00+i;
+			wxASSERT(id>=IDO_SCRIPT_MENU00 && id<=IDO_SCRIPT_MENU99);
+			OrgCmd(_("Script")+wxString::Format(wxT(" #%i"), i+1), id, SJA_MAIN);
 
 		}
 	}
@@ -815,14 +815,14 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 			addOption = false;
 		}
 
-		if( cmd->m_id >= IDO_EXTRAS_MENU00 && cmd->m_id <= IDO_EXTRAS_MENU99 )
+		if( cmd->m_id >= IDO_SCRIPT_MENU00 && cmd->m_id <= IDO_SCRIPT_MENU99 )
 		{
 			wxASSERT( cmdIndex!=m_cmdCount-1 ); // ensure, the "last" flag gets set
 			addOption = false;
 			#if SJ_USE_SCRIPTS
-			if( cmd->m_id-IDO_EXTRAS_MENU00 < extrasCount )
+			if( cmd->m_id-IDO_SCRIPT_MENU00 < extrasCount )
 			{
-				cmd->m_name = _("Script") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_EXTRAS_MENU00];
+				cmd->m_name = _("Script") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_SCRIPT_MENU00];
 				addOption = true;
 			}
 			#endif

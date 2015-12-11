@@ -1460,7 +1460,8 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU        (IDO_ABOUT_OPEN_WWW,                        SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_ABOUT,                                 SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_ONLINE_HELP,                           SjMainFrame::OnFwdToSkin     )
-	EVT_MENU_RANGE  (IDO_EXTRAS_MENU00, IDO_EXTRAS_MENU99,      SjMainFrame::OnFwdToSkin     )
+	EVT_MENU_RANGE  (IDO_SCRIPT_MENU00, IDO_SCRIPT_MENU99,      SjMainFrame::OnFwdToSkin     )
+	EVT_MENU_RANGE  (IDO_SCRIPTCONFIG_MENU00, IDO_SCRIPTCONFIG_MENU99, SjMainFrame::OnFwdToSkin )
 	EVT_MENU        (IDO_CONSOLE,                               SjMainFrame::OnFwdToSkin     )
 	EVT_MENU_RANGE  (IDM_FIRST, IDM_LAST,                       SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_BROWSER_RELOAD_VIEW,                   SjMainFrame::OnFwdToSkin     )
@@ -1595,10 +1596,16 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 		g_kioskModule->m_creditBase.AddCredit((targetId-IDT_ADD_CREDIT_01)+1,
 		                                      SJ_ADDCREDIT_FROM_DDE);
 	}
-	else if(  targetId >= IDO_EXTRAS_MENU00 && targetId <= IDO_EXTRAS_MENU99 )
+	else if(  targetId >= IDO_SCRIPT_MENU00 && targetId <= IDO_SCRIPT_MENU99 )
 	{
 		#if SJ_USE_SCRIPTS
-			SjSee::OnGlobalEmbedding(SJ_PERSISTENT_MENU_ENTRY, targetId-IDO_EXTRAS_MENU00);
+			SjSee::OnGlobalEmbedding(SJ_PERSISTENT_MENU_ENTRY, targetId-IDO_SCRIPT_MENU00);
+		#endif
+	}
+	else if(  targetId >= IDO_SCRIPTCONFIG_MENU00 && targetId <= IDO_SCRIPTCONFIG_MENU99 )
+	{
+		#if SJ_USE_SCRIPTS
+			SjSee::OnGlobalEmbedding(SJ_PERSISTENT_CONFIG_BUTTON, targetId-IDO_SCRIPTCONFIG_MENU00);
 		#endif
 	}
 	else if( targetId >= IDM_FIRST && targetId <= IDM_LAST )

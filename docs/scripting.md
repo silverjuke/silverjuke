@@ -30,7 +30,6 @@ Scripting in Silverjuke
     - Program.autoPlay
     - Program.addMenuEntry()
     - Program.addConfigButton()
-    - Program.addSkinsButton()
     - Program.addExitOption()
     - Program.setTimeout()
     - Program.setDisplayMsg()
@@ -942,10 +941,9 @@ Program.addMenuEntry()
 Adds a button eg. for your plugin's configuration dialog to the main menu. The
 name of the menu entry is defined by name. If the user selects one of "your"
 menu entry, the given function is called. You can also add shortcuts for a menu
-entry; see "Advanced / Further options / Shortcut" for this purpose.
+entry; see "Advanced / Shortcut" for this purpose.
 
-See also: Program.addConfigButton(), Program.addSkinsButton(),
-Program.addExitOption()
+See also: Program.addConfigButton(), Program.addExitOption()
 
 
 Program.addConfigButton()
@@ -953,23 +951,10 @@ Program.addConfigButton()
 
     program.addConfigButton(name, callbackFn);
 
-Adds a button or an entry eg. for your plugin's configuration dialog to the
-"Advanced Page". If the user clicks the button, the given function is called.
+Adds a button or a menu entry eg. for your plugin's configuration dialog. If the
+user clicks the button or selects the menu entry, the given function is called.
 
-See also: Program.addMenuEntry(), Program.addSkinsButton(),
-Program.addExitOption()
-
-
-Program.addSkinsButton()
---------------------------------------------------------------------------------
-
-    program.addSkinsButton(name, callbackFn);
-
-Adds a button eg. for your plugin's configuration dialog to the "skins page".
-If the user clicks the button, the given function is called.
-
-See also: Program.addMenuEntry(), Program.addConfigButton(),
-Program.addExitOption()
+See also: Program.addMenuEntry(), Program.addExitOption()
 
 
 Program.addExitOption()
@@ -991,7 +976,7 @@ Example:
     program.addExitOption('Special task', doWhatToDo);
 
 See also: Program.addMenuEntry(), Program.addConfigButton(),
-Program.addSkinsButton(), Program.shutdown()
+Program.shutdown()
 
 
 Program.setTimeout()

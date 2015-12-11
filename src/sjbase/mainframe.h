@@ -202,7 +202,7 @@ public:
 	void            CreateViewMenu      (SjMenu*);
 	void            CreateUnqueueMenu   (SjMenu&);
 	void            CreateSearchMenu    (SjMenu&);
-	void            AddScriptMenuEntries(SjMenu&);
+	void            AddScriptMenuEntries(SjMenu&, bool addConfigButtons=false);
 	#if SJ_USE_TOOLTIPS
 	SjMainFrameToolTipProvider m_toolTipProvider;
 	SjToolTipProvider* GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) { m_toolTipProvider.m_targetId = targetId; m_toolTipProvider.m_subitem = subitem; m_toolTipProvider.m_rect = rect; return &m_toolTipProvider; }
