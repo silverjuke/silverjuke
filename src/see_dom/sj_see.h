@@ -26,17 +26,17 @@
  ******************************************************************************/
 
 
-
 #ifndef __SJ_SEE_H__
 #define __SJ_SEE_H__
 
+
 #if SJ_USE_SCRIPTS
+
 
 struct SEE_object;
 struct SEE_interpreter;
 struct SEE_value;
 class SjCPlugin;
-
 
 
 enum SjSeePersistent
@@ -50,9 +50,7 @@ enum SjSeePersistent
 };
 
 
-
 typedef void (*SJ_UNEXPECTED_UNPERSISTENT_PROC)(SEE_interpreter* interpr, void* ptr, void* userData2);
-
 
 
 struct persistent_object
@@ -63,8 +61,6 @@ struct persistent_object
 	SEE_value*                      m_param2;
 	SJ_UNEXPECTED_UNPERSISTENT_PROC m_unexpectedUnpersistent;
 };
-
-
 
 
 // our little timer class - internal use only!
@@ -79,13 +75,12 @@ public:
 };
 
 
-
 class SjSee
 {
 public:
 	// constructor / destructor
-	SjSee                   ();
-	~SjSee                  ();
+	                        SjSee                   ();
+	                        ~SjSee                  ();
 
 	// very simple interface to execute a script
 	void                    SetExecutionScope       (const wxString& scope) {m_executionScope=scope;}
@@ -156,7 +151,7 @@ public:
 
 
 	// only for the "script to C" bridge
-	SjCPlugin*          m_plugin;
+	SjCPlugin*              m_plugin;
 
 	// misc
 	wxString                m_executionScope;
@@ -175,6 +170,7 @@ public:
 
 
 #endif // SJ_USE_SCRIPTS
+
 
 #endif // __SJ_SEE_H__
 
