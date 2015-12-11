@@ -42,7 +42,7 @@
 #endif
 
 #ifndef SJ_USE_SCRIPTS              // Can the user use scripts?
-#define SJ_USE_SCRIPTS 0
+#define SJ_USE_SCRIPTS 1
 #endif
 
 #ifndef SJ_USE_TOOLTIPS             // Use tooltips?

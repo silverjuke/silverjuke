@@ -95,6 +95,55 @@ bin_PROGRAMS = silverjuke
 silverjuke_SOURCES = \
 	src/kiss_fft/kiss_fft.c \
 	src/kiss_fft/kiss_fftr.c \
+	src/see/cfunction.c \
+	src/see/debug.c \
+	src/see/dprint.c \
+	src/see/dtoa.c \
+	src/see/enumerate.c \
+	src/see/error.c \
+	src/see/function.c \
+	src/see/input_lookahead.c \
+	src/see/input_string.c \
+	src/see/intern.c \
+	src/see/interpreter.c \
+	src/see/lex.c \
+	src/see/mem.c \
+	src/see/module.c \
+	src/see/native.c \
+	src/see/no.c \
+	src/see/obj_Array.c \
+	src/see/obj_Boolean.c \
+	src/see/obj_Date.c \
+	src/see/object.c \
+	src/see/obj_Error.c \
+	src/see/obj_Function.c \
+	src/see/obj_Global.c \
+	src/see/obj_Math.c \
+	src/see/obj_Number.c \
+	src/see/obj_Object.c \
+	src/see/obj_RegExp.c \
+	src/see/obj_String.c \
+	src/see/parse.c \
+	src/see/platform_posix.c \
+	src/see/printf.c \
+	src/see/regex.c \
+	src/see/scope.c \
+	src/see/string.c \
+	src/see/stringdefs.c \
+	src/see/system.c \
+	src/see/tokens.c \
+	src/see/try.c \
+	src/see/unicase.c \
+	src/see/unicode.c \
+	src/see/value.c \
+	src/see_dom/obj_Database.cpp \
+	src/see_dom/obj_Dialog.cpp \
+	src/see_dom/obj_File.cpp \
+	src/see_dom/obj_HttpRequest.cpp \
+	src/see_dom/obj_Player.cpp \
+	src/see_dom/obj_Program.cpp \
+	src/see_dom/obj_Rights.cpp \
+	src/see_dom/sj_see.cpp \
 	src/sjbase/autoctrl.cpp \
 	src/sjbase/browser.cpp \
 	src/sjbase/browser_album.cpp \
