@@ -809,8 +809,10 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 				wxArrayString options;
 				options.Add(wxString::Format(_("Also install the script to \"%s\" for permanent use"), destfile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR).c_str()));
 				int selOption = 0;
-				if( SjMessageBox(wxString::Format(_("Execute the script \"%s\"?"), srcfile.GetFullPath().c_str()),
-								 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this, &options, &selOption) != wxYES )
+				if( SjMessageBox(wxString::Format(_("Execute the script \"%s\"?")+"\n\n"+
+				                 _("CAUTION: Scripts may slow down Silverjuke or damage your data. Please use only scripts you trust."),
+				                 srcfile.GetFullPath().c_str()),
+				                 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, this, &options, &selOption) != wxYES )
 				{
 					return false;
 				}

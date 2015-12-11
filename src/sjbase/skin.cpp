@@ -2859,8 +2859,10 @@ bool SjSkinWindow::LoadSkin(const wxString& path, long conditions, const wxStrin
 
 				if( askForScriptExecution )
 				{
-					if( SjMessageBox(wxString::Format(_("Execute the script embedded in the skin \"%s\"?"), newSkin->GetName().c_str()),
-									 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent? parent : this) != wxYES )
+					if( SjMessageBox(wxString::Format(_("Execute the script embedded in the skin \"%s\"?")+"\n\n"+
+					                 _("CAUTION: Scripts may slow down Silverjuke or damage your data. Please use only scripts you trust."),
+					                 newSkin->GetName().c_str()),
+					                 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent? parent : this) != wxYES )
 					{
 						delete newSkin;
 						return false;
