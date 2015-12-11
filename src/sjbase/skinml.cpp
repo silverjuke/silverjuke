@@ -1353,8 +1353,8 @@ SjSkinSkin* SjSkinMlParser::ParseFile(const wxString& url,
 					wxASSERT(item);
 
 					if( item->m_targetId == IDT_LAYOUT_FIRST
-					        && item->m_targetName
-					        && item->m_targetName->StartsWith(wxT("layout:"), &layoutName) )
+					 && item->m_targetName
+					 && item->m_targetName->StartsWith(wxT("layout:"), &layoutName) )
 					{
 						layoutTarget = m_data->m_skin->GetLayout(layoutName);
 						if( layoutTarget )
@@ -1372,8 +1372,8 @@ SjSkinSkin* SjSkinMlParser::ParseFile(const wxString& url,
 					}
 
 					if( item->m_doubleClickTargetId == IDT_LAYOUT_FIRST
-					        && item->m_doubleClickTargetName != NULL
-					        && item->m_doubleClickTargetName->StartsWith(wxT("layout:"), &layoutName) )
+					 && item->m_doubleClickTargetName != NULL
+					 && item->m_doubleClickTargetName->StartsWith(wxT("layout:"), &layoutName) )
 					{
 						layoutTarget = m_data->m_skin->GetLayout(layoutName);
 						if( layoutTarget )
@@ -1574,9 +1574,9 @@ SjSkinImage::~SjSkinImage()
 wxBitmap* SjSkinImage::GetSubimage(int indexX, int indexY)
 {
 	if( indexX >= 0
-	        && indexX < m_subimageXCount
-	        && indexY >= 0
-	        && indexY < m_subimageYCount )
+	 && indexX < m_subimageXCount
+	 && indexY >= 0
+	 && indexY < m_subimageYCount )
 	{
 		return m_subimages[indexY*m_subimageXCount + indexX]; // may be null!
 	}
