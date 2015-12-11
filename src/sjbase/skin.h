@@ -764,9 +764,6 @@ public:
 	void            ReloadSkin          (long conditions, bool alsoReloadScripts, SjLoadLayoutFlag sizeChangeFlag=SJ_AUTO_SIZE_CHANGE);
 
 	// retrieve some skin settings
-	#if SJ_USE_SCRIPTS
-	SjSee*          GetSkinSee          () const { return m_currLayout? m_currSkin->m_see : NULL; }
-	#endif
 	wxString        GetSkinUrl          () const { if(m_currLayout) { return m_currSkin->GetUrl(); } else { return wxEmptyString; } }
 	wxString        GetSkinName         () const { if(m_currLayout) { return m_currSkin->GetName(); } else { return wxEmptyString; } }
 	wxString        GetSkinAbout        () const { if(m_currLayout) { return m_currSkin->GetAbout(); } else { return wxEmptyString; } }
