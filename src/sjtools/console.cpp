@@ -221,7 +221,7 @@ public:
 	SjLogGui*           m_logGui;
 
 	#if SJ_USE_SCRIPTS
-	SjSee               m_see;
+	SjSee*              m_see;
 	#endif
 
 	wxStaticBitmap*     m_icon;
@@ -297,6 +297,7 @@ SjLogDialog::SjLogDialog(SjLogGui* logGui,
 	           parent? SJ_MODELESS : SJ_MODAL,
 	           SJ_RESIZEABLE_IF_POSSIBLE)
 {
+	m_see = NULL;
 	m_logGui = logGui;
 	s_dlg = this;
 
@@ -421,6 +422,8 @@ SjLogDialog::~SjLogDialog()
 	if( !m_sizerDetailsAttached ) {
 		delete m_sizerDetails;
 	}
+
+	delete m_see; // may still be NULL
 }
 
 
@@ -503,6 +506,11 @@ void SjLogDialog::OnDetails(wxCommandEvent& event)
 #if SJ_USE_SCRIPTS
 void SjLogDialog::OnEval(wxCommandEvent& event)
 {
+	// create scripting object, if not yet done
+	if( m_see == NULL ) {
+		m_see = new SjSee();
+	}
+
 	// execute a simple macro
 	wxString script = m_evalInput->GetValue();
 	script.Trim(true);
@@ -516,16 +524,16 @@ void SjLogDialog::OnEval(wxCommandEvent& event)
 		}
 
 		// prepare execute
-		m_see.SetExecutionScope(_("Console"));
+		m_see->SetExecutionScope(_("Console"));
 		size_t oldCount1 = m_logGui->m_aMessages.GetCount();
 		size_t oldCount2 = m_logGui->m_aPacked.GetCount();
 
 		// execute
-		if( m_see.Execute(script) )
+		if( m_see->Execute(script) )
 		{
 			// print the result (if not empty or if nothng has been logged by Execute())
 			bool     sthLogged = (oldCount1!=m_logGui->m_aMessages.GetCount() || oldCount2!=m_logGui->m_aPacked.GetCount());
-			wxString result = m_see.GetResultString();
+			wxString result = m_see->GetResultString();
 			if( !sthLogged || !result.IsEmpty() )
 			{
 				if( result.IsEmpty() ) {
@@ -535,7 +543,7 @@ void SjLogDialog::OnEval(wxCommandEvent& event)
 					result = result.Left(100).Trim()+wxT("..");
 				}
 
-				wxLogInfo(wxT("%s=%s [%s]"), scriptShortened.c_str(), result.c_str(), m_see.m_executionScope.c_str());
+				wxLogInfo(wxT("%s=%s [%s]"), scriptShortened.c_str(), result.c_str(), m_see->m_executionScope.c_str());
 			}
 		}
 	}
