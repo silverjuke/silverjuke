@@ -734,8 +734,7 @@ int SjBrowserWindow::GetView() const
 		}
 	}
 
-	wxASSERT( 0 ); // should not happen!
-	return 0;
+	return 0; // may happen on startup (eg. if called by a script or implicit via InitMainMenu())
 }
 
 

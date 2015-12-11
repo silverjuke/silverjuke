@@ -1178,6 +1178,8 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 			}
 		}
 
+		// Load scripts - if things are not ready at this point, make it safe to use them anyway.
+		// Remember, the skin, which may also use scripts, is also already loaded.
 		wxFileSystem fs;
 		m_moduleSystem.m_scripts.Sort();
 		iCount = m_moduleSystem.m_scripts.GetCount();
