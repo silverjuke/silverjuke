@@ -1493,11 +1493,10 @@ SjMouseUsed SjSkinButtonItem::OnMouseLeftUp(long x, long y, long accelFlags, boo
 			{
 				ret = SJ_MOUSE_USE_DELAYED;
 
-				if( !m_onclick.IsEmpty() )
-				{
-					#if SJ_USE_SCRIPTS
-						SjSee* see = m_skinWindow->m_currSkin->m_see;
-
+				#if SJ_USE_SCRIPTS
+					SjSee* see = m_skinWindow->m_currSkin->m_see;
+					if( see && !m_onclick.IsEmpty() )
+					{
 						see->ExecuteAsFunction(m_onclick);
 						// ExecuteAsFunction() is a little hack as long as we have no real DOM for the skinning tree
 						// ExecuteAsFunction() allows to use eg. "return false;" from the handler - a simple
@@ -1515,10 +1514,8 @@ SjMouseUsed SjSkinButtonItem::OnMouseLeftUp(long x, long y, long accelFlags, boo
 								RedrawMe();
 							}
 						}
-					#else
-                        wxLogError(wxT("Scripts are not supported in this build."));
-					#endif
-				}
+					}
+				#endif
 			}
 		}
 		else
