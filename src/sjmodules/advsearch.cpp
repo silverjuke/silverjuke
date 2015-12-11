@@ -2531,7 +2531,7 @@ bool SjAdvSearchModule::IncludeExclude(SjLLHash* ids, bool delPressed)
 			static long             s_askedDelForId = 0;
 			static unsigned long    s_askedDelTime = 0;
 			if( s_askedDelForId != searchToChange.m_id
-			        || s_askedDelTime+180*1000 < thisTime )
+			 || s_askedDelTime+180*1000 < thisTime )
 			{
 				wxWindowDisabler disabler(g_mainFrame);
 				if( SjMessageBox(
@@ -2586,7 +2586,7 @@ bool SjAdvSearchModule::IncludeExclude(SjLLHash* ids, bool delPressed)
 		static long             s_askedInsForId = 0;
 		static unsigned long    s_askedInsTime = 0;
 		if( s_askedInsForId != searchToChange.m_id
-		        || s_askedInsTime+180*1000 < thisTime )
+		 || s_askedInsTime+180*1000 < thisTime )
 		{
 			wxWindowDisabler disabler(g_mainFrame);
 			if( SjMessageBox(
@@ -2637,8 +2637,8 @@ bool SjAdvSearchModule::DragNDrop(SjDragNDropAction action, wxWindow* windowAtMo
 	{
 		// drag'n'drop over the search dialog
 		if( action == SJ_DND_DROP
-		        && data
-		        && data->m_fileData )
+		 && data
+		 && data->m_fileData )
 		{
 			const wxArrayString& filenames = data->m_fileData->GetFilenames();
 			SjLLHash hash;
@@ -2992,7 +2992,7 @@ wxString SjAdvSearchModule::FormatResultString(long count, const wxString& advSe
 {
 	wxString ret;
 	if( !advSearchName.IsEmpty()
-	        && (g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL) || g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
+	 && (g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL) || g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
 	{
 		if( count == 0 )
 		{
@@ -3120,7 +3120,7 @@ SjSearchHistory::SjSearchHistory(const SjSearch& s)
 	m_simpleSearchWords =   s.m_simple.GetWords();
 	m_advSearchId       =   s.m_adv.GetId();
 	if( m_advSearchId == 0
-	        && s.m_adv.IsSet() )
+	 && s.m_adv.IsSet() )
 	{
 		SjStringSerializer ser;
 		s.m_adv.Serialize(ser);
@@ -3140,7 +3140,7 @@ wxString SjSearchHistory::GetTitle() const
 
 	// do we have an additional advanced search in the history object?
 	if( (m_advSearchId || !m_advSearchRules.IsEmpty())
-	        && (g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL) || g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
+	 && (g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL) || g_mainFrame->IsOpAvailable(SJ_OP_MUSIC_SEL_GENRE)) )
 	{
 		SjSearch savedSearch = GetSearch(FALSE);
 		wxString advSearch = savedSearch.m_adv.GetName();
@@ -3301,8 +3301,8 @@ void SjAdvSearchModule::AddToHistory(const SjSearch& searchToAdd)
 		// to the search, so remove the last item before continue
 		SjSearchHistory* last = &(m_history.Last());
 		if( historyToAdd->GetAdvSearchId() == last->GetAdvSearchId()
-		        && historyToAdd->GetAdvSearchRules() == last->GetAdvSearchRules()
-		        && historyToAdd->GetSimpleSearchWords().Left(last->GetSimpleSearchWords().Len()) == last->GetSimpleSearchWords()  )
+		 && historyToAdd->GetAdvSearchRules() == last->GetAdvSearchRules()
+		 && historyToAdd->GetSimpleSearchWords().Left(last->GetSimpleSearchWords().Len()) == last->GetSimpleSearchWords()  )
 		{
 			m_history.RemoveAt(historyCount-1);
 			historyCount--;

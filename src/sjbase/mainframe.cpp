@@ -407,7 +407,7 @@ public:
 	wxDragResult OnDragOver(wxCoord x, wxCoord y, wxDragResult def)
 	{
 		if( g_mainFrame
-		        && g_mainFrame->DragNDrop(SJ_DND_MOVE, g_mainFrame, wxPoint(x, y), NULL, NULL) )
+		 && g_mainFrame->DragNDrop(SJ_DND_MOVE, g_mainFrame, wxPoint(x, y), NULL, NULL) )
 		{
 			return def;
 		}
@@ -506,7 +506,7 @@ bool SjMainFrame::DragNDrop(SjDragNDropAction action,
 		if( m_dragImage )
 		{
 			if( (g_accelModule->m_flags&SJ_ACCEL_USE_DND_IMAGES)
-			        && m_dragImage->BeginDrag(m_dragHotspot, dndOwner, TRUE) )
+			 && m_dragImage->BeginDrag(m_dragHotspot, dndOwner, TRUE) )
 			{
 				m_dragRect.x = screenPos.x - m_dragHotspot.x;
 				m_dragRect.y = screenPos.y - m_dragHotspot.y;
@@ -654,7 +654,7 @@ bool SjMainFrame::DragNDrop(SjDragNDropAction action,
 				m_dragImage->Move(dndOwnerPos);
 
 				if( s_currModule
-				        && s_currModule->DragNDrop(SJ_DND_MOVE, s_currWindow, currPos, NULL) )
+				 && s_currModule->DragNDrop(SJ_DND_MOVE, s_currWindow, currPos, NULL) )
 				{
 					if( s_currWindow==g_mainFrame || s_currWindow->GetParent()==g_mainFrame )
 						s_currWindow->SetCursor(SjVirtKeybdModule::GetStandardCursor());
