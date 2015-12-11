@@ -46,18 +46,15 @@ struct SjSkinMlParserRaw
 class SjSkinMlParserData
 {
 public:
-	SjSkinMlParserData
-	() { }
+					SjSkinMlParserData  () { }
 	static void     FreeStaticData      ();
 
 	// on parsing, we use the following items
-	SjSkinSkin* m_skin;
+	SjSkinSkin*     m_skin;
 	int             m_skinCount; // MUST be 1!
-	SjSkinLayout*
-	m_currLayout;
-	SjSkinItemList
-	m_itemStack;
-	SjSkinItem*  GetLastItem            () { SjSkinItemList::Node* n = m_itemStack.GetLast(); return n? n->GetData() : NULL; }
+	SjSkinLayout*   m_currLayout;
+	SjSkinItemList  m_itemStack;
+	SjSkinItem*     GetLastItem         () { SjSkinItemList::Node* n = m_itemStack.GetLast(); return n? n->GetData() : NULL; }
 
 	// conditions, one of the SJ_OP_* flags
 	long            m_currCond;
@@ -72,10 +69,8 @@ public:
 	SjSkinImage*    LoadSkinImage       (const wxString& file, const wxHtmlTag* tagPosition);
 	int             m_includeRecursion;
 
-	static SjSLHash*
-	s_targetHash;
-	static SjSLHash*
-	s_colourHash;
+	static SjSLHash* s_targetHash;
+	static SjSLHash* s_colourHash;
 
 	wxString        LoadFile_(const wxString& xmlCmdFile);
 
