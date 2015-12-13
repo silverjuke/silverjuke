@@ -174,12 +174,22 @@ wxString Tagger_Tag::implodeNrAndCount(long nr, long count)
 {
 	if( nr > 0 )
 	{
-		if( count > 0 )
+		if( g_taggerOptions->m_flags&SJTF_ADD_LEADING_ZEROS )
 		{
-			return wxString::Format(wxT("%i/%i"), (int)nr, (int)count);
+			if( count > 0 )
+			{
+				return wxString::Format(wxT("%02i/%02i"), (int)nr, (int)count);
+			}
+			return wxString::Format(wxT("%i02"), (int)nr);
 		}
-
-		return wxString::Format(wxT("%i"), (int)nr);
+		else
+		{
+			if( count > 0 )
+			{
+				return wxString::Format(wxT("%i/%i"), (int)nr, (int)count);
+			}
+			return wxString::Format(wxT("%i"), (int)nr);
+		}
 	}
 
 	return wxEmptyString;

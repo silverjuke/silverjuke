@@ -49,6 +49,7 @@ class Tagger_Options
 		#define   SJTF_READ_OTHERS_RATINGS   0x0004
 		#define   SJTF_CHANGE_OTHERS_RATINGS 0x0008
 		#define   SJTF_REMOVE_OTHERS_RATINGS 0x0010
+		#define   SJTF_ADD_LEADING_ZEROS     0x0020
 		#define   SJTF_DEFAULTS              0x000F // by default, we read ratings from any frame and do not change the user if not necessary
 		int       m_flags;
 		wxString  m_ratingUser; // the user to write ratings for

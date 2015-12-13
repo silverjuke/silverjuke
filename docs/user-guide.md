@@ -1364,8 +1364,9 @@ Options for the `[tageditor]` section of the globals.ini file:
   for.  Normally, the user is defined by an E-Mail-Address.  Defaults to 
   `r@silverjuke.net`
 - `tagflags =` 1=read ratings, 2=write ratings, 4=read others ratings, 8=change
-  others ratings, 16=remove others ratings.  You can use more than one flag by
-  adding them.  Defaults to 15 (1+2+4+8).
+  others ratings, 16=remove others ratings, 32=add leading zeros to track and
+  disk numbers.  You can use more than one flag by adding them.  Defaults to 15
+  (1+2+4+8).
 
 Example:
 
