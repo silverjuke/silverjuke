@@ -43,11 +43,15 @@
  ******************************************************************************/
 
 
+static void SjSee_abort(SEE_interpreter* interpr_, const char* msgPtr) SEE_dead;
+
+
 static void SjSee_abort(SEE_interpreter* interpr_, const char* msgPtr)
 {
 	wxString msgStr(msgPtr, wxConvUTF8);
 	wxLogError(wxT("Fatal: %s [%s]"), msgStr.c_str(), HOST_DATA->m_executionScope.c_str());
 	SjMainApp::FatalError();
+	abort();
 }
 
 
