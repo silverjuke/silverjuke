@@ -21,16 +21,10 @@ Plugins
 Overview
 ================================================================================
 
-First note: Currently, by default Silverjuke is compiled without the plugin
-capability. This may change in future, however, currently this is not
-foreseeable. For this reason, please also check if other customisation
-methods will do the job, eg. skinning, shell scripts and Silvejuke commandline
-options or DDE.
-
 The following chapters describes how to write plugins for Silverjuke using the
 Silverjuke API.
 
-A plugin is a compiled so, dll- or dynlib-file that is loaded together with
+A plugin is a compiled .so, .dll- or .dynlib-file that is loaded together with
 Silverjuke. Plugins can be written in nearly any language that can create eg.
 DLLs.
 

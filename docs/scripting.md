@@ -201,12 +201,6 @@ Scripting in Silverjuke
 Overview
 ================================================================================
 
-First note: Currently, by default Silverjuke is compiled without scripting
-capabilities. This may change in future, however, currently this is not
-foreseeable. For this reason, please also check if other customisation
-methods will do the job, eg. skinning, shell scripts and Silvejuke commandline
-options or DDE.
-
 If Silverjuke was compiled with scripting functionality, things can be
 controlled using scrips, simple lines of code, placed eg. in a text file or in
 attributes attributes of skins.
