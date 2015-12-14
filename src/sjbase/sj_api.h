@@ -36,23 +36,25 @@ extern "C" {
 /* Includes, Basic types */
 #ifdef WIN32
 #include <windows.h>
+#define SJCALLBACK CALLBACK
+#define SJPARAM    LPARAM
 #else
-#define CALLBACK
-#define LPARAM long
-#define UINT unsigned int
+#include <stdint.h>
+#define SJCALLBACK
+#define SJPARAM    intptr_t
 #endif
 
 
 /* Plugin initialization */
-typedef LPARAM (CALLBACK SJPROC)(struct SjInterface*, UINT msg,
-                                 LPARAM param1, LPARAM param2, LPARAM param3);
+typedef SJPARAM (SJCALLBACK SJPROC)(struct SjInterface*, SJPARAM msg,
+                                    SJPARAM param1, SJPARAM param2, SJPARAM param3);
 
 typedef struct SjInterface
 {
 	SJPROC*  CallPlugin;
 	SJPROC*  CallMaster;
-	LPARAM   rsvd;
-	LPARAM   user;
+	SJPARAM  rsvd;
+	SJPARAM  user;
 } SjInterface;
 
 SjInterface* SjGetInterface(void);

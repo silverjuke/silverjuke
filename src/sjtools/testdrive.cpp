@@ -225,6 +225,11 @@ void SjTestdrive1()
 			wxASSERT( SjTools::EnsureTrailingSlash("\\/test") == "\\/test/" );
 			wxASSERT( SjTools::EnsureTrailingSlash("/\\test") == "/\\test/" );
 		#endif
+
+		wxASSERT( SjTools::VersionString2Long("1.2.3")  == 0x01020300 );
+		wxASSERT( SjTools::VersionString2Long("10.11")  == 0x0A0B0000 );
+		wxASSERT( SjTools::VersionString2Long("20")     == 0x14000000 );
+		wxASSERT( SjTools::VersionString2Long("15.10.3")== 0x0F0A0300 );
 	}
 
 
@@ -524,6 +529,9 @@ void SjTestdrive1()
 		if( see.GetResultString() != wxT("blablub") ) {
 			wxLogWarning(wxT("Testdrive: SjSee::Execute(\"function test ...\") failed"));
 		}
+
+		see.Execute("program.version");
+		wxASSERT( see.GetResultLong() == ((SJ_VERSION_MAJOR<<24)|(SJ_VERSION_MINOR<<16)|(SJ_VERSION_REVISION<<8)) );
 
 		wxString testStr;
 		testStr.Append((wxChar)0xF6); // small german "o" with two points

@@ -3323,12 +3323,13 @@ wxString SjTools::UnscrambleString(const wxString& str)
 
 long SjTools::VersionString2Long(const wxString& versionStr)
 {
-	long j_major = 0, n_minor = 0;
+	long j_major = 0, n_minor = 0, r_revision = 0;
 	wxArrayString arr = SjTools::Explode(versionStr, '.', 3, 3);
 	if(!arr[0].IsEmpty() ) { if( !arr[0].ToLong(&j_major) ) { j_major = 0; } }
 	if(!arr[1].IsEmpty() ) { if( !arr[1].ToLong(&n_minor) ) { n_minor = 0; } }
+	if(!arr[2].IsEmpty() ) { if( !arr[2].ToLong(&r_revision) ) { r_revision = 0; } }
 
-	return (j_major<<16) | n_minor; // returned version is 0xjjjjnnnn
+	return (j_major<<24) | (n_minor<<16) | (r_revision<<8); // returned version is 0xjjnnrr00
 }
 
 

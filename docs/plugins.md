@@ -48,8 +48,8 @@ do the following:
 
 To allow a wide audience to use the Silverjuke API, the interface is an C
 interface that does not use any advanced language features. The interface is
-also usable directly in C++ and C#. For all other languages, you will need a
-small wrapper.
+also usable directly in C++, C# and Objective-C. For other languages, you might
+need a small wrapper.
 
 To get started, please have a look at the chapter Initialization or at the
 examples available.
@@ -80,8 +80,8 @@ SjInterface structure then:
     {
         SJPROC*  CallPlugin;
         SJPROC*  CallMaster;
-        LPARAM   rsvd;
-        LPARAM   user;
+        SJPARAM  rsvd;
+        SJPARAM  user;
     };
 
 The structure must exist all the time the plugin is loaded and will be a
@@ -103,13 +103,13 @@ A working example:
 
     SjInterface interf;
 
-    LPARAM CALLBACK MyPluginHandler(SjInterface* interf, UINT msg,
-                    LPARAM param1, LPARAM param2, LPARAM param3)
+    SJPARAM SJCALLBACK MyPluginHandler(SjInterface* interf, SJPARAM msg,
+                    SJPARAM param1, SJPARAM param2, SJPARAM param3)
     {
         if( msg == SJ_PLUGIN_INIT )
         {
             interf->CallMaster(interf, SJ_EXECUTE,
-                (LPARAM)"m = 'A first test';"
+                (SJPARAM)"m = 'A first test';"
                 "i = 'Hello world!';"
                 "program.addMenuEntry(m, function(){program.alert(i)})",
                 0, 0);
@@ -146,8 +146,8 @@ If something happens that Silverjuke wants to tell a plugin, Silverjuke calls
 the CallPlugin() function of the SjInterface structure. This function is
 normally implemented as follows:
 
-    LPARAM CALLBACK MyPluginHandler(SjInterface* interf, UINT msg,
-                     LPARAM param1, LPARAM param2, LPARAM param3)
+    SJPARAM SJCALLBACK MyPluginHandler(SjInterface* interf, SJPARAM msg,
+                     SJPARAM param1, SJPARAM param2, SJPARAM param3)
     {
         switch( msg )
         {
@@ -197,8 +197,8 @@ Example:
 
     void* neededMemory;
 
-    LPARAM CALLBACK MyPluginHandler(SjInterface* interf, UINT msg,
-                      LPARAM param1, LPARAM param2, LPARAM param3)
+    SJPARAM SJCALLBACK MyPluginHandler(SjInterface* interf, SJPARAM msg,
+                      SJPARAM param1, SJPARAM param2, SJPARAM param3)
     {
         switch( msg )
         {
@@ -251,13 +251,13 @@ other values or for strings, please return an UTF-8 encoded string.
 
 Example:
 
-    LPARAM CALLBACK MyPluginHandler(SjInterface* interf, UINT msg,
-                      LPARAM param1, LPARAM param2, LPARAM param3)
+    SJPARAM SJCALLBACK MyPluginHandler(SjInterface* interf, SJPARAM msg,
+                      SJPARAM param1, SJPARAM param2, SJPARAM param3)
     {
         switch( msg )
         {
             case SJ_PLUGIN_CALL:
-                return (LPARAM)"test";
+                return (SJPARAM)"test";
         }
 
         return 0;
@@ -289,17 +289,15 @@ SJ_GET_VERSION
 
     lVersion = CallMaster(interf, SJ_GET_VERSION, 0, 0, 0);
 
-Returns the Silverjuke version as 0xjjnn00rr with jj=major, nn=minor and
-rr=revision as BCD (see http://en.wikipedia.org/wiki/Binary-coded_decimal ).
-Eg. for Silverjuke 2.10 rev17, the function returns 0x02100017. Note, that the
-revision number is not always equal to the beta- or rc-number. You can find
-out the correct revision number eg. in the "Properties" dialog of Windows.
+Returns the Silverjuke version as 0xjjnnrr00 with jj=major, nn=minor and
+rr=revision.  The single components are encoded as hexadecimal values.  Eg. for
+Silverjuke 15.10.3, the function returns 0x0F0A0300.
 
 This message is thread-save and can be called everywhere.
 
 Example:
 
-    if( interf->CallMaster(interf,SJ_GET_VERSION,0,0,0) >= 0x02100000 )
+    if( interf->CallMaster(interf, SJ_GET_VERSION, 0, 0, 0) >= 0x02000000 )
     {
         // version is fine ...
     }
@@ -322,12 +320,12 @@ string is valid as long as no other API function is called.
 
 Example:
 
-    interf->CallMaster(interf, SJ_EXECUTE, (LPARAM)"player.play();", 0, 0);
+    interf->CallMaster(interf, SJ_EXECUTE, (SJPARAM)"player.play();", 0, 0);
 
     You can also callback yourself from within a script:
 
-    LPARAM CALLBACK MyPluginHandler(SjInterface* interf, UINT msg,
-                      LPARAM param1, LPARAM param2, LPARAM param3)
+    SJPARAM SJCALLBACK MyPluginHandler(SjInterface* interf, SJPARAM msg,
+                      SJPARAM param1, SJPARAM param2, SJPARAM param3)
     {
         switch( msg )
         {
@@ -349,14 +347,14 @@ Example:
     void sendPlayingTime()
     {
         interf.CallMaster(&interf, SJ_EXECUTE,
-            (LPARAM)"program.callPlugin('MyID', player.time)", 0, 0);
+            (SJPARAM)"program.callPlugin('MyID', player.time)", 0, 0);
     }
 
 The example above is only there to demonstrate the possibilities; of course
 you can find out the playing time easier with the following statement:
 
     long time = interf.CallMaster(&interf, SJ_EXECUTE,
-        (LPARAM)"player.time", 0, 0);
+        (SJPARAM)"player.time", 0, 0);
 
 See also: SJ_PLUGIN_CALL, Scripting, Program.callPlugin()
 
@@ -385,16 +383,13 @@ in the descriptions of the messages and notifications then.
 Used Types
 --------------------------------------------------------------------------------
 
-The types UINT, LPARAM, CALLBACK and SJPROC are defined in sj_api.h depending
+The types SJPARAM, SJCALLBACK and SJPROC are defined in sj_api.h depending
 on the operating system in use.
 
-- UINT is normally defined as "unsigned long", you can expect this type
-  always to have 32 bit.
-- LPARAM is also defined as "unsigned long" normally, however, as this type
-  should always be large enough to contain pointers, it may be defined as
-  "unsigned long long" here and there. You can expect this type to have at
+- SJPARAM is defined as a signed integer that is always large enough to contain
+  a pointers.  Moreover, in practise, you can expect this type to have at
   least 32 bit.
-- CALLBACK defines the calling conventios of the CallMaster and CallPlugin
+- SJCALLBACK defines the calling conventios of the CallMaster and CallPlugin
   functions.
 - SJPROC is used by the SjInterface structure and defined a callback type
   used for the communication between Silverjuke to/from plugin.
@@ -405,18 +400,21 @@ See also: Strings (see "Strings in Plugins"), sj_api.h
 Strings in Plugins
 --------------------------------------------------------------------------------
 
-LPARAM is also used to return strings or to use strings as parameters. In this
-case, please cast eg. your char* to LPARAM or the other way round. The string
+SJPARAM is also used to return strings or to use strings as parameters. In this
+case, please cast eg. your char* to SJPARAM or the other way round. The string
 encoding is always UTF-8.
 
 Example:
 
     // Give a string to Silverjuke
-    char string[256] = "Just a test";
-    interf->CallMaster(interf, SJ_MENU_ADD_ENTRY, (LPARAM)string, 0, 0);
+    char string1[256] = "player.play()";
+    interf->CallMaster(interf, SJ_EXECUTE, (SJPARAM)string1, 0, 0);
 
     // Get a string from Silverjuke
-    strcpy(string, (char*)interf->CallMaster(interf,SJ_GET_LOCALE,0,0,0));
+    char string2[256] = "program.locale";
+    char string3[256];
+    strcpy(string3, (char*)interf->CallMaster(interf, SJ_EXECUTE, 
+                             (SJPARAM)string2, 1 /*return string*/, 0));
 
 To make the things more clear, we use "plain C strings" for the example,
 however, you can easily use eg. CString objects instead (which are also more

@@ -37,8 +37,8 @@
 #define SJ_PROGRAM_NAME wxT("Silverjuke")
 #endif
 
-#ifndef SJ_USE_PLUGIN_INTERFACE     // allow C++ plugins?
-#define SJ_USE_PLUGIN_INTERFACE 0
+#ifndef SJ_USE_C_INTERFACE          // allow C plugins? Makes only sense if scripting is enabled, too.
+#define SJ_USE_C_INTERFACE 1
 #endif
 
 #ifndef SJ_USE_SCRIPTS              // Can the user use scripts?

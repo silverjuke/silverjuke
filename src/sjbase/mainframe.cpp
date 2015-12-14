@@ -1137,9 +1137,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	 */
 	m_moduleSystem.Init();
 	m_moduleSystem.AddInterface(new SjInternalInterface());
-	#if SJ_USE_C_INTERFACE
-	m_moduleSystem.AddInterface(new SjCInterface());
-	#endif
+	m_moduleSystem.AddInterface(new SjCInterface()); // the interface is also used for adding scripts, so add it independingly of SJ_USE_C_INTERFACE
 
 	m_moduleSystem.LoadModules();
 

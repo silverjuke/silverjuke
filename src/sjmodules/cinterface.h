@@ -29,21 +29,21 @@
 #ifndef __SJ_C_INTERFACE_H__
 #define __SJ_C_INTERFACE_H__
 
-#if SJ_USE_C_INTERFACE
+
+#include <sjbase/sj_api.h>
+#include <tagger/tg_bytevector.h>
 
 
-#include "../tools/bytevector.h"
-
+class wxDynamicLibrary;
 class SjSee;
+class SjCInterface;
 
 
 class SjCPlugin : public SjCommonModule
 {
 public:
 	// Constructor / Destructor
-	SjCPlugin           (SjInterfaceBase* interf,
-	                     const wxString& file,
-	                     wxDynamicLibrary* dynlib, SjInterface* cinterf);
+	                    SjCPlugin           (SjInterfaceBase* interf, const wxString& file, wxDynamicLibrary*, SjInterface*);
 	virtual             ~SjCPlugin          ();
 
 	// Reimplementations
@@ -51,15 +51,15 @@ public:
 	void                LastUnload          ();
 
 	// public only to internal callbacks!
-	LPARAM              CallPlugin          (UINT msg, LPARAM param1=0, LPARAM param2=0, LPARAM param3=0);
-	LPARAM              CallMaster          (UINT msg, LPARAM param1, LPARAM param2, LPARAM param3);
-	wxString            DecodeString        (LPARAM ptr);
-	LPARAM              EncodeString        (const wxString&);
+	SJPARAM             CallPlugin          (SJPARAM msg, SJPARAM param1=0, SJPARAM param2=0, SJPARAM param3=0);
+	SJPARAM             CallMaster          (SJPARAM msg, SJPARAM param1, SJPARAM param2, SJPARAM param3);
+	wxString            DecodeString        (SJPARAM ptr);
+	SJPARAM             EncodeString        (const wxString&);
 
 private:
 	// private stuff
 	wxDynamicLibrary*   m_dynlib;
-	SjInterface*        m_cinterf;
+	SjInterface*       m_cinterf;
 
 	// state
 	bool                m_initDone;
@@ -78,14 +78,12 @@ private:
 class SjCInterface : public SjInterfaceBase
 {
 public:
-	SjCInterface    ();
-	void            LoadModules         (SjModuleList&) {}
-	void            LoadModulesFastHack (SjModuleList&, const wxArrayString& possibleDlls);
+	                SjCInterface        ();
+	void            AddModulesFromFile  (SjModuleList&, const wxString& file, bool suppressNoAccessErrors);
+	void            LoadModules         (SjModuleList&);
 };
 
 extern SjCInterface* g_cInterface;
 
-
-#endif // SJ_USE_C_INTERFACE
 
 #endif // __SJ_C_INTERFACE_H__

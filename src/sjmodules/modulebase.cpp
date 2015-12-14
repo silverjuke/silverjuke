@@ -671,45 +671,6 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 
 	fs.ChangePathTo(dirName, TRUE);
 
-	#if 0
-	// first, go through some special subdirectories.
-	// we don't recurse all directories for speed reasons
-	// as the program path is also in the search path and we don't know
-	// where it is and how many thousands file we have to scan.
-
-	{
-		// Non-privileged users may not have access to the directory.
-		// Do not log errors in this case.
-		SjLogString logToString(suppressNoAccessErrors);
-
-		#ifdef __WXMSW__
-			entryStr = fs.FindFirst(wxT("*.*"), wxDIR);
-		#else
-			entryStr = fs.FindFirst(wxT("*"), wxDIR);
-		#endif
-	}
-
-	while( !entryStr.IsEmpty() )
-	{
-		wxString lastDir = g_tools->GetLastDir(entryStr).Lower();
-		if( lastDir == wxT("plugins")           // common
-		 || lastDir == wxT("plug-ins")          // common
-		 || lastDir == wxT("modules")           // common
-		 || lastDir == wxT("input")             // used eg. by XMMS
-		 || lastDir == wxT("visualization")     // used eg. by XMMS
-		  )
-		{
-			entryStrings.Add(entryStr);
-		}
-
-		entryStr = fs.FindNext();
-	}
-
-	for( size_t e = 0; e < entryStrings.GetCount(); e++ )
-	{
-		AddModulesFromDir(list, entryStrings.Item(e), suppressNoAccessErrors);
-	}
-
 	// search for DLLs
 
 	entryStrings.Clear();
@@ -735,8 +696,9 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 	}
 
 	for( size_t e = 0; e < entryStrings.GetCount(); e++ )
+	{
 		AddModulesFromFile(list, entryStrings.Item(e), suppressNoAccessErrors);
-	#endif
+	}
 
 	// search for scripts
 

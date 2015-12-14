@@ -495,11 +495,8 @@ Read only property. Contains the Silverjuke version as 0xjjnn00rr with:
 - nn ans the minor version
 - rr as the revision
 
-The single components are encoded as BCD (see http://en.wikipedia.org/wiki/
-Binary-coded_decimal); eg. for Silverjuke 2.10 rev17, the function returns
-0x02100017. Note, that the revision number is not always equal to the beta- or
-rc-number. You can find out the correct revision number eg. in the "Properties"
-dialog of Windows.
+The single components are hexadecimal values. Eg. for Version 15.10.3, the
+function returns 0x0F0A0300.
 
 See also: SJ_GET_VERSION
 

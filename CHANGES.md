@@ -2,11 +2,12 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.?? (11.12.2015)
+V15.?? (14.12.2015)
 ================================================================================
 
-- New: Scripting enabled by default
+- New: Scripting and plugin-interface enabled by default
 - New: All menu entries added by scripts go to the same place in the "Edit" menu
+- New: INI-Switch to prepend zeros to track numbers, see file "user-guide"
 - Bug fixes
 
 

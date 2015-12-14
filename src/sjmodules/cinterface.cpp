@@ -27,12 +27,9 @@
 
 
 #include <sjbase/base.h>
+#include <wx/dynlib.h>
 #include <sjmodules/cinterface.h>
-#include <sjbase/sj_api.h>
 #include <see_dom/sj_see.h>
-
-
-#if SJ_USE_C_INTERFACE
 
 
 /*******************************************************************************
@@ -42,7 +39,7 @@
 
 extern "C"
 {
-	long CALLBACK SjCPlugin__CallMaster__(struct SjInterface* cinterf, UINT msg, LPARAM param1, LPARAM param2, LPARAM param3)
+	SJPARAM SJCALLBACK SjCPlugin__CallMaster__(struct SjInterface* cinterf, SJPARAM msg, SJPARAM param1, SJPARAM param2, SJPARAM param3)
 	{
 		if( cinterf && cinterf->rsvd )
 		{
@@ -53,7 +50,7 @@ extern "C"
 }
 
 
-long SjCPlugin::CallMaster(UINT msg, LPARAM param1, LPARAM param2, LPARAM param3)
+SJPARAM SjCPlugin::CallMaster(SJPARAM msg, SJPARAM param1, SJPARAM param2, SJPARAM param3)
 {
 	wxASSERT( msg >= 20000 && msg <= 29999 );
 
@@ -64,7 +61,7 @@ long SjCPlugin::CallMaster(UINT msg, LPARAM param1, LPARAM param2, LPARAM param3
 	switch( msg )
 	{
 		case SJ_GET_VERSION:
-			return SjTools::VersionString2Long(wxString::Format(wxT("%i.%i"), SJ_VERSION_MAJOR, SJ_VERSION_MINOR));
+			return ((SJ_VERSION_MAJOR<<24)|(SJ_VERSION_MINOR<<16)|(SJ_VERSION_REVISION<<8));
 	}
 
 	if( ! wxThread::IsMain() )
@@ -98,7 +95,7 @@ long SjCPlugin::CallMaster(UINT msg, LPARAM param1, LPARAM param2, LPARAM param3
 }
 
 
-LPARAM SjCPlugin::CallPlugin(UINT msg, LPARAM param1, LPARAM param2, LPARAM param3)
+SJPARAM SjCPlugin::CallPlugin(SJPARAM msg, SJPARAM param1, SJPARAM param2, SJPARAM param3)
 {
 	wxASSERT( msg >= 10000 && msg <= 19999 );
 
@@ -125,7 +122,7 @@ SjCPlugin::SjCPlugin(   SjInterfaceBase* interf,
 	m_dynlib                = dynlib;
 
 	m_cinterf               = cinterf;
-	m_cinterf->rsvd         = (LPARAM)this;
+	m_cinterf->rsvd         = (SJPARAM)this;
 	m_cinterf->CallMaster   = SjCPlugin__CallMaster__;
 
 	m_initDone              = false;
@@ -173,7 +170,7 @@ SjCPlugin::~SjCPlugin()
 }
 
 
-LPARAM SjCPlugin::EncodeString(const wxString& str)
+SJPARAM SjCPlugin::EncodeString(const wxString& str)
 {
 	m_returnStringStack++;
 	if( m_returnStringStack >= ENCODE_MAX_STACK )
@@ -182,11 +179,11 @@ LPARAM SjCPlugin::EncodeString(const wxString& str)
 	m_returnString[m_returnStringStack].clear();
 	m_returnString[m_returnStringStack].appendString(str, SJ_UTF8);
 	m_returnString[m_returnStringStack].appendChar((unsigned char)0, 1); // append null-byte
-	return (LPARAM)m_returnString[m_returnStringStack].getReadableData();
+	return (SJPARAM)m_returnString[m_returnStringStack].getReadableData();
 }
 
 
-wxString SjCPlugin::DecodeString(LPARAM ptr)
+wxString SjCPlugin::DecodeString(SJPARAM ptr)
 {
 	return SjByteVector::toString(SJ_UTF8, (void*)ptr, -1);
 }
@@ -208,51 +205,71 @@ SjCInterface::SjCInterface()
 
 
 typedef SjInterface *(*dllMainEntryFuncType) (void);
-void SjCInterface::LoadModulesFastHack(SjModuleList& list, const wxArrayString& possibleDlls)
+
+
+void SjCInterface::AddModulesFromFile(SjModuleList& list, const wxString& file, bool suppressNoAccessErrors)
 {
-	size_t                  i, iCount = possibleDlls.GetCount();
-	wxDynamicLibrary*       dynlib;
-	dllMainEntryFuncType    entryPoint;
-	SjInterface*            cinterf;
-	for( i = 0; i < iCount; i++ )
-	{
+	#if SJ_USE_C_INTERFACE
+		wxDynamicLibrary*       dynlib;
+		dllMainEntryFuncType    entryPoint;
+		SjInterface*            cinterf;
+
+		// rough filename check
+		{
+			wxFileName fn(file);
+			wxString name = fn.GetName().Lower();
+			if( name.StartsWith("bass")
+			 || name.StartsWith("dwlgina")
+			 || name.StartsWith("msvc")
+			 || name.StartsWith("sjmmkeybd") )
+			{
+				return; // these are libraries used internally
+			}
+		}
+
 		// load a DLL
 		{
 			wxLogNull null;
 
-			dynlib = new wxDynamicLibrary(possibleDlls[i]);
+			dynlib = new wxDynamicLibrary(file);
 			if( dynlib == NULL )
-				continue; // nothing to log - this is no SjDll
+				return; // nothing to log - this is no valid library
 
 			if( !dynlib->IsLoaded() )
 			{
 				delete dynlib;
-				continue; // nothing to log - this is no SjDll
+				return; // nothing to log - this is no valid library
 			}
 
 			entryPoint = (dllMainEntryFuncType)dynlib->GetSymbol(wxT("SjGetInterface"));
 			if( entryPoint == NULL )
 			{
 				delete dynlib;
-				continue; // nothing to log - this is no SjDll
+				return; // nothing to log - this is no valid library
 			}
 		}
 
-		wxLogInfo(wxT("Loading %s"), possibleDlls.Item(i).c_str());
+		wxLogInfo(wxT("Loading %s"), file.c_str());
 
 		cinterf = entryPoint();
 		if( cinterf == NULL || cinterf->CallPlugin == NULL )
 		{
 			wxLogError(wxT("SjGetInterface returns 0 or CallPlugin set to 0."));
-			wxLogError(_("Cannot open \"%s\"."), possibleDlls.Item(i).c_str());
+			wxLogError(_("Cannot open \"%s\"."), file.c_str());
 			delete dynlib;
-			continue; // error
+			return; // error
 		}
 
 		// success so far - create the plugin and add it to the list
-		list.Append(new SjCPlugin(this, possibleDlls[i], dynlib, cinterf));
-	}
+		list.Append(new SjCPlugin(this, file, dynlib, cinterf));
+	#endif
 }
 
 
-#endif // SJ_USE_C_INTERFACE
+void SjCInterface::LoadModules(SjModuleList& list)
+{
+	// this also adds the scripts for speed reasons (otherwise we would scan the directory twice) (execteud later in mainframe.cpp)
+	AddModulesFromSearchPaths(list, true);
+}
+
+
