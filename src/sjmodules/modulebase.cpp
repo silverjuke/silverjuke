@@ -697,7 +697,8 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 
 	for( size_t e = 0; e < entryStrings.GetCount(); e++ )
 	{
-		AddModulesFromFile(list, entryStrings.Item(e), suppressNoAccessErrors);
+		wxFileName fn = wxFileSystem::URLToFileName(entryStrings.Item(e));
+		AddModulesFromFile(list, fn, suppressNoAccessErrors);
 	}
 
 	// search for scripts

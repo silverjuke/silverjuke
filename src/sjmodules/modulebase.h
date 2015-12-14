@@ -653,7 +653,7 @@ protected:
 	// AddModulesFromDir() recurses into some special directories as
 	// "plugins" or "modules".
 	void            AddModulesFromDir   (SjModuleList&, const wxString& dirName, bool suppressNoAccessErrors=FALSE);
-	virtual void    AddModulesFromFile  (SjModuleList&, const wxString& file, bool suppressNoAccessErrors) {  }
+	virtual void    AddModulesFromFile  (SjModuleList&, const wxFileName& fn, bool suppressNoAccessErrors) {  }
 
 	// AddModulesFromSearchPaths() calls AddModulesFromDir() for each search path
 	// and returns TRUE if sth. was changed.

@@ -79,7 +79,7 @@ class SjCInterface : public SjInterfaceBase
 {
 public:
 	                SjCInterface        ();
-	void            AddModulesFromFile  (SjModuleList&, const wxString& file, bool suppressNoAccessErrors);
+	void            AddModulesFromFile  (SjModuleList&, const wxFileName&, bool suppressNoAccessErrors);
 	void            LoadModules         (SjModuleList&);
 };
 

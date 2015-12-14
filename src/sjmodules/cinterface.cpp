@@ -207,7 +207,7 @@ SjCInterface::SjCInterface()
 typedef SjInterface *(*dllMainEntryFuncType) (void);
 
 
-void SjCInterface::AddModulesFromFile(SjModuleList& list, const wxString& file, bool suppressNoAccessErrors)
+void SjCInterface::AddModulesFromFile(SjModuleList& list, const wxFileName& fn, bool suppressNoAccessErrors)
 {
 	#if SJ_USE_C_INTERFACE
 		wxDynamicLibrary*       dynlib;
@@ -216,7 +216,6 @@ void SjCInterface::AddModulesFromFile(SjModuleList& list, const wxString& file, 
 
 		// rough filename check
 		{
-			wxFileName fn(file);
 			wxString name = fn.GetName().Lower();
 			if( name.StartsWith("bass")
 			 || name.StartsWith("dwlgina")
@@ -231,7 +230,7 @@ void SjCInterface::AddModulesFromFile(SjModuleList& list, const wxString& file, 
 		{
 			wxLogNull null;
 
-			dynlib = new wxDynamicLibrary(file);
+			dynlib = new wxDynamicLibrary(fn.GetFullPath());
 			if( dynlib == NULL )
 				return; // nothing to log - this is no valid library
 
@@ -249,19 +248,19 @@ void SjCInterface::AddModulesFromFile(SjModuleList& list, const wxString& file, 
 			}
 		}
 
-		wxLogInfo(wxT("Loading %s"), file.c_str());
+		wxLogInfo(wxT("Loading %s"), fn.GetFullPath().c_str());
 
 		cinterf = entryPoint();
 		if( cinterf == NULL || cinterf->CallPlugin == NULL )
 		{
 			wxLogError(wxT("SjGetInterface returns 0 or CallPlugin set to 0."));
-			wxLogError(_("Cannot open \"%s\"."), file.c_str());
+			wxLogError(_("Cannot open \"%s\"."), fn.GetFullPath().c_str());
 			delete dynlib;
 			return; // error
 		}
 
 		// success so far - create the plugin and add it to the list
-		list.Append(new SjCPlugin(this, file, dynlib, cinterf));
+		list.Append(new SjCPlugin(this, fn.GetFullPath(), dynlib, cinterf));
 	#endif
 }
 
