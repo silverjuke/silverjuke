@@ -34,6 +34,7 @@
 
 #include <sjbase/browser.h>
 #include <sjbase/browser_list.h>
+#include <sjmodules/cinterface.h>
 #include <sjmodules/kiosk/kiosk.h>
 #include <sjmodules/advsearch.h>
 #include <sjmodules/vis/vis_module.h>
@@ -358,17 +359,15 @@ IMPLEMENT_FUNCTION(program, callExported)
 
 IMPLEMENT_FUNCTION(program, callPlugin)
 {
-	/* -- cplugins are currently not supported --
 	SjCPlugin* p = HOST_DATA->m_plugin;
 	if( p == NULL )
 		SEE_error_throw(interpr_, interpr_->Error, "no plugin");
 
-	LPARAM ret = p->CallPlugin(SJ_PLUGIN_CALL, p->EncodeString(ARG_STRING(0)), p->EncodeString(ARG_STRING(1)), p->EncodeString(ARG_STRING(2)) );
+	SJPARAM ret = p->CallPlugin(SJ_PLUGIN_CALL, p->EncodeString(ARG_STRING(0)), p->EncodeString(ARG_STRING(1)), p->EncodeString(ARG_STRING(2)) );
 	if( ret == 0 || ret == 1 )
 		RETURN_BOOL( ret );
 	else
 		RETURN_STRING( p->DecodeString(ret) );
-	*/
 	RETURN_BOOL( FALSE );
 }
 
