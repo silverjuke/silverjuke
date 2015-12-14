@@ -9,13 +9,7 @@
  * Machine-dependent types and definitions
  */
 
-#if defined(WIN32)
-	#include "see_type_msw_add.h"
-#elif defined(__WXMAC__) || defined(__WXGTK__)
-	#include "see_type_mac_add.h"
-#else
-	#error
-#endif
+#include <see/see_type_sjconfig.h>
 
 #if 0/*!size_t*/
 typedef SEE_size_t unsigned;
