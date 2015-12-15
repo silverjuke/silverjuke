@@ -52,9 +52,9 @@ Possible settings
 
       <TrackId>,<Artist>,<Album>,<Title>
 
-  here. In common, you may use _any_ names and re-use them eg. for the music-files
-  setting as described below - however, some names are recognized as known
-  fields and will be added to the database:
+  here. In common, you may use _any_ names and re-use them eg. for the 
+  music-files setting as described below - however, some names are recognized as
+  known fields and will be added to the database:
 
       <Nr>
       <DiskNr>
@@ -86,26 +86,52 @@ so that you need not to do this by hand.  JavaScript, Perl or PHP may help with
 this purpose, however, we won't go into details about this here.
 
 
+Use a local configuration file
+--------------------------------------------------------------------------------
+
+If you have a server with music files that fits the needs of CSV-over-HTTP, but
+you cannot add a configuration file there, you can put it into one of your local
+search paths as `SERVERNAME.txt` with SERVERNAME as the name of the server with 
+all characters beside a-z and 0-9 replaced by a minus, eg. `domain-com.txt`.
+
+
 Example
 --------------------------------------------------------------------------------
 
-Assume, you use the server `http://domain.com/dir` - in this case, your server 
-can provide the file `http://domain.com/dir/music-lib-cfg.txt` as follows:
+Assume, you use the server `http://domain.com/dir` which provides the file
+`http://domain.com/dir/music-lib-cfg.txt` as follows:
 
     access-type       = csv-over-http
     csv-file          = index.csv
     csv-skip-first-row= 1
     csv-columns       = <TrackId>,<Artist>,<Album>,<Title>,<Year>
-    img-files         = music/images/cover-<TrackId>.jpg
-    music-files       = music/track-<TrackId>.jpg
+    img-files         = myCovers/<AnyId>-foo.jpg
+    music-files       = myMusic/<File>
     
-The example references `http://domain.com/dir/index.csv` which may look as
-follows:
+The example references `http://domain.com/dir/index.csv` which may look as:
 
-    TrackId,Artist,Album,Title,Year
-    1,AC/DC,A,A,1998
-    1,Bots,B,B,1998
-    1,Cinderally,C,C,1998
+    AnyId, Artist,   Album,   Title,    File
+    100,   Artist A, Album A, Someting, sth.mp3
+    22,    Artist A, Album A, Just,     just.ogg
+    333,   Band B,   Best Of, w.h.a.t,  what.wav
+    421,   Band B,   Best Of, FR,       fr.ogg
+    5001,  Band B,   Best Of, fin,      fin.mp3
+
+Finally, the server must provide the following files:
+
+    http://domain.com/dir/myCovers/100-foo.jpg
+    http://domain.com/dir/myCovers/22-foo.jpg
+    http://domain.com/dir/myCovers/333-foo.jpg
+    http://domain.com/dir/myCovers/421-foo.jpg
+    http://domain.com/dir/myCovers/5001-foo.jpg
+    http://domain.com/dir/myMusic/sth.mp3
+    http://domain.com/dir/myMusic/just.ogg
+    http://domain.com/dir/myMusic/what.wav
+    http://domain.com/dir/myMusic/fr.ogg
+    http://domain.com/dir/myMusic/fin.mp3
+
+That's all. As you see, the folder structure and the naming conventions are not
+defined by Silverjuke and completely editable.
 
 For further examples, please have a loot at the repository "Silverjuke SDK
 Examples" at https://github.com/r10s/silverjuke-sdk-examples
