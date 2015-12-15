@@ -104,7 +104,7 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	m_serverTypeChoice = new wxChoice(this, IDC_SERVER_TYPE);
 	m_serverTypeChoice->Append(wxT("CSV over HTTP (beta)")/*n/t*/, (void*)SJ_SERVERSCANNER_TYPE_HTTP);
 	SjDialog::SetCbSelection(m_serverTypeChoice, (long)source.m_serverType);
-	sizer3f->Add(m_serverTypeChoice, 0, wxGROW|wxALIGN_CENTER_VERTICAL);
+	sizer3f->Add(m_serverTypeChoice, 0, wxALIGN_CENTER_VERTICAL);
 
 	// login name
 	sizer3f->Add(new wxStaticText(this, -1, _("Login name:")), 0, wxALIGN_CENTER_VERTICAL);
