@@ -51,8 +51,8 @@
 
 enum SjFileType
 {
-    SJ_FT_UNKNOWN = 0
-                    ,   SJ_FT_KNOWN_UNSUPPORTED
+	    SJ_FT_UNKNOWN = 0
+    ,   SJ_FT_KNOWN_UNSUPPORTED
     ,   SJ_FT_MP1_2_3
     ,   SJ_FT_OGG_VORBIS
     ,   SJ_FT_FLAC
@@ -154,11 +154,9 @@ static Tagger_File* getTaggerFile(const wxString& url, wxInputStream* inputStrea
 }
 
 
-
 /*******************************************************************************
- *  SjTaggerFsHandler
+ * SjTaggerFsHandler
  ******************************************************************************/
-
 
 
 class SjTaggerInputStream : public wxMemoryInputStream
@@ -184,7 +182,6 @@ private:
 };
 
 
-
 class SjTaggerFsHandler : public wxFileSystemHandler
 {
 public:
@@ -193,13 +190,11 @@ public:
 };
 
 
-
 bool SjTaggerFsHandler::CanOpen(const wxString& location)
 {
 	wxString protocol = GetProtocol(location);
 	return (protocol == wxT("id3") || protocol == wxT("mp4"));
 }
-
 
 
 wxFSFile* SjTaggerFsHandler::OpenFile(wxFileSystem& fs, const wxString& location)
@@ -282,11 +277,9 @@ wxFSFile* SjTaggerFsHandler::OpenFile(wxFileSystem& fs, const wxString& location
 }
 
 
-
 /*******************************************************************************
- *  globally init the usage of ID3Etc
+ * globally init the usage of ID3Etc
  ******************************************************************************/
-
 
 
 void SjInitID3Etc(bool initFsHandler)
@@ -298,19 +291,15 @@ void SjInitID3Etc(bool initFsHandler)
 }
 
 
-
 void SjExitID3Etc()
 {
 	Tagger_File::exitLibrary();
 }
 
 
-
-
 /*******************************************************************************
- *  get track information to a stream defined by a wxFSFile object
+ * get track information to a stream defined by a wxFSFile object
  ******************************************************************************/
-
 
 
 SjResult SjGetTrackInfoFromID3Etc(wxFSFile* fsFile, SjTrackInfo& ti, long flags)
@@ -474,8 +463,6 @@ SjResult SjGetTrackInfoFromID3Etc(wxFSFile* fsFile, SjTrackInfo& ti, long flags)
 
 	return SJ_SUCCESS;
 }
-
-
 
 
 void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
@@ -853,11 +840,9 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 }
 
 
-
 /*******************************************************************************
- *  set track information to a stream defined by a wxFSFile object
+ * set track information to a stream defined by a wxFSFile object
  ******************************************************************************/
-
 
 
 bool SjSetTrackInfoToID3Etc(const wxString& url, const SjTrackInfo& ti)
@@ -1002,5 +987,4 @@ bool SjSetTrackInfoToID3Etc(const wxString& url, const SjTrackInfo& ti)
 
 	return success;
 }
-
 
