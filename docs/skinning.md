@@ -506,21 +506,20 @@ Attributes:
 
 - inactive - See button-tag.
 
-- hideCreditInDisplay - special flag for the target CurrCredit, if set to
-  "1", the display does not show the credit changes
+- hideCreditInDisplay - special flag for the target CurrCredit, if set to "1",
+  the display does not show the credit changes
 
-- text - The box will display the given line of text. Useful only if no
-  target is set; the text should be encoded as UTF-8.
+- text - The box will display the given line of text. Useful only if no target
+  is set; the text should be encoded as UTF-8.
 
 - id - If you have defined a text using the text-Attribute, you may also want to
   change it afterwards. For this purpose, you can define an ID; then you can
   change the text of the box later using Program.setSkinText().
 
 - font - With this attribute, you can use different font for different box
-  items. Please specify the font name of an installed font here. You can
-  also specify more than one name by using a comma separated list;
-  Silverjuke will use the first match then. If the font cannot be found, a
-  default font is used.
+  items. Please specify the font name of an installed font here. You can also
+  specify more than one name by using a comma separated list; Silverjuke will
+  use the first match then. If the font cannot be found, a default font is used.
 
 
 Tooltips-Tag
@@ -563,11 +562,11 @@ Attributes:
   tags here; for a list of all available targets see the chapter Targets.
 
 - target - Target for this container, currently only the target "VisRect" is
-  usefull here. With "VisRect" you define the container the visualization
-  will be displayed in.
+  usefull here. With "VisRect" you define the container the visualization will
+  be displayed in.
 
-- visautostart - If the target is VisRect, and you set this attribute to
-  "1", the vis. is started automatically together with the kiosk mode.
+- visautostart - If the target is VisRect, and you set this attribute to "1",
+  the vis. is started automatically together with the kiosk mode.
 
 - indent - Set indent borders for the vis. rectangle as "left,top,right,bottom"
   eg. "1,2,1,2"
@@ -579,13 +578,13 @@ Color-Tag
     Tag:        <color>
     Child tags: none
 
-With the colour tag, you can specify the colours to use for an item. Note,
-that the tag is called "color" and not "colour".
+With the colour tag, you can specify the colours to use for an item. Note, that
+the tag is called "color" and not "colour".
 
 Attributes:
 
-- target - This attribute is always required and sets the colour target to
-  set the colour for. This may be one of the following:
+- target - This attribute is always required and sets the colour target to set
+  the colour for. This may be one of the following:
     - "normal" - eg. a track
     - "normalodd" - odd tracks and the cover background
     - "selection" - eg. a selected track
@@ -602,16 +601,16 @@ Attributes:
   convention, this attribute is ignored for "title1", "title2", "title3",
   "verttext" and "stubtext" and the "normal" background colour is used instead.
 
-- fgcolor - The foreground colour to use in the given colour target, only
-  strict RGB colours as "#RRGGBB" are supported. Defaults to black ("#000000").
+- fgcolor - The foreground colour to use in the given colour target, only strict
+  RGB colours as "#RRGGBB" are supported. Defaults to black ("#000000").
 
-- hicolor - Used for hiliting eg. search string in the browser or as a
-  shadow colour for other targets, only strict RGB colours as "#RRGGBB" are
-  supported. Defaults to red ("#FF0000").
+- hicolor - Used for hiliting eg. search string in the browser or as a shadow
+  colour for other targets, only strict RGB colours as "#RRGGBB" are supported.
+  Defaults to red ("#FF0000").
 
-- offsetx, offsety - If "hicolor" is used as a shadow in a target, you can
-  set the position of the shadow with these options. By default, "offsetx"
-  is 1 and "offsety" is null which means the shadow goes to the right.
+- offsetx, offsety - If "hicolor" is used as a shadow in a target, you can set
+  the position of the shadow with these options. By default, "offsetx" is 1 and
+  "offsety" is null which means the shadow goes to the right.
 
 For less typing, you may also set the "normal" colours directly in the item
 tags, eg. you can use
@@ -672,10 +671,9 @@ Attributes:
   character. If an older version of Silverjuke does not understand a condition,
   this version will always see the condition as _false_.
 
-- version - check if Silverjuke runs at least with the given version
-  number. The version number must be given as "major.minor.revision" where
-  "revision" may be skipped.
-  Example: To check against version 15.1, use
+- version - check if Silverjuke runs at least with the given version number. The
+  version number must be given as "major.minor.revision" where "revision" may be
+  skipped.  Example: To check against version 15.1, use
 
         <if version="15.1">...</if>
 
