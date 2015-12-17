@@ -261,6 +261,10 @@ bool SjMainApp::OnInit()
 	// call OnFatalException()
 	//::wxHandleFatalExceptions(true);
 
+	// init HTTP stuff - absolutely neccessary before any thread can use HTTP - eg. SjHttp or SjImgThread or maybe the player
+	// see also http://www.litwindow.com/Knowhow/wxSocket/wxsocket.html
+	wxSocketBase::Initialize();
+
 	// set our logging routines
 	s_logGui = new SjLogGui();
 
@@ -483,10 +487,6 @@ int SjMainApp::OnExit()
 	 */
 	SjExitID3Etc();
 
-	/* shutdown HTTP-services
-	 */
-	SjHttp::OnSilverjukeShutdown();
-
 	/* client and server
 	 */
 	if( s_server )
@@ -527,6 +527,10 @@ int SjMainApp::OnExit()
 
 	delete SjModuleSystem::s_delayedDbDelete;
 	SjModuleSystem::s_delayedDbDelete = NULL;
+
+	/* shutdown HTTP-services
+	 */
+	wxSocketBase::Shutdown();
 
 	/* done.
 	 */

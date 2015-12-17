@@ -47,10 +47,6 @@ public:
 	int             GetHttpStatusCode   () const { return m_httpStatusCode; }
 	wxString        GetHttpResponseHeader(const wxString& key) const;
 
-	// OnSilverjukeStartup()/OnSilverjukeShutdown() should be called when the program starts/terminates
-	static void     OnSilverjukeStartup ();
-	static void     OnSilverjukeShutdown();
-
 private:
 	// private stuff
 	wxEvtHandler*   m_rcvEvtHandler;
@@ -61,7 +57,6 @@ private:
 	int             m_httpStatusCode;
 	wxString        m_content;
 	SjSSHash*       m_responseHeader;
-
 
 	static wxString ReadFile_           (const wxString& urlStr, wxMBConv*, const SjSSHash* requestHeader, const wxString& postData, int& retHttpStatusCode, SjSSHash** responseHeader);
 	void            ReadReady           ();

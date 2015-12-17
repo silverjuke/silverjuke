@@ -53,13 +53,11 @@ public:
 	wxString        m_postData;
 
 	static wxCriticalSection s_critical;
-	static long     s_httpThreadCount;
-	static bool     s_httpThreadInitialized;
 };
 
+
 wxCriticalSection   SjHttpThread::s_critical;
-long                SjHttpThread::s_httpThreadCount = 0;
-bool                SjHttpThread::s_httpThreadInitialized = FALSE;
+
 
 SjHttpThread::SjHttpThread(SjHttp* http, const wxString& urlStr, wxMBConv* mbConv, const SjSSHash* requestHeader, const wxString& postData)
 	: wxThread(wxTHREAD_DETACHED)
@@ -91,7 +89,6 @@ void* SjHttpThread::Entry()
 		m_http->ReadReady();
 		m_http->m_thread = NULL;
 	}
-	SjHttpThread::s_httpThreadCount--;
 	SjHttpThread::s_critical.Leave();
 
 	return 0;
@@ -154,7 +151,6 @@ void SjHttp::OpenFile(const wxString& urlStr, wxMBConv* mbConv, const SjSSHash* 
 	#ifdef SJ_HTTP_THREAD
 
 		SjHttpThread::s_critical.Enter();
-		SjHttpThread::s_httpThreadCount++;
 		SjHttpThread::s_critical.Leave();
 
 		m_thread = new SjHttpThread(this, urlStr, mbConv, requestHeader, postData);
@@ -259,34 +255,6 @@ void SjHttp::ReadReady()
 }
 
 
-void SjHttp::OnSilverjukeStartup()
-{
-	#ifdef SJ_HTTP_THREAD
-		if( !SjHttpThread::s_httpThreadInitialized )
-		{
-			// this is a little hack to allow using sockets (which are used by wxURL)
-			// from a thread, see http://wiki.wxwidgets.org/wiki.pl?WxSocket
-			// and http://www.litwindow.com/Knowhow/wxSocket/wxsocket.html
-			wxASSERT( wxThread::IsMain() );
-			wxSocketBase::Initialize();
-			SjHttpThread::s_httpThreadInitialized = TRUE;
-		}
-	#endif
-}
 
-
-void SjHttp::OnSilverjukeShutdown()
-{
-	#ifdef SJ_HTTP_THREAD
-		if( SjHttpThread::s_httpThreadInitialized
-		 && SjHttpThread::s_httpThreadCount == 0 )
-		{
-			if( wxSocketBase::IsInitialized() )
-			{
-				wxSocketBase::Shutdown();
-			}
-		}
-	#endif
-}
 
 

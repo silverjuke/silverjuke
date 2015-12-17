@@ -1026,8 +1026,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	/* (2) Init Image Thread
 	 */
-	SjHttp::OnSilverjukeStartup(); // !!! absolutely neccessary before any thread can read HTTP-data !!!
-
 	m_imgThread = new SjImgThread();
 	if( !m_imgThread )
 	{
