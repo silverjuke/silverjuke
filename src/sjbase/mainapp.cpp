@@ -40,6 +40,7 @@
 #include <wx/snglinst.h>
 #include <wx/cmdline.h>
 #include <wx/tokenzr.h>
+#include <wx/socket.h>
 
 
 /*******************************************************************************
