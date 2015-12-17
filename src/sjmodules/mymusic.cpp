@@ -336,7 +336,7 @@ void SjMyMusicConfigPage::OnColClick(wxListEvent& event)
 		m_currSortCol = newCol;
 	}
 
-	m_listCtrl->SortItems(ListCtrlCompareFunction, m_currSortCol);
+	m_listCtrl->SortItems(ListCtrlCompareFunction, m_currSortCol); // this may unselect Items on GTK, however, this should be fixed in wxWidgets/GTK
 }
 
 
@@ -417,7 +417,7 @@ void SjMyMusicConfigPage::InitPage(const wxString& selSourceUrl)
 		                         wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
 	}
 
-	m_listCtrl->SortItems(ListCtrlCompareFunction, m_currSortCol);
+	m_listCtrl->SortItems(ListCtrlCompareFunction, m_currSortCol); // this may unselect Items on GTK, however, this should be fixed in wxWidgets/GTK
 
 	m_listCtrl->Thaw();
 
