@@ -270,7 +270,9 @@
 #define IDO_DND_ONDATA          8400
 #define IDO_VIRTKEYBDFRAME      8401
 #define IDO_GOTOCURRAUTO        8402
-#define IDO_OPENSETTINGSASYNC   8403 /* SPACE Here! */
+#define IDO_OPENSETTINGSASYNC   8403
+#define IDO_SCRIPTCONFIG_MENU00 8404 /* range start */
+#define IDO_SCRIPTCONFIG_MENU99 8503 /* range end */
 #define IDO_ONLINE_HELP         8606
 #define IDO_EXPLOREQUEUE        8607
 #define IDO_BROWSER_RELOAD_VIEW 8609
@@ -279,9 +281,7 @@
 #define IDO_SCRIPT_MENU00       8613 /* range start */
 #define IDO_SCRIPT_MENU99       8712 /* range end */
 #define IDO_CONSOLE             8713
-#define IDO_SCRIPTCONFIG_MENU00 8714 /* range start */
-#define IDO_SCRIPTCONFIG_MENU99 8813 /* range end */
-/* take care, we're close to end!*/
+/* take care, we're close to end! At 8800 the IDPLAYER_ IDs start! */
 
 /* [PLAYER] [ID]s, IDPLAYER_*, posted from SjPlayer -> SjMainFrame -> SjPlayer.OnPostBack()
  */
