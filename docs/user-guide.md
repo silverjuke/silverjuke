@@ -1353,9 +1353,9 @@ The options in detail:
 
 Some other options can be set in the `[main]` section of the globals.ini file:
 
-- `debug =` Set to 1 to enable additional debug checks and asserts.  To invoke
-  an additional test assert, use the value 2.  Needed for debugging purposes
-  only, defaults to 0.
+- `debug =` Debugging flags: 1=Enable debugging, 2=Invoke test assert, 4=Do
+  scripting tests.  You can use more than one flag by adding them.  Needed for
+  debugging purposes only, defaults to 0.
 
 Options for the `[tageditor]` section of the globals.ini file:
 

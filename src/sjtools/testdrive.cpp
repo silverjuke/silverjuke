@@ -507,6 +507,7 @@ void SjTestdrive1()
 
 	/* Scripting tests */
 	#if SJ_USE_SCRIPTS
+	if( g_debug&0x04 )
 	{
 		SjSee see;
 		see.SetExecutionScope(wxT("Testdrive"));
