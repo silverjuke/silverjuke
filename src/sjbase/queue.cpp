@@ -980,9 +980,9 @@ long SjQueue::UnqueueByPos(long pos, SjPlayer* player, int* replayRet)
 	if( pos < m_pos )
 	{
 		m_pos--;   // if the currently playing item is removed,
-		// m_queue.pos points to the next item which
-		// will have the same index.
-		// a call to SetCurrPos() is not needed (and not good...)
+		           // m_queue.pos points to the next item which
+		           // will have the same index.
+		           // a call to SetCurrPos() is not needed (and not good...)
 	}
 	else if( pos == m_pos )
 	{
