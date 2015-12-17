@@ -221,8 +221,8 @@ bool SjPlayer::IsAutoPlayOnAir()
 void SjPlayer::SaveGatheredInfo(const wxString& url, unsigned long startingTime, SjVolumeCalc* volumeCalc, long realDecodedBytes)
 {
 	if( g_mainFrame
-	        && !SjMainApp::IsInShutdown()
-	        && !url.IsEmpty() )
+	 && !SjMainApp::IsInShutdown()
+	 && !url.IsEmpty() )
 	{
 		double newGain = -1.0L;
 		if( volumeCalc && volumeCalc->IsGainWorthSaving() )
