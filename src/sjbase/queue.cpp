@@ -1018,6 +1018,8 @@ long SjQueue::UnqueueByPos(long pos, SjPlayer* player, int* replayRet)
 		}
 	}
 
+	CleanupNextShufflePos();
+
 	return restUrls;
 }
 
