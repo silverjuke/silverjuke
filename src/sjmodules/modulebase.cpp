@@ -449,10 +449,9 @@ SjScannerModule* SjModuleSystem::FindScannerModuleByUrl(const wxString& url)
 {
 	SjModuleList*       scannerList = GetModules(SJ_MODULETYPE_SCANNER);
 	SjModuleList::Node* scannerNode = scannerList->GetFirst();
-	SjScannerModule*    scannerModule;
 	while( scannerNode )
 	{
-		scannerModule = (SjScannerModule*)scannerNode->GetData();
+		SjScannerModule* scannerModule = (SjScannerModule*)scannerNode->GetData();
 		wxASSERT( scannerModule );
 		wxASSERT( scannerModule->IsLoaded() );
 
@@ -460,6 +459,8 @@ SjScannerModule* SjModuleSystem::FindScannerModuleByUrl(const wxString& url)
 		{
 			return scannerModule;
 		}
+
+		scannerNode = scannerNode->GetNext();
 	}
 	return NULL;
 }
