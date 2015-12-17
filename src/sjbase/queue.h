@@ -181,11 +181,10 @@ private:
 	long            m_nextShufflePosFor;
 	bool            m_nextShuffleIncRepeatRound;
 
-	long            GetNextShufflePos(int flags, unsigned long currTimestamp);
-	long            GetNextShufflePos_GetPossibleTrack(bool regardBoredom, long repeatRound, unsigned long currTimestamp);
+	long            GetNextShufflePos   (int flags, unsigned long currTimestamp);
+	long            GetNextShufflePos_GetPossibleTrack (bool regardBoredom, long repeatRound, unsigned long currTimestamp);
 
-	void            CleanupNextShufflePos()
-	{ m_nextShufflePos=-1; m_nextShufflePosFor=-2;/*-1 is okay*/ m_nextShuffleIncRepeatRound=FALSE; }
+	void            CleanupNextShufflePos () { m_nextShufflePos=-1; m_nextShufflePosFor=-2;/*-1 is okay*/ m_nextShuffleIncRepeatRound=FALSE; }
 
 	// the current queue position, -1 = nothing in queue
 	long            m_pos;

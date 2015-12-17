@@ -184,7 +184,7 @@ long SjQueue::GetNextShufflePos(int flags, unsigned long currTimestamp)
 		wxASSERT( m_nextShufflePosFor == m_pos );
 	}
 
-	// return the next shuffle position, this may increase the repeat rounf
+	// return the next shuffle position, this may increase the repeat round
 	long newPos = m_nextShufflePos;
 	if( !(flags&SJ_PREVNEXT_LOOKUP_ONLY) )
 	{
