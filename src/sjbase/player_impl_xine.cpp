@@ -464,10 +464,13 @@ void SjPlayer::DoGetTime(long& totalMs, long& elapsedMs)
 	{
 		totalMs = -1; // if there is a stream, the pos/length may be unknown
 		elapsedMs = -1;
-		int pos_stream, pos_time_ms, length_time_ms;
+		int pos_stream = -1, pos_time_ms = -1, length_time_ms = -1;
 		if( xine_get_pos_length(m_impl->m_currStream->GetXineStream(), &pos_stream, &pos_time_ms, &length_time_ms) )
 		{
-			if( length_time_ms >= 0 ) {
+			// for HTTP-streams, xine sometimes returns bad values as 1083696000 or 285440000 for the length,
+			// so, do not allow length > 1 day
+			if( length_time_ms >= 0 && length_time_ms < (24*60*60*1000) )
+			{
 				totalMs = length_time_ms;
 			}
 
