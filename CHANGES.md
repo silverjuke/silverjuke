@@ -2,12 +2,15 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.?? (14.12.2015)
+V15.?? (18.12.2015)
 ================================================================================
 
 - New: Scripting and plugin-interface enabled by default
-- New: All menu entries added by scripts go to the same place in the "Edit" menu
+- Show a warning before scripts are executed in Skins or via Drag'n'Drop
 - New: INI-Switch to prepend zeros to track numbers, see file "user-guide"
+- All menu entries added by scripts go to the same place in the "Edit" menu
+- Album view", "Cover view" and "List view" options in view menu
+- Read Winamp 5.6 genres
 - Bug fixes
 
 
