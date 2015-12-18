@@ -675,10 +675,11 @@ void SjImgThread::Shutdown()
 
 				if( SjTools::GetMsTicks()-startWaiting > 4000 )
 				{
-					#ifdef __WXDEBUG__
+					if( g_debug )
+					{
 						::wxMessageBox(wxT("I'm waiting since 4 seconds for the image thread to terminate ... what's on? I will exit now."),
 								   SJ_PROGRAM_NAME);
-					#endif
+					}
 					break;
 				}
 
