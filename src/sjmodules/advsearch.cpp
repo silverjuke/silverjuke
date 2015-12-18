@@ -1146,9 +1146,9 @@ void SjRuleControls::OnTextChanged(int i, WXTYPE eventType)
 				else if( newValue == wxString(CB_SPECIAL_OPEN_PLAYLIST) && eventType == wxEVT_COMMAND_COMBOBOX_SELECTED )
 				{
 					// include/exclude a playlist
-					wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_OPENPLAYLISTDO);
-					fwd.SetExtraLong(incl? 1 : 0);
-					m_dialog->GetEventHandler()->AddPendingEvent(fwd);
+					wxCommandEvent* fwd = new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_OPENPLAYLISTDO);
+					fwd->SetExtraLong(incl? 1 : 0);
+					m_dialog->GetEventHandler()->QueueEvent(fwd);
 				}
 				else if( newValue == wxT("") )
 				{
@@ -1857,8 +1857,7 @@ void SjAdvSearchDialog::OnSearchSelChange(wxListEvent&)
 {
 	// we do not update the stuff directly as the (maybe appearing) message box
 	// disturbs the selection progress
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_SEARCHSELCHANGEDO);
-	AddPendingEvent(fwd);
+	QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_SEARCHSELCHANGEDO));
 }
 void SjAdvSearchDialog::OnSearchSelChangeDo(wxCommandEvent&)
 {
@@ -1872,8 +1871,7 @@ void SjAdvSearchDialog::OnSearchSelChangeDo(wxCommandEvent&)
 			if( !SaveSearchInEditIfNeeded(TRUE) )
 			{
 				// reset search listbox selection
-				wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_UPDATESEARCHLIST);
-				AddPendingEvent(fwd);
+				QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_UPDATESEARCHLIST));
 				return;
 			}
 
@@ -1948,15 +1946,13 @@ void SjAdvSearchDialog::OnSearchEndEditLabel(wxListEvent& event)
 		#endif
 
 		// update controls
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_UPDATESEARCHLIST);
-		AddPendingEvent(fwd);
+		QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_UPDATESEARCHLIST));
 
 		if( searchInRename.m_id == g_mainFrame->GetSearch()->m_adv.m_id )
 		{
 			// re-search in main window; this will also update our list colours
 			// by the module message
-			wxCommandEvent fwd2(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK);
-			AddPendingEvent(fwd2);
+			QueueEvent(new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, wxID_OK));
 		}
 
 		// update search title (GetRecentSearch() may be unequal to savedSearch)
@@ -1975,15 +1971,13 @@ void SjAdvSearchDialog::OnSearchKeyDown(wxListEvent& event)
 		case WXK_DELETE:
 		case WXK_BACK:
 		{
-			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_DELETESEARCH);
-			AddPendingEvent(fwd);
+			QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_DELETESEARCH));
 		}
 		break;
 
 		case WXK_INSERT:
 		{
-			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_NEWSEARCH);
-			AddPendingEvent(fwd);
+			QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_NEWSEARCH));
 		}
 		break;
 	}
@@ -2275,8 +2269,7 @@ void SjAdvSearchDialog::OnRemoveRuleRequest(wxCommandEvent& event)
 	// delay the remove event as otherwise the clicked button gets deleted before
 	// this function returns
 	m_ruleTempId = event.GetId()-IDC_FIRST_REMOVEID;
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_REMOVERULEDO);
-	AddPendingEvent(fwd);
+	QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_REMOVERULEDO));
 }
 void SjAdvSearchDialog::OnRemoveRuleDo(wxCommandEvent& event)
 {
@@ -2299,8 +2292,7 @@ void SjAdvSearchDialog::ReloadRule(long ruleId, long focusRepostValue)
 	// this function returns
 	m_ruleTempId = ruleId;
 	m_ruleTempFocusRepostValue = focusRepostValue;
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_RELOADRULEDO);
-	AddPendingEvent(fwd);
+	QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_RELOADRULEDO));
 }
 void SjAdvSearchDialog::OnReloadRuleDo(wxCommandEvent& event)
 {
@@ -2410,8 +2402,7 @@ void SjAdvSearchModule::ReceiveMsg(int msg)
 	{
 		if( m_dialog )
 		{
-			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_SEARCHINMAINCHANGED);
-			m_dialog->GetEventHandler()->AddPendingEvent(fwd);
+			m_dialog->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_SEARCHINMAINCHANGED));
 		}
 	}
 	else if( msg == IDMODMSG_KIOSK_STARTING || msg == IDMODMSG_WINDOW_CLOSE )

@@ -4226,8 +4226,7 @@ void SjLibraryModule::PlaybackDone(const wxString& url, unsigned long newStartin
 			{
 				g_mainFrame->UpdateEnqueuedUrl(url, TRUE, newPlaytimeMs);
 
-				wxCommandEvent pendEvt(wxEVT_COMMAND_MENU_SELECTED, IDO_BROWSER_RELOAD_VIEW);
-				g_mainFrame->GetEventHandler()->AddPendingEvent(pendEvt);
+				g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDO_BROWSER_RELOAD_VIEW));
 			}
 		}
 	}
@@ -5013,8 +5012,7 @@ void SjLibraryModule::AskToAddSelection()
 		action = IDT_ENQUEUE_NOW;
 	}
 
-	wxCommandEvent fwdEvent(wxEVT_COMMAND_MENU_SELECTED, action);
-	g_mainFrame->GetEventHandler()->AddPendingEvent(fwdEvent);
+	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, action));
 }
 
 

@@ -249,8 +249,7 @@ void SjHttp::ReadReady()
 {
 	if( m_rcvEvtHandler )
 	{
-		wxSocketEvent event(m_rcvCommandId);
-		m_rcvEvtHandler->AddPendingEvent(event);
+		m_rcvEvtHandler->QueueEvent(new wxSocketEvent(m_rcvCommandId));
 	}
 }
 

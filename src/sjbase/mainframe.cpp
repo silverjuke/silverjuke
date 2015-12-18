@@ -447,9 +447,9 @@ public:
 			m_dataY += linkedPos.y;
 		}
 
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_DND_ONDATA);
-		fwd.SetClientData((void*)this);
-		g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+		wxCommandEvent* fwd = new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDO_DND_ONDATA);
+		fwd->SetClientData((void*)this);
+		g_mainFrame->GetEventHandler()->QueueEvent(fwd);
 
 		return def;
 	}
@@ -1325,8 +1325,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	if( m_updateIndexAfterConstruction )
 	{
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDT_UPDATE_INDEX);
-		g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+		g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDT_UPDATE_INDEX));
 	}
 
 	/* start the timer - this should be VERY last as the timer
@@ -2327,8 +2326,7 @@ void SjMainFrame::OnIconizeWindow(wxIconizeEvent& event)
 		}
 	}
 
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, event.IsIconized()? IDMODMSG_WINDOW_ICONIZED : IDMODMSG_WINDOW_UNICONIZED);
-	AddPendingEvent(fwd);
+	QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, event.IsIconized()? IDMODMSG_WINDOW_ICONIZED : IDMODMSG_WINDOW_UNICONIZED));
 
 	event.Skip();
 }

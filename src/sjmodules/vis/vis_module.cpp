@@ -348,8 +348,7 @@ bool SjVisModule::IsCloseMenuEntryNeeded() const
 
 void SjVisModule::StopOrCloseRequest()
 {
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_CLOSE);
-	g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_CLOSE));
 }
 
 
@@ -372,8 +371,7 @@ void SjVisModule::AttachDetachRequest()
 	SjTools::SetFlag(m_visFlags, SJ_VIS_FLAGS_EMBEDDED, newEmbedded);
 	WriteVisFlags();
 
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_ATTACH_DETACH);
-	g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_ATTACH_DETACH));
 }
 
 
@@ -498,8 +496,7 @@ void SjVisModule::ReceiveMsg(int msg)
 					if( m_temp1str__.IsEmpty() )
 					{
 						m_temp1str__ = realNextRenderer;
-						wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_SWITCH_RENDERER);
-						g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+						g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_SWITCH_RENDERER));
 					}
 				}
 			}
@@ -583,6 +580,5 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 		((SjVisFrame*)m_visWindow)->SetRenderer(m, justContinue);
 
 	// inform all others
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_STATE_CHANGED);
-	g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_STATE_CHANGED));
 }

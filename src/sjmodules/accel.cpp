@@ -360,8 +360,7 @@ private:
 		// save the key
 		m_key = (modifiers << 16) | keycode;
 
-		wxCommandEvent evt(wxEVT_COMMAND_MENU_SELECTED, IDC_NEWKEY);
-		GetParent()->GetEventHandler()->AddPendingEvent(evt);
+		GetParent()->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_NEWKEY));
 	}
 	DECLARE_EVENT_TABLE ();
 };

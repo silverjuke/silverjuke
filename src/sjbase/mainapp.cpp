@@ -81,8 +81,7 @@ void SjConnection::Raise()
 	{
 		g_mainFrame->Show();
 		g_mainFrame->Iconize(FALSE);
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_WINDOW_UNICONIZED);
-		g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+		g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_WINDOW_UNICONIZED));
 		g_mainFrame->Raise();
 	}
 }

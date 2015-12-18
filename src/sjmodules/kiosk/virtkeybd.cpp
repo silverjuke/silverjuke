@@ -78,8 +78,7 @@ void SjVirtKeybdTextCtrl::OnMyMouseDown(wxMouseEvent& e)
 		        && topLevel->IsEnabled() )
 		{
 			#ifdef __WXMAC__ // if we create the window from within the mouse event on wxMac, it does not stay raised - so do this in a delayed event
-				wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_VIRTKEYBDFWD);
-				AddPendingEvent(fwd);
+				QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDO_VIRTKEYBDFWD));
 			#else
 				g_virtKeybd->OpenKeybd(this, m_forceForTesting);
 			#endif
@@ -1196,9 +1195,9 @@ void SjVirtKeybdFrame::OnMouseUp(wxMouseEvent& event)
 			{
 				// this is needed if the option "Search while typing" is OFF,
 				// see http://www.silverjuke.net/forum/topic-1432.html
-				wxCommandEvent fwd(wxEVT_COMMAND_TEXT_ENTER, inputReceiver->GetId());
-				fwd.SetEventObject(inputReceiver);
-				inputReceiver->GetEventHandler()->AddPendingEvent(fwd);
+				wxCommandEvent* fwd = new wxCommandEvent(wxEVT_COMMAND_TEXT_ENTER, inputReceiver->GetId());
+				fwd->SetEventObject(inputReceiver);
+				inputReceiver->GetEventHandler()->QueueEvent(fwd);
 			}
 
 			return;

@@ -479,8 +479,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 						m_stateFollowPlaylistUrlFollowed = currUrl;
 
-						wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_GOTOCURRAUTO);
-						g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+						g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDO_GOTOCURRAUTO));
 					}
 				}
 			}
@@ -822,8 +821,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 				wxEvent* event = (wxEvent*)m_pendingEvents[i];
 				if( event )
 				{
-					g_mainFrame->GetEventHandler()->AddPendingEvent(*event);
-					delete event;
+					g_mainFrame->GetEventHandler()->QueueEvent(event);
 				}
 			}
 			m_pendingEvents.Clear();

@@ -185,16 +185,14 @@ void SjHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo& link)
 		// this html windows is placed in
 		long id;
 		if( !rest.ToLong(&id) ) { id = 0; }
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, id);
-		SjDialog::FindTopLevel(this)->GetEventHandler()->AddPendingEvent(fwd);
+		SjDialog::FindTopLevel(this)->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, id));
 		return;
 	}
 	else if( href.StartsWith(wxT("page:"), &m_clickedLink) )
 	{
 		// go to another page, used by the help window;
 		// needed at least for "more..." in the page after buying silverjuke
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_LINKCLICKED);
-		SjDialog::FindTopLevel(this)->GetEventHandler()->AddPendingEvent(fwd);
+		SjDialog::FindTopLevel(this)->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDO_LINKCLICKED));
 		return;
 	}
 

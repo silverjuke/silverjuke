@@ -413,17 +413,17 @@ void SjMonitorOverview::OnMenuSelect(wxCommandEvent& e)
 	if( m_affectedIndex >= 0 && m_affectedIndex < mCount )
 	{
 		long flag = e.GetId()==IDC_FOR_MAIN? MONITOR_USAGE_MAIN : MONITOR_USAGE_VIS;
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, GetId());
-		fwd.SetExtraLong(flag);
+		wxCommandEvent* fwd = new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, GetId());
+		fwd->SetExtraLong(flag);
 		if( !(m_monitors[m_affectedIndex].m_monitorUsage&flag) )
 		{
-			fwd.SetInt(m_affectedIndex);
-			AddPendingEvent(fwd);
+			fwd->SetInt(m_affectedIndex);
+			QueueEvent(fwd);
 		}
 		else if( mCount > 1 )
 		{
-			fwd.SetInt((m_affectedIndex+1)%mCount);
-			AddPendingEvent(fwd);
+			fwd->SetInt((m_affectedIndex+1)%mCount);
+			QueueEvent(fwd);
 		}
 	}
 }
@@ -433,7 +433,6 @@ void SjMonitorOverview::OnMouseLeftDClick(wxMouseEvent& e)
 {
 	if( FindMonitorByPoint(e.GetX(), e.GetY()) != -1 )
 	{
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, GetId());
-		AddPendingEvent(fwd);
+		QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, GetId()));
 	}
 }

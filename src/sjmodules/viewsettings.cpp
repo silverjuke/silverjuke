@@ -380,8 +380,7 @@ void SjViewSettingsPage::OnChangeSkin(wxListEvent& event)
 			}
 			else
 			{
-				wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_CANCELSKINSELECTION);
-				AddPendingEvent(fwd);
+				QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_CANCELSKINSELECTION));
 			}
 
 			g_mainFrame->Refresh();

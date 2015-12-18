@@ -377,8 +377,7 @@ void SjConfirmDlg::OnKeyDown(wxListEvent& event)
 		case WXK_DELETE:
 		case WXK_BACK:
 		{
-			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_CONFIRM_DELETE);
-			AddPendingEvent(fwd);
+			QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_CONFIRM_DELETE));
 		}
 		break;
 	}

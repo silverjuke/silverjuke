@@ -260,11 +260,10 @@ void SjVisImpl::OnMouseEnter(wxWindow* from, wxMouseEvent& event)
 {
 	// if the mouse enters this window, send a mouse leave
 	// message to the parent window
-	wxMouseEvent pendEvt(wxEVT_LEAVE_WINDOW);
 	if( !m_thisWindowIsFrame )
 	{
 		wxASSERT( m_thisWindow->GetParent() );
-		m_thisWindow->GetParent()->GetEventHandler()->AddPendingEvent(pendEvt);
+		m_thisWindow->GetParent()->GetEventHandler()->QueueEvent(new wxMouseEvent(wxEVT_LEAVE_WINDOW));
 	}
 }
 
@@ -311,8 +310,7 @@ void SjVisImpl::OnMouseRightUp(wxWindow* from, wxContextMenuEvent& event)
 
 void SjVisImpl::OnMouseLeftDClick(wxWindow* from, wxMouseEvent& event)
 {
-	wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_EMBED_WINDOW);
-	m_thisWindow->GetEventHandler()->AddPendingEvent(fwd);
+	m_thisWindow->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_EMBED_WINDOW));
 }
 
 

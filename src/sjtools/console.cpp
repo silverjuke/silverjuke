@@ -981,8 +981,7 @@ void SjLogGui::OpenManually()
 		{
 			if( !s_dlg->m_showingDetails )
 			{
-				wxCommandEvent fwd(wxEVT_COMMAND_BUTTON_CLICKED, IDC_DETAILS_BUTTON);
-				s_dlg->GetEventHandler()->AddPendingEvent(fwd);
+				s_dlg->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_BUTTON_CLICKED, IDC_DETAILS_BUTTON));
 			}
 			s_dlg->Raise();
 		}

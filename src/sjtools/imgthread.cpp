@@ -185,8 +185,7 @@ void* SjImgThread::Entry()
 				if( obj->m_evtHandler )
 				{
 					obj->m_usage = 1;
-					SjImageThereEvent evt(obj);
-					obj->m_evtHandler->AddPendingEvent(evt);
+					obj->m_evtHandler->QueueEvent(new SjImageThereEvent(obj));
 				}
 			}
 

@@ -138,7 +138,7 @@ private:
 	#define         IDC_CONFIRM_LIST    (IDM_FIRSTPRIVATE+1)
 	#define         IDC_CONFIRM_EDIT    (IDM_FIRSTPRIVATE+2)
 	#define         IDC_CONFIRM_DELETE  (IDM_FIRSTPRIVATE+3)
-	void            OnDoubleClick       (wxListEvent&) { wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_CONFIRM_EDIT); AddPendingEvent(fwd); }
+	void            OnDoubleClick       (wxListEvent&) { QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_CONFIRM_EDIT)); }
 	void            OnContextMenu       (wxListEvent&);
 	void            OnKeyDown           (wxListEvent&);
 	void            OnEdit              (wxCommandEvent&);

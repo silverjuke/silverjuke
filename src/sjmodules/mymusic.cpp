@@ -539,8 +539,7 @@ void SjMyMusicConfigPage::OnListKeyDown(wxListEvent& event)
 		case WXK_DELETE:
 		case WXK_BACK:
 		{
-			wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDC_IDXDELSOURCE);
-			AddPendingEvent(fwd);
+			QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_IDXDELSOURCE));
 		}
 		break;
 	}

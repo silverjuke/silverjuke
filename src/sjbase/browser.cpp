@@ -127,8 +127,7 @@ void SjBrowserWindow::OnMouseLeftDClick(wxMouseEvent& event)
 	if( !m_currView->OnMouseLeftDClick(event) )
 	{
 		// click not used -> toggle view
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_TOGGLE_VIEW);
-		g_mainFrame->GetEventHandler()->AddPendingEvent(fwd);
+		g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_TOGGLE_VIEW));
 	}
 }
 
@@ -137,8 +136,7 @@ void SjBrowserWindow::OnMouseEnter(wxMouseEvent& event)
 {
 	// if the mouse enters this window, send a mouse leave
 	// message to the parent window
-	wxMouseEvent pendEvt(wxEVT_LEAVE_WINDOW);
-	GetParent()->GetEventHandler()->AddPendingEvent(pendEvt);
+	GetParent()->GetEventHandler()->QueueEvent(new wxMouseEvent(wxEVT_LEAVE_WINDOW));
 
 	if( !HasCapture() )
 		ResetCursor();

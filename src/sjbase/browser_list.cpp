@@ -776,8 +776,7 @@ void SjListBrowser::OnMouseLeftUp(wxMouseEvent& event)
 	}
 	else if( m_toggleCoversRect.Contains(event.GetX(), event.GetY()) )
 	{
-		wxCommandEvent cmd(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_SHOW_COVERS);
-		g_mainFrame->GetEventHandler()->AddPendingEvent(cmd);
+		g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_SHOW_COVERS));
 		return;
 	}
 

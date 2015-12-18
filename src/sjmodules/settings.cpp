@@ -287,8 +287,7 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 
 					// add a size event explicitly, the pages rely on this and it is not always send by wxWidgets (send on 2.x, not send on 3.x)
 					// note, that this event should be send _after_ the controls are layouted; normally, this should be the case here.
-					wxSizeEvent e;
-					m_currPageWindow->GetEventHandler()->AddPendingEvent(e);
+					m_currPageWindow->GetEventHandler()->QueueEvent(new wxSizeEvent());
 				}
 				else
 				{
@@ -569,11 +568,10 @@ void SjSettingsModule::OpenSettingsAsync(const wxString& module, int moduleIndex
 
 	if( g_settingsDlg )
 	{
-		wxCommandEvent fwd(wxEVT_COMMAND_MENU_SELECTED, IDO_OPENSETTINGSASYNC);
 		g_settingsDlg->m_asyncModule = module;
 		g_settingsDlg->m_asyncModuleIndex = moduleIndex;
 		g_settingsDlg->m_asyncPageIndex = pageIndex;
-		g_settingsDlg->GetEventHandler()->AddPendingEvent(fwd);
+		g_settingsDlg->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDO_OPENSETTINGSASYNC));
 	}
 }
 void SjSettingsDlg::OnOpenSettingsAsync(wxCommandEvent& e)
