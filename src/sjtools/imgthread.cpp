@@ -393,8 +393,8 @@ SjImgThreadObj* SjImgThread::RequireImage(wxEvtHandler*     evtHandler,
 				newObj = new SjImgThreadObj(evtHandler, url, timestamp, op);
 
 				if( m_useDiskCache
-				        && m_directDiskCache
-				        && newObj->LoadFromDiskCache() )
+				 && m_directDiskCache
+				 && newObj->LoadFromDiskCache() )
 				{
 					/* could load the image from the disk cache -- add to cached objects
 					 */
@@ -404,7 +404,7 @@ SjImgThreadObj* SjImgThread::RequireImage(wxEvtHandler*     evtHandler,
 					objInCache = newObj;
 				}
 				else if( newObj->m_url.StartsWith(wxT("cover:"))
-				         && newObj->LoadFromFile() )
+				      && newObj->LoadFromFile() )
 				{
 					/* the image is a stub-cover and the thread cannot draw -- create the
 					 * image now and add it to the cached objeccts
