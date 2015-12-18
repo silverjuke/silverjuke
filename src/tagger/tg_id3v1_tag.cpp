@@ -194,7 +194,7 @@ void ID3v1_Tag::parse(const SjByteVector &data)
 
 
 
-#define SJ_GENRE_COUNT 148
+#define SJ_GENRE_COUNT 192
 static const char* s_genres[SJ_GENRE_COUNT] = {
 	/* 0   */   "Blues",                    "Classic Rock",         "Country",          "Dance",
 	/* 4   */   "Disco",                    "Funk",                 "Grunge",           "Hip-Hop",
@@ -232,7 +232,18 @@ static const char* s_genres[SJ_GENRE_COUNT] = {
 	/* 132 */   "BritPop",                  "Negerpunk",            "Polsk Punk",       "Beat",
 	/* 136 */   "Christian Gangsta Rap",    "Heavy Metal",          "Black Metal",      "Crossover",
 	/* 140 */   "Contemporary Christian",   "Christian Rock",       "Merengue",         "Salsa",
-	/* 144 */   "Thrash Metal",             "Anime",                "Jpop",             "Synthpop"
+	/* 144 */   "Thrash Metal",             "Anime",                "Jpop",             "Synthpop",
+	/* 148 */   "Abstract",                 "Art Rock",             "Baroque",          "Bhangra",
+	/* 152 */   "Big Beat",                 "Breakbeat",            "Chillout",         "Downtempo",
+	/* 156 */   "Dub",                      "EBM",                  "Eclectic",         "Electro",
+	/* 160 */   "Electroclash",             "Emo",                  "Experimental",     "Garage",
+	/* 164 */   "Global",                   "IDM",                  "Illbient",         "Industro-Goth",
+	/* 168 */   "Jam Band",                 "Krautrock",            "Leftfield",        "Lounge",
+	/* 172 */   "Math Rock",                "New Romantic",         "Nu-Breakz",        "Post-Punk",
+	/* 176 */   "Post-Rock",                "Psytrance",            "Shoegaze",         "Space Rock",
+	/* 180 */   "Trop Rock",                "World Music",          "Neoclassical",     "Audiobook",
+	/* 184 */   "Audio Theatre",            "Neue Deutsche Welle",  "Podcast",          "Indie Rock",
+	/* 188 */   "G-Funk",                   "Dubstep",              "Garage Rock",      "Psybient"
 };
 
 
