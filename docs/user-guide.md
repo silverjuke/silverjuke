@@ -31,6 +31,7 @@ Silverjuke User Guide
    - Query freedb
 - Visualizations
 - Advanced and further options
+   - globals.ini
 
 
 First Steps
@@ -543,7 +544,7 @@ may provide different buttons for existing functions.
 
 Skins always have the file extension *.sjs (for Silverjuke Skin). For
 installation copy the *.sjs files into one of the search paths defined at
-"Advanced / Search paths". 
+"Advanced / Further options / Search paths". 
 
 Btw. there is also documentation about how to create your own skins in the file
 "skinning.md" (or "skinning.txt").
@@ -1232,7 +1233,7 @@ dialog is shown where you can also edit the suggested information.
 
 The default server used to query the freedb database is http://www.freedb.org ,
 however, you can also define a mirror that is closer to you at "Advanced /
-Further Options / Online database: Server name".
+Further options / Online database: Server name".
 
 
 Visualizations
@@ -1250,7 +1251,7 @@ You can select the visualization to use by the menu atop of the visualization.
 However, only one visualization can be started at the same time.
 
 
-Advanced and further options
+Advanced and Further options
 ================================================================================
 
 With the options found at "Settings / Advanced / Further options" you can define
@@ -1351,7 +1352,12 @@ The options in detail:
   control for the Kiosk Mode. In this case, you can customize the keys to use 
   for the numpad control as described above.
 
-Some other options can be set in the `[main]` section of the globals.ini file:
+
+globals.ini
+--------------------------------------------------------------------------------
+
+Experienced users can set some other options can be set in the `[main]` section
+of the globals.ini file:
 
 - `debug =` Debugging flags: 1=Enable debugging, 2=Invoke test assert, 4=Do
   scripting tests.  You can use more than one flag by adding them.  Needed for
@@ -1376,6 +1382,7 @@ Example:
     [tageditor]
     ratinguser = myname@domain.com
     tagflags = 3
+    
 
-Copyright (c) Bjoern Petersen Software Design and Development and contributors
+Copyright (c) Björn Petersen Software Design and Development, http://b44t.com
 
