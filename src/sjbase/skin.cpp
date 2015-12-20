@@ -457,20 +457,20 @@ int SjSkinBoxItem::FindSubitem(long x, long y, wxRect& subitemRect)
 	subitemRect.height--;
 
 	if( x >= m_rect.x
-	        && y >= m_rect.y
-	        && x < (m_rect.x + m_rect.width)
-	        && y < (m_rect.y + m_rect.height) )
+	 && y >= m_rect.y
+	 && x < (m_rect.x + m_rect.width)
+	 && y < (m_rect.y + m_rect.height) )
 	{
 		if( x > m_rect.x+m_timeXrel
-		        && x < m_rect.x+m_timeXrel+m_timeW
-		        && m_flags & SJ_VFLAG_TIME_CLICKABLE )
+		 && x < m_rect.x+m_timeXrel+m_timeW
+		 && m_flags & SJ_VFLAG_TIME_CLICKABLE )
 		{
 			subitemRect.x = m_rect.x+m_timeXrel;
 			subitemRect.width = m_timeW;
 			return SJ_SUBITEM_TIME;
 		}
 		else if( x > m_rect.x+m_iconRightXrel
-		         && x < m_rect.x+m_iconRightXrel+m_iconRightW  )
+		      && x < m_rect.x+m_iconRightXrel+m_iconRightW  )
 		{
 			subitemRect.x = m_rect.x+m_iconRightXrel;
 			subitemRect.width = m_iconRightW;
@@ -1044,7 +1044,7 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 			}
 			else if( ( m_mouseSubitem == SJ_SUBITEM_TEXT )
 			         && ( m_flags & SJ_VFLAG_MOVABLE )
-			         && ( motionItem != this
+			         && (    motionItem != this
 			              || hDifference >  MOVESTART_DELTA
 			              || hDifference < -MOVESTART_DELTA
 			              || vDifference >  MOVESTART_DELTA
@@ -1096,6 +1096,8 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 		inHere = FALSE;
 	}
 }
+
+
 void SjSkinWindow::ResumeSkinTargetMotion(int clickedTargetId, int resumeTargetId)
 {
 	// contined from (***)
@@ -1139,10 +1141,14 @@ void SjSkinWindow::ResumeSkinTargetMotion(int clickedTargetId, int resumeTargetI
 		}
 	}
 }
+
+
 void SjSkinBoxItem::OnTimer()
 {
 	OnMouseMotion(m_mouseResumeX, m_mouseResumeY, TRUE);
 }
+
+
 bool SjSkinBoxItem::CheckMovementTimer()
 {
 	unsigned long thisMs = SjTools::GetMsTicks();
@@ -1565,7 +1571,7 @@ void SjSkinButtonItem::OnMouseMotion(long x, long y, bool leftDown)
 	else
 	{
 		if( m_mouseState != SJ_MOUSE_STATE_HOVER
-		        && m_bitmaps[m_buttonState][SJ_MOUSE_STATE_HOVER] )
+		 && m_bitmaps[m_buttonState][SJ_MOUSE_STATE_HOVER] )
 		{
 			m_mouseState = SJ_MOUSE_STATE_HOVER;
 			RedrawMe();
@@ -3099,25 +3105,23 @@ void SjSkinWindow::CalcItemRectangles(long width, long height)
 
 	// move away unused windows
 	if(   m_workspaceWindow
-	        && (       !m_currLayout->m_hasWorkspace
-#ifdef SJ_SKIN_USE_HIDE
-	                   ||  m_targets[IDT_WORKSPACE].m_hidden
-#endif
-	                   ||  m_workspaceMovedAway
-	           )
-	  )
+	 && (   !m_currLayout->m_hasWorkspace
+	      #ifdef SJ_SKIN_USE_HIDE
+	      ||  m_targets[IDT_WORKSPACE].m_hidden
+	      #endif
+          ||  m_workspaceMovedAway
+	  ) )
 	{
 		wxSize oldSize = m_workspaceWindow->GetSize();
 		m_workspaceWindow->SetSize(-1000-oldSize.x, 0, oldSize.x, oldSize.y, wxSIZE_ALLOW_MINUS_ONE);
 	}
 
 	if(   m_inputWindow
-	        && (!m_currLayout->m_hasInput
-#ifdef SJ_SKIN_USE_HIDE
-	            || m_targets[IDT_SEARCH].m_hidden
-#endif
-	           )
-	  )
+	 && (   !m_currLayout->m_hasInput
+          #ifdef SJ_SKIN_USE_HIDE
+	      || m_targets[IDT_SEARCH].m_hidden
+          #endif
+	  ) )
 	{
 		m_inputWindow->SetSize(-1000, -1000, 100, 100, wxSIZE_ALLOW_MINUS_ONE);
 	}
@@ -3142,9 +3146,9 @@ SjSkinItem* SjSkinWindow::FindClickableItem(long x, long y) const
 			wxASSERT(item);
 
 			if(  item->m_usesMouse
-#ifdef SJ_SKIN_USE_HIDE
-			        && !item->m_hidden
-#endif
+			 #ifdef SJ_SKIN_USE_HIDE
+			 && !item->m_hidden
+			 #endif
 			  )
 			{
 				if( x >= item->m_rect.x
@@ -3361,10 +3365,10 @@ void SjSkinWindow::OnSize(wxSizeEvent& event_doNotUse_mayBeUnsetByOurForwardings
 	mouseEvent.m_y = mousePos.y;
 	OnMouseMotion(mouseEvent);
 
-#ifdef __WXMAC__
-	Refresh(FALSE /*eraseBackground*/);
-	Update();
-#endif
+	#ifdef __WXMAC__
+		Refresh(FALSE /*eraseBackground*/);
+		Update();
+	#endif
 }
 
 
@@ -3392,9 +3396,9 @@ void SjSkinWindow::OnMouseLeftDown(wxMouseEvent& event)
 		OnMouseMotion(event);
 	}
 
-#if SJ_USE_TOOLTIPS
-	g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+	#if SJ_USE_TOOLTIPS
+		g_tools->m_toolTipManager.ClearToolTipProvider();
+	#endif
 
 	if( m_mouseItem )
 	{
@@ -3408,12 +3412,12 @@ static int findCorner(const wxRect& r, const wxSize& delta, int x, int y)
 {
 	if( x >= r.x && x < r.x+delta.x )
 	{
-		if( y > r.y && y < r.y+delta.y )                       { return 1; } // top-left
+		     if( y > r.y && y < r.y+delta.y )                       { return 1; } // top-left
 		else if( y >= r.y+r.height-delta.y && y < r.y+r.height )    { return 3; } // bottom-left
 	}
 	else if( x >= r.x+r.width-delta.x && x < r.x+r.width )
 	{
-		if( y > r.y && y < r.y+delta.y )                       { return 2; } // top-right
+		     if( y > r.y && y < r.y+delta.y )                       { return 2; } // top-right
 		else if( y >= r.y+r.height-delta.y && y < r.y+r.height )    { return 4; } // bottom-right
 	}
 
@@ -3448,7 +3452,7 @@ void SjSkinWindow::OnMouseLeftUp(wxMouseEvent& event)
 		}
 	}
 
-#ifdef __WXDEBUG__
+	#ifdef __WXDEBUG__
 	switch(mouseUsed)
 	{
 		case SJ_MOUSE_NOT_USED:     wxLogDebug(wxT("SJ_MOUSE_NOT_USED"));       break;
@@ -3456,7 +3460,7 @@ void SjSkinWindow::OnMouseLeftUp(wxMouseEvent& event)
 		case SJ_MOUSE_USE_DELAYED:  wxLogDebug(wxT("SJ_MOUSE_USE_DELAYED"));    break;
 		default:                    wxASSERT(0);                                break;
 	}
-#endif
+	#endif
 
 	// check for "corner clicks"
 	//
@@ -3480,13 +3484,13 @@ void SjSkinWindow::OnMouseLeftUp(wxMouseEvent& event)
 		bool hotPartOfCorner = (findCorner(clientRect.Deflate(10), cornerSize, x, y)==0);
 		if( hotPartOfCorner || mouseUsed == SJ_MOUSE_NOT_USED )
 		{
-#define                 CORNER_TIMEOUT_MS 3500
+			#define                 CORNER_TIMEOUT_MS 3500
 			static unsigned long    lastCornerTime = 0;
 			unsigned long           thisCornerTime = SjTools::GetMsTicks();
 
 			if( thisCornerTime < lastCornerTime+CORNER_TIMEOUT_MS
-			        && thisCorner != lastCorner
-			        && lastCorner != 0 )
+			 && thisCorner != lastCorner
+			 && lastCorner != 0 )
 			{
 				SjSkinValue value;
 				OnSkinTargetEvent(IDO_CORNERCLICK, value, accelFlags);
@@ -3544,9 +3548,9 @@ void SjSkinWindow::OnMouseMiddleUp(wxMouseEvent& event)
 		long    x = event.GetX(),
 		        y = event.GetY();
 
-#if SJ_USE_TOOLTIPS
-		g_tools->m_toolTipManager.ClearToolTipProvider();
-#endif
+		#if SJ_USE_TOOLTIPS
+			g_tools->m_toolTipManager.ClearToolTipProvider();
+		#endif
 
 		SjSkinItem* item = FindClickableItem(x, y);
 		if( item )
@@ -3595,7 +3599,7 @@ void SjSkinWindow::OnMouseMotion(wxMouseEvent& event)
 				m_mouseItem = item;
 				m_mouseItem->OnMouseMotion(x, y, FALSE);
 
-#if SJ_USE_TOOLTIPS
+				#if SJ_USE_TOOLTIPS
 				if( item->m_itemType == SJ_BOXITEM )
 				{
 					; // nothing to do, the box items handle the tooltips theirselved,
@@ -3614,15 +3618,14 @@ void SjSkinWindow::OnMouseMotion(wxMouseEvent& event)
 				{
 					g_tools->m_toolTipManager.ClearToolTipProvider();
 				}
-#endif
+				#endif
 			}
-#if SJ_USE_TOOLTIPS
+			#if SJ_USE_TOOLTIPS
 			else
 			{
-
 				g_tools->m_toolTipManager.ClearToolTipProvider();
 			}
-#endif
+			#endif
 		}
 	}
 }
@@ -3750,16 +3753,16 @@ void SjSkinWindow::RedrawAll(wxDC& dc,
 					item->OnSize();
 				}
 
-#ifdef SJ_SKIN_USE_HIDE
+				#ifdef SJ_SKIN_USE_HIDE
 				if( !item->m_hidden )
 				{
-#endif
+				#endif
 					item->HideDragImage();
 					item->OnPaint(dc);
 					item->ShowDragImage();
-#ifdef SJ_SKIN_USE_HIDE
+				#ifdef SJ_SKIN_USE_HIDE
 				}
-#endif
+				#endif
 
 				if( finalMoveX || finalMoveY )
 				{
@@ -3793,8 +3796,8 @@ void SjSkinWindow::RedrawFinalLines(wxDC& dc, long finalMoveX, long finalMoveY)
 				item = itemnode->GetData();
 				wxASSERT(item);
 
-				if( item->m_usesPaint
-				        && (item->m_alwaysRedrawBackground || item->m_hasOverlayingItems==1/*not:-1*/) )
+				if(  item->m_usesPaint
+				 && (item->m_alwaysRedrawBackground || item->m_hasOverlayingItems==1/*not:-1*/) )
 				{
 					dc.SetPen(redPen); // red to indicate complex and slow drawing
 				}
