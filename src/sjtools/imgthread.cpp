@@ -262,7 +262,7 @@ void SjImgThread::RequireStart(wxEvtHandler* evtHandler)
 			wxBusyCursor wait;
 
 			if( (m_condition = new wxCondition(m_mutex)) != NULL
-			        &&  m_condition->IsOk() != FALSE )
+			 &&  m_condition->IsOk() != FALSE )
 			{
 				Create();
 				Run();
@@ -307,7 +307,8 @@ void SjImgThread::RequireStart(wxEvtHandler* evtHandler)
 }
 
 
-SjImgThreadObj* SjImgThread::RequireImage(wxEvtHandler*     evtHandler,
+SjImgThreadObj* SjImgThread::RequireImage(
+        wxEvtHandler*     evtHandler,
         const wxString&   url,
         const SjImgOp&    op  )
 {
@@ -372,10 +373,10 @@ SjImgThreadObj* SjImgThread::RequireImage(wxEvtHandler*     evtHandler,
 		/* do we have to signal the thread to create a new image?
 		 */
 		if( nodeInCache == NULL
-		        || objInCache->m_op != op )
+		 || objInCache->m_op != op )
 		{
 			if( (nodeWaiting=SearchImg(m_anchorWaiting, url, timestamp, op, TRUE/*exact operation match*/))
-			        && (nodeWaiting->GetData())->m_evtHandler==evtHandler )
+			 && (nodeWaiting->GetData())->m_evtHandler==evtHandler )
 			{
 				/* there is already an image waiting with the same edit operations,
 				 * and the same event handler. TODO: support multiple event handlers
@@ -531,7 +532,8 @@ void SjImgThread::CleanupRamCache(long cacheLeaveBytes)
 }
 
 
-SjImgThreadObjList::Node* SjImgThread::SearchImg( SjImgThreadObjList&   anchor,
+SjImgThreadObjList::Node* SjImgThread::SearchImg(
+        SjImgThreadObjList&   anchor,
         const wxString&       url,
         unsigned long         timestamp,
         const SjImgOp&        op,
