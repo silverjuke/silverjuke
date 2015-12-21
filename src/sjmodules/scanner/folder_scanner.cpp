@@ -235,16 +235,11 @@ void SjFolderSettingsDialog::EnableDisable()
 			wxWindow*   child = childNode->GetData();
 			int         childId = child->GetId();
 
-			if( child->GetClassInfo()->GetClassName() == wxString(wxT("wxStaticBox"))
-			 && child->GetLabel() == _("State") )
-			{
-				break;
-			}
-
 			if( childId != wxID_OK
 			 && childId != wxID_CANCEL
 			 && childId != IDC_ENABLECHECK
-			 && childId != IDC_STATICBOX )
+			 && childId != IDC_STATICBOX
+			 && !wxString(child->GetClassInfo()->GetClassName()).StartsWith("wxStatic") )
 			{
 				child->Enable(enable);
 			}

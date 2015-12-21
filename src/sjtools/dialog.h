@@ -158,7 +158,6 @@ public:
 	wxSizer*        m_sizer;
 	wxCheckBox*     m_checkBox;
 	wxSpinCtrl*     m_spinCtrl;
-	wxStaticText*   m_staticText;
 
 private:
 	bool            m_backupedCheckValValid;
@@ -182,7 +181,7 @@ public:
 	                                     long curr, long min, long max);
 	long            GetValue            () { return m_slider->GetValue(); }
 	void            SetValue            (long v) { m_slider->SetValue(v); Update(); }
-	void            Enable              (bool e) { m_slider->Enable(e); m_label->Enable(e); }
+	void            Enable              (bool e) { m_slider->Enable(e); }
 
 	// Update() should be called on slider events
 	void            Update              () { m_label->SetLabel(RenderLabel(GetValue())); }

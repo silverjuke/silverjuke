@@ -19,9 +19,15 @@
  *
  *******************************************************************************
  *
- * File:    dialogsj.cpp
+ * File:    dialog.cpp
  * Authors: Björn Petersen
  * Purpose: Dialog base-classes
+  *
+ *******************************************************************************
+ *
+ * NB: We avoid disable non-exitable controls as wxStaticText as this may look
+ * ugly on some OS (OS X, some Windows versions).  Moreover, this also may saves
+ * complexity esp. for nested check boxes.
  *
  ******************************************************************************/
 
@@ -467,7 +473,6 @@ SjDlgCheckCtrl::SjDlgCheckCtrl()
 {
 	m_checkBox  = NULL;
 	m_spinCtrl  = NULL;
-	m_staticText= NULL;
 }
 
 
@@ -511,9 +516,7 @@ void SjDlgCheckCtrl::Create(wxWindow* parentWindow, wxSizer* parentSizer,
 	                            ctrlMin, ctrlMax, intCtrlVal);
 	m_sizer->Add(m_spinCtrl, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 
-	m_staticText = new wxStaticText(parentWindow, -1,
-	                                text.AfterFirst('%').Mid(1).Trim(FALSE));
-	m_sizer->Add(m_staticText, 0, wxALIGN_CENTER_VERTICAL);
+	m_sizer->Add(new wxStaticText(parentWindow, -1, text.AfterFirst('%').Mid(1).Trim(FALSE)), 0, wxALIGN_CENTER_VERTICAL);
 }
 
 
@@ -521,7 +524,7 @@ void SjDlgCheckCtrl::Enable(bool enable)
 {
 	if( m_checkBox )
 	{
-		wxASSERT( m_spinCtrl && m_checkBox && m_staticText );
+		wxASSERT( m_spinCtrl && m_checkBox );
 
 		if( enable )
 		{
@@ -540,7 +543,6 @@ void SjDlgCheckCtrl::Enable(bool enable)
 
 		m_checkBox->Enable(enable);
 		m_spinCtrl->Enable(enable&&m_checkBox->IsChecked());
-		m_staticText->Enable(enable);
 	}
 }
 
@@ -1017,8 +1019,6 @@ void SjDlgControls::Enable(bool enable)
 	for( index = 0; index < iCount; index++ )
 	{
 		SjDlgCtrl& dc = m_ctrl[index];
-		if( dc.m_wndLabel )
-			dc.m_wndLabel->Enable(enable);
 
 		if( dc.m_wndCtrl )
 			dc.m_wndCtrl->Enable(enable);

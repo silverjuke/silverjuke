@@ -177,14 +177,9 @@ private:
 	void            UpdateVirtKeybdCtrls();
 	wxCheckBox*     m_virtKeybdInKiosk;
 	wxCheckBox*     m_virtKeybdOutsideKiosk;
-	wxStaticText*   m_virtKeybdTestLabel1;
-	wxStaticText*   m_virtKeybdTestLabel2;
-	wxStaticText*   m_virtKeybdLayoutLabel;
 	wxChoice*       m_virtKeybdLayout;
-	wxStaticText*   m_virtKeybdColourLabel;
 	wxChoice*       m_virtKeybdColour;
 	wxSlider*       m_virtKeybdTransp;
-	wxStaticText*   m_virtKeybdTranspLabel1;
 	wxStaticText*   m_virtKeybdTranspLabel2;
 	wxCheckBox*     m_virtKeybdHideCursor;
 	SjVirtKeybdTextCtrl*
@@ -205,7 +200,6 @@ private:
 	void            OnNumpadEditKeys    (wxCommandEvent&);
 	wxCheckBox*     m_numpadUseInKioskCheckBox;
 	wxCheckBox*     m_numpadUseOutsideKioskCheckBox;
-	wxStaticText*   m_numpadKeysLabel;
 	wxStaticText*   m_numpadKeysList;
 	wxButton*       m_numpadEditKeysButton;
 
@@ -222,7 +216,6 @@ private:
 	wxCheckBox*     m_creditSaveCheckBox;
 	wxCheckBox*     m_creditDDECheckBox;
 	wxButton*       m_creditShortcutEditButton;
-	wxStaticText*   m_creditCurrLabel;
 	wxSpinCtrl*     m_creditCurrSpinCtrl;
 
 	// Common
@@ -1213,9 +1206,7 @@ wxPanel* SjKioskConfigPage::CreateVirtKeybdPage(wxWindow* parent)
 	sizer1->Add(sizer2, 0, wxLEFT|wxBOTTOM|wxRIGHT, SJ_DLG_SPACE);
 
 	// test field
-	m_virtKeybdTestLabel1 = new wxStaticText(m_tempPanel, -1,
-	        _("Test:"));
-	sizer2->Add(m_virtKeybdTestLabel1, 0, wxALIGN_CENTER_VERTICAL);
+	sizer2->Add(new wxStaticText(m_tempPanel, -1, _("Test:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	wxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
 	sizer2->Add(sizer3, 0, wxALIGN_CENTER_VERTICAL);
@@ -1224,15 +1215,10 @@ wxPanel* SjKioskConfigPage::CreateVirtKeybdPage(wxWindow* parent)
 	m_virtKeybdTest->SetForceForTesting();
 	sizer3->Add(m_virtKeybdTest, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
 
-	m_virtKeybdTestLabel2 = new wxStaticText(m_tempPanel, -1,
-	        _("(please click into the text control)"));
-	sizer3->Add(m_virtKeybdTestLabel2, 0, wxALIGN_CENTER_VERTICAL);
-
+	sizer3->Add(new wxStaticText(m_tempPanel, -1, _("(please click into the text control)")), 0, wxALIGN_CENTER_VERTICAL);
 
 	// layout selection
-	m_virtKeybdLayoutLabel = new wxStaticText(m_tempPanel, -1,
-	        _("Virtual keyboard layout:"));
-	sizer2->Add(m_virtKeybdLayoutLabel, 0, wxALIGN_CENTER_VERTICAL);
+	sizer2->Add(new wxStaticText(m_tempPanel, -1, _("Virtual keyboard layout:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	m_virtKeybdLayout = new wxChoice(m_tempPanel, IDC_VIRTKEYBD_LAYOUT);
 	SjArrayVirtKeybdLayout layouts;
@@ -1257,9 +1243,7 @@ wxPanel* SjKioskConfigPage::CreateVirtKeybdPage(wxWindow* parent)
 	sizer2->Add(m_virtKeybdLayout, 0, wxALIGN_CENTER_VERTICAL);
 
 	// colour setting
-	m_virtKeybdColourLabel = new wxStaticText(m_tempPanel, -1,
-	        _("Colour:"));
-	sizer2->Add(m_virtKeybdColourLabel, 0, wxALIGN_CENTER_VERTICAL);
+	sizer2->Add(new wxStaticText(m_tempPanel, -1, _("Colour:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	m_virtKeybdColour = new wxChoice(m_tempPanel, IDC_VIRTKEYBD_COLOUR);
 	m_virtKeybdColour->Append(_("Black"));
@@ -1271,8 +1255,7 @@ wxPanel* SjKioskConfigPage::CreateVirtKeybdPage(wxWindow* parent)
 	// transparency setting
 	if( g_tools->CanSetWindowTransparency() )
 	{
-		m_virtKeybdTranspLabel1 = new wxStaticText(m_tempPanel, -1, _("Transparency:"));
-		sizer2->Add(m_virtKeybdTranspLabel1, 0, wxALIGN_CENTER_VERTICAL);
+		sizer2->Add(new wxStaticText(m_tempPanel, -1, _("Transparency:")), 0, wxALIGN_CENTER_VERTICAL);
 
 		sizer3 = new wxBoxSizer(wxHORIZONTAL);
 		sizer2->Add(sizer3, 0, wxALIGN_CENTER_VERTICAL);
@@ -1289,7 +1272,6 @@ wxPanel* SjKioskConfigPage::CreateVirtKeybdPage(wxWindow* parent)
 	else
 	{
 		m_virtKeybdTransp = NULL;
-		m_virtKeybdTranspLabel1 = NULL;
 		m_virtKeybdTranspLabel2 = NULL;
 	}
 
@@ -1334,23 +1316,16 @@ void SjKioskConfigPage::UpdateVirtKeybdCtrls()
 
 	// virtual keyboard settings
 
-	m_virtKeybdLayoutLabel->Enable(useInKiosk);
 	m_virtKeybdLayout->Enable(useInKiosk);
 
-	m_virtKeybdColourLabel->Enable(useInKiosk);
 	m_virtKeybdColour->Enable(useInKiosk);
 
 	if( m_virtKeybdTransp )
 	{
-		m_virtKeybdTranspLabel1->Enable(useInKiosk);
-		m_virtKeybdTranspLabel2->Enable(useInKiosk);
 		m_virtKeybdTransp->Enable(useInKiosk);
 	}
 
-	m_virtKeybdTestLabel1->Enable(useInKiosk);
 	m_virtKeybdTest->Enable(useInKiosk);
-
-	m_virtKeybdTestLabel2->Enable(useInKiosk);
 }
 
 
@@ -1477,8 +1452,7 @@ wxPanel* SjKioskConfigPage::CreateNumpadPage(wxWindow* parent)
 	sizer1->Add(sizer2, 0, wxLEFT|wxBOTTOM|wxRIGHT, SJ_DLG_SPACE);
 
 	// keys overview
-	m_numpadKeysLabel = new wxStaticText(m_tempPanel, -1, _("Keys:"));
-	sizer2->Add(m_numpadKeysLabel, 0, wxALIGN_CENTER_VERTICAL);
+	sizer2->Add(new wxStaticText(m_tempPanel, -1, _("Keys:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	int idt;
 	wxString allKeys;
@@ -1546,8 +1520,6 @@ void SjKioskConfigPage::UpdateNumpadCtrls()
 	bool useNumpad = m_numpadUseInKioskCheckBox->IsChecked();
 
 	m_numpadUseOutsideKioskCheckBox->Enable(useNumpad);
-	m_numpadKeysLabel->Enable(useNumpad);
-	m_numpadKeysList->Enable(useNumpad);
 	m_numpadEditKeysButton->Enable(useNumpad);
 }
 
@@ -1638,9 +1610,7 @@ wxPanel* SjKioskConfigPage::CreateCreditPage(wxWindow* parent)
 	sizer2 = new wxBoxSizer(wxHORIZONTAL);
 	sizer1->Add(sizer2, 0, wxLEFT|wxBOTTOM|wxRIGHT, SJ_DLG_SPACE);
 
-	m_creditCurrLabel = new wxStaticText(m_tempPanel, -1,
-	                                     _("Current credit:"));
-	sizer2->Add(m_creditCurrLabel, 0, wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
+	sizer2->Add(new wxStaticText(m_tempPanel, -1, _("Current credit:")), 0, wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE);
 
 	m_creditCurrSpinCtrl = AddSpinCtrl(sizer2, g_kioskModule->m_creditBase.GetCredit(), 0, 9999, IDC_CREDIT_CURR);
 
@@ -1663,7 +1633,6 @@ void SjKioskConfigPage::UpdateCreditCtrls()
 
 	m_creditShortcutEditButton->Enable(creditSystemEnabled && creditDDEEnabled);
 
-	m_creditCurrLabel->Enable(creditSystemEnabled);
 	m_creditCurrSpinCtrl->Enable(creditSystemEnabled);
 }
 

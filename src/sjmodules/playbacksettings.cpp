@@ -110,7 +110,6 @@ private:
 	#define         DESVOL_MULTIPLIER   10.0F
 	double          m_orgDesVol;
 	wxSlider*       m_desVolSlider;
-	wxStaticText*   m_desVolLabel;
 	wxStaticText*   m_desVolText;
 	void            UpdateDesVol        (bool saveToGainTool);
 	void            OnDesVolSlider      (wxScrollEvent&) { UpdateDesVol(TRUE); }
@@ -119,7 +118,6 @@ private:
 	#define         MAXGAIN_MULTIPLIER  10.0F
 	double          m_orgMaxGain;
 	wxSlider*       m_maxGainSlider;
-	wxStaticText*   m_maxGainLabel;
 	wxStaticText*   m_maxGainText;
 	void            UpdateMaxGain       (bool saveToGainTool);
 	void            OnMaxGainSlider     (wxScrollEvent&) { UpdateMaxGain(TRUE); }
@@ -241,8 +239,7 @@ SjAutovolDlg::SjAutovolDlg(wxWindow* parent)
 	sizer2->Add(sizer3, 0, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	// desired volume
-	m_desVolLabel = new wxStaticText(this, -1, _("Desired volume:"));
-	sizer3->Add(m_desVolLabel, 0, wxALIGN_CENTER_VERTICAL);
+	sizer3->Add(new wxStaticText(this, -1, _("Desired volume:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	long desVol = (long)(SjGain2Decibel(m_orgDesVol)*DESVOL_MULTIPLIER);
 	m_desVolSlider = new wxSlider(this, IDC_DESVOLSLIDER,
@@ -257,8 +254,7 @@ SjAutovolDlg::SjAutovolDlg(wxWindow* parent)
 	sizer3->Add(m_desVolText, 0, wxALIGN_CENTER_VERTICAL);
 
 	// max gain
-	m_maxGainLabel = new wxStaticText(this, -1, _("Max. gain:"));
-	sizer3->Add(m_maxGainLabel, 0, wxALIGN_CENTER_VERTICAL);
+	sizer3->Add(new wxStaticText(this, -1, _("Max. gain:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	long maxGain = (long)(SjGain2Decibel(m_orgMaxGain)*MAXGAIN_MULTIPLIER);
 	m_maxGainSlider = new wxSlider(this, IDC_MAXGAINSLIDER,
@@ -366,11 +362,7 @@ void SjAutovolDlg::EnableDisable()
 	bool e = m_enabledCheck->IsChecked();
 	m_useAlbumVolCheck->Enable(e);
 	m_maxGainSlider->Enable(e);
-	m_maxGainLabel->Enable(e);
-	m_maxGainText->Enable(e);
 	m_desVolSlider->Enable(e);
-	m_desVolLabel->Enable(e);
-	m_desVolText->Enable(e);
 	m_resetButton->Enable(e);
 }
 
@@ -872,8 +864,6 @@ private:
 	void            CloseAutoCtrlPage   (bool apply, bool& needsReplay);
 	SjDlgCheckCtrl  m_autoPlayWait;
 	wxSpinCtrl*     m_autoPlayTracks;
-	wxStaticText*   m_autoPlayTracksStatic1;
-	wxStaticText*   m_autoPlayTracksStatic2;
 	wxChoice*       m_autoPlayMusicSelChoice;
 	wxButton*       m_autoPlayMusicSelButton;
 	wxCheckBox*     m_autoPlayMusicSelIgnoreCheck;
@@ -904,14 +894,10 @@ private:
 	void            CloseJinglePage     (bool apply, bool& needsReplay);
 	wxCheckBox*     m_jingleEveryCheck;
 	wxSpinCtrl*     m_jingleEveryMinutesSpin;
-	wxStaticText*   m_jingleEveryStaticA;
-	wxStaticText*   m_jingleEveryStaticB;
 	wxChoice*       m_jingleEveryMusicSelChoice;
 	wxButton*       m_jingleEveryMusicSelButton;
 	wxCheckBox*     m_jingleAtCheck[SJ_JINGLE_AT_CNT];
 	wxTextCtrl*     m_jingleAtTextCtrl[SJ_JINGLE_AT_CNT];
-	wxStaticText*   m_jingleAtStaticA[SJ_JINGLE_AT_CNT];
-	wxStaticText*   m_jingleAtStaticB[SJ_JINGLE_AT_CNT];
 	wxChoice*       m_jingleAtMusicSelChoice[SJ_JINGLE_AT_CNT];
 	wxButton*       m_jingleAtMusicSelButton[SJ_JINGLE_AT_CNT];
 	wxCheckBox*     m_jingleAtDailyCheck[SJ_JINGLE_AT_CNT];
@@ -1394,8 +1380,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 
 	sizer2->Add(SJ_DLG_SPACE*6, SJ_DLG_SPACE);
 
-	m_autoPlayTracksStatic1 = new wxStaticText(page, -1, optionText.BeforeFirst('%').Trim());
-	sizer2->Add(m_autoPlayTracksStatic1,
+	sizer2->Add(new wxStaticText(page, -1, optionText.BeforeFirst('%').Trim()),
 	            0, wxALIGN_CENTER_VERTICAL);
 	optionText = optionText.AfterFirst('%').Mid(1).Trim(FALSE);
 
@@ -1407,8 +1392,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateAutoCtrlPage(wxWindow* parent)
 	                                  SJ_AUTOCTRL_MIN_AUTOPLAYNUMTRACKS, SJ_AUTOCTRL_MAX_AUTOPLAYNUMTRACKS, numTracks);
 	sizer2->Add(m_autoPlayTracks, 0, wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 
-	m_autoPlayTracksStatic2 = new wxStaticText(page, -1, optionText.BeforeFirst('%').Trim());
-	sizer2->Add(m_autoPlayTracksStatic2,
+	sizer2->Add(new wxStaticText(page, -1, optionText.BeforeFirst('%').Trim()),
 	            0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 	// auto play: music selection
@@ -1595,9 +1579,7 @@ void SjPlaybackSettingsConfigPage::UpdateAutoCtrlChecksE()
 	m_autoPlayWait.Update();
 
 	bool autoPlayWaitChecked = m_autoPlayWait.IsChecked();
-	m_autoPlayTracksStatic1->Enable(autoPlayWaitChecked);
 	m_autoPlayTracks->Enable(autoPlayWaitChecked);
-	m_autoPlayTracksStatic2->Enable(autoPlayWaitChecked);
 	m_autoPlayMusicSelChoice->Enable(autoPlayWaitChecked);
 	m_autoPlayMusicSelButton->Enable(autoPlayWaitChecked);
 
@@ -1759,8 +1741,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateJinglePage(wxWindow* parent)
 		                                        SJ_JINGLE_MIN_MINUTES, SJ_JINGLE_MAX_MINUTES, a->m_jingleEvery);
 		sizer2->Add(m_jingleEveryMinutesSpin, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-		m_jingleEveryStaticA = new wxStaticText(page, -1, _("minutes,"));
-		sizer2->Add(m_jingleEveryStaticA, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+		sizer2->Add(new wxStaticText(page, -1, _("minutes,")), 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 	// Add the following controls: [X] play a jingle from the music selection [Jingles  ][v]
 	sizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -1768,8 +1749,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateJinglePage(wxWindow* parent)
 
 		sizer2->Add(SJ_DLG_SPACE*6, SJ_DLG_SPACE);
 
-		m_jingleEveryStaticB = new wxStaticText(page, -1, _("play a track from the music selection"));
-		sizer2->Add(m_jingleEveryStaticB, 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+		sizer2->Add(new wxStaticText(page, -1, _("play a track from the music selection")), 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 		m_jingleEveryMusicSelChoice = new wxChoice(page, -1, wxDefaultPosition, wxSize(200, -1));
 		sizer2->Add(m_jingleEveryMusicSelChoice, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
@@ -1793,8 +1773,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateJinglePage(wxWindow* parent)
 			m_jingleAtTextCtrl[i] = new wxTextCtrl(page, -1, FormatMinutes(a->m_jingleAt[i], SJ_SLEEPMODE_TIMEMODE_AT), wxDefaultPosition, wxSize(SJ_4DIG_SPINCTRL_W, -1));
 			sizer2->Add(m_jingleAtTextCtrl[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
-			m_jingleAtStaticA[i] = new wxStaticText(page, -1, _("o'clock,"));
-			sizer2->Add(m_jingleAtStaticA[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+			sizer2->Add(new wxStaticText(page, -1, _("o'clock,")), 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 		// Add the following controls: [X] play a jingle from the music selection [Jingle  ][v]
 		sizer2 = new wxBoxSizer(wxHORIZONTAL);
@@ -1802,8 +1781,7 @@ wxPanel* SjPlaybackSettingsConfigPage::CreateJinglePage(wxWindow* parent)
 
 			sizer2->Add(SJ_DLG_SPACE*6, SJ_DLG_SPACE);
 
-			m_jingleAtStaticB[i] = new wxStaticText(page, -1, _("play a track from the music selection"));
-			sizer2->Add(m_jingleAtStaticB[i], 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
+			sizer2->Add(new wxStaticText(page, -1, _("play a track from the music selection")), 0, wxALIGN_CENTER_VERTICAL|wxRIGHT, SJ_DLG_SPACE);
 
 			m_jingleAtMusicSelChoice[i] = new wxChoice(page, -1, wxDefaultPosition, wxSize(200, -1));
 			sizer2->Add(m_jingleAtMusicSelChoice[i], 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
@@ -1840,9 +1818,7 @@ void SjPlaybackSettingsConfigPage::EnableDisableJingle()
 	bool enabled = m_jingleEveryCheck->IsChecked();
 
 	m_jingleEveryMinutesSpin->Enable(enabled);
-	m_jingleEveryStaticA->Enable(enabled);
 
-	m_jingleEveryStaticB->Enable(enabled);
 	m_jingleEveryMusicSelChoice->Enable(enabled);
 	m_jingleEveryMusicSelButton->Enable(enabled);
 
@@ -1851,9 +1827,7 @@ void SjPlaybackSettingsConfigPage::EnableDisableJingle()
 		enabled = m_jingleAtCheck[i]->IsChecked();
 
 		m_jingleAtTextCtrl[i]->Enable(enabled);
-		m_jingleAtStaticA[i]->Enable(enabled);
 
-		m_jingleAtStaticB[i]->Enable(enabled);
 		m_jingleAtMusicSelChoice[i]->Enable(enabled);
 		m_jingleAtMusicSelButton[i]->Enable(enabled);
 
