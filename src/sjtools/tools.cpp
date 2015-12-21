@@ -2224,9 +2224,6 @@ void SjTools::DrawBitmapHBg(wxDC& dc,
 		return;
 	}
 
-	wxRect oldClipping;
-	dc.GetClippingBox(&oldClipping.x, &oldClipping.y, &oldClipping.width, &oldClipping.height);
-
 	// draw!
 	bool   clippingSet = FALSE;
 	wxRect currRect = drawRect;
@@ -2254,10 +2251,6 @@ void SjTools::DrawBitmapHBg(wxDC& dc,
 			if( clippingSet )
 			{
 				dc.DestroyClippingRegion();
-				if( oldClipping.width && oldClipping.height )
-				{
-					dc.SetClippingRegion(oldClipping);
-				}
 				clippingSet = FALSE;
 			}
 		}
@@ -2278,10 +2271,6 @@ void SjTools::DrawBitmapHBg(wxDC& dc,
 			if( clippingSet )
 			{
 				dc.DestroyClippingRegion();
-				if( oldClipping.width && oldClipping.height )
-				{
-					dc.SetClippingRegion(oldClipping);
-				}
 				clippingSet = FALSE;
 			}
 		}
@@ -2305,10 +2294,6 @@ void SjTools::DrawBitmapHBg(wxDC& dc,
 				if( clippingSet )
 				{
 					dc.DestroyClippingRegion();
-					if( oldClipping.width && oldClipping.height )
-					{
-						dc.SetClippingRegion(oldClipping);
-					}
 					clippingSet = FALSE;
 				}
 			}
@@ -2350,9 +2335,6 @@ void SjTools::DrawBitmapVBg(wxDC& dc,
 		return;
 	}
 
-	wxRect oldClipping;
-	dc.GetClippingBox(&oldClipping.x, &oldClipping.y, &oldClipping.width, &oldClipping.height);
-
 	// draw!
 	bool   clippingSet = FALSE;
 	wxRect currRect = drawRect;
@@ -2380,10 +2362,6 @@ void SjTools::DrawBitmapVBg(wxDC& dc,
 			if( clippingSet )
 			{
 				dc.DestroyClippingRegion();
-				if( oldClipping.width && oldClipping.height )
-				{
-					dc.SetClippingRegion(oldClipping);
-				}
 				clippingSet = FALSE;
 			}
 		}
@@ -2404,10 +2382,6 @@ void SjTools::DrawBitmapVBg(wxDC& dc,
 			if( clippingSet )
 			{
 				dc.DestroyClippingRegion();
-				if( oldClipping.width && oldClipping.height )
-				{
-					dc.SetClippingRegion(oldClipping);
-				}
 				clippingSet = FALSE;
 			}
 		}
@@ -2431,10 +2405,6 @@ void SjTools::DrawBitmapVBg(wxDC& dc,
 				if( clippingSet )
 				{
 					dc.DestroyClippingRegion();
-					if( oldClipping.width && oldClipping.height )
-					{
-						dc.SetClippingRegion(oldClipping);
-					}
 					clippingSet = FALSE;
 				}
 			}

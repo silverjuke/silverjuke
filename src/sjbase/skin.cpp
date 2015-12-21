@@ -320,9 +320,10 @@ void SjSkinItem::RedrawMe()
 
 		if( !drawDone )
 		{
-			// ...drawing onscreen, faster but with flickering
-			dc.DestroyClippingRegion();
-			dc.SetClippingRegion(m_rect);
+			// ...drawing onscreen, faster but with flickering.
+			// We do not call dc.SetClippingRegion(m_rect) as nested clippings via GetClippingBox() do not work well
+			// and the dc.SetClippingRegion() is needed by the called classes
+			// (dc.SetClippingRegion() should only be used in the last iteration before _really_ drawing).
 			HideDragImage();
 			m_skinWindow->RedrawAll(dc, &m_rect);
 			m_skinWindow->RedrawFinalLines(dc);
@@ -605,9 +606,6 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 
 	// set clipping
 	#ifdef SJ_BOXTEXT_WITH_CLIPPING
-		wxRect oldClipping;
-		dc.GetClippingBox(&oldClipping.x, &oldClipping.y, &oldClipping.width, &oldClipping.height);
-		dc.DestroyClippingRegion();
 		dc.SetClippingRegion(m_rect);
 	#endif
 
@@ -812,10 +810,6 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 	// restore clipping/font
 	#ifdef SJ_BOXTEXT_WITH_CLIPPING
 		dc.DestroyClippingRegion();
-		if( oldClipping.width && oldClipping.height )
-		{
-			dc.SetClippingRegion(oldClipping);
-		}
 	#endif
 
 	// set normal font, release our font from DC
