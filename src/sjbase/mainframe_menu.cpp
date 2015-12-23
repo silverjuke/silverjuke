@@ -49,6 +49,15 @@ void SjMainFrame::AllocMainMenu()
 	// More menu entries are set in InitMainMenu() when eg. all modules are
 	// loaded.
 
+	// set up operating-system specific stuff, should be done before the menu bar is really created
+	#ifdef __WXMAC__
+		wxApp::s_macHelpMenuTitleName = _("Help");
+		wxApp::s_macAboutMenuItemId = IDO_ABOUT;
+		wxApp::s_macPreferencesMenuItemId = IDT_SETTINGS;
+		wxApp::s_macExitMenuItemId = IDT_QUIT;
+	#endif
+
+	// create menu bar
 	m_menuBar = new wxMenuBar();
 
 	m_fileMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
@@ -77,14 +86,6 @@ void SjMainFrame::InitMainMenu()
 
 	if( m_menuBar )
 	{
-		// mac specific
-
-		#ifdef __WXMAC__
-		wxApp::s_macHelpMenuTitleName = _("Help");
-		wxApp::s_macAboutMenuItemId = IDO_ABOUT;
-		wxApp::s_macExitMenuItemId = IDT_QUIT;
-		#endif
-
 		// file menu - do not update as there are problems with the MAC-specific items
 
 		if( !m_menuBarComplete )

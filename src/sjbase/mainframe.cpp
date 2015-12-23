@@ -1093,7 +1093,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	m_iconBundle.AddIcon(wxIcon(xpm_sj_16));
 	SetIcons(m_iconBundle);
 
-	/* (/) Set main menu (mainly used by OS X)
+	/* (/) Set main menu
 	 */
 	AllocMainMenu();
 
