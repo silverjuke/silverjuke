@@ -1334,19 +1334,19 @@ SjAdvSearchDialog::SjAdvSearchDialog(long preselectId)
 	m_mainSizer->Add(sizer2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	m_menuButton = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
-	sizer2->Add(m_menuButton, 0, wxRIGHT, SJ_DLG_SPACE);
+	sizer2->Add(m_menuButton, 0, wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	sizer2->Add(1,
 	            1,
 	            1, wxGROW, 0);
 
 	m_startSearchButton = new wxButton(this, wxID_OK, _("Search"));
-	sizer2->Add(m_startSearchButton, 0, wxRIGHT, SJ_DLG_SPACE);
+	sizer2->Add(m_startSearchButton, 0, wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	m_endSearchButton = new wxButton(this, IDC_ENDADVSEARCH, _("End search"));
-	sizer2->Add(m_endSearchButton, 0, wxRIGHT, SJ_DLG_SPACE);
+	sizer2->Add(m_endSearchButton, 0, wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
-	sizer2->Add(new wxButton(this, wxID_CANCEL, _("Close")));
+	sizer2->Add(new wxButton(this, wxID_CANCEL, _("Close")), 0, wxBOTTOM, SJ_DLG_SPACE);
 
 	// check the search in edit
 	SjAdvSearch recentSearch;

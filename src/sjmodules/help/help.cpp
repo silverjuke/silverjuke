@@ -95,7 +95,7 @@ SjHelpDialog::SjHelpDialog(SjHelpModule* helpModule, wxWindow* parent)
 
 	// add close button
 	wxButton* cancelButton = new wxButton(this, wxID_CANCEL,  _("Close"));
-	buttonSizer->Add(cancelButton);
+	buttonSizer->Add(cancelButton, 0, wxBOTTOM, SJ_DLG_SPACE);
 
 	// set default button, set size hints
 	cancelButton->SetDefault();

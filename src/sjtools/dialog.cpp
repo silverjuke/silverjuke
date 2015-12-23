@@ -112,7 +112,7 @@ wxSizer* SjDialog::CreateButtons(wxWindow* this_, long flags,
 
 		b = new wxButton(this_, IDC_NEXTDLGPAGE, wxT(">>"), wxDefaultPosition,  wxSize(BUTTON_W, -1));
 		if( !nextTitle.IsEmpty() ) { b->SetToolTip(nextTitle); }
-		buttonSizer->Add(b, 0, wxRIGHT, SJ_DLG_SPACE);
+		buttonSizer->Add(b, 0, wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 	}
 
 	buttonSizer->Add(1,
@@ -122,13 +122,13 @@ wxSizer* SjDialog::CreateButtons(wxWindow* this_, long flags,
 	if( flags & SJ_DLG_OK )
 	{
 		buttonDefault = new wxButton(this_, wxID_OK, okTitle.IsEmpty()? wxString(_("OK")) : okTitle);
-		buttonSizer->Add(buttonDefault, 0, 0, SJ_DLG_SPACE);
+		buttonSizer->Add(buttonDefault, 0, wxBOTTOM, SJ_DLG_SPACE);
 	}
 
 	if( flags & SJ_DLG_CANCEL )
 	{
 		b = new wxButton(this_, wxID_CANCEL,  cancelTitle.IsEmpty()? wxString(_("Cancel")) : cancelTitle);
-		buttonSizer->Add(b, 0, wxLEFT, SJ_DLG_SPACE);
+		buttonSizer->Add(b, 0, wxLEFT|wxBOTTOM, SJ_DLG_SPACE);
 	}
 
 	// finally, set the default button. do it last to avoid
