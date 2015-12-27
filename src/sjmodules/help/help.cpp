@@ -185,7 +185,7 @@ wxString SjHelpDialog::GetAboutTopic() const
 		ret += wxT("<p>http://www.silverjuke.net</p>");
 	}
 
-	ret += wxT("<p>Copyright &copy; 2015 Bj&ouml;rn Petersen Software Design and Development</p>")
+	ret += wxT("<p>Copyright &copy; 2016 Bj&ouml;rn Petersen Software Design and Development</p>")
 	      wxT("<p><a href=\"page:3\">Credits and License notes...</a></p>")
 	      wxT("</center>");
 
