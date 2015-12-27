@@ -696,6 +696,8 @@ void SjListBrowser::OnMouseSelect(wxMouseEvent& event)
 		g_mainFrame->m_columnMixer.SelectAll(FALSE);
 		RefreshSelection();
 	}
+
+	g_mainFrame->m_libraryModule->UpdateMenuBar();
 }
 
 
@@ -879,6 +881,8 @@ void SjListBrowser::OnMouseMiddleUp(wxMouseEvent& event)
 	{
 		event.Skip();
 	}
+
+	g_mainFrame->m_libraryModule->UpdateMenuBar();
 }
 
 
@@ -1145,6 +1149,8 @@ void SjListBrowser::OnContextMenu(int clickX, int clickY)
 		m_columnDragIndex = -1;
 		m_window->Refresh(false, &m_headerRect);
 	}
+
+	g_mainFrame->m_libraryModule->UpdateMenuBar();
 }
 void SjListBrowser::OnContextMenuSelect(int id)
 {
@@ -1160,7 +1166,11 @@ void SjListBrowser::OnContextMenuSelect(int id)
 			InitCols();
 			CalcRefreshNUpdateHeaderNTracks();
 		}
-		UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
+
+		if( g_mainFrame->m_viewMenu )
+		{
+			UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
+		}
 	}
 	else if( id>=IDC_FIRST_COL_ID && id<=IDC_LAST_COL_ID )
 	{
@@ -1187,7 +1197,11 @@ void SjListBrowser::OnContextMenuSelect(int id)
 			}
 			CalcRefreshNUpdateHeaderNTracks();
 		}
-		UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
+
+		if( g_mainFrame->m_viewMenu )
+		{
+			UpdateItemsInColMenu(g_mainFrame->m_viewMenu);
+		}
 	}
 	else
 	{
@@ -1579,6 +1593,7 @@ bool SjListBrowser::DoChangeSelection(long dir, bool selectShifted)
 
 		ScrollOneLineInView(newPos);
 		RefreshSelection();
+		g_mainFrame->m_libraryModule->UpdateMenuBar();
 		return true;
 	}
 
@@ -1629,6 +1644,7 @@ bool SjListBrowser::DoChangeSelection(long dir, bool selectShifted)
 
 	m_listView->SelectTrack(newPos, true);
 	RefreshSelection();
+	g_mainFrame->m_libraryModule->UpdateMenuBar();
 
 	return true;
 }
