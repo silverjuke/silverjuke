@@ -117,7 +117,11 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("More from current album"),        IDT_MORE_FROM_CURR_ALBUM,  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'J');
 	OrgCmd(_("More from current artist"),       IDT_MORE_FROM_CURR_ARTIST, SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'K');
 	OrgCmd(_("Edit tracks/Get info..."),        IDM_EDITSELECTION,         SJA_MAIN|SJA_EDIT);OrgKey(wxACCEL_CTRL, 'I');
-	OrgCmd(_("Play"),                           IDT_PLAY,                  SJA_MAIN);        OrgKey(0, WXK_PAUSE); OrgKey(0, WXK_SPACE); // if we move this above WXK_PAUSE, entering spaced in the search field will fail - why?
+	OrgCmd(_("Play"),                           IDT_PLAY,                  SJA_MAIN);        
+                                                                                             #ifndef __WXMAC__
+	                                                                                         OrgKey(0, WXK_PAUSE);
+																							 #endif
+	                                                                                         OrgKey(0, WXK_SPACE); // if we move this above WXK_PAUSE, entering spaced in the search field will fail - why?
 	OrgCmd(_("Pause"),                          IDT_PAUSE, SJA_UNEDITABLE); // same shortcut as IDT_PLAY
 	OrgCmd(_("Stop"),                           IDT_STOP,                  SJA_MAIN);        OrgKey(wxACCEL_SHIFT, WXK_SPACE);
 	OrgCmd(_("Stop after this track"),          IDT_STOP_AFTER_THIS_TRACK, SJA_MAIN);
@@ -143,7 +147,11 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Always on top"),                  IDT_ALWAYS_ON_TOP,         SJA_MAIN);
 	OrgCmd(_("Show file"),                      IDM_EXPLORE,               SJA_MAIN|SJA_ART);
 	OrgCmd(_("Kiosk mode"),                     IDT_TOGGLE_KIOSK,          SJA_MAIN|SJA_KIOSKSETTINGS);
+                                                                                             #ifdef __WXMAC__
+	                                                                                         OrgKey(wxACCEL_ALT, 'K');
+                                                                                             #else
 	                                                                                         OrgKey(0, WXK_F11);
+																							 #endif
 	OrgCmd(_("Go to current track"),            IDT_GOTO_CURR,             SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'T');
 	OrgCmd(_("Go to marked track"),             IDO_GOTO_CURR_MARK,        SJA_MAIN|SJA_UNEDITABLE); // edit may be possible but does not make much sense as marking tracks in the display is very temporary and mostly only possible using the mouse+context menu
 	OrgCmd(_("Go to random album"),             IDT_WORKSPACE_GOTO_RANDOM, SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'R');
@@ -743,7 +751,7 @@ void SjLittleAccelOption::OnApply()
 				}
 
 				wxString label = item->GetItemLabelText(); // get item label without shortcut
-				wxString shortcut = g_accelModule->GetReadableShortcutByComprKey(key);
+				wxString shortcut = g_accelModule->GetReadableShortcutByComprKey(key, false);
 				if( !shortcut.IsEmpty() ) {
 					label += "\t" + shortcut;
 				}
@@ -1037,7 +1045,7 @@ wxAcceleratorTable SjAccelModule::GetAccelTable(long flags, wxAcceleratorEntry* 
 }
 
 
-wxString SjAccelModule::GetReadableShortcutByKey(long modifier, long keycode)
+wxString SjAccelModule::GetReadableShortcutByKey(long modifier, long keycode, bool useNativeSymbols)
 {
 	wxString ret;
 
@@ -1045,17 +1053,32 @@ wxString SjAccelModule::GetReadableShortcutByKey(long modifier, long keycode)
 	{
 		if( (modifier & wxACCEL_CTRL) )
 		{
-			ret += wxT("Ctrl+");
+			#ifdef __WXMAC__
+			if( useNativeSymbols )
+				ret += "\u2318";
+			else
+			#endif
+				ret += wxT("Ctrl+");
 		}
 
 		if( (modifier & wxACCEL_ALT) )
 		{
-			ret += wxT("Alt+");
+			#ifdef __WXMAC__
+			if( useNativeSymbols )
+				ret += "\u2325";
+			else
+			#endif
+				ret += wxT("Alt+");
 		}
 
 		if( (modifier & wxACCEL_SHIFT) )
 		{
-			ret += wxT("Shift+");
+			#ifdef __WXMAC__
+			if( useNativeSymbols )
+				ret += "\u21e7";
+			else
+			#endif
+				ret += wxT("Shift+");
 		}
 
 		wxString keyStr;
@@ -1344,7 +1367,7 @@ wxMenuItem* SjMenu::CreateMenuItem(int id, const wxString& text__, wxItemKind ki
 	// add shortcut to the text ("Open..." becomes "Open...\tCtrl+O")
 	if( m_showShortcuts )
 	{
-		wxString shortcut = g_accelModule->GetReadableShortcutByComprKey(key);
+		wxString shortcut = g_accelModule->GetReadableShortcutByComprKey(key, false);
 		if( !shortcut.IsEmpty() )
 		{
 			text << wxT("\t") << shortcut;

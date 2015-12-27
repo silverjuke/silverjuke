@@ -101,8 +101,8 @@ public:
 	int             KeyEvent2CmdIndex   (wxKeyEvent&, long flags);
 	int             KeyEvent2CmdId      (wxKeyEvent& e, long flags) { return m_cmd[KeyEvent2CmdIndex(e, flags)].m_id; }
 
-	static wxString GetReadableShortcutByKey (long modifier, long keycode);
-	static wxString GetReadableShortcutByComprKey (long key) { return GetReadableShortcutByKey(key>>16, key&0xFFFFL); }
+	static wxString GetReadableShortcutByKey (long modifier, long keycode, bool useNativeSymbols=true);
+	static wxString GetReadableShortcutByComprKey (long key, bool useNativeSymbols=true) { return GetReadableShortcutByKey(key>>16, key&0xFFFFL, useNativeSymbols); }
 
 	#define         SJ_SHORTCUTS_ADDALL     0x01
 	#define         SJ_SHORTCUTS_LOCAL      0x04
