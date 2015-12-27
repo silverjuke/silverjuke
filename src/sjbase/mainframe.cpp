@@ -329,7 +329,7 @@ bool SjMainFrame::UpdateIndex(wxWindow* parent, bool deepUpdate)
 			m_browser->ReloadColumnMixer();
 		}
 
-		InitMainMenu();
+		UpdateMainMenu();
 
 		inUpdate = FALSE;
 	}
@@ -960,12 +960,12 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	m_menuBar                       = NULL;
 	m_fileMenu                      = NULL;
 	m_editMenu                      = NULL;
+	m_editExtrasMenu                = NULL;
 	m_viewMenu                      = NULL;
+	m_viewColMenu                   = NULL;
 	m_playbackMenu                  = NULL;
 	m_kioskMenu                     = NULL;
 	m_helpMenu                      = NULL;
-	m_editMenu                      = NULL;
-	m_menuBarComplete               = FALSE;
 	m_haltedManually                = FALSE;
 	m_mainApp                       = mainApp;
 	m_browser                       = NULL;
@@ -1092,13 +1092,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	m_iconBundle.AddIcon(wxIcon(xpm_sj_32));
 	m_iconBundle.AddIcon(wxIcon(xpm_sj_16));
 	SetIcons(m_iconBundle);
-
-	/* (/) Set main menu
-	 */
-	AllocMainMenu();
-
-	/* (/) Show window
-	 */
 
 	// check whether to start minimized, some OS specials
 	bool startMinimized = (SjMainApp::s_cmdLine->Found(wxT("minimize")) || g_tools->m_config->Read(wxT("main/minimize"), 0L)!=0);
@@ -1261,8 +1254,9 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 
 	/* (/) Init main menu
 	 */
-	InitMainMenu();
+	CreateMainMenu();
 	SetMenuBar(m_menuBar);
+	UpdateMainMenu();
 
 	/* open files from the command line or resume
 	 */
@@ -1849,7 +1843,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				{
 					SjTools::ToggleFlag(g_accelModule->m_flags, SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS);
 					g_tools->m_config->Write(wxT("main/accelFlags"), g_accelModule->m_flags);
-					UpdateMenuBarView();
+					UpdateViewMenu();
 				}
 				break;
 
@@ -1923,7 +1917,11 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					SjTools::ToggleFlag(g_accelModule->m_flags, SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE);
 					g_tools->m_config->Write(wxT("main/accelFlags"), g_accelModule->m_flags);
 
-					m_playbackMenu->Check(IDO_START_PB_ON_ENQUEUE, (g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)!=0);
+					if( m_playbackMenu )
+					{
+						m_playbackMenu->Check(IDO_START_PB_ON_ENQUEUE, (g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)!=0);
+					}
+
 					SetDisplayMsg(_("Start playback on first enqueue")+wxString(wxT(": "))+((g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE)? _("On") : _("Off")), SDM_STATE_CHANGE_MS);
 				}
 				break;

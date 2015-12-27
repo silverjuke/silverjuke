@@ -170,21 +170,21 @@ static void addEntry(SEE_interpreter* interpr_, SjSeePersistent scope, int argc_
 IMPLEMENT_FUNCTION(program, addMenuEntry)
 {
 	addEntry(interpr_, SJ_PERSISTENT_MENU_ENTRY, argc_, argv_, res_);
-	g_mainFrame->InitMainMenu();
+	g_mainFrame->UpdateMainMenu();
 }
 
 
 IMPLEMENT_FUNCTION(program, addConfigButton)
 {
 	addEntry(interpr_, SJ_PERSISTENT_CONFIG_BUTTON, argc_, argv_, res_);
-	g_mainFrame->InitMainMenu();
+	g_mainFrame->UpdateMainMenu();
 }
 
 
 IMPLEMENT_FUNCTION(program, addSkinsButton) /*deprecated*/
 {
 	addEntry(interpr_, SJ_PERSISTENT_CONFIG_BUTTON, argc_, argv_, res_);
-	g_mainFrame->InitMainMenu();
+	g_mainFrame->UpdateMainMenu();
 }
 
 

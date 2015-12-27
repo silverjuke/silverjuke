@@ -3650,7 +3650,17 @@ void SjLibraryModule::CreateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool cre
 		editMenu->Append(IDM_EXPLORE);
 	}
 
-	g_mainFrame->AddScriptMenuEntries(*editMenu, createMainMenu);
+	if( !createMainMenu )
+	{
+		SjMenu* submenu = new SjMenu(0);
+		g_mainFrame->AddScriptMenuEntries(*submenu);
+		if( submenu->GetMenuItemCount() ) {
+			editMenu->Append(0, _("Extras"), submenu);
+		}
+		else {
+			delete submenu;
+		}
+	}
 }
 
 
@@ -3846,7 +3856,7 @@ void SjLibraryModule::UpdateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool upd
 void SjLibraryModule::UpdateMenuBar()
 {
 	if( g_mainFrame->m_playbackMenu
-	        && g_mainFrame->m_editMenu )
+	 && g_mainFrame->m_editMenu )
 	{
 		UpdateMenu(g_mainFrame->m_playbackMenu, g_mainFrame->m_editMenu, TRUE);
 	}

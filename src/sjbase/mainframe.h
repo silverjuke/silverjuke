@@ -194,26 +194,23 @@ public:
 
 	// Menu Stuff
 public:
-	void            AllocMainMenu       ();
-	void            InitMainMenu        ();
+	void            CreateMainMenu      ();
+	void            UpdateMainMenu      ();
 	void            CreateContextMenu_  (SjMenu&, bool embedFastSearch=FALSE);
 	void            CreatePlaybackMenu  (SjMenu*);
-	void            CreateKioskMenu     (SjMenu*);
-	void            CreateViewMenu      (SjMenu*);
+	void            UpdateViewMenu      ();
 	void            CreateUnqueueMenu   (SjMenu&);
 	void            CreateSearchMenu    (SjMenu&);
-	void            AddScriptMenuEntries(SjMenu&, bool addConfigButtons=false);
+	void            AddScriptMenuEntries(SjMenu&);
 	#if SJ_USE_TOOLTIPS
 	SjMainFrameToolTipProvider m_toolTipProvider;
 	SjToolTipProvider* GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) { m_toolTipProvider.m_targetId = targetId; m_toolTipProvider.m_subitem = subitem; m_toolTipProvider.m_rect = rect; return &m_toolTipProvider; }
 	#endif
-	SjMenu          *m_fileMenu, *m_editMenu, *m_viewMenu, *m_playbackMenu, *m_kioskMenu, *m_helpMenu;
-private:
+	SjMenu          *m_fileMenu, *m_editMenu, *m_editExtrasMenu, *m_viewMenu, *m_viewColMenu, *m_playbackMenu, *m_kioskMenu, *m_helpMenu;
 	wxMenuBar*      m_menuBar;
-	bool            m_menuBarComplete;
+private:
 	void            UpdateMenuBarValue  (int targetId, const SjSkinValue& v);
 	void            UpdateMenuBarQueue  ();
-	void            UpdateMenuBarView   ();
 
 	// Allowed Operations (in Kiosk Mode), see SJ_OP_* in skin.h
 public:

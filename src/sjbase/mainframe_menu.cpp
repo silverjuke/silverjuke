@@ -40,15 +40,8 @@
  ******************************************************************************/
 
 
-void SjMainFrame::AllocMainMenu()
+void SjMainFrame::CreateMainMenu()
 {
-	// This function just sets the menu titles,
-	// so that they are visible on load directly after showing the window.
-	// This function is called very soon - don't assume any modules to be loaded.
-	//
-	// More menu entries are set in InitMainMenu() when eg. all modules are
-	// loaded.
-
 	// set up operating-system specific stuff, should be done before the menu bar is really created
 	#ifdef __WXMAC__
 		wxApp::s_macHelpMenuTitleName = _("Help");
@@ -60,118 +53,120 @@ void SjMainFrame::AllocMainMenu()
 	// create menu bar
 	m_menuBar = new wxMenuBar();
 
+	// create menus
 	m_fileMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-	m_menuBar->Append(m_fileMenu, _("File"));
-
 	m_editMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-	m_menuBar->Append(m_editMenu, _("Edit"));
-
 	m_viewMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-	m_menuBar->Append(m_viewMenu, _("View"));
-
 	m_playbackMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-	m_menuBar->Append(m_playbackMenu, _("Playback"));
-
 	m_kioskMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-	m_menuBar->Append(m_kioskMenu, _("Kiosk mode"));
-
 	m_helpMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
+
+	// create "file" menu
+	m_fileMenu->Append(IDO_SETTINGS_ADDFILES, _("Add folders and files")+wxString(wxT("..."))); // same as "Settings", but makes things clearer
+	m_fileMenu->Append(IDT_UPDATE_INDEX);
+	m_fileMenu->AppendSeparator();
+	m_fileMenu->Append(IDT_OPEN_FILES);
+	m_fileMenu->Append(IDT_SAVE_PLAYLIST);
+	m_fileMenu->Append(IDT_UNQUEUE_ALL);
+	m_fileMenu->AppendSeparator();
+	m_fileMenu->Append(IDT_QUIT);
+
+	// create "edit" menu
+	m_libraryModule->CreateMenu(m_playbackMenu, m_editMenu, TRUE);
+	m_editExtrasMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
+	m_editMenu->Append(0, _("Extras"), m_editExtrasMenu);
+	m_editMenu->AppendSeparator();
+	m_editMenu->Append(IDO_SELECTALL);
+	m_editMenu->AppendSeparator();
+	m_editMenu->Append(IDT_SEARCH_BUTTON);
+	m_editMenu->Append(IDT_ADV_SEARCH);
+	m_editMenu->Append(IDO_REALLYENDSEARCH, _("End search"));
+	m_editMenu->AppendSeparator();
+	m_editMenu->Append(IDT_SETTINGS);
+
+	// create "view" menu
+	m_viewMenu->Append(IDT_GOTO_CURR);
+	m_viewMenu->Append(IDT_WORKSPACE_GOTO_RANDOM);
+	m_viewMenu->AppendSeparator();
+	m_viewMenu->AppendRadioItem(IDT_WORKSPACE_ALBUM_VIEW);
+	m_viewMenu->AppendRadioItem(IDT_WORKSPACE_COVER_VIEW);
+	m_viewMenu->AppendRadioItem(IDT_WORKSPACE_LIST_VIEW);
+	m_viewMenu->Append(IDT_WORKSPACE_TOGGLE_VIEW);
+	m_viewMenu->AppendSeparator();
+	SjMenu* submenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
+		submenu->AppendCheckItem(IDT_TOGGLE_TIME_MODE, _("Show remaining time"));
+		submenu->AppendCheckItem(IDO_TOGGLE_TIME_MODE2, _("Show elapsed time"));
+		submenu->AppendCheckItem(IDO_DISPLAY_TOTAL_TIME, _("Show total time"));
+		submenu->AppendCheckItem(IDO_DISPLAY_TRACKNR, _("Show track number"));
+		submenu->AppendCheckItem(IDO_DISPLAY_ARTIST, _("Show artist name"));
+		submenu->AppendCheckItem(IDO_DISPLAY_AUTOPLAY, _("Show AutoPlay"));
+		submenu->AppendCheckItem(IDO_DISPLAY_PREFERALBCV, _("Prefer album- to track-cover"));
+	m_viewMenu->Append(0, _("Display"), submenu);
+	m_viewColMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
+	m_viewMenu->Append(0, _("Columns"), m_viewColMenu);
+	submenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
+		submenu->Append(IDT_ZOOM_IN);
+		submenu->Append(IDT_ZOOM_OUT);
+		submenu->Append(IDT_ZOOM_NORMAL);
+		submenu->AppendSeparator();
+		submenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
+	m_viewMenu->Append(0, _("Zoom"), submenu);
+	m_viewMenu->AppendSeparator();
+	m_viewMenu->AppendCheckItem(IDT_ALWAYS_ON_TOP);
+	m_viewMenu->AppendSeparator();
+	m_viewMenu->AppendCheckItem(IDT_START_VIS, _("Video screen"));
+
+	// init "playback" menu
+	m_playbackMenu->AppendSeparator();
+	CreatePlaybackMenu(m_playbackMenu);
+
+	// create "kiosk" menu
+	m_kioskMenu->Append(IDT_TOGGLE_KIOSK, _("Start kiosk mode..."));
+
+	// create "help" menu
+	m_helpMenu->Append(IDO_ABOUT_OPEN_WWW, wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
+	m_helpMenu->Append(IDO_ONLINE_HELP, _("All files")+wxString(wxT("...")));
+	m_helpMenu->AppendSeparator();
+	m_helpMenu->Append(IDO_CONSOLE);
+	m_helpMenu->AppendSeparator();
+	m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
+	#ifdef SJHOOK_INIT_MAIN_MENU
+	SJHOOK_INIT_MAIN_MENU
+	#endif
+
+	// append menus to menu bar
+	// (wxMenuBar::Append() should be called with all items added to the menu to append; this allows eg. OS X to move menu items around)
+	m_menuBar->Append(m_fileMenu, _("File"));
+	m_menuBar->Append(m_editMenu, _("Edit"));
+	m_menuBar->Append(m_viewMenu, _("View"));
+	m_menuBar->Append(m_playbackMenu, _("Playback"));
+	m_menuBar->Append(m_kioskMenu, _("Kiosk mode"));
 	m_menuBar->Append(m_helpMenu, _("Help"));
+
 }
 
 
-void SjMainFrame::InitMainMenu()
+void SjMainFrame::UpdateMainMenu()
 {
-	// Add the menu entries to the menu titles allocated in AllocMainMenu().
+	if( m_menuBar == NULL || m_fileMenu == NULL || m_libraryModule == NULL || m_editMenu == NULL ) return;
 
-	if( m_menuBar )
-	{
-		// file menu - do not update as there are problems with the MAC-specific items
+    bool enableQueue = m_player.m_queue.GetCount()!=0;
+    m_fileMenu->Enable(IDT_SAVE_PLAYLIST, enableQueue);
+    m_fileMenu->Enable(IDT_UNQUEUE_ALL, enableQueue);
 
-		if( !m_menuBarComplete )
-		{
-			bool enableQueue = m_player.m_queue.GetCount()!=0;
+    m_libraryModule->UpdateMenuBar();
 
-			m_fileMenu->Append(IDO_SETTINGS_ADDFILES, _("Add folders and files")+wxString(wxT("..."))); // just a second menu entry with the same funktionality to make things clearer
-			m_fileMenu->Append(IDT_UPDATE_INDEX);
+	m_editMenu->Enable(IDO_REALLYENDSEARCH, HasAnySearch());
 
-			m_fileMenu->AppendSeparator();
+	UpdateMenuBarQueue();
+	UpdateViewMenu();
 
-			m_fileMenu->Append(IDT_OPEN_FILES);
-			m_fileMenu->Append(IDT_SAVE_PLAYLIST);
-			m_fileMenu->Enable(IDT_SAVE_PLAYLIST, enableQueue);
-
-			m_fileMenu->Append(IDT_UNQUEUE_ALL);
-			m_fileMenu->Enable(IDT_UNQUEUE_ALL, enableQueue);
-
-			m_fileMenu->AppendSeparator();
-
-			m_fileMenu->Append(IDT_QUIT);
-		}
-
-		// edit menu
-
-		m_editMenu->Clear();
-		m_playbackMenu->Clear(); // clear here as partly initalized with m_libraryModule->CreateMenu()
-
-		m_libraryModule->CreateMenu(m_playbackMenu, m_editMenu, TRUE);
-		m_libraryModule->UpdateMenuBar();
-
-		m_editMenu->AppendSeparator();
-
-		m_editMenu->Append(IDO_SELECTALL);
-
-		m_editMenu->AppendSeparator();
-
-		m_editMenu->Append(IDT_SEARCH_BUTTON);
-
-		m_editMenu->Append(IDT_ADV_SEARCH);
-
-		m_editMenu->Append(IDO_REALLYENDSEARCH, _("End search"));
-		m_editMenu->Enable(IDO_REALLYENDSEARCH, HasAnySearch());
-
-		m_editMenu->AppendSeparator();
-
-		m_editMenu->Append(IDT_SETTINGS);
-
-		// view menu
-
-		m_viewMenu->Clear();
-		CreateViewMenu(m_viewMenu);
-
-		// playback menu
-
-		m_playbackMenu->AppendSeparator();
-
-		CreatePlaybackMenu(m_playbackMenu);
-
-		// kiosk menu
-		if( !m_menuBarComplete )
-		{
-			CreateKioskMenu(m_kioskMenu);
-		}
-
-		// help menu - do not update as there are problems with the MAC-specific items
-
-		if( !m_menuBarComplete )
-		{
-			m_helpMenu->Append(IDO_ABOUT_OPEN_WWW, wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
-			m_helpMenu->Append(IDO_ONLINE_HELP, _("All files")+wxString(wxT("...")));
-			m_helpMenu->AppendSeparator();
-			m_helpMenu->Append(IDO_CONSOLE);
-			m_helpMenu->AppendSeparator();
-			m_helpMenu->Append(IDO_ABOUT, wxString::Format(_("About %s"), SJ_PROGRAM_NAME)+wxString(wxT("...")));
-		}
-
-		#ifdef SJHOOK_INIT_MAIN_MENU
-		SJHOOK_INIT_MAIN_MENU
-		#endif
-
-		m_menuBarComplete = TRUE;
-
-		m_libraryModule->UpdateMenuBar();
-
-		UpdateMenuBarQueue();
+	// update scripts menu
+    m_editExtrasMenu->Clear();
+	AddScriptMenuEntries(*m_editExtrasMenu);
+	if( m_editExtrasMenu->GetMenuItemCount() == 0 ) {
+		m_editExtrasMenu->Append(IDO_SCRIPT_MENU99, _("None"));
+		m_editExtrasMenu->Enable(IDO_SCRIPT_MENU99, false);
 	}
 }
 
@@ -179,7 +174,7 @@ void SjMainFrame::InitMainMenu()
 void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 {
 	// update the menu bar - if any
-	if( !m_menuBarComplete ) return;
+	if( m_menuBar == NULL ) return;
 
 	switch( targetId )
 	{
@@ -215,15 +210,22 @@ void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 			break;
 
 		case IDT_REPEAT:
-			     if( v.value==1 ) { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat one")); }
-			else if( v.value==2 ) { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat all")); }
-			else                  { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat playlist")); }
-			m_playbackMenu->Check(IDT_REPEAT, v.value!=0);
+			if( m_playbackMenu )
+			{
+					 if( v.value==1 ) { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat one")); }
+				else if( v.value==2 ) { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat all")); }
+				else                  { m_playbackMenu->SetLabel(IDT_REPEAT, _("Repeat playlist")); }
+				m_playbackMenu->Check(IDT_REPEAT, v.value!=0);
+			}
 			break;
 
 		case IDT_WORKSPACE_ALBUM_VIEW: // IDT_WORKSPACE_ALBUM_VIEW, IDT_WORKSPACE_COVER_VIEW and IDT_WORKSPACE_LIST_VIEW always come "together"; so catching one event is sufficient here
-			m_viewMenu->Clear();
-			CreateViewMenu(m_viewMenu);
+			UpdateViewMenu();
+			UpdateMenuBarQueue();
+			if( m_libraryModule )
+			{
+				m_libraryModule->UpdateMenuBar();
+			}
 			break;
 
 		case IDT_SEARCH_BUTTON:
@@ -247,7 +249,7 @@ void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 void SjMainFrame::UpdateMenuBarQueue()
 {
 	// update the menu bar - if any
-	if( !m_menuBarComplete ) return;
+	if( m_menuBar == NULL || m_viewMenu == NULL ) return;
 
 	bool enableQueue = m_player.m_queue.GetCount()!=0;
 
@@ -263,115 +265,46 @@ void SjMainFrame::UpdateMenuBarQueue()
 }
 
 
-void SjMainFrame::UpdateMenuBarView()
-{
-	m_viewMenu->Check(IDO_SAMEZOOMINALLVIEWS, (g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS)!=0);
-}
-
 
 /*******************************************************************************
  * The view menu
  ******************************************************************************/
 
 
-void SjMainFrame::CreateViewMenu(SjMenu* viewMenu)
+void SjMainFrame::UpdateViewMenu()
 {
+	if( m_viewMenu == NULL || m_viewColMenu == NULL ) return;
+
 	bool enableQueue = m_player.m_queue.GetCount()!=0;
 
-	// goto options
+	m_viewMenu->Enable(IDT_GOTO_CURR, enableQueue);
 
-	viewMenu->Append(IDT_GOTO_CURR);
-	viewMenu->Enable(IDT_GOTO_CURR, enableQueue);
-	viewMenu->Append(IDT_WORKSPACE_GOTO_RANDOM);
-
-	viewMenu->AppendSeparator();
-
-	// view select / view toggle
-
-	int view = m_browser->GetView();
-
-	viewMenu->AppendRadioItem(IDT_WORKSPACE_ALBUM_VIEW);
-	viewMenu->Check(IDT_WORKSPACE_ALBUM_VIEW, (view==SJ_BROWSER_ALBUM_VIEW));
-
-	viewMenu->AppendRadioItem(IDT_WORKSPACE_COVER_VIEW);
-	viewMenu->Check(IDT_WORKSPACE_COVER_VIEW, (view==SJ_BROWSER_COVER_VIEW));
-
-	viewMenu->AppendRadioItem(IDT_WORKSPACE_LIST_VIEW);
-	viewMenu->Check(IDT_WORKSPACE_LIST_VIEW, (view==SJ_BROWSER_LIST_VIEW));
-
-	viewMenu->Append(IDT_WORKSPACE_TOGGLE_VIEW);
-
-	viewMenu->AppendSeparator();
-
-	if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) || IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) || IsOpAvailable(SJ_OP_ZOOM) )
+	if( m_browser )
 	{
+		int view = m_browser->GetView();
+		m_viewMenu->Check(IDT_WORKSPACE_ALBUM_VIEW, (view==SJ_BROWSER_ALBUM_VIEW));
+		m_viewMenu->Check(IDT_WORKSPACE_COVER_VIEW, (view==SJ_BROWSER_COVER_VIEW));
+		m_viewMenu->Check(IDT_WORKSPACE_LIST_VIEW, (view==SJ_BROWSER_LIST_VIEW));
 
-		// display options
-
-		if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
-		{
-			SjMenu* displayMenu = new SjMenu(viewMenu->ShowShortcuts());
-				displayMenu->AppendCheckItem(IDT_TOGGLE_TIME_MODE, _("Show remaining time"));
-				displayMenu->AppendCheckItem(IDO_TOGGLE_TIME_MODE2, _("Show elapsed time"));
-				if( IsAllAvailable() )
-				{
-					displayMenu->AppendCheckItem(IDO_DISPLAY_TOTAL_TIME, _("Show total time"));
-					displayMenu->AppendCheckItem(IDO_DISPLAY_TRACKNR, _("Show track number"));
-					displayMenu->AppendCheckItem(IDO_DISPLAY_ARTIST, _("Show artist name"));
-					displayMenu->AppendCheckItem(IDO_DISPLAY_AUTOPLAY, _("Show AutoPlay"));
-					displayMenu->AppendCheckItem(IDO_DISPLAY_PREFERALBCV, _("Prefer album- to track-cover"));
-				}
-			viewMenu->Append(0, _("Display"), displayMenu);
-		}
-
-		// browser options
-
-		if( IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) )
-		{
-			SjMenu* colMenu = new SjMenu(viewMenu->ShowShortcuts());
-
-				colMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, (m_browser->GetView()==SJ_BROWSER_COVER_VIEW)? _("Show cover titles") : _("Show covers"));
-				colMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
-
-				m_browser->AddItemsToColMenu(colMenu);
-
-			viewMenu->Append(0, _("Columns"), colMenu);
-		}
-
-		if( IsOpAvailable(SJ_OP_ZOOM) )
-		{
-			SjMenu* zoomMenu = new SjMenu(viewMenu->ShowShortcuts());
-			zoomMenu->Append(IDT_ZOOM_IN);
-			zoomMenu->Append(IDT_ZOOM_OUT);
-			zoomMenu->Append(IDT_ZOOM_NORMAL);
-			zoomMenu->AppendSeparator();
-			zoomMenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
-			zoomMenu->Check(IDO_SAMEZOOMINALLVIEWS, (g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS)!=0);
-			viewMenu->Append(0, _("Zoom"), zoomMenu);
-		}
-
-		viewMenu->AppendSeparator();
+		m_viewColMenu->Clear();
+		m_viewColMenu->AppendCheckItem(IDT_WORKSPACE_SHOW_COVERS, (m_browser->GetView()==SJ_BROWSER_COVER_VIEW)? _("Show cover titles") : _("Show covers"));
+		m_viewColMenu->Check(IDT_WORKSPACE_SHOW_COVERS, m_browser->AreCoversShown());
+		m_browser->AddItemsToColMenu(m_viewColMenu);
 	}
 
-	// window options
-
-	if( !IsKioskStarted() )
+	if( g_accelModule )
 	{
-		viewMenu->AppendCheckItem(IDT_ALWAYS_ON_TOP);
-		viewMenu->Check(IDT_ALWAYS_ON_TOP, IsAlwaysOnTop());
-
-		viewMenu->AppendSeparator();
+		m_viewMenu->Check(IDO_SAMEZOOMINALLVIEWS, (g_accelModule->m_flags&SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS)!=0);
 	}
 
+	m_viewMenu->Check(IDT_ALWAYS_ON_TOP, IsAlwaysOnTop());
 
 	if( g_visModule )
 	{
-		viewMenu->AppendCheckItem(IDT_START_VIS, _("Video screen"));
-		viewMenu->Check(IDT_START_VIS, g_visModule->IsVisStarted());
+		m_viewMenu->Check(IDT_START_VIS, g_visModule->IsVisStarted());
 	}
-
-	UpdateMenuBarQueue();
 }
+
 
 
 /*******************************************************************************
@@ -479,50 +412,38 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 
 
 /*******************************************************************************
- * The Kiosk menu
- ******************************************************************************/
-
-
-void SjMainFrame::CreateKioskMenu(SjMenu* kioskMenu)
-{
-	kioskMenu->Append(IDT_TOGGLE_KIOSK, _("Start kiosk mode..."));
-}
-
-
-/*******************************************************************************
  * The context menus
  ******************************************************************************/
 
 
-void SjMainFrame::AddScriptMenuEntries(SjMenu& m, bool addConfigButtons)
+void SjMainFrame::AddScriptMenuEntries(SjMenu& m)
 {
 	// add the menu entries creted by the scripts to the given menu; the function is used in the main menu and
 	// for the context menus.  Before any entry is added, a separator is added (if there are no entries, no separator is added)
 	#if SJ_USE_SCRIPTS
 		wxArrayString arrMenu   = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_MENU_ENTRY);
-		wxArrayString arrConfig; if( addConfigButtons ) { arrConfig = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_CONFIG_BUTTON); }
+		wxArrayString arrConfig = SjSee::GetGlobalEmbeddings(SJ_PERSISTENT_CONFIG_BUTTON);
 		int iCountMenu   = arrMenu.GetCount(); if( iCountMenu   > (IDO_SCRIPT_MENU99-IDO_SCRIPT_MENU00)+1 ) { iCountMenu = IDO_SCRIPT_MENU99-IDO_SCRIPT_MENU00+1; }
 		int iCountConfig = arrConfig.GetCount(); if( iCountConfig > (IDO_SCRIPTCONFIG_MENU99-IDO_SCRIPTCONFIG_MENU00)+1 ) { iCountConfig = IDO_SCRIPTCONFIG_MENU99-IDO_SCRIPTCONFIG_MENU00+1; }
 
-		if( iCountMenu > 0 || iCountConfig > 0 )
+		if( iCountMenu > 0 )
 		{
-			m.AppendSeparator();
-
 			for( int i = 0; i<iCountMenu; i++ )
 			{
-				m.Append(IDO_SCRIPT_MENU00+i, _("Script") + ": " + arrMenu[i]);
+				m.Append(IDO_SCRIPT_MENU00+i, arrMenu[i]);
 			}
 
 			if( iCountConfig > 0 )
 			{
-				SjMenu* submenu = new SjMenu(m.ShowShortcuts());
+				m.AppendSeparator();
+			}
+		}
 
-				for( int i = 0; i<iCountConfig; i++ )
-				{
-					submenu->Append(IDO_SCRIPTCONFIG_MENU00+i, arrConfig[i]);
-				}
-
-				m.Append(0, _("Script options"), submenu);
+		if( iCountConfig > 0 )
+		{
+			for( int i = 0; i<iCountConfig; i++ )
+			{
+				m.Append(IDO_SCRIPTCONFIG_MENU00+i, arrConfig[i]);
 			}
 		}
 	#endif
@@ -768,7 +689,14 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 				mainMenu.Append(IDO_EXPLOREQUEUE, _("Show file"));
 				mainMenu.Enable(IDO_EXPLOREQUEUE, (markedCount==1));
 
-				AddScriptMenuEntries(mainMenu);
+				SjMenu* submenu = new SjMenu(0);
+				AddScriptMenuEntries(*submenu);
+				if( submenu->GetMenuItemCount() ) {
+					mainMenu.Append(0, _("Extras"), submenu);
+				}
+				else {
+					delete submenu;
+				}
 			}
 		}
 	}

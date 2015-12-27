@@ -181,7 +181,7 @@ bool SjAccelModule::FirstLoad()
 		{
 			id = IDO_SCRIPT_MENU00+i;
 			wxASSERT(id>=IDO_SCRIPT_MENU00 && id<=IDO_SCRIPT_MENU99);
-			OrgCmd(_("Script")+wxString::Format(wxT(" #%i"), i+1), id, SJA_MAIN);
+			OrgCmd(_("Extras")+wxString::Format(wxT(" #%i"), i+1), id, SJA_MAIN);
 
 		}
 	}
@@ -710,7 +710,7 @@ void SjLittleAccelOption::OnApply()
 	if( m_lastOption )
 	{
 		// save settings
-		wxString iniShortcuts;
+		wxString iniShortcuts, label;
 		int i, j;
 		for( i = 0; i < g_accelModule->m_cmdCount; i++ )
 		{
@@ -723,6 +723,31 @@ void SjLittleAccelOption::OnApply()
 				{
 					iniShortcuts += wxString::Format(wxT("%x,"), (int)cmd.m_userKey[j]);
 				}
+			}
+
+			// update the displayed shortcut
+			wxMenuItem* item = g_mainFrame->m_menuBar->FindItem(cmd.m_id);
+			if( item )
+			{
+				long key = 0;
+				if( cmd.m_linkId )
+				{
+					SjAccelCmd* linkCmd = &g_accelModule->m_cmd[g_accelModule->CmdId2CmdIndex(cmd.m_linkId)];
+					if( linkCmd->m_userKeyCount ) {
+						key = linkCmd->m_userKey[0];
+					}
+				}
+				else if( cmd.m_userKeyCount )
+				{
+					key = cmd.m_userKey[0];
+				}
+
+				wxString label = item->GetItemLabelText(); // get item label without shortcut
+				wxString shortcut = g_accelModule->GetReadableShortcutByComprKey(key);
+				if( !shortcut.IsEmpty() ) {
+					label += "\t" + shortcut;
+				}
+				item->SetItemLabel(label);
 			}
 		}
 
@@ -739,7 +764,7 @@ void SjLittleAccelOption::OnApply()
 
 		g_accelModule->UpdateSystemAccel(TRUE/*set*/);
 
-		g_mainFrame->InitMainMenu();
+		g_mainFrame->UpdateMainMenu();
 	}
 }
 
@@ -821,7 +846,7 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 			#if SJ_USE_SCRIPTS
 			if( cmd->m_id-IDO_SCRIPT_MENU00 < extrasCount )
 			{
-				cmd->m_name = _("Script") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_SCRIPT_MENU00];
+				cmd->m_name = _("Extras") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_SCRIPT_MENU00];
 				addOption = true;
 			}
 			#endif

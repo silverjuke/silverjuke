@@ -416,6 +416,7 @@ void SjBrowserWindow::OnSkinTargetEvent (int targetId, SjSkinValue& value, long 
 			{
 				SjTools::ToggleFlag(m_currView->m_flags, SJ_BROWSER_VIEW_COVER);
 				RefreshAll();
+
 				if( g_mainFrame->m_viewMenu )
 				{
 					g_mainFrame->m_viewMenu->Check(IDT_WORKSPACE_SHOW_COVERS, AreCoversShown());
