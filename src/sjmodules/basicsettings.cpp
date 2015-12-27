@@ -511,7 +511,7 @@ void SjFurtherOptPanel::UpdateLittleOption(SjLittleOption* updatePtr)
 
 	wxColour    colourWhite = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOW);
 	wxColour    colourBlack = wxSystemSettings::GetColour(wxSYS_COLOUR_WINDOWTEXT);
-	wxFont      normalFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	wxFont      normalFont = GetFont(); // GetFont() seems to be a more generic approach than wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT) which returns too small fonts eg. on OS X
 	if( g_accelModule->m_flags&SJ_ACCEL_USE_VIEW_FONT_IN_DLG )
 	{
 		normalFont = g_mainFrame->m_baseStdFont;

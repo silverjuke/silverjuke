@@ -34,7 +34,7 @@
 SjHtmlWindow::SjHtmlWindow(wxWindow* parent, int id, const wxPoint& pos, const wxSize& size, long style)
 	: wxHtmlWindow(parent, id, pos, size, style)
 {
-	wxFont guiFont = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+	wxFont guiFont = GetFont(); // GetFont() seems to be a more generic approach than wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT) which returns too small fonts eg. on OS X
 	if( g_accelModule->m_flags&SJ_ACCEL_USE_VIEW_FONT_IN_DLG )
 	{
 		guiFont = g_mainFrame->m_baseStdFont;
