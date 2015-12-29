@@ -646,7 +646,7 @@ wxString SjTools::GetGlobalAppDataDir()
 		}
 		return str;
 	#elif defined(__WXMAC__)
-		return GetUserAppDataDir();
+		return SjTools::EnsureTrailingSlash(wxStandardPaths::Get().GetResourcesDir());
 	#else
 		// The constant PKGDATADIR gets defined on the
 		// command line while running make. See Makefile.am

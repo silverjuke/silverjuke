@@ -2075,8 +2075,10 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDO_ONLINE_HELP:
 				if( IsAllAvailable() )
 				{
-					#ifdef PKGDOCDIR
+					#if defined(PKGDOCDIR)
 						g_tools->ExploreUrl(wxT(PKGDOCDIR));
+					#elif defined(__WXMAC__)
+						g_tools->ExploreUrl(SjTools::GetGlobalAppDataDir()+"docs");
 					#else
 						g_tools->ExploreUrl(g_tools->GetSilverjukeProgramDir()+wxString(wxT("docs/")));
 					#endif
