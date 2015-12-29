@@ -97,7 +97,13 @@
 
 #ifndef SJ_DEF_FONT_FACE
 #define SJ_DEF_FONT_FACE wxT("Arial")
+#endif
+
+#ifndef SJ_DEF_FONT_SIZE
 #define SJ_DEF_FONT_SIZE 10L
+#endif
+
+#ifndef SJ_ALT_FONT_FACE
 #define SJ_ALT_FONT_FACE wxT("Times New Roman") // used for creating dummy covers
 #endif
 
