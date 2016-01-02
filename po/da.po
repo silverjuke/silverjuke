@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 14:26+0200\n"
+"POT-Creation-Date: 2016-01-02 17:11+0100\n"
 "PO-Revision-Date: 2010-11-14 10:21+0100\n"
 "Last-Translator: Dan Larsen <dvl@privat.dk>\n"
 "Language-Team: Danish\n"
@@ -18,14 +18,66 @@ msgstr "Dvaletilstand aktiveret."
 msgid "Sleep mode deactivated."
 msgstr "Dvaletilstand deaktiveret."
 
+msgid "Play time exceeded"
+msgstr ""
+
 msgid "Drag folders with music here."
 msgstr "Træk mapper med musik her."
 
 msgid "Show covers"
 msgstr "Vis omslag"
 
-msgid "Show album name"
-msgstr "Vis albumnavn"
+msgid "Duration"
+msgstr "Varighed"
+
+msgid "Artist"
+msgstr "Kunstner"
+
+msgid "Original artist"
+msgstr "Oprindelige Kustner"
+
+msgid "Composer"
+msgstr "Komponist"
+
+msgid "Album"
+msgstr "Album"
+
+msgid "Track number"
+msgstr "Spornummer"
+
+msgid "Automatic track number"
+msgstr "Automatisk sang nummer"
+
+msgid "Disk number"
+msgstr "Plade nummer"
+
+msgid "Genre"
+msgstr "Genre"
+
+msgid "Year"
+msgstr "År"
+
+#, fuzzy
+#| msgid "My rating"
+msgid "Rating"
+msgstr "Mine karakterer"
+
+msgid "Comment"
+msgstr "Kommentar"
+
+msgid "Show double tracks"
+msgstr "Vis dobbelt numre"
+
+msgid "Show different artist names"
+msgstr "Vis forskellige kunstnernavne"
+
+msgid "Show different album names"
+msgstr "Vis forskellige album navne"
+
+#, fuzzy
+#| msgid "Show covers"
+msgid "Show cover titles"
+msgstr "Vis omslag"
 
 # %s will be reaplaced by a decimal-point-formatted number
 #, c-format
@@ -93,13 +145,13 @@ msgstr "Også installere scriptet til \"% s \" til permanent brug"
 msgid "Execute the script \"%s\"?"
 msgstr "Kør scriptet \"%s\"?"
 
+msgid ""
+"CAUTION: Scripts may slow down Silverjuke or damage your data. Please use "
+"only scripts you trust."
+msgstr ""
+
 msgid "Search"
 msgstr "Søg"
-
-# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
-#, c-format
-msgid "Loading %s"
-msgstr "Henter %s"
 
 msgid "On"
 msgstr "Tænd"
@@ -229,6 +281,32 @@ msgstr "Forstør display"
 msgid "Shrink display"
 msgstr "Formindsk display"
 
+#, fuzzy
+#| msgid "Devices"
+msgid "Services"
+msgstr "Enheder"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, c-format
+msgid "Hide %s"
+msgstr "Skjul %s"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, fuzzy
+#| msgid "Hide %s"
+msgid "Hide Others"
+msgstr "Skjul %s"
+
+#, fuzzy
+#| msgid "Show file"
+msgid "Show All"
+msgstr "Vis fil"
+
+#, fuzzy, c-format
+#| msgid "Exit %s"
+msgid "Quit %s"
+msgstr "Afslut %s"
+
 msgid "Full screen"
 msgstr "Fuld skærm"
 
@@ -250,6 +328,76 @@ msgstr "Tillstand"
 msgid "Modules on the web..."
 msgstr "Moduler på nettet.."
 
+msgid "Help"
+msgstr "Hjælp"
+
+#, fuzzy
+#| msgid "Read files and folders"
+msgid "Add folders and files"
+msgstr "Læs filer og kataloger"
+
+msgid "Extras"
+msgstr ""
+
+msgid "Show remaining time"
+msgstr "Vis resterende tid"
+
+msgid "Show elapsed time"
+msgstr "Vis forløbet tid"
+
+msgid "Show total time"
+msgstr "Vis samlet tid"
+
+msgid "Show track number"
+msgstr "Vis spornummer"
+
+msgid "Show artist name"
+msgstr "Vis kustnerens navn"
+
+msgid "Show AutoPlay"
+msgstr "Vis autospilling"
+
+msgid "Prefer album- to track-cover"
+msgstr ""
+
+msgid "Display"
+msgstr "Vis"
+
+#, fuzzy
+#| msgid "Volume"
+msgid "Columns"
+msgstr "Lydstyrke"
+
+msgid "Same zoom in all views"
+msgstr "Samme zoom i alle visninger"
+
+msgid "Zoom"
+msgstr "Zoom"
+
+#, fuzzy
+#| msgid "Fit to screen"
+msgid "Video screen"
+msgstr "Tilpas til skærm"
+
+#, fuzzy
+#| msgid "Start kiosk mode"
+msgid "Start kiosk mode..."
+msgstr "Start Kiosk tilstand"
+
+# %s will be replaced by the name of an artist
+#, fuzzy, c-format
+#| msgid "\"%s\" on the web"
+msgid "%s on the web"
+msgstr "\"%s\" på nettet"
+
+msgid "All files"
+msgstr "Alle filer"
+
+# %s will be replaced by the program name, usually "Silverjuke", the string is used for the menu to open the about dialog. Note that "..." is added by Silverjuke, if needed.
+#, c-format
+msgid "About %s"
+msgstr "Om %s"
+
 msgid "File"
 msgstr "Fil"
 
@@ -265,55 +413,11 @@ msgstr "Afspilning"
 msgid "Kiosk mode"
 msgstr "Kiosk"
 
-msgid "Extras"
+msgid "None"
 msgstr ""
-
-msgid "Help"
-msgstr "Hjælp"
-
-#, fuzzy
-#| msgid "Read files and folders"
-msgid "Add folders and files"
-msgstr "Læs filer og kataloger"
-
-# %s will be replaced by the name of an artist
-#, fuzzy, c-format
-#| msgid "\"%s\" on the web"
-msgid "%s on the web"
-msgstr "\"%s\" på nettet"
-
-msgid "Online help"
-msgstr "Hjælp på nettet"
-
-# %s will be replaced by the program name, usually "Silverjuke", the string is used for the menu to open the about dialog. Note that "..." is added by Silverjuke, if needed.
-#, c-format
-msgid "About %s"
-msgstr "Om %s"
-
-msgid "Show elapsed time"
-msgstr "Vis forløbet tid"
-
-msgid "Show remaining time"
-msgstr "Vis resterende tid"
-
-msgid "Same zoom in all views"
-msgstr "Samme zoom i alle visninger"
-
-msgid "Zoom"
-msgstr "Zoom"
-
-#, fuzzy
-#| msgid "Fit to screen"
-msgid "Video screen"
-msgstr "Tilpas til skærm"
 
 msgid "Queue"
 msgstr "Kø"
-
-#, fuzzy
-#| msgid "Start kiosk mode"
-msgid "Start kiosk mode..."
-msgstr "Start Kiosk tilstand"
 
 msgid "Current view"
 msgstr "Aktuel visning"
@@ -371,52 +475,17 @@ msgstr "Åben afspilnings liste"
 msgid "Title"
 msgstr "Titel"
 
-msgid "Track number"
-msgstr "Spornummer"
-
 msgid "Track count"
 msgstr "Antal spor"
-
-msgid "Disk number"
-msgstr "Plade nummer"
 
 msgid "Disk count"
 msgstr "Antal Plader"
 
-msgid "Artist"
-msgstr "Kunstner"
-
-msgid "Original artist"
-msgstr "Oprindelige Kustner"
-
-msgid "Composer"
-msgstr "Komponist"
-
-msgid "Album"
-msgstr "Album"
-
-msgid "Genre"
-msgstr "Genre"
-
 msgid "Group"
 msgstr "Gruppe"
 
-msgid "Comment"
-msgstr "Kommentar"
-
 msgid "BPM"
 msgstr "BMP"
-
-#, fuzzy
-#| msgid "My rating"
-msgid "Rating"
-msgstr "Mine karakterer"
-
-msgid "Year"
-msgstr "År"
-
-msgid "Duration"
-msgstr "Varighed"
 
 msgid "Channels"
 msgstr "Kanaler"
@@ -505,6 +574,12 @@ msgstr "Søgningen kan ikke gennemføres, kontroller følgende felter:"
 
 msgid "Note: The operators \"equal\" and \"unequal\" are case-sensitive."
 msgstr "Bemærk: Operatørerne \"lige \" og \"ulige \" er case-sensitive."
+
+# %s will be replaced by the name of a music selection
+#, fuzzy, c-format
+#| msgid "Do you really want to delete the music selection \"%s\"?"
+msgid "Do you want to execute the scripts embedded in the skin \"%s\"?"
+msgstr "Vil du slette musik biblioteket \"%s\"?"
 
 msgid "Esc"
 msgstr "Esc"
@@ -602,11 +677,8 @@ msgstr "Sæt ind"
 msgid "Music selection..."
 msgstr "Musik valg"
 
-msgid "Jukebox settings..."
-msgstr ""
-
-msgid "Advanced settings..."
-msgstr ""
+msgid "Settings"
+msgstr "Indstillinger"
 
 msgid "Update music library"
 msgstr "Opdater musik bibliotek"
@@ -704,9 +776,6 @@ msgstr "Tilføj kredit"
 #| msgid "Console"
 msgid "Console..."
 msgstr "Konsol"
-
-msgid "Tools"
-msgstr "Værktøjer"
 
 #, fuzzy
 #| msgid "Replace"
@@ -867,9 +936,6 @@ msgstr "Rull lodret"
 msgid "Context sensitive"
 msgstr "Kontekstafhængige"
 
-msgid "Shortcut"
-msgstr "Genvej"
-
 msgid "Use multimedia keyboard keys"
 msgstr "Brug multimedia keyboard taster"
 
@@ -918,9 +984,6 @@ msgstr "Skriv ud"
 
 msgid "Ins"
 msgstr "Ins"
-
-msgid "Workspace"
-msgstr "Arbejdsfelt"
 
 msgid "Music selection"
 msgstr "Musik valg"
@@ -1352,28 +1415,24 @@ msgstr "Vælg den mappe for at tilføje til søgestier."
 msgid "Edit..."
 msgstr "Rediger..."
 
-# %s will be replaced by the program name, usually "Silverjuke"
 #, fuzzy
-#| msgid ""
-#| "Beside several options, you can change the shortcuts to use in %s here. "
-#| "You can\n"
-#| "also define system-wide shortcuts. To modify an option, select the option "
-#| "from the list\n"
-#| "and click on \"Customize\". This page is for experienced users only."
-msgid ""
-"Beside several options, you can change the shortcuts to use here.\n"
-"This page is for experienced users only."
+#| msgid "Comment"
+msgid "Command"
+msgstr "Kommentar"
+
+msgid "Shortcut"
+msgstr "Genvej"
+
+#, fuzzy
+#| msgid "Options"
+msgid "Option"
+msgstr "Optioner"
+
+msgid "Value"
 msgstr ""
-"Udover flere muligheder, kan du ændre genveje til brug i%s her. Du kan \n"
-"også definere genvege for hele systemet. For at ændre en indstilling, skal "
-"du vælge indstillingen fra listen \n"
-"og klikke på \"Tilpas\". Denne side er kun for erfarne brugere."
 
-msgid "Command or option"
-msgstr "Kommando eller option"
-
-msgid "Setting"
-msgstr "Indstillinger"
+msgid "The following settings are for experienced users only."
+msgstr "De følgende indstillinger er kun for erfarne brugere."
 
 msgid "Customize"
 msgstr "Tilpas"
@@ -1388,6 +1447,11 @@ msgid ""
 "default values?"
 msgstr ""
 "Vil du virkelig nulstille %i valgte kommandoer og valg til standard værdier?"
+
+#, fuzzy
+#| msgid "Shortcut"
+msgid "Shortcuts"
+msgstr "Genvej"
 
 msgid "Language"
 msgstr "Sprog"
@@ -1450,30 +1514,6 @@ msgstr "%i%% brugt til %i billeder"
 msgid "Regard file changes"
 msgstr "Henvis filændringer"
 
-msgid "Display"
-msgstr "Vis"
-
-msgid "Show total time"
-msgstr "Vis samlet tid"
-
-msgid "Show track number"
-msgstr "Vis spornummer"
-
-msgid "Show artist name"
-msgstr "Vis kustnerens navn"
-
-msgid "Show AutoPlay"
-msgstr "Vis autospilling"
-
-msgid "Preferred cover"
-msgstr "Fortrukket omslag"
-
-msgid "Album cover"
-msgstr "Album omslag"
-
-msgid "Track cover"
-msgstr "Nummer omslag"
-
 msgid "Advanced"
 msgstr "Avanceret"
 
@@ -1502,10 +1542,14 @@ msgstr "Ingen kredit"
 msgid "Credit: %i"
 msgstr "Kredit: %i"
 
-msgid "Start kiosk mode"
-msgstr "Start Kiosk tilstand"
+#, fuzzy
+#| msgid "Exit %s"
+msgid "Exit"
+msgstr "Afslut %s"
 
-msgid "Functionality"
+#, fuzzy
+#| msgid "Functionality"
+msgid "Functions"
 msgstr "Funktionalitet"
 
 msgid "Monitors"
@@ -1733,6 +1777,9 @@ msgstr "Password til vedligeholdese"
 msgid "Exit kiosk mode"
 msgstr "Forlad Kiosk tilstand"
 
+msgid "Start kiosk mode"
+msgstr "Start Kiosk tilstand"
+
 msgid "OK"
 msgstr "OK"
 
@@ -1764,9 +1811,6 @@ msgstr ""
 msgid ""
 "No virtual keyboard found, please add the *.sjk files to the search paths."
 msgstr ""
-
-msgid "The following settings are for experienced users only."
-msgstr "De følgende indstillinger er kun for erfarne brugere."
 
 #, c-format
 msgid "An album must have at least %s tracks with corresponding %s."
@@ -1811,45 +1855,6 @@ msgstr ""
 
 msgid "Keywords to identify cover image for an album:"
 msgstr "Søgeord for at identificere omslagett til et album:"
-
-msgid "Track list"
-msgstr "Nummer liste"
-
-msgid "Show double tracks"
-msgstr "Vis dobbelt numre"
-
-msgid "Automatic track number"
-msgstr "Automatisk sang nummer"
-
-msgid "Show disk number"
-msgstr "Vis disk nummer"
-
-msgid "Show different artist names"
-msgstr "Vis forskellige kunstnernavne"
-
-msgid "Show original artist"
-msgstr "Vis original kunstner"
-
-msgid "Show composer"
-msgstr "Vis komponist"
-
-msgid "Show different album names"
-msgstr "Vis forskellige album navne"
-
-msgid "Show time"
-msgstr "Vis tid"
-
-msgid "Show year"
-msgstr "Vis år"
-
-msgid "Show comment"
-msgstr "Vis kommentar"
-
-msgid "Show genre"
-msgstr "Vis genre"
-
-msgid "Show rating"
-msgstr "Vis karakter"
 
 msgid "Double click on covers"
 msgstr "Dobbelklikk på omslag"
@@ -2052,11 +2057,6 @@ msgid "Options"
 msgstr "Optioner"
 
 #, fuzzy
-#| msgid "Currently, the following files are supported:"
-msgid "Currently, the following file types are read:"
-msgstr "I øjeblikket er følgende filer understøttet:"
-
-#, fuzzy
 #| msgid "My music library"
 msgid "Music library"
 msgstr "Mit musikbibliotek"
@@ -2077,27 +2077,6 @@ msgstr "Vælg en afspilningsliste, nogle filer eller indtast en streaming URL"
 
 msgid "Append to current playlist"
 msgstr "Tilføj til den nuværende spilleliste"
-
-msgid "Automatic control"
-msgstr "Automatisk kontrol"
-
-#, c-format
-msgid "Go to current track after %i minutes of inactivity"
-msgstr "Gå til nuværende nummer efter %i minutter inaktivitet"
-
-#, c-format
-msgid "Reset view after %i minutes of inactivity to"
-msgstr "Reset visning efter %i minutter af inaktivitet til"
-
-#, fuzzy, c-format
-#| msgid "Open %s after %i minutes of inactivity"
-msgid "Open video screen after %i minutes of inactivity"
-msgstr "Åben %s efter %i minutter inaktivitet"
-
-#, fuzzy, c-format
-#| msgid "Close %s after %i minutes"
-msgid "Close video screen after %i minutes"
-msgstr "Luk %s efter %i minutter"
 
 msgid "Volume control"
 msgstr "Volumkontrol"
@@ -2141,6 +2120,15 @@ msgstr "Spring stilhed mellem numre over"
 msgid "Other fadings"
 msgstr "Andre fadinger"
 
+msgid "Resume"
+msgstr ""
+
+msgid "Automatic control"
+msgstr "Automatisk kontrol"
+
+msgid "Jingles"
+msgstr "Jingles"
+
 msgid ""
 "The following options define the behaviour of the queue. For the \"shuffle "
 "intensity\",\n"
@@ -2180,6 +2168,27 @@ msgid "Shuffle intensity:"
 msgstr "Blandings intensitet:"
 
 msgid ""
+"Here you can decide whether to restore the queue after a restart of "
+"Silverjuke.\n"
+"You can restore all or only unplayed titles."
+msgstr ""
+
+#, fuzzy
+#| msgid "Edit queue"
+msgid "Restore queue"
+msgstr "Rediger køen"
+
+#, fuzzy
+#| msgid "Remove played tracks from queue"
+msgid "Restore already played tracks"
+msgstr "Fjern afspillet numre fra køen"
+
+#, fuzzy
+#| msgid "Start playback on enqueue"
+msgid "Start playback from last position"
+msgstr "Start afsplining når sat i kø"
+
+msgid ""
 "Use the following options to define which actions should be done "
 "automatically\n"
 "after given timeouts."
@@ -2209,15 +2218,75 @@ msgstr "Dvaletilstand:"
 msgid "Stop playback"
 msgstr "Stop afspilning"
 
-msgid "in|after|at|always in|always after|always at"
+#, fuzzy
+#| msgid "in|after|at|always in|always after|always at"
+msgid ""
+"in|after inactivity of|at|always in|always after inactivity of|always at"
 msgstr "in|after|at|always in|always after|always at"
 
-msgid "minutes|minutes of inactivity|o'clock"
-msgstr "minutes|minutes of inactivity|o'clock"
+#, fuzzy
+#| msgid "minutes"
+msgid "minutes|o'clock"
+msgstr "minutter"
 
 #, c-format
 msgid "Before this, fade out %i seconds"
 msgstr "Før dette, fade i %i sekunder"
+
+msgid ""
+"Jingles are normal tracks from your music library that are played\n"
+"under certain conditions."
+msgstr ""
+
+msgid "If the jukebox is playing, about every"
+msgstr ""
+
+#, fuzzy
+#| msgid "minutes"
+msgid "minutes,"
+msgstr "minutter"
+
+# %s will be replaced by the name of a music selection
+#, fuzzy
+#| msgid "Ignore tracks from the music selection"
+msgid "play a track from the music selection"
+msgstr "Ignorer numre fra musik listen"
+
+#, fuzzy
+#| msgid "Alt"
+msgid "At"
+msgstr "Alt"
+
+msgid "o'clock,"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Wait for end of playing track"
+msgstr ""
+
+#, c-format
+msgid "Go to current track after %i minutes of inactivity"
+msgstr "Gå til nuværende nummer efter %i minutter inaktivitet"
+
+#, c-format
+msgid "Reset view after %i minutes of inactivity to"
+msgstr "Reset visning efter %i minutter af inaktivitet til"
+
+#, fuzzy, c-format
+#| msgid "Open %s after %i minutes of inactivity"
+msgid "Open video screen after %i minutes of inactivity"
+msgstr "Åben %s efter %i minutter inaktivitet"
+
+#, fuzzy, c-format
+#| msgid "Close %s after %i minutes"
+msgid "Close video screen after %i minutes"
+msgstr "Luk %s efter %i minutter"
+
+#, c-format
+msgid "Limit play time to %i seconds"
+msgstr ""
 
 msgid "Read folders:"
 msgstr "Læs mapper:"
@@ -2308,8 +2377,10 @@ msgstr "Medtag server i opdateringer"
 msgid "Configuration file"
 msgstr "Konfigurationsfil"
 
-msgid "Settings"
-msgstr "Indstillinger"
+# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
+#, c-format
+msgid "Loading %s"
+msgstr "Henter %s"
 
 # %i will be replaced by the error number
 #, c-format
@@ -2345,6 +2416,9 @@ msgstr "Nummer"
 
 msgid "Further information"
 msgstr "Yderlig information"
+
+msgid "URL"
+msgstr ""
 
 msgid "Temporary directory"
 msgstr "Midlertidlig mappe"
@@ -2742,9 +2816,6 @@ msgstr "Arkiv filer"
 msgid "Supported file-types"
 msgstr "Understøttet filtyper"
 
-msgid "All files"
-msgstr "Alle filer"
-
 msgid "Test..."
 msgstr "Test..."
 
@@ -2897,6 +2968,85 @@ msgstr "Filen \"%s\" eksisterer ikke."
 msgid "Cannot execute \"%s\"."
 msgstr "Kan ikke starte \"%s\"."
 
+#~ msgid "Show album name"
+#~ msgstr "Vis albumnavn"
+
+#~ msgid "Online help"
+#~ msgstr "Hjælp på nettet"
+
+#~ msgid "Tools"
+#~ msgstr "Værktøjer"
+
+#~ msgid "Workspace"
+#~ msgstr "Arbejdsfelt"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, fuzzy
+#~| msgid ""
+#~| "Beside several options, you can change the shortcuts to use in %s here. "
+#~| "You can\n"
+#~| "also define system-wide shortcuts. To modify an option, select the "
+#~| "option from the list\n"
+#~| "and click on \"Customize\". This page is for experienced users only."
+#~ msgid ""
+#~ "Beside several options, you can change the shortcuts to use here.\n"
+#~ "This page is for experienced users only."
+#~ msgstr ""
+#~ "Udover flere muligheder, kan du ændre genveje til brug i%s her. Du kan \n"
+#~ "også definere genvege for hele systemet. For at ændre en indstilling, "
+#~ "skal du vælge indstillingen fra listen \n"
+#~ "og klikke på \"Tilpas\". Denne side er kun for erfarne brugere."
+
+#~ msgid "Command or option"
+#~ msgstr "Kommando eller option"
+
+#~ msgid "Setting"
+#~ msgstr "Indstillinger"
+
+#~ msgid "Preferred cover"
+#~ msgstr "Fortrukket omslag"
+
+#~ msgid "Album cover"
+#~ msgstr "Album omslag"
+
+#~ msgid "Track cover"
+#~ msgstr "Nummer omslag"
+
+#~ msgid "Track list"
+#~ msgstr "Nummer liste"
+
+#~ msgid "Show disk number"
+#~ msgstr "Vis disk nummer"
+
+#~ msgid "Show original artist"
+#~ msgstr "Vis original kunstner"
+
+#~ msgid "Show composer"
+#~ msgstr "Vis komponist"
+
+#~ msgid "Show time"
+#~ msgstr "Vis tid"
+
+#~ msgid "Show year"
+#~ msgstr "Vis år"
+
+#~ msgid "Show comment"
+#~ msgstr "Vis kommentar"
+
+#~ msgid "Show genre"
+#~ msgstr "Vis genre"
+
+#~ msgid "Show rating"
+#~ msgstr "Vis karakter"
+
+#, fuzzy
+#~| msgid "Currently, the following files are supported:"
+#~ msgid "Currently, the following file types are read:"
+#~ msgstr "I øjeblikket er følgende filer understøttet:"
+
+#~ msgid "minutes|minutes of inactivity|o'clock"
+#~ msgstr "minutes|minutes of inactivity|o'clock"
+
 # %i will be replaced by the number of characters
 #~ msgid "(%i characters)"
 #~ msgstr "(%i bogstaver)"
@@ -2932,10 +3082,6 @@ msgstr "Kan ikke starte \"%s\"."
 
 #~ msgid "Prelisten \"%s\""
 #~ msgstr "Prelisten \"%s\""
-
-# %s will be replaced by the program name, usually "Silverjuke"
-#~ msgid "Hide %s"
-#~ msgstr "Skjul %s"
 
 #~ msgid "Unlicenced version"
 #~ msgstr "Ulicenseret version"
@@ -3181,9 +3327,6 @@ msgstr "Kan ikke starte \"%s\"."
 # %i will be replaced by the number of days
 #~ msgid "Every %i days"
 #~ msgstr "Hver %i dage"
-
-#~ msgid "Jingles"
-#~ msgstr "Jingles"
 
 #~ msgid "FX"
 #~ msgstr "FX"

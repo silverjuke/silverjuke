@@ -2,15 +2,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 14:26+0200\n"
-"PO-Revision-Date: 2015-10-13 13:28+0200\n"
-"Last-Translator: Dr. Tobias Quathamer <t.quathamer@mailbox.org>\n"
+"POT-Creation-Date: 2016-01-02 17:11+0100\n"
+"PO-Revision-Date: 2016-01-02 17:52+0100\n"
+"Last-Translator: Björn Petersen <r10s@b44t.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.4\n"
 
 msgid "Sleep mode activated."
 msgstr "Schlafmodus aktiviert."
@@ -18,14 +19,62 @@ msgstr "Schlafmodus aktiviert."
 msgid "Sleep mode deactivated."
 msgstr "Schlafmodus deaktiviert."
 
+msgid "Play time exceeded"
+msgstr "Spielzeit abgelaufen"
+
 msgid "Drag folders with music here."
 msgstr "Ordner mit Musikdateien hierher ziehen."
 
 msgid "Show covers"
 msgstr "Cover anzeigen"
 
-msgid "Show album name"
-msgstr "Albumnamen anzeigen"
+msgid "Duration"
+msgstr "Dauer"
+
+msgid "Artist"
+msgstr "Künstler"
+
+msgid "Original artist"
+msgstr "Originärer Künstler"
+
+msgid "Composer"
+msgstr "Komponist"
+
+msgid "Album"
+msgstr "Album"
+
+msgid "Track number"
+msgstr "Titelnummer"
+
+msgid "Automatic track number"
+msgstr "Automatische Titelnummer"
+
+msgid "Disk number"
+msgstr "Disknummer"
+
+msgid "Genre"
+msgstr "Musikrichtung"
+
+msgid "Year"
+msgstr "Jahr"
+
+msgid "Rating"
+msgstr "Wertung"
+
+msgid "Comment"
+msgstr "Kommentar"
+
+msgid "Show double tracks"
+msgstr "Doppelte Titel anzeigen"
+
+msgid "Show different artist names"
+msgstr "Unterschiedliche Künstlernamen anzeigen"
+
+msgid "Show different album names"
+msgstr "Unterschliedliche Albennamen anzeigen"
+
+msgid "Show cover titles"
+msgstr "Covertitel anzeigen"
 
 # %s will be reaplaced by a decimal-point-formatted number
 #, c-format
@@ -96,13 +145,15 @@ msgstr "Das Skript außerdem in \"%s\" installieren und immer starten"
 msgid "Execute the script \"%s\"?"
 msgstr "Möchten Sie das Skript \"%s\" ausführen?"
 
+msgid ""
+"CAUTION: Scripts may slow down Silverjuke or damage your data. Please use "
+"only scripts you trust."
+msgstr ""
+"ACHTUNG: Skripte können Silverjuke verlangsamen oder Daten beschädigen. "
+"Verwenden Sie nur Skripte aus Quellen, denen Sie vertrauen."
+
 msgid "Search"
 msgstr "Suchen"
-
-# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
-#, c-format
-msgid "Loading %s"
-msgstr "Lade %s"
 
 msgid "On"
 msgstr "An"
@@ -230,6 +281,23 @@ msgstr "Display vergrößern"
 msgid "Shrink display"
 msgstr "Display verkleinern"
 
+msgid "Services"
+msgstr "Dienste"
+
+#, c-format
+msgid "Hide %s"
+msgstr "%s ausblenden"
+
+msgid "Hide Others"
+msgstr "Andere ausblenden"
+
+msgid "Show All"
+msgstr "Alle einblenden"
+
+#, c-format
+msgid "Quit %s"
+msgstr "%s beenden"
+
 msgid "Full screen"
 msgstr "Ganzer Bildschirm"
 
@@ -251,6 +319,67 @@ msgstr "Status"
 msgid "Modules on the web..."
 msgstr "Module im Internet..."
 
+msgid "Help"
+msgstr "Hilfe"
+
+msgid "Add folders and files"
+msgstr "Ordner und Dateien hinzufügen"
+
+msgid "Extras"
+msgstr "Extras"
+
+msgid "Show remaining time"
+msgstr "Verbleibende Zeit anzeigen"
+
+msgid "Show elapsed time"
+msgstr "Abgelaufene Zeit anzeigen"
+
+msgid "Show total time"
+msgstr "Gesamtzeit anzeigen"
+
+msgid "Show track number"
+msgstr "Titelnummer anzeigen"
+
+msgid "Show artist name"
+msgstr "Künstlernamen anzeigen"
+
+msgid "Show AutoPlay"
+msgstr "AutoPlay anzeigen"
+
+msgid "Prefer album- to track-cover"
+msgstr "Alben- den Titelcovern vorziehen"
+
+msgid "Display"
+msgstr "Display"
+
+msgid "Columns"
+msgstr "Spalten"
+
+msgid "Same zoom in all views"
+msgstr "Gleiche Vergrößerung in allen Ansichten"
+
+msgid "Zoom"
+msgstr "Vergrößerung"
+
+msgid "Video screen"
+msgstr "Videobildschirm"
+
+msgid "Start kiosk mode..."
+msgstr "Kiosk-Modus starten ..."
+
+# %s will be replaced by the name of an artist
+#, c-format
+msgid "%s on the web"
+msgstr "%s im Internet"
+
+msgid "All files"
+msgstr "Alle Dateien"
+
+# %s will be replaced by the program name, usually "Silverjuke", the string is used for the menu to open the about dialog. Note that "..." is added by Silverjuke, if needed.
+#, c-format
+msgid "About %s"
+msgstr "Über %s"
+
 msgid "File"
 msgstr "Datei"
 
@@ -268,48 +397,11 @@ msgstr "Wiedergabe"
 msgid "Kiosk mode"
 msgstr "Kiosk-Modus"
 
-msgid "Extras"
-msgstr "Extras"
-
-msgid "Help"
-msgstr "Hilfe"
-
-msgid "Add folders and files"
-msgstr "Ordner und Dateien hinzufügen"
-
-# %s will be replaced by the name of an artist
-#, c-format
-msgid "%s on the web"
-msgstr "%s im Internet"
-
-msgid "Online help"
-msgstr "Online-Hilfe"
-
-# %s will be replaced by the program name, usually "Silverjuke", the string is used for the menu to open the about dialog. Note that "..." is added by Silverjuke, if needed.
-#, c-format
-msgid "About %s"
-msgstr "Über %s"
-
-msgid "Show elapsed time"
-msgstr "Abgelaufene Zeit anzeigen"
-
-msgid "Show remaining time"
-msgstr "Verbleibende Zeit anzeigen"
-
-msgid "Same zoom in all views"
-msgstr "Gleiche Vergrößerung in allen Ansichten"
-
-msgid "Zoom"
-msgstr "Vergrößerung"
-
-msgid "Video screen"
-msgstr "Videobildschirm"
+msgid "None"
+msgstr "Keine"
 
 msgid "Queue"
 msgstr "Warteschlange"
-
-msgid "Start kiosk mode..."
-msgstr "Kiosk-Modus starten ..."
 
 msgid "Current view"
 msgstr "Aktuelle Ansicht"
@@ -363,51 +455,18 @@ msgstr "Wiedergabeliste öffnen"
 msgid "Title"
 msgstr "Titel"
 
-msgid "Track number"
-msgstr "Titelnummer"
-
 msgid "Track count"
 msgstr "Titelanzahl"
-
-msgid "Disk number"
-msgstr "Disknummer"
 
 msgid "Disk count"
 msgstr "Diskanzahl"
 
-msgid "Artist"
-msgstr "Künstler"
-
-msgid "Original artist"
-msgstr "Originärer Künstler"
-
-msgid "Composer"
-msgstr "Komponist"
-
-msgid "Album"
-msgstr "Album"
-
-msgid "Genre"
-msgstr "Musikrichtung"
-
 msgid "Group"
 msgstr "Gruppierung"
-
-msgid "Comment"
-msgstr "Kommentar"
 
 # This is the abbreviation for "beats per minute" (the number of "quarter notes" per minute which defines the tempo of a track). The string is used in the dailog "Edit tracks/Get info...". If in doubt, just enter "BPM" here.
 msgid "BPM"
 msgstr "BPM"
-
-msgid "Rating"
-msgstr "Wertung"
-
-msgid "Year"
-msgstr "Jahr"
-
-msgid "Duration"
-msgstr "Dauer"
 
 msgid "Channels"
 msgstr "Kanäle"
@@ -501,6 +560,11 @@ msgstr ""
 "Hinweis: \"gleich\" und \"ungleich\" unterscheidet die Groß- und "
 "Kleinschreibung."
 
+# %s will be replaced by the name of a music selection
+#, c-format
+msgid "Do you want to execute the scripts embedded in the skin \"%s\"?"
+msgstr "Möchten Sie die Skripte aus der Skin \"%s\" ausführen?"
+
 msgid "Esc"
 msgstr "Esc"
 
@@ -591,11 +655,8 @@ msgstr "Einfügen"
 msgid "Music selection..."
 msgstr "Musikauswahl ..."
 
-msgid "Jukebox settings..."
-msgstr "Jukebox-Einstellungen ..."
-
-msgid "Advanced settings..."
-msgstr "Erweiterte Einstellungen ..."
+msgid "Settings"
+msgstr "Einstellungen"
 
 msgid "Update music library"
 msgstr "Musikarchiv aktualisieren"
@@ -689,9 +750,6 @@ msgstr "Kredit hinzufügen"
 
 msgid "Console..."
 msgstr "Konsole ..."
-
-msgid "Tools"
-msgstr "Extras"
 
 msgid "Replace..."
 msgstr "Ersetzen ..."
@@ -835,9 +893,6 @@ msgstr "Horizontal scrollen"
 msgid "Context sensitive"
 msgstr "Kontextsensitiv"
 
-msgid "Shortcut"
-msgstr "Tastaturkürzel"
-
 msgid "Use multimedia keyboard keys"
 msgstr "Multimedia-Tastatur verwenden"
 
@@ -884,9 +939,6 @@ msgstr "Drucken"
 
 msgid "Ins"
 msgstr "Einfg"
-
-msgid "Workspace"
-msgstr "Arbeitsbereich"
 
 msgid "Music selection"
 msgstr "Musikauswahl"
@@ -1325,19 +1377,20 @@ msgstr ""
 msgid "Edit..."
 msgstr "Bearbeiten..."
 
-# %s will be replaced by the program name, usually "Silverjuke"
-msgid ""
-"Beside several options, you can change the shortcuts to use here.\n"
-"This page is for experienced users only."
-msgstr ""
-"Neben verschiedenen Optionen können Sie hier die Tastaturkürzel ändern.\n"
-"Diese Seite ist erfahreneren Anwendern vorbehalten."
+msgid "Command"
+msgstr "Kommando"
 
-msgid "Command or option"
-msgstr "Befehl oder Option"
+msgid "Shortcut"
+msgstr "Tastaturkürzel"
 
-msgid "Setting"
-msgstr "Einstellung"
+msgid "Option"
+msgstr "Option"
+
+msgid "Value"
+msgstr "Wert"
+
+msgid "The following settings are for experienced users only."
+msgstr "Die folgenden Einstellungen sind erfahreneren Benutzern vorbehalten."
 
 msgid "Customize"
 msgstr "Anpassen"
@@ -1353,6 +1406,9 @@ msgid ""
 msgstr ""
 "Möchen Sie wirklich alle %i ausgewählten Befehle und Optionen auf die "
 "Standardwerte zurücksetzen?"
+
+msgid "Shortcuts"
+msgstr "Tastaturkürzel"
 
 msgid "Language"
 msgstr "Sprache"
@@ -1415,30 +1471,6 @@ msgstr "%i%% für %i Bilder verwendet"
 msgid "Regard file changes"
 msgstr "Dateiänderungen berücksichtigen"
 
-msgid "Display"
-msgstr "Display"
-
-msgid "Show total time"
-msgstr "Gesamtzeit anzeigen"
-
-msgid "Show track number"
-msgstr "Titelnummer anzeigen"
-
-msgid "Show artist name"
-msgstr "Künstlernamen anzeigen"
-
-msgid "Show AutoPlay"
-msgstr "AutoPlay anzeigen"
-
-msgid "Preferred cover"
-msgstr "Bevorzugtes Cover"
-
-msgid "Album cover"
-msgstr "Albumcover"
-
-msgid "Track cover"
-msgstr "Titelcover"
-
 msgid "Advanced"
 msgstr "Erweitert"
 
@@ -1467,11 +1499,11 @@ msgstr "Kein Kredit."
 msgid "Credit: %i"
 msgstr "Kredit: %i"
 
-msgid "Start kiosk mode"
-msgstr "Kiosk-Modus starten"
+msgid "Exit"
+msgstr "Beenden"
 
-msgid "Functionality"
-msgstr "Funktionalität"
+msgid "Functions"
+msgstr "Funktionen"
 
 msgid "Monitors"
 msgstr "Monitore"
@@ -1709,6 +1741,9 @@ msgstr "Wartungspasswort"
 msgid "Exit kiosk mode"
 msgstr "Kiosk-Modus beenden"
 
+msgid "Start kiosk mode"
+msgstr "Kiosk-Modus starten"
+
 msgid "OK"
 msgstr "OK"
 
@@ -1743,9 +1778,6 @@ msgid ""
 msgstr ""
 "Keine Bildschirmtastatur gefunden, bitte fügen Sie die *.sjk-Dateien in den "
 "Suchpfaden hinzu."
-
-msgid "The following settings are for experienced users only."
-msgstr "Die folgenden Einstellungen sind erfahreneren Benutzern vorbehalten."
 
 #, c-format
 msgid "An album must have at least %s tracks with corresponding %s."
@@ -1793,45 +1825,6 @@ msgstr ""
 
 msgid "Keywords to identify cover image for an album:"
 msgstr "Schlüsselwörter, um das richtige Cover für ein Album zu finden:"
-
-msgid "Track list"
-msgstr "Titelliste"
-
-msgid "Show double tracks"
-msgstr "Doppelte Titel anzeigen"
-
-msgid "Automatic track number"
-msgstr "Automatische Titelnummer"
-
-msgid "Show disk number"
-msgstr "Disknummer anzeigen"
-
-msgid "Show different artist names"
-msgstr "Unterschiedliche Künstlernamen anzeigen"
-
-msgid "Show original artist"
-msgstr "Originären Künstler anzeigen"
-
-msgid "Show composer"
-msgstr "Komponist anzeigen"
-
-msgid "Show different album names"
-msgstr "Unterschliedliche Albennamen anzeigen"
-
-msgid "Show time"
-msgstr "Zeit anzeigen"
-
-msgid "Show year"
-msgstr "Jahr anzeigen"
-
-msgid "Show comment"
-msgstr "Kommentar anzeigen"
-
-msgid "Show genre"
-msgstr "Musikrichtung anzeigen"
-
-msgid "Show rating"
-msgstr "Wertung anzeigen"
 
 msgid "Double click on covers"
 msgstr "Doppelklick auf Cover"
@@ -2023,9 +2016,6 @@ msgstr "Quelle entfernen"
 msgid "Options"
 msgstr "Optionen"
 
-msgid "Currently, the following file types are read:"
-msgstr "Momentan werden die folgenden Dateitypen gelesen:"
-
 msgid "Music library"
 msgstr "Musikarchiv"
 
@@ -2046,28 +2036,6 @@ msgstr ""
 
 msgid "Append to current playlist"
 msgstr "An aktuelle Wiedergabeliste anhängen"
-
-msgid "Automatic control"
-msgstr "Automatische Steuerung"
-
-#, c-format
-msgid "Go to current track after %i minutes of inactivity"
-msgstr "Gehe zu aktuellem Titel nach %i Minuten Inaktivität"
-
-# The string will be followed by "Album view", "Cover view" or "List view"
-#, c-format
-msgid "Reset view after %i minutes of inactivity to"
-msgstr "Ansicht nach %i Minuten Inaktivität umschalten auf"
-
-# The string will be followed by "Album view", "Cover view" or "List view"
-#, c-format
-msgid "Open video screen after %i minutes of inactivity"
-msgstr "Videobildschirm nach %i Minuten Inaktivität öffnen"
-
-# %s will be replaced by the name of a visualization
-#, c-format
-msgid "Close video screen after %i minutes"
-msgstr "Videobildschirm nach %i Minuten schließen"
 
 msgid "Volume control"
 msgstr "Lautstärkesteuerung"
@@ -2112,6 +2080,15 @@ msgstr "Stille zwischen Titeln überspringen"
 msgid "Other fadings"
 msgstr "Sonstige Ein- und Ausblendungen"
 
+msgid "Resume"
+msgstr "Resume"
+
+msgid "Automatic control"
+msgstr "Automatische Steuerung"
+
+msgid "Jingles"
+msgstr "Jingles"
+
 msgid ""
 "The following options define the behaviour of the queue. For the \"shuffle "
 "intensity\",\n"
@@ -2151,6 +2128,24 @@ msgid "Shuffle intensity:"
 msgstr "Intensität des Zufallsmodus:"
 
 msgid ""
+"Here you can decide whether to restore the queue after a restart of "
+"Silverjuke.\n"
+"You can restore all or only unplayed titles."
+msgstr ""
+"Hier können Sie einstellen, ob die Wiedergabelisten nach einem Neustart von\n"
+"Silverjuke wiederhergestellt werden soll."
+
+msgid "Restore queue"
+msgstr "Wiedergabeliste wiederherstellen"
+
+# %s will be replaced by the name of a music selection
+msgid "Restore already played tracks"
+msgstr "Bereits gespielte Titel wiederherstellen"
+
+msgid "Start playback from last position"
+msgstr "Wiedergabe von letzter Position starten"
+
+msgid ""
 "Use the following options to define which actions should be done "
 "automatically\n"
 "after given timeouts."
@@ -2180,15 +2175,69 @@ msgstr "Schlafmodus:"
 msgid "Stop playback"
 msgstr "Wiedergabe beenden"
 
-msgid "in|after|at|always in|always after|always at"
-msgstr "in|nach|um|immer in|immer nach|immer um"
+msgid ""
+"in|after inactivity of|at|always in|always after inactivity of|always at"
+msgstr ""
+"in|nach Inaktivität von|um|immer in|immer nach Inaktivität von|immer um"
 
-msgid "minutes|minutes of inactivity|o'clock"
-msgstr "Minuten|Minuten Inaktivität|Uhr"
+msgid "minutes|o'clock"
+msgstr "Minuten|Uhr"
 
 #, c-format
 msgid "Before this, fade out %i seconds"
 msgstr "Blende zuvor die Lautstärke %i Sekunden lang aus"
+
+msgid ""
+"Jingles are normal tracks from your music library that are played\n"
+"under certain conditions."
+msgstr ""
+"Jingles sind normale Titel aus dem Musikarchiv, die unter bestimmten\n"
+"Bedingungen gespielt weren."
+
+msgid "If the jukebox is playing, about every"
+msgstr "Bei Wiedergabe, ungefähr alle"
+
+msgid "minutes,"
+msgstr "Minuten,"
+
+# %s will be replaced by the name of a music selection
+msgid "play a track from the music selection"
+msgstr "Titel aus der Musikauswahl spielen"
+
+msgid "At"
+msgstr "Um"
+
+msgid "o'clock,"
+msgstr "Uhr,"
+
+msgid "Daily"
+msgstr "Täglich"
+
+msgid "Wait for end of playing track"
+msgstr "Auf Ende des aktuellen Titels warten"
+
+#, c-format
+msgid "Go to current track after %i minutes of inactivity"
+msgstr "Gehe zu aktuellem Titel nach %i Minuten Inaktivität"
+
+# The string will be followed by "Album view", "Cover view" or "List view"
+#, c-format
+msgid "Reset view after %i minutes of inactivity to"
+msgstr "Ansicht nach %i Minuten Inaktivität umschalten auf"
+
+# The string will be followed by "Album view", "Cover view" or "List view"
+#, c-format
+msgid "Open video screen after %i minutes of inactivity"
+msgstr "Videobildschirm nach %i Minuten Inaktivität öffnen"
+
+# %s will be replaced by the name of a visualization
+#, c-format
+msgid "Close video screen after %i minutes"
+msgstr "Videobildschirm nach %i Minuten schließen"
+
+#, c-format
+msgid "Limit play time to %i seconds"
+msgstr "Spielzeit auf %i Sekunden begrenzen"
 
 msgid "Read folders:"
 msgstr "Ordner durchsuchen:"
@@ -2282,8 +2331,10 @@ msgstr "Server in den Aktualisierungsprozess einbeziehen"
 msgid "Configuration file"
 msgstr "Konfigurations-Datei"
 
-msgid "Settings"
-msgstr "Einstellungen"
+# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
+#, c-format
+msgid "Loading %s"
+msgstr "Lade %s"
 
 # %i will be replaced by the error number
 #, c-format
@@ -2319,6 +2370,9 @@ msgstr "Titel"
 
 msgid "Further information"
 msgstr "Weitere Informationen"
+
+msgid "URL"
+msgstr "URL"
 
 msgid "Temporary directory"
 msgstr "Temporäres Verzeichnis"
@@ -2689,9 +2743,6 @@ msgstr "Archivdateien"
 msgid "Supported file-types"
 msgstr "Unterstützte Dateitypen"
 
-msgid "All files"
-msgstr "Alle Dateien"
-
 msgid "Test..."
 msgstr "Test..."
 
@@ -2860,9 +2911,20 @@ msgstr "Die Datei \"%s\" existiert nicht."
 msgid "Cannot execute \"%s\"."
 msgstr "Kann \"%s\" nicht ausführen."
 
-# %i will be replaced by the number of characters
-#~ msgid "(%i characters)"
-#~ msgstr "(%i-stellig)"
+#~ msgid "Show album name"
+#~ msgstr "Albumnamen anzeigen"
 
-#~ msgid "More layouts on the web..."
-#~ msgstr "Weitere Layouts im Internet..."
+#~ msgid "Online help"
+#~ msgstr "Online-Hilfe"
+
+#~ msgid "Jukebox settings..."
+#~ msgstr "Jukebox-Einstellungen ..."
+
+#~ msgid "Advanced settings..."
+#~ msgstr "Erweiterte Einstellungen ..."
+
+#~ msgid "Tools"
+#~ msgstr "Extras"
+
+#~ msgid "Workspace"
+#~ msgstr "Arbeitsbereich"

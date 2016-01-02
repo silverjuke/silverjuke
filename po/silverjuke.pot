@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: silverjuke 15.4\n"
+"Project-Id-Version: silverjuke 15.11\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2015-10-13 14:26+0200\n"
+"POT-Creation-Date: 2016-01-02 17:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,13 +24,61 @@ msgstr ""
 msgid "Sleep mode deactivated."
 msgstr ""
 
+msgid "Play time exceeded"
+msgstr ""
+
 msgid "Drag folders with music here."
 msgstr ""
 
 msgid "Show covers"
 msgstr ""
 
-msgid "Show album name"
+msgid "Duration"
+msgstr ""
+
+msgid "Artist"
+msgstr ""
+
+msgid "Original artist"
+msgstr ""
+
+msgid "Composer"
+msgstr ""
+
+msgid "Album"
+msgstr ""
+
+msgid "Track number"
+msgstr ""
+
+msgid "Automatic track number"
+msgstr ""
+
+msgid "Disk number"
+msgstr ""
+
+msgid "Genre"
+msgstr ""
+
+msgid "Year"
+msgstr ""
+
+msgid "Rating"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "Show double tracks"
+msgstr ""
+
+msgid "Show different artist names"
+msgstr ""
+
+msgid "Show different album names"
+msgstr ""
+
+msgid "Show cover titles"
 msgstr ""
 
 #, c-format
@@ -94,11 +142,12 @@ msgstr ""
 msgid "Execute the script \"%s\"?"
 msgstr ""
 
-msgid "Search"
+msgid ""
+"CAUTION: Scripts may slow down Silverjuke or damage your data. Please use "
+"only scripts you trust."
 msgstr ""
 
-#, c-format
-msgid "Loading %s"
+msgid "Search"
 msgstr ""
 
 msgid "On"
@@ -222,6 +271,23 @@ msgstr ""
 msgid "Shrink display"
 msgstr ""
 
+msgid "Services"
+msgstr ""
+
+#, c-format
+msgid "Hide %s"
+msgstr ""
+
+msgid "Hide Others"
+msgstr ""
+
+msgid "Show All"
+msgstr ""
+
+#, c-format
+msgid "Quit %s"
+msgstr ""
+
 msgid "Full screen"
 msgstr ""
 
@@ -243,6 +309,65 @@ msgstr ""
 msgid "Modules on the web..."
 msgstr ""
 
+msgid "Help"
+msgstr ""
+
+msgid "Add folders and files"
+msgstr ""
+
+msgid "Extras"
+msgstr ""
+
+msgid "Show remaining time"
+msgstr ""
+
+msgid "Show elapsed time"
+msgstr ""
+
+msgid "Show total time"
+msgstr ""
+
+msgid "Show track number"
+msgstr ""
+
+msgid "Show artist name"
+msgstr ""
+
+msgid "Show AutoPlay"
+msgstr ""
+
+msgid "Prefer album- to track-cover"
+msgstr ""
+
+msgid "Display"
+msgstr ""
+
+msgid "Columns"
+msgstr ""
+
+msgid "Same zoom in all views"
+msgstr ""
+
+msgid "Zoom"
+msgstr ""
+
+msgid "Video screen"
+msgstr ""
+
+msgid "Start kiosk mode..."
+msgstr ""
+
+#, c-format
+msgid "%s on the web"
+msgstr ""
+
+msgid "All files"
+msgstr ""
+
+#, c-format
+msgid "About %s"
+msgstr ""
+
 msgid "File"
 msgstr ""
 
@@ -258,45 +383,10 @@ msgstr ""
 msgid "Kiosk mode"
 msgstr ""
 
-msgid "Extras"
-msgstr ""
-
-msgid "Help"
-msgstr ""
-
-msgid "Add folders and files"
-msgstr ""
-
-#, c-format
-msgid "%s on the web"
-msgstr ""
-
-msgid "Online help"
-msgstr ""
-
-#, c-format
-msgid "About %s"
-msgstr ""
-
-msgid "Show elapsed time"
-msgstr ""
-
-msgid "Show remaining time"
-msgstr ""
-
-msgid "Same zoom in all views"
-msgstr ""
-
-msgid "Zoom"
-msgstr ""
-
-msgid "Video screen"
+msgid "None"
 msgstr ""
 
 msgid "Queue"
-msgstr ""
-
-msgid "Start kiosk mode..."
 msgstr ""
 
 msgid "Current view"
@@ -350,49 +440,16 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-msgid "Track number"
-msgstr ""
-
 msgid "Track count"
-msgstr ""
-
-msgid "Disk number"
 msgstr ""
 
 msgid "Disk count"
 msgstr ""
 
-msgid "Artist"
-msgstr ""
-
-msgid "Original artist"
-msgstr ""
-
-msgid "Composer"
-msgstr ""
-
-msgid "Album"
-msgstr ""
-
-msgid "Genre"
-msgstr ""
-
 msgid "Group"
 msgstr ""
 
-msgid "Comment"
-msgstr ""
-
 msgid "BPM"
-msgstr ""
-
-msgid "Rating"
-msgstr ""
-
-msgid "Year"
-msgstr ""
-
-msgid "Duration"
 msgstr ""
 
 msgid "Channels"
@@ -477,6 +534,10 @@ msgid "The search cannot be started; please check the following fields:"
 msgstr ""
 
 msgid "Note: The operators \"equal\" and \"unequal\" are case-sensitive."
+msgstr ""
+
+#, c-format
+msgid "Do you want to execute the scripts embedded in the skin \"%s\"?"
 msgstr ""
 
 msgid "Esc"
@@ -569,10 +630,7 @@ msgstr ""
 msgid "Music selection..."
 msgstr ""
 
-msgid "Jukebox settings..."
-msgstr ""
-
-msgid "Advanced settings..."
+msgid "Settings"
 msgstr ""
 
 msgid "Update music library"
@@ -666,9 +724,6 @@ msgid "Add credit"
 msgstr ""
 
 msgid "Console..."
-msgstr ""
-
-msgid "Tools"
 msgstr ""
 
 msgid "Replace..."
@@ -806,9 +861,6 @@ msgstr ""
 msgid "Context sensitive"
 msgstr ""
 
-msgid "Shortcut"
-msgstr ""
-
 msgid "Use multimedia keyboard keys"
 msgstr ""
 
@@ -853,9 +905,6 @@ msgid "Print"
 msgstr ""
 
 msgid "Ins"
-msgstr ""
-
-msgid "Workspace"
 msgstr ""
 
 msgid "Music selection"
@@ -1255,15 +1304,19 @@ msgstr ""
 msgid "Edit..."
 msgstr ""
 
-msgid ""
-"Beside several options, you can change the shortcuts to use here.\n"
-"This page is for experienced users only."
+msgid "Command"
 msgstr ""
 
-msgid "Command or option"
+msgid "Shortcut"
 msgstr ""
 
-msgid "Setting"
+msgid "Option"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "The following settings are for experienced users only."
 msgstr ""
 
 msgid "Customize"
@@ -1276,6 +1329,9 @@ msgstr ""
 msgid ""
 "Do you really want to reset all %i selected commands and options to their "
 "default values?"
+msgstr ""
+
+msgid "Shortcuts"
 msgstr ""
 
 msgid "Language"
@@ -1335,30 +1391,6 @@ msgstr ""
 msgid "Regard file changes"
 msgstr ""
 
-msgid "Display"
-msgstr ""
-
-msgid "Show total time"
-msgstr ""
-
-msgid "Show track number"
-msgstr ""
-
-msgid "Show artist name"
-msgstr ""
-
-msgid "Show AutoPlay"
-msgstr ""
-
-msgid "Preferred cover"
-msgstr ""
-
-msgid "Album cover"
-msgstr ""
-
-msgid "Track cover"
-msgstr ""
-
 msgid "Advanced"
 msgstr ""
 
@@ -1385,10 +1417,10 @@ msgstr ""
 msgid "Credit: %i"
 msgstr ""
 
-msgid "Start kiosk mode"
+msgid "Exit"
 msgstr ""
 
-msgid "Functionality"
+msgid "Functions"
 msgstr ""
 
 msgid "Monitors"
@@ -1588,6 +1620,9 @@ msgstr ""
 msgid "Exit kiosk mode"
 msgstr ""
 
+msgid "Start kiosk mode"
+msgstr ""
+
 msgid "OK"
 msgstr ""
 
@@ -1616,9 +1651,6 @@ msgstr ""
 
 msgid ""
 "No virtual keyboard found, please add the *.sjk files to the search paths."
-msgstr ""
-
-msgid "The following settings are for experienced users only."
 msgstr ""
 
 #, c-format
@@ -1659,45 +1691,6 @@ msgid ""
 msgstr ""
 
 msgid "Keywords to identify cover image for an album:"
-msgstr ""
-
-msgid "Track list"
-msgstr ""
-
-msgid "Show double tracks"
-msgstr ""
-
-msgid "Automatic track number"
-msgstr ""
-
-msgid "Show disk number"
-msgstr ""
-
-msgid "Show different artist names"
-msgstr ""
-
-msgid "Show original artist"
-msgstr ""
-
-msgid "Show composer"
-msgstr ""
-
-msgid "Show different album names"
-msgstr ""
-
-msgid "Show time"
-msgstr ""
-
-msgid "Show year"
-msgstr ""
-
-msgid "Show comment"
-msgstr ""
-
-msgid "Show genre"
-msgstr ""
-
-msgid "Show rating"
 msgstr ""
 
 msgid "Double click on covers"
@@ -1872,9 +1865,6 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-msgid "Currently, the following file types are read:"
-msgstr ""
-
 msgid "Music library"
 msgstr ""
 
@@ -1892,25 +1882,6 @@ msgid "Please select a playlist, some files or enter a streaming URL"
 msgstr ""
 
 msgid "Append to current playlist"
-msgstr ""
-
-msgid "Automatic control"
-msgstr ""
-
-#, c-format
-msgid "Go to current track after %i minutes of inactivity"
-msgstr ""
-
-#, c-format
-msgid "Reset view after %i minutes of inactivity to"
-msgstr ""
-
-#, c-format
-msgid "Open video screen after %i minutes of inactivity"
-msgstr ""
-
-#, c-format
-msgid "Close video screen after %i minutes"
 msgstr ""
 
 msgid "Volume control"
@@ -1955,6 +1926,15 @@ msgstr ""
 msgid "Other fadings"
 msgstr ""
 
+msgid "Resume"
+msgstr ""
+
+msgid "Automatic control"
+msgstr ""
+
+msgid "Jingles"
+msgstr ""
+
 msgid ""
 "The following options define the behaviour of the queue. For the \"shuffle "
 "intensity\",\n"
@@ -1985,6 +1965,21 @@ msgid "Shuffle intensity:"
 msgstr ""
 
 msgid ""
+"Here you can decide whether to restore the queue after a restart of "
+"Silverjuke.\n"
+"You can restore all or only unplayed titles."
+msgstr ""
+
+msgid "Restore queue"
+msgstr ""
+
+msgid "Restore already played tracks"
+msgstr ""
+
+msgid "Start playback from last position"
+msgstr ""
+
+msgid ""
 "Use the following options to define which actions should be done "
 "automatically\n"
 "after given timeouts."
@@ -2010,14 +2005,61 @@ msgstr ""
 msgid "Stop playback"
 msgstr ""
 
-msgid "in|after|at|always in|always after|always at"
+msgid ""
+"in|after inactivity of|at|always in|always after inactivity of|always at"
 msgstr ""
 
-msgid "minutes|minutes of inactivity|o'clock"
+msgid "minutes|o'clock"
 msgstr ""
 
 #, c-format
 msgid "Before this, fade out %i seconds"
+msgstr ""
+
+msgid ""
+"Jingles are normal tracks from your music library that are played\n"
+"under certain conditions."
+msgstr ""
+
+msgid "If the jukebox is playing, about every"
+msgstr ""
+
+msgid "minutes,"
+msgstr ""
+
+msgid "play a track from the music selection"
+msgstr ""
+
+msgid "At"
+msgstr ""
+
+msgid "o'clock,"
+msgstr ""
+
+msgid "Daily"
+msgstr ""
+
+msgid "Wait for end of playing track"
+msgstr ""
+
+#, c-format
+msgid "Go to current track after %i minutes of inactivity"
+msgstr ""
+
+#, c-format
+msgid "Reset view after %i minutes of inactivity to"
+msgstr ""
+
+#, c-format
+msgid "Open video screen after %i minutes of inactivity"
+msgstr ""
+
+#, c-format
+msgid "Close video screen after %i minutes"
+msgstr ""
+
+#, c-format
+msgid "Limit play time to %i seconds"
 msgstr ""
 
 msgid "Read folders:"
@@ -2105,7 +2147,8 @@ msgstr ""
 msgid "Configuration file"
 msgstr ""
 
-msgid "Settings"
+#, c-format
+msgid "Loading %s"
 msgstr ""
 
 #, c-format
@@ -2137,6 +2180,9 @@ msgid "Track"
 msgstr ""
 
 msgid "Further information"
+msgstr ""
+
+msgid "URL"
 msgstr ""
 
 msgid "Temporary directory"
@@ -2479,9 +2525,6 @@ msgid "Archive-files"
 msgstr ""
 
 msgid "Supported file-types"
-msgstr ""
-
-msgid "All files"
 msgstr ""
 
 msgid "Test..."
