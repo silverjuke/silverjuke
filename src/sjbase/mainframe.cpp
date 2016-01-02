@@ -3088,12 +3088,7 @@ void SjMainFrame::OnSearchMusicSel(wxCommandEvent& event)
 
 // the logging dialog
 
-//_("%s Error");
-//_("%s Warning");
-//_("%s Information");
 _("Fatal error");
-//_("&Details");
-//_("&Save...");
 
 // accelerator stuff
 
@@ -3107,6 +3102,14 @@ _("Enlarge window")
 _("Shrink window")
 _("Enlarge display")
 _("Shrink display")
+
+// Mac OS X menu entries as used in src/osx/menu_osx.cpp
+
+_("Services")
+_("Hide %s")
+_("Hide Others")
+_("Show All")
+_("Quit %s")
 
 // misc.
 
