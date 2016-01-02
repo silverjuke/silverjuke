@@ -1120,5 +1120,8 @@ private:
 #define SJ_WW_CH                2
 long    SjMs2Bytes          (long ms);
 
+// Create OS-specific from generic string. (Eg. "Exit" => "Quit")
+wxString _os(const wxString&);
+
 
 #endif /* __SJ_TOOLS_H__ */

@@ -100,9 +100,14 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Paste"),                          IDO_PASTE_USING_COORD,     0, IDO_PASTE);
 	OrgCmd(_("Search"),                         IDT_SEARCH_BUTTON,         SJA_MAIN); OrgKey(wxACCEL_CTRL, 'F');
 	OrgCmd(_("Music selection..."),             IDT_ADV_SEARCH,            SJA_MAIN); OrgKey(wxACCEL_ALT, 'F');
-	OrgCmd(_("Settings")+wxT("..."),            IDT_SETTINGS,              SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
-	OrgCmd(wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME),
-	                                            IDT_QUIT,                  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'Q'); OrgKey(wxACCEL_ALT, 'X');
+	OrgCmd(_os(_("Settings"))+wxT("..."),       IDT_SETTINGS,              SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
+	OrgCmd(wxString::Format(_os(_("Exit %s")), SJ_PROGRAM_NAME),
+	                                            IDT_QUIT,                  SJA_MAIN);        
+                                                                                             #ifdef __WXMSW__
+	                                                                                         OrgKey(wxACCEL_ALT, 'X');
+																							 #else
+	                                                                                         OrgKey(wxACCEL_CTRL, 'Q'); 
+                                                                                             #endif
 	OrgCmd(_("Update music library"),           IDT_UPDATE_INDEX,          SJA_MAIN);        OrgKey(0, WXK_F5);
 	OrgCmd(_("Recreate music library"),         IDT_DEEP_UPDATE_INDEX,     SJA_MAIN);        OrgKey(wxACCEL_SHIFT, WXK_F5);
 	OrgCmd(_("Enqueue tracks"),                 IDT_ENQUEUE_LAST,          SJA_MAIN|SJA_ADVSEARCH);
@@ -145,7 +150,7 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Zoom out"),                       IDT_ZOOM_OUT,              SJA_MAIN);        OrgKey(0, WXK_SUBTRACT);
 	OrgCmd(_("Normal zoom"),                    IDT_ZOOM_NORMAL,           SJA_MAIN);        OrgKey(0, WXK_MULTIPLY);
 	OrgCmd(_("Always on top"),                  IDT_ALWAYS_ON_TOP,         SJA_MAIN);
-	OrgCmd(_("Show file"),                      IDM_EXPLORE,               SJA_MAIN|SJA_ART);
+	OrgCmd(_os(_("Show file")),                 IDM_EXPLORE,               SJA_MAIN|SJA_ART);
 	OrgCmd(_("Kiosk mode"),                     IDT_TOGGLE_KIOSK,          SJA_MAIN|SJA_KIOSKSETTINGS);
                                                                                              #ifdef __WXMAC__
 	                                                                                         OrgKey(wxACCEL_ALT, 'K');

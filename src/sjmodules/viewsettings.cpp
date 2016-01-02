@@ -401,7 +401,7 @@ void SjViewSettingsPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 
 	menu.Append(IDC_SKININFO, _("Info..."));
 
-	menu.Append(IDC_SKINEXPLORE, _("Show file"));
+	menu.Append(IDC_SKINEXPLORE, _os(_("Show file")));
 	menu.AppendSeparator();
 	menu.Append(IDC_SKINUPDATELIST, _("Update list"));
 	menu.Append(IDC_SKINWWW, _("More skins on the web..."));

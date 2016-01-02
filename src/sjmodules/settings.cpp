@@ -459,7 +459,7 @@ SjSettingsModule::SjSettingsModule(SjInterfaceBase* interf)
 	: SjCommonModule(interf)
 {
 	m_file              = wxT("memory:settings.lib");
-	m_name              = _("Settings");
+	m_name              = _os(_("Settings"));
 }
 
 

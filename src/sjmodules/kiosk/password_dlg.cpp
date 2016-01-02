@@ -105,7 +105,7 @@ SjPasswordDlg::SjPasswordDlg(wxWindow*          parent,
 
 void SjPasswordDlg::InitExitActionChoice(wxChoice* c)
 {
-	c->Append(wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME), (void*)SJ_SHUTDOWN_EXIT_SILVERJUKE);
+	c->Append(wxString::Format(_os(_("Exit %s")), SJ_PROGRAM_NAME), (void*)SJ_SHUTDOWN_EXIT_SILVERJUKE);
 	c->Append(_("Shutdown computer"), (void*)SJ_SHUTDOWN_POWEROFF_COMPUTER);
 	c->Append(_("Reboot computer"), (void*)SJ_SHUTDOWN_REBOOT_COMPUTER);
 

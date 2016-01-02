@@ -185,7 +185,7 @@ void SjSearchPathDlg::OnContextMenu(wxListEvent&)
 	m.Append(IDC_SEARCHPATHREMOVE, _("Remove"));
 	m.Enable(IDC_SEARCHPATHREMOVE, m_removeButton->IsEnabled());
 	m.AppendSeparator();
-	m.Append(IDC_SHOWSEARCHPATH, _("Show file"));
+	m.Append(IDC_SHOWSEARCHPATH, _os(_("Show file")));
 
 	PopupMenu(&m);
 }

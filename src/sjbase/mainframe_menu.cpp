@@ -136,9 +136,9 @@ void SjMainFrame::CreateMainMenu()
 
 	// append menus to menu bar
 	// (wxMenuBar::Append() should be called with all items added to the menu to append; this allows eg. OS X to move menu items around)
-	m_menuBar->Append(m_fileMenu, _("File"));
+	m_menuBar->Append(m_fileMenu, _os(_("File")));
 	m_menuBar->Append(m_editMenu, _("Edit"));
-	m_menuBar->Append(m_viewMenu, _("View"));
+	m_menuBar->Append(m_viewMenu, _os(_("View")));
 	m_menuBar->Append(m_playbackMenu, _("Playback"));
 	m_menuBar->Append(m_kioskMenu, _("Kiosk mode"));
 	m_menuBar->Append(m_helpMenu, _("Help"));
@@ -686,7 +686,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 				m_libraryModule->CreateRatingMenu(mainMenu, IDO_RATINGQUEUE00, m_contextMenuClickedUrls);
 				m_libraryModule->CreateArtistInfoMenu(mainMenu, IDO_ARTISTINFQUEUE00, m_contextMenuClickedUrls);
 
-				mainMenu.Append(IDO_EXPLOREQUEUE, _("Show file"));
+				mainMenu.Append(IDO_EXPLOREQUEUE, _os(_("Show file")));
 				mainMenu.Enable(IDO_EXPLOREQUEUE, (markedCount==1));
 
 				SjMenu* submenu = new SjMenu(0);
@@ -710,7 +710,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 					mainMenu.Append(IDO_DISPLAY_COVER, _("Cover editor"));
 					if( IsAllAvailable() )
 					{
-						mainMenu.Append(IDO_DISPLAY_COVER_EXPLR, _("Show file"));
+						mainMenu.Append(IDO_DISPLAY_COVER_EXPLR, _os(_("Show file")));
 					}
 				}
 				break;

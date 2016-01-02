@@ -1025,7 +1025,7 @@ void SjArtEditorModule::CreateArtMenu(
 		menu.Append(0, _("Effects/options"), submenu);
 
 		// show file
-		menu.Append(IDM_EXPLORE, _("Show file"));
+		menu.Append(IDM_EXPLORE, _os(_("Show file")));
 		menu.Enable(IDM_EXPLORE, g_tools->IsUrlExplorable(selUrl));
 	}
 

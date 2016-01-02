@@ -361,7 +361,7 @@ void SjVisImpl::ShowContextMenu(int x, int y)
 		submenu->AppendCheckItem(IDC_HALF_SIZE, _("Half size"));
 		submenu->Check(IDC_HALF_SIZE, (g_visModule->m_visFlags & SJ_VIS_FLAGS_HALF_SIZE)!=0);
 
-		m.Append(0, _("View"), submenu);
+		m.Append(0, _os(_("View")), submenu);
 
 		// misc.
 		m.AppendSeparator();

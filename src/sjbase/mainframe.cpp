@@ -364,7 +364,7 @@ bool SjMainFrame::QueryEndSession(bool onShutdown)
 			            wxString::Format(_("%s is currently playing. Do you want to stop the playing track and exit %s?"),
 			                             SJ_PROGRAM_NAME, SJ_PROGRAM_NAME
 			                            ),
-			            wxString::Format(_("Exit %s"), SJ_PROGRAM_NAME),
+			            wxString::Format(_os(_("Exit %s")), SJ_PROGRAM_NAME),
 			            this, SJ_ACCEL_ASK_ON_CLOSE_IF_PLAYING) != wxYES )
 			{
 				return FALSE;
@@ -3078,47 +3078,4 @@ void SjMainFrame::OnSearchMusicSel(wxCommandEvent& event)
 }
 
 
-/*******************************************************************************
- * Strings used by wx/Silverjuke that should be localizable;
- * There is no need to include them into the project, only needed by poEdit.
- ******************************************************************************/
 
-
-#ifdef __ANY_LABEL_THAT_SHOULDNT_BE_DEFINED__
-
-// the logging dialog
-
-_("Fatal error");
-
-// accelerator stuff
-
-_("Ctrl");
-_("Alt");
-_("Shift");
-
-// skin: layout switching targets
-
-_("Enlarge window")
-_("Shrink window")
-_("Enlarge display")
-_("Shrink display")
-
-// Mac OS X menu entries as used in src/osx/menu_osx.cpp
-
-_("Services")
-_("Hide %s")
-_("Hide Others")
-_("Show All")
-_("Quit %s")
-
-// misc.
-
-_("Full screen");
-_("Show file");
-_("Explore");
-_("Reveal in Finder");
-_("Info...");
-_("State")
-_("Modules on the web...")
-
-#endif
