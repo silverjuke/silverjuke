@@ -225,6 +225,7 @@ public:
 		m_stream      = NULL;
 		m_event_queue = NULL;
 		m_url         = url;
+		m_startingTime= 0; // not yet started
 	}
 
 	~SjXineStream()
@@ -299,7 +300,14 @@ public:
 			return false;
 		}
 
+		m_startingTime = wxDateTime::Now().GetAsDOS();
+
 		return true;
+	}
+
+	void PlaybackDone()
+	{
+		g_mainFrame->m_player.SaveGatheredInfo(m_url, m_startingTime, NULL, 0);
 	}
 
 	xine_stream_t* GetXineStream() const
@@ -330,6 +338,7 @@ private:
 	xine_stream_t*      m_stream;
 	xine_event_queue_t*	m_event_queue;
 	wxString            m_url; // may also be set it m_curr_stream is NULL (not cleared on errors)
+	unsigned long       m_startingTime;
 };
 
 
@@ -398,6 +407,7 @@ void SjPlayer::DoStop()
 {
 	if( m_impl->m_currStream )
 	{
+		m_impl->m_currStream->PlaybackDone();
 		delete m_impl->m_currStream;
 		m_impl->m_currStream = NULL;
 	}
@@ -428,6 +438,7 @@ void SjPlayer::DoGotoAbsPos(long queuePos, bool fadeToPos)
 
 	// close old stream
 	if( m_impl->m_currStream ) {
+		m_impl->m_currStream->PlaybackDone();
 		delete m_impl->m_currStream;
 		m_impl->m_currStream = NULL;
 	}
@@ -570,6 +581,7 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 
 		// try to create the next stream
         if( m_impl->m_currStream ) {
+			m_impl->m_currStream->PlaybackDone();
 			delete m_impl->m_currStream;
 			m_impl->m_currStream = NULL;
 		}
