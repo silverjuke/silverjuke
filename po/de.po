@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-01-02 17:11+0100\n"
-"PO-Revision-Date: 2016-01-02 17:52+0100\n"
+"POT-Creation-Date: 2016-01-04 12:33+0100\n"
+"PO-Revision-Date: 2016-01-04 12:18+0100\n"
 "Last-Translator: Björn Petersen <r10s@b44t.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -20,7 +20,7 @@ msgid "Sleep mode deactivated."
 msgstr "Schlafmodus deaktiviert."
 
 msgid "Play time exceeded"
-msgstr "Spielzeit abgelaufen"
+msgstr "Maximale Spielzeit überschritten"
 
 msgid "Drag folders with music here."
 msgstr "Ordner mit Musikdateien hierher ziehen."
@@ -257,68 +257,6 @@ msgstr "Alle Titel/einen Titel wiederholen"
 msgid "Search in \"%s\""
 msgstr "Suche in \"%s\""
 
-msgid "Fatal error"
-msgstr "Fataler Fehler"
-
-msgid "Ctrl"
-msgstr "Strg"
-
-msgid "Alt"
-msgstr "Alt"
-
-msgid "Shift"
-msgstr "Shift"
-
-msgid "Enlarge window"
-msgstr "Fenster vergrößern"
-
-msgid "Shrink window"
-msgstr "Fenster verkleinern"
-
-msgid "Enlarge display"
-msgstr "Display vergrößern"
-
-msgid "Shrink display"
-msgstr "Display verkleinern"
-
-msgid "Services"
-msgstr "Dienste"
-
-#, c-format
-msgid "Hide %s"
-msgstr "%s ausblenden"
-
-msgid "Hide Others"
-msgstr "Andere ausblenden"
-
-msgid "Show All"
-msgstr "Alle einblenden"
-
-#, c-format
-msgid "Quit %s"
-msgstr "%s beenden"
-
-msgid "Full screen"
-msgstr "Ganzer Bildschirm"
-
-msgid "Show file"
-msgstr "Datei anzeigen"
-
-msgid "Explore"
-msgstr "Explore"
-
-msgid "Reveal in Finder"
-msgstr "Im Finder zeigen"
-
-msgid "Info..."
-msgstr "Info..."
-
-msgid "State"
-msgstr "Status"
-
-msgid "Modules on the web..."
-msgstr "Module im Internet..."
-
 msgid "Help"
 msgstr "Hilfe"
 
@@ -421,6 +359,9 @@ msgstr "Suche nach Musikauswahl"
 
 msgid "Edit tracks/Get info"
 msgstr "Titel bearbeiten/Info"
+
+msgid "Show file"
+msgstr "Datei anzeigen"
 
 msgid "Cover editor"
 msgstr "Cover-Editor"
@@ -2132,7 +2073,7 @@ msgid ""
 "Silverjuke.\n"
 "You can restore all or only unplayed titles."
 msgstr ""
-"Hier können Sie einstellen, ob die Wiedergabelisten nach einem Neustart von\n"
+"Hier können Sie einstellen, ob die Wiedergabeliste nach einem Neustart von\n"
 "Silverjuke wiederhergestellt werden soll."
 
 msgid "Restore queue"
@@ -2202,7 +2143,7 @@ msgstr "Minuten,"
 
 # %s will be replaced by the name of a music selection
 msgid "play a track from the music selection"
-msgstr "Titel aus der Musikauswahl spielen"
+msgstr "spiele einen Titel aus der Musikauswahl"
 
 msgid "At"
 msgstr "Um"
@@ -2554,6 +2495,9 @@ msgstr ""
 msgid "Name"
 msgstr "Name"
 
+msgid "Info..."
+msgstr "Info..."
+
 msgid "Update list"
 msgstr "Liste aktualisieren"
 
@@ -2702,6 +2646,9 @@ msgstr "\"%s\" überschreiben?"
 
 msgid "Append"
 msgstr "Anhängen"
+
+msgid "State"
+msgstr "Status"
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
@@ -2900,6 +2847,59 @@ msgstr[1] "%i Tage"
 #, c-format
 msgid "Invalid regular expression \"%s\"."
 msgstr "Ungültiger regulärer Ausdruck \"%s\""
+
+msgid "Fatal error"
+msgstr "Fataler Fehler"
+
+msgid "Ctrl"
+msgstr "Strg"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Shift"
+msgstr "Shift"
+
+msgid "Enlarge window"
+msgstr "Fenster vergrößern"
+
+msgid "Shrink window"
+msgstr "Fenster verkleinern"
+
+msgid "Enlarge display"
+msgstr "Display vergrößern"
+
+msgid "Shrink display"
+msgstr "Display verkleinern"
+
+msgid "Services"
+msgstr "Dienste"
+
+#, c-format
+msgid "Hide %s"
+msgstr "%s ausblenden"
+
+msgid "Hide Others"
+msgstr "Andere ausblenden"
+
+msgid "Show All"
+msgstr "Alle einblenden"
+
+#, c-format
+msgid "Quit %s"
+msgstr "%s beenden"
+
+msgid "Full screen"
+msgstr "Ganzer Bildschirm"
+
+msgid "Modules on the web..."
+msgstr "Module im Internet..."
+
+msgid "Explore"
+msgstr "Explore"
+
+msgid "Reveal in Finder"
+msgstr "Im Finder zeigen"
 
 # %s will be replaced by the file name
 #, c-format
