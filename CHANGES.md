@@ -2,16 +2,18 @@ Silverjuke Changes
 ================================================================================
 
 
-V15.11 (30.12.2015)
+V16.1 (05.01.2016)
 ================================================================================
 
+- New: Mac OS X version
 - New: Scripting and plugin-interface enabled by default
 - New: Play Opus-files if possible
 - New: INI-Switch to prepend zeros to track numbers, see file "user-guide"
+- New: Read Winamp 5.6 genres
 - Show a warning before scripts are executed in Skins or via Drag'n'Drop
 - All menu entries added by scripts go to the same place in the "Edit" menu
 - Album view", "Cover view" and "List view" options in view menu
-- Read Winamp 5.6 genres
+- Make "Skip Silence between tracks" work on Mac and Windows
 - Bug fixes
 
 
