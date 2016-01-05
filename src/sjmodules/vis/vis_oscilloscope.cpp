@@ -30,7 +30,7 @@
 #include <sjmodules/vis/vis_oscilloscope.h>
 #include <sjmodules/vis/vis_window.h>
 #include <math.h>
-#include <kiss_fft/kiss_fftr.h>
+#include <kiss_fft/tools/kiss_fftr.h>
 
 // you should not change SLEEP_MS without reasons.
 // IF you change it, also check if really all time-depending calculations are still correct.

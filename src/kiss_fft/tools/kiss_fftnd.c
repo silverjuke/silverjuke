@@ -22,10 +22,10 @@ struct kiss_fftnd_state{
     int ndims; 
     int *dims;
     kiss_fft_cfg *states; /* cfg states for each dimension */
-    kiss_fft_cpx * tmpbuf; /*buffer capable of hold the entire buffer */
+    kiss_fft_cpx * tmpbuf; /*buffer capable of hold the entire input */
 };
 
-kiss_fftnd_cfg kiss_fftnd_alloc(int *dims,int ndims,int inverse_fft,void*mem,size_t*lenmem)
+kiss_fftnd_cfg kiss_fftnd_alloc(const int *dims,int ndims,int inverse_fft,void*mem,size_t*lenmem)
 {
     kiss_fftnd_cfg st = NULL;
     int i;
@@ -34,7 +34,7 @@ kiss_fftnd_cfg kiss_fftnd_alloc(int *dims,int ndims,int inverse_fft,void*mem,siz
     char * ptr;
 
     for (i=0;i<ndims;++i) {
-        size_t sublen;
+        size_t sublen=0;
         kiss_fft_alloc (dims[i], inverse_fft, NULL, &sublen);
         memneeded += sublen;   /* st->states[i] */
         dimprod *= dims[i];
@@ -72,6 +72,26 @@ kiss_fftnd_cfg kiss_fftnd_alloc(int *dims,int ndims,int inverse_fft,void*mem,siz
         kiss_fft_alloc (st->dims[i], inverse_fft, NULL, &len);
         st->states[i] = kiss_fft_alloc (st->dims[i], inverse_fft, ptr,&len);
         ptr += len;
+    }
+    /*
+Hi there!
+
+If you're looking at this particular code, it probably means you've got a brain-dead bounds checker 
+that thinks the above code overwrites the end of the array.
+
+It doesn't.
+
+-- Mark 
+
+P.S.
+The below code might give you some warm fuzzies and help convince you.
+       */
+    if ( ptr - (char*)st != (int)memneeded ) {
+        fprintf(stderr,
+                "################################################################################\n"
+                "Internal error! Memory allocation miscalculation\n"
+                "################################################################################\n"
+               );
     }
     return st;
 }

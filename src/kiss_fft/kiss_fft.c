@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2003-2004, Mark Borgerding
+Copyright (c) 2003-2010, Mark Borgerding
 
 All rights reserved.
 
@@ -17,20 +17,6 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 /* The guts header contains all the multiplication and addition macros that are defined for
  fixed or floating point complex numbers.  It also delares the kf_ internal functions.
  */
-
-static kiss_fft_cpx *scratchbuf=NULL;
-static size_t nscratchbuf=0;
-static kiss_fft_cpx *tmpbuf=NULL;
-static size_t ntmpbuf=0;
-
-#define CHECKBUF(buf,nbuf,n) \
-    do { \
-        if ( nbuf < (size_t)(n) ) {\
-            buf = (kiss_fft_cpx*)realloc(buf,sizeof(kiss_fft_cpx)*(n)); \
-            nbuf = (size_t)(n); \
-        } \
-   }while(0)
-
 
 static void kf_bfly2(
         kiss_fft_cpx * Fout,
@@ -67,6 +53,7 @@ static void kf_bfly4(
     size_t k=m;
     const size_t m2=2*m;
     const size_t m3=3*m;
+
 
     tw3 = tw2 = tw1 = st->twiddles;
 
@@ -129,8 +116,8 @@ static void kf_bfly3(
          tw1 += fstride;
          tw2 += fstride*2;
 
-         Fout[m].r = Fout->r - scratch[3].r/2;
-         Fout[m].i = Fout->i - scratch[3].i/2;
+         Fout[m].r = Fout->r - HALF_OF(scratch[3].r);
+         Fout[m].i = Fout->i - HALF_OF(scratch[3].i);
 
          C_MULBYSCALAR( scratch[0] , epi3.i );
 
@@ -221,29 +208,30 @@ static void kf_bfly_generic(
     kiss_fft_cpx t;
     int Norig = st->nfft;
 
-    CHECKBUF(scratchbuf,nscratchbuf,p);
+    kiss_fft_cpx * scratch = (kiss_fft_cpx*)KISS_FFT_TMP_ALLOC(sizeof(kiss_fft_cpx)*p);
 
     for ( u=0; u<m; ++u ) {
         k=u;
         for ( q1=0 ; q1<p ; ++q1 ) {
-            scratchbuf[q1] = Fout[ k  ];
-            C_FIXDIV(scratchbuf[q1],p);
+            scratch[q1] = Fout[ k  ];
+            C_FIXDIV(scratch[q1],p);
             k += m;
         }
 
         k=u;
         for ( q1=0 ; q1<p ; ++q1 ) {
             int twidx=0;
-            Fout[ k ] = scratchbuf[0];
+            Fout[ k ] = scratch[0];
             for (q=1;q<p;++q ) {
                 twidx += fstride * k;
                 if (twidx>=Norig) twidx-=Norig;
-                C_MUL(t,scratchbuf[q] , twiddles[twidx] );
+                C_MUL(t,scratch[q] , twiddles[twidx] );
                 C_ADDTO( Fout[ k ] ,t);
             }
             k += m;
         }
     }
+    KISS_FFT_TMP_FREE(scratch);
 }
 
 static
@@ -261,6 +249,30 @@ void kf_work(
     const int m=*factors++; /* stage's fft length/p */
     const kiss_fft_cpx * Fout_end = Fout + p*m;
 
+#ifdef _OPENMP
+    // use openmp extensions at the 
+    // top-level (not recursive)
+    if (fstride==1 && p<=5)
+    {
+        int k;
+
+        // execute the p different work units in different threads
+#       pragma omp parallel for
+        for (k=0;k<p;++k) 
+            kf_work( Fout +k*m, f+ fstride*in_stride*k,fstride*p,in_stride,factors,st);
+        // all threads have joined by this point
+
+        switch (p) {
+            case 2: kf_bfly2(Fout,fstride,st,m); break;
+            case 3: kf_bfly3(Fout,fstride,st,m); break; 
+            case 4: kf_bfly4(Fout,fstride,st,m); break;
+            case 5: kf_bfly5(Fout,fstride,st,m); break; 
+            default: kf_bfly_generic(Fout,fstride,st,m,p); break;
+        }
+        return;
+    }
+#endif
+
     if (m==1) {
         do{
             *Fout = *f;
@@ -268,6 +280,10 @@ void kf_work(
         }while(++Fout != Fout_end );
     }else{
         do{
+            // recursive call:
+            // DFT of size m*p performed by doing
+            // p instances of smaller DFTs of size m, 
+            // each one takes a decimated version of the input
             kf_work( Fout , f, fstride*p, in_stride, factors,st);
             f += fstride*in_stride;
         }while( (Fout += m) != Fout_end );
@@ -275,6 +291,7 @@ void kf_work(
 
     Fout=Fout_beg;
 
+    // recombine the p smaller DFTs 
     switch (p) {
         case 2: kf_bfly2(Fout,fstride,st,m); break;
         case 3: kf_bfly3(Fout,fstride,st,m); break; 
@@ -326,9 +343,9 @@ kiss_fft_cfg kiss_fft_alloc(int nfft,int inverse_fft,void * mem,size_t * lenmem 
         + sizeof(kiss_fft_cpx)*(nfft-1); /* twiddle factors*/
 
     if ( lenmem==NULL ) {
-        st = ( kiss_fft_cfg)malloc( memneeded );
+        st = ( kiss_fft_cfg)KISS_FFT_MALLOC( memneeded );
     }else{
-        if (*lenmem >= memneeded)
+        if (mem != NULL && *lenmem >= memneeded)
             st = (kiss_fft_cfg)mem;
         *lenmem = memneeded;
     }
@@ -338,8 +355,8 @@ kiss_fft_cfg kiss_fft_alloc(int nfft,int inverse_fft,void * mem,size_t * lenmem 
         st->inverse = inverse_fft;
 
         for (i=0;i<nfft;++i) {
-            const double pi=3.14159265358979323846264338327;
-            double phase = ( -2*pi /nfft ) * i;
+            const double pi=3.141592653589793238462643383279502884197169399375105820974944;
+            double phase = -2*pi*i / nfft;
             if (st->inverse)
                 phase *= -1;
             kf_cexp(st->twiddles+i, phase );
@@ -351,14 +368,15 @@ kiss_fft_cfg kiss_fft_alloc(int nfft,int inverse_fft,void * mem,size_t * lenmem 
 }
 
 
-
-    
 void kiss_fft_stride(kiss_fft_cfg st,const kiss_fft_cpx *fin,kiss_fft_cpx *fout,int in_stride)
 {
     if (fin == fout) {
-        CHECKBUF(tmpbuf,ntmpbuf,st->nfft);
+        //NOTE: this is not really an in-place FFT algorithm.
+        //It just performs an out-of-place FFT into a temp buffer
+        kiss_fft_cpx * tmpbuf = (kiss_fft_cpx*)KISS_FFT_TMP_ALLOC( sizeof(kiss_fft_cpx)*st->nfft);
         kf_work(tmpbuf,fin,1,in_stride, st->factors,st);
         memcpy(fout,tmpbuf,sizeof(kiss_fft_cpx)*st->nfft);
+        KISS_FFT_TMP_FREE(tmpbuf);
     }else{
         kf_work( fout, fin, 1,in_stride, st->factors,st );
     }
@@ -369,3 +387,22 @@ void kiss_fft(kiss_fft_cfg cfg,const kiss_fft_cpx *fin,kiss_fft_cpx *fout)
     kiss_fft_stride(cfg,fin,fout,1);
 }
 
+
+void kiss_fft_cleanup(void)
+{
+    // nothing needed any more
+}
+
+int kiss_fft_next_fast_size(int n)
+{
+    while(1) {
+        int m=n;
+        while ( (m%2) == 0 ) m/=2;
+        while ( (m%3) == 0 ) m/=3;
+        while ( (m%5) == 0 ) m/=5;
+        if (m<=1)
+            break; /* n is completely factorable by twos, threes, and fives */
+        n++;
+    }
+    return n;
+}
