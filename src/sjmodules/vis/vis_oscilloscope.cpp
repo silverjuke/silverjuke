@@ -900,11 +900,21 @@ void SjOscOscilloscope::Draw(wxDC& dc, bool forceAnim)
 class SjOscSpectrumChData
 {
 public:
-    #define         NUM_BOXES 20
-    #define         SPEC_NUM        576
+	#define         NUM_BOXES 20
+	#define         SPEC_NUM  576
 	long            chNum;
 	double          m_boxMax[NUM_BOXES];
 	double          m_boxY[NUM_BOXES];
+
+	SjOscSpectrumChData()
+	{
+		chNum = 0;
+		for( int i = 0; i < NUM_BOXES; i++ )
+		{
+			m_boxMax[i] = 0;
+			m_boxY[i] = 0;
+		}
+	}
 };
 
 
@@ -924,8 +934,7 @@ private:
 	wxSize          m_clientSize;
 	long            m_sampleCount;
 	kiss_fftr_cfg   m_kiss_fft_setup;
-	SjOscSpectrumChData
-	m_chData[2];
+	SjOscSpectrumChData m_chData[2];
 
 	void            Draw                (wxDC&, SjOscSpectrumChData* chData, bool volumeBeat, bool showFigures, bool forceAnim);
 	void            DrawBand            (wxDC& dc, int x, int y, int w, int h, double val, double crazy);
