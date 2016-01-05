@@ -1031,6 +1031,12 @@ void SjOscSpectrum::Calc(const wxSize& clientSize, const unsigned char* bufferSt
 
 void SjOscSpectrum::DrawBand(wxDC& dc, int x, int y, int w, int h, double val, double crazy)
 {
+	// make sure, "val" is in range.  normally, there should be no overflows, but if, for any reasons,
+	// silverjuke may get very slow as eg. handH gets way too large.
+	if( val > 1.0 ) val = 1.0;
+	if( val < 0 ) val = 0;
+	
+	// draw the band to the given box
 	long bandH = (long)((double)h*val);
 	int  yy;
 
