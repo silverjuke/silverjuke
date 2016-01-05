@@ -94,7 +94,7 @@ bin_PROGRAMS = silverjuke
 
 silverjuke_SOURCES = \
 	src/kiss_fft/kiss_fft.c \
-	src/kiss_fft/kiss_fftr.c \
+	src/kiss_fft/tools/kiss_fftr.c \
 	src/see/cfunction.c \
 	src/see/debug.c \
 	src/see/dprint.c \
