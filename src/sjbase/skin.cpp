@@ -3359,10 +3359,11 @@ void SjSkinWindow::OnSize(wxSizeEvent& event_doNotUse_mayBeUnsetByOurForwardings
 	mouseEvent.m_y = mousePos.y;
 	OnMouseMotion(mouseEvent);
 
-	#ifdef __WXMAC__
-		Refresh(FALSE /*eraseBackground*/);
-		Update();
-	#endif
+	// we added these line for wx2.x/Silverjuke2.x, however, it seems as if they're no longer needed in wx3.x/Sj15.x
+	//#ifdef __WXMAC__
+	//	Refresh(FALSE /*eraseBackground*/);
+	//	Update();
+	//#endif
 }
 
 
