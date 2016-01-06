@@ -122,12 +122,15 @@ SjBusyInfo::SjBusyInfo(wxWindow *parent, const wxString& title, bool canCancel, 
 		parent->Enable(FALSE);
 	}
 
-	Show(TRUE);
-	#ifdef __WXMAC__
-		Update();
-	#else
-		Refresh();
-	#endif
+	Show();
+
+	// -- neither Update() nor Refresh() seems to be needed here, tested on Windows, Mac and Linux under wx3.x (the stuff comes from wx2.x)
+	//#ifdef __WXMAC__
+	//	Update();
+	//#else
+	//	Refresh();
+	//#endif
+
 	Yield();
 }
 
