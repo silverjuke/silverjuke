@@ -567,7 +567,6 @@ private:
 	 ********************************************************************/
 
 public:
-	wxCursor        m_staticMovehandCursor;
 	wxCursor        m_staticResizeNWSECursor;
 	wxCursor        m_staticResizeWECursor;
 	wxCursor        m_staticNoEntryCursor;

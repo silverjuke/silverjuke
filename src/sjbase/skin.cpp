@@ -963,7 +963,6 @@ SjMouseUsed SjSkinBoxItem::OnMouseLeftUp(long x, long y, long accelFlags, bool c
 	// always reset the cursor
 	if( m_skinWindow->m_mouseInDisplayMove )
 	{
-		m_skinWindow->SetCursor(SjVirtKeybdModule::GetStandardCursor());
 		m_skinWindow->m_mouseInDisplayMove = FALSE;
 	}
 
@@ -1044,7 +1043,6 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 			              || vDifference >  MOVESTART_DELTA
 			              || vDifference < -MOVESTART_DELTA ) )
 			{
-				m_skinWindow->SetCursor(g_tools->m_staticMovehandCursor);
 				m_skinWindow->m_mouseInDisplayMove = TRUE;
 				m_mouseMoveReported = FALSE;
 				m_timerLastMoveMs = 0;

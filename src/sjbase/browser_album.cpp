@@ -197,7 +197,6 @@ void SjAlbumBrowser::OnMouseLeftUp(wxMouseEvent& event)
 	// dragscroll: restore cursor if changed by dragscroll
 	if( m_window->m_mouseAction == SJ_ACTION_DRAGSCROLL )
 	{
-		m_window->SetCursor(SjVirtKeybdModule::GetStandardCursor());
 		m_window->m_mouseAction = SJ_ACTION_NONE;
 		return; // done
 	}
@@ -222,7 +221,6 @@ void SjAlbumBrowser::OnMouseCaptureLost(wxMouseCaptureLostEvent& event)
 	// dragscroll: restore cursor if changed by dragscroll
 	if( m_window->m_mouseAction == SJ_ACTION_DRAGSCROLL )
 	{
-		m_window->SetCursor(SjVirtKeybdModule::GetStandardCursor());
 		m_window->m_mouseAction = SJ_ACTION_NONE;
 		return; // done
 	}
@@ -336,7 +334,6 @@ void SjAlbumBrowser::OnMouseMotion(wxMouseEvent& event)
 				m_window->m_mouseAction = SJ_ACTION_DRAGSCROLL;
 				m_dragscrollCurrX       = xPos;
 				m_dragscrollCurrY       = yPos;
-				m_window->SetCursor(g_tools->m_staticMovehandCursor);
 			}
 		}
 	}

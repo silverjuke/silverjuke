@@ -60,7 +60,6 @@
 #include <sjtools/csv_tokenizer.h>
 #include <tagger/tg_bytevector.h>
 #include <sjmodules/help/help.h>
-#include <sjdata/icons/xpm_movehand_32.xpm>
 
 
 /*******************************************************************************
@@ -721,33 +720,6 @@ int SjTools::GetSearchPathIndex(const wxString& path) const
 
 void SjTools::LoadStaticObjects()
 {
-	/* create movehand cursors
-	 */
-	#ifdef __WXMAC__
-		m_staticMovehandCursor = wxCursor(wxCURSOR_SIZING);
-	#else
-		wxIcon iconHand(xpm_movehand_32);
-
-		wxBitmap bitmap; bitmap.CopyFromIcon(iconHand);
-		wxImage image = bitmap.ConvertToImage();
-		if( image.GetWidth()==32 )
-		{
-			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 4);
-			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 1);
-		}
-		else
-		{
-			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_X, 2);
-			image.SetOption(wxIMAGE_OPTION_CUR_HOTSPOT_Y, 1);
-		}
-
-		m_staticMovehandCursor = wxCursor(image);
-	#endif
-	if( !m_staticMovehandCursor.IsOk() )
-	{
-		m_staticMovehandCursor = *wxSTANDARD_CURSOR;
-	}
-
 	/* create resize cursors
 	 */
 	m_staticResizeNWSECursor = wxCursor(wxCURSOR_SIZENWSE);

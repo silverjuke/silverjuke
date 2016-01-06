@@ -805,10 +805,6 @@ bool SjListBrowser::ResetSpecialMouseAction()
 			m_columnDragIndex = -1;
 			CalcRefreshNUpdateHeader();
 		}
-		else
-		{
-			m_window->SetCursor(SjVirtKeybdModule::GetStandardCursor());
-		}
 
 		m_window->m_mouseAction = SJ_ACTION_NONE;
 		return true; // resetted
@@ -939,7 +935,6 @@ void SjListBrowser::OnMouseMotion(wxMouseEvent& event)
 				m_dragScrollOrgHScroll = m_tracksHScroll;
 				m_dragScrollOrgScrollPos = m_scrollPos;
 				m_window->m_mouseAction = SJ_ACTION_DRAGSCROLL;
-				m_window->SetCursor(g_tools->m_staticMovehandCursor);
 			}
 		}
 	}

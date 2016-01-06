@@ -216,7 +216,6 @@ void SjCoverBrowser::OnMouseLeftUp(wxMouseEvent& event)
 	// dragscroll: restore cursor if changed by dragscroll
 	if( m_window->m_mouseAction == SJ_ACTION_DRAGSCROLL )
 	{
-		m_window->SetCursor(SjVirtKeybdModule::GetStandardCursor());
 		m_window->m_mouseAction = SJ_ACTION_NONE;
 		return; // done
 	}
@@ -241,7 +240,6 @@ void SjCoverBrowser::OnMouseCaptureLost(wxMouseCaptureLostEvent& event)
 	// dragscroll: restore cursor if changed by dragscroll
 	if( m_window->m_mouseAction == SJ_ACTION_DRAGSCROLL )
 	{
-		m_window->SetCursor(SjVirtKeybdModule::GetStandardCursor());
 		m_window->m_mouseAction = SJ_ACTION_NONE;
 		return; // done
 	}
@@ -359,7 +357,6 @@ void SjCoverBrowser::OnMouseMotion(wxMouseEvent& event)
 				// start dragscroll
 				m_window->m_mouseAction = SJ_ACTION_DRAGSCROLL;
 				m_dragscrollCurrY       = yPos;
-				m_window->SetCursor(g_tools->m_staticMovehandCursor);
 			}
 		}
 	}
