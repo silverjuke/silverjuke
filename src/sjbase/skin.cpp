@@ -258,7 +258,7 @@ void SjSkinItem::RedrawMe()
 
 	// anything to redraw?
 	if( m_rect.width == 0 || m_rect.height == 0
-	 || m_skinWindow == NULL || m_skinWindow->m_currLayout == NULL /*see https://mail.google.com/a/b44t.com/#all/11fa3299de85ce8f*/ )
+	 || m_skinWindow == NULL || m_skinWindow->m_currLayout == NULL )
 	{
 		return;
 	}
@@ -416,7 +416,6 @@ bool SjSkinBoxItem::Create(const wxHtmlTag& tag, wxString& error)
 	m_mouseState    = SJ_MOUSE_STATE_NORMAL;
 
 	m_alwaysRedrawBackground = !m_colours[SJ_COLOUR_NORMAL].bgSet;
-
 
 	if( !m_width.IsSet() )
 	{
@@ -1067,7 +1066,7 @@ void SjSkinBoxItem::OnMouseMotion(long x, long y, bool leftDown)
 		else
 		{
 			if( motionSubitem != m_mouseSubitem
-			        || m_mouseState != SJ_MOUSE_STATE_HOVER )
+			 || m_mouseState != SJ_MOUSE_STATE_HOVER )
 			{
 				m_mouseSubitem  = motionSubitem;
 				m_mouseState    = SJ_MOUSE_STATE_HOVER;
@@ -1446,7 +1445,7 @@ SjMouseUsed SjSkinButtonItem::OnMouseLeftUp(long x, long y, long accelFlags, boo
 	SjMouseUsed ret = SJ_MOUSE_NOT_USED;
 
 	if( m_mouseState == SJ_MOUSE_STATE_CLICKED
-	        || m_mouseState == SJ_MOUSE_STATE_HOVER )
+	 || m_mouseState == SJ_MOUSE_STATE_HOVER )
 	{
 		// First, set mouse state to "normal".
 		m_mouseState = SJ_MOUSE_STATE_NORMAL;
@@ -1504,7 +1503,9 @@ SjMouseUsed SjSkinButtonItem::OnMouseLeftUp(long x, long y, long accelFlags, boo
 						if( see->IsResultDefined() )
 						{
 							if( !see->GetResultLong() )
+							{
 								ret = SJ_MOUSE_USED;
+							}
 
 							if( ret == SJ_MOUSE_USED && m_delayedRedraw )
 							{
@@ -3144,9 +3145,9 @@ SjSkinItem* SjSkinWindow::FindClickableItem(long x, long y) const
 			  )
 			{
 				if( x >= item->m_rect.x
-				        && y >= item->m_rect.y
-				        && x < (item->m_rect.x + item->m_rect.width)
-				        && y < (item->m_rect.y + item->m_rect.height) )
+				 && y >= item->m_rect.y
+				 && x < (item->m_rect.x + item->m_rect.width)
+				 && y < (item->m_rect.y + item->m_rect.height) )
 				{
 					return item;
 				}
@@ -3243,7 +3244,7 @@ void SjSkinWindow::SetSkinText(const wxString& userId, const wxString& text)
 				wxASSERT(item);
 
 				if(  item->m_userId
-				        && *item->m_userId == userId )
+				 && *item->m_userId == userId )
 				{
 					if( item->m_itemType == SJ_BOXITEM )
 					{
@@ -3693,7 +3694,7 @@ void SjSkinWindow::OnImageThere(SjImageThereEvent& event)
 
 	SjSkinItem*           item;
 	SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
-	SjImgThreadObj*          obj = event.GetObj();
+	SjImgThreadObj*       obj = event.GetObj();
 	while( itemnode )
 	{
 		item = itemnode->GetData();
@@ -3737,7 +3738,7 @@ void SjSkinWindow::RedrawAll(wxDC& dc,
 		if( item->m_usesPaint )
 		{
 			if( rect == NULL
-			        || rect->Intersects(item->m_rect) )
+			 || rect->Intersects(item->m_rect) )
 			{
 				if( finalMoveX || finalMoveY )
 				{
