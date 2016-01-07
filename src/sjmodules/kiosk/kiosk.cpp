@@ -321,7 +321,7 @@ SjKioskConfigPage::SjKioskConfigPage(wxWindow* parent, int selectedPage)
 	wxNotebook* notebookSizer = m_notebook;
 
 	#define PAGE_START 0
-	m_notebook->AddPage(CreateStartPage(m_notebook),  _("Exit"));
+	m_notebook->AddPage(CreateStartPage(m_notebook),  _("Start"));
 
 	#define PAGE_FUNCTIONS 1
 	m_notebook->AddPage(CreateFunctionPage(m_notebook),  _("Functions"));
