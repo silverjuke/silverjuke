@@ -2174,9 +2174,13 @@ void SjSkinScrollbarItem::OnPaint(wxDC& dc)
 
 	if( !m_hideScrollbar )
 	{
-		SwapNDrawPart(dc, m_pageLeftPart);
 		SwapNDrawPart(dc, m_thumbPart);
 		SwapNDrawPart(dc, m_pageRightPart, TRUE);
+		SwapNDrawPart(dc, m_pageLeftPart); // is there a but in wxMac's wxDC::DestroyClippingRegion()? Or is it
+			// just me? If we draw the left part first, there are clipping bugs if the scrollbar is leftmost/topmost
+			// then useing wxClientDC (wxPaintDC is fine). See also SjTools::DrawBitmapHBg() and SjTools::DrawBitmapVBg().
+			// If we encounter other errors, we should avoid clipping in these functions and use wxDC::GetSubBitmap()
+			// instead.
 	}
 }
 

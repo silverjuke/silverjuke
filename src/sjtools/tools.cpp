@@ -2265,7 +2265,7 @@ void SjTools::DrawBitmapHBg(wxDC& dc,
 
 				if( clippingSet )
 				{
-					dc.DestroyClippingRegion();
+					dc.DestroyClippingRegion(); // on wxMac, this may not work as expected on wxClientDC, see remarks in SjSkinScrollbarItem::OnPaint()
 					clippingSet = FALSE;
 				}
 			}
