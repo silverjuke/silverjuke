@@ -85,9 +85,6 @@ void SjMainFrame::CreateMainMenu()
 	m_editMenu->Append(IDT_SETTINGS);
 
 	// create "view" menu
-	m_viewMenu->Append(IDT_GOTO_CURR);
-	m_viewMenu->Append(IDT_WORKSPACE_GOTO_RANDOM);
-	m_viewMenu->AppendSeparator();
 	m_viewMenu->AppendRadioItem(IDT_WORKSPACE_ALBUM_VIEW);
 	m_viewMenu->AppendRadioItem(IDT_WORKSPACE_COVER_VIEW);
 	m_viewMenu->AppendRadioItem(IDT_WORKSPACE_LIST_VIEW);
@@ -111,6 +108,11 @@ void SjMainFrame::CreateMainMenu()
 		submenu->AppendSeparator();
 		submenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
 	m_viewMenu->Append(0, _("Zoom"), submenu);
+	m_viewMenu->AppendSeparator();
+	m_viewMenu->Append(IDT_GOTO_CURR);
+	m_viewMenu->Append(IDT_WORKSPACE_GOTO_RANDOM);
+	m_viewMenu->Append(IDT_WORKSPACE_GOTO_PREV_AZ);
+	m_viewMenu->Append(IDT_WORKSPACE_GOTO_NEXT_AZ);
 	m_viewMenu->AppendSeparator();
 	m_viewMenu->AppendCheckItem(IDT_ALWAYS_ON_TOP);
 	m_viewMenu->AppendSeparator();
