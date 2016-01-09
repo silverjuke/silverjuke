@@ -114,9 +114,9 @@ void SjMainFrame::CreateMainMenu()
 	m_viewMenu->Append(IDT_WORKSPACE_GOTO_PREV_AZ);
 	m_viewMenu->Append(IDT_WORKSPACE_GOTO_NEXT_AZ);
 	m_viewMenu->AppendSeparator();
-	m_viewMenu->AppendCheckItem(IDT_ALWAYS_ON_TOP);
-	m_viewMenu->AppendSeparator();
 	m_viewMenu->AppendCheckItem(IDT_START_VIS, _("Video screen"));
+	m_viewMenu->AppendSeparator();
+	m_viewMenu->AppendCheckItem(IDT_ALWAYS_ON_TOP);
 
 	// init "playback" menu
 	m_playbackMenu->AppendSeparator();
