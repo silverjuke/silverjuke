@@ -459,14 +459,25 @@ void SjCoverBrowser::OnMouseMotion(wxMouseEvent& event)
 
 void SjCoverBrowser::OnMouseWheel(wxMouseEvent& event, bool scrollVert)
 {
-	long zDelta = event.GetWheelRotation();
-	long wheelDelta = event.GetWheelDelta();
+	long rotation = event.GetWheelRotation();
+	long delta = event.GetWheelDelta();
 
-	// scroll!
-	if( scrollVert && wheelDelta>0 )
+	if( scrollVert && rotation!=0 && delta>0 )
 	{
-		OnVScroll(IDT_WORKSPACE_V_SCROLL, m_applRowIndex + (zDelta*-1 /* *m_coversYCount */)/wheelDelta, TRUE/*redraw*/);
-		//                  ^^^ may be used to scroll one page - but I think this is too much
+		// add multiple small rotations (smaller than the delta to take action) to bigger ones
+		static long s_addedRotation = 0;
+		if( (rotation < 0 && s_addedRotation > 0) || (rotation > 0 && s_addedRotation < 0) )
+		{
+			s_addedRotation = 0; // discard saved scrolling for the wrong direction
+		}
+		s_addedRotation += rotation;
+
+		long rotateCovers = s_addedRotation/delta;
+		if( rotateCovers != 0 )
+		{
+			s_addedRotation -= rotateCovers*delta;
+			OnVScroll(IDT_WORKSPACE_V_SCROLL, m_applRowIndex + rotateCovers*-1, TRUE/*redraw*/);
+		}
 	}
 }
 

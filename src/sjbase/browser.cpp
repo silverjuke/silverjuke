@@ -195,7 +195,7 @@ static void simulateSlider(long zDelta, long wheelDelta, int targetUp, int targe
 void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 {
 	if( g_accelModule == NULL || m_mouseAction == SJ_ACTION_DRAGNDROP
-	        || m_mouseAction == SJ_ACTION_COLUMNWIDTH || m_mouseAction == SJ_ACTION_COLUMNMOVE || m_currView == NULL ) return;
+	 || m_mouseAction == SJ_ACTION_COLUMNWIDTH || m_mouseAction == SJ_ACTION_COLUMNMOVE || m_currView == NULL ) return;
 
 	#if SJ_USE_TOOLTIPS
 		g_tools->m_toolTipManager.ClearToolTipProvider();
@@ -248,18 +248,23 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 			g_mainFrame->OnSkinTargetEvent(zDelta>0?IDT_WORKSPACE_PAGE_LEFT:IDT_WORKSPACE_PAGE_RIGHT, dummy, 0);
 			return;
 		}
+		else if( targetId == IDT_WORKSPACE_V_SCROLL
+		      || targetId == IDT_WORKSPACE_LINE_UP
+		      || targetId == IDT_WORKSPACE_LINE_DOWN
+		      || targetId == IDT_WORKSPACE_PAGE_UP
+		      || targetId == IDT_WORKSPACE_PAGE_DOWN )
+		{
+			SjSkinValue dummy;
+			g_mainFrame->OnSkinTargetEvent(zDelta>0?IDT_WORKSPACE_PAGE_UP:IDT_WORKSPACE_PAGE_DOWN, dummy, 0);
+			return;
+		}
 	}
 
 	// find out scrolling orientation
 
 	g_mainFrame->GotBrowserInputFromUser();
 
-	bool scrollVert = true;
-
-	if( m_currView == m_views[SJ_BROWSER_ALBUM_VIEW] )
-	{
-		scrollVert = (g_accelModule->m_flags&SJ_ACCEL_VERT_WHEEL_HORZ)? false : true;
-	}
+	bool scrollVert = event.GetWheelAxis() == wxMOUSE_WHEEL_HORIZONTAL? false : true;
 
 	if( event.ShiftDown()
 	 || event.ControlDown()

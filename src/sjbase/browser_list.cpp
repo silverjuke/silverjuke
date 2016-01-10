@@ -1031,20 +1031,35 @@ void SjListBrowser::OnMouseMotion(wxMouseEvent& event)
 
 void SjListBrowser::OnMouseWheel(wxMouseEvent& event, bool scrollVert)
 {
-	long zDelta = event.GetWheelRotation();
-	long wheelDelta = event.GetWheelDelta();
+	long rotation = event.GetWheelRotation();
+	long delta = event.GetWheelDelta();
 
-	// scroll!
-	if( wheelDelta>0 )
+	if( rotation != 0 && delta > 0 )
 	{
 		if( scrollVert )
 		{
-			OnVScroll(IDT_WORKSPACE_V_SCROLL, m_scrollPos + (zDelta*-1 * 4/* *m_visibleTrackCount */)/wheelDelta, TRUE/*redraw*/);
-			//                  ^^^ may be used to scroll one page - but I think this is too much
+			// We take action 4 times faster as normal to make things more comparable with
+			// the scrolling in the album view (line-by-line scrolling is too slow and page scrolling is too fast)
+			delta /= 4;
+
+			// add multiple small rotations (smaller than the delta to take action) to bigger ones
+			static long s_addedRotation = 0;
+			if( (rotation < 0 && s_addedRotation > 0) || (rotation > 0 && s_addedRotation < 0) )
+			{
+				s_addedRotation = 0; // discard saved scrolling for the wrong direction
+			}
+			s_addedRotation += rotation;
+
+			long rotateLines = s_addedRotation/delta;
+			if( rotateLines != 0 )
+			{
+				s_addedRotation -= rotateLines*delta;
+				OnVScroll(IDT_WORKSPACE_V_SCROLL, m_scrollPos + rotateLines*-1, TRUE/*redraw*/);
+			}
 		}
 		else
 		{
-			OnHScroll(IDT_WORKSPACE_H_SCROLL, m_tracksHScroll + (zDelta*-1  * (g_mainFrame->m_currFontSize*2))/wheelDelta, TRUE/*redraw*/);
+			OnHScroll(IDT_WORKSPACE_H_SCROLL, m_tracksHScroll + rotation, TRUE/*redraw*/);
 		}
 	}
 }

@@ -473,18 +473,38 @@ void SjAlbumBrowser::OnMouseMotion(wxMouseEvent& event)
 
 void SjAlbumBrowser::OnMouseWheel(wxMouseEvent& event, bool scrollVert)
 {
-	long zDelta = event.GetWheelRotation();
-	long wheelDelta = event.GetWheelDelta();
+	long rotation = event.GetWheelRotation();
+	long delta = event.GetWheelDelta();
 
-	// scroll!
-	if( scrollVert )
+	if( rotation != 0 && delta > 0 )
 	{
-		OnVScroll(IDT_WORKSPACE_V_SCROLL, m_scrollY + zDelta*-1, TRUE/*redraw*/);
-	}
-	else if( wheelDelta>0 )
-	{
-		OnHScroll(IDT_WORKSPACE_H_SCROLL, m_applColIndex + (zDelta*-1/* *m_visibleColCount */)/wheelDelta, TRUE/*redraw*/);
-		//           ^^^ this scrolls one page; i think this is too much; used before 1.50
+		if( g_accelModule->m_flags&SJ_ACCEL_VERT_WHEEL_HORZ )
+		{
+			scrollVert = !scrollVert;
+			rotation *= -1; // simulate the old behaviour of Silverjuke 2.x - not compatible with modern scroll whells with more than one axis!
+		}
+
+		if( scrollVert )
+		{
+			OnVScroll(IDT_WORKSPACE_V_SCROLL, m_scrollY + rotation*-1, TRUE/*redraw*/);
+		}
+		else
+		{
+			// add multiple small rotations (smaller than the delta to take action) to bigger ones
+			static long s_addedRotation = 0;
+			if( (rotation < 0 && s_addedRotation > 0) || (rotation > 0 && s_addedRotation < 0) )
+			{
+				s_addedRotation = 0; // discard saved scrolling for the wrong direction
+			}
+			s_addedRotation += rotation;
+
+			long rotateCols = s_addedRotation/delta;
+			if( rotateCols != 0 )
+			{
+				s_addedRotation -= rotateCols*delta;
+				OnHScroll(IDT_WORKSPACE_H_SCROLL, m_applColIndex + rotateCols, TRUE/*redraw*/); // TOCHEK: Maybe we should use fine scrolling here
+			}
+		}
 	}
 }
 
