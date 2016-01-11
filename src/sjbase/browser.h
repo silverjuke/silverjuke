@@ -122,6 +122,7 @@ public:
 	SjListBrowser*  GetListBrowser      () const {return (SjListBrowser*)m_views[SJ_BROWSER_LIST_VIEW];}
 
 	void            SetZoom_            (int targetIdOrAbs);
+	void            OnMouseWheel        (wxMouseEvent&);
 
 	// menu
 	void            AddItemsToColMenu   (SjMenu*);
@@ -138,7 +139,6 @@ private:
 	void            OnMouseLeftDClick   (wxMouseEvent&);
 	void            OnMouseMotion       (wxMouseEvent&);
 	void            OnMouseEnter        (wxMouseEvent&);
-	void            OnMouseWheel        (wxMouseEvent&);
 	void            OnMouseRight        (wxContextMenuEvent&);
 	void            OnMouseMiddleUp     (wxMouseEvent&);
 	void            OnMouseSelect       (wxMouseEvent&);

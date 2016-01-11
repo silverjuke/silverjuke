@@ -1502,6 +1502,7 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_CLOSE       (                           SjMainFrame::OnCloseWindow          )
 	EVT_ICONIZE     (                           SjMainFrame::OnIconizeWindow        )
 	//EVT_IDLE      (                           SjMainFrame::OnIdle                 )
+	EVT_MOUSEWHEEL  (                           SjMainFrame::OnMouseWheel           )
 
 	#ifdef SJHOOK_MAIN_EVENT_TABLE
 	SJHOOK_MAIN_EVENT_TABLE
@@ -2377,6 +2378,14 @@ void SjMainFrame::OnTab(wxCommandEvent& event)
 	{
 		m_simpleSearchInputWindow->SetFocus();
 	}
+}
+
+
+void SjMainFrame::OnMouseWheel(wxMouseEvent& e)
+{
+	// just forward the mouse wheel event to the browser window where it is used.
+	// (needed for Linux/Mac; on Windows mouse wheel events seems to go to the focused window)
+	m_browser->OnMouseWheel(e);
 }
 
 

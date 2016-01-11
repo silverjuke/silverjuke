@@ -337,6 +337,7 @@ private:
 	void            OnCloseWindow       (wxCloseEvent&);
 	void            OnIconizeWindow     (wxIconizeEvent&);
 	void            OnElapsedTimeTimer  (wxTimerEvent&);
+	void            OnMouseWheel        (wxMouseEvent&);
 
 	DECLARE_EVENT_TABLE ();
 
