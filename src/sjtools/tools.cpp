@@ -4155,7 +4155,7 @@ bool SjTrackInfoMatcher::GotMatch(const wxString& placeholder, const wxString& t
 
 
 /*******************************************************************************
- *  SjProp Class
+ * SjProp Class
  ******************************************************************************/
 
 
@@ -4204,6 +4204,46 @@ void SjProp::AddBytes(const wxString& name, long value, long flags)
 	{
 		Add(name, SjTools::FormatBytes(value, SJ_FORMAT_ADDEXACT), flags);
 	}
+}
+
+
+/*******************************************************************************
+ * SjWheelHelper Class
+ ******************************************************************************/
+
+
+SjWheelHelper::SjWheelHelper()
+{
+	m_availRotation = 0;
+}
+
+
+void SjWheelHelper::PushRotationNPopAction(wxMouseEvent& e, long& actions, long& dir)
+{
+	// collect rotations ...
+	long rotation = e.GetWheelRotation();
+	if( (rotation < 0 && m_availRotation > 0) || (rotation > 0 && m_availRotation < 0) )
+	{
+		m_availRotation = 0; // discard saved scrolling for the wrong direction
+	}
+	m_availRotation += rotation;
+
+	// ... use rotation, return the number of actions to perform
+	long delta = e.GetWheelDelta();
+	if( delta <= 0 ) delta = 120;
+
+	actions = m_availRotation/delta;
+	m_availRotation -= actions*delta;
+
+	// separate sign from action
+	dir = 1;
+	if( actions < 0 )
+	{
+		actions *= -1;
+		dir = -1;
+	}
+
+	if( actions > 2000 ) { actions = 2000; } // shdould not happen, added for safety
 }
 
 

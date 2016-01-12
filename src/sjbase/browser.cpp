@@ -180,18 +180,6 @@ void SjBrowserWindow::OnMouseMotion(wxMouseEvent& event)
 }
 
 
-static void simulateSlider(long rotation, long wheelDelta, int targetUp, int targetDown)
-{
-	SjSkinValue dummy;
-	long i, cnt = (rotation>0? rotation : (rotation*-1))/wheelDelta;
-	if( cnt<1 ) cnt = 1; if( cnt > 3 ) cnt = 3;
-	for( i = 0; i < cnt; i++ )
-	{
-		g_mainFrame->OnSkinTargetEvent(rotation>0?targetUp:targetDown, dummy, 0);
-	}
-}
-
-
 void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 {
 	if( g_accelModule == NULL || m_mouseAction == SJ_ACTION_DRAGNDROP
@@ -203,8 +191,6 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 
 	// get information about the mouse wheel event
 
-	long rotation = event.GetWheelRotation();
-	long wheelDelta = event.GetWheelDelta();
 	bool scrollVert = event.GetWheelAxis() == wxMOUSE_WHEEL_HORIZONTAL? false : true;
 	if( ((event.AltDown() || event.ShiftDown() || event.CmdDown() || event.ControlDown()) && g_accelModule->m_flags&SJ_ACCEL_WHEEL_MODIFIER_AXIS_TOGGLE)
 	 || (event.RightIsDown() && g_accelModule->m_flags&SJ_ACCEL_WHEEL_RMOUSE_AXIS_TOGGLE) )
@@ -232,7 +218,13 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 	{
 		if( scrollVert )
 		{
-			simulateSlider(rotation, wheelDelta, IDT_DISPLAY_UP, IDT_DISPLAY_DOWN);
+			static SjWheelHelper s_dispWheelHelper;
+			long actions, dir; s_dispWheelHelper.PushRotationNPopAction(event, actions, dir);
+			while( actions-- )
+			{
+				SjSkinValue dummy;
+				g_mainFrame->OnSkinTargetEvent(dir>0?IDT_DISPLAY_UP:IDT_DISPLAY_DOWN, dummy, 0);
+			}
 		}
 		return;
 	}
@@ -245,7 +237,13 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 		{
 			if( scrollVert )
 			{
-				simulateSlider(rotation, wheelDelta, IDT_MAIN_VOL_UP, IDT_MAIN_VOL_DOWN);
+				static SjWheelHelper s_volWheelHelper;
+				long actions, dir; s_volWheelHelper.PushRotationNPopAction(event, actions, dir);
+				while( actions-- )
+				{
+					SjSkinValue dummy;
+					g_mainFrame->OnSkinTargetEvent(dir>0?IDT_MAIN_VOL_UP:IDT_MAIN_VOL_DOWN, dummy, 0);
+				}
 			}
 			return;
 		}
@@ -255,8 +253,13 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 		{
 			if( scrollVert )
 			{
-				SjSkinValue dummy;
-				g_mainFrame->OnSkinTargetEvent(rotation>0?IDT_WORKSPACE_GOTO_PREV_AZ:IDT_WORKSPACE_GOTO_NEXT_AZ, dummy, 0);
+				static SjWheelHelper s_azWheelHelper;
+				long actions, dir; s_azWheelHelper.PushRotationNPopAction(event, actions, dir);
+				while( actions-- )
+				{
+					SjSkinValue dummy;
+					g_mainFrame->OnSkinTargetEvent(dir>0?IDT_WORKSPACE_GOTO_PREV_AZ:IDT_WORKSPACE_GOTO_NEXT_AZ, dummy, 0);
+				}
 			}
 			return;
 		}
@@ -268,8 +271,13 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 		{
 			if( scrollVert )
 			{
-				SjSkinValue dummy;
-				g_mainFrame->OnSkinTargetEvent(rotation>0?IDT_WORKSPACE_LINE_LEFT:IDT_WORKSPACE_LINE_RIGHT, dummy, 0);
+				static SjWheelHelper s_hscrollWheelHelper;
+				long actions, dir; s_hscrollWheelHelper.PushRotationNPopAction(event, actions, dir);
+				while( actions-- )
+				{
+					SjSkinValue dummy;
+					g_mainFrame->OnSkinTargetEvent(dir>0?IDT_WORKSPACE_LINE_LEFT:IDT_WORKSPACE_LINE_RIGHT, dummy, 0);
+				}
 				return;
 			}
 		}
@@ -281,8 +289,13 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 		{
 			if( scrollVert )
 			{
-				SjSkinValue dummy;
-				g_mainFrame->OnSkinTargetEvent(rotation>0?IDT_WORKSPACE_LINE_UP:IDT_WORKSPACE_LINE_DOWN, dummy, 0); // needed to allow vertical scrolling if SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW is set
+				static SjWheelHelper s_vscrollWheelHelper;
+				long actions, dir; s_vscrollWheelHelper.PushRotationNPopAction(event, actions, dir);
+				while( actions-- )
+				{
+					SjSkinValue dummy;
+					g_mainFrame->OnSkinTargetEvent(dir>0?IDT_WORKSPACE_LINE_UP:IDT_WORKSPACE_LINE_DOWN, dummy, 0); // needed to allow vertical scrolling if SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW is set
+				}
 				return;
 			}
 		}

@@ -1100,7 +1100,25 @@ private:
 
 
 /*******************************************************************************
- *  Hardware Graphic Stuff, Misc.
+ * SjWheelHelper Class
+ ******************************************************************************/
+
+
+class SjWheelHelper
+{
+	public:
+		// the wheel helper class collects mouse wheel events and pop actions based on
+		// delta and the collected rotations.  use a static/persistent object for this to work.
+		            SjWheelHelper           ();
+		void        PushRotationNPopAction  (wxMouseEvent& e, long& actions, long& dir);
+
+	private:
+		long        m_availRotation;
+};
+
+
+/*******************************************************************************
+ * Hardware Graphic Stuff, Misc.
  ******************************************************************************/
 
 

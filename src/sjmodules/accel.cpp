@@ -811,7 +811,7 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	                        &m_flags, 0L, SJ_ACCEL_WHEEL_MODIFIER_AXIS_TOGGLE, "main/accelFlags"));
 	lo.Add(new SjLittleBit (_("Right mouse button toggles axis"), "yn",
 	                        &m_flags, 0L, SJ_ACCEL_WHEEL_RMOUSE_AXIS_TOGGLE, "main/accelFlags"));
-	lo.Add(new SjLittleBit (_("Value input"), "oo",
+	lo.Add(new SjLittleBit (_("Modify volume, scrollbars, letters etc."), "yn",
 	                        &m_flags, 0L, SJ_ACCEL_WHEEL_VALUE_INPUT, "main/accelFlags"));
 
 	// find out the extra menu items

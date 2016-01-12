@@ -1032,29 +1032,24 @@ void SjListBrowser::OnMouseMotion(wxMouseEvent& event)
 void SjListBrowser::OnMouseWheel(wxMouseEvent& event, bool scrollVert)
 {
 	long rotation = event.GetWheelRotation();
-	long delta = event.GetWheelDelta();
 
-	if( rotation != 0 && delta > 0 )
+	if( rotation != 0 )
 	{
 		if( scrollVert )
 		{
-			// We take action 4 times faster as normal to make things more comparable with
-			// the scrolling in the album view (line-by-line scrolling is too slow and page scrolling is too fast)
-			delta /= 4;
-
 			// add multiple small rotations (smaller than the delta to take action) to bigger ones
-			static long s_addedRotation = 0;
-			if( (rotation < 0 && s_addedRotation > 0) || (rotation > 0 && s_addedRotation < 0) )
-			{
-				s_addedRotation = 0; // discard saved scrolling for the wrong direction
-			}
-			s_addedRotation += rotation;
-
-			long rotateLines = s_addedRotation/delta;
+			static SjWheelHelper s_coverViewWheelHelper;
+			long rotateLines, dir; s_coverViewWheelHelper.PushRotationNPopAction(event, rotateLines, dir);
 			if( rotateLines != 0 )
 			{
-				s_addedRotation -= rotateLines*delta;
-				OnVScroll(IDT_WORKSPACE_V_SCROLL, m_scrollPos + rotateLines*-1, TRUE/*redraw*/);
+				// We take action 4 times faster as normal to make things more comparable with
+				// the scrolling in the album view (line-by-line scrolling is too slow and page scrolling is too fast)
+				float multiplier = m_fontHeight > 0? (event.GetWheelDelta()/m_fontHeight) : 1;
+				if( multiplier < 1 ) multiplier = 1;
+				if( multiplier > 8 ) multiplier = 8;
+				rotateLines = (long)((float)rotateLines * multiplier);
+
+				OnVScroll(IDT_WORKSPACE_V_SCROLL, m_scrollPos + rotateLines*dir*-1, TRUE/*redraw*/);
 			}
 		}
 		else

@@ -474,17 +474,12 @@ void SjAlbumBrowser::OnMouseMotion(wxMouseEvent& event)
 void SjAlbumBrowser::OnMouseWheel(wxMouseEvent& event, bool scrollVert)
 {
 	long rotation = event.GetWheelRotation();
-	long delta = event.GetWheelDelta();
 
-	if( rotation != 0 && delta > 0 )
+	if( rotation != 0 )
 	{
 		if( g_accelModule->m_flags&SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW )
 		{
 			scrollVert = !scrollVert;
-			if( !scrollVert )
-			{
-				rotation *= -1; // simulate the old behaviour of Silverjuke 2.x - not compatible with modern scroll whells with more than one axis!
-			}
 		}
 
 		if( scrollVert )
@@ -494,18 +489,15 @@ void SjAlbumBrowser::OnMouseWheel(wxMouseEvent& event, bool scrollVert)
 		else
 		{
 			// add multiple small rotations (smaller than the delta to take action) to bigger ones
-			static long s_addedRotation = 0;
-			if( (rotation < 0 && s_addedRotation > 0) || (rotation > 0 && s_addedRotation < 0) )
-			{
-				s_addedRotation = 0; // discard saved scrolling for the wrong direction
-			}
-			s_addedRotation += rotation;
-
-			long rotateCols = s_addedRotation/delta;
+			static SjWheelHelper s_albumWheelHelper;
+			long rotateCols, dir; s_albumWheelHelper.PushRotationNPopAction(event, rotateCols, dir);
 			if( rotateCols != 0 )
 			{
-				s_addedRotation -= rotateCols*delta;
-				OnHScroll(IDT_WORKSPACE_H_SCROLL, m_applColIndex + rotateCols, TRUE/*redraw*/); // TOCHEK: Maybe we should use fine scrolling here
+				if( g_accelModule->m_flags&SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW )
+				{
+					dir *= -1; // simulate the old behaviour of Silverjuke 2.x - not compatible with modern scroll wheels with more than one axis!
+				}
+				OnHScroll(IDT_WORKSPACE_H_SCROLL, m_applColIndex + rotateCols*dir, TRUE/*redraw*/);
 			}
 		}
 	}
