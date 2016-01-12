@@ -121,16 +121,18 @@ public:
 	#define         SJ_ACCEL_TOOLTIPS                   0x00000020L
 	#define         SJ_ACCEL_ASK_ON_CLOSE_IF_PLAYING    0x00000040L
 	#define         SJ_ACCEL_USE_DND_IMAGES             0x00000080L
-	#define         SJ_ACCEL_CONTEXT_SENSITIVE_WHEEL    0x00000100L
 	#define         SJ_ACCEL_ASK_ON_RATING_CHANGE       0x00000200L
 	#define         SJ_ACCEL_USE_NUMPAD_OUT_KIOSK       0x00000400L
 	#define         SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE  0x00008000L
 	#define         SJ_ACCEL_USE_MM_KEYBD               0x00010000L
-	#define         SJ_ACCEL_VERT_WHEEL_HORZ            0x00020000L
+	#define         SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW    0x00020000L
 	#define         SJ_ACCEL_USE_NUMPAD_IN_KIOSK        0x00040000L
 	#define         SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK      0x00080000L
 	#define         SJ_ACCEL_USE_VIEW_FONT_IN_DLG       0x00100000L
 	#define         SJ_ACCEL_SAME_ZOOM_IN_ALL_VIEWS     0x00200000L
+	#define         SJ_ACCEL_WHEEL_MODIFIER_AXIS_TOGGLE 0x00400000L
+	#define         SJ_ACCEL_WHEEL_RMOUSE_AXIS_TOGGLE   0x00800000L
+	#define         SJ_ACCEL_WHEEL_VALUE_INPUT          0x01000000L
 	#define         SJ_ACCEL_DEFAULT                    0x0000FFFFL
 	long            m_flags;
 	long            m_selDragNDrop; // 0=off, 1=first click, 2=second click

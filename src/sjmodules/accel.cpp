@@ -804,12 +804,15 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	#endif
 
 	// mouse wheel
-	SjLittleOption::ClearSection();
-	lo.Add(new SjLittleBit (_("Mouse wheel"), _("Scroll vertically")+SEP+_("Scroll horizontally"),
-	                        &m_flags, 0L, SJ_ACCEL_VERT_WHEEL_HORZ, wxT("main/accelFlags")));
 	SjLittleOption::SetSection(_("Mouse wheel"));
-	lo.Add(new SjLittleBit (_("Context sensitive"), wxT("yn"), //n/t
-	                        &m_flags, 1L, SJ_ACCEL_CONTEXT_SENSITIVE_WHEEL, wxT("main/accelFlags")));
+	lo.Add(new SjLittleBit (_("Scroll horizontally in album view"), "yn",
+	                        &m_flags, 0L, SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW, "main/accelFlags"));
+	lo.Add(new SjLittleBit (_("Modifier key toggles axis"), "yn",
+	                        &m_flags, 0L, SJ_ACCEL_WHEEL_MODIFIER_AXIS_TOGGLE, "main/accelFlags"));
+	lo.Add(new SjLittleBit (_("Right mouse button toggles axis"), "yn",
+	                        &m_flags, 0L, SJ_ACCEL_WHEEL_RMOUSE_AXIS_TOGGLE, "main/accelFlags"));
+	lo.Add(new SjLittleBit (_("Value input"), "oo",
+	                        &m_flags, 0L, SJ_ACCEL_WHEEL_VALUE_INPUT, "main/accelFlags"));
 
 	// find out the extra menu items
 	#if SJ_USE_SCRIPTS

@@ -478,10 +478,13 @@ void SjAlbumBrowser::OnMouseWheel(wxMouseEvent& event, bool scrollVert)
 
 	if( rotation != 0 && delta > 0 )
 	{
-		if( g_accelModule->m_flags&SJ_ACCEL_VERT_WHEEL_HORZ )
+		if( g_accelModule->m_flags&SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW )
 		{
 			scrollVert = !scrollVert;
-			rotation *= -1; // simulate the old behaviour of Silverjuke 2.x - not compatible with modern scroll whells with more than one axis!
+			if( !scrollVert )
+			{
+				rotation *= -1; // simulate the old behaviour of Silverjuke 2.x - not compatible with modern scroll whells with more than one axis!
+			}
 		}
 
 		if( scrollVert )

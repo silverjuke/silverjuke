@@ -1502,7 +1502,10 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_CLOSE       (                           SjMainFrame::OnCloseWindow          )
 	EVT_ICONIZE     (                           SjMainFrame::OnIconizeWindow        )
 	//EVT_IDLE      (                           SjMainFrame::OnIdle                 )
+
+	#ifndef __WXMSW__
 	EVT_MOUSEWHEEL  (                           SjMainFrame::OnMouseWheel           )
+	#endif
 
 	#ifdef SJHOOK_MAIN_EVENT_TABLE
 	SJHOOK_MAIN_EVENT_TABLE

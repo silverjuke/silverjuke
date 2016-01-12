@@ -180,14 +180,14 @@ void SjBrowserWindow::OnMouseMotion(wxMouseEvent& event)
 }
 
 
-static void simulateSlider(long zDelta, long wheelDelta, int targetUp, int targetDown)
+static void simulateSlider(long rotation, long wheelDelta, int targetUp, int targetDown)
 {
 	SjSkinValue dummy;
-	long i, cnt = (zDelta>0? zDelta : (zDelta*-1))/wheelDelta;
+	long i, cnt = (rotation>0? rotation : (rotation*-1))/wheelDelta;
 	if( cnt<1 ) cnt = 1; if( cnt > 3 ) cnt = 3;
 	for( i = 0; i < cnt; i++ )
 	{
-		g_mainFrame->OnSkinTargetEvent(zDelta>0?targetUp:targetDown, dummy, 0);
+		g_mainFrame->OnSkinTargetEvent(rotation>0?targetUp:targetDown, dummy, 0);
 	}
 }
 
@@ -201,107 +201,97 @@ void SjBrowserWindow::OnMouseWheel(wxMouseEvent& event)
 		g_tools->m_toolTipManager.ClearToolTipProvider();
 	#endif
 
-	long zDelta = event.GetWheelRotation();
-	long wheelDelta = event.GetWheelDelta();
+	// get information about the mouse wheel event
 
-	// is the mouse over the display? over the volume slider?
+	long rotation = event.GetWheelRotation();
+	long wheelDelta = event.GetWheelDelta();
+	bool scrollVert = event.GetWheelAxis() == wxMOUSE_WHEEL_HORIZONTAL? false : true;
+	if( ((event.AltDown() || event.ShiftDown() || event.CmdDown() || event.ControlDown()) && g_accelModule->m_flags&SJ_ACCEL_WHEEL_MODIFIER_AXIS_TOGGLE)
+	 || (event.RightIsDown() && g_accelModule->m_flags&SJ_ACCEL_WHEEL_RMOUSE_AXIS_TOGGLE) )
+	{
+		scrollVert = !scrollVert;
+	}
+
+	if( event.RightIsDown() && g_accelModule->m_flags&SJ_ACCEL_WHEEL_RMOUSE_AXIS_TOGGLE )
+	{
+		m_skipContextMenuEvent = 1; // skip WM_RBUTTONUP and WM_CONTEXTMENU
+	}
 
 	int mouseX, mouseY;
 	::wxGetMousePosition(&mouseX, &mouseY);
 	g_mainFrame->ScreenToClient(&mouseX, &mouseY);
+
 	int targetId = g_mainFrame->FindTargetId(mouseX, mouseY);
 
-	if( g_accelModule->m_flags&SJ_ACCEL_CONTEXT_SENSITIVE_WHEEL )
+	// for some targets, the mouse wheel does some (optional) special things
+
+	if( (targetId>=IDT_DISPLAY_LINE_FIRST && targetId<=IDT_DISPLAY_LINE_LAST)
+	 ||  targetId==IDT_DISPLAY_UP
+	 ||  targetId==IDT_DISPLAY_DOWN
+	 ||  targetId==IDT_DISPLAY_V_SCROLL )
 	{
-		if( (targetId>=IDT_DISPLAY_LINE_FIRST && targetId<=IDT_DISPLAY_LINE_LAST)
-		 ||  targetId==IDT_DISPLAY_UP
-		 ||  targetId==IDT_DISPLAY_DOWN
-		 ||  targetId==IDT_DISPLAY_V_SCROLL )
+		if( scrollVert )
 		{
-			simulateSlider(zDelta, wheelDelta, IDT_DISPLAY_UP, IDT_DISPLAY_DOWN);
-			return;
+			simulateSlider(rotation, wheelDelta, IDT_DISPLAY_UP, IDT_DISPLAY_DOWN);
 		}
-		else if( targetId==IDT_MAIN_VOL_UP
-			  || targetId==IDT_MAIN_VOL_DOWN
-		      || targetId==IDT_MAIN_VOL_SLIDER
-		      || targetId==IDT_MAIN_VOL_MUTE )
+		return;
+	}
+	else if( g_accelModule->m_flags&SJ_ACCEL_WHEEL_VALUE_INPUT )
+	{
+		if( targetId==IDT_MAIN_VOL_UP
+		 || targetId==IDT_MAIN_VOL_DOWN
+		 || targetId==IDT_MAIN_VOL_SLIDER
+		 || targetId==IDT_MAIN_VOL_MUTE )
 		{
-			simulateSlider(zDelta, wheelDelta, IDT_MAIN_VOL_UP, IDT_MAIN_VOL_DOWN);
+			if( scrollVert )
+			{
+				simulateSlider(rotation, wheelDelta, IDT_MAIN_VOL_UP, IDT_MAIN_VOL_DOWN);
+			}
 			return;
 		}
 		else if( (targetId>=IDT_WORKSPACE_GOTO_A && targetId<=IDT_WORKSPACE_GOTO_0_9)
-		      ||  targetId==IDT_WORKSPACE_GOTO_PREV_AZ
-		      ||  targetId==IDT_WORKSPACE_GOTO_NEXT_AZ )
+			   || targetId==IDT_WORKSPACE_GOTO_PREV_AZ
+			   || targetId==IDT_WORKSPACE_GOTO_NEXT_AZ )
 		{
-			// added for 2.10, see http://www.silverjuke.net/forum/post.php?p=2720#2720
-			SjSkinValue dummy;
-			g_mainFrame->OnSkinTargetEvent(zDelta>0?IDT_WORKSPACE_GOTO_PREV_AZ:IDT_WORKSPACE_GOTO_NEXT_AZ, dummy, 0);
+			if( scrollVert )
+			{
+				SjSkinValue dummy;
+				g_mainFrame->OnSkinTargetEvent(rotation>0?IDT_WORKSPACE_GOTO_PREV_AZ:IDT_WORKSPACE_GOTO_NEXT_AZ, dummy, 0);
+			}
 			return;
 		}
 		else if( targetId == IDT_WORKSPACE_H_SCROLL
-		      || targetId == IDT_WORKSPACE_LINE_LEFT
-		      || targetId == IDT_WORKSPACE_LINE_RIGHT
-		      || targetId == IDT_WORKSPACE_PAGE_LEFT
-		      || targetId == IDT_WORKSPACE_PAGE_RIGHT )
+			  || targetId == IDT_WORKSPACE_LINE_LEFT
+			  || targetId == IDT_WORKSPACE_LINE_RIGHT
+			  || targetId == IDT_WORKSPACE_PAGE_LEFT
+			  || targetId == IDT_WORKSPACE_PAGE_RIGHT )
 		{
-			SjSkinValue dummy;
-			g_mainFrame->OnSkinTargetEvent(zDelta>0?IDT_WORKSPACE_PAGE_LEFT:IDT_WORKSPACE_PAGE_RIGHT, dummy, 0);
-			return;
-		}
-		else if( targetId == IDT_WORKSPACE_V_SCROLL
-		      || targetId == IDT_WORKSPACE_LINE_UP
-		      || targetId == IDT_WORKSPACE_LINE_DOWN
-		      || targetId == IDT_WORKSPACE_PAGE_UP
-		      || targetId == IDT_WORKSPACE_PAGE_DOWN )
-		{
-			SjSkinValue dummy;
-			g_mainFrame->OnSkinTargetEvent(zDelta>0?IDT_WORKSPACE_PAGE_UP:IDT_WORKSPACE_PAGE_DOWN, dummy, 0);
-			return;
-		}
-	}
-
-	// find out scrolling orientation
-
-	g_mainFrame->GotBrowserInputFromUser();
-
-	bool scrollVert = event.GetWheelAxis() == wxMOUSE_WHEEL_HORIZONTAL? false : true;
-
-	if( event.ShiftDown()
-	 || event.ControlDown()
-	 || event.RightIsDown() )
-	{
-		// toggle direction if shift, ctrl or the right mouse button is down
-		scrollVert = !scrollVert;
-	}
-	else if( g_accelModule->m_flags&SJ_ACCEL_CONTEXT_SENSITIVE_WHEEL ) // if "scroll display" is false, the user seems not to like the scroll wheel to react to mouse positions
-	{
-		// regard the scrollbars directions if the mouse is over them
-		if( targetId == IDT_WORKSPACE_H_SCROLL
-		 || targetId == IDT_WORKSPACE_LINE_LEFT
-		 || targetId == IDT_WORKSPACE_LINE_RIGHT
-		 || targetId == IDT_WORKSPACE_PAGE_LEFT
-		 || targetId == IDT_WORKSPACE_PAGE_RIGHT )
-		{
-			scrollVert = FALSE;
+			if( scrollVert )
+			{
+				SjSkinValue dummy;
+				g_mainFrame->OnSkinTargetEvent(rotation>0?IDT_WORKSPACE_LINE_LEFT:IDT_WORKSPACE_LINE_RIGHT, dummy, 0);
+				return;
+			}
 		}
 		else if( targetId == IDT_WORKSPACE_V_SCROLL
 			  || targetId == IDT_WORKSPACE_LINE_UP
-		      || targetId == IDT_WORKSPACE_LINE_DOWN
-		      || targetId == IDT_WORKSPACE_PAGE_UP
-		      || targetId == IDT_WORKSPACE_PAGE_DOWN )
+			  || targetId == IDT_WORKSPACE_LINE_DOWN
+			  || targetId == IDT_WORKSPACE_PAGE_UP
+			  || targetId == IDT_WORKSPACE_PAGE_DOWN )
 		{
-			scrollVert = TRUE;
+			if( scrollVert )
+			{
+				SjSkinValue dummy;
+				g_mainFrame->OnSkinTargetEvent(rotation>0?IDT_WORKSPACE_LINE_UP:IDT_WORKSPACE_LINE_DOWN, dummy, 0); // needed to allow vertical scrolling if SJ_ACCEL_WHEEL_HORZ_IN_ALBUMVIEW is set
+				return;
+			}
 		}
 	}
 
-	/* give the event to the current view
-	 */
-	m_currView->OnMouseWheel(event, scrollVert);
+	// give the event to the current view
 
-	if( event.RightIsDown() )
-	{
-		m_skipContextMenuEvent = 1; // skip WM_RBUTTONUP and WM_CONTEXTMENU
-	}
+	g_mainFrame->GotBrowserInputFromUser();
+	m_currView->OnMouseWheel(event, scrollVert);
 }
 
 
