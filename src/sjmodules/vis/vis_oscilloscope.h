@@ -32,7 +32,6 @@
 
 class SjOscModule;
 class SjOscWindow;
-class SjOscFrame;
 
 
 class SjVisImpl;
@@ -66,7 +65,6 @@ private:
 	long            m_showFlags;
 
 	friend class    SjOscWindow;
-	friend class    SjOscFrame;
 };
 
 
