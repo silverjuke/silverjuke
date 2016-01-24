@@ -52,7 +52,7 @@
 
 #define IDC_FIRST_RENDERER_OPTION       (IDM_FIRSTPRIVATE+0)    // this range should be used by the renderers if they implement SjVisRendererModule::AddMenuOptions()
 #define IDC_LAST_RENDERER_OPTION        (IDM_FIRSTPRIVATE+201)  // range end
-#define IDC_RENDERER_TITLE              (IDM_FIRSTPRIVATE+202)
+#define IDC_DUMMY                       (IDM_FIRSTPRIVATE+202)
 #define IDC_STOP_OR_CLOSE               (IDM_FIRSTPRIVATE+203)
 
 #define IDC_STARTVIS_FIRST              (IDM_FIRSTPRIVATE+300)
@@ -337,22 +337,26 @@ void SjVisImpl::ShowContextMenu(int x, int y)
 			i++;
 		}
 
-		m.AppendCheckItem(IDC_SWITCH_OVER_AUTOMATICALLY, _("If appropriate, switch over automatically"));
-		m.Check(IDC_SWITCH_OVER_AUTOMATICALLY, (g_visModule->m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY)!=0);
-
 		m.AppendSeparator();
 
 		// add renderer options
-		wxString rendererName = m_renderer? m_renderer->m_name : wxString(wxT("..."));
-		m.Append(IDC_RENDERER_TITLE, wxString::Format(_("Options for \"%s\""), rendererName.c_str()) + wxT(":"));
-		m.Enable(IDC_RENDERER_TITLE, false);
+		SjMenu* submenu = new SjMenu(0);
 		if( m_renderer )
 		{
-			m_renderer->AddMenuOptions(m);
+			m_renderer->AddMenuOptions(*submenu);
 		}
+		if( submenu->GetMenuItemCount() ==  0 )
+		{
+			submenu->Append(IDC_DUMMY, _("None"));
+			submenu->Enable(IDC_DUMMY, false);
+		}
+		m.Append(0, _("Options"), submenu);
 
 		// add view options
-		SjMenu* submenu = new SjMenu(0);
+		submenu = new SjMenu(0);
+
+		submenu->AppendCheckItem(IDC_SWITCH_OVER_AUTOMATICALLY, _("If appropriate, switch over automatically"));
+		submenu->Check(IDC_SWITCH_OVER_AUTOMATICALLY, (g_visModule->m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY)!=0);
 
 		submenu->AppendCheckItem(IDC_EMBED_WINDOW, _("Attached window"));
 		submenu->Check(IDC_EMBED_WINDOW, g_visModule->IsEmbedded());

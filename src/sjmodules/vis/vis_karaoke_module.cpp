@@ -800,21 +800,19 @@ void SjKaraokeModule::AddMenuOptions(SjMenu& m)
 
 	submenu->Append(IDC_BG_USERDEF_DIR_CHANGE, _("Select..."));
 
-	submenu->AppendSeparator();
-
-	submenu->AppendCheckItem(IDC_BG_USEBGJPG, wxString::Format(_("Use %s-files"), wxT("*.bg.jpg")));
-	submenu->Check(IDC_BG_USEBGJPG, (m_karFlags&SJ_KAR_USEBGJPG)!=0);
-
-	submenu->AppendCheckItem(IDC_BG_KEEPASPECT, _("Fit to screen"));
-	submenu->Check(IDC_BG_KEEPASPECT, (m_karFlags&SJ_KAR_KEEPASPECT)==0);
-
-	submenu->AppendCheckItem(IDC_BG_SMOOTH, _("Smooth"));
-	submenu->Check(IDC_BG_SMOOTH, (m_karFlags&SJ_KAR_SMOOTH)!=0);
-
-	submenu->AppendCheckItem(IDC_BG_GRAYSCALE, _("Grayscale"));
-	submenu->Check(IDC_BG_GRAYSCALE, (m_karFlags&SJ_KAR_GRAYSCALE)!=0);
-
 	m.Append(0, _("Background"), submenu);
+
+	m.AppendCheckItem(IDC_BG_USEBGJPG, wxString::Format(_("Use %s-files"), wxT("*.bg.jpg")));
+	m.Check(IDC_BG_USEBGJPG, (m_karFlags&SJ_KAR_USEBGJPG)!=0);
+
+	m.AppendCheckItem(IDC_BG_KEEPASPECT, _("Fit to screen"));
+	m.Check(IDC_BG_KEEPASPECT, (m_karFlags&SJ_KAR_KEEPASPECT)==0);
+
+	m.AppendCheckItem(IDC_BG_SMOOTH, _("Smooth"));
+	m.Check(IDC_BG_SMOOTH, (m_karFlags&SJ_KAR_SMOOTH)!=0);
+
+	m.AppendCheckItem(IDC_BG_GRAYSCALE, _("Grayscale"));
+	m.Check(IDC_BG_GRAYSCALE, (m_karFlags&SJ_KAR_GRAYSCALE)!=0);
 }
 
 
