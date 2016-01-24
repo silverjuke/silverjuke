@@ -295,7 +295,6 @@ void SjArtEditor::OnCloseWindow(wxCloseEvent& event)
 void SjArtEditor::ShowCropMessage()
 {
 	m_stay++;
-	wxWindowDisabler disabler(this);
 
 	SjMessageBox(_("Please press and hold the left mouse button. Then, select the area to crop by moving the mouse."),
 	               SJ_PROGRAM_NAME, wxOK|wxICON_INFORMATION, this);
@@ -1128,7 +1127,7 @@ bool SjArtEditorModule::OnArtMenu(
 				if( albumId && g_mainFrame->IsAllAvailable() )
 				{
 					if( artEditor ) { artEditor->m_stay++; }
-					wxWindowDisabler disabler(parent);
+					SJ_WINDOW_DISABLER(parent);
 					wxFileDialog fileDialog(parent, _("Select image"), wxT(""), wxT(""),
 					                        g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_IMAGEFILES).GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
 					int fileDialogRet = fileDialog.ShowModal();
@@ -1174,7 +1173,7 @@ bool SjArtEditorModule::OnArtMenu(
 				if( g_mainFrame->IsAllAvailable() )
 				{
 					if( artEditor ) { artEditor->m_stay++; }
-					wxWindowDisabler disabler(parent);
+					SJ_WINDOW_DISABLER(parent);
 
 					SjExtList extList(SjTools::GetExt(selUrl));
 					wxFileDialog dlg(parent, _("Save cover"), wxT(""),
@@ -1217,7 +1216,6 @@ bool SjArtEditorModule::OnArtMenu(
 				if( g_mainFrame->IsAllAvailable() )
 				{
 					if( artEditor ) { artEditor->m_stay++; }
-					wxWindowDisabler disabler(parent);
 
 					if( SjMessageBox(_("Reset all selected alternative images to their default value?"),
 					                   SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, parent) == wxYES )

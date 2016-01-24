@@ -1090,7 +1090,7 @@ void SjRuleControls::OnTextChanged(int i, WXTYPE eventType)
 					{
 						wxLogDebug(wxT("OPENING DATE DIALOG..."));
 
-						wxWindowDisabler disabler(m_dialog);
+						SJ_WINDOW_DISABLER(m_dialog);
 						SjDateDialog dateDialog(m_dialog);
 						dateDialog.SetDate(m_rule.m_value[i]);
 						if( dateDialog.ShowModal() == wxID_OK )
@@ -1569,7 +1569,6 @@ bool SjAdvSearchDialog::SaveSearchInEditIfNeeded(bool askUser)
 
 			default:
 			{
-				wxWindowDisabler disabler(this);
 				int confirm = SjMessageBox(
 				                  wxString::Format(_("Do you want to save your modifications to the music selection \"%s\"?"),
 				                                   recentSearch.m_name.c_str()),
@@ -2012,7 +2011,6 @@ void SjAdvSearchDialog::OnDeleteSearch(wxCommandEvent&)
 	}
 
 	{
-		wxWindowDisabler disabler(this);
 		if( SjMessageBox(msg, title,
 		                   wxYES_NO | wxICON_QUESTION | wxNO_DEFAULT, this) == wxNO )
 		{
@@ -2057,7 +2055,6 @@ bool SjAdvSearchDialog::OnSearchCheckObviousErrors(const SjAdvSearch& advSearch,
 	wxString errors;
 	if( !advSearch.IsOk(errors, warnings) )
 	{
-		wxWindowDisabler disabler(this);
 		SjMessageBox(errors, GetTitle(), wxOK | wxICON_WARNING, this);
 		return FALSE;
 	}
@@ -2080,7 +2077,6 @@ void SjAdvSearchDialog::OnSearchShowErrors(const SjAdvSearch& advSearch, wxStrin
 	else
 	{
 		// ...there are no errors logged -> print our warning directly (looks better)
-		wxWindowDisabler disabler(this);
 		SjMessageBox(warnings, GetTitle(), wxOK | wxICON_INFORMATION, this);
 	}
 }
@@ -2524,7 +2520,6 @@ bool SjAdvSearchModule::IncludeExclude(SjLLHash* ids, bool delPressed)
 			if( s_askedDelForId != searchToChange.m_id
 			 || s_askedDelTime+180*1000 < thisTime )
 			{
-				wxWindowDisabler disabler(g_mainFrame);
 				if( SjMessageBox(
 				            wxString::Format(_("Do you want to remove the selected track(s) from the music selection \"%s\"?"),
 				                             searchToChange.m_name.c_str()),
@@ -2579,7 +2574,6 @@ bool SjAdvSearchModule::IncludeExclude(SjLLHash* ids, bool delPressed)
 		if( s_askedInsForId != searchToChange.m_id
 		 || s_askedInsTime+180*1000 < thisTime )
 		{
-			wxWindowDisabler disabler(g_mainFrame);
 			if( SjMessageBox(
 			            wxString::Format(_("Do you want to add the selected track(s) to the music selection \"%s\"?"),
 			                             searchToChange.m_name.c_str()),

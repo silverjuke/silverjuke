@@ -555,7 +555,6 @@ void SjLogDialog::OnClear(wxCommandEvent& event)
 {
 	if( !m_logGui->m_aPacked.IsEmpty() )
 	{
-		wxWindowDisabler disabler(this);
 		if( SjMessageBox(_("Clear all messages?"), SJ_PROGRAM_NAME, wxICON_QUESTION|wxYES_NO, this) == wxYES )
 		{
 			m_logGui->m_aPacked.Clear();
@@ -571,7 +570,7 @@ void SjLogDialog::OnClear(wxCommandEvent& event)
 // dialog was cancelled
 int SjLogDialog::OpenLogFile(wxFile& file, wxString& retFilename)
 {
-	wxWindowDisabler disabler(this);
+	SJ_WINDOW_DISABLER(this);
 
 	// get the file name
 	// -----------------

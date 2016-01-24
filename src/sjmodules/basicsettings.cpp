@@ -283,7 +283,7 @@ public:
 	bool OnOption(wxWindow* parent, long i) { return OnDoubleClick(parent); }
 	bool OnDoubleClick(wxWindow* parent)
 	{
-		wxWindowDisabler disabler(SjDialog::FindTopLevel(parent));
+		SJ_WINDOW_DISABLER(SjDialog::FindTopLevel(parent));
 		SjSearchPathDlg dlg(SjDialog::FindTopLevel(parent), m_paths);
 		if( dlg.ShowModal() == wxID_OK )
 		{
@@ -651,8 +651,6 @@ void SjFurtherOptPanel::OnLittleReset(wxCommandEvent&)
 
 	if( selectedOptionsCount > 1 )
 	{
-		wxWindowDisabler disabler(topLevelWindow);
-
 		if( SjMessageBox(wxString::Format(_("Do you really want to reset all %i selected commands and options to their default values?"), (int)selectedOptionsCount),
 		                 SJ_PROGRAM_NAME, wxYES_NO|wxNO_DEFAULT|wxICON_QUESTION, topLevelWindow) == wxNO )
 		{
@@ -998,7 +996,6 @@ void SjBasicSettingsModule::DoneConfigPage(wxWindow* configPage__, int doneCode_
 	// restart?
 	if( wantsToBeRestarted )
 	{
-		wxWindowDisabler disabler(SjDialog::FindTopLevel(configPage__));
 		SjMessageBox(wxString::Format(_("Please restart %s so that the changes can take effect."), SJ_PROGRAM_NAME),
 		             SJ_PROGRAM_NAME, wxOK|wxICON_INFORMATION, SjDialog::FindTopLevel(configPage__));
 	}

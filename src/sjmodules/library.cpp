@@ -1728,7 +1728,6 @@ bool SjLibraryModule::AddFolders(const wxArrayString& folders)
 	}
 
 	{
-		wxWindowDisabler disabler(g_mainFrame);
 		if( SjMessageBox(msg, SJ_PROGRAM_NAME, wxYES_NO|wxICON_QUESTION, g_mainFrame)!=wxYES )
 		{
 			return FALSE; // no, the user canceled
@@ -1808,7 +1807,7 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 	#define     THUMBNAIL_SIZE 64
 	wxBitmap    thumbnailBitmap;
 
-	wxWindowDisabler disabler1(g_mainFrame);
+	SJ_WINDOW_DISABLER(g_mainFrame);
 
 	{
 		wxBusyCursor busy;
@@ -1928,7 +1927,6 @@ bool SjLibraryModule::AddArt__(SjDataObject* srcData, long albumId, bool ask)
 					{
 						// hack: wait a second - this is needed for some apps to close
 						// their exclusive access, eg. Mozilla Firefox :-(
-						wxWindowDisabler disabler2;
 						::wxSleep(1);
 					}
 				}
@@ -4026,7 +4024,6 @@ bool SjLibraryModule::SetRating(const wxArrayString& urls, long rating)
 
 	if( trackCount > 1 )
 	{
-		// wxWindowDisabler disabler(g_mainFrame); -- done in YesNo()
 		if( g_accelModule->YesNo(
 		            wxString::Format(
 		              // TRANSLATORS: %i will be replaced by the number of tracks
@@ -4088,7 +4085,6 @@ void SjLibraryModule::HandleMenu(int id)
 				long trackCount = m_selectedTrackIds.GetCount();
 				if( trackCount > 1 )
 				{
-					// wxWindowDisabler disabler(g_mainFrame); -- done in YesNo()
 					if( g_accelModule->YesNo(
 					            wxString::Format(
 					              // TRANSLATORS: %i will be replaced by the number of tracks
@@ -4998,7 +4994,6 @@ void SjLibraryModule::AskToAddSelection()
 
 	if( trackCount > 1 )
 	{
-		// wxWindowDisabler disabler(this); -- done by YesNo()
 		if( g_accelModule->YesNo(
 		            wxString::Format(
 		              // TRANSLATORS: %i will be replaced by the number of tracks

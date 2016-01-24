@@ -480,7 +480,7 @@ void SjTagEditorDlg::OnPlugin(wxCommandEvent& event)
 	SjTagEditorPlugin* plugin = NULL;
 	int modalResult;
 	{
-		wxWindowDisabler disabler(this);
+		SJ_WINDOW_DISABLER(this);
 
 		SjTrackInfo exampleTrackInfo;
 		g_mainFrame->m_libraryModule->GetTrackInfo(m_dataUrls[0], exampleTrackInfo, SJ_TI_FULLINFO, FALSE);
@@ -1407,7 +1407,6 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 		{
 			if( plugin && !postModifyMsg.IsEmpty() )
 			{
-				wxWindowDisabler disabler(this);
 				SjMessageBox(postModifyMsg, plugin->GetTitle(), wxOK|wxICON_INFORMATION, this);
 				canceled = TRUE;
 			}
@@ -1425,7 +1424,7 @@ void SjTagEditorDlg::Dlg2Data_CopyAll(SjTagEditorPlugin* plugin, bool& reloadDat
 		 || urlCount > 1
 		 || plugin )
 		{
-			wxWindowDisabler disabler(this);
+			SJ_WINDOW_DISABLER(this);
 			SjConfirmDlg dlg(this, mod, false /*was: askWriteId3, but this is confusing, as the option is already in the menu*/, askDelEmptyDir, onlyUrlsModified);
 			if( dlg.ShowModal() != wxID_OK )
 			{

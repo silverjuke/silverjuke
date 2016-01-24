@@ -837,7 +837,7 @@ void SjKaraokeModule::OnMenuOption(int i)
 		case IDC_BG_USERDEF_DIR_CHANGE:
 			g_visModule->SetModal(true);
 			{
-				wxWindowDisabler disabler(m_impl->GetWindow());
+				SJ_WINDOW_DISABLER(m_impl->GetWindow());
 
 				::wxBeginBusyCursor(wxHOURGLASS_CURSOR);
 				wxDirDialog dirDialog(m_impl->GetWindow(),

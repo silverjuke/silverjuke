@@ -605,7 +605,6 @@ bool SjLittleAccelOption::AddKey(long newKey, wxWindow* parent)
 				{
 					// if the parent is NOT set, this is a global reset action
 					// wheras we do NOT modify other keys
-					wxWindowDisabler disabler(parent);
 					if( SjMessageBox(
 					            wxString::Format(_("The shortcut \"%s\" is currently assigned to the command \"%s\".\n\nDo you want to assign it to the shortcut \"%s\" now?"),
 					                             g_accelModule->GetReadableShortcutByComprKey(newKey).c_str(),
@@ -658,7 +657,7 @@ bool SjLittleAccelOption::OnOption(wxWindow* parent, long optionIndex)
 		// ...wait for a key
 		long newKey = 0;
 		{
-			wxWindowDisabler disabler(SjDialog::FindTopLevel(parent));
+			SJ_WINDOW_DISABLER(SjDialog::FindTopLevel(parent));
 			SjWaitForKeyDlg dlg(parent, GetName());
 			if( dlg.ShowModal() == wxID_OK )
 			{

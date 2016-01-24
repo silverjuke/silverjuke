@@ -70,7 +70,6 @@ SjFreedbPlugin::SjFreedbPlugin(wxWindow* parent, SjTrackInfo* exampleTrackInfo, 
 
 void SjFreedbPlugin::OnMyInitDialog(wxInitDialogEvent&)
 {
-	wxWindowDisabler disabler;
 	wxBusyCursor busy;
 
 	if( !m_freedbQuery.Query(m_urls, this, IDC_SOCKET) )

@@ -327,7 +327,6 @@ wxWindow* SjDialog::GetSuitableDlgParent()
 
 void SjDialog::PleaseRestartMsg(wxWindow* parent)
 {
-	wxWindowDisabler disabler(FindTopLevel(parent));
 	SjMessageBox(wxString::Format(_("Please restart %s so that the changes can take effect."), SJ_PROGRAM_NAME),
 	             SJ_PROGRAM_NAME, wxOK|wxICON_INFORMATION, FindTopLevel(parent));
 }

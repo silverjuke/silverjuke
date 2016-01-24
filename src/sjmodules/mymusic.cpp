@@ -463,7 +463,7 @@ void SjMyMusicConfigPage::OnAddSources(wxCommandEvent& event)
 
 		{
 			wxWindow* topLevelWindow = SjDialog::FindTopLevel(this);
-			wxWindowDisabler disabler(topLevelWindow);
+			SJ_WINDOW_DISABLER(topLevelWindow);
 			newIndex = scannerModule->AddSources(typeIndex, topLevelWindow);
 		}
 
@@ -482,7 +482,7 @@ void SjMyMusicConfigPage::OnDelSource(wxCommandEvent& event)
 	SjSettingsSourceItem* source = GetSelFromDialog();
 	if( source )
 	{
-		wxWindowDisabler disabler(SjDialog::FindTopLevel(this));
+		SJ_WINDOW_DISABLER(SjDialog::FindTopLevel(this));
 		if( source->GetScannerModule()->DeleteSource(source->GetIndex(), SjDialog::FindTopLevel(this)) )
 		{
 			InitPage(wxT(""));
@@ -498,7 +498,7 @@ void SjMyMusicConfigPage::OnConfigSource(wxCommandEvent& event)
 	SjSettingsSourceItem* source = GetSelFromDialog();
 	if( source )
 	{
-		wxWindowDisabler disabler(SjDialog::FindTopLevel(this));
+		SJ_WINDOW_DISABLER(SjDialog::FindTopLevel(this));
 
 		wxString sourceUrl = source->GetUrl(); // save as source gets invalid on InitPage()
 

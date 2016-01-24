@@ -356,7 +356,6 @@ void SjViewSettingsPage::OnDoubleClick(wxListEvent& event)
 void SjViewSettingsPage::SkinInfo()
 {
 	wxWindow* parent = SjDialog::FindTopLevel(this);
-	wxWindowDisabler disabled(parent);
 
 	SjMessageBox(g_mainFrame->GetSkinName()
 	               + wxT("\n(") + g_mainFrame->GetSkinUrl() + wxT(")\n\n") + g_mainFrame->GetSkinAbout(),

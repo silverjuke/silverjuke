@@ -309,7 +309,7 @@ IMPLEMENT_FUNCTION(dialog, showModal)
 	{
 		wxWindow* parent =  SjDialog::GetSuitableDlgParent();
 
-		wxWindowDisabler disabler(parent);
+		SJ_WINDOW_DISABLER(parent);
 		SjApiDlg dlg(dlo, parent, SJ_MODAL);
 		long index = dlg.ShowModal();
 		wxASSERT( dlo->m_window == NULL );
@@ -396,7 +396,6 @@ IMPLEMENT_FUNCTION(dialog, alert)
 {
 	wxWindow* parent = SjDialog::GetSuitableDlgParent();
 
-	wxWindowDisabler disabler(parent);
 	SjMessageBox(ARG_STRING(0), HOST_DATA->GetFineName(), wxOK, parent);
 
 	RETURN_UNDEFINED;
@@ -407,7 +406,6 @@ IMPLEMENT_FUNCTION(dialog, confirm)
 {
 	wxWindow* parent = SjDialog::GetSuitableDlgParent();
 
-	wxWindowDisabler disabler(parent);
 	bool ret = SjMessageBox(ARG_STRING(0), HOST_DATA->GetFineName(), wxYES_NO, parent)==wxYES;
 
 	RETURN_BOOL( ret );
@@ -418,7 +416,7 @@ IMPLEMENT_FUNCTION(dialog, prompt)
 {
 	wxWindow* parent = SjDialog::GetSuitableDlgParent();
 
-	wxWindowDisabler disabler(parent);
+	SJ_WINDOW_DISABLER(parent);
 	wxTextEntryDialog textEntry(parent, ARG_STRING(0), HOST_DATA->GetFineName(), ARG_STRING(1));
 
 	if( textEntry.ShowModal() == wxID_OK )
@@ -432,7 +430,7 @@ IMPLEMENT_FUNCTION(dialog, fileSel)
 {
 	wxWindow* parent = SjDialog::GetSuitableDlgParent();
 
-	wxWindowDisabler disabler(parent);
+	SJ_WINDOW_DISABLER(parent);
 	wxFileDialog fileDlg(parent,
 	                     HOST_DATA->GetFineName(ARG_STRING(0)),
 	                     wxT(""), ARG_STRING(1),

@@ -741,7 +741,7 @@ void SjKioskConfigPage::OnOpCheck(wxCommandEvent& event)
 bool SjKioskConfigPage::ChoosePassword()
 {
 	wxWindow* topLevelWindow = SjDialog::FindTopLevel(this);
-	wxWindowDisabler disabler(topLevelWindow);
+	SJ_WINDOW_DISABLER(topLevelWindow);
 	SjPasswordDlg mdlg1(topLevelWindow, SJ_PASSWORDDLG_ASK_FOR_PASSWORD | SJ_PASSWORDDLG_ACCEPT_ANY_PASSWORD, _("Kiosk mode"), wxT(""), wxT(""));
 	mdlg1.ShowModal();
 	if( mdlg1.IsPasswordOk() )
@@ -1893,7 +1893,7 @@ bool SjKioskModule::ExitRequest(long flag, const wxString* givenPassword, bool f
 	// show dialog?
 	if( dlgFlags )
 	{
-		wxWindowDisabler disabler(g_mainFrame);
+		SJ_WINDOW_DISABLER(g_mainFrame);
 		SjPasswordDlg dlg(g_mainFrame,
 		                  dlgFlags | SJ_PASSWORDDLG_AUTOCLOSE,
 		                  SJ_PROGRAM_NAME + wxString(wxT(" ")) + _("Kiosk mode"),
@@ -2457,7 +2457,7 @@ public:
 	bool OnOption(wxWindow* parent, long i) { return OnDoubleClick(parent); }
 	bool OnDoubleClick(wxWindow* parent)
 	{
-		wxWindowDisabler disabler(parent);
+		SJ_WINDOW_DISABLER(parent);
 		SjPasswordDlg mdlg1(parent, SJ_PASSWORDDLG_ASK_FOR_PASSWORD | SJ_PASSWORDDLG_ACCEPT_ANY_PASSWORD, GetName(), GetName(), wxT(""));
 		mdlg1.ShowModal();
 		if( mdlg1.IsPasswordOk() )

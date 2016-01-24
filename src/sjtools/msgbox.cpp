@@ -282,7 +282,7 @@ int SjMessageBox        (const wxString& message, const wxString& caption,
                          const wxString& yesTitle, const wxString& noTitle,
                          wxBitmap* bitmap)
 {
-	wxWindowDisabler disabler(parent);
+	SJ_WINDOW_DISABLER(parent);
 
 	wxASSERT( wxYES != 0 );
 	wxASSERT( wxNO != 0 );

@@ -105,7 +105,7 @@ void SjOpenFilesDialog::OnBrowse(wxCommandEvent&)
 	// get the files
 	wxArrayString files;
 	{
-		wxWindowDisabler disabler(this);
+		SJ_WINDOW_DISABLER(this);
 		wxFileDialog dlg(this,
 		                 _("Browse"),
 		                 wxT(""), wxT(""),

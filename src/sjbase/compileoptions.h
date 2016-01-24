@@ -152,5 +152,9 @@
 #define SJ_FILENAME_FORBIDDEN_REPLACE   wxT("_")  wxT("'")  wxT("__+____")
 #endif
 
+#ifndef SJ_WINDOW_DISABLER
+#define SJ_WINDOW_DISABLER(a) wxWindowDisabler disabler((a));
+#endif
+
 
 #endif // __SJ_CONFIG_H__

@@ -291,15 +291,7 @@ bool SjMainFrame::UpdateIndex(wxWindow* parent, bool deepUpdate)
 	{
 		inUpdate = TRUE;
 
-		#ifndef __WXMAC__
-			// For some reasons, the BusyInfo-dialog stays in background if the wxWindowDisabler is used OS X/wx3.0.2.
-			// Seems as if wxWindowDisabler creates a special event loop that does not really work for us.
-			// As a workaround, we simply do not use wxWindowDisabler on OS X - the parent itself is deactived explicitly so
-			// cases are rare where this really hurts.  Moreover, it may be a better idea to show the progress in the display -
-			// so maybe development should go into this direction instead if creating a SjWindowDisabler without the special loop - esp.
-			// as the special loop is fine for all other situations even on OS X.
-			wxWindowDisabler disabler(parent);
-		#endif
+		SJ_WINDOW_DISABLER(parent);
 
 		// if we do not end the search and the music selection,
 		// the search will be inconsistent after the update --
@@ -367,7 +359,6 @@ bool SjMainFrame::QueryEndSession(bool onShutdown)
 		if( !onShutdown
 		 &&  IsPlaying() )
 		{
-			// wxWindowDisabler disabler(this); -- done by YesNo()
 			if( g_accelModule->YesNo(
 			            wxString::Format(_("%s is currently playing. Do you want to stop the playing track and exit %s?"),
 			                             SJ_PROGRAM_NAME, SJ_PROGRAM_NAME
@@ -811,7 +802,6 @@ bool SjMainFrame::OpenData(SjDataObject* data, int command, int mouseX, int mous
 			// ... copy to user dir
 			Raise();
 			{
-				wxWindowDisabler disabler(this);
 				wxFileName srcfile(filenames[0]);
 				wxFileName destfile(g_tools->GetSearchPath(0), srcfile.GetFullName());
 				wxArrayString options;
@@ -2037,7 +2027,6 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					bool doClear = TRUE;
 					if(  m_player.m_queue.GetCount() > 1 )
 					{
-						// wxWindowDisabler disabler(this); -- done by YesNo()
 						if( g_accelModule->YesNo(wxString::Format(
 						  // TRANSLATORS: %i will be replaced by the number of tracks
 						  wxPLURAL("Remove %i track from the queue and stop playback?", "Remove %i tracks from the queue and stop playback?", m_player.m_queue.GetCount()),

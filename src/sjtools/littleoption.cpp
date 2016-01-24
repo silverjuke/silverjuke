@@ -403,7 +403,7 @@ SjLittleStringSel::SjLittleStringSel(const wxString& name,
 
 bool SjLittleStringSel::OnOption(wxWindow* parent, long i)
 {
-	wxWindowDisabler disabler(parent);
+	SJ_WINDOW_DISABLER(parent);
 	wxTextEntryDialog textEntry(parent, wxEmptyString, GetName(), m_currString);
 	if( textEntry.ShowModal() == wxID_OK )
 	{
@@ -487,7 +487,7 @@ bool SjLittleDirSel::OnOption(wxWindow* parent, long i)
 {
 	if( i == 0 )
 	{
-		wxWindowDisabler disabler(parent);
+		SJ_WINDOW_DISABLER(parent);
 
 		::wxBeginBusyCursor(wxHOURGLASS_CURSOR);
 		wxDirDialog dirDialog(parent, GetName(), m_currDir);
@@ -529,7 +529,6 @@ bool SjLittleReadOnly::OnOption(wxWindow* parent, long optionIndex)
 {
 	if( optionIndex == 0 )
 	{
-		wxWindowDisabler disabler(parent);
 		wxString msg = m_displayValue;
 		if( !m_dblClickComment.IsEmpty() )
 		{
@@ -668,7 +667,7 @@ bool SjLittleExploreSetting::OnOption(wxWindow* parent, long i)
 	else if( i==GetOptionCount()-3 && parent )
 	{
 		// select...
-		wxWindowDisabler disabler(parent);
+		SJ_WINDOW_DISABLER(parent);
 
 		wxString wildcards = wxString::Format(wxT("%s (*.*)|*.*"), _("Programs"));
 		wxFileDialog fileDialog(parent, GetName(), wxT(""), wxT(""), wildcards, wxFD_OPEN|wxFD_CHANGE_DIR);
@@ -681,7 +680,7 @@ bool SjLittleExploreSetting::OnOption(wxWindow* parent, long i)
 	else if( i==GetOptionCount()-2 && parent )
 	{
 		// edit...
-		wxWindowDisabler disabler(parent);
+		SJ_WINDOW_DISABLER(parent);
 
 		wxTextEntryDialog textEntry(parent,
 		                            wxString(_("Placeholders:"))+wxT(" <folder>"),

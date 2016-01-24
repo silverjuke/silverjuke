@@ -1229,7 +1229,7 @@ bool SjPlaylist::SaveAsDlg(wxWindow* parentWindow)
 {
 	bool                ret;
 	SjBusyInfo*         busyInfo = NULL;
-	wxWindowDisabler    disabler(parentWindow);
+	SJ_WINDOW_DISABLER  (parentWindow);
 	SjExtList           extList = g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_PLAYLISTS_WRITE);
 
 	// create the dialog
@@ -1342,7 +1342,7 @@ bool SjPlaylist::SaveAsFile(const wxString& path, const wxString& type, long fla
 
 bool SjPlaylist::AddFromFileDlg(wxWindow* parentWindow)
 {
-	wxWindowDisabler    disabler(parentWindow);
+	SJ_WINDOW_DISABLER(parentWindow);
 
 	// create the dialog
 	wxFileDialog dlg(parentWindow, _("Open playlist"), wxT(""),
