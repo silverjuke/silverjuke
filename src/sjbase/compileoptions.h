@@ -49,6 +49,10 @@
 #define SJ_USE_TOOLTIPS 0
 #endif
 
+#ifndef SJ_USE_PROJECTM             // Use the internal projectM/Prjm Milkdrop-esque visualisation? (requires OpenGL)
+#define SJ_USE_PROJECTM 0
+#endif
+
 #ifndef SJ_USE_VIDEO                // Use the video decoder and the video display?
 #define SJ_USE_VIDEO 0
 #endif

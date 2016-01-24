@@ -43,6 +43,7 @@
 #include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_karaoke_module.h>
 #include <sjmodules/vis/vis_oscilloscope.h>
+#include <sjmodules/vis/vis_projectm_module.h>
 #include <sjmodules/vis/vis_vidout_module.h>
 #include <sjmodules/kiosk/kiosk.h>
 #include <sjmodules/advsearch.h>
@@ -88,6 +89,9 @@ void SjInternalInterface::LoadModules(SjModuleList& list)
 	list.Append   (new SjVisModule                (this));
 	list.Append   (new SjOscModule                (this));
 	list.Append   (new SjKaraokeModule            (this));
+	#if SJ_USE_PROJECTM
+	list.Append   (new SjProjectmModule           (this));
+	#endif
 	#if SJ_USE_VIDEO
 	list.Append   (new SjVidoutModule             (this));
 	#endif
