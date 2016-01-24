@@ -1618,6 +1618,7 @@ SjOscModule::SjOscModule(SjInterfaceBase* interf)
 	m_name          = _("Spectrum Monitor");
 	m_oscWindow     = NULL;
 	m_impl          = NULL;
+	m_sort          = 3; // start of list, default is 1000
 }
 
 

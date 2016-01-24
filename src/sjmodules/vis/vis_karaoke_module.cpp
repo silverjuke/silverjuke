@@ -522,6 +522,7 @@ SjKaraokeModule::SjKaraokeModule(SjInterfaceBase* interf)
 	m_name          = _("Karaoke Prompt");
 	m_karaokeWindow = NULL;
 	m_bg            = NULL;
+	m_sort          = 3000; // end of list, default is 1000
 }
 
 

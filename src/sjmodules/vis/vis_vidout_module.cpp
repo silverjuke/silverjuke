@@ -164,6 +164,7 @@ SjVidoutModule::SjVidoutModule(SjInterfaceBase* interf)
 	m_name              = _("Video output");
 	m_impl              = NULL;
 	s_theVidoutModule   = this;
+	m_sort              = 2; // start of list, default is 1000
 }
 
 

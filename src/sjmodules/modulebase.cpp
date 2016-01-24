@@ -343,19 +343,6 @@ int SjModuleSystem_CmpModulesByAll(const SjModule** m1, const SjModule** m2)
 }
 
 
-int SjModuleSystem_CmpModulesByName(const SjModule** m1, const SjModule** m2)
-{
-	wxASSERT(m1 && *m1 && m2 && *m2);
-
-	// in versions before 1.23beta1, the internal interface was compared by a name of " ".
-	// why? to put it up in the list?
-	wxString interf1 = (*m1)->m_interface->GetName();
-	wxString interf2 = (*m2)->m_interface->GetName();
-
-	return (*m1)->m_name.CmpNoCase((*m2)->m_name);
-}
-
-
 void SjModuleSystem::LoadModules()
 {
 	// This function may only be called from the main thread.
@@ -401,8 +388,6 @@ void SjModuleSystem::LoadModules()
 			moduleNode = moduleNode->GetNext();
 		}
 	}
-
-	m_listOfModules2[SJ_MODULETYPE_VIS_RENDERER].Sort(SjModuleSystem_CmpModulesByName);
 }
 
 
