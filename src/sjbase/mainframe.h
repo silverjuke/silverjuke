@@ -206,7 +206,7 @@ public:
 	SjMainFrameToolTipProvider m_toolTipProvider;
 	SjToolTipProvider* GetToolTipProvider  (long targetId, long subitem, const wxRect& rect) { m_toolTipProvider.m_targetId = targetId; m_toolTipProvider.m_subitem = subitem; m_toolTipProvider.m_rect = rect; return &m_toolTipProvider; }
 	#endif
-	SjMenu          *m_fileMenu, *m_editMenu, *m_editExtrasMenu, *m_viewMenu, *m_viewColMenu, *m_playbackMenu, *m_kioskMenu, *m_helpMenu;
+	SjMenu          *m_fileMenu, *m_editMenu, *m_editExtrasMenu, *m_viewMenu, *m_viewColMenu, *m_playbackMenu, *m_visMenu, *m_kioskMenu, *m_helpMenu;
 	wxMenuBar*      m_menuBar;
 private:
 	void            UpdateMenuBarValue  (int targetId, const SjSkinValue& v);

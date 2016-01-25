@@ -34,14 +34,15 @@
 #include <sjmodules/vis/vis_cdg_reader.h>
 #include <sjmodules/vis/vis_synctxt_reader.h>
 
-#define IDC_BG_DEFAULT_IMAGES           (IDM_FIRSTPRIVATE+2)
-#define IDC_BG_BLACK                    (IDM_FIRSTPRIVATE+3)
-#define IDC_BG_USERDEF_DIR_USE          (IDM_FIRSTPRIVATE+4)
-#define IDC_BG_USERDEF_DIR_CHANGE       (IDM_FIRSTPRIVATE+5)
-#define IDC_BG_SMOOTH                   (IDM_FIRSTPRIVATE+6)
-#define IDC_BG_KEEPASPECT               (IDM_FIRSTPRIVATE+7)
-#define IDC_BG_GRAYSCALE                (IDM_FIRSTPRIVATE+8)
-#define IDC_BG_USEBGJPG                 (IDM_FIRSTPRIVATE+9)
+#define IDC_BG_SUBMENU                  (IDO_VIS_OPTIONFIRST+1)
+#define IDC_BG_DEFAULT_IMAGES           (IDO_VIS_OPTIONFIRST+2)
+#define IDC_BG_BLACK                    (IDO_VIS_OPTIONFIRST+3)
+#define IDC_BG_USERDEF_DIR_USE          (IDO_VIS_OPTIONFIRST+4)
+#define IDC_BG_USERDEF_DIR_CHANGE       (IDO_VIS_OPTIONFIRST+5)
+#define IDC_BG_SMOOTH                   (IDO_VIS_OPTIONFIRST+6)
+#define IDC_BG_KEEPASPECT               (IDO_VIS_OPTIONFIRST+7)
+#define IDC_BG_GRAYSCALE                (IDO_VIS_OPTIONFIRST+8)
+#define IDC_BG_USEBGJPG                 (IDO_VIS_OPTIONFIRST+9)
 
 
 /*******************************************************************************
@@ -785,22 +786,20 @@ void SjKaraokeModule::PleaseUpdateSize(SjVisImpl* impl)
 void SjKaraokeModule::AddMenuOptions(SjMenu& m)
 {
 	SjMenu* submenu = new SjMenu(0);
+		submenu->AppendRadioItem(IDC_BG_DEFAULT_IMAGES, _("Default"));
+		submenu->Check(IDC_BG_DEFAULT_IMAGES, (m_bgType == SJ_KARAOKE_BG_DEFAULT_IMAGES));
 
-	submenu->AppendRadioItem(IDC_BG_DEFAULT_IMAGES, _("Default"));
-	submenu->Check(IDC_BG_DEFAULT_IMAGES, (m_bgType == SJ_KARAOKE_BG_DEFAULT_IMAGES));
+		submenu->AppendRadioItem(IDC_BG_BLACK, _("Black"));
+		submenu->Check(IDC_BG_BLACK, (m_bgType == SJ_KARAOKE_BG_BLACK));
 
-	submenu->AppendRadioItem(IDC_BG_BLACK, _("Black"));
-	submenu->Check(IDC_BG_BLACK, (m_bgType == SJ_KARAOKE_BG_BLACK));
+		if( !m_bgUserDefDir.IsEmpty() )
+		{
+			submenu->AppendRadioItem(IDC_BG_USERDEF_DIR_USE, SjTools::ShortenUrl(m_bgUserDefDir));
+			submenu->Check(IDC_BG_USERDEF_DIR_USE, (m_bgType == SJ_KARAOKE_BG_USERDEF_DIR));
+		}
 
-	if( !m_bgUserDefDir.IsEmpty() )
-	{
-		submenu->AppendRadioItem(IDC_BG_USERDEF_DIR_USE, SjTools::ShortenUrl(m_bgUserDefDir));
-		submenu->Check(IDC_BG_USERDEF_DIR_USE, (m_bgType == SJ_KARAOKE_BG_USERDEF_DIR));
-	}
-
-	submenu->Append(IDC_BG_USERDEF_DIR_CHANGE, _("Select..."));
-
-	m.Append(0, _("Background"), submenu);
+		submenu->Append(IDC_BG_USERDEF_DIR_CHANGE, _("Select..."));
+	m.Append(IDC_BG_SUBMENU, _("Background"), submenu);
 
 	m.AppendCheckItem(IDC_BG_USEBGJPG, wxString::Format(_("Use %s-files"), wxT("*.bg.jpg")));
 	m.Check(IDC_BG_USEBGJPG, (m_karFlags&SJ_KAR_USEBGJPG)!=0);

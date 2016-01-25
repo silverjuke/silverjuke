@@ -102,11 +102,11 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Music selection..."),             IDT_ADV_SEARCH,            SJA_MAIN); OrgKey(wxACCEL_ALT, 'F');
 	OrgCmd(_os(_("Settings"))+wxT("..."),       IDT_SETTINGS,              SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
 	OrgCmd(wxString::Format(_os(_("Exit %s")), SJ_PROGRAM_NAME),
-	                                            IDT_QUIT,                  SJA_MAIN);        
+	                                            IDT_QUIT,                  SJA_MAIN);
                                                                                              #ifdef __WXMSW__
 	                                                                                         OrgKey(wxACCEL_ALT, 'X');
 																							 #else
-	                                                                                         OrgKey(wxACCEL_CTRL, 'Q'); 
+	                                                                                         OrgKey(wxACCEL_CTRL, 'Q');
                                                                                              #endif
 	OrgCmd(_("Update music library"),           IDT_UPDATE_INDEX,          SJA_MAIN);        OrgKey(0, WXK_F5);
 	OrgCmd(_("Recreate music library"),         IDT_DEEP_UPDATE_INDEX,     SJA_MAIN);        OrgKey(wxACCEL_SHIFT, WXK_F5);
@@ -122,7 +122,7 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("More from current album"),        IDT_MORE_FROM_CURR_ALBUM,  SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'J');
 	OrgCmd(_("More from current artist"),       IDT_MORE_FROM_CURR_ARTIST, SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'K');
 	OrgCmd(_("Edit tracks/Get info..."),        IDM_EDITSELECTION,         SJA_MAIN|SJA_EDIT);OrgKey(wxACCEL_CTRL, 'I');
-	OrgCmd(_("Play"),                           IDT_PLAY,                  SJA_MAIN);        
+	OrgCmd(_("Play"),                           IDT_PLAY,                  SJA_MAIN);
                                                                                              #ifndef __WXMAC__
 	                                                                                         OrgKey(0, WXK_PAUSE);
 																							 #endif
@@ -142,7 +142,7 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Shuffle"),                        IDT_SHUFFLE,               SJA_MAIN);
 	OrgCmd(_("Repeat playlist"),                IDT_REPEAT,                SJA_MAIN);
 	OrgCmd(_("Reload skin"),                    IDO_DEBUGSKIN_RELOAD,      SJA_MAIN);        OrgKey(wxACCEL_CTRL|wxACCEL_SHIFT, 'R');
-	OrgCmd(_("Video screen"),                   IDT_START_VIS,             SJA_MAIN);        OrgKey(0, WXK_F2);
+	OrgCmd(_("Toggle video screen"),            IDT_START_VIS,             SJA_MAIN);        OrgKey(0, WXK_F2);
 	OrgCmd(_("Smooth"),                         IDO_SMOOTH,                SJA_MAIN|SJA_ART);
 	OrgCmd(_("Toggle time mode"),               IDT_TOGGLE_TIME_MODE,      SJA_MAIN);
 	OrgCmd(_("Select all"),                     IDO_SELECTALL,             SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'A');

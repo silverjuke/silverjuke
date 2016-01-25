@@ -38,6 +38,9 @@ enum SjVisState
 };
 
 
+class SjVisImpl;
+
+
 class SjVisModule : public SjCommonModule
 {
 public:
@@ -61,6 +64,10 @@ public:
 	// If the window was really closed by this funcition, true is returned.
 	void            UnprepareWindow     ();
 
+	// Create the video screen menu for the main menu
+	void            UpdateVisMenu       (SjMenu* visMenu);
+	void            OnVisMenu           (int id);
+
 	// Start vis. If the window is not opened on start, this is done implicitly.
 	#define         SJ_SET_FROM_m_temp1str__    ((SjVisRendererModule*)1)
 	#define         SJ_SET_LAST_SELECTED        ((SjVisRendererModule*)2)
@@ -82,13 +89,10 @@ public:
 	// More state
 	bool            IsOverWorkspace     () const { return (m_visWindow!=NULL && m_visState==SJ_VIS_EMBEDDED && m_visIsOverWorkspace); }
 	bool            IsEmbedded          () const { return (m_visState==SJ_VIS_EMBEDDED); }
-	bool            IsCloseButtonNeeded () const;
-	bool            IsCloseMenuEntryNeeded() const;
 	bool            IsWindowPrepared    () const { return (m_visWindow!=NULL); }
 
 	// used by the SjVisImpl class
 	void            StopOrCloseRequest  ();
-	void            AttachDetachRequest ();
 
 	// some settings - real by all, write please only for SjVisImpl
 	#define         SJ_VIS_FLAGS_EMBEDDED                   0x00000001L
@@ -110,6 +114,10 @@ public:
 	// get the renderer REALLY to use next. this may also be the sfx or the oscillosope - which are never desired by GetDesiredRenderer()
 	// if there is no need to change the renderer, the empty string is returned.
 	wxString        GetRealNextRenderer (const wxString& desiredRenderer);
+
+	// returns the SjVisImpl structure from the m_visWindow (which is either a frame or a child window)
+	// may be NULL if the video screen is not opened.
+	SjVisImpl*      GetVisImpl          () const;
 
 protected:
 	// protected stuff

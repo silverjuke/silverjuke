@@ -37,6 +37,12 @@
 #define IDMODMSG_VIS_FWD_ATTACH_DETACH      IDMODMSG__VIS_MOD_PRIVATE_3__
 #define IDMODMSG_VIS_FWD_SWITCH_BACK        IDMODMSG__VIS_MOD_PRIVATE_4__
 
+#if SJ_USE_PROJECTM
+	#define DEFAULT_VIS_FILE_NAME "memory:projectm.lib"
+#else
+	#define DEFAULT_VIS_FILE_NAME "memory:oscilloscope.lib"
+#endif
+
 
 /*******************************************************************************
  * Constructor & Co.
@@ -118,7 +124,6 @@ void SjVisModule::StartVis()
 	{
 		SetCurrRenderer(SJ_SET_LAST_SELECTED, false); // false=just continue
 	}
-
 }
 
 
@@ -167,7 +172,6 @@ bool SjVisModule::OpenWindow__(int fullscreenDisplay, const wxRect* fullscreenVi
 		{
 			if( g_mainFrame->IsKioskStarted() )
 				return false; // in kiosk mode we should not allow floating windows!
-
 			m_visState = SJ_VIS_FLOATING;
 		}
 
@@ -314,64 +318,9 @@ bool SjVisModule::CloseWindow__()
  ******************************************************************************/
 
 
-bool SjVisModule::IsCloseButtonNeeded() const
-{
-	if( m_visState == SJ_VIS_FLOATING )
-		return false;
-
-	if( IsOverWorkspace() || g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS) )
-		return true;
-
-	if( !g_mainFrame->IsAllAvailable() )
-		return false;
-
-	if( m_visState == SJ_VIS_EMBEDDED )
-		return true;
-
-	// here we are if we're in kiosk mode with SJ_VIS_OWNSCREEN
-	// any all options allowed - so close is possible if the vis. is started
-	if( m_visIsStarted )
-		return true;
-
-	return false;
-}
-
-
-bool SjVisModule::IsCloseMenuEntryNeeded() const
-{
-	if( m_visState == SJ_VIS_FLOATING )
-		return true; // this is the only difference to IsCloseButtonNeeded()
-
-	return IsCloseButtonNeeded();
-}
-
-
 void SjVisModule::StopOrCloseRequest()
 {
 	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_CLOSE));
-}
-
-
-void SjVisModule::AttachDetachRequest()
-{
-	if( g_mainFrame->IsKioskStarted() || m_inAttachDetach )
-		return; // we do not attach / detach in kiosk mode!
-	m_inAttachDetach = true;
-
-	bool newEmbedded = !IsEmbedded();
-	if( newEmbedded && !g_mainFrame->GetVisEmbedRect() )
-		return; // can't embed now
-
-	SjVisRendererModule* m = GetCurrRenderer();
-	if( m )
-		m_temp1str__ = m->PackFileName();
-
-	SetCurrRenderer(NULL);
-
-	SjTools::SetFlag(m_visFlags, SJ_VIS_FLAGS_EMBEDDED, newEmbedded);
-	WriteVisFlags();
-
-	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_ATTACH_DETACH));
 }
 
 
@@ -421,7 +370,7 @@ wxString SjVisModule::GetRealNextRenderer(const wxString& desiredRenderer)
 		// neither vidout nor karaoke desired, switch to a visualisation
 		if( currRenderer == wxT("") || currRenderer == wxT("memory:vidout.lib") || currRenderer == wxT("memory:karaoke.lib") )
 		{
-			nextRenderer = wxT("memory:oscilloscope.lib");
+			nextRenderer = DEFAULT_VIS_FILE_NAME;
 			wxString moduleName = g_tools->m_config->Read(wxT("player/vismodule"), wxT(""));
 			if( moduleName != wxT("memory:vidout.lib") && moduleName != wxT("memory:karaoke.lib") ) {
 				SjModule* m = g_mainFrame->m_moduleSystem.FindModuleByFile(moduleName);
@@ -444,12 +393,24 @@ wxString SjVisModule::GetRealNextRenderer(const wxString& desiredRenderer)
 
 SjVisRendererModule* SjVisModule::GetCurrRenderer() const
 {
+	SjVisImpl* impl = GetVisImpl();
+	if( impl )
+	{
+		return impl->GetRenderer();
+	}
+
+	return NULL;
+}
+
+
+SjVisImpl* SjVisModule::GetVisImpl() const
+{
 	if( m_visWindow )
 	{
 		if( m_visState == SJ_VIS_EMBEDDED )
-			return ((SjVisEmbed*)m_visWindow)->GetRenderer();
+			return &(((SjVisEmbed*)m_visWindow)->m_impl);
 		else
-			return ((SjVisFrame*)m_visWindow)->GetRenderer();
+			return &(((SjVisFrame*)m_visWindow)->m_impl);
 	}
 
 	return NULL;
@@ -560,9 +521,9 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 		m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(moduleName);
 		if( m == NULL || m->m_type != SJ_MODULETYPE_VIS_RENDERER )
 		{
-			m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(wxT("memory:oscilloscope.lib"));
+			m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(DEFAULT_VIS_FILE_NAME);
 			if( m == NULL )
-				return; // this should not happen - DEFAULT_VIS_MODULE points to "memory:oscilloscope.lib" which is a hard-coded internal module!
+				return; // this should not happen - either "memory:projectm.lib" or "memory:oscilloscope.lib" are always available
 		}
 	}
 
@@ -574,11 +535,194 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 	m_visIsStarted = (m!=NULL);
 
 	// let the window set the renderer
-	if( m_visState == SJ_VIS_EMBEDDED )
-		((SjVisEmbed*)m_visWindow)->SetRenderer(m, justContinue);
-	else
-		((SjVisFrame*)m_visWindow)->SetRenderer(m, justContinue);
+	SjVisImpl* impl = GetVisImpl();
+	if( impl )
+	{
+		impl->SetRenderer(m, justContinue);
+	}
 
 	// inform all others
 	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_STATE_CHANGED));
 }
+
+
+void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
+{
+	// function creates the video screen menu; the menu starts with a group of possible
+	// video screens (Visualisation, Spectrum monitor, Karaoke prompt, Video output etc.)
+	// and is continued by a number of options valid only for the selected screen.
+	//
+	// So, in contrast to the other menus, this menu is completely recreated whenever
+	// a different visualisation is selected.
+
+	if( g_mainFrame == NULL )
+		{ return; }
+
+	// get active and selected renderer
+	SjVisRendererModule* activeRenderer = GetCurrRenderer();
+
+	// add renderer list
+	visMenu->Clear();
+	SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_VIS_RENDERER);
+	int i = 0;
+	SjModuleList::Node* moduleNode = moduleList->GetFirst();
+	while( moduleNode )
+	{
+		SjVisRendererModule* module = (SjVisRendererModule*)moduleNode->GetData();
+		wxASSERT(module);
+
+		visMenu->AppendRadioItem(IDO_VIS_STARTFIRST+i, module->m_name);
+		visMenu->Check(IDO_VIS_STARTFIRST+i, (module == activeRenderer));
+
+		// next
+		moduleNode = moduleNode->GetNext();
+		i++;
+	}
+
+	visMenu->Append(IDT_START_VIS);
+
+	// add renderer options
+	visMenu->AppendSeparator();
+
+	if( activeRenderer )
+	{
+		activeRenderer->AddMenuOptions(*visMenu);
+	}
+
+	SjMenu* submenu = new SjMenu(0);
+
+	submenu->AppendCheckItem(IDO_VIS_AUTOSWITCHOVER, _("If appropriate, switch over automatically"));
+	submenu->Check(IDO_VIS_AUTOSWITCHOVER, (m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY)!=0);
+
+	submenu->AppendCheckItem(IDO_VIS_EMBEDWINDOW, _("Attached window"));
+	submenu->Check(IDO_VIS_EMBEDWINDOW, IsEmbedded());
+	submenu->Enable(IDO_VIS_EMBEDWINDOW, (activeRenderer!=NULL) && !g_mainFrame->IsKioskStarted() && g_mainFrame->GetVisEmbedRect());
+
+	submenu->AppendCheckItem(IDO_VIS_HALFSIZE, _("Half size"));
+	submenu->Check(IDO_VIS_HALFSIZE, (m_visFlags & SJ_VIS_FLAGS_HALF_SIZE)!=0);
+	submenu->Enable(IDO_VIS_HALFSIZE, (activeRenderer!=NULL));
+
+	visMenu->Append(-1, _("Further options"), submenu);
+}
+
+
+
+void SjVisModule::OnVisMenu(int id)
+{
+	SjVisImpl* impl = GetVisImpl();
+
+	// start an explicit video screen
+	if( id>=IDO_VIS_STARTFIRST && id<=IDO_VIS_STARTLAST )
+	{
+		if( g_mainFrame->IsAllAvailable() )
+		{
+			// change the selected vis. renderer
+			int i = 0;
+			SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_VIS_RENDERER);
+			SjModuleList::Node* moduleNode = moduleList->GetFirst();
+			while( moduleNode )
+			{
+				SjVisRendererModule* newRenderer = (SjVisRendererModule*)moduleNode->GetData();
+				wxASSERT(newRenderer);
+				if( IDO_VIS_STARTFIRST+i == id )
+				{
+					if( newRenderer != GetCurrRenderer() )
+					{
+						g_tools->m_config->Write(wxT("player/vismodule"), newRenderer->PackFileName());
+						if( impl==NULL ) {
+							g_mainFrame->m_autoCtrl.m_stateStartVisTimestamp = SjTools::GetMsTicks(); // we forgot this in 2.10beta3, see http://www.silverjuke.net/forum/viewtopic.php?p=2994#2994
+							OpenWindow__(-1, NULL);
+						}
+						SetCurrRenderer(newRenderer); // UpdateVisMenu() implicitly called
+					}
+					else
+					{
+                        UpdateVisMenu(g_mainFrame->m_visMenu); // needed as otherwise items get deselected
+					}
+					break;
+				}
+
+				// next
+				moduleNode = moduleNode->GetNext();
+				i++;
+			}
+			return;
+		}
+		else
+		{
+			// no rights available, convert the commmand to a simple toggle command (may still be denied, see below)
+			id = IDT_START_VIS;
+		}
+	}
+	// no else - we might have changed the ID above
+
+	// other video screen commands
+	if( id >= IDO_VIS_OPTIONFIRST && id <= IDO_VIS_OPTIONLAST )
+	{
+		// renderer options
+		SjVisRendererModule* currRenderer = GetCurrRenderer();
+		if( currRenderer )
+		{
+			currRenderer->OnMenuOption(id);
+		}
+	}
+	else switch( id )
+	{
+		case IDT_START_VIS: // okay, it toggles the vis. as the skins only have one button for it. however.
+			if(  g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)
+			 || (IsOverWorkspace() && IsVisStarted()) )
+			{
+				if( IsVisStarted() )
+				{
+					StopVis();
+				}
+				else
+				{
+					StartVis();
+				}
+				// the menu bar is updated through IDMODMSG_VIS_STATE_CHANGED
+			}
+			return;
+
+		case IDO_VIS_HALFSIZE:
+			if( g_mainFrame->IsAllAvailable() && impl )
+			{
+				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_HALF_SIZE);
+				WriteVisFlags();
+				impl->CalcPositions();
+				impl->m_thisWindow->Refresh();
+			}
+			return;
+
+		case IDO_VIS_AUTOSWITCHOVER:
+			if( g_mainFrame->IsAllAvailable() )
+			{
+				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY);
+				WriteVisFlags();
+			}
+			return;
+
+		case IDO_VIS_EMBEDWINDOW:
+			if( g_mainFrame->IsAllAvailable() && !g_mainFrame->IsKioskStarted() && !m_inAttachDetach )
+			{
+				bool newEmbedded = !IsEmbedded();
+				if( newEmbedded && !g_mainFrame->GetVisEmbedRect() )
+					return; // can't embed now
+
+				m_inAttachDetach = true;
+
+				SjVisRendererModule* m = GetCurrRenderer();
+				if( m )
+					m_temp1str__ = m->PackFileName();
+
+				SetCurrRenderer(NULL);
+
+				SjTools::SetFlag(m_visFlags, SJ_VIS_FLAGS_EMBEDDED, newEmbedded);
+				WriteVisFlags();
+
+				g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_ATTACH_DETACH));
+			}
+			return;
+	}
+}
+

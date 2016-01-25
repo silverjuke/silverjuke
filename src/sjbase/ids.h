@@ -223,6 +223,19 @@
 /* [O]ther (Menu) [ID]s, IDO_*, as they're not used as a target or
  * by a modules.
  */
+#define IDO_VIS_FIRST__         4800 /* range start */
+#define IDO_VIS_STARTFIRST      4800    /* range start */
+#define IDO_VIS_STARTLAST       4849    /* range end */
+#define IDO_VIS_OPTIONFIRST     4850    /* range start */
+#define IDO_VIS_OPTIONLAST      4899    /* range end */
+#define IDO_VIS_EMBEDWINDOW     4900
+#define IDO_VIS_HALFSIZE        4901
+#define IDO_VIS_AUTOSWITCHOVER  4902
+#define IDO_VIS_NEXTPRESET      4903
+#define IDO_VIS_PREVPRESET      4904
+#define IDO_VIS_LAST__          4920 /* range end */
+#define IDO_wxID_LOWEST         4999 /* range start, used by wx */
+#define IDO_wxID_HIGHEST        5999 /* range end, used by wx */
 #define IDO_SEARCHGENRE000      6000 /* range start */
 #define IDO_SEARCHGENRE999      6999 /* range end */
 #define IDO_SEARCHMUSICSEL000   7000 /* range start */

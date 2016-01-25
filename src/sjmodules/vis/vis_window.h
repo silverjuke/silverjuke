@@ -49,7 +49,6 @@ public:
 	void            OnMouseRightUp      (wxWindow* from, wxContextMenuEvent&);
 	void            OnMouseLeftDClick   (wxWindow* from, wxMouseEvent&);
 	void            OnMouseEnter        (wxWindow* from, wxMouseEvent&);
-	void            OnCommand           (wxCommandEvent& e);
 
 	void            SetRenderer         (SjVisRendererModule*, bool justContinue);
 	SjVisRendererModule* GetRenderer    () const { return m_renderer; }
@@ -65,7 +64,6 @@ private:
 	void            RemoveRenderer      ();
 
 	wxPoint         GetEventMousePosition(wxWindow* from, wxMouseEvent&) const;
-	void            ShowContextMenu     (int x, int y);
 
 	bool            m_keyDown,
 	                m_mouseDown;
@@ -73,16 +71,10 @@ private:
 	wxWindow*       m_thisWindow;
 	bool            m_thisWindowIsFrame;
 
-	wxColour        m_menuColour;
-	wxPen           m_menuPen;
-
-	wxRect          m_topRect;
-	wxRect          m_msgLineRect;
-	wxRect          m_msgTextRect; // the real size of the text
-	wxRect          m_triangleRect;
-	wxRect          m_closeRect;
 	wxRect          m_rendererRect;
 	SjVisRendererModule* m_renderer;
+
+	friend class    SjVisModule;
 };
 
 
@@ -95,8 +87,6 @@ public:
 	                                     long style);
 	                ~SjVisFrame         () { m_impl.Exit(); }
 	void            InitImpl            () { m_impl.Init(this, true); }
-	void            SetRenderer         (SjVisRendererModule* m, bool c) { m_impl.SetRenderer(m, c); }
-	SjVisRendererModule* GetRenderer    () const { return m_impl.GetRenderer(); }
 
 private:
 	SjVisImpl       m_impl;
@@ -111,9 +101,10 @@ private:
 	void            OnMouseRightUp      (wxContextMenuEvent& e)   { m_impl.OnMouseRightUp(this, e); }
 	void            OnMouseLeftDClick   (wxMouseEvent& e)   { m_impl.OnMouseLeftDClick(this, e); }
 	void            OnMouseEnter        (wxMouseEvent& e)   { m_impl.OnMouseEnter(this, e); }
-	void            OnCommand           (wxCommandEvent& e) { m_impl.OnCommand(e); }
 	void            OnFwdToMainFrame    (wxCommandEvent& e);
 	void            OnCloseWindow       (wxCloseEvent&);
+
+	friend class    SjVisModule;
 
 	DECLARE_EVENT_TABLE ();
 };
@@ -127,8 +118,6 @@ public:
 	                                      : wxWindow(parent, id, pos, size, style) { }
 	                ~SjVisEmbed         () { m_impl.Exit(); }
 	void            InitImpl            () { m_impl.Init(this, false); }
-	void            SetRenderer         (SjVisRendererModule* m, bool c) { m_impl.SetRenderer(m, c); }
-	SjVisRendererModule* GetRenderer    () const { return m_impl.GetRenderer(); }
 
 private:
 	SjVisImpl       m_impl;
@@ -142,7 +131,8 @@ private:
 	void            OnMouseRightUp      (wxContextMenuEvent& e)   { m_impl.OnMouseRightUp(this, e); }
 	void            OnMouseLeftDClick   (wxMouseEvent& e)   { m_impl.OnMouseLeftDClick(this, e); }
 	void            OnMouseEnter        (wxMouseEvent& e)   { m_impl.OnMouseEnter(this, e); }
-	void            OnCommand           (wxCommandEvent& e) { m_impl.OnCommand(e); }
+
+	friend class    SjVisModule;
 
 	DECLARE_EVENT_TABLE ();
 };

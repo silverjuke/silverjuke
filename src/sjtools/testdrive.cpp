@@ -559,6 +559,12 @@ void SjTestdrive1()
 	wxASSERT( SjTools::Rand(0) == 0 );
 	wxASSERT( SjTools::Rand(1) == 0 );
 
+	// check that our IDs do not overlap with the wxWidgets IDs
+	wxASSERT( wxID_LOWEST == IDO_wxID_LOWEST );
+	wxASSERT( wxID_HIGHEST == IDO_wxID_HIGHEST );
+	wxASSERT( wxID_LOWEST == 4999 );
+	wxASSERT( wxID_HIGHEST == 5999 );
+
 	/* Done */
 	wxLogInfo(wxT("Testdrive: Done."));
 }

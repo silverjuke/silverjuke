@@ -962,6 +962,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	m_viewMenu                      = NULL;
 	m_viewColMenu                   = NULL;
 	m_playbackMenu                  = NULL;
+	m_visMenu                       = NULL;
 	m_kioskMenu                     = NULL;
 	m_helpMenu                      = NULL;
 	m_haltedManually                = FALSE;
@@ -1451,6 +1452,7 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU        (IDO_ABOUT_OPEN_WWW,                        SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_ABOUT,                                 SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_ONLINE_HELP,                           SjMainFrame::OnFwdToSkin     )
+	EVT_MENU_RANGE  (IDO_VIS_FIRST__, IDO_VIS_LAST__,           SjMainFrame::OnFwdToSkin     )
 	EVT_MENU_RANGE  (IDO_SCRIPT_MENU00, IDO_SCRIPT_MENU99,      SjMainFrame::OnFwdToSkin     )
 	EVT_MENU_RANGE  (IDO_SCRIPTCONFIG_MENU00, IDO_SCRIPTCONFIG_MENU99, SjMainFrame::OnFwdToSkin )
 	EVT_MENU        (IDO_CONSOLE,                               SjMainFrame::OnFwdToSkin     )
@@ -1612,6 +1614,13 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 		if( IsAllAvailable() )
 		{
 			m_libraryModule->ShowArtistInfo(IDO_ARTISTINFQUEUE00, targetId);
+		}
+	}
+	else if( targetId == IDT_START_VIS || (targetId>=IDO_VIS_FIRST__ && targetId<=IDO_VIS_LAST__) )
+	{
+		if( g_visModule )
+		{
+			g_visModule->OnVisMenu(targetId);
 		}
 	}
 	else
@@ -2124,23 +2133,6 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				if( g_advSearchModule && IsAllAvailable() )
 				{
 					g_advSearchModule->OpenDialog();
-				}
-				break;
-
-				// Vis. stuff
-
-			case IDT_START_VIS: // okay, it toggles the vis. as the skins only have one button for it. however.
-				if(  IsOpAvailable(SJ_OP_STARTVIS)
-				 || (g_visModule->IsOverWorkspace() && g_visModule->IsVisStarted()) )
-				{
-					if( g_visModule->IsVisStarted() )
-					{
-						g_visModule->StopVis();
-					}
-					else
-					{
-						g_visModule->StartVis();
-					}
 				}
 				break;
 

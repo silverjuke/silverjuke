@@ -1044,7 +1044,7 @@ void SjOscSpectrum::DrawBand(wxDC& dc, int x, int y, int w, int h, double val, d
 	// silverjuke may get very slow as eg. handH gets way too large.
 	if( val > 1.0 ) val = 1.0;
 	if( val < 0 ) val = 0;
-	
+
 	// draw the band to the given box
 	long bandH = (long)((double)h*val);
 	int  yy;
@@ -1407,11 +1407,11 @@ private:
 };
 
 
-#define IDC_SHOWSPECTRUM        (IDM_FIRSTPRIVATE+1)
-#define IDC_SHOWOSCILLOSCOPE    (IDM_FIRSTPRIVATE+2)
-#define IDC_SHOWSTARFIELD       (IDM_FIRSTPRIVATE+3)
-#define IDC_SHOWFIGURES         (IDM_FIRSTPRIVATE+4)
-#define IDC_TIMER               (IDM_FIRSTPRIVATE+7)
+#define IDC_SHOWSPECTRUM        (IDO_VIS_OPTIONFIRST+1)
+#define IDC_SHOWOSCILLOSCOPE    (IDO_VIS_OPTIONFIRST+2)
+#define IDC_SHOWSTARFIELD       (IDO_VIS_OPTIONFIRST+3)
+#define IDC_SHOWFIGURES         (IDO_VIS_OPTIONFIRST+4)
+#define IDC_TIMER               (IDO_VIS_OPTIONFIRST+7)
 
 
 BEGIN_EVENT_TABLE(SjOscWindow, wxWindow)
@@ -1628,7 +1628,7 @@ bool SjOscModule::Start(SjVisImpl* impl, bool justContinue)
 	{
 		m_impl = impl;
 
-		m_showFlags             = g_tools->m_config->Read(wxT("player/oscflags"), SJ_OSC_SHOW_DEFAULT);
+		m_showFlags		= g_tools->m_config->Read(wxT("player/oscflags"), SJ_OSC_SHOW_DEFAULT);
 		m_oscWindow = new SjOscWindow(this, impl->GetWindow());
 
 		if( m_oscWindow  )

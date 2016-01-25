@@ -58,6 +58,7 @@ void SjMainFrame::CreateMainMenu()
 	m_editMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_viewMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_playbackMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
+	m_visMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_kioskMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 	m_helpMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 
@@ -114,13 +115,13 @@ void SjMainFrame::CreateMainMenu()
 	m_viewMenu->Append(IDT_WORKSPACE_GOTO_PREV_AZ);
 	m_viewMenu->Append(IDT_WORKSPACE_GOTO_NEXT_AZ);
 	m_viewMenu->AppendSeparator();
-	m_viewMenu->AppendCheckItem(IDT_START_VIS, _("Video screen"));
-	m_viewMenu->AppendSeparator();
 	m_viewMenu->AppendCheckItem(IDT_ALWAYS_ON_TOP);
 
 	// init "playback" menu
 	m_playbackMenu->AppendSeparator();
 	CreatePlaybackMenu(m_playbackMenu);
+
+	// init "video screen" menu is done in UpdateVisMenu() below.
 
 	// create "kiosk" menu
 	m_kioskMenu->Append(IDT_TOGGLE_KIOSK, _("Start kiosk mode..."));
@@ -142,6 +143,7 @@ void SjMainFrame::CreateMainMenu()
 	m_menuBar->Append(m_editMenu, _("Edit"));
 	m_menuBar->Append(m_viewMenu, _os(_("View")));
 	m_menuBar->Append(m_playbackMenu, _("Playback"));
+	m_menuBar->Append(m_visMenu, _("Video screen"));
 	m_menuBar->Append(m_kioskMenu, _("Kiosk mode"));
 	m_menuBar->Append(m_helpMenu, _("Help"));
 
@@ -150,7 +152,7 @@ void SjMainFrame::CreateMainMenu()
 
 void SjMainFrame::UpdateMainMenu()
 {
-	if( m_menuBar == NULL || m_fileMenu == NULL || m_libraryModule == NULL || m_editMenu == NULL ) return;
+	if( m_menuBar == NULL || m_fileMenu == NULL || m_libraryModule == NULL || m_editMenu == NULL || m_visMenu == NULL || g_visModule == NULL ) return;
 
     bool enableQueue = m_player.m_queue.GetCount()!=0;
     m_fileMenu->Enable(IDT_SAVE_PLAYLIST, enableQueue);
@@ -162,6 +164,8 @@ void SjMainFrame::UpdateMainMenu()
 
 	UpdateMenuBarQueue();
 	UpdateViewMenu();
+
+	g_visModule->UpdateVisMenu(m_visMenu);
 
 	// update scripts menu
     m_editExtrasMenu->Clear();
@@ -241,7 +245,7 @@ void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 
 		case IDT_START_VIS:
 			if( g_visModule ) {
-				m_menuBar->Check(IDT_START_VIS, g_visModule->IsVisStarted());
+				g_visModule->UpdateVisMenu(m_visMenu);
 			}
 			break;
 	}
@@ -300,11 +304,6 @@ void SjMainFrame::UpdateViewMenu()
 	}
 
 	m_viewMenu->Check(IDT_ALWAYS_ON_TOP, IsAlwaysOnTop());
-
-	if( g_visModule )
-	{
-		m_viewMenu->Check(IDT_START_VIS, g_visModule->IsVisStarted());
-	}
 }
 
 
