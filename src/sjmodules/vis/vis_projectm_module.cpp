@@ -68,6 +68,7 @@ public:
 
     long                m_sampleCount;
     unsigned char*      m_bufferStart;
+    bool                m_triedCreation;
 
 	DECLARE_EVENT_TABLE ();
 };
@@ -98,6 +99,8 @@ SjProjectmGlCanvas::SjProjectmGlCanvas(wxWindow* parent)
 	}
 
 	m_bufferStart = (unsigned char*)malloc(m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES);
+
+	m_triedCreation = false;
 }
 
 
@@ -112,7 +115,7 @@ void SjProjectmGlCanvas::OnPaint(wxPaintEvent& e)
 	wxPaintDC paintDc(this); // this declararion is needed to validate the rectangles; redrawing is done by OpenGL
 	if( s_theProjectmModule->m_projectMobj == NULL )
 	{
-		paintDc.SetBrush(*wxBLUE_BRUSH);
+		paintDc.SetBrush(*wxBLACK_BRUSH);
 		paintDc.SetPen(*wxTRANSPARENT_PEN);
 		paintDc.DrawRectangle(GetClientSize());
 	}
@@ -122,6 +125,54 @@ void SjProjectmGlCanvas::OnPaint(wxPaintEvent& e)
 void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 {
 	SJ_FORCE_IN_HERE_ONLY_ONCE
+
+	if( !m_triedCreation && IsShownOnScreen() && s_theProjectmModule )
+	{
+		m_triedCreation = true;
+
+		// create and select the gl context
+		s_theProjectmModule->m_glContext = new wxGLContext(this);
+		if( s_theProjectmModule->m_glContext == NULL )
+			{ wxLogError("Cannot init projectM (context creation failed)."); return; }
+		SetCurrent(*s_theProjectmModule->m_glContext);
+
+		// vis. presets path
+		wxString presetPath = SjTools::EnsureTrailingSlash(SjTools::GetGlobalAppDataDir());
+		presetPath = SjTools::EnsureTrailingSlash(presetPath + "vis");
+
+		wxLogInfo("Loading %s", presetPath.c_str());
+
+		// init projectM it self
+		projectM::Settings s = {
+			32,    // int meshX           -- Defaults from projectM::readConfig().
+			24,    // int meshY           -- Defining the values this way will force
+			35,    // int fps;            -- an error if the structure changes.
+			512,   // int textureSize;
+			512,   // int windowWidth;
+			512,   // int windowHeight;
+			presetPath.ToStdString(),    // std::string presetURL;
+			"",    // std::string titleFontURL;
+			"",    // std::string menuFontURL;
+			10,    // int smoothPresetDuration;
+			15,    // int presetDuration;
+			10.0,  // float beatSensitivity;
+			true,  // bool aspectCorrection;
+			0.0,   // float easterEgg;
+			true,  // bool shuffleEnabled;
+			false, // bool softCutRatingsEnabled;
+		};
+
+		try {
+			s_theProjectmModule->m_projectMobj = new projectM(s, projectM::FLAG_NONE);
+
+			wxSize size = GetSize();
+			s_theProjectmModule->m_projectMobj->projectM_resetGL(size.x, size.y);
+		}
+		catch(...) {
+			s_theProjectmModule->m_projectMobj = NULL;
+			wxLogError("Cannot init projectM (constructor failed).");
+		}
+	}
 
 	// to set the frames, ths. like  globalPM->beatDetect->pcm->addPCM8( renderData.waveformData );
 	// should be called, see .../itunes/iprojectM.cpp
@@ -178,61 +229,9 @@ bool SjProjectmModule::Start(SjVisImpl* impl, bool justContinue)
 	m_glCanvas->SetSize(visRect);
 	m_glCanvas->Show();
 
-	// create and select the gl context
-	m_glContext = new wxGLContext(m_glCanvas);
-	if( m_glContext == NULL )
-		{ wxLogError("Cannot init projectM (context creation failed)."); return true; /*leave the window open until exit*/ }
-	m_glCanvas->SetCurrent(*m_glContext);
-
-	// vis. presets path
-	wxString presetPath = SjTools::EnsureTrailingSlash(SjTools::GetGlobalAppDataDir());
-	presetPath = SjTools::EnsureTrailingSlash(presetPath + "vis");
-
-	wxLogInfo("Loading %s", presetPath.c_str());
-
-	// init projectM it self
-	projectM::Settings s = {
-		32,    // int meshX           -- Defaults from projectM::readConfig().
-		24,    // int meshY           -- Defining the values this way will force
-		35,    // int fps;            -- an error if the structure changes.
-		512,   // int textureSize;
-		512,   // int windowWidth;
-		512,   // int windowHeight;
-		presetPath.ToStdString(),    // std::string presetURL;
-		"",    // std::string titleFontURL;
-		"",    // std::string menuFontURL;
-		10,    // int smoothPresetDuration;
-		15,    // int presetDuration;
-		10.0,  // float beatSensitivity;
-		true,  // bool aspectCorrection;
-		0.0,   // float easterEgg;
-		true,  // bool shuffleEnabled;
-		false, // bool softCutRatingsEnabled;
-	};
-
-	try {
-		m_projectMobj = new projectM(s, projectM::FLAG_NONE);
-
-		wxSize size = m_glCanvas->GetSize();
-		m_projectMobj->projectM_resetGL(size.x, size.y);
-
-		m_projectMobj->renderFrame();
-		m_glCanvas->SwapBuffers();
-	}
-	catch(...) {
-		m_projectMobj = NULL;
-		wxLogError("Cannot init projectM (constructor failed).");
-	}
-
-
-	// done
-	ReceiveMsg(IDMODMSG_TRACK_ON_AIR_CHANGED);
-
-	if( m_projectMobj )
-	{
-		m_glCanvas->m_timer.SetOwner(m_glCanvas, IDC_TIMER);
-		m_glCanvas->m_timer.Start(SLEEP_MS, wxTIMER_CONTINUOUS);
-	}
+	// start timer; the real initialisation is done in the timer if IsShownOnScreen() is true
+	m_glCanvas->m_timer.SetOwner(m_glCanvas, IDC_TIMER);
+	m_glCanvas->m_timer.Start(SLEEP_MS, wxTIMER_CONTINUOUS);
 
 	return true;
 }
