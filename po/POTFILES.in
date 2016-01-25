@@ -1,6 +1,4 @@
 # List of source files which contain translatable strings.
-src/kiss_fft/kiss_fft.c
-src/kiss_fft/kiss_fftr.c
 src/sjbase/autoctrl.cpp
 src/sjbase/browser.cpp
 src/sjbase/browser_album.cpp
@@ -62,6 +60,7 @@ src/sjmodules/vis/vis_cdg_reader.cpp
 src/sjmodules/vis/vis_karaoke_module.cpp
 src/sjmodules/vis/vis_module.cpp
 src/sjmodules/vis/vis_oscilloscope.cpp
+src/sjmodules/vis/vis_projectm_module.cpp
 src/sjmodules/vis/vis_synctxt_raw.cpp
 src/sjmodules/vis/vis_synctxt_reader.cpp
 src/sjmodules/vis/vis_vidout_module.cpp

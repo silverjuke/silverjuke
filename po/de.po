@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-01-04 12:33+0100\n"
-"PO-Revision-Date: 2016-01-04 12:18+0100\n"
+"POT-Creation-Date: 2016-01-25 22:14+0100\n"
+"PO-Revision-Date: 2016-01-25 22:22+0100\n"
 "Last-Translator: Björn Petersen <r10s@b44t.com>\n"
 "Language-Team: German\n"
 "Language: de\n"
@@ -299,9 +299,6 @@ msgstr "Gleiche Vergrößerung in allen Ansichten"
 msgid "Zoom"
 msgstr "Vergrößerung"
 
-msgid "Video screen"
-msgstr "Videobildschirm"
-
 msgid "Start kiosk mode..."
 msgstr "Kiosk-Modus starten ..."
 
@@ -331,6 +328,9 @@ msgstr "Ansicht"
 
 msgid "Playback"
 msgstr "Wiedergabe"
+
+msgid "Video screen"
+msgstr "Videoschirm"
 
 msgid "Kiosk mode"
 msgstr "Kiosk-Modus"
@@ -653,6 +653,10 @@ msgstr "Ton aus"
 msgid "Reload skin"
 msgstr "Skin neu laden"
 
+#| msgid "Video screen"
+msgid "Toggle video screen"
+msgstr "Videoschirm umschalten"
+
 msgid "Smooth"
 msgstr "Kanten glätten"
 
@@ -825,14 +829,18 @@ msgstr "Tooltips"
 msgid "Mouse wheel"
 msgstr "Mausrad"
 
-msgid "Scroll vertically"
-msgstr "Vertikal scrollen"
+#| msgid "Scroll horizontally"
+msgid "Scroll horizontally in album view"
+msgstr "In Albenansicht horizontal scrollen"
 
-msgid "Scroll horizontally"
-msgstr "Horizontal scrollen"
+msgid "Modifier key toggles axis"
+msgstr "Modifier-Taste wechselt die Achse"
 
-msgid "Context sensitive"
-msgstr "Kontextsensitiv"
+msgid "Right mouse button toggles axis"
+msgstr "Rechte Maustaste wechselt die Achse"
+
+msgid "Modify volume, scrollbars, letters etc."
+msgstr "Lautstärke, Buchstaben etc. ändern"
 
 msgid "Use multimedia keyboard keys"
 msgstr "Multimedia-Tastatur verwenden"
@@ -1440,8 +1448,8 @@ msgstr "Kein Kredit."
 msgid "Credit: %i"
 msgstr "Kredit: %i"
 
-msgid "Exit"
-msgstr "Beenden"
+msgid "Start"
+msgstr "Start"
 
 msgid "Functions"
 msgstr "Funktionen"
@@ -1648,9 +1656,6 @@ msgstr "Kredit zwischen zwei Programmstarts merken"
 
 msgid "Current credit:"
 msgstr "Aktueller Kredit:"
-
-msgid "Start"
-msgstr "Start"
 
 msgid "Please enter your password to exit the kiosk mode."
 msgstr "Bitte geben Sie Ihr Passwort ein, um den Kiosk-Modus zu beenden."
@@ -2169,12 +2174,12 @@ msgstr "Ansicht nach %i Minuten Inaktivität umschalten auf"
 # The string will be followed by "Album view", "Cover view" or "List view"
 #, c-format
 msgid "Open video screen after %i minutes of inactivity"
-msgstr "Videobildschirm nach %i Minuten Inaktivität öffnen"
+msgstr "Videoschirm nach %i Minuten Inaktivität öffnen"
 
 # %s will be replaced by the name of a visualization
 #, c-format
 msgid "Close video screen after %i minutes"
-msgstr "Videobildschirm nach %i Minuten schließen"
+msgstr "Videoschirm nach %i Minuten schließen"
 
 #, c-format
 msgid "Limit play time to %i seconds"
@@ -2544,16 +2549,25 @@ msgstr "Karaoke Prompt"
 msgid "No images found in \"%s\"."
 msgstr "Im Ordner \"%s\" wurden keine Bilder gefunden."
 
+msgid "Background"
+msgstr "Hintergrund"
+
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
 msgid "Use %s-files"
 msgstr "%s-Dateien verwenden"
 
-msgid "Background"
-msgstr "Hintergrund"
-
 msgid "Please select a directory with images"
 msgstr "Bitte wählen Sie einen Ordner mit Bildern aus"
+
+msgid "If appropriate, switch over automatically"
+msgstr "Bei Bedarf automatisch umschalten"
+
+msgid "Attached window"
+msgstr "Fenster andocken"
+
+msgid "Half size"
+msgstr "Halbe Größe"
 
 msgid "Spectrum Monitor"
 msgstr "Spektrum Monitor"
@@ -2570,17 +2584,11 @@ msgstr "Sterne anzeigen"
 msgid "Show other figures"
 msgstr "Andere Figuren anzeigen"
 
+msgid "Visualization"
+msgstr "Visualisierung"
+
 msgid "Video output"
 msgstr "Videoausgabe"
-
-msgid "If appropriate, switch over automatically"
-msgstr "Bei Bedarf automatisch umschalten"
-
-msgid "Attached window"
-msgstr "Fenster andocken"
-
-msgid "Half size"
-msgstr "Halbe Größe"
 
 msgid "Search homepage"
 msgstr "Homepage suchen"
@@ -2910,6 +2918,15 @@ msgstr "Die Datei \"%s\" existiert nicht."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kann \"%s\" nicht ausführen."
+
+#~ msgid "Scroll vertically"
+#~ msgstr "Vertikal scrollen"
+
+#~ msgid "Context sensitive"
+#~ msgstr "Kontextsensitiv"
+
+#~ msgid "Exit"
+#~ msgstr "Beenden"
 
 #~ msgid "Show album name"
 #~ msgstr "Albumnamen anzeigen"
