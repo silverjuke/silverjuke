@@ -310,7 +310,6 @@ void SjVisImpl::OnMouseRightUp(wxWindow* from, wxContextMenuEvent& event)
 
 void SjVisImpl::OnMouseLeftDClick(wxWindow* from, wxMouseEvent& event)
 {
-	m_thisWindow->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_EMBED_WINDOW));
 }
 
 
