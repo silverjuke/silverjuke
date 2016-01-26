@@ -140,7 +140,10 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 		wxString presetPath = SjTools::EnsureTrailingSlash(SjTools::GetGlobalAppDataDir());
 		presetPath = SjTools::EnsureTrailingSlash(presetPath + "vis");
 
-		wxLogInfo("Loading %s", presetPath.c_str());
+		if( g_debug )
+		{
+			wxLogInfo("Loading %s", presetPath.c_str());
+		}
 
 		// init projectM it self
 		projectM::Settings s = {
