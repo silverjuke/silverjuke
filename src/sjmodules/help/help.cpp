@@ -219,6 +219,12 @@ wxString SjHelpDialog::GetCreditsTopic() const
 	    "<br />"
 	    "</li>"
 
+		"<li>"
+		"For the visualizations, projectM, a Milkdrop-esque visualization SDK, is used. "
+		"Copyright (c) 2003-2007 projectM Team"
+		"<br />"
+		"</li>"
+
 	    "<li>"
 	    "The used Simple ECMAScript Engine is covered by the following notice:<br />"
 	    "<br />"
