@@ -23,6 +23,9 @@
 	#ifndef WIN32
 	#define WIN32
 	#endif
+	#ifndef _WIN32
+	#define _WIN32
+	#endif
 #else
 	#ifndef LINUX
 	#define LINUX
@@ -48,10 +51,8 @@
 #define projectM_FONT_MENU   ""
 
 // the following options are enabled by default - and should be enabled by us (non-defaults are more buggy ...)
-//#if defined(__WXMSW__) || defined(__WXMAC__)
-	//#define USE_FBO
-	#define USE_NATIVE_GLEW // we prefer our own glew.h, needed for USE_FBO (btw, I would expect a "native" option using the system lib)
-//#endif
+//#define USE_FBO
+//#define USE_NATIVE_GLEW // we prefer our own glew.h, needed for USE_FBO
 
 #define DISABLE_NATIVE_PRESETS // presets in C++-libraries not needed
 

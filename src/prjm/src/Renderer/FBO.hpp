@@ -28,13 +28,19 @@
 #ifndef _RENDERTARGET_H
 #define _RENDERTARGET_H
 
-//#ifdef USE_FBO
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
+#include <GL/gl.h>
+#endif
+
+#ifdef USE_FBO
 #ifdef USE_NATIVE_GLEW
 #include <prjm/glew/glew.h>
 #else
 #include <GL/glew.h>
 #endif
-//#endif
+#endif
 
 #ifdef MACOS
 #include <OpenGL/gl.h>
