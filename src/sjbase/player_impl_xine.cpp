@@ -104,6 +104,12 @@ bool SjPlayerImpl::InitXine()
 	// postinit xine
 	xine_init(m_xine);
 
+	// show version information
+	{
+		wxString version(xine_get_version_string());
+		wxLogInfo("Loading xine %s using output \"%s\".", version.c_str(), m_iniDevice.c_str());
+	}
+
 	// success, xine opened
 	return true;
 
