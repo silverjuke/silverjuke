@@ -33,6 +33,7 @@
 #include <sjbase/browser_cover.h>
 #include <sjbase/browser_list.h>
 #include <sjmodules/kiosk/virtkeybd.h>
+#include <sjmodules/vis/vis_module.h>
 #include <sjbase/columnmixer.h>
 
 
@@ -395,6 +396,7 @@ void SjBrowserWindow::OnSkinTargetEvent (int targetId, SjSkinValue& value, long 
 			int newView = (GetView()+test)%SJ_BROWSER_VIEW_COUNT;
 			if( IsViewAvailable(newView) )
 			{
+				g_visModule->StopVisIfOverWorkspace();
 				SetView_(newView, true, true);
 				break;
 			}
@@ -402,18 +404,21 @@ void SjBrowserWindow::OnSkinTargetEvent (int targetId, SjSkinValue& value, long 
 	}
 	else if( targetId == IDT_WORKSPACE_ALBUM_VIEW )
 	{
-		// if the view is not available, nothing happens
-		SetView_(SJ_BROWSER_ALBUM_VIEW, true, true);
+		if( IsViewAvailable(SJ_BROWSER_ALBUM_VIEW) )
+			g_visModule->StopVisIfOverWorkspace();
+		SetView_(SJ_BROWSER_ALBUM_VIEW, true, true); // needed anyway for button updates; if the view is not available, nothing happen
 	}
 	else if( targetId == IDT_WORKSPACE_COVER_VIEW )
 	{
-		// if the view is not available, nothing happens
-		SetView_(SJ_BROWSER_COVER_VIEW, true, true);
+		if( IsViewAvailable(SJ_BROWSER_COVER_VIEW) )
+			g_visModule->StopVisIfOverWorkspace();
+		SetView_(SJ_BROWSER_COVER_VIEW, true, true); // needed anyway for button updates; if the view is not available, nothing happen
 	}
 	else if( targetId == IDT_WORKSPACE_LIST_VIEW )
 	{
-		// if the view is not available, nothing happens
-		SetView_(SJ_BROWSER_LIST_VIEW, true, true);
+		if( IsViewAvailable(SJ_BROWSER_LIST_VIEW) )
+			g_visModule->StopVisIfOverWorkspace();
+		SetView_(SJ_BROWSER_LIST_VIEW, true, true); // needed anyway for button updates; if the view is not available, nothing happen
 	}
 	else if( m_currView )
 	{
@@ -422,6 +427,7 @@ void SjBrowserWindow::OnSkinTargetEvent (int targetId, SjSkinValue& value, long 
 			// toggle covers
 			if( g_mainFrame->IsOpAvailable(SJ_OP_TOGGLE_ELEMENTS) )
 			{
+				g_visModule->StopVisIfOverWorkspace();
 				SjTools::ToggleFlag(m_currView->m_flags, SJ_BROWSER_VIEW_COVER);
 				RefreshAll();
 
