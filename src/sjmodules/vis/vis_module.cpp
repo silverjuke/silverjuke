@@ -559,7 +559,7 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 		{ return; }
 
 	// get active and selected renderer
-	SjVisRendererModule* activeRenderer = GetCurrRenderer();
+	SjVisRendererModule* currRenderer = GetCurrRenderer();
 
 	// add renderer list
 	visMenu->Clear();
@@ -572,21 +572,24 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 		wxASSERT(module);
 
 		visMenu->AppendRadioItem(IDO_VIS_STARTFIRST+i, module->m_name);
-		visMenu->Check(IDO_VIS_STARTFIRST+i, (module == activeRenderer));
+		visMenu->Check(IDO_VIS_STARTFIRST+i, (currRenderer==module));
 
 		// next
 		moduleNode = moduleNode->GetNext();
 		i++;
 	}
 
-	visMenu->Append(IDT_START_VIS);
+	visMenu->AppendCheckItem(IDO_VIS_STOP, _("Off"));
+	visMenu->Check(IDO_VIS_STOP, (currRenderer==NULL));
+
+	visMenu->Append(IDT_VIS_TOGGLE);
 
 	// add renderer options
 	visMenu->AppendSeparator();
 
-	if( activeRenderer )
+	if( currRenderer )
 	{
-		activeRenderer->AddMenuOptions(*visMenu);
+		currRenderer->AddMenuOptions(*visMenu);
 	}
 
 	SjMenu* submenu = new SjMenu(0);
@@ -596,11 +599,11 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 
 	submenu->AppendCheckItem(IDO_VIS_EMBEDWINDOW, _("Attached window"));
 	submenu->Check(IDO_VIS_EMBEDWINDOW, IsEmbedded());
-	submenu->Enable(IDO_VIS_EMBEDWINDOW, (activeRenderer!=NULL) && !g_mainFrame->IsKioskStarted() && g_mainFrame->GetVisEmbedRect());
+	submenu->Enable(IDO_VIS_EMBEDWINDOW, (currRenderer!=NULL) && !g_mainFrame->IsKioskStarted() && g_mainFrame->GetVisEmbedRect());
 
 	submenu->AppendCheckItem(IDO_VIS_HALFSIZE, _("Half size"));
 	submenu->Check(IDO_VIS_HALFSIZE, (m_visFlags & SJ_VIS_FLAGS_HALF_SIZE)!=0);
-	submenu->Enable(IDO_VIS_HALFSIZE, (activeRenderer!=NULL));
+	submenu->Enable(IDO_VIS_HALFSIZE, (currRenderer!=NULL));
 
 	visMenu->Append(-1, _("Further options"), submenu);
 }
@@ -681,6 +684,21 @@ void SjVisModule::OnVisMenu(int id)
 					StartVis();
 				}
 				// the menu bar is updated through IDMODMSG_VIS_STATE_CHANGED
+			}
+			return;
+
+		case IDO_VIS_STOP:
+			if(  g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)
+			 || (IsOverWorkspace() && IsVisStarted()) )
+			{
+				if( IsVisStarted() )
+				{
+					StopVis();
+				}
+				else
+				{
+					UpdateVisMenu(g_mainFrame->m_visMenu); // needed as otherwise items get deselected
+				}
 			}
 			return;
 

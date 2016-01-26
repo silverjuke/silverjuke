@@ -225,7 +225,8 @@
  */
 #define IDO_VIS_FIRST__         4800 /* range start */
 #define IDO_VIS_STARTFIRST      4800    /* range start */
-#define IDO_VIS_STARTLAST       4849    /* range end */
+#define IDO_VIS_STARTLAST       4848    /* range end */
+#define IDO_VIS_STOP            4849
 #define IDO_VIS_OPTIONFIRST     4850    /* range start */
 #define IDO_VIS_OPTIONLAST      4899    /* range end */
 #define IDO_VIS_EMBEDWINDOW     4900
