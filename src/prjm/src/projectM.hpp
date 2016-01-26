@@ -77,6 +77,7 @@ class RenderItemMatcher;
 class MasterRenderItemMerge;
 
 #include "Common.hpp"
+#include "Preset.hpp" // EDIT BY SJ - added to avoid warning C4150 on MSW - std::auto_ptr<Preset> destructors cannot be called without declaration of 'Preset', maybe the stuff is inlined on MSW 
 
 #include <memory>
 #ifdef WIN32
