@@ -243,7 +243,7 @@ void SjMainFrame::UpdateMenuBarValue(int targetId, const SjSkinValue& v)
 			UpdateMenuBarQueue();
 			break;
 
-		case IDT_START_VIS:
+		case IDT_VIS_TOGGLE:
 			if( g_visModule ) {
 				g_visModule->UpdateVisMenu(m_visMenu);
 			}

@@ -98,7 +98,7 @@
 #define IDT_UNQUEUE                 195
 #define IDT_UNQUEUE_ALL             196
 #define IDT_MAINMENU                197
-#define IDT_START_VIS               198
+#define IDT_VIS_TOGGLE              198
 #define IDT_UPDATE_INDEX            199
 #define IDT_DEEP_UPDATE_INDEX       200
 #define IDT_SETTINGS                201

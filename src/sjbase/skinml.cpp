@@ -209,7 +209,7 @@ static SjSkinMlParserRaw s_target2IdTable[] =
 	{ wxT("unqueue"),               IDT_UNQUEUE                                      },
 	{ wxT("unqueueall"),            IDT_UNQUEUE_ALL                                  },
 	{ wxT("mainmenu"),              IDT_MAINMENU                                     },
-	{ wxT("startvis"),              IDT_START_VIS                                    },
+	{ wxT("startvis"),              IDT_VIS_TOGGLE                                   },
 	{ wxT("updateindex"),           IDT_UPDATE_INDEX                                 },
 	{ wxT("deepupdateindex"),       IDT_DEEP_UPDATE_INDEX                            },
 	{ wxT("settings"),              IDT_SETTINGS                                     },

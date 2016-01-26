@@ -1616,7 +1616,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			m_libraryModule->ShowArtistInfo(IDO_ARTISTINFQUEUE00, targetId);
 		}
 	}
-	else if( targetId == IDT_START_VIS || (targetId>=IDO_VIS_FIRST__ && targetId<=IDO_VIS_LAST__) )
+	else if( targetId == IDT_VIS_TOGGLE || (targetId>=IDO_VIS_FIRST__ && targetId<=IDO_VIS_LAST__) )
 	{
 		if( g_visModule )
 		{
@@ -2245,7 +2245,7 @@ void SjMainFrame::OnFwdToModules(wxCommandEvent& event)
 	else if( modMsg == IDMODMSG_VIS_STATE_CHANGED )
 	{
 		// vis. state changed
-		SetSkinTargetValue(IDT_START_VIS, g_visModule->IsVisStarted()? 1 : 0);
+		SetSkinTargetValue(IDT_VIS_TOGGLE, g_visModule->IsVisStarted()? 1 : 0);
 		if( !g_visModule->IsVisStarted() )
 		{
 			m_autoCtrl.m_stateStopVisTimestamp = SjTools::GetMsTicks();

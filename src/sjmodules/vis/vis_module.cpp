@@ -441,7 +441,7 @@ void SjVisModule::ReceiveMsg(int msg)
 	else if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED )
 	{
 		// check if we should switch to another module
-		SjSkinValue buttonState = g_mainFrame->GetSkinTargetValue(IDT_START_VIS);
+		SjSkinValue buttonState = g_mainFrame->GetSkinTargetValue(IDT_VIS_TOGGLE);
 		buttonState.vmax = 0;
 
 		wxString desiredRenderer = GetDesiredRenderer();
@@ -471,7 +471,7 @@ void SjVisModule::ReceiveMsg(int msg)
 			}
 		}
 
-		g_mainFrame->SetSkinTargetValue(IDT_START_VIS, buttonState);
+		g_mainFrame->SetSkinTargetValue(IDT_VIS_TOGGLE, buttonState);
 	}
 	else if( msg == IDMODMSG_VIS_FWD_SWITCH_RENDERER )
 	{
@@ -651,7 +651,7 @@ void SjVisModule::OnVisMenu(int id)
 		else
 		{
 			// no rights available, convert the commmand to a simple toggle command (may still be denied, see below)
-			id = IDT_START_VIS;
+			id = IDT_VIS_TOGGLE;
 		}
 	}
 	// no else - we might have changed the ID above
@@ -668,7 +668,7 @@ void SjVisModule::OnVisMenu(int id)
 	}
 	else switch( id )
 	{
-		case IDT_START_VIS: // okay, it toggles the vis. as the skins only have one button for it. however.
+		case IDT_VIS_TOGGLE:
 			if(  g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)
 			 || (IsOverWorkspace() && IsVisStarted()) )
 			{
