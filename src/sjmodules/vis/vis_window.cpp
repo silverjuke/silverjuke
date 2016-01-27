@@ -181,9 +181,15 @@ void SjVisImpl::OnMouseLeftUp(wxWindow* from, wxMouseEvent& event)
 	if( !m_mouseDown || g_mainFrame == NULL || g_visModule == NULL )
 		return; // do not consume "half clicks"
 
-	if( !g_mainFrame->IsAllAvailable() )
+	/* -- if over workspace, always close the window on a left click, 
+	   -- this is a good idea to be consisten with the kiosk mode.
+	   -- special vis. function can be created using the keyboard or the main menu.
+	   -- as we create all vis. ourselves now, there should be no problems with
+	   -- inconsistency now.
+	*/
+	//if( !g_mainFrame->IsAllAvailable() )
 	{
-		if( g_visModule->IsOverWorkspace() || g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS) )
+		if( g_visModule->IsOverWorkspace() /*|| g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)*/ )
 		{
 			g_visModule->StopOrCloseRequest();
 		}
@@ -193,6 +199,8 @@ void SjVisImpl::OnMouseLeftUp(wxWindow* from, wxMouseEvent& event)
 
 void SjVisImpl::OnMouseRightUp(wxWindow* from, wxContextMenuEvent& event)
 {
+	/* -- if we add the cntext menu again, we should take care of events that destroy this window.
+	   -- moreover, we should think over not to close the window on a simple click then.
 	wxPoint mousePt = m_thisWindow->ScreenToClient(event.GetPosition());
 
 	if( g_mainFrame->IsAllAvailable() )
@@ -204,6 +212,7 @@ void SjVisImpl::OnMouseRightUp(wxWindow* from, wxContextMenuEvent& event)
 		// do popup!
 		m_thisWindow->PopupMenu(&m, mousePt.x, mousePt.y);
 	}
+	*/
 }
 
 
@@ -318,7 +327,7 @@ BEGIN_EVENT_TABLE(SjVisFrame, wxFrame)
 	EVT_LEFT_DCLICK     (                       SjVisFrame::OnMouseLeftDClick   )
 	EVT_CONTEXT_MENU    (                       SjVisFrame::OnMouseRightUp      )
 	EVT_ENTER_WINDOW    (                       SjVisFrame::OnMouseEnter        )
-	EVT_MENU_RANGE      (IDO_VIS_FIRST__, IDO_VIS_LAST__, SjVisFrame::OnFwdToMainFrame )
+	//EVT_MENU_RANGE      (IDO_VIS_FIRST__, IDO_VIS_LAST__, SjVisFrame::OnFwdToMainFrame )
 	EVT_MENU_RANGE      (IDT_FIRST, IDT_LAST,   SjVisFrame::OnFwdToMainFrame    )
 	EVT_CLOSE           (                       SjVisFrame::OnCloseWindow       )
 END_EVENT_TABLE()
