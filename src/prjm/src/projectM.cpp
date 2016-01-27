@@ -107,6 +107,9 @@ projectM::~projectM()
 
     delete(_pipelineContext);
     delete(_pipelineContext2);
+	#ifdef WIN32
+	m_activePreset.release(); // EDIT BY SJ - don't know why, but the pointer m_activePreset points to is bad at this time
+	#endif
 }
 
 unsigned projectM::initRenderToTexture()
