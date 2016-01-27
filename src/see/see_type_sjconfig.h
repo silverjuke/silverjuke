@@ -13,7 +13,7 @@
 #define HAVE_TIME				1
 #define HAVE_LOCALTIME			1
 #define HAVE_MKTIME				1
-#define PACKAGE_VERSION			"2.0"
+#define SEE_SJ_PACKAGE_VERSION			"2.0"
 
 #define MAXMODULES 1 // save some memory, we do not used modules
 

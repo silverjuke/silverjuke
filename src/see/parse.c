@@ -1171,7 +1171,7 @@ cast_node(na, nc, cname, file, line)
 		if (!nac) {
 		    dprintf("%s:%d: internal error: cast to %s failed (source class from %s:%d) [vers %s]\n",
 			file, line, cname, na->nodeclass->decl_file,
-		        na->nodeclass->decl_line, PACKAGE_VERSION);
+		        na->nodeclass->decl_line, SEE_SJ_PACKAGE_VERSION);
 		    abort();
 		}
 	}
