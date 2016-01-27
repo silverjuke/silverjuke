@@ -51,6 +51,9 @@ PKG_CHECK_MODULES([ZLIB], [zlib])
 PKG_CHECK_MODULES([LIBXINE], [libxine])
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
 
+# Check for endian.h to determine endianness for "src/see" library
+AC_CHECK_HEADERS([endian.h])
+
 # wxWidgets -- we assume that if wx-config is found, wxWidgets is successfully installed.
 AC_PATH_PROG([WX_CONFIG], [wx-config], [no], [$PATH:/usr/local/bin])
 if test x"$WX_CONFIG" = x"no" ; then

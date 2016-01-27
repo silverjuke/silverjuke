@@ -12,17 +12,38 @@
 
 #include "see_type.h"
 
-#if defined(__i386__) || defined(__amd64__) || defined(__ia64__) || defined(__alpha__)
+/* If there is endian.h, use it for robust detection of endianness */
+#if HAVE_ENDIAN_H
+
+#if __BYTE_ORDER == __LITTLE_ENDIAN
 #   define IEEE_8087
 #endif
 
-#if defined(__m68k__) || defined(__sparc__) || defined(__ppc__)
-#   define IEEE_MC68k 
+#if __BYTE_ORDER == __BIG_ENDIAN
+#   define IEEE_MC68k
 #endif
 
 #if defined(__vax__) && !defined(VAX)
 #   define VAX
 #endif
+
+#else  /* #if HAVE_ENDIAN_H  */
+
+/* endian.h is not available, so fall back to old method of endianness detection */
+
+#if defined(__i386__) || defined(__amd64__) || defined(__ia64__) || defined(__alpha__)
+#   define IEEE_8087
+#endif
+
+#if defined(__m68k__) || defined(__sparc__) || defined(__ppc__)
+#   define IEEE_MC68k
+#endif
+
+#if defined(__vax__) && !defined(VAX)
+#   define VAX
+#endif
+
+#endif  /* #if HAVE_ENDIAN_H  */
 
 /* #define IBM for IBM mainframe-style floating-point arithmetic. */
 
