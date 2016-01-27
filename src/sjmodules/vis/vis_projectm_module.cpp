@@ -145,7 +145,7 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 			wxLogInfo("Loading %s", presetPath.c_str());
 		}
 
-		// init projectM it self
+		// init projectM itself
 		projectM::Settings s = {
 			32,    // int meshX           -- Defaults from projectM::readConfig().
 			24,    // int meshY           -- Defining the values this way will force
@@ -179,7 +179,8 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 
 	// to set the frames, ths. like  globalPM->beatDetect->pcm->addPCM8( renderData.waveformData );
 	// should be called, see .../itunes/iprojectM.cpp
-	if( s_theProjectmModule && s_theProjectmModule->m_projectMobj && s_theProjectmModule->m_glCanvas )
+	if( s_theProjectmModule && s_theProjectmModule->m_projectMobj 
+	 && s_theProjectmModule->m_glCanvas && s_theProjectmModule->m_glContext )
 	{
 		g_mainFrame->m_player.GetVisData(m_bufferStart, m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES, 0);
 
@@ -242,6 +243,10 @@ bool SjProjectmModule::Start(SjVisImpl* impl, bool justContinue)
 
 void SjProjectmModule::Stop()
 {
+	if( m_glCanvas ) {
+		m_glCanvas->m_timer.Stop();
+	}
+
 	if( m_projectMobj )
 	{
 		try {
