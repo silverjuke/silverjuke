@@ -14,6 +14,7 @@
 
 /* If there is endian.h, use it for robust detection of endianness */
 #if HAVE_ENDIAN_H
+#include <endian.h>
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
 #   define IEEE_8087
