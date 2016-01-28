@@ -54,7 +54,7 @@ PKG_CHECK_MODULES([SQLITE3], [sqlite3])
 # Check for endian.h to determine endianness for "src/see" library
 AC_CHECK_HEADERS([endian.h])
 
-# wxWidgets -- we assume that if wx-config is found, wxWidgets is successfully installed.
+# wxWidgets -- we assume that if wx-config is found, wxWidgets is successfully installed. NB: If we need OpenGL support in wx, we have to use wx-config --libs std,gl
 AC_PATH_PROG([WX_CONFIG], [wx-config], [no], [$PATH:/usr/local/bin])
 if test x"$WX_CONFIG" = x"no" ; then
 	AC_MSG_ERROR([wx-config not found. Is wxWidgets installed? Is wx-config in your path? Try eg. apt-get install libwxgtk3.0-dev])
