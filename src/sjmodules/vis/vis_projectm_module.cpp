@@ -168,6 +168,10 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 		try {
 			s_theProjectmModule->m_projectMobj = new projectM(s, projectM::FLAG_NONE);
 
+				#ifdef __WXMSW__
+					wxASSERT( _CrtCheckMemory() );
+				#endif
+
 			wxSize size = GetSize();
 			s_theProjectmModule->m_projectMobj->projectM_resetGL(size.x, size.y);
 		}
@@ -184,10 +188,18 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 	{
 		g_mainFrame->m_player.GetVisData(m_bufferStart, m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES, 0);
 
+		#ifdef __WXMSW__
+			wxASSERT( _CrtCheckMemory() );
+		#endif
+		
 		// TODO: is this really correct?
 		s_theProjectmModule->m_projectMobj->pcm()->addPCM16Data( (const short*)m_bufferStart, m_sampleCount );
 		s_theProjectmModule->m_projectMobj->renderFrame();
 		s_theProjectmModule->m_glCanvas->SwapBuffers();
+
+		#ifdef __WXMSW__
+			wxASSERT( _CrtCheckMemory() );
+		#endif
 	}
 }
 
