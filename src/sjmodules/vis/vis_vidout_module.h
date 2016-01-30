@@ -45,12 +45,12 @@ public:
 	void            OnMenuOption        (int);
 	void            PleaseUpdateSize    (SjVisImpl*);
 
-	static void     SetRecentVidCh      (DWORD ch);
+//	static void     SetRecentVidCh      (DWORD ch);
 
 private:
 	SjVisImpl*      m_impl;
 
-	static void     SetProperVideoSize  (DWORD ch);
+//	static void     SetProperVideoSize  (DWORD ch);
 
 	friend class SjVidoutWindow;
 };

@@ -31,9 +31,7 @@
 #include <sjmodules/vis/vis_vidout_module.h>
 #if SJ_USE_VIDEO
 
-#ifdef __WXDEBUG__
-#define VIDEO_DEBUG_VIEW // other colors, visible "hidden" window etc.
-#endif
+#undef VIDEO_DEBUG_VIEW // other colors, visible "hidden" window etc.
 
 
 /*******************************************************************************
@@ -95,11 +93,11 @@ void SjVidoutWindow::OnPaint(wxPaintEvent& e)
 	wxPaintDC paintDc(this);
 
 	paintDc.SetBrush(
-#ifdef VIDEO_DEBUG_VIEW
-	    *wxLIGHT_GREY_BRUSH
-#else
-	    *wxBLACK_BRUSH
-#endif
+		#ifdef VIDEO_DEBUG_VIEW
+			*wxLIGHT_GREY_BRUSH
+		#else
+			*wxBLACK_BRUSH
+		#endif
 	);
 	paintDc.SetPen(*wxTRANSPARENT_PEN);
 	paintDc.DrawRectangle(GetClientSize());
@@ -117,16 +115,16 @@ static void HideTheWindow()
 	if( s_theWindow )
 	{
 		s_theWindow->SetSize(
-#ifdef VIDEO_DEBUG_VIEW
-		    0, 0,
-#else
-		    -10000, -10000,
-#endif
+			#ifdef VIDEO_DEBUG_VIEW
+				0, 0,
+			#else
+				-10000, -10000,
+			#endif
 		    32, 32);
 
-#ifdef VIDEO_DEBUG_VIEW
-		s_theWindow->Show();
-#endif
+		#ifdef VIDEO_DEBUG_VIEW
+			s_theWindow->Show();
+		#endif
 	}
 }
 static void CreateTheWindow()
@@ -146,6 +144,7 @@ static void CreateTheWindow()
  ******************************************************************************/
 
 
+/*
 void SjVidoutModule::SetRecentVidCh(DWORD ch)
 {
 	CreateTheWindow();
@@ -155,6 +154,7 @@ void SjVidoutModule::SetRecentVidCh(DWORD ch)
 		SetProperVideoSize(ch);
 	}
 }
+*/
 
 
 SjVidoutModule::SjVidoutModule(SjInterfaceBase* interf)
@@ -222,6 +222,7 @@ void SjVidoutModule::ReceiveMsg(int msg)
 	if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED && s_theWindow )
 	{
 		// see if the most recent stream is a video file
+		/*
 		SjBassStream* hstream = g_mainFrame->m_player.RefCurrStream();
 		if( hstream )
 		{
@@ -234,7 +235,7 @@ void SjVidoutModule::ReceiveMsg(int msg)
 
 			hstream->UnRef();
 		}
-
+		*/
 	}
 }
 
@@ -256,6 +257,7 @@ void SjVidoutModule::PleaseUpdateSize(SjVisImpl* impl)
 		wxRect visRect = impl->GetRendererClientRect();
 		s_theWindow->SetSize(visRect);
 
+		/*
 		SjBassStream* hstream = g_mainFrame->m_player.RefCurrStream();
 		if( hstream )
 		{
@@ -267,10 +269,12 @@ void SjVidoutModule::PleaseUpdateSize(SjVisImpl* impl)
 
 			hstream->UnRef();
 		}
+		*/
 	}
 }
 
 
+/*
 void SjVidoutModule::SetProperVideoSize(DWORD ch)
 {
 	int winWidth, winHeight, videoWidth, videoHeight, newWidth, newHeight;
@@ -308,6 +312,7 @@ void SjVidoutModule::SetProperVideoSize(DWORD ch)
 Fallback:
 	BASS_DSHOW_ChannelResizeWindow(ch, 0, 0, winWidth, winHeight);
 }
+*/
 
 
 #endif // SJ_USE_VIDEO
