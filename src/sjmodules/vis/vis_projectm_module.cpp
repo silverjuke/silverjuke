@@ -172,6 +172,10 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 					wxASSERT( _CrtCheckMemory() );
 				#endif
 
+			// by default, after creation the "Idle preset with the projectM" is selected until we fade to the next one;
+			// as this gets boring after little time, we switch over to a random preset.
+			s_theProjectmModule->m_projectMobj->selectRandom(true /*hardCut*/);
+
 			wxSize size = GetSize();
 			s_theProjectmModule->m_projectMobj->projectM_resetGL(size.x, size.y);
 		}
