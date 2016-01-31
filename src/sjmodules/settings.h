@@ -33,7 +33,7 @@
 class SjSettingsModule : public SjCommonModule
 {
 public:
-	SjSettingsModule    (SjInterfaceBase*);
+	                SjSettingsModule    (SjInterfaceBase*);
 	static void     OpenSettings        (const wxString& module, int moduleIndex, int pageIndex);
 	static bool     IsDialogOpen        ();
 	static void     RaiseIfOpen         ();

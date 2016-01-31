@@ -36,10 +36,9 @@ class SjBasicSettingsConfigPage;
 class SjBasicSettingsModule : public SjCommonModule
 {
 public:
-	SjBasicSettingsModule
-	(SjInterfaceBase*);
+	                SjBasicSettingsModule (SjInterfaceBase*);
 
-	SjEmbedTo       EmbedTo             ()                     { return SJ_EMBED_TO_MAIN; }
+	SjEmbedTo       EmbedTo             () { return SJ_EMBED_TO_MAIN; }
 	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);
 	void            DoneConfigPage      (wxWindow* configPage, int action);
 };
