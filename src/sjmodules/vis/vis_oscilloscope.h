@@ -59,8 +59,8 @@ private:
 	wxString        m_leadArtistName;
 	#define         SJ_OSC_SHOW_SPECTRUM    0x00000001L
 	#define         SJ_OSC_SHOW_OSC         0x00000002L
-	#define         SJ_OSC_SHOW_STARFIELD   0x00000040L
-	#define         SJ_OSC_SHOW_FIGURES     0x00000080L
+	#define         SJ_OSC_SHOW_STARFIELD   0x00040000L
+	#define         SJ_OSC_SHOW_FIGURES     0x00080000L
 	#define         SJ_OSC_SHOW_DEFAULT     0x0000FFFFL
 	long            m_showFlags;
 
