@@ -182,21 +182,24 @@ private:
 public:
 	// the following Do* function must be implemented by the player implementations (they can use m_impl for this),
 	// which can rely on parameter checking and, if appropriate, all status are set fine before they're called.
-	// this part is "private", however, due to easier implementations and less header dependencies, it is declared as public
-	void            DoInit              ();
-	void            DoExit              ();
-	const SjExtList* DoGetExtList       ();
-	void            DoPlay              (long ms, bool fadeToPlay);
-	void            DoPause             (bool fadeToPause);
-	void            DoStop              ();
-	void            DoGotoAbsPos        (long, bool fadeToPos);
-	wxString        DoGetUrlOnAir       ();
-	void            DoGetTime           (long& totalMs, long& elapsedMs);
-	void            DoSetMainVol        ();
-	void            DoSeekAbs           (long ms);
-	void            DoGetVisData        (unsigned char* pcmBuffer, long bytes, long visLatencyBytes);
+	// this part is "private", however, due to easier implementations and less header dependencies, it is declared as public.
+	// - it's up to the implementation to call `SaveGatheredInfo()`
+	// - it's up to the implementation to set `m_paused`
+	// - it's up to the implementation to send IDMODMSG_PLAYER_STOPPED_BY_EOQ / IDMODMSG_TRACK_ON_AIR_CHANGED
+	void            DoInit              ();                               // called one time upon program start
+	void            DoExit              ();                               // called one time upon program shutdown
+	const SjExtList* DoGetExtList       ();                               // deprecated
+	void            DoPlay              (long ms, bool fadeToPlay);       // press on "play" - must set m_paused - start playback with the current URL or un-pause
+	void            DoPause             (bool fadeToPause);               // press on "pause"- must set m_paused
+	void            DoStop              ();                               // full stop - this may also free audio output drivers
+	void            DoGotoAbsPos        (long, bool fadeToPos);           // play another URL, stop the current one, only called if playing, not on paused/stopped
+	wxString        DoGetUrlOnAir       ();                               // return a URL if state is "playing" or "paused"
+	void            DoGetTime           (long& totalMs, long& elapsedMs); // return -1 if unknown
+	void            DoSetMainVol        ();                               // volume
+	void            DoSeekAbs           (long ms);                        // seek
 	void            DoReceiveSignal     (int id, uintptr_t extraLong);
-	void            DoGetLittleOptions  (SjArrayLittleOption&);
+	void            DoGetLittleOptions  (SjArrayLittleOption&);           // special configuration, optional
+	void            DoGetVisData        (unsigned char* pcmBuffer, long bytes, long visLatencyBytes);
 	SjPlayerImpl*   m_impl;
 
 	// tools for the implementation
@@ -205,7 +208,7 @@ public:
 
 	// main volume stuff
 	int             m_mainVol;
-	double          m_mainGain;
+	double          m_mainGain; // 0.0 - 1.0
 
 	// auto volume stuff
 	bool            m_avEnabled;
