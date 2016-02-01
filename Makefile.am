@@ -155,6 +155,7 @@ silverjuke_SOURCES = \
 	src/sjbase/mainframe.cpp \
 	src/sjbase/mainframe_menu.cpp \
 	src/sjbase/player_base.cpp \
+	src/sjbase/player_impl_gstreamer.cpp \
 	src/sjbase/player_impl_xine.cpp \
 	src/sjbase/playlist.cpp \
 	src/sjbase/queue.cpp \

@@ -41,6 +41,7 @@
 
 
 #include <sjbase/base.h>
+#if SJ_USE_XINE
 #include <sjbase/player_impl_xine.h>
 #include <xine.h>
 
@@ -605,5 +606,5 @@ void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 }
 
 
-
+#endif // #if SJ_USE_XINE
 

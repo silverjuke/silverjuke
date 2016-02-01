@@ -53,10 +53,6 @@
 #define SJ_USE_PROJECTM 0
 #endif
 
-#ifndef SJ_USE_VIDEO                // Use the video decoder and the video display?
-#define SJ_USE_VIDEO 0
-#endif
-
 #ifndef SJ_CAN_USE_MM_KEYBD
 #define SJ_CAN_USE_MM_KEYBD 0       // Can the multimedia keyboards keys be used?
 #endif
@@ -156,5 +152,22 @@
 #define SJ_WINDOW_DISABLER(a) wxWindowDisabler disabler((a));
 #endif
 
+#if !defined(SJ_USE_XINE) && !defined(SJ_USE_GSTREAMER)
+#define SJ_USE_XINE 1               // the default player to use, we plan to switch to GStreamer here
+#endif
+#ifndef SJ_USE_XINE
+#define SJ_USE_XINE 0
+#endif
+#ifndef SJ_USE_GSTREAMER
+#define SJ_USE_GSTREAMER 0
+#endif
+
+#ifndef SJ_USE_VIDEO                // Use the video decoder and the video display? (should be checked after the player)
+#if SJ_USE_GSTREAMER
+#define SJ_USE_VIDEO 1
+#else
+#define SJ_USE_VIDEO o
+#endif
+#endif
 
 #endif // __SJ_CONFIG_H__
