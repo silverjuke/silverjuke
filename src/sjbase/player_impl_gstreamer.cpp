@@ -24,19 +24,13 @@
  * Purpose: Player GStreamer implementation
  * OS:      all OS that have access to GStreamer (open source)
  *
- *******************************************************************************
- *
- * playbin:
- * http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-plugins/html/gst-plugins-base-plugins-playbin.html
- * playbin2:
- * http://www.freedesktop.org/software/gstreamer-sdk/data/docs/2012.5/gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-playbin2.html#playbin2
- *
  ******************************************************************************/
 
 
 #include <sjbase/base.h>
 #if SJ_USE_GSTREAMER
 #include <gst/gst.h>
+#include <gst/app/gstappsink.h>
 
 
 /*******************************************************************************
@@ -90,11 +84,18 @@ class SjPlayerImpl
 				return; // not ready
 			}
 
-			WXSTRING_TO_GST(uri);
-			g_object_set(G_OBJECT(m_pipeline), "uri", uriGstStr, NULL);
+			GstElement* source = gst_bin_get_by_name(GST_BIN(m_pipeline), "sjSource");
+			if( source )
+			{
+				WXSTRING_TO_GST(uri);
+				g_object_set(G_OBJECT(source), "uri", uriGstStr, NULL /*NULL marks end of list*/);
 
-			m_pipelineUrl = uri;
-			m_startingTime = wxDateTime::Now().GetAsDOS();
+				m_pipelineUrl = uri;
+				m_startingTime = wxDateTime::Now().GetAsDOS();
+
+				gst_object_unref(source);
+			}
+
 			m_eosSend = false;
 		}
 };
@@ -169,6 +170,8 @@ static gboolean bus_call(GstBus* bus, GstMessage* msg, gpointer userdata)
 	SjPlayer* player = (SjPlayer*)userdata;
 	if( player == NULL || player->m_impl == NULL ) { return true; }
 
+	bool prepareNext = false;
+
 	switch( GST_MESSAGE_TYPE(msg) )
 	{
 		case GST_MESSAGE_ERROR:
@@ -176,72 +179,122 @@ static gboolean bus_call(GstBus* bus, GstMessage* msg, gpointer userdata)
 			// error messages are normally not followed by a GST_MESSAGE_EOS error
 			{
 				// get information about the error
-				gchar*  debug = NULL;
 				GError* error = NULL;
+				gchar*  debug = NULL;
 				gst_message_parse_error(msg, &error, &debug);
 
 				// log the error
-				if( debug ) {
-					GST_TO_WXSTRING(debug);
-					wxLogError("GStreamer error: %s", debugWxStr.c_str());
-				}
 				const gchar* errormessage = error->message;        GST_TO_WXSTRING(errormessage);
 				const gchar* objname =  GST_OBJECT_NAME(msg->src); GST_TO_WXSTRING(objname);
-				wxLogError("GStreamer error: %s: %s", objnameWxStr.c_str(), errormessageWxStr.c_str());
+				wxString debugStr; if( debug ) { GST_TO_WXSTRING(debug); debugStr = " (" + debugWxStr + ")"; }
+				wxLogError("GStreamer Error: %s: %s%s", objnameWxStr.c_str(), errormessageWxStr.c_str(), debugStr);
 
-				g_free (debug);
-				g_error_free (error);
+				g_free(debug);
+				g_error_free(error);
+
+				prepareNext = true;
 			}
-			// fall through
+			break;
 
 		case GST_MESSAGE_EOS:
-			// we go here if we reach the end of the stream or if an error occurs (fall through from above)
-			if( !player->m_impl->m_eosSend )
-			{
-				player->m_impl->m_eosSend = true;
-				player->SendSignalToMainThread(THREAD_PREPARE_NEXT);
-			}
+			// we go here if we reach the end of the stream
+			prepareNext = true;
 			break;
 
 		default:
 			break;
 	}
 
+	if( prepareNext )
+	{
+		if( !player->m_impl->m_eosSend )
+		{
+			player->m_impl->m_eosSend = true;
+			player->SendSignalToMainThread(THREAD_PREPARE_NEXT);
+		}
+	}
+
 	return true;
+}
+
+
+static void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata)
+{
+	// a new pad appears in the "decodebin" element - link this to the
+	// element with the name "sjAudioEntryElem"
+
+	SjPlayer* player = (SjPlayer*)userdata;
+
+	GstElement* audioEntry = gst_bin_get_by_name(GST_BIN(player->m_impl->m_pipeline), "sjAudioEntry");
+	if( audioEntry )
+	{
+		// get sink pad of the "audio entry element"
+		GstPad* destSinkPad = gst_element_get_static_pad(audioEntry, "sink");
+
+		// link the new source pad to the "audio entry element"
+		GstPadLinkReturn linkret = gst_pad_link(newSourcePad, destSinkPad);
+		if( linkret!=GST_PAD_LINK_OK ) {
+			wxLogError("GStreamer error: Cannot link objects in callback.");
+		}
+
+		gst_object_unref(audioEntry);
+
+	}
 }
 
 
 void SjPlayer::DoPlay(long seekMs, bool fadeToPlay) // press on play
 {
+	// create pipeline, add message handler to it
+	if( m_impl->m_pipeline == NULL )
+	{
+		/*
+		                      .->  queue1 -> appsink
+		decodebin --->  tee  -|
+		           |          '->  queue2 -> volume-> audiosink
+		           |
+		           '->  [videosink]
+		*/
+
+		// create objects
+		m_impl->m_pipeline    = gst_pipeline_new("sjPlayer");
+		GstElement* decodebin = gst_element_factory_make("uridecodebin", "sjSource");
+		GstElement* tee       = gst_element_factory_make("tee",          "sjAudioEntry");
+		GstElement* queue1    = gst_element_factory_make("queue",         NULL); // each branch needs its own queue, see http://gstreamer.freedesktop.org/wiki/FAQ/
+		GstElement* appsink   = gst_element_factory_make("appsink",       NULL);
+		GstElement* queue2    = gst_element_factory_make("queue",         NULL);
+		GstElement* volume    = gst_element_factory_make("volume",        "sjVolume");
+		GstElement* audiosink = gst_element_factory_make("autoaudiosink", NULL);
+		if( !m_impl->m_pipeline || !decodebin || !tee || !queue1 || !appsink || !queue2 || !volume || !audiosink ) {
+			wxLogError("GStreamer error: Cannot create objects.");
+			return; // error
+		}
+
+		// create pipeline
+		gst_bin_add_many(GST_BIN(m_impl->m_pipeline), decodebin, tee, queue1, appsink, queue2, volume, audiosink, NULL); // NULL marks end of list
+		gst_element_link_many(tee, queue1, appsink, NULL);
+		gst_element_link_many(tee, queue2, volume, audiosink, NULL);
+		g_signal_connect(decodebin, "pad-added", G_CALLBACK(on_pad_added), this /*userdata*/);
+
+		// add a message handler
+		GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(m_impl->m_pipeline));
+			m_impl->m_bus_watch_id = gst_bus_add_watch(bus, bus_call, this /*userdata*/);
+		gst_object_unref(bus);
+	}
+
+	// play!
 	if( m_impl->m_pipelineUrl.IsEmpty() )
 	{
-		// get file to play
+		// set source URI
 		wxString url = m_queue.GetUrlByPos(-1);
 		if( url.IsEmpty() ) {
 			wxLogError("GStreamer error: URL is empty.");
 			return; // error;
 		}
-
-		// create pipeline, add message handler to it
-		if( m_impl->m_pipeline == NULL )
-		{
-			m_impl->m_pipeline = gst_element_factory_make("playbin" /*playbin2 does not exist in 1.2.4*/, "sjPlaybin");
-			if( !m_impl->m_pipeline ) {
-				wxLogError("GStreamer error: Cannot create playbin.");
-				return; // error
-			}
-
-			GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(m_impl->m_pipeline));
-			m_impl->m_bus_watch_id = gst_bus_add_watch(bus, bus_call, this /*userdata*/);
-			gst_object_unref(bus);
-		}
-
-		// set source URI
 		m_impl->set_pipeline_uri(url);
 
 		// initial seek?
-		if( seekMs > 0 )
-		{
+		if( seekMs > 0 ) 		{
 			gst_element_seek_simple(m_impl->m_pipeline, GST_FORMAT_TIME,
 				(GstSeekFlags)(GST_SEEK_FLAG_FLUSH|GST_SEEK_FLAG_KEY_UNIT), seekMs*MILLISEC_TO_NANOSEC_FACTOR);
 		}
@@ -380,7 +433,11 @@ void SjPlayer::DoSetMainVol()
 	// this does not set the "main" volume but the volume of the stream;
 	// we cannot get louder than the OS-setting this way, however, this may be useful for our crossfading.
 	gdouble vol = m_mainGain;
-	g_object_set(G_OBJECT(m_impl->m_pipeline), "volume", vol /*0: mute, 1.0: 100%, >1.0: additional gain*/, NULL);
+	GstElement* volumeElem = gst_bin_get_by_name(GST_BIN(m_impl->m_pipeline), "sjVolume");
+	if( volumeElem )
+	{
+		g_object_set(G_OBJECT(volumeElem), "volume", vol /*0: mute, 1.0: 100%, >1.0: additional gain*/, NULL /*NULL marks end of list*/);
+	}
 }
 
 
@@ -395,10 +452,20 @@ void SjPlayer::DoSeekAbs(long seekMs)
 }
 
 
+/*******************************************************************************
+ * SjPlayer - Get visualisation data, peek at the buffer
+ ******************************************************************************/
+
+
 void SjPlayer::DoGetVisData(unsigned char* pcmBuffer, long bytes, long visLatencyBytes)
 {
 	memset(pcmBuffer, 0, bytes); // TODO: fill the buffer with meaningful data ...
 }
+
+
+/*******************************************************************************
+ * SjPlayer - Receiving singnals sended by the callbacks above
+ ******************************************************************************/
 
 
 void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
