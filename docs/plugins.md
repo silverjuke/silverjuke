@@ -24,7 +24,7 @@ Overview
 The following chapters describes how to write plugins for Silverjuke using the
 Silverjuke API.
 
-A plugin is a compiled .so, .dll- or .dynlib-file that is loaded together with
+A plugin is a compiled .so, .dll- or .dylib-file that is loaded together with
 Silverjuke. Plugins can be written in nearly any language that can create eg.
 DLLs.
 
