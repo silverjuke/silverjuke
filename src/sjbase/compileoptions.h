@@ -166,7 +166,7 @@
 #if SJ_USE_GSTREAMER
 #define SJ_USE_VIDEO 1
 #else
-#define SJ_USE_VIDEO o
+#define SJ_USE_VIDEO 0
 #endif
 #endif
 
