@@ -369,13 +369,12 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 		volMenu->AppendCheckItem(IDT_MAIN_VOL_MUTE);
 		volMenu->Check(IDT_MAIN_VOL_MUTE, m_player.GetMainVolMute());
 
-		if( IsAllAvailable() )
-		{
-			volMenu->AppendSeparator();
-			volMenu->Append(IDO_SETTINGS_AUTOVOL, _("Automatic control")+wxString("..."));
-		}
-
 		playbackMenu->Append(0, _("Volume"), volMenu);
+	}
+
+	if( IsAllAvailable() )
+	{
+		playbackMenu->Append(IDO_SETTINGS_AUTOVOL, _("Automatic control")+wxString("..."));
 	}
 
 	if( IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_REPEAT) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
@@ -415,8 +414,7 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 
 			if( IsAllAvailable() )
 			{
-				queueMenu->AppendSeparator();
-				queueMenu->Append(IDO_SETTINGS_QUEUE, _("Settings")+wxString("..."));
+				queueMenu->Append(IDO_SETTINGS_QUEUE, _("Further options")+wxString("..."));
 			}
 
 			playbackMenu->Append(0, _("Queue"), queueMenu);
