@@ -512,7 +512,7 @@ void SjPlayer::DoGetVisData(unsigned char* pcmBuffer, long bytes, long visLatenc
 {
 	m_impl->m_ringbuffer.Lock();
 		m_impl->m_ringbuffer.PeekFromBeg(pcmBuffer, 0, bytes);
-		m_impl->m_ringbuffer.RemoveFromBeg(bytes, 0);
+		m_impl->m_ringbuffer.RemoveFromBeg(bytes);
 	m_impl->m_ringbuffer.Unlock();
 }
 

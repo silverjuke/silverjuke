@@ -46,44 +46,20 @@ public:
 	// Common Buffer Information
 	// Note: free+valid is not always equal to the number of total bytes eg. when
 	// a buffer resizing is waiting!!
-	//long           GetTotalMs          () const { return m_totalMs; }
 	long           GetTotalBytes       () const { return m_totalBytes; }
 	long           GetFreeBytes        () const { return m_waitingForResizeBytes?
 															   0
-															: ((m_totalBytes - m_validBytes) - (SJ_WW_CH*SJ_WW_BYTERES))/*make sure, markers are unique*/;
+															: ((m_totalBytes - m_validBytes));
 												 }
 	long            GetValidBytes       () const { return m_validBytes; }
 
-	// Writing and reading to/from the buffer. On reading, the function returns
-	// the marker ID (if the given position was marked) or 0.  You can also use a NULL-pointer
-	// instead of a buffer for peeking just to check the presence of markers.
+	// Writing and reading to/from the buffer.
 	void            PushToEnd           (const unsigned char* src, long bytes);
-	long            PeekFromBeg         (unsigned char* dest, long offset, long bytes) const;
-	void            RemoveFromBeg       (long bytes, long offsetForMarkerRemovment);
-
-	// Removing silence. RemoveSilenceAtEnd() rewinds the internal end of the
-	// valid bytes (m_validPos + m_validBytes) the max. number of silent bytes.
-	// RemoveSilenceOnPush() sets an internal value, the next calls to PushToEnd()
-	// won't add silence data up to maxBytes.
-	//void            RemoveSilenceAtEnd   (long maxBytes);
-	//void            RemoveSilenceOnPush   (long maxBytes);
-
-	// CrossfadeAtEnd() rewinds the internal end of the valid bytes
-	// (m_validPos + m_validBytes) to the given number of bytes.  The next calls to
-	// PushToEnd() will mix the given data with the already stored data until the
-	// given number of bytes are written; after this PushToEnd() works as usual.
-	//void            CrossfadeOnPush       (long bytes);
-	//bool            IsCrossfadingOnPush   () const { return m_crossfade.GetRemainingBytes()!=0; }
+	void            PeekFromBeg         (unsigned char* dest, long offset, long bytes) const;
+	void            RemoveFromBeg       (long bytes);
 
 	// Empty the buffer content, this does NOT free the buffer.
 	void            Empty               ();
-
-	// Mark the current buffer position (more exact, the next data added
-	// by PushToEnd() are marked)
-	void            SetMarker           (long markerId, long offset);
-	void            RemoveMarker        () { SetMarker(0, 0); }
-	bool            HasMarker           () const { return m_markerId!=0; }
-	long            GetMarker           () const { return m_markerId; }
 
 	// Locking the buffer, if you use the buffer from withing
 	// threads you should call Lock()/Unlock() before/after
@@ -98,23 +74,13 @@ private:
 
 	unsigned char*  m_buffer;
 	long            m_totalBytes;
-	//long            m_totalMs;
 
 	long            m_validPos;
 	long            m_validBytes;
 
-	//SjCrossfade   m_crossfade;
-
-	//long          m_removeSilenceOnPushBytesLeft;
-
-	long            m_markerPos;
-	long            m_markerId;
-
 	bool            ResizeDo            (long totalBytes);
 	void            ResizeCheck         () { if( m_waitingForResizeBytes && m_validBytes <= m_waitingForResizeBytes ) { ResizeDo(m_waitingForResizeBytes); } }
 	long            m_waitingForResizeBytes;
-
-	bool            IsMarkerInRange     (long pos, long bytes) const;
 };
 
 
