@@ -1126,10 +1126,6 @@ class SjWheelHelper
 #define SJ_ONE_GB 0x40000000L
 #define SJ_ONE_MB 0x00100000L
 
-// more mono-channels are not supported; these are 8 stereo channels which should be enough
-// the max. is used eg. by the volume normalizer
-#define SJ_WW_MAX_CH            16
-
 // Do not change the constants if you don't REALLY know what you are doing!
 // Internally, Silverjuke always calculates with these audio settings.
 #define SJ_WW_FREQ              44100

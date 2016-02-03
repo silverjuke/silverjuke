@@ -50,7 +50,10 @@ SjVolumeCalc::SjVolumeCalc()
 
 void SjVolumeCalc::Init(int freq, int channels)
 {
-	wxASSERT( channels <= SJ_WW_MAX_CH );
+	if( channels > SJ_VOLCALC_MAX_CH )
+	{
+		channels = SJ_VOLCALC_MAX_CH;
+	}
 
 	m_smoothAdd = freq / SMOOTH_SIZE;
 	for( int c = 0; c < channels; c++ )
@@ -85,7 +88,7 @@ void SjVolumeCalc::AddBuffer(const float* data, long bytes, int freq, int channe
 	int                 c;
 	bool                smoothNModified = FALSE;
 
-	if( channels > SJ_WW_MAX_CH )
+	if( channels > SJ_VOLCALC_MAX_CH )
 	{
 		return;
 	}

@@ -41,11 +41,6 @@ public:
 	// than this value then.
 	void            SetPrecalculatedGain(float gain) { m_precalculatedGain = gain; }
 
-	// init the number of channels; this is also done automatically
-	// on the first call to AddBuffer(), however, Init() must not be called
-	// after Init() has been called.
-	void            Init                (int freq, int channels);
-
 	// add a sample buffer
 	void            AddBuffer           (const float* data, long bytes, int freq, int channels);
 
@@ -64,7 +59,17 @@ private:
 
 	double          m_gain;
 	double          m_maxLevel;
-	double          m_sums[SJ_WW_MAX_CH];
+
+	// init the number of channels; this is also done automatically
+	// on the first call to AddBuffer(), however, Init() must not be called
+	// after Init() has been called.
+	void            Init                (int freq, int channels);
+
+	// more mono-channels are not supported; these are 8 stereo channels which should be enough
+	// the max. is used eg. by the volume normalizer
+	#define         SJ_VOLCALC_MAX_CH 16
+
+	double          m_sums[SJ_VOLCALC_MAX_CH];
 
 	#define MAX_GAIN        5.0F    // max. 500 % gain
 
@@ -73,8 +78,8 @@ private:
 	// vorbisgain and mp3gain use only 20
 
 
-	double          m_smooth[SJ_WW_MAX_CH][SMOOTH_SIZE];
-	int             m_smoothN[SJ_WW_MAX_CH],
+	double          m_smooth[SJ_VOLCALC_MAX_CH][SMOOTH_SIZE];
+	int             m_smoothN[SJ_VOLCALC_MAX_CH],
 	                m_smoothAdd;
 	double          GetSmoothedData         (const double* s, int n);
 };
