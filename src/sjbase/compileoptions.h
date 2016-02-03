@@ -50,7 +50,7 @@
 #endif
 
 #ifndef SJ_USE_PROJECTM             // Use the internal projectM/Prjm Milkdrop-esque visualisation? (requires OpenGL)
-#define SJ_USE_PROJECTM 0
+#define SJ_USE_PROJECTM 1
 #endif
 
 #ifndef SJ_CAN_USE_MM_KEYBD
@@ -153,7 +153,7 @@
 #endif
 
 #if !defined(SJ_USE_XINE) && !defined(SJ_USE_GSTREAMER)
-#define SJ_USE_XINE 1               // the default player to use, we plan to switch to GStreamer here
+#define SJ_USE_GSTREAMER 1
 #endif
 #ifndef SJ_USE_XINE
 #define SJ_USE_XINE 0

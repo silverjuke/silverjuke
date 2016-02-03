@@ -25,15 +25,15 @@ SUBDIRS = po
 ACLOCAL_AMFLAGS = --install -I m4
 
 # Provide the pkgdatadir variable to cpp files in order to be able
-# to reliably locate the skins and keyboards.
-silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS) -DPKGDATADIR=\"$(pkgdatadir)\" -DPKGDOCDIR=\"$(docdir)\"
+# to reliably locate the skins, keyboards and visualizations.
+silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS) $(GST_CPPFLAGS) -DPKGDATADIR=\"$(pkgdatadir)\" -DPKGDOCDIR=\"$(docdir)\"
 silverjuke_CXXFLAGS = \
 	-Isrc \
 	-Wall \
 	-Wno-unused-but-set-variable \
 	-g \
 	$(ZLIB_CFLAGS) $(LIBXINE_CFLAGS) $(SQLITE3_CFLAGS) $(WX_CXXFLAGS)
-silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(SQLITE3_LIBS) $(WX_LIBS)
+silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(SQLITE3_LIBS) $(WX_LIBS) $(GST_LIBS) $(OPENGL_LIBS)
 
 dist_doc_DATA = \
 	CHANGES.md \
@@ -72,12 +72,14 @@ install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/racky.sjs
 	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/silveriness-touched.sjs
 	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/skins/vistact.sjs
+	$(MKDIR_P) $(DESTDIR)$(datadir)/silverjuke/vis
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/keyboards/* $(DESTDIR)$(datadir)/silverjuke/keyboards
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/golden-goal.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/golden-goal.sjs
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/old-style-jukebox.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/old-style-jukebox.sjs
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/racky.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/racky.sjs
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/silveriness-touched.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/silveriness-touched.sjs
 	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/skins/vistact.sjs/* $(DESTDIR)$(datadir)/silverjuke/skins/vistact.sjs
+	$(INSTALL_DATA) $(top_srcdir)/src/sjdata/vis/* $(DESTDIR)$(datadir)/silverjuke/vis
 
 # Uninstall keyboard files and skin directories
 uninstall-local:
@@ -95,6 +97,8 @@ bin_PROGRAMS = silverjuke
 silverjuke_SOURCES = \
 	src/kiss_fft/kiss_fft.c \
 	src/kiss_fft/tools/kiss_fftr.c \
+	src/prjm/amalgation1.cpp \
+	src/prjm/amalgation2.cpp \
 	src/see/cfunction.c \
 	src/see/debug.c \
 	src/see/dprint.c \
@@ -206,6 +210,7 @@ silverjuke_SOURCES = \
 	src/sjmodules/vis/vis_karaoke_module.cpp \
 	src/sjmodules/vis/vis_module.cpp \
 	src/sjmodules/vis/vis_oscilloscope.cpp \
+	src/sjmodules/vis/vis_projectm_module.cpp \
 	src/sjmodules/vis/vis_synctxt_raw.cpp \
 	src/sjmodules/vis/vis_synctxt_reader.cpp \
 	src/sjmodules/vis/vis_vidout_module.cpp \
