@@ -921,7 +921,7 @@ public:
 class SjOscSpectrum
 {
 public:
-	                SjOscSpectrum       (long sampleCount);
+	                SjOscSpectrum       ();
 	                ~SjOscSpectrum      ();
 	void            Calc                (const wxSize& clientSize,
 	                                     const unsigned char* bufferStart);
@@ -932,7 +932,6 @@ public:
 
 private:
 	wxSize          m_clientSize;
-	long            m_sampleCount;
 	kiss_fftr_cfg   m_kiss_fft_setup;
 	SjOscSpectrumChData m_chData[2];
 
@@ -956,9 +955,8 @@ private:
 };
 
 
-SjOscSpectrum::SjOscSpectrum(long sampleCount)
+SjOscSpectrum::SjOscSpectrum()
 {
-	m_sampleCount       = sampleCount;
 	m_kiss_fft_setup    = kiss_fftr_alloc(SPEC_NUM*2, 0, NULL, 0);
 	m_chData[0].chNum   = 0;
 	m_chData[1].chNum   = 1;
@@ -1375,8 +1373,14 @@ private:
 	SjOscModule*        m_oscModule;
     wxBitmap            m_offscreenBitmap;
     wxMemoryDC          m_offscreenDc;
-    long                m_sampleCount;
     unsigned char*      m_bufferStart;
+    unsigned char*      m_bufferTemp;
+    #define             BUFFER_MIN_BYTES (576*2*sizeof(float))
+    long                m_bufferTotalBytes;
+    long                m_bufferValidBytes;
+    bool                m_bufferDrawn;
+    wxCriticalSection   m_bufferCritical;
+    long                m_sampleCount_;
 	wxColour            m_textColour;
 	wxColour            m_fgColour;
 	wxPen               m_fgPen;
@@ -1437,15 +1441,14 @@ SjOscWindow::SjOscWindow(SjOscModule* oscModule, wxWindow* parent)
 {
 	m_oscModule = oscModule;
 
-	// get the number of samples wanted
-	// (currently we exactly 576 for the spcectrum analyzer)
-	m_sampleCount = SjMs2Bytes(SLEEP_MS) / (SJ_WW_CH*SJ_WW_BYTERES);
-	if( m_sampleCount < 576*2 )
-	{
-		m_sampleCount = 576*2;
+	m_bufferTotalBytes = 0;
+	m_bufferValidBytes = 0;
+	m_bufferDrawn = false;
+	m_bufferStart = (unsigned char*)malloc(BUFFER_MIN_BYTES);
+	m_bufferTemp = (unsigned char*)malloc(BUFFER_MIN_BYTES);
+	if( m_bufferStart && m_bufferTemp ) {
+		m_bufferTotalBytes = BUFFER_MIN_BYTES;
 	}
-
-	m_bufferStart = (unsigned char*)malloc(m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES);
 
 	// set colors
 	m_textColour = wxColour(0x2F, 0x60, 0xA3);
@@ -1453,8 +1456,8 @@ SjOscWindow::SjOscWindow(SjOscModule* oscModule, wxWindow* parent)
 	m_fgPen = wxPen(m_fgColour, 1, wxSOLID);
 
 	// create the drawing objects
-	m_spectrum = new SjOscSpectrum(m_sampleCount);
-	m_oscilloscope = new SjOscOscilloscope(m_sampleCount);
+	m_spectrum = new SjOscSpectrum();
+	m_oscilloscope = new SjOscOscilloscope(BUFFER_MIN_BYTES/sizeof(float));
 	m_title = new SjOscTitle();
 	m_rotor = new SjOscRotor();
 	m_hands = new SjOscHands();
@@ -1478,6 +1481,7 @@ SjOscWindow::~SjOscWindow()
 	if( m_firework )     { delete m_firework; }
 	if( m_starfield )    { delete m_starfield; }
 	if( m_bufferStart )  { free(m_bufferStart); }
+	if( m_bufferTemp )   { free(m_bufferTemp); }
 	m_oscModule = NULL;
 }
 
@@ -1488,6 +1492,8 @@ void SjOscWindow::OnTimer(wxTimerEvent&)
 
 	if( m_oscModule )
 	{
+		long                validBytes;
+
 		// volume stuff
 		long                volume, maxVolume = 1;
 		bool                volumeBeat;
@@ -1498,7 +1504,18 @@ void SjOscWindow::OnTimer(wxTimerEvent&)
 		wxString            newTitle;
 
 		// get data
-		g_mainFrame->m_player.GetVisData(m_bufferStart, m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES, 0);
+		if( m_bufferStart==NULL || m_bufferTemp == NULL ) return;
+		m_bufferCritical.Enter();
+			validBytes = m_bufferValidBytes;
+			m_bufferDrawn = true;
+			if( validBytes > 0 ) {
+				memcpy(m_bufferTemp, m_bufferStart, validBytes);
+			}
+			else {
+				validBytes = BUFFER_MIN_BYTES;
+				memset(m_bufferTemp, 0, validBytes);
+			}
+		m_bufferCritical.Leave();
 
 		// get window client size, correct offscreen DC if needed
 		wxSize clientSize = m_oscModule->m_oscWindow->GetClientSize();
@@ -1509,10 +1526,10 @@ void SjOscWindow::OnTimer(wxTimerEvent&)
 		}
 
 		// calculate the points for the lines, collect volume
-		m_oscilloscope->Calc(clientSize, m_bufferStart, volume);
+		m_oscilloscope->Calc(clientSize, m_bufferTemp, volume);
 		if( m_oscModule->m_showFlags&SJ_OSC_SHOW_SPECTRUM )
 		{
-			m_spectrum->Calc(clientSize, m_bufferStart);
+			m_spectrum->Calc(clientSize, m_bufferTemp);
 		}
 
 		// get data that are shared between the threads
@@ -1726,3 +1743,43 @@ void SjOscModule::OnMenuOption(int i)
 
 	g_tools->m_config->Write(wxT("player/oscflags"), m_showFlags);
 }
+
+
+
+void SjOscModule::AddVisData(const float* src, long bytes)
+{
+	if( m_oscWindow && m_oscWindow->m_bufferStart && bytes )
+	{
+		m_oscWindow->m_bufferCritical.Enter();
+
+			// resize the buffer, if needed
+			if( m_oscWindow->m_bufferDrawn ) {
+				m_oscWindow->m_bufferValidBytes = 0;
+				m_oscWindow->m_bufferDrawn = false;
+			}
+			long bytesWanted = m_oscWindow->m_bufferValidBytes + bytes / 2/*use use short, not float*/;
+			if( bytesWanted > m_oscWindow->m_bufferTotalBytes )
+			{
+                m_oscWindow->m_bufferStart = (unsigned char*)realloc(m_oscWindow->m_bufferStart, bytesWanted);
+                m_oscWindow->m_bufferTemp  = (unsigned char*)realloc(m_oscWindow->m_bufferTemp,  bytesWanted);
+                if( m_oscWindow->m_bufferStart == NULL || m_oscWindow->m_bufferTemp == NULL ) { return; }
+			}
+
+			// copy the buffer, convert float to singed shorts
+			long s, numSamples = bytes/4;
+			signed short* dest =  (signed short*)(&m_oscWindow->m_bufferStart[m_oscWindow->m_bufferValidBytes]);
+			float sample;
+			for( s = 0; s < numSamples; s++ )
+			{
+				sample = src[s] * float_to_short;
+				if( sample < -32768 ) sample = -32768;
+				if( sample >  32767 ) sample =  32767;
+				dest[s] = sample;
+			}
+
+			m_oscWindow->m_bufferValidBytes += bytes / 2;
+
+		m_oscWindow->m_bufferCritical.Leave();
+	}
+}
+

@@ -65,10 +65,7 @@ public:
 	void        OnTimer             (wxTimerEvent&);
 
 	wxTimer     m_timer;
-
-    long                m_sampleCount;
-    unsigned char*      m_bufferStart;
-    bool                m_triedCreation;
+    bool        m_triedCreation;
 
 	DECLARE_EVENT_TABLE ();
 };
@@ -90,16 +87,6 @@ END_EVENT_TABLE()
 SjProjectmGlCanvas::SjProjectmGlCanvas(wxWindow* parent)
 	: wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize)
 {
-	// get the number of samples wanted
-	// (currently we exactly 576 for the spcectrum analyzer)
-	m_sampleCount = SjMs2Bytes(SLEEP_MS) / (SJ_WW_CH*SJ_WW_BYTERES);
-	if( m_sampleCount < 576*2 )
-	{
-		m_sampleCount = 576*2;
-	}
-
-	m_bufferStart = (unsigned char*)malloc(m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES);
-
 	m_triedCreation = false;
 }
 
@@ -187,17 +174,13 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 
 	// to set the frames, ths. like  globalPM->beatDetect->pcm->addPCM8( renderData.waveformData );
 	// should be called, see .../itunes/iprojectM.cpp
-	if( s_theProjectmModule && s_theProjectmModule->m_projectMobj 
+	if( s_theProjectmModule && s_theProjectmModule->m_projectMobj
 	 && s_theProjectmModule->m_glCanvas && s_theProjectmModule->m_glContext )
 	{
-		g_mainFrame->m_player.GetVisData(m_bufferStart, m_sampleCount*SJ_WW_CH*SJ_WW_BYTERES, 0);
-
 		#ifdef __WXMSW__
 			wxASSERT( _CrtCheckMemory() );
 		#endif
-		
-		// TODO: is this really correct?
-		s_theProjectmModule->m_projectMobj->pcm()->addPCM16Data( (const short*)m_bufferStart, m_sampleCount );
+
 		s_theProjectmModule->m_projectMobj->renderFrame();
 		s_theProjectmModule->m_glCanvas->SwapBuffers();
 
@@ -318,6 +301,15 @@ void SjProjectmModule::PleaseUpdateSize(SjVisImpl* impl)
 
 			m_projectMobj->projectM_resetGL(width, height);
 		}
+	}
+}
+
+
+void SjProjectmModule::AddVisData(const float* buffer, long bytes)
+{
+	if( m_projectMobj )
+	{
+		m_projectMobj->pcm()->addPCMfloat(buffer, bytes/sizeof(float));
 	}
 }
 

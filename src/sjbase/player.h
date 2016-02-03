@@ -159,12 +159,6 @@ public:
 	long            m_ffPlay2PauseMs;
 	long            m_ffGotoMs;
 
-	// GetVisData() is only for visualisation modules for retrieving
-	// data to visualisize. latencyBytes is the number of bytes
-	// between the call of this function and really drawing the data
-	// (the number of bytes reflect the latency time in sample size).
-	void            GetVisData          (unsigned char* buffer, long bytes, long latencyBytes);
-
 	// The IDP_* messages posted to the main module should
 	// be given to ReceiveSignal().  This is to avoid using a separate
 	// thread for this purpose.
@@ -199,8 +193,10 @@ public:
 	void            DoSeekAbs           (long ms);                        // seek
 	void            DoReceiveSignal     (int id, uintptr_t extraLong);
 	void            DoGetLittleOptions  (SjArrayLittleOption&);           // special configuration, optional
-	void            DoGetVisData        (unsigned char* pcmBuffer, long bytes, long visLatencyBytes);
 	SjPlayerImpl*   m_impl;
+
+	// DSPCallback() is called by the player implementation
+	void            DSPCallback         (float* buffer, long bytes);
 
 	// tools for the implementation
 	void            SendSignalToMainThread(int id, uintptr_t extraLong=0) const;

@@ -417,6 +417,16 @@ SjVisImpl* SjVisModule::GetVisImpl() const
 }
 
 
+void SjVisModule::AddVisData(const float* data, long bytes)
+{
+	SjVisRendererModule* renderer = GetCurrRenderer();
+	if( renderer )
+	{
+		renderer->AddVisData(data, bytes);
+	}
+}
+
+
 void SjVisModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_WINDOW_SIZED_MOVED )

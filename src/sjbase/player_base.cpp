@@ -528,16 +528,6 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 }
 
 
-void SjPlayer::GetVisData(unsigned char* buffer, long bytes, long latencyBytes)
-{
-	if( !m_isInitialized ) {
-		return;
-	}
-
-	DoGetVisData(buffer, bytes, latencyBytes);
-}
-
-
 void SjPlayer::SeekAbs(long ms)
 {
 	if( !m_isInitialized ) {
@@ -789,3 +779,23 @@ void SjPlayer::LoadFromResumeFile()
 		}
 	}
 }
+
+
+/*******************************************************************************
+ * DSP
+ ******************************************************************************/
+
+
+void SjPlayer::DSPCallback(float* buffer, long bytes)
+{
+	// TAKE CARE: this function ist called while processing the audio data,
+	// just before the output.  So please, do not do weird things here.
+
+	// forward the buffer to the visualisations
+	// (should be last so that eg. an equalizer is visible in the spectrometer)
+	if( g_visModule->IsVisStarted() )
+	{
+		g_visModule->AddVisData(buffer, bytes);
+	}
+}
+

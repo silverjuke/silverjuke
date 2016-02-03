@@ -28,15 +28,11 @@
 
 
 // TODO: - let the user select the output
-//       - adapt the size of the ringbuffer to the size requested multiplied by 2
-//       - check, if we can regard the latency on visualisation rendering
 //       - video output
-//       - if the pad-probe is fine, we can use this for our DSP callback, for audio normalisation and maybe later for an equalizer/pan
 
 
 #include <sjbase/base.h>
 #if SJ_USE_GSTREAMER
-#include <sjtools/ringbuffer.h>
 #include <gst/gst.h>
 
 
@@ -73,8 +69,6 @@ class SjPlayerImpl
 
 		SjExtList	m_extList;
 		bool		m_extListInitialized;
-
-		SjRingbuffer m_ringbuffer;
 
 		void set_pipeline_state(GstState s)
 		{
@@ -119,7 +113,6 @@ void SjPlayer::DoInit()
 	m_impl->m_extListInitialized = false;
 	m_impl->m_startingTime = 0;
 	m_impl->m_eosSend = false;
-	m_impl->m_ringbuffer.Alloc(SjMs2Bytes(80));
 
 	// init, log version information
 	gst_init(NULL, NULL);
@@ -255,22 +248,16 @@ static void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer u
 
 static GstPadProbeReturn on_pad_data(GstPad* pad, GstPadProbeInfo* info, gpointer userdata)
 {
-	SjPlayer* player = (SjPlayer*)userdata;
-
-	GstMapInfo map;
-	GstBuffer *buffer;
-
-	buffer = GST_PAD_PROBE_INFO_BUFFER(info);
-
+	GstBuffer* buffer = GST_PAD_PROBE_INFO_BUFFER(info);
 	buffer = gst_buffer_make_writable(buffer);
 
-	gst_buffer_map(buffer, &map, GST_MAP_WRITE);
+		GstMapInfo map;
+		gst_buffer_map(buffer, &map, GST_MAP_WRITE);
 
-		player->m_impl->m_ringbuffer.Lock();
-			player->m_impl->m_ringbuffer.PushToEnd(map.data, map.size);
-		player->m_impl->m_ringbuffer.Unlock();
+			SjPlayer* player = (SjPlayer*)userdata;
+			player->DSPCallback((float*)map.data, map.size);
 
-	gst_buffer_unmap(buffer, &map);
+		gst_buffer_unmap(buffer, &map);
 
 	GST_PAD_PROBE_INFO_DATA(info) = buffer;
 
@@ -315,10 +302,10 @@ void SjPlayer::DoPlay(long seekMs, bool fadeToPlay) // press on play
 
 		// setup capsfilter and dsp callback
 		GstCaps* caps = gst_caps_new_simple("audio/x-raw",
-					"format", G_TYPE_STRING, "S16LE", // float: F32LE, 8bit: U8
+					"format", G_TYPE_STRING, "F32LE", // or S16LE, U8, ...
 					"layout", G_TYPE_STRING, "interleaved",
 					//"rate", G_TYPE_INT, info->rate, -- not interesting
-					"channels", G_TYPE_INT, 2,
+					"channels", G_TYPE_INT, 2, // force stereo for easier DSP calculcations, maybe we will support more channels later, however, this has a very low priority
 					NULL);
 			 g_object_set(G_OBJECT(capsfilter), "caps", caps, NULL);
 		gst_caps_unref(caps);
@@ -500,20 +487,6 @@ void SjPlayer::DoSeekAbs(long seekMs)
 
 	gst_element_seek_simple(m_impl->m_pipeline, GST_FORMAT_TIME,
 		(GstSeekFlags)(GST_SEEK_FLAG_FLUSH|GST_SEEK_FLAG_KEY_UNIT), seekMs*MILLISEC_TO_NANOSEC_FACTOR);
-}
-
-
-/*******************************************************************************
- * SjPlayer - Get visualisation data, peek at the buffer
- ******************************************************************************/
-
-
-void SjPlayer::DoGetVisData(unsigned char* pcmBuffer, long bytes, long visLatencyBytes)
-{
-	m_impl->m_ringbuffer.Lock();
-		m_impl->m_ringbuffer.PeekFromBeg(pcmBuffer, 0, bytes);
-		m_impl->m_ringbuffer.RemoveFromBeg(bytes);
-	m_impl->m_ringbuffer.Unlock();
 }
 
 

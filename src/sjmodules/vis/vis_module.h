@@ -83,8 +83,10 @@ public:
 	void            StopVisIfOverWorkspace() { if( IsOverWorkspace() ) { StopVis(); }  }
 
 	// IsVisStarted() should be used to set the state of the vis. icon or of
-	// menu entries.
+	// menu entries. CAVE: IsVisStarted() and AddVisData() are called by SjPlayer::DSPCallback(),
+	// so please do not any weird things here (checking windows handles etc. is not possible)
 	bool            IsVisStarted        () const { return m_visIsStarted; }
+	void            AddVisData          (const float* data, long bytes);
 
 	// More state
 	bool            IsOverWorkspace     () const { return (m_visWindow!=NULL && m_visState==SJ_VIS_EMBEDDED && m_visIsOverWorkspace); }

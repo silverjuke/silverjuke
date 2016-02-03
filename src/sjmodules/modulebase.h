@@ -605,6 +605,10 @@ public:
 
 	// when the size has changed ... the module should call SjVisImpl::GetRendererClientRect() or SjVisImpl::GetRendererScreenRect()
 	virtual void    PleaseUpdateSize    (SjVisImpl*) = 0;
+
+	// AddVisData() function is called from without the audio DSP output, so please be fast and do not do
+	// weird things here!
+	virtual void    AddVisData          (const float* buffer, long bytes) {}
 };
 
 

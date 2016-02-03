@@ -49,6 +49,7 @@ public:
 	void            AddMenuOptions      (SjMenu&);
 	void            OnMenuOption        (int);
 	void            PleaseUpdateSize    (SjVisImpl*);
+	void            AddVisData          (const float* buffer, long bytes);
 private:
 	SjOscWindow*    m_oscWindow;
 	SjVisImpl*      m_impl;

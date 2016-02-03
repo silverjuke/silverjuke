@@ -529,12 +529,6 @@ void SjPlayer::DoSeekAbs(long seekMs)
 }
 
 
-void SjPlayer::DoGetVisData(unsigned char* pcmBuffer, long bytes, long visLatencyBytes)
-{
-	memset(pcmBuffer, 0, bytes); // TODO: fill the buffer with meaningful data ...
-}
-
-
 void SjPlayer::DoReceiveSignal(int signal, uintptr_t extraLong)
 {
 	wxLogDebug("SjPlayer::DoReceiveSignal() called ... ");
