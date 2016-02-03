@@ -227,6 +227,7 @@ silverjuke_SOURCES = \
 	src/sjtools/littleoption.cpp \
 	src/sjtools/msgbox.cpp \
 	src/sjtools/normalise.cpp \
+	src/sjtools/ringbuffer.cpp \
 	src/sjtools/sqlt.cpp \
 	src/sjtools/temp_n_cache.cpp \
 	src/sjtools/testdrive.cpp \
