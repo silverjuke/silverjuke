@@ -27,9 +27,8 @@
  ******************************************************************************/
 
 
-// TODO: - the ther user select the output
-//       - adapt the size of the ringbuffer to the size of the samples we get, say 4 times larger
-//       - does the audioconvert-capsfilter-combination _really_ give us the data always in the desired format?
+// TODO: - let the user select the output
+//       - adapt the size of the ringbuffer to the size requested multiplied by 2
 //       - check, if we can regard the latency on visualisation rendering
 //       - video output
 //       - if the pad-probe is fine, we can use this for our DSP callback, for audio normalisation and maybe later for an equalizer/pan
@@ -120,7 +119,7 @@ void SjPlayer::DoInit()
 	m_impl->m_extListInitialized = false;
 	m_impl->m_startingTime = 0;
 	m_impl->m_eosSend = false;
-	m_impl->m_ringbuffer.Alloc(SjMs2Bytes(200));
+	m_impl->m_ringbuffer.Alloc(SjMs2Bytes(80));
 
 	// init, log version information
 	gst_init(NULL, NULL);
@@ -176,7 +175,7 @@ void SjPlayer::DoGetLittleOptions(SjArrayLittleOption& lo)
  ******************************************************************************/
 
 
-static gboolean bus_call(GstBus* bus, GstMessage* msg, gpointer userdata)
+static gboolean on_bus_message(GstBus* bus, GstMessage* msg, gpointer userdata)
 {
 	SjPlayer* player = (SjPlayer*)userdata;
 	if( player == NULL || player->m_impl == NULL ) { return true; }
@@ -254,7 +253,7 @@ static void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer u
 }
 
 
-static GstPadProbeReturn cb_have_data(GstPad* pad, GstPadProbeInfo* info, gpointer userdata)
+static GstPadProbeReturn on_pad_data(GstPad* pad, GstPadProbeInfo* info, gpointer userdata)
 {
 	SjPlayer* player = (SjPlayer*)userdata;
 
@@ -293,25 +292,25 @@ void SjPlayer::DoPlay(long seekMs, bool fadeToPlay) // press on play
 		*/
 
 		// create objects
-		m_impl->m_pipeline    = gst_pipeline_new        (                 "sjPlayer");
-		GstElement* decodebin = gst_element_factory_make("uridecodebin",  "sjSource");
-		GstElement* audiocnvt = gst_element_factory_make("audioconvert",  "sjAudioEntry"); // needed to feed appsink with the desired format
-		GstElement* capsfilter= gst_element_factory_make("capsfilter",    NULL);
-		GstElement* volume    = gst_element_factory_make("volume",        "sjVolume");
-		GstElement* audiosink = gst_element_factory_make("autoaudiosink", NULL);
-		if( !m_impl->m_pipeline || !decodebin || !audiocnvt || /*!capsfilter ||*/ !volume || !audiosink ) {
+		m_impl->m_pipeline       = gst_pipeline_new        (                 "sjPlayer"    );
+		GstElement* decodebin    = gst_element_factory_make("uridecodebin",  "sjSource"    );
+		GstElement* audioconvert = gst_element_factory_make("audioconvert",  "sjAudioEntry");
+		GstElement* capsfilter   = gst_element_factory_make("capsfilter",    NULL          );
+		GstElement* volume       = gst_element_factory_make("volume",        "sjVolume"    );
+		GstElement* audiosink    = gst_element_factory_make("autoaudiosink", NULL          );
+		if( !m_impl->m_pipeline || !decodebin || !audioconvert || !capsfilter || !volume || !audiosink ) {
 			wxLogError("GStreamer error: Cannot create objects.");
 			return; // error
 		}
 
 		// create pipeline
-		gst_bin_add_many(GST_BIN(m_impl->m_pipeline), decodebin, audiocnvt, capsfilter, volume, audiosink, NULL); // NULL marks end of list
-		gst_element_link_many(audiocnvt, capsfilter, volume, audiosink, NULL);
+		gst_bin_add_many(GST_BIN(m_impl->m_pipeline), decodebin, audioconvert, capsfilter, volume, audiosink, NULL); // NULL marks end of list
+		gst_element_link_many(audioconvert, capsfilter, volume, audiosink, NULL);
 		g_signal_connect(decodebin, "pad-added", G_CALLBACK(on_pad_added), this /*userdata*/);
 
 		// add a message handler
 		GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(m_impl->m_pipeline));
-			m_impl->m_bus_watch_id = gst_bus_add_watch(bus, bus_call, this /*userdata*/);
+			m_impl->m_bus_watch_id = gst_bus_add_watch(bus, on_bus_message, this /*userdata*/);
 		gst_object_unref(bus);
 
 		// setup capsfilter and dsp callback
@@ -327,7 +326,7 @@ void SjPlayer::DoPlay(long seekMs, bool fadeToPlay) // press on play
 		GstPad* pad = gst_element_get_static_pad(volume, "src");
 			gulong probeid = gst_pad_add_probe(pad,
 				(GstPadProbeType)(GST_PAD_PROBE_TYPE_BUFFER),
-				cb_have_data, (gpointer)this, NULL);
+				on_pad_data, (gpointer)this, NULL);
 			if( probeid==0 ) {
 				wxLogError("GStreamer Error: Cannot add probe callback.");
 			}
