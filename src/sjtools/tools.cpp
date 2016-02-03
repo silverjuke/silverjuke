@@ -4335,31 +4335,6 @@ void SjSSHash::Unserialize(const wxString& str)
 
 
 /*******************************************************************************
- * Hardware Graphic Stuff, Misc.
- ******************************************************************************/
-
-
-long SjMs2Bytes(long ms)
-{
-	// calculate the exact number of bytes using 64 bit to avoid overflows
-	wxLongLong ll(0, ms);
-	ll *= (SJ_WW_FREQ * SJ_WW_CH * SJ_WW_BYTERES);
-	ll /= 1000;
-	long l = ll.ToLong();
-
-	// make sure, the number of bytes are sample-aligned
-	if( l % (SJ_WW_BYTERES*SJ_WW_CH) != 0 )
-	{
-		l += SJ_WW_BYTERES * SJ_WW_CH - (l % (SJ_WW_BYTERES * SJ_WW_CH));
-	}
-
-	// done
-	wxASSERT( l % (SJ_WW_BYTERES*SJ_WW_CH) == 0 );
-	return l;
-}
-
-
-/*******************************************************************************
  * Strings used by wx/Silverjuke that should be localizable;
  * There is no need to include them into the project, only needed by poEdit.
  ******************************************************************************/
@@ -4407,7 +4382,7 @@ wxString _os(const wxString& str__)
 	// the function _os() created OS-specific strings from generic strings,
 	// eg. most OS use "Exit" but the Mac uses "Quit"
 	wxString str(str__);
-	
+
 	#if defined(__WXMSW__)
 		if( str==_("Show file") ) { str = _("Explore"); }
 	#elif defined(__WXMAC__)
@@ -4417,7 +4392,7 @@ wxString _os(const wxString& str__)
 		if( str=="Ansicht" )      { str = "Darstellung"; }
 		if( str==_("Show file") ) { str = _("Reveal in Finder"); }
 	#endif
-	
+
 	return str;
 }
 

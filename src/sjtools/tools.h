@@ -1126,13 +1126,6 @@ class SjWheelHelper
 #define SJ_ONE_GB 0x40000000L
 #define SJ_ONE_MB 0x00100000L
 
-// Do not change the constants if you don't REALLY know what you are doing!
-// Internally, Silverjuke always calculates with these audio settings.
-#define SJ_WW_FREQ              44100
-#define SJ_WW_BYTERES           2
-#define SJ_WW_CH                2
-long    SjMs2Bytes          (long ms);
-
 // Create OS-specific from generic string. (Eg. "Exit" => "Quit")
 wxString _os(const wxString&);
 
