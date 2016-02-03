@@ -2,12 +2,13 @@ Silverjuke Changes
 ================================================================================
 
 
-V16.2 (26.01.2016)
+V16.2 (03.02.2016)
 ================================================================================
 
 - New: Native support for "projectM", a Milkdrop-esque visualization
 - New "Video screen" menu with direct access to all relating options
-- The video screen is closed if another view is selected
+- For the linux port, GSteamer is used by default, Xine is still an option
+- The video screen is closed if another view is selected or by a simple click
 - Bug fixes
 
 
