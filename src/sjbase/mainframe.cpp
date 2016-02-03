@@ -1447,6 +1447,10 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU        (IDO_GOTO_CURR_MARK,                        SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_GOTOCURRAUTO,                          SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_SETTINGS_ADDFILES,                     SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_SETTINGS_SKINS,                        SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_SETTINGS_FONTNCOVER,                   SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_SETTINGS_QUEUE,                        SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_SETTINGS_AUTOVOL,                      SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_REALLYENDSEARCH,                       SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_CORNERCLICK,                           SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_ABOUT_OPEN_WWW,                        SjMainFrame::OnFwdToSkin     )
@@ -1746,7 +1750,23 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDO_SETTINGS_ADDFILES:
 				if( IsAllAvailable() )
 				{
-					OpenSettings(wxT("memory:mymusic.lib"), 0, 0);
+					OpenSettings("memory:mymusic.lib", 0, 0);
+				}
+				break;
+
+			case IDO_SETTINGS_SKINS:
+			case IDO_SETTINGS_FONTNCOVER:
+				if( IsAllAvailable() )
+				{
+					OpenSettings("memory:viewsettings.lib", 0, targetId==IDO_SETTINGS_SKINS? 0 : 1);
+				}
+				break;
+
+			case IDO_SETTINGS_QUEUE:
+			case IDO_SETTINGS_AUTOVOL:
+				if( IsAllAvailable() )
+				{
+					OpenSettings("memory:playbacksettings.lib", 0, targetId==IDO_SETTINGS_QUEUE? 0 : 2);
 				}
 				break;
 

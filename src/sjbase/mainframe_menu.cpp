@@ -63,7 +63,7 @@ void SjMainFrame::CreateMainMenu()
 	m_helpMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 
 	// create "file" menu
-	m_fileMenu->Append(IDO_SETTINGS_ADDFILES, _("Add folders and files")+wxString(wxT("..."))); // same as "Settings", but makes things clearer
+	m_fileMenu->Append(IDO_SETTINGS_ADDFILES, _("Add folders and files")+wxString("..."));
 	m_fileMenu->Append(IDT_UPDATE_INDEX);
 	m_fileMenu->AppendSeparator();
 	m_fileMenu->Append(IDT_OPEN_FILES);
@@ -108,7 +108,9 @@ void SjMainFrame::CreateMainMenu()
 		submenu->Append(IDT_ZOOM_NORMAL);
 		submenu->AppendSeparator();
 		submenu->AppendCheckItem(IDO_SAMEZOOMINALLVIEWS, _("Same zoom in all views"));
+		submenu->Append(IDO_SETTINGS_FONTNCOVER, _("Fonts and covers")+wxString("..."));
 	m_viewMenu->Append(0, _("Zoom"), submenu);
+	m_viewMenu->Append(IDO_SETTINGS_SKINS, _("Skins")+wxString("..."));
 	m_viewMenu->AppendSeparator();
 	m_viewMenu->Append(IDT_GOTO_CURR);
 	m_viewMenu->Append(IDT_WORKSPACE_GOTO_RANDOM);
@@ -367,6 +369,12 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 		volMenu->AppendCheckItem(IDT_MAIN_VOL_MUTE);
 		volMenu->Check(IDT_MAIN_VOL_MUTE, m_player.GetMainVolMute());
 
+		if( IsAllAvailable() )
+		{
+			volMenu->AppendSeparator();
+			volMenu->Append(IDO_SETTINGS_AUTOVOL, _("Automatic control")+wxString("..."));
+		}
+
 		playbackMenu->Append(0, _("Volume"), volMenu);
 	}
 
@@ -403,6 +411,12 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 			{
 				queueMenu->AppendCheckItem(IDT_PLAY_NOW_ON_DBL_CLICK);
 				queueMenu->Check(IDT_PLAY_NOW_ON_DBL_CLICK, (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK)!=0);
+			}
+
+			if( IsAllAvailable() )
+			{
+				queueMenu->AppendSeparator();
+				queueMenu->Append(IDO_SETTINGS_QUEUE, _("Settings")+wxString("..."));
 			}
 
 			playbackMenu->Append(0, _("Queue"), queueMenu);
