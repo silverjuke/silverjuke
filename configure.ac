@@ -50,7 +50,7 @@ fi
 PKG_CHECK_MODULES([ZLIB], [zlib])
 PKG_CHECK_MODULES([LIBXINE], [libxine])
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
-PKG_CHECK_MODULES([GSTREAMER], [gstreamer-1.0 gstreamer-base-1.0 gstreamer-plugins-base-1.0])
+PKG_CHECK_MODULES([GST], [gstreamer-1.0 gstreamer-plugins-base-1.0])
 
 # Check for endian.h to determine endianness for "src/see" library
 AC_CHECK_HEADERS([endian.h])
@@ -68,18 +68,9 @@ AC_SUBST(WX_CPPFLAGS)
 AC_SUBST(WX_CXXFLAGS)
 AC_SUBST(WX_LIBS)
 
-# Set up GStreamer (lib checked above)
-GST_CPPFLAGS="`pkg-config gstreamer-1.0 --cflags`"
-GST_LIBS="`pkg-config gstreamer-1.0 --libs`"
-
-AC_SUBST(GST_CPPFLAGS)
-AC_SUBST(GST_LIBS)
-
 # Set up OpenGL - TODO: This should be far more intelligent! However, I have no idea how to get the required libs ... (bp)
 OPENGL_LIBS="/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1"
-
 AC_SUBST(OPENGL_LIBS)
-
 
 # Write configuration files
 AC_CONFIG_FILES([
