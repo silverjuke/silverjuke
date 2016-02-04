@@ -33,17 +33,12 @@
 class SjPlayerModule : public SjCommonModule
 {
 public:
+	// SjPlayerModule is needed for the configuration only
 	                SjPlayerModule      (SjInterfaceBase*);
 	void            GetLittleOptions    (SjArrayLittleOption&);
-
-protected:
-	bool            m_settingsLoaded;
-	bool            FirstLoad           ();
-	void            LastUnload          ();
 };
 
 
-extern SjPlayerModule* g_playerModule;
 class SjPlayerImpl;
 
 

@@ -50,30 +50,11 @@
  ******************************************************************************/
 
 
-SjPlayerModule* g_playerModule = NULL;
-
-
 SjPlayerModule::SjPlayerModule(SjInterfaceBase* interf)
 	: SjCommonModule(interf)
 {
 	m_file              = wxT("memory:player.lib");
 	m_name              = wxT("Player");
-	m_settingsLoaded    = false;
-}
-
-
-bool SjPlayerModule::FirstLoad()
-{
-	wxASSERT(g_playerModule==NULL);
-	g_playerModule = this;
-	return TRUE;
-}
-
-
-void SjPlayerModule::LastUnload()
-{
-	wxASSERT(g_playerModule!=NULL);
-	g_playerModule = NULL;
 }
 
 
