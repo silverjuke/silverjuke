@@ -62,12 +62,7 @@
 
 
 // internal messages
-#define THREAD_PREPARE_NEXT         (IDPLAYER_FIRST+0)
-#define THREAD_OUT_OF_DATA          (IDPLAYER_FIRST+1)
-#define THREAD_DELETE_STREAM        (IDPLAYER_FIRST+2)
-#define THREAD_RECALL_TRASH         (IDPLAYER_FIRST+5)
-#define THREAD_NEW_TRACK_ON_AIR     (IDPLAYER_FIRST+6)
-#define THREAD_NEW_META_DATA        (IDPLAYER_FIRST+7)
+#define THREAD_END_OF_STREAM         (IDPLAYER_FIRST+0)
 
 
 SjPlayerModule::SjPlayerModule(SjInterfaceBase* interf)
@@ -558,7 +553,7 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		case SJBE_MSG_END_OF_STREAM:
 			{
 				SjPlayer* player = (SjPlayer*)cbp->userdata;
-				player->SendSignalToMainThread(THREAD_PREPARE_NEXT);
+				player->SendSignalToMainThread(THREAD_END_OF_STREAM);
 			}
 			return 1;
 
@@ -863,38 +858,24 @@ wxString SjPlayer::GetUrlOnAir()
 
 void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 {
-	if( !m_isInitialized || m_backend == NULL ) {
-		return;
-	}
+	if( !m_isInitialized || m_backend == NULL ) { return; }
 
-	if( signal == THREAD_PREPARE_NEXT || signal == THREAD_OUT_OF_DATA )
+	if( signal == THREAD_END_OF_STREAM )
 	{
 		// just stop after this track?
 		if( m_stopAfterThisTrack || m_stopAfterEachTrack )
 		{
-			if( signal == THREAD_OUT_OF_DATA )
+			g_mainFrame->Stop(); // Stop() clears the m_stopAfterThisTrack flag, and, as we go over g_mainFrame, this also sets haltedManually and stops autoPlay
+			if( HasNextIgnoreAP() ) // make sure, the next hit on play goes to the next track
 			{
-				Stop(); // Stop() clears the m_stopAfterThisTrack flag
-
-				if( HasNextIgnoreAP() ) // make sure, the next hit on play goes to the next track, see
-				{	// http://www.silverjuke.net/forum/topic-1769.html
-					GotoNextIgnoreAP(false);
-					g_mainFrame->UpdateDisplay();
-				}
-
+				GotoNextIgnoreAP(false);
+				g_mainFrame->UpdateDisplay();
 			}
-			wxLogDebug(" SjPlayer::ReceiveSignal(): \"stop after this/each track\" executed.");
-			return;
+			return; // done
 		}
-	}
 
-	// more signal handling (old implementation part)
-	if( signal == THREAD_PREPARE_NEXT || signal == THREAD_OUT_OF_DATA )
-	{
 		// find out the next url to play
 		wxString	newUrl;
-
-		// try to get next url from queue
 		long newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
 		if( newQueuePos == -1 )
 		{
@@ -905,16 +886,9 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 			if( newQueuePos == -1 )
 			{
 				// no chance, there is nothing more to play ...
-				if( signal == THREAD_PREPARE_NEXT )
-				{
-					g_mainFrame->m_player.SendSignalToMainThread(THREAD_OUT_OF_DATA); // send a modified signal, no direct call as Receivesignal() will handle some cases exclusively
-				}
-				else if( signal == THREAD_OUT_OF_DATA )
-				{
-					wxLogDebug(" ... receiving THREAD_OUT_OF_DATA, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ");
-					Stop();
-					SendSignalToMainThread(IDMODMSG_PLAYER_STOPPED_BY_EOQ);
-				}
+				wxLogDebug(" ... receiving THREAD_END_OF_STREAM, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ");
+				Stop();
+				SendSignalToMainThread(IDMODMSG_PLAYER_STOPPED_BY_EOQ);
 				return;
 			}
 		}
