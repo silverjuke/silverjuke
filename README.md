@@ -23,7 +23,8 @@ silverjuke from your build dir, run `./silverjuke` instead of `make install`.
 Beyond the usual gcc and system development packages, chances are you'll also
 need the following stuff:
 
-- xine-devel
+- OpenGL libraries, eg. libgl1-mesa-dev
+- libgstreamer-dev _or_ xine-devel
 - wxWidgets-wxcontainer-devel
 - libsqlite3-dev
 - python-docutils (for rst2man)
@@ -34,7 +35,7 @@ which does _not_ work with silverjuke. Check for something with wxcontainer in
 the name.
 
 Silverjuke does not accept any files after a successful compilation?  One reason 
-for this are missing xine codecs, install eg. libxine-plugins in this case.
+for this are missing codecs, install the corresponding packages in this case.
 
 
 **Windows, Mac:**  For Windows and Mac OS X, ready-to-use programs with the most

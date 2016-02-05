@@ -150,6 +150,8 @@ silverjuke_SOURCES = \
 	src/see_dom/obj_Rights.cpp \
 	src/see_dom/sj_see.cpp \
 	src/sjbase/autoctrl.cpp \
+	src/sjbase/backend_gstreamer.cpp \
+	src/sjbase/backend_xine.cpp \
 	src/sjbase/browser.cpp \
 	src/sjbase/browser_album.cpp \
 	src/sjbase/browser_cover.cpp \
@@ -160,8 +162,6 @@ silverjuke_SOURCES = \
 	src/sjbase/mainframe.cpp \
 	src/sjbase/mainframe_menu.cpp \
 	src/sjbase/player_base.cpp \
-	src/sjbase/player_impl_gstreamer.cpp \
-	src/sjbase/player_impl_xine.cpp \
 	src/sjbase/playlist.cpp \
 	src/sjbase/queue.cpp \
 	src/sjbase/search.cpp \
@@ -241,6 +241,7 @@ silverjuke_SOURCES = \
 	src/sjtools/tools_gtk.cpp \
 	src/sjtools/tooltips.cpp \
 	src/sjtools/volumecalc.cpp \
+	src/sjtools/wavework.cpp \
 	src/tagger/tg_ape_tag.cpp \
 	src/tagger/tg_a_tagger_frontend.cpp \
 	src/tagger/tg_bytefile.cpp \
