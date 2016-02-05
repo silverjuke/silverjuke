@@ -161,7 +161,7 @@ silverjuke_SOURCES = \
 	src/sjbase/mainapp.cpp \
 	src/sjbase/mainframe.cpp \
 	src/sjbase/mainframe_menu.cpp \
-	src/sjbase/player_base.cpp \
+	src/sjbase/player.cpp \
 	src/sjbase/playlist.cpp \
 	src/sjbase/queue.cpp \
 	src/sjbase/search.cpp \
