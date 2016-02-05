@@ -21,20 +21,3 @@ projectM any time.
 The licence of this fork is the same as the original projectM license, see file 
 "COPYING".
 
-
-Further notes
-================================================================================
-
-Packets needed for compilation:
-
-Ubuntu:
-$ sudo apt-get install mesa-common-dev
-
-Packets needed for linking:
-
-nothing special, however, the linker option `-lGL` does not work on my Ubuntu,
-`-l/usr/lib/x86_64-linux-gnu/mesa/libGL.so.1` does.
-
-
-
-
