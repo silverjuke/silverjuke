@@ -115,6 +115,11 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Play tracks next"),               IDT_ENQUEUE_NEXT,          SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'N');
 	OrgCmd(_("Play tracks now"),                IDT_ENQUEUE_NOW,           SJA_MAIN|SJA_ADVSEARCH);
 																							 OrgKey(wxACCEL_CTRL, 'P');
+	OrgCmd(_("Prelisten"),                      IDT_PRELISTEN,             SJA_MAIN);        OrgKey(wxACCEL_CTRL, 'L');
+	OrgCmd(_("Prelisten")+wxString(wxT(": "))+_("Volume up"),
+	                                            IDT_PRELISTEN_VOL_UP,      SJA_MAIN);        OrgKey(wxACCEL_CTRL|wxACCEL_SHIFT, WXK_UP);
+	OrgCmd(_("Prelisten")+wxString(wxT(": "))+_("Volume down"),
+	                                            IDT_PRELISTEN_VOL_DOWN,    SJA_MAIN);        OrgKey(wxACCEL_CTRL|wxACCEL_SHIFT, WXK_DOWN);
 	OrgCmd(_("Double click play tracks at once"),
 	                                            IDT_PLAY_NOW_ON_DBL_CLICK, SJA_MAIN);		 OrgKey(wxACCEL_CTRL, 'D');
 	OrgCmd(_("Remove played tracks from queue"),IDT_TOGGLE_REMOVE_PLAYED,  SJA_MAIN);

@@ -59,6 +59,7 @@ STR( lastUserInput )
 STR( time ) 				// player methods and properties 	
 STR( duration ) 
 STR( volume )
+STR( prelisten )
 STR( onTrackChange )
 STR( onPlaybackDone )
 STR( play )

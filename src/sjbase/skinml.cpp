@@ -228,6 +228,7 @@ static SjSkinMlParserRaw s_target2IdTable[] =
 	{ wxT("togglekiosk"),           IDT_TOGGLE_KIOSK                                 },
 	{ wxT("doubleclickaction"),     IDT_PLAY_NOW_ON_DBL_CLICK                        },
 	{ wxT("removeplayed"),          IDT_TOGGLE_REMOVE_PLAYED                         },
+	{ wxT("prelisten"),             IDT_PRELISTEN                                    },
 
 	{ NULL, 0 }
 };
@@ -408,6 +409,7 @@ long SjSkinMlParserData::ParseCond(const wxString& str__, bool& notFlag)
 			flags |= SJ_OP_CREDIT_SYS__;
 		}
 		else if( token == wxT("volume")                             )   { flags |= SJ_OP_MAIN_VOL;          }
+		else if( token == wxT("prelisten")                          )   { flags |= SJ_OP_PRELISTEN;         }
 		else if( token == wxT("playpause")                          )   { flags |= SJ_OP_PLAYPAUSE;         }
 		else if( token == wxT("search")                             )   { flags |= SJ_OP_SEARCH;            }
 		else if( token == wxT("musicsel")                           )   { flags |= SJ_OP_MUSIC_SEL;         }

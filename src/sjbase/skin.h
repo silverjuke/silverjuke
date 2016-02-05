@@ -64,7 +64,7 @@ class SjSee;
 #define         SJ_OP_COVER_VIEW        0x00000400L
 #define         SJ_OP_LIST_VIEW         0x00000800L
 #define         SJ_OP_TOGGLE_VIEW__     0x00001000L // will not be saved, only calcualted
-#define         SJ_OP_DEPRCT_MC_VOL     0x00002000L
+#define         SJ_OP_PRELISTEN         0x00002000L
 #define         SJ_OP_CREDIT_SYS__      0x00004000L // will not be saved, only calcualted
 #define         SJ_OP_MULTI_ENQUEUE     0x00008000L
 #define         SJ_OP_UNQUEUE           0x00010000L

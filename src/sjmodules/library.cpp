@@ -3623,8 +3623,13 @@ void SjLibraryModule::CreateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool cre
 
 	if( createMainMenu || g_mainFrame->IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 	{
-		enqueueMenu->Append(IDT_ENQUEUE_NOW);
 		enqueueMenu->Append(IDT_ENQUEUE_NEXT);
+		enqueueMenu->Append(IDT_ENQUEUE_NOW);
+	}
+
+	if( createMainMenu || g_mainFrame->IsOpAvailable(SJ_OP_PRELISTEN) )
+	{
+		enqueueMenu->Append(IDT_PRELISTEN);
 	}
 
 	if( createMainMenu || g_mainFrame->IsOpAvailable(SJ_OP_UNQUEUE) )
@@ -3757,6 +3762,25 @@ void SjLibraryModule::UpdateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool upd
 		{
 			::wxEndBusyCursor();
 		}
+	}
+
+	// prelisten menu items
+	if( g_mainFrame->IsOpAvailable(SJ_OP_PRELISTEN) && trackCount >= 1 )
+	{
+		enqueueMenu->Enable(IDT_PRELISTEN, TRUE);
+		if( g_mainFrame->m_player.AreTheseUrlsCurrentlyPrelistening(allUrls) )
+		{
+			enqueueMenu->SetLabel(IDT_PRELISTEN, _("Stop prelistening"));
+		}
+		else
+		{
+			enqueueMenu->SetLabel(IDT_PRELISTEN, wxString::Format(_("Prelisten \"%s\""), shortenedTrackName.c_str()));
+		}
+	}
+	else
+	{
+		enqueueMenu->Enable(IDT_PRELISTEN, FALSE);
+		enqueueMenu->SetLabel(IDT_PRELISTEN, _("Prelisten"));
 	}
 
 	// (un)queue menu items

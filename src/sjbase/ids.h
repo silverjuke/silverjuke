@@ -56,6 +56,8 @@
 #define IDT_LAYOUT_LAST             96  // range end, max. 49 layouts
 #define IDT_DISPLAY_LINE_FIRST      97  // range start
 #define IDT_DISPLAY_LINE_LAST       146 // range end, max. 50 lines
+#define IDT_PRELISTEN_VOL_DOWN      147
+#define IDT_PRELISTEN_VOL_UP        148
 #define IDT_DISPLAY_UP              149
 #define IDT_DISPLAY_DOWN            150
 #define IDT_DISPLAY_V_SCROLL        151
@@ -135,6 +137,7 @@
 #define IDT_NUMPAD_RESERVED_08      240
 #define IDT_NUMPAD_LAST          240    // Range end
 #define IDT_PLAY_NOW_ON_DBL_CLICK   241
+#define IDT_PRELISTEN               242
 #define IDT_ADD_CREDIT_FIRST     243    // Range start
 #define IDT_ADD_CREDIT_01           243
 #define IDT_ADD_CREDIT_16           258

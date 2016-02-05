@@ -80,6 +80,8 @@ public:
 	bool            IsStopped           ()                                  { return GetUrlOnAir().IsEmpty(); }
 	wxString        GetUrlOnAir         ();
 	bool            IsAutoPlayOnAir     ();
+	bool            AreTheseUrlsCurrentlyPrelistening(const wxArrayString&) { return false; }
+	void            TogglePrelisten     (const wxArrayString& urls) {}
 
 	// Handling the main volume slider and "mute", volumes between 0..255 are valid.
 	// If you mute the volume, the returned main volume is 0.

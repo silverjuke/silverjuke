@@ -1808,6 +1808,8 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDT_DISPLAY_UP:
 			case IDT_DISPLAY_DOWN:
 			case IDT_DISPLAY_V_SCROLL:
+			case IDT_PRELISTEN_VOL_UP:
+			case IDT_PRELISTEN_VOL_DOWN:
 			case IDT_CURR_TRACK:
 			case IDT_NEXT_TRACK:
 				OnSkinDisplayEvent(targetId, value, accelFlags);
@@ -2034,6 +2036,20 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 						msg += _("No more tracks.");
 						SetDisplayMsg(msg, 3000);
 					}
+				}
+				break;
+
+			case IDT_PRELISTEN:
+				if( IsOpAvailable(SJ_OP_PRELISTEN) )
+				{
+					GotBrowserInputFromUser();
+					wxArrayString urls;
+					m_columnMixer.GetSelectedUrls(urls);
+
+					m_player.TogglePrelisten(urls);
+					UpdateDisplay();
+
+					m_libraryModule->UpdateMenuBar();
 				}
 				break;
 

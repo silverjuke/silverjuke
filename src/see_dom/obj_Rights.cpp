@@ -81,6 +81,7 @@ IMPLEMENT_HASPROPERTY(rights)
 	 || VAL_PROPERTY( search )
 	 || VAL_PROPERTY( startVis )
 	 || VAL_PROPERTY( volume )
+	 || VAL_PROPERTY( prelisten )
 	 || VAL_PROPERTY( zoom )
 	)
 	{
@@ -134,6 +135,10 @@ IMPLEMENT_GET(rights)
 	else if( VAL_PROPERTY( volume ) )
 	{
 		RETURN_BOOL( g_mainFrame->IsOpAvailable(SJ_OP_MAIN_VOL) );
+	}
+	else if( VAL_PROPERTY( prelisten ) )
+	{
+		RETURN_BOOL( g_mainFrame->IsOpAvailable(SJ_OP_PRELISTEN) );
 	}
 	else if( VAL_PROPERTY( zoom ) )
 	{
