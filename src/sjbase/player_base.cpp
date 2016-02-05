@@ -44,10 +44,27 @@
 #include <sjmodules/vis/vis_module.h>
 #include <see_dom/sj_see.h>
 
+#if SJ_USE_GSTREAMER
+	#include <sjbase/backend_gstreamer.h>
+#elif SJ_USE_XINE
+	#include <sjbase/backend_xine.h>
+#elif SJ_USE_BASS
+	#include <sjbase/backend_bass.h>
+#endif
+
 
 /*******************************************************************************
  * SjPlayerModule
  ******************************************************************************/
+
+
+// internal messages
+#define THREAD_PREPARE_NEXT         (IDPLAYER_FIRST+0)
+#define THREAD_OUT_OF_DATA          (IDPLAYER_FIRST+1)
+#define THREAD_DELETE_STREAM        (IDPLAYER_FIRST+2)
+#define THREAD_RECALL_TRASH         (IDPLAYER_FIRST+5)
+#define THREAD_NEW_TRACK_ON_AIR     (IDPLAYER_FIRST+6)
+#define THREAD_NEW_META_DATA        (IDPLAYER_FIRST+7)
 
 
 SjPlayerModule::SjPlayerModule(SjInterfaceBase* interf)
@@ -60,14 +77,11 @@ SjPlayerModule::SjPlayerModule(SjInterfaceBase* interf)
 
 void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 {
-	SjLittleOption::SetSection(_("Playback"));
-
-	const SjExtList* extList = g_mainFrame->m_player.DoGetExtList ();
-	if( extList ) {
-		lo.Add( new SjLittleReadOnly (_("Supported file types"), extList->GetExt(), false, wxEmptyString, SJ_ICON_MODULE) );
+	if( g_mainFrame->m_player.m_backend )
+	{
+		SjLittleOption::SetSection(_("Playback"));
+		g_mainFrame->m_player.m_backend->GetLittleOptions(lo);
 	}
-
-	g_mainFrame->m_player.DoGetLittleOptions (lo);
 }
 
 
@@ -105,7 +119,8 @@ SjPlayer::SjPlayer()
 	m_ffPause2PlayMs        = SJ_FF_DEF_PAUSE2PLAY_MS;
 	m_ffPlay2PauseMs        = SJ_FF_DEF_PLAY2PAUSE_MS;
 	m_ffGotoMs              = SJ_FF_DEF_GOTO_MS;
-	m_impl                  = NULL;
+	m_backend               = NULL;
+	m_streamA               = NULL;
 	m_visBufferBytes        = 1024;
 	m_visBuffer             = malloc(m_visBufferBytes);
 }
@@ -117,7 +132,16 @@ void SjPlayer::Init()
 	{
 		m_isInitialized = true;
 		m_queue.Init();
-		DoInit();
+
+		#define MAX_LANES 3 // two for crossfading + 1 for prelistening if there is no explicit device
+		#if SJ_USE_GSTREAMER
+			m_backend = new SjGstreamerBackend(SJBE_DEVICE_DEFAULT, MAX_LANES);
+		#elif SJ_USE_XINE
+			m_backend = new SjXineBackend(SJBE_DEVICE_DEFAULT, MAX_LANES);
+		#elif SJ_USE_BASS
+			m_backend = new SjBassBackend(SJBE_DEVICE_DEFAULT, MAX_LANES);
+		#endif
+
 		// LoadSettings() should be called by the caller, if needed
 	}
 }
@@ -129,7 +153,19 @@ void SjPlayer::Exit()
 	{
 		// SaveSettings() should be called by the caller, if needed
 		m_isInitialized = false;
-		DoExit();
+
+		if( m_streamA)
+		{
+			m_streamA->DestroyStream();
+			m_streamA = NULL;
+		}
+
+		if( m_backend )
+		{
+			m_backend->DestroyBackend();
+			m_backend = NULL;
+		}
+
 		m_queue.Exit();
 	}
 }
@@ -148,11 +184,20 @@ SjPlayer::~SjPlayer()
 
 const SjExtList* SjPlayer::GetExtList()
 {
-	if( !m_isInitialized ) {
-		return NULL;
+	static SjExtList s_exstList;
+	bool s_extListInitialized = false;
+	if( !s_extListInitialized )
+	{
+		// TODO: return really supported extensions here - or simply define a global "default" list and allow the user to modify it
+		// (instead of let the user define extensions to ignore)
+		s_exstList.AddExt("16sv, 4xm, 669, 8svx, aac, ac3, aif, aiff, amf, anim, anim3, anim5, anim7, anim8, anx, asc, "
+			"asf, ass, asx, au, aud, avi, axa, axv, cak, cin, cpk, dat, dif, dps, dts, dv, f4a, f4v, film, flac, flc, fli, flv, "
+			"ik2, iki, ilbm, it, m2t, m2ts, m4a, m4b, mdl, med, mjpg, mkv, mng, mod, mov, mp+, mp2, mp3, mp4, mpa, mpc, mpeg, mpega, "
+			"mpg, mpp, mpv, mts, mv8, mve, nsv, oga, ogg, ogm, ogv, ogx, pes, pva, qt, qtl, ra, rm, rmvb, roq, s3m, shn, smi, snd, "
+			"spx, srt, ssa, stm, str, sub, svx, trp, ts, tta, vmd, vob, voc, vox, vqa, wav, wax, wbm, webm, wma, wmv, wv, wve, wvp, "
+			"wvx, xa, xa1, xa2, xap, xas, xm, y4m"); // (list is from xine)
 	}
-
-	return DoGetExtList(); // may be NULL
+	return &s_exstList;
 }
 
 
@@ -167,7 +212,7 @@ bool SjPlayer::TestUrl(const wxString& url)
 		return false;
 	}
 
-	const SjExtList* extList = DoGetExtList();
+	const SjExtList* extList = GetExtList();
 	if( extList && !extList->LookupExt(ext) ) {
 		return false;
 	}
@@ -332,12 +377,40 @@ void SjPlayer::SaveSettings() const
  ******************************************************************************/
 
 
+long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
+{
+	// TAKE CARE: this function ist called while processing the audio data,
+	// just before the output.  So please, do not do weird things here.
+	switch( cbp->msg )
+	{
+		case SJBE_MSG_END_OF_STREAM:
+			{
+				SjPlayer* player = (SjPlayer*)cbp->userdata;
+				player->SendSignalToMainThread(THREAD_PREPARE_NEXT);
+			}
+			return 1;
+
+		case SJBE_MSG_DSP:
+			if( g_visModule->IsVisStarted() )
+			{
+				g_visModule->AddVisData(cbp->buffer, cbp->bytes);
+			}
+			return 1;
+
+		default:
+			return 0;
+	}
+
+	return 0;
+}
+
+
 void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 {
 	// This function may only be called from the main thread.
 	wxASSERT( wxThread::IsMain() );
 
-	if( !m_isInitialized ) {
+	if( !m_isInitialized || !m_backend ) {
 		return;
 	}
 
@@ -366,8 +439,30 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 		}
 		else if( IsPlaying() )
 		{
-			// playing, realize the new position in the implementation
-			DoGotoAbsPos(queuePos, fadeToPos);
+			// playing, realize the new position
+            if( m_streamA )
+            {
+				SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), NULL, 0);
+				m_streamA->DestroyStream();
+				m_streamA = NULL;
+            }
+
+			if( m_backend )
+			{
+				wxString url = m_queue.GetUrlByPos(queuePos);
+				if( !url.IsEmpty() )
+				{
+					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
+					m_streamA = m_backend->CreateStream(0, url, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
+					if( m_streamA )
+					{
+						if( !deviceOpendedBefore )
+						{
+							m_backend->SetDeviceVol(m_mainGain);
+						}
+					}
+				}
+			}
 		}
 
 		SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
@@ -388,7 +483,10 @@ void SjPlayer::SetMainVol(int newVol) // 0..255
 	m_mainVol   = newVol;
 	m_mainGain  = ((double)newVol)/255.0F;
 
-	DoSetMainVol();
+	if( m_backend && m_backend->IsDeviceOpened() )
+	{
+		m_backend->SetDeviceVol((float)m_mainGain);
+	}
 }
 
 
@@ -420,7 +518,7 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
 
 
 /*******************************************************************************
- *  Get the total times
+ * Common Player Functionality
  ******************************************************************************/
 
 
@@ -472,14 +570,25 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 	}
 
 	// Do the "real stop" in the implementation part
-	DoStop();
+	if( m_streamA )
+	{
+		SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), NULL, 0);
+		m_streamA->DestroyStream();
+		m_streamA = NULL;
+	}
+
+	if( m_backend )
+	{
+		m_backend->SetDeviceState(SJBE_STATE_CLOSED);
+	}
+
 	m_paused = false;
 }
 
 
 void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 {
-	if( !m_isInitialized ) {
+	if( !m_isInitialized || m_backend == NULL ) {
 		return;
 	}
 
@@ -499,49 +608,129 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 				}
 
 			}
-			wxLogDebug(wxT(" SjPlayer::ReceiveSignal(): \"stop after this/each track\" executed."));
+			wxLogDebug(" SjPlayer::ReceiveSignal(): \"stop after this/each track\" executed.");
 			return;
 		}
 	}
 
-	// more signal handling in the implementation part
-	DoReceiveSignal(signal, extraLong);
+	// more signal handling (old implementation part)
+	if( signal == THREAD_PREPARE_NEXT || signal == THREAD_OUT_OF_DATA )
+	{
+		// find out the next url to play
+		wxString	newUrl;
+
+		// try to get next url from queue
+		long newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
+		if( newQueuePos == -1 )
+		{
+			// try to enqueue auto-play url
+			g_mainFrame->m_autoCtrl.DoAutoPlayIfEnabled(false /*ignoreTimeouts*/);
+			newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
+
+			if( newQueuePos == -1 )
+			{
+				// no chance, there is nothing more to play ...
+				if( signal == THREAD_PREPARE_NEXT )
+				{
+					g_mainFrame->m_player.SendSignalToMainThread(THREAD_OUT_OF_DATA); // send a modified signal, no direct call as Receivesignal() will handle some cases exclusively
+				}
+				else if( signal == THREAD_OUT_OF_DATA )
+				{
+					wxLogDebug(" ... receiving THREAD_OUT_OF_DATA, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ");
+					Stop();
+					SendSignalToMainThread(IDMODMSG_PLAYER_STOPPED_BY_EOQ);
+				}
+				return;
+			}
+		}
+		newUrl = m_queue.GetUrlByPos(newQueuePos);
+
+		// has the URL just failed? try again in the next message loop
+		wxLogDebug(" ... new URL is \"%s\"", newUrl.c_str());
+
+		if( m_failedUrls.Index( newUrl ) != wxNOT_FOUND )
+		{
+			wxLogDebug(" ... the URL has failed before, starting over.");
+			m_queue.SetCurrPos(newQueuePos);
+			SendSignalToMainThread(signal); // start over
+			return;
+		}
+
+		// try to create the next stream
+		if( m_streamA )
+		{
+			SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), NULL, 0);
+			m_streamA->DestroyStream();
+			m_streamA = NULL;
+		}
+
+		m_streamA = m_backend->CreateStream(0, newUrl, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
+
+		// realize the new position in the UI
+		m_queue.SetCurrPos(newQueuePos);
+		SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
+	}
 }
 
 
-void SjPlayer::SeekAbs(long ms)
+void SjPlayer::SeekAbs(long seekMs)
 {
 	if( !m_isInitialized ) {
 		return;
 	}
 
-	DoSeekAbs(ms);
+	if( m_streamA ) {
+		m_streamA->SeekAbs(seekMs);
+	}
 }
 
 
-void SjPlayer::Play(long ms, bool fadeToPlay)
+void SjPlayer::Play(long seekMs, bool fadeToPlay)
 {
-	if( !m_isInitialized ) {
+	if( !m_isInitialized || !m_backend ) {
 		return;
 	}
 
-	DoPlay(ms, fadeToPlay);
+	// play!
+	if( !m_streamA )
+	{
+		// set source URI
+		wxString url = m_queue.GetUrlByPos(-1);
+		if( url.IsEmpty() ) {
+			return; // error;
+		}
+
+		m_streamA = m_backend->CreateStream(0, url, seekMs, SjPlayer_BackendCallback, this);
+		if( !m_streamA ) {
+			return; // error;
+		}
+	}
+	else
+	{
+		m_backend->SetDeviceState(SJBE_STATE_PLAYING);
+	}
+
+	// success
+	m_paused = false;
+	return;
 }
 
 
 void SjPlayer::Pause(bool fadeToPause)
 {
-	if( !m_isInitialized ) {
+	if( !m_isInitialized || !m_backend ) {
 		return;
 	}
 
 	// if the player is stopped or if we are already paused, there is nothing to do
-	if( DoGetUrlOnAir().IsEmpty() || m_paused ) {
+	if( !m_backend->IsDeviceOpened() || m_paused ) {
 		return;
 	}
 
 	// real changing of the pause state in the implementation, this should also set the m_paused flag
-	DoPause(fadeToPause);
+	m_backend->SetDeviceState(SJBE_STATE_PAUSED);
+
+	m_paused = true;
 }
 
 
@@ -549,7 +738,7 @@ void SjPlayer::GetTime(long& totalMs, long& elapsedMs, long& remainingMs)
 {
 	wxASSERT( wxThread::IsMain() );
 
-	if( !m_isInitialized ) {
+	if( !m_isInitialized || !m_backend || !m_streamA ) {
 		totalMs = 0;
 		elapsedMs = 0;
 		remainingMs = 0;
@@ -557,7 +746,7 @@ void SjPlayer::GetTime(long& totalMs, long& elapsedMs, long& remainingMs)
 	}
 
 	// calculate totalMs and elapsedMs, if unknown, -1 is returned.
-	DoGetTime(totalMs, elapsedMs);
+	m_streamA->GetTime(totalMs, elapsedMs);
 
 	// remaining time
 	remainingMs = -1;
@@ -575,11 +764,11 @@ void SjPlayer::GetTime(long& totalMs, long& elapsedMs, long& remainingMs)
 
 wxString SjPlayer::GetUrlOnAir()
 {
-	if( !m_isInitialized ) {
+	if( !m_isInitialized || !m_backend || !m_backend->IsDeviceOpened() || !m_streamA ) {
 		return wxEmptyString;
 	}
 
-	return DoGetUrlOnAir();
+	return m_streamA->GetUrl();
 }
 
 
@@ -758,25 +947,6 @@ void SjPlayer::LoadFromResumeFile()
 		{
 			e.SetFlags(e.GetFlags()|SJ_PLAYLISTENTRY_AUTOPLAY);
 		}
-	}
-}
-
-
-/*******************************************************************************
- * DSP
- ******************************************************************************/
-
-
-void SjPlayer::DSPCallback(float* buffer, long bytes)
-{
-	// TAKE CARE: this function ist called while processing the audio data,
-	// just before the output.  So please, do not do weird things here.
-
-	// forward the buffer to the visualisations
-	// (should be last so that eg. an equalizer is visible in the spectrometer)
-	if( g_visModule->IsVisStarted() )
-	{
-		g_visModule->AddVisData(buffer, bytes);
 	}
 }
 

@@ -143,6 +143,11 @@ public:
 
 	void            CleanupOldFiles     (bool force=FALSE);
 
+	// GetAsLocalFile(): If the URL is no local file, the stream will be copied to
+	// a temporary file which is valid as long as the SjDecoderResponse is not destroyed.
+	// If the URL is a local file, the function simply returns its name.
+	static wxString GetAsLocalFile      (const wxString& url);
+
 private:
 	// Private stuff
     #define             SJ_TEMP_PREFIX  wxT("sj-")

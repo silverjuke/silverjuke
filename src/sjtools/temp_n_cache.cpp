@@ -955,3 +955,35 @@ void SjTempNCache::CleanupOldFiles(bool force)
 	}
 }
 
+
+wxString SjTempNCache::GetAsLocalFile(const wxString& url)
+{
+	wxString file = wxFileSystem::URLToFileName(url).GetFullPath(); // convert file:-URLs
+	if( ::wxFileExists(file) )
+	{
+		// Fine: the URL is a local file
+		return file;
+	}
+
+	// Bad: the URL must be copied to a local file
+	wxFileSystem fs;
+	wxFSFile* fsFile = fs.OpenFile(url, wxFS_READ);
+	if( fsFile )
+	{
+		wxInputStream* stream = fsFile->GetStream();
+		if( stream )
+		{
+			wxString tempFileName = g_tools->m_cache.AddToManagedTemp(SjTools::GetExt(url), SJ_TEMP_PROTECT_TIL_EXIT);
+			wxFile tempFile(tempFileName, wxFile::write);
+			if( tempFile.IsOpened()
+			 && SjTools::CopyStreamToFile(*stream, tempFile) )
+			{
+				return tempFileName; // copy success
+			}
+		}
+	}
+
+	// error, cannot retrieve the URL
+	return "";
+}
+

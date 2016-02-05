@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -19,42 +19,13 @@
  *
  *******************************************************************************
  *
- * File:    player_impl_xine.h
+ * File:    wavework.cpp
  * Authors: Björn Petersen
- * Purpose: Player Xine implementation
+ * Purpose: Working with waves
  *
  ******************************************************************************/
 
 
+#include <sjbase/base.h>
 
-#ifndef __SJ_PLAYER_XINE_H__
-#define __SJ_PLAYER_XINE_H__
-
-
-#include <xine.h>
-
-
-class SjXineStream;
-
-
-class SjPlayerImpl
-{
-public:
-	SjPlayer*           m_player;
-
-	xine_t*             m_xine;
-	xine_audio_port_t*  m_ao_port;
-
-	SjXineStream*		m_currStream;
-
-	SjExtList           m_extList;
-	bool                m_extListInitialized;
-
-	wxString            m_iniDevice;
-
-	bool                InitXine    ();
-};
-
-
-#endif // __SJ_PLAYER_XINE_H__
 

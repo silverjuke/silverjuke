@@ -39,7 +39,9 @@ public:
 };
 
 
-class SjPlayerImpl;
+class SjBackend;
+class SjBackendStream;
+class SjBackendCallbackParam;
 
 
 class SjPlayer
@@ -159,47 +161,22 @@ public:
 	// thread for this purpose.
 	void            ReceiveSignal       (int id, uintptr_t extraLong);
 
-	// the following can be treated as private, but for easier implementations it is declared as public
-	// (m_impl is known only to the private implementation, which, however, may define objects that may need access to m_impl;
-	// SendSignalToMainThread() is called by the implementation part)
-
 private:
-	int             m_mainBackupVol;
-	bool            m_stopAfterThisTrack;
-	bool            m_stopAfterEachTrack;
+	// The player's backend, normally selected by a define as SJ_USE_GSTREAMER or SJ_USE_XINE
+	SjBackend*       m_backend;
+	SjBackendStream* m_streamA;
 
-public:
-	// the following Do* function must be implemented by the player implementations (they can use m_impl for this),
-	// which can rely on parameter checking and, if appropriate, all status are set fine before they're called.
-	// this part is "private", however, due to easier implementations and less header dependencies, it is declared as public.
-	// - it's up to the implementation to call `SaveGatheredInfo()`
-	// - it's up to the implementation to set `m_paused`
-	// - it's up to the implementation to send IDMODMSG_PLAYER_STOPPED_BY_EOQ / IDMODMSG_TRACK_ON_AIR_CHANGED
-	void            DoInit              ();                               // called one time upon program start
-	void            DoExit              ();                               // called one time upon program shutdown
-	const SjExtList* DoGetExtList       ();                               // deprecated
-	void            DoPlay              (long ms, bool fadeToPlay);       // press on "play" - must set m_paused - start playback with the current URL or un-pause
-	void            DoPause             (bool fadeToPause);               // press on "pause"- must set m_paused
-	void            DoStop              ();                               // full stop - this may also free audio output drivers
-	void            DoGotoAbsPos        (long, bool fadeToPos);           // play another URL, stop the current one, only called if playing, not on paused/stopped
-	wxString        DoGetUrlOnAir       ();                               // return a URL if state is "playing" or "paused"
-	void            DoGetTime           (long& totalMs, long& elapsedMs); // return -1 if unknown
-	void            DoSetMainVol        ();                               // volume
-	void            DoSeekAbs           (long ms);                        // seek
-	void            DoReceiveSignal     (int id, uintptr_t extraLong);
-	void            DoGetLittleOptions  (SjArrayLittleOption&);           // special configuration, optional
-	SjPlayerImpl*   m_impl;
-
-	// DSPCallback() is called by the player implementation
-	void            DSPCallback         (float* buffer, long bytes);
-
-	// tools for the implementation
+	// tools
 	void            SendSignalToMainThread(int id, uintptr_t extraLong=0) const;
 	void            SaveGatheredInfo    (const wxString& url, unsigned long startingTime, SjVolumeCalc*, long realDecodedBytes);
 
 	// main volume stuff
 	int             m_mainVol;
 	double          m_mainGain; // 0.0 - 1.0
+
+	int             m_mainBackupVol;
+	bool            m_stopAfterThisTrack;
+	bool            m_stopAfterEachTrack;
 
 	// auto volume stuff
 	bool            m_avEnabled;
@@ -222,16 +199,10 @@ public:
 	void*           m_visBuffer;
 	long            m_visBufferBytes;
 	wxArrayString   m_failedUrls;
+
+	friend class    SjPlayerModule;
+	friend long     SjPlayer_BackendCallback(SjBackendCallbackParam*);
 };
-
-
-// internal messages
-#define THREAD_PREPARE_NEXT         (IDPLAYER_FIRST+0)
-#define THREAD_OUT_OF_DATA          (IDPLAYER_FIRST+1)
-#define THREAD_DELETE_STREAM        (IDPLAYER_FIRST+2)
-#define THREAD_RECALL_TRASH         (IDPLAYER_FIRST+5)
-#define THREAD_NEW_TRACK_ON_AIR     (IDPLAYER_FIRST+6)
-#define THREAD_NEW_META_DATA        (IDPLAYER_FIRST+7)
 
 
 #endif // __SJ_PLAYER_H__
