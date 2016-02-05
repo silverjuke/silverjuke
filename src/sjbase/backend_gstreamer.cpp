@@ -81,7 +81,7 @@ gboolean on_bus_message(GstBus* bus, GstMessage* msg, gpointer userdata)
 				const gchar* errormessage = error->message;        GST_TO_WXSTRING(errormessage);
 				const gchar* objname =  GST_OBJECT_NAME(msg->src); GST_TO_WXSTRING(objname);
 				wxString debugStr; if( debug ) { GST_TO_WXSTRING(debug); debugStr = " (" + debugWxStr + ")"; }
-				wxLogError("GStreamer Error: %s: %s%s", objnameWxStr.c_str(), errormessageWxStr.c_str(), debugStr);
+				wxLogError("GStreamer Error: %s: %s%s", objnameWxStr.c_str(), errormessageWxStr.c_str(), debugStr.c_str());
 
 				g_free(debug);
 				g_error_free(error);
@@ -137,7 +137,6 @@ void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata
 		}
 
 		gst_object_unref(audioEntry);
-
 	}
 }
 
@@ -171,24 +170,39 @@ GstPadProbeReturn on_pad_data(GstPad* pad, GstPadProbeInfo* info, gpointer userd
  ******************************************************************************/
 
 
-SjGstreamerBackend::SjGstreamerBackend(SjBackendDeviceId device, int pipelines)
-	: SjBackend(device, pipelines)
+SjGstreamerBackend::SjGstreamerBackend(SjBackendId id, int pipelines)
+	: SjBackend(id, pipelines)
 {
 	m_pipeline     = NULL;
 	m_bus_watch_id = 0;
 	m_currStream   = NULL;
 
-	// init, log version information
-	gst_init(NULL, NULL);
+	// load settings
+	// some pipeline examples:
+	//     audioecho delay=500000000 intensity=0.6 feedback=0.4 ! autoaudiosink
+	//     pulsesink
+	//     filesink location=/tmp/raw
+	#define PIPELINE_ININAME "gstreamer/"+GetName()+"pipeline"
+	#define PIPELINE_DEFAULT "autoaudiosink"
+	wxConfigBase* c = g_tools->m_config;
+	m_iniPipeline = c->Read(PIPELINE_ININAME, PIPELINE_DEFAULT);
 
-	guint major, minor, micro, nano;
-	gst_version(&major, &minor, &micro, &nano);
-	wxLogInfo("Using GStreamer %i.%i.%i.%i", (int)major, (int)minor, (int)micro, (int)nano);
+	// init, log version information
+	static bool s_initialized = false;
+	if( !s_initialized )
+	{
+		gst_init(NULL, NULL);
+
+		guint major, minor, micro, nano;
+		gst_version(&major, &minor, &micro, &nano);
+		wxLogInfo("Using GStreamer %i.%i.%i.%i with pipeline \"%s\"", (int)major, (int)minor, (int)micro, (int)nano, m_iniPipeline.c_str());
+	}
 }
 
 
 void SjGstreamerBackend::GetLittleOptions(SjArrayLittleOption& lo)
 {
+	lo.Add(new SjLittleStringSel("GStreamer-Pipeline", &m_iniPipeline, PIPELINE_DEFAULT, PIPELINE_ININAME, SJ_ICON_MODULE));
 }
 
 
@@ -212,12 +226,18 @@ SjBackendStream* SjGstreamerBackend::CreateStream(int lane, const wxString& uri,
 		*/
 
 		// create objects
+		GError* error = NULL;
 		m_pipeline               = gst_pipeline_new        (                 "sjPlayer"    );
 		GstElement* decodebin    = gst_element_factory_make("uridecodebin",  "sjSource"    );
 		GstElement* audioconvert = gst_element_factory_make("audioconvert",  "sjAudioEntry");
 		GstElement* capsfilter   = gst_element_factory_make("capsfilter",    NULL          );
 		GstElement* volume       = gst_element_factory_make("volume",        "sjVolume"    );
-		GstElement* audiosink    = gst_element_factory_make("autoaudiosink", NULL          );
+		GstElement* audiosink    = gst_parse_bin_from_description(m_iniPipeline, true, &error);
+		if( error ) {
+			const gchar* errormessage = error->message; GST_TO_WXSTRING(errormessage);
+			wxLogError("GStreamer Error: %s. Please check the configuration at Settings/Advanced.", errormessageWxStr.c_str());
+			g_error_free(error);
+		} // no "return", no "else" - it may be possible, the pipeline is created even on errors, see http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gstreamer-GstParse.html#gst-parse-launch
 		if( !m_pipeline || !decodebin || !audioconvert || !capsfilter || !volume || !audiosink ) {
 			wxLogError("GStreamer error: Cannot create objects.");
 			return NULL; // error

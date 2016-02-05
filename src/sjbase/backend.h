@@ -34,11 +34,11 @@
 class SjBackendStream;
 
 
-// possible devices that can be created using new SjBackend()
-enum SjBackendDeviceId
+// possible backends that can be created using new SjBackend()
+enum SjBackendId
 {
-	SJBE_DEVICE_DEFAULT = 0, // do not change the IDs as they may be saved to disk or used otherwise
-	SJBE_DEVICE_PRELISTEN = 1
+	SJBE_ID_AUDIOOUT = 0, // do not change the IDs as they may be saved to disk or used otherwise
+	SJBE_ID_PRELISTEN = 1
 };
 
 
@@ -78,10 +78,10 @@ class SjBackend
 {
 public:
 	// constructor. The device is in the CLOSED state after construction
-	SjBackend(SjBackendDeviceId device, int lanes)
+	SjBackend(SjBackendId id, int lanes)
 	{
-		m_device  = device; // Default, Prelisten, etc. The real output selection can be implemented in GetLittleOptions()
-		m_lanes   = lanes;  // Max. number of lanes. On every lane one stream at the same time can be played. May or may not be used by the implementation.
+		m_id     = id; // Default, Prelisten, etc. The real output selection can be implemented in GetLittleOptions()
+		m_lanes  = lanes;  // Max. number of lanes. On every lane one stream at the same time can be played. May or may not be used by the implementation.
 	}
 
 	virtual void             GetLittleOptions (SjArrayLittleOption&) = 0;
@@ -105,10 +105,19 @@ public:
 	// Normally not followed by a recreation.
 	virtual void             DestroyBackend   () = 0;
 
+	// Get the name of the Device (this is not the output/sink that is used by the backend)
+	wxString GetName() const
+	{
+		     if(m_id==SJBE_ID_AUDIOOUT)  { return "audioout";  }
+		else if(m_id==SJBE_ID_PRELISTEN) { return "prelisten"; }
+		else                             { return "unknown";   }
+	}
+
+
 /*private:
 declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
 	virtual                  ~SjBackend       () {}
-	SjBackendDeviceId        m_device;
+	SjBackendId              m_id;
 	int                      m_lanes;
 };
 

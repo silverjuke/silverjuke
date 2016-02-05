@@ -164,6 +164,7 @@ public:
 private:
 	// The player's backend, normally selected by a define as SJ_USE_GSTREAMER or SJ_USE_XINE
 	SjBackend*       m_backend;
+	SjBackend*       m_backendPrelisten;
 	SjBackendStream* m_streamA;
 
 	// tools

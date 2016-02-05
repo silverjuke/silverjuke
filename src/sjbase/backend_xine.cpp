@@ -68,12 +68,12 @@ public:
 
 void SjXineBackend::GetLittleOptions(SjArrayLittleOption& lo)
 {
-	if( !m_xine ) {
+	if( !s_xine ) {
 		return; // error
 	}
 
 	wxString options = "auto|" + wxString(_("Default")), currOption;
-	const char* const* pl = xine_list_audio_output_plugins(m_xine);
+	const char* const* pl = xine_list_audio_output_plugins(s_xine);
 	if( pl ) {
 		while( *pl ) {
 			currOption = wxString(*pl, wxConvUTF8);
@@ -83,8 +83,11 @@ void SjXineBackend::GetLittleOptions(SjArrayLittleOption& lo)
 			pl++;
 		}
 	}
+
+	#define DEVICE_ININAME "xine/"+GetName()+"device"
+	#define DEVICE_DEFAULT "auto"
 	lo.Add(new SjLittleReplayEnum( _("Device"), options,
-						&m_iniDevice, "auto", "xine/device", SJ_ICON_MODULE));
+						&m_iniDevice, DEVICE_DEFAULT, DEVICE_ININAME, SJ_ICON_MODULE));
 }
 
 
@@ -93,16 +96,19 @@ void SjXineBackend::GetLittleOptions(SjArrayLittleOption& lo)
  ******************************************************************************/
 
 
-SjXineBackend::SjXineBackend(SjBackendDeviceId device, int pipelines)
+xine_t* SjXineBackend::s_xine       = NULL;
+int     SjXineBackend::s_xine_usage = 0;
+
+
+SjXineBackend::SjXineBackend(SjBackendId device, int pipelines)
 	: SjBackend(device, pipelines)
 {
-	m_xine               = NULL;
 	m_ao_port            = NULL;
 	m_currStream         = NULL;
 
 	// load options from INI
 	wxConfigBase* c = g_tools->m_config;
-	m_iniDevice = c->Read("xine/device", "auto");
+	m_iniDevice = c->Read(DEVICE_ININAME, DEVICE_DEFAULT);
 
 	// TODO: XInitThreads may be needed (for videos only?), see hackersguide.html
 	/*
@@ -113,23 +119,27 @@ SjXineBackend::SjXineBackend(SjBackendDeviceId device, int pipelines)
 	*/
 
 	// preinit xine
-	m_xine = xine_new();
-	if( m_xine )
+	s_xine_usage++;
+	if( s_xine_usage == 1 )
 	{
-		// load xine config file and init xine
-		// TODO: this may also be possible by
-		//xine_config_load(m_xine, "$HOME/.xine/config");
+		s_xine = xine_new();
+		if( s_xine )
+		{
+			// load xine config file and init xine
+			// TODO: this may also be possible by
+			//xine_config_load(m_xine, "$HOME/.xine/config");
 
-		// postinit xine
-		xine_init(m_xine);
+			// postinit xine
+			xine_init(s_xine);
 
-		// show version information
-		wxString version(xine_get_version_string());
-		wxLogInfo("Loading xine %s using output \"%s\".", version.c_str(), m_iniDevice.c_str());
-	}
-	else
-	{
-		wxLogError("Xine Error: Cannot init.");
+			// show version information
+			wxString version(xine_get_version_string());
+			wxLogInfo("Loading xine %s using output \"%s\".", version.c_str(), m_iniDevice.c_str());
+		}
+		else
+		{
+			wxLogError("Xine Error: Cannot init.");
+		}
 	}
 }
 
@@ -137,9 +147,15 @@ SjXineBackend::SjXineBackend(SjBackendDeviceId device, int pipelines)
 void SjXineBackend::DestroyBackend()
 {
 	SetDeviceState(SJBE_STATE_CLOSED);
-	if( m_xine ) {
-		xine_exit(m_xine);
+
+	s_xine_usage--;
+	if( s_xine_usage == 0 )
+	{
+		if( s_xine ) {
+			xine_exit(s_xine);
+		}
 	}
+
 	delete this;
 }
 
@@ -162,13 +178,13 @@ static void xine_event_listener_cb(void* user_data, const xine_event_t* event)
 
 SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long seekMs, SjBackendCallback* cb, void* userdata)
 {
-	if( !m_xine )      { wxLogError("Xine Error: Initialization falied."); return NULL; }
+	if( !s_xine )      { wxLogError("Xine Error: Initialization falied."); return NULL; }
 	if( m_currStream ) { wxLogError("Xine Error: There is already a stream on this lane."); return NULL;}
 
 	// open audio port
 	if( !m_ao_port )
 	{
-		m_ao_port = xine_open_audio_driver(m_xine , static_cast<const char*>(m_iniDevice.mb_str(wxConvUTF8)), NULL);
+		m_ao_port = xine_open_audio_driver(s_xine , static_cast<const char*>(m_iniDevice.mb_str(wxConvUTF8)), NULL);
 		if( !m_ao_port ) {
 			wxLogError("Xine Error: xine_open_audio_driver() failed.");
 			return NULL;
@@ -182,7 +198,7 @@ SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long
 		return NULL;
 	}
 
-	newStream->m_xine_stream = xine_stream_new(m_xine, m_ao_port, NULL);
+	newStream->m_xine_stream = xine_stream_new(s_xine, m_ao_port, NULL);
 	if( newStream->m_xine_stream == NULL ) {
 		newStream->DestroyStream();
 		wxLogError("Xine Error: xine_stream_new() failed.");
@@ -233,7 +249,7 @@ SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long
 
 SjBackendState SjXineBackend::GetDeviceState()
 {
-	if( !m_xine || !m_ao_port ) {
+	if( !s_xine || !m_ao_port ) {
 		return SJBE_STATE_CLOSED;
 	}
 
@@ -251,12 +267,12 @@ SjBackendState SjXineBackend::GetDeviceState()
 
 void SjXineBackend::SetDeviceState(SjBackendState state)
 {
-	if( !m_xine || !m_currStream || !m_currStream->m_xine_stream )  { return; }
+	if( !s_xine || !m_currStream || !m_currStream->m_xine_stream )  { return; }
 
 	switch( state )
 	{
 		case SJBE_STATE_CLOSED:
-			xine_close_audio_driver(m_xine, m_ao_port);
+			xine_close_audio_driver(s_xine, m_ao_port);
 			m_ao_port = NULL;
 			break;
 
@@ -273,7 +289,7 @@ void SjXineBackend::SetDeviceState(SjBackendState state)
 
 void SjXineBackend::SetDeviceVol(double gain)
 {
-	if( !m_xine || !m_currStream || !m_currStream->m_xine_stream ) { return; }
+	if( !s_xine || !m_currStream || !m_currStream->m_xine_stream ) { return; }
 
 	int v;
 	v = (int)((double)100*gain);

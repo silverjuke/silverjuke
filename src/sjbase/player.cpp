@@ -46,10 +46,13 @@
 
 #if SJ_USE_GSTREAMER
 	#include <sjbase/backend_gstreamer.h>
+	#define BACKEND_CLASSNAME SjGstreamerBackend
 #elif SJ_USE_XINE
 	#include <sjbase/backend_xine.h>
+	#define BACKEND_CLASSNAME SjXineBackend
 #elif SJ_USE_BASS
 	#include <sjbase/backend_bass.h>
+	#define BACKEND_CLASSNAME SjBassBackend
 #endif
 
 
@@ -79,8 +82,14 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 {
 	if( g_mainFrame->m_player.m_backend )
 	{
-		SjLittleOption::SetSection(_("Playback"));
+		SjLittleOption::SetSection(_("Audio output"));
 		g_mainFrame->m_player.m_backend->GetLittleOptions(lo);
+	}
+
+	if( g_mainFrame->m_player.m_backendPrelisten )
+	{
+		SjLittleOption::SetSection(_("Prelisten"));
+		g_mainFrame->m_player.m_backendPrelisten->GetLittleOptions(lo);
 	}
 }
 
@@ -133,16 +142,8 @@ void SjPlayer::Init()
 		m_isInitialized = true;
 		m_queue.Init();
 
-		#define MAX_LANES 3 // two for crossfading + 1 for prelistening if there is no explicit device
-		#if SJ_USE_GSTREAMER
-			m_backend = new SjGstreamerBackend(SJBE_DEVICE_DEFAULT, MAX_LANES);
-		#elif SJ_USE_XINE
-			m_backend = new SjXineBackend(SJBE_DEVICE_DEFAULT, MAX_LANES);
-		#elif SJ_USE_BASS
-			m_backend = new SjBassBackend(SJBE_DEVICE_DEFAULT, MAX_LANES);
-		#endif
-
-		// LoadSettings() should be called by the caller, if needed
+		m_backend = new BACKEND_CLASSNAME(SJBE_ID_AUDIOOUT, 3); // two for crossfading + 1 for prelistening if there is no explicit device
+		m_backendPrelisten = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN, 1);
 	}
 }
 

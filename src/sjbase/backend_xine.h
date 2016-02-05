@@ -40,7 +40,7 @@ class SjXineBackendStream;
 class SjXineBackend : public SjBackend
 {
 public:
-	                     SjXineBackend       (SjBackendDeviceId device, int lanes);
+	                     SjXineBackend       (SjBackendId, int lanes);
 	void                 GetLittleOptions    (SjArrayLittleOption&);
 	SjBackendStream*     CreateStream        (int lane, const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
 	SjBackendState       GetDeviceState      ();
@@ -50,7 +50,8 @@ public:
 
 /*private:
 however, declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-	xine_t*              m_xine;
+	static int           s_xine_usage;
+	static xine_t*       s_xine;
 	xine_audio_port_t*   m_ao_port;
 
 	SjXineBackendStream* m_currStream;

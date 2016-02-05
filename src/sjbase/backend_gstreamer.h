@@ -40,7 +40,7 @@ class SjGstreamerBackendStream;
 class SjGstreamerBackend : public SjBackend
 {
 public:
-	                 SjGstreamerBackend  (SjBackendDeviceId device, int lanes);
+	                 SjGstreamerBackend  (SjBackendId, int lanes);
 	void             GetLittleOptions    (SjArrayLittleOption&);
 	SjBackendStream* CreateStream        (int lane, const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
 	SjBackendState   GetDeviceState      ();
@@ -53,6 +53,7 @@ however, declared as public to be usable from callbacks (for speed reasons, this
 	GstElement*      m_pipeline;
 	SjGstreamerBackendStream* m_currStream;
 	guint            m_bus_watch_id;
+	wxString         m_iniPipeline;
 	void             set_pipeline_state  (GstState s);
 };
 
