@@ -48,19 +48,12 @@ class SjPlayer
 {
 public:
 	// Constructor/Destructor, Init/Exit, Load/Save settings.
-	// for complete contruction call SjPlayer() AND Init(), same for destruction.
-	// LoadSettings() and SaveSettings() always saves the settings to the m_player
-	// instance, so you should use this only for the main player
+	// for complete contruction call SjPlayer() _and_ Init().
 	                SjPlayer            ();
-	                ~SjPlayer           ();
 	void            Init                ();
 	void            Exit                ();
-	SjQueue         m_queue;
-
-	// Load the player settings - note that you can use these functions
-	// only for the main player instance
-	void            LoadSettings        ();
 	void            SaveSettings        () const;
+	SjQueue         m_queue;
 
 	// resume
 	void            SaveToResumeFile    ();
@@ -164,8 +157,16 @@ public:
 private:
 	// The player's backend, normally selected by a define as SJ_USE_GSTREAMER or SJ_USE_XINE
 	SjBackend*       m_backend;
-	SjBackend*       m_backendPrelisten;
 	SjBackendStream* m_streamA;
+
+	// prelisten
+	#define          SJ_PL_MIX       1
+	#define          SJ_PL_LEFT      2
+	#define          SJ_PL_RIGHT     3
+	#define          SJ_PL_OWNOUTPUT 4
+	#define          SJ_PL_DEFAULT   SJ_PL_MIX
+	long             m_plDest;
+	SjBackend*       m_plBackend;
 
 	// tools
 	void            SendSignalToMainThread(int id, uintptr_t extraLong=0) const;

@@ -80,16 +80,24 @@ SjPlayerModule::SjPlayerModule(SjInterfaceBase* interf)
 
 void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 {
+	// prelisten options (they belong to the device options; all other stuff has explicit options in the dialog on different pages)
+	wxString options = wxString::Format( "%i|", SJ_PL_MIX) + _("Mix")
+					+  wxString::Format("|%i|", SJ_PL_LEFT) + _("Left channel")
+					+  wxString::Format("|%i|", SJ_PL_RIGHT) + _("Right channel")
+					+  wxString::Format("|%i|", SJ_PL_OWNOUTPUT) + _("Explicit output");
+	lo.Add(new SjLittleEnumLong(_("Prelisten"), options, &g_mainFrame->m_player.m_plDest, SJ_PL_DEFAULT, "player/prelistenDest", SJ_ICON_MODULE));
+
+	// backend settings
 	if( g_mainFrame->m_player.m_backend )
 	{
 		SjLittleOption::SetSection(_("Audio output"));
 		g_mainFrame->m_player.m_backend->GetLittleOptions(lo);
 	}
 
-	if( g_mainFrame->m_player.m_backendPrelisten )
+	if( g_mainFrame->m_player.m_plBackend )
 	{
 		SjLittleOption::SetSection(_("Prelisten"));
-		g_mainFrame->m_player.m_backendPrelisten->GetLittleOptions(lo);
+		g_mainFrame->m_player.m_plBackend->GetLittleOptions(lo);
 	}
 }
 
@@ -128,22 +136,103 @@ SjPlayer::SjPlayer()
 	m_ffPause2PlayMs        = SJ_FF_DEF_PAUSE2PLAY_MS;
 	m_ffPlay2PauseMs        = SJ_FF_DEF_PLAY2PAUSE_MS;
 	m_ffGotoMs              = SJ_FF_DEF_GOTO_MS;
+
 	m_backend               = NULL;
 	m_streamA               = NULL;
-	m_visBufferBytes        = 1024;
-	m_visBuffer             = malloc(m_visBufferBytes);
+
+	m_plBackend             = NULL;
+	m_plDest                = SJ_PL_DEFAULT;
 }
 
 
 void SjPlayer::Init()
 {
-	if( !m_isInitialized )
-	{
-		m_isInitialized = true;
-		m_queue.Init();
+	wxASSERT( wxThread::IsMain() );
+	if( m_isInitialized ) return;
 
-		m_backend = new BACKEND_CLASSNAME(SJBE_ID_AUDIOOUT, 3); // two for crossfading + 1 for prelistening if there is no explicit device
-		m_backendPrelisten = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN, 1);
+	// init/create objects
+	m_isInitialized = true;
+	m_queue.Init();
+
+	m_backend = new BACKEND_CLASSNAME(SJBE_ID_AUDIOOUT, 3); // two for crossfading + 1 for prelistening if there is no explicit device
+	m_plBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN, 1);
+
+	// load settings
+	wxConfigBase* c = g_tools->m_config;
+	SetMainVol                  (c->Read("player/volume",              SJ_DEF_VOLUME));
+	m_queue.SetShuffle          (c->Read("player/shuffle",             SJ_DEF_SHUFFLE_STATE? 1L : 0L)!=0);
+	m_queue.SetShuffleIntensity (c->Read("player/shuffleIntensity",    SJ_DEF_SHUFFLE_INTENSITY));
+	m_queue.SetRepeat ((SjRepeat)c->Read("player/repeat",              0L));
+	m_queue.SetQueueFlags       (c->Read("player/avoidBoredom",        SJ_QUEUEF_DEFAULT), c->Read("player/boredomMinutes", SJ_DEF_BOREDOM_TRACK_MINUTES), c->Read("player/boredomArtistMinutes", SJ_DEF_BOREDOM_ARTIST_MINUTES));
+	SetAutoCrossfade            (c->Read("player/crossfadeActive",     SJ_DEF_AUTO_CROSSFADE_ENABLED? 1L : 0L)!=0);
+	SetAutoCrossfadeSubseqDetect(c->Read("player/crossfadeSubseqDetect",1L/*always recommended*/)!=0);
+	m_autoCrossfadeMs           =c->Read("player/crossfadeMs",         SJ_DEF_CROSSFADE_MS);
+	m_manCrossfadeMs            =c->Read("player/crossfadeManMs",      SJ_DEF_CROSSFADE_MS);
+	SetSkipSilence              (c->Read("player/crossfadeSkipSilence",1L/*always recommended*/)!=0);
+	SetOnlyFadeOut              (c->Read("player/onlyFadeOut",         0L/*defaults to off*/)!=0);
+
+	StopAfterEachTrack          (c->Read("player/stopAfterEachTrack",  0L)!=0);
+
+	m_ffPause2PlayMs            =c->Read("player/ffPause2Play",        SJ_FF_DEF_PAUSE2PLAY_MS);
+	m_ffPlay2PauseMs            =c->Read("player/ffPlay2Pause",        SJ_FF_DEF_PLAY2PAUSE_MS);
+	m_ffGotoMs                  =c->Read("player/ffGoto",              SJ_FF_DEF_GOTO_MS);
+
+	AvEnable                    (c->Read("player/autovol",             SJ_AV_DEF_STATE? 1L : 0L)!=0);
+	AvSetUseAlbumVol            (c->Read("player/usealbumvol",         SJ_AV_DEF_USE_ALBUM_VOL? 1L : 0L)!=0);
+	m_avDesiredVolume           = (float)c->Read("player/autovoldes",  (long)(SJ_AV_DEF_DESIRED_VOLUME*1000.0F)) / 1000.0F;
+	m_avMaxGain                 = (float)c->Read("player/autovolmax",  (long)(SJ_AV_DEF_MAX_GAIN*1000.0F)) / 1000.0F;
+
+	m_plDest                    =c->Read("player/prelistenDest",       SJ_PL_DEFAULT);
+}
+
+
+void SjPlayer::SaveSettings() const
+{
+	// SaveSettings() is only called by the client, if needed. SjPlayer does not call SaveSettings()
+	wxASSERT( wxThread::IsMain() );
+
+	wxConfigBase* c = g_tools->m_config;
+
+	// save base - mute is not saved by design
+
+	c->Write("player/volume", m_mainBackupVol==-1? m_mainVol : m_mainBackupVol);
+
+	// save misc.
+	c->Write("player/shuffle",             m_queue.GetShuffle()? 1L : 0L);
+	c->Write("player/shuffleIntensity",    m_queue.GetShuffleIntensity());
+
+	{
+		long queueFlags, boredomTrackMinutes, boredomArtistMinutes;
+		m_queue.GetQueueFlags(queueFlags, boredomTrackMinutes, boredomArtistMinutes);
+		c->Write("player/avoidBoredom",        queueFlags); // the name "avoidBoredom" is historical ...
+		c->Write("player/boredomMinutes",      boredomTrackMinutes);
+		c->Write("player/boredomArtistMinutes",boredomArtistMinutes);
+	}
+
+	c->Write("player/crossfadeActive",     GetAutoCrossfade()? 1L : 0L);
+	c->Write("player/crossfadeMs",         m_autoCrossfadeMs);
+	c->Write("player/crossfadeManMs",      m_manCrossfadeMs);
+	c->Write("player/crossfadeSkipSilence",GetSkipSilence()? 1L : 0L);
+	c->Write("player/onlyFadeOut",         GetOnlyFadeOut()? 1L : 0L);
+	c->Write("player/stopAfterEachTrack",  StopAfterEachTrack()? 1L : 0L);
+	c->Write("player/crossfadeSubseqDetect",GetAutoCrossfadeSubseqDetect()? 1L : 0L);
+
+	c->Write("player/ffPause2Play",        m_ffPause2PlayMs);
+	c->Write("player/ffPlay2Pause",        m_ffPlay2PauseMs);
+	c->Write("player/ffGoto",              m_ffGotoMs);
+
+	c->Write("player/autovol",             AvIsEnabled()? 1L : 0L);
+	c->Write("player/usealbumvol",         AvGetUseAlbumVol()? 1L : 0L);
+	c->Write("player/autovoldes",   (long)(m_avDesiredVolume*1000.0F));
+	c->Write("player/autovolmax",   (long)(m_avMaxGain*1000.0F));
+
+	c->Write("player/prelistenDest",       m_plDest);
+
+	// save repeat - repeating a single track is not remembered by design
+
+	if( m_queue.GetRepeat()!=1 )
+	{
+		c->Write("player/repeat", (long)m_queue.GetRepeat());
 	}
 }
 
@@ -169,12 +258,6 @@ void SjPlayer::Exit()
 
 		m_queue.Exit();
 	}
-}
-
-
-SjPlayer::~SjPlayer()
-{
-	free(m_visBuffer);
 }
 
 
@@ -284,93 +367,8 @@ void SjPlayer::SendSignalToMainThread(int id, uintptr_t extraLong) const
 
 
 /*******************************************************************************
- * Loading and Saving user settings, Resume
+ * Resume
  ******************************************************************************/
-
-
-void SjPlayer::LoadSettings()
-{
-	// LoadSettings() is only called by the client, if needed. SjPlayer does not call LoadSettings()
-	// This function may only be called from the main thread.
-	wxASSERT( wxThread::IsMain() );
-
-	wxConfigBase* c = g_tools->m_config;
-
-	// load base
-	SetMainVol                  (c->Read("player/volume",              SJ_DEF_VOLUME));
-	m_queue.SetShuffle          (c->Read("player/shuffle",             SJ_DEF_SHUFFLE_STATE? 1L : 0L)!=0);
-	m_queue.SetShuffleIntensity (c->Read("player/shuffleIntensity",    SJ_DEF_SHUFFLE_INTENSITY));
-	m_queue.SetRepeat ((SjRepeat)c->Read("player/repeat",              0L));
-	m_queue.SetQueueFlags       (c->Read("player/avoidBoredom",        SJ_QUEUEF_DEFAULT), c->Read("player/boredomMinutes", SJ_DEF_BOREDOM_TRACK_MINUTES), c->Read("player/boredomArtistMinutes", SJ_DEF_BOREDOM_ARTIST_MINUTES));
-	SetAutoCrossfade            (c->Read("player/crossfadeActive",     SJ_DEF_AUTO_CROSSFADE_ENABLED? 1L : 0L)!=0);
-	SetAutoCrossfadeSubseqDetect(c->Read("player/crossfadeSubseqDetect",1L/*always recommended*/)!=0);
-	m_autoCrossfadeMs           =c->Read("player/crossfadeMs",         SJ_DEF_CROSSFADE_MS);
-	m_manCrossfadeMs            =c->Read("player/crossfadeManMs",      SJ_DEF_CROSSFADE_MS);
-	SetSkipSilence              (c->Read("player/crossfadeSkipSilence",1L/*always recommended*/)!=0);
-	SetOnlyFadeOut              (c->Read("player/onlyFadeOut",         0L/*defaults to off*/)!=0);
-
-	StopAfterEachTrack          (c->Read("player/stopAfterEachTrack",  0L)!=0);
-
-	m_ffPause2PlayMs            =c->Read("player/ffPause2Play",        SJ_FF_DEF_PAUSE2PLAY_MS);
-	m_ffPlay2PauseMs            =c->Read("player/ffPlay2Pause",        SJ_FF_DEF_PLAY2PAUSE_MS);
-	m_ffGotoMs                  =c->Read("player/ffGoto",              SJ_FF_DEF_GOTO_MS);
-
-	AvEnable                    (c->Read("player/autovol",             SJ_AV_DEF_STATE? 1L : 0L)!=0);
-	AvSetUseAlbumVol            (c->Read("player/usealbumvol",         SJ_AV_DEF_USE_ALBUM_VOL? 1L : 0L)!=0);
-	m_avDesiredVolume           = (float)c->Read("player/autovoldes",  (long)(SJ_AV_DEF_DESIRED_VOLUME*1000.0F)) / 1000.0F;
-	m_avMaxGain                 = (float)c->Read("player/autovolmax",  (long)(SJ_AV_DEF_MAX_GAIN*1000.0F)) / 1000.0F;
-}
-
-
-void SjPlayer::SaveSettings() const
-{
-	// SaveSettings() is only called by the client, if needed. SjPlayer does not call SaveSettings()
-	// This function may only be called from the main thread.
-
-	wxASSERT( wxThread::IsMain() );
-
-	wxConfigBase* c = g_tools->m_config;
-
-	// save base - mute is not saved by design
-
-	c->Write("player/volume", m_mainBackupVol==-1? m_mainVol : m_mainBackupVol);
-
-	// save misc.
-	c->Write("player/shuffle",             m_queue.GetShuffle()? 1L : 0L);
-	c->Write("player/shuffleIntensity",    m_queue.GetShuffleIntensity());
-
-	{
-		long queueFlags, boredomTrackMinutes, boredomArtistMinutes;
-		m_queue.GetQueueFlags(queueFlags, boredomTrackMinutes, boredomArtistMinutes);
-		c->Write("player/avoidBoredom",        queueFlags); // the name "avoidBoredom" is historical ...
-		c->Write("player/boredomMinutes",      boredomTrackMinutes);
-		c->Write("player/boredomArtistMinutes",boredomArtistMinutes);
-	}
-
-	c->Write("player/crossfadeActive",     GetAutoCrossfade()? 1L : 0L);
-	c->Write("player/crossfadeMs",         m_autoCrossfadeMs);
-	c->Write("player/crossfadeManMs",      m_manCrossfadeMs);
-	c->Write("player/crossfadeSkipSilence",GetSkipSilence()? 1L : 0L);
-	c->Write("player/onlyFadeOut",         GetOnlyFadeOut()? 1L : 0L);
-	c->Write("player/stopAfterEachTrack",  StopAfterEachTrack()? 1L : 0L);
-	c->Write("player/crossfadeSubseqDetect",GetAutoCrossfadeSubseqDetect()? 1L : 0L);
-
-	c->Write("player/ffPause2Play",        m_ffPause2PlayMs);
-	c->Write("player/ffPlay2Pause",        m_ffPlay2PauseMs);
-	c->Write("player/ffGoto",              m_ffGotoMs);
-
-	c->Write("player/autovol",             AvIsEnabled()? 1L : 0L);
-	c->Write("player/usealbumvol",         AvGetUseAlbumVol()? 1L : 0L);
-	c->Write("player/autovoldes",   (long)(m_avDesiredVolume*1000.0F));
-	c->Write("player/autovolmax",   (long)(m_avMaxGain*1000.0F));
-
-	// save repeat - repeating a single track is not remembered by design
-
-	if( m_queue.GetRepeat()!=1 )
-	{
-		c->Write("player/repeat", (long)m_queue.GetRepeat());
-	}
-}
 
 
 wxString SjPlayer::GetResumeFile() const

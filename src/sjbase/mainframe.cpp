@@ -1137,7 +1137,6 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	m_columnMixer.LoadModules(&m_moduleSystem); // this will also load the library module
 
 	m_player.Init();
-	m_player.LoadSettings();
 
 	m_showRemainingTime = g_tools->m_config->Read(wxT("main/showRemainingTime"), 1L)!=0;
 
