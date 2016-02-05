@@ -70,10 +70,12 @@ however, declared as public to be usable from callbacks (for speed reasons, this
     SjGstreamerBackendStream(int lane, const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, void* userdata)
 		: SjBackendStream(lane, url, backend, cb, userdata)
     {
-		m_backend = backend;
-		m_eosSend = false;
+		m_backend     = backend;
+		m_capsChecked = false;
+		m_eosSend     = false;
     }
     SjGstreamerBackend* m_backend;
+    bool                m_capsChecked;
     bool                m_eosSend;
 };
 

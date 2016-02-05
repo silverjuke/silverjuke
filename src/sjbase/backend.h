@@ -65,6 +65,8 @@ struct SjBackendCallbackParam
     SjBackendMsg     msg;
     float*           buffer;
     long             bytes;
+    int              samplerate;
+    int              channels;
 	void*            userdata;
 	SjBackend*       backend;
 	int              lane;
@@ -137,16 +139,18 @@ public:
 declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
 	SjBackendStream(int lane, const wxString& url, SjBackend* backend, SjBackendCallback* cb, void* userdata)
 	{
-		m_url          = url;
-		m_startingTime = wxDateTime::Now().GetAsDOS();
-		m_cb           = cb;
-		m_cbp.lane     = lane;
-		m_cbp.msg      = SJBE_MSG_NONE;
-		m_cbp.buffer   = NULL;
-		m_cbp.bytes    = 0;
-		m_cbp.userdata = userdata;
-		m_cbp.backend  = backend;
-		m_cbp.stream   = this;
+		m_url            = url;
+		m_startingTime   = wxDateTime::Now().GetAsDOS();
+		m_cb             = cb;
+		m_cbp.lane       = lane;
+		m_cbp.samplerate = 44100;
+		m_cbp.channels   = 2;
+		m_cbp.msg        = SJBE_MSG_NONE;
+		m_cbp.buffer     = NULL;
+		m_cbp.bytes      = 0;
+		m_cbp.userdata   = userdata;
+		m_cbp.backend    = backend;
+		m_cbp.stream     = this;
 	}
 	virtual                  ~SjBackendStream () {}
 	wxString                 m_url;

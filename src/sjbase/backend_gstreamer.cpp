@@ -144,8 +144,33 @@ void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata
 GstPadProbeReturn on_pad_data(GstPad* pad, GstPadProbeInfo* info, gpointer userdata)
 {
 	SjGstreamerBackend*       backend = (SjGstreamerBackend*)userdata; if( backend == NULL ) { return GST_PAD_PROBE_OK; }
-	SjGstreamerBackendStream* stream  = backend->m_currStream;       if( stream == NULL )  { return GST_PAD_PROBE_OK; }
+	SjGstreamerBackendStream* stream  = backend->m_currStream;         if( stream == NULL )  { return GST_PAD_PROBE_OK; }
 
+	// on the first call on a new stream, correct the "channels" and "samplerate"
+	if( !stream->m_capsChecked )
+	{
+		stream->m_capsChecked = true;
+		GstCaps* caps = gst_pad_get_current_caps(pad);
+		if( caps ) {
+			GstStructure* s = gst_caps_get_structure(caps, 0); // no need to free or unref the structure, it belongs to the GstCaps.
+			if( s ) {
+				gint v;
+				if( gst_structure_get_int(s, "rate", &v) ) {
+					if( v >= 1000 && v <= 1000000 ) {
+						stream->m_cbp.samplerate = v;
+					}
+				}
+				if( gst_structure_get_int(s, "channels", &v) ) {
+					if( v >= 1 && v <= 32 ) {
+						stream->m_cbp.channels = v;
+					}
+				}
+			}
+			gst_caps_unref(caps);
+		}
+	}
+
+	// forward the buffer to the given callback
 	GstBuffer* buffer = GST_PAD_PROBE_INFO_BUFFER(info);
 	buffer = gst_buffer_make_writable(buffer);
 
@@ -255,10 +280,10 @@ SjBackendStream* SjGstreamerBackend::CreateStream(int lane, const wxString& uri,
 
 		// setup capsfilter and dsp callback
 		GstCaps* caps = gst_caps_new_simple("audio/x-raw",
-					"format", G_TYPE_STRING, "F32LE", // or S16LE, U8, ...
-					"layout", G_TYPE_STRING, "interleaved",
-					//"rate", G_TYPE_INT, info->rate, -- not interesting
-					"channels", G_TYPE_INT, 2, // force stereo for easier DSP calculcations, maybe we will support more channels later, however, this has a very low priority
+					"format", G_TYPE_STRING, "F32LE",       // or S16LE, U8, ...
+					"layout", G_TYPE_STRING, "interleaved", // LRLRLRLRLRLRLR ...
+					//"rate", G_TYPE_INT, info->rate,       // if we set a fixed rate, we must probably add a resampler to the pipeline, however, currently this is not needed
+					//"channels", G_TYPE_INT, 2,            // enable this to force a fixed number of channels, currently not needed
 					NULL);
 			 g_object_set(G_OBJECT(capsfilter), "caps", caps, NULL);
 		gst_caps_unref(caps);
