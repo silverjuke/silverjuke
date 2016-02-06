@@ -4369,6 +4369,7 @@ _("Quit %s")
 
 // misc.
 
+_("Extras");
 _("Full screen");
 _("Info...");
 _("State")

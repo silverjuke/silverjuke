@@ -199,7 +199,7 @@ bool SjAccelModule::FirstLoad()
 		{
 			id = IDO_SCRIPT_MENU00+i;
 			wxASSERT(id>=IDO_SCRIPT_MENU00 && id<=IDO_SCRIPT_MENU99);
-			OrgCmd(_("Extras")+wxString::Format(wxT(" #%i"), i+1), id, SJA_MAIN);
+			OrgCmd(_("Extensions")+wxString::Format(wxT(" #%i"), i+1), id, SJA_MAIN);
 
 		}
 	}
@@ -866,7 +866,7 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 			#if SJ_USE_SCRIPTS
 			if( cmd->m_id-IDO_SCRIPT_MENU00 < extrasCount )
 			{
-				cmd->m_name = _("Extras") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_SCRIPT_MENU00];
+				cmd->m_name = _("Extensions") + wxString(wxT(": ")) + extrasArr[cmd->m_id-IDO_SCRIPT_MENU00];
 				addOption = true;
 			}
 			#endif

@@ -3658,7 +3658,7 @@ void SjLibraryModule::CreateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool cre
 		SjMenu* submenu = new SjMenu(0);
 		g_mainFrame->AddScriptMenuEntries(*submenu);
 		if( submenu->GetMenuItemCount() ) {
-			editMenu->Append(0, _("Extras"), submenu);
+			editMenu->Append(0, _("Extensions"), submenu);
 		}
 		else {
 			delete submenu;

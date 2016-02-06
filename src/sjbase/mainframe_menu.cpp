@@ -75,7 +75,7 @@ void SjMainFrame::CreateMainMenu()
 	// create "edit" menu
 	m_libraryModule->CreateMenu(m_playbackMenu, m_editMenu, TRUE);
 	m_editExtrasMenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-	m_editMenu->Append(0, _("Extras"), m_editExtrasMenu);
+	m_editMenu->Append(0, _("Extensions"), m_editExtrasMenu);
 	m_editMenu->AppendSeparator();
 	m_editMenu->Append(IDO_SELECTALL);
 	m_editMenu->AppendSeparator();
@@ -709,7 +709,7 @@ void SjMainFrame::OnSkinTargetContextMenu(int targetId, long x, long y)
 				SjMenu* submenu = new SjMenu(0);
 				AddScriptMenuEntries(*submenu);
 				if( submenu->GetMenuItemCount() ) {
-					mainMenu.Append(0, _("Extras"), submenu);
+					mainMenu.Append(0, _("Extensions"), submenu);
 				}
 				else {
 					delete submenu;
