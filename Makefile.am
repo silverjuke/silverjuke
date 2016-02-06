@@ -150,6 +150,7 @@ silverjuke_SOURCES = \
 	src/see_dom/obj_Rights.cpp \
 	src/see_dom/sj_see.cpp \
 	src/sjbase/autoctrl.cpp \
+	src/sjbase/backend.cpp \
 	src/sjbase/backend_gstreamer.cpp \
 	src/sjbase/backend_xine.cpp \
 	src/sjbase/browser.cpp \

@@ -149,8 +149,8 @@ void SjPlayer::Init()
 	m_isInitialized = true;
 	m_queue.Init();
 
-	m_backend = new BACKEND_CLASSNAME(SJBE_ID_AUDIOOUT, 3); // two for crossfading + 1 for prelistening if there is no explicit device
-	m_plBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN, 1);
+	m_backend = new BACKEND_CLASSNAME(SJBE_ID_AUDIOOUT);
+	m_plBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN);
 
 	// load settings
 	wxConfigBase* c = g_tools->m_config;
@@ -249,6 +249,12 @@ void SjPlayer::Exit()
 		{
 			m_backend->DestroyBackend();
 			m_backend = NULL;
+		}
+
+		if( m_plBackend )
+		{
+			m_plBackend->DestroyBackend();
+			m_plBackend = NULL;
 		}
 
 		m_queue.Exit();
@@ -642,7 +648,7 @@ void SjPlayer::Play(long seekMs, bool fadeToPlay)
 			return; // error;
 		}
 
-		m_streamA = m_backend->CreateStream(0, url, seekMs, SjPlayer_BackendCallback, this);
+		m_streamA = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback, this);
 		if( !m_streamA ) {
 			return; // error;
 		}
@@ -759,7 +765,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 				if( !url.IsEmpty() )
 				{
 					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
-					m_streamA = m_backend->CreateStream(0, url, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
+					m_streamA = m_backend->CreateStream(url, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
 						if( !deviceOpendedBefore )
@@ -913,7 +919,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 			m_streamA = NULL;
 		}
 
-		m_streamA = m_backend->CreateStream(0, newUrl, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
+		m_streamA = m_backend->CreateStream(newUrl, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
 
 		// realize the new position in the UI
 		m_queue.SetCurrPos(newQueuePos);

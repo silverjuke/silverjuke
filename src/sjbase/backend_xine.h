@@ -40,13 +40,12 @@ class SjXineBackendStream;
 class SjXineBackend : public SjBackend
 {
 public:
-	                     SjXineBackend       (SjBackendId, int lanes);
+	                     SjXineBackend       (SjBackendId);
 	void                 GetLittleOptions    (SjArrayLittleOption&);
-	SjBackendStream*     CreateStream        (int lane, const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
+	SjBackendStream*     CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
 	SjBackendState       GetDeviceState      ();
 	void                 SetDeviceState      (SjBackendState);
 	void                 SetDeviceVol        (double gain);
-	void                 DestroyBackend      ();
 
 /*private:
 however, declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
@@ -57,6 +56,9 @@ however, declared as public to be usable from callbacks (for speed reasons, this
 	SjXineBackendStream* m_currStream;
 
 	wxString             m_iniDevice;
+
+protected:
+	void                 ReleaseBackend      ();
 };
 
 
@@ -65,12 +67,11 @@ class SjXineBackendStream : public SjBackendStream
 public:
     void             GetTime             (long& totalMs, long& elapsedMs); // -1=unknown
     void             SeekAbs             (long ms);
-	void             DestroyStream       ();
 
 /*private:
 however, declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-    SjXineBackendStream(int lane, const wxString& url, SjXineBackend* backend, SjBackendCallback* cb, void* userdata)
-		: SjBackendStream(lane, url, backend, cb, userdata)
+    SjXineBackendStream(const wxString& url, SjXineBackend* backend, SjBackendCallback* cb, void* userdata)
+		: SjBackendStream(url, backend, cb, userdata)
     {
 		m_backend     = backend;
 		m_xine_stream = NULL;
@@ -93,6 +94,10 @@ however, declared as public to be usable from callbacks (for speed reasons, this
     SjXineBackend*      m_backend;
    	xine_stream_t*      m_xine_stream;
 	xine_event_queue_t*	m_event_queue;
+
+private:
+	void             ReleaseStream       ();
+
 };
 
 

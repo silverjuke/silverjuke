@@ -144,7 +144,7 @@ SjXineBackend::SjXineBackend(SjBackendId device, int pipelines)
 }
 
 
-void SjXineBackend::DestroyBackend()
+void SjXineBackend::ReleaseBackend()
 {
 	SetDeviceState(SJBE_STATE_CLOSED);
 
@@ -331,7 +331,7 @@ void SjXineBackendStream::SeekAbs(long seekMs)
 }
 
 
-void SjXineBackendStream::DestroyStream()
+void SjXineBackendStream::ReleaseStream()
 {
 	if( m_backend )
 	{

@@ -68,8 +68,8 @@ struct SjBackendCallbackParam
     int              samplerate;
     int              channels;
 	void*            userdata;
+	uint32_t         startingTime;
 	SjBackend*       backend;
-	int              lane;
 	SjBackendStream* stream;
 };
 typedef long (SjBackendCallback)(SjBackendCallbackParam*);
@@ -80,17 +80,16 @@ class SjBackend
 {
 public:
 	// constructor. The device is in the CLOSED state after construction
-	SjBackend(SjBackendId id, int lanes)
+	SjBackend(SjBackendId id)
 	{
 		m_id     = id; // Default, Prelisten, etc. The real output selection can be implemented in GetLittleOptions()
-		m_lanes  = lanes;  // Max. number of lanes. On every lane one stream at the same time can be played. May or may not be used by the implementation.
 	}
 
 	virtual void             GetLittleOptions (SjArrayLittleOption&) = 0;
 
 	// Open the device (if not yet done), create a stream and set the device to PLAYING.
 	// CreateStream() is not called if the the device is PAUSED.
-	virtual SjBackendStream* CreateStream     (int lane, const wxString& url, long seekMs, SjBackendCallback*, void* userdata) = 0;
+	virtual SjBackendStream* CreateStream     (const wxString& url, long seekMs, SjBackendCallback*, void* userdata) = 0;
 
 	// Get/set the device state.
 	// To switch from CLOSED to PLAYING, use CreateStream(), for all other combinations, use SetDeviceState().
@@ -105,7 +104,7 @@ public:
 
 	// DestroyBackend() is normally called on program shutdown when the backend is not needed any longer.
 	// Normally not followed by a recreation.
-	virtual void             DestroyBackend   () = 0;
+	void                     DestroyBackend   ();
 
 	// Get the name of the Device (this is not the output/sink that is used by the backend)
 	wxString GetName() const
@@ -115,12 +114,18 @@ public:
 		else                             { return "unknown";   }
 	}
 
-
 /*private:
 declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-	virtual                  ~SjBackend       () {}
 	SjBackendId              m_id;
-	int                      m_lanes;
+	const wxArrayPtrVoid&    GetAllStreams    () { return m_allStreams; }
+
+protected:
+	virtual void             ReleaseBackend   () = 0;
+	virtual                  ~SjBackend       () {}
+
+private:
+	wxArrayPtrVoid           m_allStreams;
+	friend class             SjBackendStream;
 };
 
 
@@ -130,33 +135,23 @@ class SjBackendStream
 public:
     virtual void             GetTime          (long& totalMs, long& elapsedMs) = 0; // -1=unknown
     virtual void             SeekAbs          (long ms) = 0;
-    int                      GetLane          () const { return m_cbp.lane; }
 	wxString                 GetUrl           () const { return m_url; }
-	uint32_t                 GetStartingTime  () const { return m_startingTime; }
-	virtual void             DestroyStream    () = 0;
+	uint32_t                 GetStartingTime  () const { return m_cbp.startingTime; }
+	void                     DestroyStream    ();
 
-/*protected:
+/*private:
 declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-	SjBackendStream(int lane, const wxString& url, SjBackend* backend, SjBackendCallback* cb, void* userdata)
-	{
-		m_url            = url;
-		m_startingTime   = wxDateTime::Now().GetAsDOS();
-		m_cb             = cb;
-		m_cbp.lane       = lane;
-		m_cbp.samplerate = 44100;
-		m_cbp.channels   = 2;
-		m_cbp.msg        = SJBE_MSG_NONE;
-		m_cbp.buffer     = NULL;
-		m_cbp.bytes      = 0;
-		m_cbp.userdata   = userdata;
-		m_cbp.backend    = backend;
-		m_cbp.stream     = this;
-	}
-	virtual                  ~SjBackendStream () {}
 	wxString                 m_url;
-	uint32_t                 m_startingTime;
 	SjBackendCallback*       m_cb;
     SjBackendCallbackParam   m_cbp;
+
+protected:
+	                         SjBackendStream  (const wxString& url, SjBackend* backend, SjBackendCallback* cb, void* userdata);
+	virtual void             ReleaseStream    () = 0;
+   	virtual                  ~SjBackendStream ();
+
+private:
+    void                     RemoveFromList   ();
 };
 
 

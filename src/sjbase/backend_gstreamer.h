@@ -40,43 +40,49 @@ class SjGstreamerBackendStream;
 class SjGstreamerBackend : public SjBackend
 {
 public:
-	                 SjGstreamerBackend  (SjBackendId, int lanes);
+	                 SjGstreamerBackend  (SjBackendId);
 	void             GetLittleOptions    (SjArrayLittleOption&);
-	SjBackendStream* CreateStream        (int lane, const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
+	SjBackendStream* CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
 	SjBackendState   GetDeviceState      ();
 	void             SetDeviceState      (SjBackendState);
 	void             SetDeviceVol        (double gain);
-	void             DestroyBackend      () { SetDeviceState(SJBE_STATE_CLOSED); delete this; }
 
 /*private:
 however, declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-	GstElement*      m_pipeline;
-	SjGstreamerBackendStream* m_currStream;
-	guint            m_bus_watch_id;
 	wxString         m_iniPipeline;
-	void             set_pipeline_state  (GstState s);
+
+protected:
+	void             ReleaseBackend      () { SetDeviceState(SJBE_STATE_CLOSED); delete this; }
 };
 
 
 class SjGstreamerBackendStream : public SjBackendStream
 {
 public:
-    void             GetTime             (long& totalMs, long& elapsedMs); // -1=unknown
-    void             SeekAbs             (long ms);
-	void             DestroyStream       ();
+    void                GetTime             (long& totalMs, long& elapsedMs); // -1=unknown
+    void                SeekAbs             (long ms);
 
 /*private:
 however, declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-    SjGstreamerBackendStream(int lane, const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, void* userdata)
-		: SjBackendStream(lane, url, backend, cb, userdata)
+    SjGstreamerBackendStream(const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, void* userdata)
+		: SjBackendStream(url, backend, cb, userdata)
     {
-		m_backend     = backend;
-		m_capsChecked = false;
-		m_eosSend     = false;
+		m_backend      = backend;
+		m_pipeline     = NULL;
+		m_bus_watch_id = 0;
+		m_capsChecked  = false;
+		m_eosSend      = false;
     }
-    SjGstreamerBackend* m_backend;
-    bool                m_capsChecked;
-    bool                m_eosSend;
+
+	GstElement*         m_pipeline;
+	guint               m_bus_watch_id;
+	SjGstreamerBackend* m_backend;
+	bool                m_capsChecked;
+	bool                m_eosSend;
+	void                set_pipeline_state  (GstState s);
+
+protected:
+	void                ReleaseStream       ();
 };
 
 
