@@ -358,29 +358,6 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 
 	}
 
-	if( IsOpAvailable(SJ_OP_MAIN_VOL) )
-	{
-		SjMenu* volMenu = new SjMenu(playbackMenu->ShowShortcuts());
-
-		volMenu->Append(IDT_MAIN_VOL_UP);
-		volMenu->Append(IDT_MAIN_VOL_DOWN);
-
-		volMenu->AppendCheckItem(IDT_MAIN_VOL_MUTE);
-		volMenu->Check(IDT_MAIN_VOL_MUTE, m_player.GetMainVolMute());
-
-		volMenu->AppendSeparator();
-
-		volMenu->Append(IDT_PRELISTEN_VOL_UP);
-		volMenu->Append(IDT_PRELISTEN_VOL_DOWN);
-
-		playbackMenu->Append(0, _("Volume"), volMenu);
-	}
-
-	if( IsAllAvailable() )
-	{
-		playbackMenu->Append(IDO_SETTINGS_AUTOVOL, _("Automatic control")+wxString("..."));
-	}
-
 	if( IsOpAvailable(SJ_OP_EDIT_QUEUE) || IsOpAvailable(SJ_OP_REPEAT) || IsOpAvailable(SJ_OP_PLAYPAUSE) )
 	{
 		playbackMenu->AppendSeparator();
@@ -425,6 +402,30 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 		}
 	}
 
+	if( IsOpAvailable(SJ_OP_MAIN_VOL) )
+	{
+		playbackMenu->AppendSeparator();
+
+		SjMenu* volMenu = new SjMenu(playbackMenu->ShowShortcuts());
+
+		volMenu->Append(IDT_MAIN_VOL_UP);
+		volMenu->Append(IDT_MAIN_VOL_DOWN);
+
+		volMenu->AppendCheckItem(IDT_MAIN_VOL_MUTE);
+		volMenu->Check(IDT_MAIN_VOL_MUTE, m_player.GetMainVolMute());
+
+		volMenu->AppendSeparator();
+
+		volMenu->Append(IDT_PRELISTEN_VOL_UP);
+		volMenu->Append(IDT_PRELISTEN_VOL_DOWN);
+
+		playbackMenu->Append(0, _("Volume"), volMenu);
+
+		if( IsAllAvailable() )
+		{
+			playbackMenu->Append(IDO_SETTINGS_AUTOVOL, _("Automatic control")+wxString("..."));
+		}
+	}
 }
 
 
