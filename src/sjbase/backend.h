@@ -36,7 +36,7 @@ class SjBackendStream;
 
 enum SjBackendId
 {
-	SJBE_ID_AUDIOOUT = 0,
+	SJBE_ID_STDOUTPUT = 0,
 	SJBE_ID_PRELISTEN = 1
 };
 
@@ -85,14 +85,16 @@ public:
 	virtual                  ~SjBackend       ();
 	virtual void             GetLittleOptions (SjArrayLittleOption&) = 0;
 	virtual SjBackendStream* CreateStream     (const wxString& url, long seekMs, SjBackendCallback*, void* userdata) = 0;
-	virtual SjBackendState   GetDeviceState   () = 0;
+	virtual SjBackendState   GetDeviceState   () const = 0;
 	virtual void             SetDeviceState   (SjBackendState state) = 0;
 	virtual void             SetDeviceVol     (double gain) = 0; // 0.0 - 1.0, only called on opened devices
 
 	// higher-level functions
-	bool                     IsDeviceOpened   () { return (GetDeviceState()!=SJBE_STATE_CLOSED); }
+	bool                     IsDeviceOpened   () const { return (GetDeviceState()!=SJBE_STATE_CLOSED); }
+	SjBackendId              GetId            () const { return m_id; };
 	wxString                 GetName          () const;
-	const wxArrayPtrVoid&    GetAllStreams    () { return m_allStreams; }
+	const wxArrayPtrVoid&    GetAllStreams    () const { return m_allStreams; }
+	bool                     WantsVideo       () const { return (m_id==SJBE_ID_STDOUTPUT); }
 
 private:
 	SjBackendId              m_id;
@@ -109,6 +111,9 @@ protected:                   SjBackendStream  (const wxString& url, SjBackend* b
 public: virtual              ~SjBackendStream ();
 	virtual void             GetTime          (long& totalMs, long& elapsedMs) = 0; // -1=unknown
 	virtual void             SeekAbs          (long ms) = 0;
+	virtual bool             HasVideo         () = 0;
+
+	// higher-level functions
 	wxString                 GetUrl           () const { return m_url; }
 	uint32_t                 GetStartingTime  () const { return m_cbp.startingTime; }
 

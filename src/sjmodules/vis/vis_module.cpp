@@ -328,35 +328,26 @@ wxString SjVisModule::GetDesiredRenderer()
 {
 	if( g_mainFrame )
 	{
-#if 0
-		SjBassStream* hstream = g_mainFrame->m_player.RefCurrStream();
-		if( hstream )
+		// has the currently running title a video stream?
+		if( g_mainFrame->m_player.IsVideoOnAir() )
 		{
-			if( hstream->m_decoderModule
-			        && hstream->m_decoderModule->IsVideoDecoder() )
-			{
-				hstream->UnRef(); // do not forget this before returning!
-				return wxT("memory:vidout.lib");
-			}
-
-			hstream->UnRef();
+			return "memory:vidout.lib";
 		}
-#endif
 
 		// has the currently playing track a karaoke file?
 		wxString url = g_mainFrame->GetQueueUrl(-1);
 		if( !url.IsEmpty() )
 		{
 			SjKaraokeMaster tempMaster;
-			if( tempMaster.Init(url, wxT("")/*artist not needed for testing*/, wxT("")/*album not needed for testing*/) )
+			if( tempMaster.Init(url, ""/*artist not needed for testing*/, ""/*album not needed for testing*/) )
 			{
-				return wxT("memory:karaoke.lib");
+				return "memory:karaoke.lib";
 			}
 		}
 	}
 
 	// the currently playing track is a "normal" music file
-	return wxT("");
+	return "";
 }
 
 

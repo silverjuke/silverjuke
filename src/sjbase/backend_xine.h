@@ -44,7 +44,7 @@ public:
 	                     ~SjXineBackend      ();
 	void                 GetLittleOptions    (SjArrayLittleOption&);
 	SjBackendStream*     CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
-	SjBackendState       GetDeviceState      ();
+	SjBackendState       GetDeviceState      () const;
 	void                 SetDeviceState      (SjBackendState);
 	void                 SetDeviceVol        (double gain);
 

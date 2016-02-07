@@ -80,6 +80,7 @@ public:
 	bool            IsStopped           ()                                  { return GetUrlOnAir().IsEmpty(); }
 	wxString        GetUrlOnAir         ();
 	bool            IsAutoPlayOnAir     ();
+	bool            IsVideoOnAir        (); // has the running title a video stream?
 	bool            AreTheseUrlsCurrentlyPrelistening(const wxArrayString&) { return false; }
 	void            TogglePrelisten     (const wxArrayString& urls) {}
 

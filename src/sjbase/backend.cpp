@@ -48,7 +48,7 @@ SjBackend::~SjBackend()
 
 wxString SjBackend::GetName() const
 {
-	     if(m_id==SJBE_ID_AUDIOOUT)  { return "audioout";  }
+	     if(m_id==SJBE_ID_STDOUTPUT) { return "stdoutput"; }
 	else if(m_id==SJBE_ID_PRELISTEN) { return "prelisten"; }
 	else                             { return "unknown";   }
 }

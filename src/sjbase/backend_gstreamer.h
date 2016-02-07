@@ -44,12 +44,13 @@ public:
 	                 ~SjGstreamerBackend () { SetDeviceState(SJBE_STATE_CLOSED); }
 	void             GetLittleOptions    (SjArrayLittleOption&);
 	SjBackendStream* CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
-	SjBackendState   GetDeviceState      ();
+	SjBackendState   GetDeviceState      () const;
 	void             SetDeviceState      (SjBackendState);
 	void             SetDeviceVol        (double gain);
 
 protected:
-	wxString         m_iniPipeline;
+	wxString         m_iniAudioPipeline;
+	wxString         m_iniVideoPipeline;
 };
 
 
@@ -59,6 +60,7 @@ public:
 						~SjGstreamerBackendStream ();
     void                GetTime                   (long& totalMs, long& elapsedMs); // -1=unknown
     void                SeekAbs                   (long ms);
+    bool                HasVideo                  () { return m_hasVideo; }
 
 protected:
 	SjGstreamerBackendStream(const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, void* userdata)
@@ -67,6 +69,7 @@ protected:
 		m_backend      = backend;
 		m_pipeline     = NULL;
 		m_bus_watch_id = 0;
+		m_hasVideo     = false;
 		m_capsChecked  = false;
 		m_eosSend      = false;
     }
@@ -74,6 +77,7 @@ protected:
 	GstElement*         m_pipeline;
 	guint               m_bus_watch_id;
 	SjGstreamerBackend* m_backend;
+	bool                m_hasVideo;
 	bool                m_capsChecked;
 	bool                m_eosSend;
 	void                set_pipeline_state  (GstState s);

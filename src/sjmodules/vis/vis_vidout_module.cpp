@@ -31,7 +31,7 @@
 #include <sjmodules/vis/vis_vidout_module.h>
 #if SJ_USE_VIDEO
 
-#undef VIDEO_DEBUG_VIEW // other colors, visible "hidden" window etc.
+#define VIDEO_DEBUG_VIEW // other colors, visible "hidden" window etc.
 
 
 /*******************************************************************************

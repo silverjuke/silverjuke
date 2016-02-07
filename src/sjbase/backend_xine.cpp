@@ -247,7 +247,7 @@ SjBackendStream* SjXineBackend::CreateStream(const wxString& url, long seekMs, S
 }
 
 
-SjBackendState SjXineBackend::GetDeviceState()
+SjBackendState SjXineBackend::GetDeviceState() const
 {
 	if( !s_xine || !m_ao_port ) {
 		return SJBE_STATE_CLOSED;

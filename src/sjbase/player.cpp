@@ -85,7 +85,7 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 	// backend settings
 	if( g_mainFrame->m_player.m_backend )
 	{
-		SjLittleOption::SetSection(_("Audio output"));
+		SjLittleOption::SetSection(_("Output"));
 		g_mainFrame->m_player.m_backend->GetLittleOptions(lo);
 	}
 
@@ -149,7 +149,7 @@ void SjPlayer::Init()
 	m_isInitialized = true;
 	m_queue.Init();
 
-	m_backend = new BACKEND_CLASSNAME(SJBE_ID_AUDIOOUT);
+	m_backend = new BACKEND_CLASSNAME(SJBE_ID_STDOUTPUT);
 	m_plBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN);
 
 	// load settings
@@ -325,6 +325,17 @@ bool SjPlayer::IsAutoPlayOnAir()
 		}
 	}
 
+	return false;
+}
+
+
+bool SjPlayer::IsVideoOnAir()
+{
+	if( m_streamA ) {
+		if( m_streamA->HasVideo() ) {
+			return true;
+		}
+	}
 	return false;
 }
 

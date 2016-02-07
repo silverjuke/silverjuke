@@ -129,6 +129,7 @@ void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata
 			const gchar* name = gst_structure_get_name (s); // sth. like "audio/x-raw" or "video/x-raw"
 			GST_TO_WXSTRING(name);
 			if( nameWxStr.StartsWith("video") ) {
+				stream->m_hasVideo = true;
 				isVideoPad = true;
 			}
 		gst_caps_unref(caps);
@@ -137,19 +138,22 @@ void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata
 	if( isVideoPad )
 	{
 		// create video sink and connect the pad to it
-		GstElement* videosink = gst_element_factory_make("autovideosink",  NULL);
-		if( !videosink ) { wxLogError("GStream Error: Cannot create video sink."); return; }
-		gst_bin_add(GST_BIN(stream->m_pipeline), videosink);
+		if( stream->m_backend->WantsVideo() )
+		{
+			GstElement* videosink = gst_element_factory_make("autovideosink",  NULL);
+			if( !videosink ) { wxLogError("GStream Error: Cannot create video sink."); return; }
+			gst_bin_add(GST_BIN(stream->m_pipeline), videosink);
 
-		GstPad* destSinkPad = gst_element_get_static_pad(videosink, "sink");
-		if( !destSinkPad ) { wxLogError("GStream Error: Cannot get pad of video sink."); return; }
+			GstPad* destSinkPad = gst_element_get_static_pad(videosink, "sink");
+			if( !destSinkPad ) { wxLogError("GStream Error: Cannot get pad of video sink."); return; }
 
-		GstPadLinkReturn linkret = gst_pad_link(newSourcePad, destSinkPad);
-		if( linkret!=GST_PAD_LINK_OK ) {
-			wxLogError("GStreamer error: Cannot link video.");
+			GstPadLinkReturn linkret = gst_pad_link(newSourcePad, destSinkPad);
+			if( linkret!=GST_PAD_LINK_OK ) {
+				wxLogError("GStreamer error: Cannot link video.");
+			}
+
+			gst_element_sync_state_with_parent(videosink);
 		}
-
-		gst_element_sync_state_with_parent(videosink);
 	}
 	else
 	{
@@ -233,10 +237,13 @@ SjGstreamerBackend::SjGstreamerBackend(SjBackendId id)
 	//     audioecho delay=500000000 intensity=0.6 feedback=0.4 ! autoaudiosink
 	//     pulsesink
 	//     filesink location=/tmp/raw
-	#define PIPELINE_ININAME "gstreamer/"+GetName()+"pipeline"
-	#define PIPELINE_DEFAULT "autoaudiosink"
+	#define AUDIOPIPELINE_ININAME "gstreamer/"+GetName()+"AudioPipeline"
+	#define AUDIOPIPELINE_DEFAULT "autoaudiosink"
+	#define VIDEOPIPELINE_ININAME "gstreamer/"+GetName()+"VideoPipeline"
+	#define VIDEOPIPELINE_DEFAULT "autovideosink"
 	wxConfigBase* c = g_tools->m_config;
-	m_iniPipeline = c->Read(PIPELINE_ININAME, PIPELINE_DEFAULT);
+	m_iniAudioPipeline = c->Read(AUDIOPIPELINE_ININAME, AUDIOPIPELINE_DEFAULT);
+	m_iniVideoPipeline = c->Read(VIDEOPIPELINE_ININAME, VIDEOPIPELINE_DEFAULT);
 
 	// init, log version information
 	static bool s_initialized = false;
@@ -246,14 +253,19 @@ SjGstreamerBackend::SjGstreamerBackend(SjBackendId id)
 
 		guint major, minor, micro, nano;
 		gst_version(&major, &minor, &micro, &nano);
-		wxLogInfo("Using GStreamer %i.%i.%i.%i with pipeline \"%s\"", (int)major, (int)minor, (int)micro, (int)nano, m_iniPipeline.c_str());
+		wxLogInfo("Using GStreamer %i.%i.%i.%i with pipeline \"%s\" (\"%s\")", (int)major, (int)minor, (int)micro, (int)nano,
+			m_iniAudioPipeline.c_str(), m_iniVideoPipeline.c_str());
 	}
 }
 
 
 void SjGstreamerBackend::GetLittleOptions(SjArrayLittleOption& lo)
 {
-	lo.Add(new SjLittleStringSel("GStreamer-Pipeline", &m_iniPipeline, PIPELINE_DEFAULT, PIPELINE_ININAME, SJ_ICON_MODULE));
+	lo.Add(new SjLittleStringSel("GStreamer-Pipeline", &m_iniAudioPipeline, AUDIOPIPELINE_DEFAULT, AUDIOPIPELINE_ININAME, SJ_ICON_MODULE));
+
+	if( WantsVideo() ) {
+		lo.Add(new SjLittleStringSel("GStreamer-Video-Pipeline", &m_iniVideoPipeline, VIDEOPIPELINE_DEFAULT, VIDEOPIPELINE_ININAME, SJ_ICON_MODULE));
+	}
 }
 
 
@@ -281,7 +293,7 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 	GstElement* audioconvert = gst_element_factory_make("audioconvert",  "sjAudioEntry");
 	GstElement* capsfilter   = gst_element_factory_make("capsfilter",    NULL          );
 	GstElement* volume       = gst_element_factory_make("volume",        "sjVolume"    );
-	GstElement* audiosink    = gst_parse_bin_from_description(m_iniPipeline, true, &error);
+	GstElement* audiosink    = gst_parse_bin_from_description(m_iniAudioPipeline, true, &error);
 	if( error ) {
 		const gchar* errormessage = error->message; GST_TO_WXSTRING(errormessage);
 		wxLogError("GStreamer Error: %s. Please check the configuration at Settings/Advanced.", errormessageWxStr.c_str());
@@ -344,7 +356,7 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 }
 
 
-SjBackendState SjGstreamerBackend::GetDeviceState()
+SjBackendState SjGstreamerBackend::GetDeviceState() const
 {
 	const wxArrayPtrVoid& allStreams = GetAllStreams();
 	size_t i, iCnt = allStreams.GetCount();
