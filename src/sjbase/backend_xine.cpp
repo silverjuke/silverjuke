@@ -100,8 +100,8 @@ xine_t* SjXineBackend::s_xine       = NULL;
 int     SjXineBackend::s_xine_usage = 0;
 
 
-SjXineBackend::SjXineBackend(SjBackendId device, int pipelines)
-	: SjBackend(device, pipelines)
+SjXineBackend::SjXineBackend(SjBackendId device)
+	: SjBackend(device)
 {
 	m_ao_port            = NULL;
 	m_currStream         = NULL;
@@ -144,7 +144,7 @@ SjXineBackend::SjXineBackend(SjBackendId device, int pipelines)
 }
 
 
-void SjXineBackend::ReleaseBackend()
+SjXineBackend::~SjXineBackend()
 {
 	SetDeviceState(SJBE_STATE_CLOSED);
 
@@ -176,7 +176,7 @@ static void xine_event_listener_cb(void* user_data, const xine_event_t* event)
 }
 
 
-SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long seekMs, SjBackendCallback* cb, void* userdata)
+SjBackendStream* SjXineBackend::CreateStream(const wxString& url, long seekMs, SjBackendCallback* cb, void* userdata)
 {
 	if( !s_xine )      { wxLogError("Xine Error: Initialization falied."); return NULL; }
 	if( m_currStream ) { wxLogError("Xine Error: There is already a stream on this lane."); return NULL;}
@@ -192,7 +192,7 @@ SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long
 	}
 
 	// create stream objects
-	SjXineBackendStream* newStream = new SjXineBackendStream(lane, url, this, cb, userdata);
+	SjXineBackendStream* newStream = new SjXineBackendStream(url, this, cb, userdata);
 	if( !newStream ) {
 		wxLogError("Xine Error: new SjXineBackendStream() failed.");
 		return NULL;
@@ -200,7 +200,7 @@ SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long
 
 	newStream->m_xine_stream = xine_stream_new(s_xine, m_ao_port, NULL);
 	if( newStream->m_xine_stream == NULL ) {
-		newStream->DestroyStream();
+		delete newStream;
 		wxLogError("Xine Error: xine_stream_new() failed.");
 		return NULL;
 	}
@@ -208,7 +208,7 @@ SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long
 	// add event listener to stream
 	newStream->m_event_queue = xine_event_new_queue(newStream->m_xine_stream);
 	if( newStream->m_event_queue == NULL ) {
-		newStream->DestroyStream();
+		delete newStream;
 		wxLogError("Xine Error: xine_event_new_queue() failed.");
 		return NULL;
 	}
@@ -228,7 +228,7 @@ SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long
 		}
 
 		if( failed ) {
-			newStream->DestroyStream();
+			delete newStream;
 			wxLogError("Xine Error: xine_open() failed.");
 			return NULL;
 		}
@@ -236,7 +236,7 @@ SjBackendStream* SjXineBackend::CreateStream(int lane, const wxString& url, long
 
 	// finally, play
 	if( !xine_play(newStream->m_xine_stream, 0, seekMs) ) {
-		newStream->DestroyStream();
+		delete newStream;
 		wxLogError("Xine Error: xine_play() failed.");
 		return NULL;
 	}
@@ -331,7 +331,7 @@ void SjXineBackendStream::SeekAbs(long seekMs)
 }
 
 
-void SjXineBackendStream::ReleaseStream()
+SjXineBackendStream::~SjXineBackendStream()
 {
 	if( m_backend )
 	{

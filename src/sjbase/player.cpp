@@ -241,19 +241,19 @@ void SjPlayer::Exit()
 
 		if( m_streamA)
 		{
-			m_streamA->DestroyStream();
+			delete m_streamA;
 			m_streamA = NULL;
 		}
 
 		if( m_backend )
 		{
-			m_backend->DestroyBackend();
+			delete m_backend;
 			m_backend = NULL;
 		}
 
 		if( m_plBackend )
 		{
-			m_plBackend->DestroyBackend();
+			delete m_plBackend;
 			m_plBackend = NULL;
 		}
 
@@ -704,7 +704,7 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 	if( m_streamA )
 	{
 		SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), NULL, 0);
-		m_streamA->DestroyStream();
+		delete m_streamA;
 		m_streamA = NULL;
 	}
 
@@ -755,7 +755,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
             if( m_streamA )
             {
 				SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), NULL, 0);
-				m_streamA->DestroyStream();
+				delete m_streamA;
 				m_streamA = NULL;
             }
 
@@ -915,7 +915,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		if( m_streamA )
 		{
 			SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), NULL, 0);
-			m_streamA->DestroyStream();
+			delete m_streamA;
 			m_streamA = NULL;
 		}
 

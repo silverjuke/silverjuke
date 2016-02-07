@@ -273,6 +273,8 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 	*/
 
 	// create objects
+	// NB: is is the far faster part, on my computer creating the pipeline takes 4 ms while starting the stream takes 40 ms -
+	// if there are no other problems on recreating the pipeline on every call, there is no need to change this - esp. as there are some advantages as easier cleaning up, different samplerates etc.
 	GError* error = NULL;
 	stream->m_pipeline       = gst_pipeline_new        (                 "sjPlayer"    );
 	GstElement* decodebin    = gst_element_factory_make("uridecodebin",  "sjSource"    );
@@ -423,7 +425,7 @@ void SjGstreamerBackendStream::SeekAbs(long seekMs)
 }
 
 
-void SjGstreamerBackendStream::ReleaseStream()
+SjGstreamerBackendStream::~SjGstreamerBackendStream()
 {
 	set_pipeline_state(GST_STATE_NULL);
 	gst_object_unref(GST_OBJECT(m_pipeline));

@@ -41,30 +41,27 @@ class SjGstreamerBackend : public SjBackend
 {
 public:
 	                 SjGstreamerBackend  (SjBackendId);
+	                 ~SjGstreamerBackend () { SetDeviceState(SJBE_STATE_CLOSED); }
 	void             GetLittleOptions    (SjArrayLittleOption&);
 	SjBackendStream* CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
 	SjBackendState   GetDeviceState      ();
 	void             SetDeviceState      (SjBackendState);
 	void             SetDeviceVol        (double gain);
 
-/*private:
-however, declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-	wxString         m_iniPipeline;
-
 protected:
-	void             ReleaseBackend      () { SetDeviceState(SJBE_STATE_CLOSED); delete this; }
+	wxString         m_iniPipeline;
 };
 
 
 class SjGstreamerBackendStream : public SjBackendStream
 {
 public:
-    void                GetTime             (long& totalMs, long& elapsedMs); // -1=unknown
-    void                SeekAbs             (long ms);
+						~SjGstreamerBackendStream ();
+    void                GetTime                   (long& totalMs, long& elapsedMs); // -1=unknown
+    void                SeekAbs                   (long ms);
 
-/*private:
-however, declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)*/
-    SjGstreamerBackendStream(const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, void* userdata)
+protected:
+	SjGstreamerBackendStream(const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, void* userdata)
 		: SjBackendStream(url, backend, cb, userdata)
     {
 		m_backend      = backend;
@@ -81,8 +78,10 @@ however, declared as public to be usable from callbacks (for speed reasons, this
 	bool                m_eosSend;
 	void                set_pipeline_state  (GstState s);
 
-protected:
-	void                ReleaseStream       ();
+	friend class             SjGstreamerBackend;
+	friend void              on_pad_added  (GstElement*, GstPad*, gpointer);
+	friend GstPadProbeReturn on_pad_data   (GstPad*, GstPadProbeInfo*, gpointer);
+	friend gboolean          on_bus_message(GstBus*, GstMessage*, gpointer);
 };
 
 

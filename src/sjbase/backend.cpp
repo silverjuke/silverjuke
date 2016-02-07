@@ -31,14 +31,33 @@
 #include <sjbase/backend.h>
 
 
-void SjBackend::DestroyBackend()
+SjBackend::SjBackend(SjBackendId id)
 {
-	ReleaseBackend();
+	wxASSERT( wxThread::IsMain() );
+
+	m_id = id;
+}
+
+
+SjBackend::~SjBackend()
+{
+	wxASSERT( wxThread::IsMain() );
+	wxASSERT( m_allStreams.GetCount() == 0 );
+}
+
+
+wxString SjBackend::GetName() const
+{
+	     if(m_id==SJBE_ID_AUDIOOUT)  { return "audioout";  }
+	else if(m_id==SJBE_ID_PRELISTEN) { return "prelisten"; }
+	else                             { return "unknown";   }
 }
 
 
 SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBackendCallback* cb, void* userdata)
 {
+	wxASSERT( wxThread::IsMain() );
+
 	m_url              = url;
 	m_cb               = cb;
 	m_cbp.samplerate   = 44100;
@@ -51,33 +70,25 @@ SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBack
 	m_cbp.backend      = backend;
 	m_cbp.stream       = this;
 
+	// we keep a list of all streams created on the backend; may be useful for the implementations
 	backend->m_allStreams.Add(this);
-}
-
-
-void SjBackendStream::RemoveFromList()
-{
-	wxArrayPtrVoid* allStreams =  &m_cbp.backend->m_allStreams;
-	size_t i, iCnt = allStreams->GetCount();
-	for( i = 0; i < iCnt; i++ )
-	{
-		if( allStreams->Item(i) == this ) {
-			allStreams->RemoveAt(i);
-			break;
-		}
-	}
-}
-
-
-void SjBackendStream::DestroyStream()
-{
-	RemoveFromList(); // remove it before calling ReleaseStream()
-	ReleaseStream();
 }
 
 
 SjBackendStream::~SjBackendStream()
 {
-	RemoveFromList(); // we call this to remove the stream if CreateStream() fails.
+	wxASSERT( wxThread::IsMain() );
+
+	// remove stream from list
+	wxArrayPtrVoid* allStreams =  &m_cbp.backend->m_allStreams;
+	size_t i, iCnt = allStreams->GetCount();
+	for( i = 0; i < iCnt; i++ )
+	{
+		if( allStreams->Item(i) == this )
+		{
+			allStreams->RemoveAt(i);
+			break;
+		}
+	}
 }
 
