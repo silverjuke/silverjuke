@@ -363,19 +363,6 @@ void SjPlayer::SaveGatheredInfo(const wxString& url, unsigned long startingTime,
 }
 
 
-void SjPlayer::SendSignalToMainThread(int id, uintptr_t extraLong) const
-{
-	if(  g_mainFrame
-	 &&  m_isInitialized
-	 && !SjMainApp::IsInShutdown() ) // do not send the message on shutdown - it won't be received and there will be no memory leak as the OS normally free all program memory
-	{
-		wxCommandEvent* evt = new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, id);
-		evt->SetClientData((void*)extraLong);
-		g_mainFrame->GetEventHandler()->QueueEvent(evt);
-	}
-}
-
-
 /*******************************************************************************
  * Resume
  ******************************************************************************/
@@ -876,6 +863,19 @@ wxString SjPlayer::GetUrlOnAir()
 	}
 
 	return m_streamA->GetUrl();
+}
+
+
+void SjPlayer::SendSignalToMainThread(int id, uintptr_t extraLong) const
+{
+	if(  g_mainFrame
+	 &&  m_isInitialized
+	 && !SjMainApp::IsInShutdown() ) // do not send the message on shutdown - it won't be received and there will be no memory leak as the OS normally free all program memory
+	{
+		wxCommandEvent* evt = new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, id);
+		evt->SetClientData((void*)extraLong);
+		g_mainFrame->GetEventHandler()->QueueEvent(evt);
+	}
 }
 
 
