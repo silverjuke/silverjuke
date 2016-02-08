@@ -521,6 +521,8 @@ void SjModuleSystem::BroadcastMsg(int msg)
 	{
 		inSendMsg = msg;
 
+		// send message to all interfaces
+		#if 0
 		SjInterfaceList::Node* interfaceNode = m_listOfInterfaces.GetFirst();
 		while( interfaceNode )
 		{
@@ -531,6 +533,7 @@ void SjModuleSystem::BroadcastMsg(int msg)
 
 			interfaceNode = interfaceNode->GetNext();
 		}
+		#endif
 
 		// send message to all modules
 		SjModuleList::Node* moduleNode = m_listOfModules.GetFirst();

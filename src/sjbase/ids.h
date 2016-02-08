@@ -403,7 +403,7 @@
 #define IDMODMSG__VIS_MOD_PRIVATE_3__               11053
 #define IDMODMSG__VIS_MOD_PRIVATE_4__               11054
 
-#define IDMODMSG__SEE_PROGRAM_LOADED                11060
+#define IDMODMSG_PROGRAM_LOADED                     11060 /* send to indicate, the program is loaded and the main window is shown*/
 
 #define IDMODMSG_LAST                               11999 /* range end */
 

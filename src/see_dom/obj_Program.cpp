@@ -1097,7 +1097,7 @@ void SjSee::Program_receiveMsg(int msg)
 				SeeCallCallback(m_interpr, po->m_onKioskEnded, m_program);
 				break;
 
-			case IDMODMSG__SEE_PROGRAM_LOADED:
+			case IDMODMSG_PROGRAM_LOADED:
 				SeeCallCallback(m_interpr, po->m_onLoad, m_program);
 				RemovePersistentObject(po->m_onLoad);
 				po->m_onLoad = NULL;

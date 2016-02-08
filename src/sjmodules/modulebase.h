@@ -637,7 +637,9 @@ public:
 	virtual void    LoadModules         (SjModuleList&) = 0;
 
 	// message handling
+	#if 0
 	virtual void    ReceiveMsg          (int) { }
+	#endif
 
 	// the cache, the module is only identified by m_file and NOT by m_fileIndex,
 	// so if a file contains several modules and should be written to the cache, all

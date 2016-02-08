@@ -1329,9 +1329,7 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 	/* done
 	 */
 	m_inConstruction = FALSE;
-	#if SJ_USE_SCRIPTS
-		SjSee::ReceiveMsg(IDMODMSG__SEE_PROGRAM_LOADED);
-	#endif
+	GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_PROGRAM_LOADED)); // do not call BroadcastMsg() directly to allow windows to get realized
 }
 
 
