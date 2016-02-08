@@ -309,7 +309,7 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 	              .--> audioconvert --> capsfilter --> (X) volume -> audiosink
 	decodebin --> |                                     :
 	              '--> videosink                        :
-	                                                    : here we add out DSP handler
+	                                                    : here we add our DSP handler
 	*/
 
 	// create objects
