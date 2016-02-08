@@ -31,11 +31,16 @@
 #if SJ_USE_VIDEO
 
 
+class SjVidoutWindow;
+
+
 class SjVidoutModule : public SjVisRendererModule
 {
 public:
 	                SjVidoutModule      (SjInterfaceBase* interf);
 	                ~SjVidoutModule     ();
+
+	bool            FirstLoad           ();
 
 	bool            Start               (SjVisImpl*, bool justContinue);
 	void            Stop                ();
@@ -45,15 +50,19 @@ public:
 	void            OnMenuOption        (int);
 	void            PleaseUpdateSize    (SjVisImpl*);
 
-//	static void     SetRecentVidCh      (DWORD ch);
+	void*           m_os_window_handle;
 
 private:
 	SjVisImpl*      m_impl;
 
-//	static void     SetProperVideoSize  (DWORD ch);
+	SjVidoutWindow* m_theWindow;
+	void            HideTheWindow       ();
 
-	friend class SjVidoutWindow;
+	friend class    SjVidoutWindow;
 };
+
+
+extern SjVidoutModule* g_vidoutModule;
 
 
 #endif // SJ_USE_VIDEO

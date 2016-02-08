@@ -27,11 +27,13 @@
 
 
 #include <sjbase/base.h>
+#if SJ_USE_VIDEO
+#include <wx/glcanvas.h>
 #include <sjmodules/vis/vis_window.h>
 #include <sjmodules/vis/vis_vidout_module.h>
-#if SJ_USE_VIDEO
 
-#define VIDEO_DEBUG_VIEW // other colors, visible "hidden" window etc.
+
+#undef VIDEO_DEBUG_VIEW // other colors, visible "hidden" window etc.
 
 
 /*******************************************************************************
@@ -39,32 +41,33 @@
  ******************************************************************************/
 
 
-static SjVidoutModule* s_theVidoutModule = NULL;
+#ifdef __WXGTK__
+	#define PARENT_WINDOW_CLASS wxGLCanvas // we use wxGLCanvas as this class offers us the "real" window handle by GetXWindow()
+#else
+	#define PARENT_WINDOW_CLASS wxWindow
+#endif
 
 
-class SjVidoutWindow : public wxWindow
+class SjVidoutWindow : public PARENT_WINDOW_CLASS
 {
 public:
-	SjVidoutWindow          (wxWindow* parent);
-
-	bool                ImplOk() const { return (s_theVidoutModule!=NULL&&s_theVidoutModule->m_impl); }
+	            SjVidoutWindow      (wxWindow* parent);
+	bool        ImplOk              () const { return (g_vidoutModule!=NULL&&g_vidoutModule->m_impl); }
 
 private:
-	//SjVidoutModule*   m_vidoutModule;
-
 	void        OnEraseBackground   (wxEraseEvent& e);
 	void        OnPaint             (wxPaintEvent& e);
 
-	void        OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseLeftDown(this, e); }
-	void        OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseLeftUp(this, e); }
-	void        OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseRightUp(this, e); }
-	void        OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) s_theVidoutModule->m_impl->OnMouseLeftDClick(this, e); }
+	void        OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftDown(this, e); }
+	void        OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftUp(this, e); }
+	void        OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseRightUp(this, e); }
+	void        OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftDClick(this, e); }
 
 	DECLARE_EVENT_TABLE ();
 };
 
 
-BEGIN_EVENT_TABLE(SjVidoutWindow, wxWindow)
+BEGIN_EVENT_TABLE(SjVidoutWindow, PARENT_WINDOW_CLASS)
 	EVT_LEFT_DOWN       (                       SjVidoutWindow::OnMouseLeftDown     )
 	EVT_LEFT_UP         (                       SjVidoutWindow::OnMouseLeftUp           )
 	EVT_LEFT_DCLICK     (                       SjVidoutWindow::OnMouseLeftDClick       )
@@ -76,9 +79,11 @@ END_EVENT_TABLE()
 
 
 SjVidoutWindow::SjVidoutWindow(wxWindow* parent)
-	: wxWindow( parent, -1, /*oscModule->m_name,*/
-	            wxPoint(-1000,-1000), wxSize(100,100),
-	            (wxNO_BORDER /*| wxFRAME_NO_TASKBAR | wxFRAME_FLOAT_ON_PARENT*/) )
+	#if PARENT_WINDOW_CLASS==wxGLCanvas
+		: wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize)
+	#else
+		: PARENT_WINDOW_CLASS(parent, -1, wxPoint(-1000,-1000), wxSize(100,100), wxNO_BORDER)
+	#endif
 {
 }
 
@@ -104,40 +109,6 @@ void SjVidoutWindow::OnPaint(wxPaintEvent& e)
 }
 
 
-/*******************************************************************************
- * the static window instance
- ******************************************************************************/
-
-
-static SjVidoutWindow* s_theWindow = NULL;
-static void HideTheWindow()
-{
-	if( s_theWindow )
-	{
-		s_theWindow->SetSize(
-			#ifdef VIDEO_DEBUG_VIEW
-				0, 0,
-			#else
-				-10000, -10000,
-			#endif
-		    32, 32);
-
-		#ifdef VIDEO_DEBUG_VIEW
-			s_theWindow->Show();
-		#endif
-	}
-}
-static void CreateTheWindow()
-{
-	// static function that creates a global window that can hold a video anytime.
-	// as needed, the global window is assigned to the video output screen
-	if( s_theWindow == NULL )
-	{
-		s_theWindow = new SjVidoutWindow(g_mainFrame);
-		HideTheWindow();
-	}
-}
-
 
 /*******************************************************************************
  * the module controlling the video
@@ -147,7 +118,6 @@ static void CreateTheWindow()
 /*
 void SjVidoutModule::SetRecentVidCh(DWORD ch)
 {
-	CreateTheWindow();
 	if( s_theWindow )
 	{
 		BASS_DSHOW_ChannelSetWindow(ch, (HWND)s_theWindow->GetHandle());
@@ -156,6 +126,8 @@ void SjVidoutModule::SetRecentVidCh(DWORD ch)
 }
 */
 
+SjVidoutModule* g_vidoutModule = NULL;
+
 
 SjVidoutModule::SjVidoutModule(SjInterfaceBase* interf)
 	: SjVisRendererModule(interf)
@@ -163,14 +135,45 @@ SjVidoutModule::SjVidoutModule(SjInterfaceBase* interf)
 	m_file              = wxT("memory:vidout.lib");
 	m_name              = _("Video output");
 	m_impl              = NULL;
-	s_theVidoutModule   = this;
+	g_vidoutModule      = this;
 	m_sort              = 2; // start of list, default is 1000
+	m_os_window_handle  = 0;
 }
 
 
 SjVidoutModule::~SjVidoutModule()
 {
-	s_theVidoutModule = NULL;
+	g_vidoutModule = NULL;
+}
+
+
+bool SjVidoutModule::FirstLoad()
+{
+	// creates a global window that can hold a video anytime.
+	// as needed, the global window is assigned to the video output screen.
+	//
+	// we create the window here but we will find out the "real" window handle later on IDMODMSG_PROGRAM_LOADED -
+	// this allows eg. GTK to really realize the window in between.
+	m_theWindow = new SjVidoutWindow(g_mainFrame);
+	HideTheWindow();
+	return true;
+}
+
+
+void SjVidoutModule::HideTheWindow()
+{
+	if( m_theWindow )
+	{
+		m_theWindow->SetSize(
+			#ifdef VIDEO_DEBUG_VIEW
+				0, 0,
+			#else
+				-10000, -10000,
+			#endif
+		    64, 48);
+
+		m_theWindow->Show(); // sic! we _always_ show the window to the the OS realize it. Hiding is implemtented by moving it out of view.
+	}
 }
 
 
@@ -181,19 +184,17 @@ bool SjVidoutModule::Start(SjVisImpl* impl, bool justContinue)
 	m_impl = impl;
 
 	// create the window holding the vis.
-	CreateTheWindow();
-	if( s_theWindow  )
+	if( m_theWindow  )
 	{
-		s_theWindow->Hide();
-
-		s_theWindow->Reparent(impl->GetWindow());
+		/*
+		m_theWindow->Reparent(impl->GetWindow());
 
 		wxRect visRect = impl->GetRendererClientRect();
-		s_theWindow->SetSize(visRect);
-
-		s_theWindow->Show();
+		m_theWindow->SetSize(visRect);
 
 		ReceiveMsg(IDMODMSG_TRACK_ON_AIR_CHANGED); // this will assign the stream to the video window
+
+		*/
 	}
 
 	return true;
@@ -204,10 +205,12 @@ void SjVidoutModule::Stop()
 {
 	wxASSERT( wxThread::IsMain() );
 
-	if( s_theWindow )
+	if( m_theWindow )
 	{
-		s_theWindow->Hide();
-		s_theWindow->Reparent(g_mainFrame);
+		/*
+		m_theWindow->Hide();
+		m_theWindow->Reparent(g_mainFrame);
+		*/
 		HideTheWindow();
 	}
 
@@ -219,24 +222,33 @@ void SjVidoutModule::ReceiveMsg(int msg)
 {
 	wxASSERT( wxThread::IsMain() );
 
-	if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED && s_theWindow )
+	switch( msg )
+	{
+		case IDMODMSG_PROGRAM_LOADED:
+			m_os_window_handle = (void*)m_theWindow->GetXWindow();
+			break;
+	}
+
+	msg = 1;
+
+	/*
+	if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED && m_theWindow )
 	{
 		// see if the most recent stream is a video file
-		/*
 		SjBassStream* hstream = g_mainFrame->m_player.RefCurrStream();
 		if( hstream )
 		{
 			if( hstream->m_decoderModule
 			        && hstream->m_decoderModule->IsVideoDecoder() )
 			{
-				BASS_DSHOW_ChannelSetWindow(hstream->m_chHandle, (HWND)s_theWindow->GetHandle());
+				BASS_DSHOW_ChannelSetWindow(hstream->m_chHandle, (HWND)m_theWindow->GetHandle());
 				SetProperVideoSize(hstream->m_chHandle);
 			}
 
 			hstream->UnRef();
 		}
-		*/
 	}
+	*/
 }
 
 
@@ -252,10 +264,10 @@ void SjVidoutModule::OnMenuOption(int)
 
 void SjVidoutModule::PleaseUpdateSize(SjVisImpl* impl)
 {
-	if( s_theWindow )
+	if( m_theWindow )
 	{
 		wxRect visRect = impl->GetRendererClientRect();
-		s_theWindow->SetSize(visRect);
+		m_theWindow->SetSize(visRect);
 
 		/*
 		SjBassStream* hstream = g_mainFrame->m_player.RefCurrStream();
@@ -281,7 +293,7 @@ void SjVidoutModule::SetProperVideoSize(DWORD ch)
 	float widthRatio, heightRatio, scale;
 
 	// get available window size
-	{	wxSize s = s_theWindow->GetClientSize();
+	{	wxSize s = m_theWindow->GetClientSize();
 		winWidth = s.x; winHeight = s.y;
 	}
 
