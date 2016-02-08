@@ -2221,7 +2221,7 @@ void SjKioskModule::DoStart()
 	// the accelerator table is already correct)
 	m_backupResetAccel = false;
 	if(  (g_accelModule->m_flags&SJ_ACCEL_USE_NUMPAD_IN_KIOSK)
-	        && !(g_accelModule->m_flags&SJ_ACCEL_USE_NUMPAD_OUT_KIOSK) )
+	 && !(g_accelModule->m_flags&SJ_ACCEL_USE_NUMPAD_OUT_KIOSK) )
 	{
 		m_backupResetAccel = true;
 		g_mainFrame->SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MAIN));
