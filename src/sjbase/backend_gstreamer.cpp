@@ -165,7 +165,13 @@ void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata
 		// create video sink and connect the pad to it
 		if( stream->m_backend->WantsVideo() )
 		{
-			GstElement* videosink = gst_element_factory_make("autovideosink",  NULL);
+			GError* error = NULL;
+			GstElement* videosink = gst_parse_bin_from_description(stream->m_backend->m_iniVideoPipeline, true, &error);
+			if( error ) {
+				const gchar* errormessage = error->message; GST_TO_WXSTRING(errormessage);
+				wxLogError("GStreamer Error: %s. Please check the video configuration at Settings/Advanced.", errormessageWxStr.c_str());
+				g_error_free(error);
+			} // no else - we may be an error and a valid return object
 			if( !videosink ) { wxLogError("GStream Error: Cannot create video sink."); return; }
 			gst_bin_add(GST_BIN(stream->m_pipeline), videosink);
 
@@ -299,14 +305,11 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 	SjGstreamerBackendStream* stream = new SjGstreamerBackendStream(uri, this, cb, userdata);
 	if( stream == NULL ) { return NULL; }
 
-	// create pipeline, add message handler to it
-
 	/*
-	  decodebin1 --.
-				   |--> [funnel] ---> audioconvert -> capsfilter -> volume-> audiosink
-	[decodebin2] --'              |
-								  |
-								  '--> [videosink]
+	              .--> audioconvert --> capsfilter --> (X) volume -> audiosink
+	decodebin --> |                                     :
+	              '--> videosink                        :
+	                                                    : here we add out DSP handler
 	*/
 
 	// create objects
@@ -321,7 +324,7 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 	GstElement* audiosink    = gst_parse_bin_from_description(m_iniAudioPipeline, true, &error);
 	if( error ) {
 		const gchar* errormessage = error->message; GST_TO_WXSTRING(errormessage);
-		wxLogError("GStreamer Error: %s. Please check the configuration at Settings/Advanced.", errormessageWxStr.c_str());
+		wxLogError("GStreamer Error: %s. Please check the audio configuration at Settings/Advanced.", errormessageWxStr.c_str());
 		g_error_free(error);
 	} // no "return", no "else" - it may be possible, the pipeline is created even on errors, see http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gstreamer-GstParse.html#gst-parse-launch
 	if( !stream->m_pipeline || !decodebin || !audioconvert || !capsfilter || !volume || !audiosink ) {

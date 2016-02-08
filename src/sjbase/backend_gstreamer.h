@@ -51,6 +51,7 @@ public:
 protected:
 	wxString         m_iniAudioPipeline;
 	wxString         m_iniVideoPipeline;
+	friend void      on_pad_added        (GstElement*, GstPad*, gpointer);
 };
 
 
