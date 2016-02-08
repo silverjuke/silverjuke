@@ -340,7 +340,19 @@ SjXineBackendStream::~SjXineBackendStream()
 			m_backend->m_currStream = NULL;
 		}
 	}
-	cleanup();
+
+	if( m_event_queue )
+	{
+		xine_event_dispose_queue(m_event_queue);
+		m_event_queue = NULL;
+	}
+
+	if( m_xine_stream )
+	{
+		xine_dispose(m_xine_stream);
+		m_xine_stream = NULL;
+	}
+
 	delete this;
 }
 

@@ -67,19 +67,6 @@ public:
     void             SeekAbs             (long ms);
 
 protected:
-	void cleanup()
-	{
-		if( m_event_queue ) {
-			xine_event_dispose_queue(m_event_queue);
-			m_event_queue = NULL;
-		}
-
-		if( m_xine_stream ) {
-			xine_dispose(m_xine_stream);
-			m_xine_stream = NULL;
-		}
-	}
-
     SjXineBackend*      m_backend;
    	xine_stream_t*      m_xine_stream;
 	xine_event_queue_t*	m_event_queue;
