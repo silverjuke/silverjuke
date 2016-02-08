@@ -442,7 +442,7 @@ void SjVisModule::ReceiveMsg(int msg)
 			}
 		}
 	}
-	else if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED )
+	else if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED || msg == IDMODMSG_VIDEO_DETECTED )
 	{
 		// check if we should switch to another module
 		SjSkinValue buttonState = g_mainFrame->GetSkinTargetValue(IDT_VIS_TOGGLE);
