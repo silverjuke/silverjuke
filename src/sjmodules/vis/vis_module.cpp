@@ -30,6 +30,7 @@
 #include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_window.h>
 #include <sjmodules/vis/vis_karaoke_module.h>
+#include <sjmodules/vis/vis_vidout_module.h>
 #include <wx/display.h>
 
 #define IDMODMSG_VIS_FWD_SWITCH_RENDERER    IDMODMSG__VIS_MOD_PRIVATE_1__
@@ -69,12 +70,14 @@ bool SjVisModule::FirstLoad()
 {
 	g_visModule = this;
 	m_visFlags = g_tools->m_config->Read(wxT("player/visflags"), SJ_VIS_FLAGS_DEFAULT);
+	g_vidoutModule->Load(); // the "video window handle" is needed even if the "video screen" is closed
 	return true;
 }
 
 
 void SjVisModule::LastUnload()
 {
+	g_vidoutModule->Unload();
 	UnprepareWindow();
 	g_visModule = NULL;
 }
