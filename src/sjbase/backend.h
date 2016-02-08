@@ -52,6 +52,7 @@ enum SjBackendState
 enum SjBackendMsg
 {
 	SJBE_MSG_NONE = 0,
+	SJBE_MSG_VIDEO_DETECTED, // send if the stream contains video data
 	SJBE_MSG_DSP,
 	SJBE_MSG_END_OF_STREAM
 };
@@ -64,7 +65,6 @@ struct SjBackendCallbackParam
     long             bytes;
     int              samplerate;
     int              channels;
-	void*            userdata;
 	uint32_t         startingTime;
 	SjBackend*       backend;
 	SjBackendStream* stream;
@@ -111,11 +111,14 @@ protected:                   SjBackendStream  (const wxString& url, SjBackend* b
 public: virtual              ~SjBackendStream ();
 	virtual void             GetTime          (long& totalMs, long& elapsedMs) = 0; // -1=unknown
 	virtual void             SeekAbs          (long ms) = 0;
-	virtual bool             HasVideo         () = 0;
 
 	// higher-level functions
 	wxString                 GetUrl           () const { return m_url; }
 	uint32_t                 GetStartingTime  () const { return m_cbp.startingTime; }
+
+	// these fields may be used by user for any purposes; must _not_ be used by derived classes!
+	void*                    m_userdata;
+	uintptr_t                m_userdata_isVideo;
 
 	// the following fiels should be treated as "private" to SjBackendStream and derived classes,
 	// howver, they're declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)

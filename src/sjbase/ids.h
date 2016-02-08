@@ -386,7 +386,8 @@
 #define IDMODMSG_SETTINGS_CLOSE                     11020 /* sent if the settings dialog is about to be closed, needed only for very special tasks */
 #define IDMODMSG_ADV_SEARCH_CONFIG_CHANGED          11021 /* sent if adv. searches are created/deleted/modified */
 
-#define IDMODMSG_TRACK_ON_AIR_CHANGED               11032 /* also send if only the player state changes */
+#define IDMODMSG_TRACK_ON_AIR_CHANGED               11030 /* also send if only the player state changes */
+#define IDMODMSG_VIDEO_DETECTED                     11031
 #define IDMODMSG_VIS_STATE_CHANGED                  11033
 #define IDMODMSG_KIOSK_STARTING                     11034
 #define IDMODMSG_KIOSK_STARTED                      11035

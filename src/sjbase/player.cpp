@@ -332,9 +332,7 @@ bool SjPlayer::IsAutoPlayOnAir()
 bool SjPlayer::IsVideoOnAir()
 {
 	if( m_streamA ) {
-		if( m_streamA->HasVideo() ) {
-			return true;
-		}
+		return m_streamA->m_userdata_isVideo;
 	}
 	return false;
 }
@@ -565,19 +563,27 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 {
 	// TAKE CARE: this function ist called while processing the audio data,
 	// just before the output.  So please, do not do weird things here.
+	SjPlayer* player = (SjPlayer*)cbp->stream->m_userdata;
 	switch( cbp->msg )
 	{
-		case SJBE_MSG_END_OF_STREAM:
+		case SJBE_MSG_VIDEO_DETECTED:
+			if( !cbp->stream->m_userdata_isVideo )
 			{
-				SjPlayer* player = (SjPlayer*)cbp->userdata;
-				player->SendSignalToMainThread(THREAD_END_OF_STREAM);
+				cbp->stream->m_userdata_isVideo = true;
+				player->SendSignalToMainThread(IDMODMSG_VIDEO_DETECTED);
 			}
-			return 1;
+			break;
 
 		case SJBE_MSG_DSP:
 			if( g_visModule->IsVisStarted() )
 			{
 				g_visModule->AddVisData(cbp->buffer, cbp->bytes);
+			}
+			return 1;
+
+		case SJBE_MSG_END_OF_STREAM:
+			{
+				player->SendSignalToMainThread(THREAD_END_OF_STREAM);
 			}
 			return 1;
 

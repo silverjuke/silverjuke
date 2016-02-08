@@ -29,6 +29,8 @@
 #include <sjbase/base.h>
 #if SJ_USE_GSTREAMER
 #include <sjbase/backend_gstreamer.h>
+#include <sjmodules/vis/vis_vidout_module.h>
+#include <gst/video/videooverlay.h>
 
 
 /*******************************************************************************
@@ -56,6 +58,27 @@ void SjGstreamerBackendStream::set_pipeline_state(GstState s)
 	if( gst_element_set_state(m_pipeline, s) == GST_STATE_CHANGE_ASYNC ) {
 		gst_element_get_state(m_pipeline, NULL, NULL, 3000*MILLISEC_TO_NANOSEC_FACTOR /*async change, wait max. 3 seconds*/);
 	}
+}
+
+
+GstBusSyncReply on_bus_sync_handler(GstBus* bus, GstMessage* msg, gpointer user_data)
+{
+	// ignore anything but 'prepare-window-handle' element messages
+	if( !gst_is_video_overlay_prepare_window_handle_message(msg) )
+		return GST_BUS_PASS;
+
+	if( !g_vidoutModule || ! g_vidoutModule->m_os_window_handle ) {
+		wxLogError("GStreamer Error: Window for embedding not ready.");
+		return GST_BUS_PASS; // normally, the video is shown in a separate window now.
+	}
+
+	// set window to use for video output, see
+	// http://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-libs/html/gst-plugins-base-libs-gstvideooverlay.html
+	gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(GST_MESSAGE_SRC(msg)), (guintptr)g_vidoutModule->m_os_window_handle);
+	gst_message_unref(msg);
+
+	// success, we can drop the message from the asynchronous message pipe
+	return GST_BUS_DROP;
 }
 
 
@@ -128,8 +151,10 @@ void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata
 			GstStructure* s = gst_caps_get_structure(caps, 0); // no need to free or unref the structure, it belongs to the GstCaps.
 			const gchar* name = gst_structure_get_name (s); // sth. like "audio/x-raw" or "video/x-raw"
 			GST_TO_WXSTRING(name);
-			if( nameWxStr.StartsWith("video") ) {
-				stream->m_hasVideo = true;
+			if( nameWxStr.StartsWith("video") )
+			{
+				stream->m_cbp.msg = SJBE_MSG_VIDEO_DETECTED;
+				stream->m_cb(&stream->m_cbp);
 				isVideoPad = true;
 			}
 		gst_caps_unref(caps);
@@ -313,6 +338,7 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 	// add a message handler
 	GstBus* bus = gst_pipeline_get_bus(GST_PIPELINE(stream->m_pipeline));
 		stream->m_bus_watch_id = gst_bus_add_watch(bus, on_bus_message, stream /*userdata*/);
+		gst_bus_set_sync_handler(bus, on_bus_sync_handler, stream /*userdata*/, NULL);
 	gst_object_unref(bus);
 
 	// setup capsfilter and dsp callback
