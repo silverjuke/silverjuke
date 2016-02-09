@@ -43,8 +43,6 @@
 #define         SJ_KIOSKF_SHUFFLE               0x00080000L
 #define         SJ_KIOSKF_SWITCHRES_OLD         0x00100000L
 #define         SJ_KIOSKF_DISABLE_SHUTDOWN      0x00200000L
-#define         SJ_KIOSKF_SWITCHRES_0           0x00400000L
-#define         SJ_KIOSKF_SWITCHRES_1           0x00800000L
 #define         SJ_KIOSKF_NO_DBL_TRACKS         0x01000000L
 #define         SJ_KIOSKF_DISABLE_SCRSAVER      0x02000000L
 #define         SJ_KIOSKF_DISABLE_POWERMAN      0x04000000L
@@ -111,8 +109,7 @@ private:
 	long            m_configMaxTracksInQueue;
 
 	long            m_configLimitToAdvSearch;
-	long            m_configMonitor[2];
-	wxString        m_configDispRes[2];
+	long            m_configMonitor;
 
 	void            LoadConfig          ();
 	void            SaveConfig          ();
@@ -127,9 +124,7 @@ private:
 	long            m_backupOp;
 	bool            m_backupFullScreen;
 	bool            m_backupAlwaysOnTop;
-	bool            m_backupVideoModeValid[2];
 	bool            m_backupResetAccel;
-	wxVideoMode     m_backupVideoMode[2];
 	wxString        m_backupLayout;
 	wxRect          m_backupMainFrameRect;
 	wxArrayPtrVoid  m_blackFrames;

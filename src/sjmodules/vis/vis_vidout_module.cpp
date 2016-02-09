@@ -214,12 +214,6 @@ void SjVidoutModule::ReceiveMsg(int msg)
 
 	switch( msg )
 	{
-		case IDMODMSG_VIS_BEFORE_REPARENT:
-			if( m_impl )
-				g_mainFrame->Stop();
-			break;
-
-		case IDMODMSG_VIS_AFTER_REPARENT:
 		case IDMODMSG_PROGRAM_LOADED:
 			m_os_window_handle = (void*)m_theWindow->GetXWindow();
 			break;

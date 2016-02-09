@@ -41,6 +41,8 @@ private:
 	void            OnSize              (wxSizeEvent& e);
 	void            OnFwdToMainFrame    (wxCommandEvent& e);
 	void            OnCloseWindow       (wxCloseEvent&);
+	void            OnEraseBackground   (wxEraseEvent&);
+	void            OnPaint             (wxPaintEvent&);
 
 	DECLARE_EVENT_TABLE ();
 };

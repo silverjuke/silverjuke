@@ -34,36 +34,10 @@ class SjVisWindow;
 class SjVisFrame;
 
 
-enum SjVisState
-{
-    SJ_VIS_EMBEDDED     = 0,
-    SJ_VIS_FLOATING     = 1,
-    SJ_VIS_OWNSCREEN    = 2
-};
-
-
 class SjVisModule : public SjCommonModule
 {
 public:
 	                SjVisModule         (SjInterfaceBase*);
-
-	// Open the vis. window; this does _not_ automatically start the vis.
-	//
-	// The vis. is opened as a fullscreen window on the given display, optionally
-	// using only the given rect.
-	//
-	// If no display is given (fullscreenDisplay=-1), it is embedded to the
-	// main window or is floating. Floating is only available in non-kiosk mode
-	// and may be toggled by the user in the vis. window (menu or double-click)
-	//
-	// If the window is already opened, nothing happens.
-	void            PrepareWindow       (int fullscreenDisplay, const wxRect* fullscreenVisRect);
-
-	// Close any opened vis. window ans stops any running vis.
-	//
-	// If no vis. window is opened, nothing happens and false is returned.
-	// If the window was really closed by this funcition, true is returned.
-	void            UnprepareWindow     ();
 
 	// Create the video screen menu for the main menu
 	void            UpdateVisMenu       (SjMenu* visMenu);
@@ -90,15 +64,13 @@ public:
 	void            AddVisData          (const float* data, long bytes);
 
 	// More state
-	bool            IsOverWorkspace     () const { return (m_visWindowVisible && m_visState==SJ_VIS_EMBEDDED && m_visIsOverWorkspace); }
-	bool            IsEmbedded          () const { return (m_visState==SJ_VIS_EMBEDDED); }
+	bool            IsOverWorkspace     () const { return (m_visWindowVisible && !m_visOwnFrame && m_visIsOverWorkspace); }
 	bool            IsWindowPrepared    () const { return (m_visWindowVisible!=false); }
 
 	// used by the SjVisImpl class
 	void            StopOrCloseRequest  ();
 
 	// some settings - real by all, write please only for SjVisWindow
-	#define         SJ_VIS_FLAGS_EMBEDDED                   0x00000001L
 	#define         SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY  0x00000008L
 	#define         SJ_VIS_FLAGS_HALF_SIZE                  0x00010000L
 	#define         SJ_VIS_FLAGS_DEFAULT                    0x0000FFFFL
@@ -130,26 +102,19 @@ protected:
 
 private:
 	// private stuff
-	bool            OpenWindow__        (int           fullscreenDisplay,
-	                                     const wxRect* fullscreenVisRect);
+	bool            OpenWindow__        ();
 	bool            CloseWindow__       ();
-
-	SjVisFrame*     m_visFrame;
-	bool            m_explicitlyPrepared;
 
 	SjVisWindow*    m_visWindow;
 	bool            m_visWindowVisible;
-	SjVisState      m_visState;
 	bool            m_visIsOverWorkspace;
+	SjVisFrame*     m_visOwnFrame; // NULL = vis. embedded
 
 	void            MoveVisAway         ();
 
 	// is started? the vis renderer may be NULL if the vis. is started
 	// (either for some moments when the vis. changes or if the renderer initialisation fails)
 	bool            m_visIsStarted;
-
-	// internal state, set when processing attach/detach asynchon
-	bool            m_inAttachDetach;
 
 	// set if vis. module opens a modal dialog; avoids closing
 	long            m_modal;

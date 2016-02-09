@@ -773,7 +773,7 @@ public:
 	bool            IsDefaultLayout     () const { return m_currLayout? (m_currLayout==m_currSkin->GetLayout(0)) : FALSE; }
 	int             GetLinesCount       () const { return m_currLayout? m_currLayout->m_linesCount : 0; }
 	void            GetLayoutMinMax     (const SjSkinLayout* l, wxSize& min, wxSize& max)  const { if(l) {l->GetMinMax(min,max);} else {min.x=32; min.y=32; max.x=32000; max.y=32000;} }
-	bool            GetVisEmbedRect     (wxRect* r=NULL, bool* retIsOverWorkspace=NULL, bool* retVisAutoStart=NULL) const;
+	void            GetVisEmbedRect     (wxRect* r=NULL, bool* retIsOverWorkspace=NULL, bool* retVisAutoStart=NULL) const;
 	wxString        GetSavableSkinSettings();
 	long            GetTargetProp       (int targetId);
 

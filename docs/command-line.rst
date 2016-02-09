@@ -5,8 +5,8 @@ silverjuke
 Play and organize your music
 ----------------------------
 
-:Date:            2015-06-26
-:Version:         15.4
+:Date:            2016-02-09
+:Version:         16.2
 :Manual section:  1
 
 
@@ -100,7 +100,7 @@ starting with two dashes ('**-**'). **silverjuke** supports the following option
   mode is running with limited functionality, the update process cannot be
   aborted.
 
---kioskrect=[X,Y,]W,H[,clipmouse]
+--kioskrect=X,Y,W,H[,clipmouse]
   With this option you can force the Silverjuke window to the given rectangle
   when using the kiosk mode. This is useful if you want to show sth. beside the
   Silverjuke window (by default, the whole screen is used). If the x and y
@@ -108,15 +108,16 @@ starting with two dashes ('**-**'). **silverjuke** supports the following option
   0/0.
 
   Moreover, if you add the "clipmouse" modifier, the mouse cannot be moved
-  outside the given rectangle.
+  outside the given rectangle. Instead of X,Y,W,H you can also give a simple
+  display number.
 
-  See also: --visrect to assign a static portion of the screen to the
-  visualization.
+--visrect=X,Y,W,H
+  Assign a static portion of the screen to the visualization. Instead of X,Y,W,H
+  you can also give a simple display number.
 
---visrect=[X,Y,]W,H
-  If --visrect or --kioskrect are given, portions of the screen not used by
-  Silverjuke can be used by other programs - otherwise, Silverjuke would
-  "darken" eg. an unused 2nd or 3rd screen.
+--blackrect=X,Y,W,H[;X,Y,W,H;...]
+  Areas to cover by black rectangles. Instead of X,Y,W,H you can also give a 
+  simple display number.
 
 --volup
   increase the main volume

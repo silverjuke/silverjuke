@@ -320,8 +320,9 @@ bool SjMainApp::OnInit()
 		// environment settings
 		{ wxCMD_LINE_SWITCH, NULL, wxT_2("skiperrors"),  wxT_2("Do not show startup errors") },
 		{ wxCMD_LINE_SWITCH, NULL, wxT_2("minimize"),    wxT_2("Start minimized") },
-		{ wxCMD_LINE_OPTION, NULL, wxT_2("kioskrect"),   wxT_2("The window rectangle for the kiosk mode as [<x>,<y>,]<w>,<h>[,clipmouse]") },
-		{ wxCMD_LINE_OPTION, NULL, wxT_2("visrect"),     wxT_2("The window rectangle for the vis. in kiosk mode as [<x>,<y>,]<w>,<h>") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("kioskrect"),   wxT_2("The window rectangle for the kiosk mode as <x>,<y>,<w>,<h>[,clipmouse]") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("visrect"),     wxT_2("The window rectangle for the visualization as <x>,<y>,<w>,<h>") },
+		{ wxCMD_LINE_OPTION, NULL, wxT_2("blackrect"),   wxT_2("Areas to cover by black rectangles, use as <x>,<y>,<w>,<h>[;<x>,<y>,<w>,<h>;...]") },
 		{ wxCMD_LINE_OPTION, NULL, wxT_2("instance"),    wxT_2("Set the configuration file and the instance to use") },
 		{ wxCMD_LINE_OPTION, NULL, wxT_2("ini"),         wxT_2("Set the configuration file to use") },
 		{ wxCMD_LINE_OPTION, NULL, wxT_2("jukebox"),     wxT_2("Set the jukebox file to use") },

@@ -1279,6 +1279,44 @@ wxRect SjTools::ParseRect(const wxString& str__)
 }
 
 
+bool SjTools::ParseRectOrDisplayNumber(const wxString& str, wxRect& rect)
+{
+	wxArrayLong arr = ExplodeLong(str, ',', 1, 4);
+	if( arr.GetCount() == 1 ) // one parameter: display number, starting at #1
+	{
+		unsigned int visDisplayNumberUser = arr[0];
+		unsigned int visDisplayIndexInternal = visDisplayNumberUser-1;
+		if( visDisplayIndexInternal < wxDisplay::GetCount() ) {
+			wxDisplay displ(visDisplayIndexInternal);
+			if( displ.IsOk() ) {
+				rect = displ.GetGeometry();
+				return true; // success
+			}
+			else {
+				wxLogError("Cannot use display number %i.", (int)visDisplayNumberUser);
+			}
+		}
+		else {
+			wxLogError("Bad display number %i given to --visrect option.", (int)visDisplayNumberUser);
+		}
+	}
+	else if( arr.GetCount() == 2 ) // two parameters: w,h -- this is deprecated and not officially documented!
+	{
+		rect.x =0; rect.y = 0;
+		rect.width = arr[0]; rect.height = arr[1];
+		return true; // success
+	}
+	else if( arr.GetCount() == 4 ) // four parameters: x,y,w,h
+	{
+		rect.x = arr[0]; rect.y = arr[1];
+		rect.width = arr[2]; rect.height = arr[3];
+		return true; // success
+	}
+
+	return false; // error
+}
+
+
 wxString SjTools::FormatRect(const wxRect& r)
 {
 	return wxString::Format(wxT("%i,%i,%i,%i"),

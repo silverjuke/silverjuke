@@ -50,12 +50,12 @@
 class SjBlackFrame : public wxFrame
 {
 public:
-	SjBlackFrame        (wxWindow* parent, wxWindowID id, const wxString& title,
-	                     const wxPoint& pos, const wxSize& size,
-	                     long style)
-		: wxFrame(parent, id, title, pos, size, style)
+	SjBlackFrame        (const wxPoint& pos, const wxSize& size)
+		: wxFrame(NULL, wxID_ANY, "", pos, size, wxSTAY_ON_TOP | // <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
+						wxFRAME_NO_TASKBAR)
 	{
 		SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MAIN));
+		Show();
 	}
 
 private:
@@ -161,16 +161,12 @@ private:
 	wxPanel*        CreateMonitorPage   (wxWindow* parent);
 	void            InitMonitorPage     ();
 	void            UpdateMonitorPage   ();
-	void            UpdateMonitorResChoice(wxChoice*, size_t displayIndex, wxString& selRes);
 	wxString        m_monitorInitialization;
 	SjMonitorOverview* m_monitorOverview;
-	wxChoice*       m_monitorChoice[2];
-	wxChoice*       m_monitorResChoice[2];
+	wxChoice*       m_monitorChoice;
 	wxTimer         m_monitorTimer;
 	void            OnMonitorTimer      (wxTimerEvent&);
 	void            OnMonitorChoice     (wxCommandEvent&);
-	void            OnMonitorResChoice  (wxCommandEvent&);
-	void            OnMonitorSysSettings(wxCommandEvent&);
 
 	// "virtual keyboard" page
 	wxPanel*        CreateVirtKeybdPage (wxWindow* parent);
@@ -250,11 +246,7 @@ private:
 #define IDC_CREDIT_SHORTCUT_EDIT        (IDM_FIRSTPRIVATE+119)
 #define IDC_CREDIT_SAVE                 (IDM_FIRSTPRIVATE+120)
 #define IDC_CREDIT_CURR                 (IDM_FIRSTPRIVATE+121)
-#define IDC_MONITOR_CHOICE_0            (IDM_FIRSTPRIVATE+123) // range start
-#define IDC_MONITOR_CHOICE_1            (IDM_FIRSTPRIVATE+124) // range end
-#define IDC_MONITOR_RES_CHOICE_0        (IDM_FIRSTPRIVATE+127) // range start
-#define IDC_MONITOR_RES_CHOICE_1        (IDM_FIRSTPRIVATE+128) // range end
-#define IDC_MONITOR_SYS_SETTINGS        (IDM_FIRSTPRIVATE+129)
+#define IDC_MONITOR_CHOICE              (IDM_FIRSTPRIVATE+123)
 #define IDC_MONITOR_TIMER               (IDM_FIRSTPRIVATE+130)
 
 
@@ -268,11 +260,7 @@ BEGIN_EVENT_TABLE(SjKioskConfigPage, wxPanel)
 	EVT_BUTTON                  (IDC_CHANGE_PASSWORD_BUTTON,SjKioskConfigPage::OnChoosePassword             )
 	EVT_BUTTON                  (IDC_LIMITTOMUSICSELBUT,    SjKioskConfigPage::OnLimitToMusicSelBut         )
 
-	EVT_CHOICE                  (IDC_MONITOR_CHOICE_0,      SjKioskConfigPage::OnMonitorChoice              )
-	EVT_CHOICE                  (IDC_MONITOR_CHOICE_1,      SjKioskConfigPage::OnMonitorChoice              )
-	EVT_CHOICE                  (IDC_MONITOR_RES_CHOICE_0,  SjKioskConfigPage::OnMonitorResChoice           )
-	EVT_CHOICE                  (IDC_MONITOR_RES_CHOICE_1,  SjKioskConfigPage::OnMonitorResChoice           )
-	EVT_MENU                    (IDC_MONITOR_SYS_SETTINGS,  SjKioskConfigPage::OnMonitorSysSettings         )
+	EVT_CHOICE                  (IDC_MONITOR_CHOICE,        SjKioskConfigPage::OnMonitorChoice              )
 	EVT_TIMER                   (IDC_MONITOR_TIMER,         SjKioskConfigPage::OnMonitorTimer               )
 
 	EVT_CHECKBOX                (IDC_VIRTKEYBD_INKIOSK,     SjKioskConfigPage::OnVirtKeybdCheck             )
@@ -806,9 +794,6 @@ void SjKioskConfigPage::CheckDependencies()
 {
 	m_limitToAdvSearchChoice->Enable(m_optionsAvailable && GetOp(2, SJ_KIOSKF_LIMIT_TO_ADV_SEARCH));
 	m_limitToAdvSearchButton->Enable(m_optionsAvailable && GetOp(2, SJ_KIOSKF_LIMIT_TO_ADV_SEARCH));
-
-	m_monitorResChoice[0]->Enable(m_optionsAvailable && GetOp(2, SJ_KIOSKF_SWITCHRES_0));
-	m_monitorResChoice[1]->Enable(m_optionsAvailable && GetOp(2, SJ_KIOSKF_SWITCHRES_1));
 }
 
 
@@ -837,21 +822,6 @@ void SjKioskConfigPage::AddStaticText(wxSizer* sizer, const wxString& text)
 /*******************************************************************************
  * SjKioskConfigPage - "Monitor" Page
  ******************************************************************************/
-
-
-static wxString getVideoModeName(const wxVideoMode& mode)
-{
-	wxString name;
-
-	name = wxString::Format(wxT("%i x %i, %i bpp"), (int)mode.GetWidth(), (int)mode.GetHeight(), (int)mode.GetDepth());
-
-	if( mode.refresh > 0 )
-	{
-		name += wxString::Format(wxT(", %i Hz"), (int)mode.refresh);
-	}
-
-	return name;
-}
 
 
 static wxString getDisplayUniqueId()
@@ -883,69 +853,29 @@ wxPanel* SjKioskConfigPage::CreateMonitorPage(wxWindow* parent)
 
 	sizer1->Add(1, SJ_DLG_SPACE*2); // some space
 
-	wxStaticText* staticText = new wxStaticText(m_tempPanel, -1,
-	        _("If you have more than one monitor connected to your computer,\nyou can assign the different Silverjuke windows to different monitors here."));
-	staticText->Enable(m_optionsAvailable);
-	sizer1->Add(staticText, 0, wxLEFT|wxBOTTOM|wxRIGHT, SJ_DLG_SPACE);
-
-	staticText = new wxStaticText(m_tempPanel, -1,
-	                              _("Overview:"));
-	staticText->Enable(m_optionsAvailable);
-	sizer1->Add(staticText, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
+	sizer1->Add(new wxStaticText(m_tempPanel, -1, _("Overview:")), 0, wxLEFT|wxBOTTOM|wxRIGHT, SJ_DLG_SPACE);
 
 	// create the monitor controls
-	wxASSERT( IDC_MONITOR_CHOICE_1 == IDC_MONITOR_CHOICE_0+1 );
-	wxASSERT( IDC_MONITOR_RES_CHOICE_1 == IDC_MONITOR_RES_CHOICE_0+1 );
-
-	m_monitorOverview = new SjMonitorOverview(m_tempPanel, IDC_MONITOR_SYS_SETTINGS, wxSUNKEN_BORDER);
+	m_monitorOverview = new SjMonitorOverview(m_tempPanel, wxID_ANY, wxSUNKEN_BORDER);
 	m_monitorOverview->Enable(m_optionsAvailable);
 	sizer1->Add(m_monitorOverview, 1, wxGROW|wxALL, SJ_DLG_SPACE);
 
-	wxFlexGridSizer* sizer2 = new wxFlexGridSizer(5, SJ_DLG_SPACE/2, SJ_DLG_SPACE);
-	sizer2->AddGrowableCol(3);
-	sizer1->Add(sizer2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
+	wxFlexGridSizer* sizer2 = new wxFlexGridSizer(2, SJ_DLG_SPACE/2, SJ_DLG_SPACE);
+	sizer1->Add(sizer2, 0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 
-	AddStaticText(sizer2, _("Monitor for") + wxString(wxT(" ...")));
-	sizer2->Add(2,2);
-	sizer2->Add(2,2);
-	sizer2->Add(2,2);
-	sizer2->Add(2,2);
+	// label
+	AddStaticText(sizer2, _("Main window") + wxString(":"));
 
-	int monitorSetting;
-	for( monitorSetting = 0; monitorSetting < 2; monitorSetting++ )
-	{
-		// label
-		wxString label(wxT("... "));
-		label += monitorSetting==0? _("Main window") : _("Video screen");
-		label += wxT(":");
-		AddStaticText(sizer2, label);
-
-		// monitor select
-		m_monitorChoice[monitorSetting] = new wxChoice(m_tempPanel, IDC_MONITOR_CHOICE_0+monitorSetting, wxDefaultPosition, wxSize(-1, -1));
-		m_monitorChoice[monitorSetting]->Enable(m_optionsAvailable);
-		m_monitorChoice[monitorSetting]->Append(_("Monitor")+wxString(wxT(" 1")));
-		sizer2->Add(m_monitorChoice[monitorSetting], 0, wxGROW|wxALIGN_CENTER_VERTICAL);
-
-		// monitor resolution check
-		wxString optionText = _("Switch resolution to %s");
-
-		AddOp(sizer2, 2, monitorSetting==0? SJ_KIOSKF_SWITCHRES_0 : SJ_KIOSKF_SWITCHRES_1,
-		      optionText.BeforeFirst('%').Trim(), false);
-
-		// monitor resolution
-		m_monitorResChoice[monitorSetting] = new wxChoice(m_tempPanel, IDC_MONITOR_RES_CHOICE_0+monitorSetting, wxDefaultPosition, wxSize(-1, -1));
-		m_monitorResChoice[monitorSetting]->Enable(m_optionsAvailable);
-		sizer2->Add(m_monitorResChoice[monitorSetting], 0, wxGROW|wxALIGN_CENTER_VERTICAL);
-
-		// rest of option label
-		AddStaticText(sizer2, optionText.AfterFirst('%').Mid(1).Trim(FALSE));
-	}
+	// monitor select
+	m_monitorChoice = new wxChoice(m_tempPanel, IDC_MONITOR_CHOICE, wxDefaultPosition, wxSize(-1, -1));
+	m_monitorChoice->Enable(m_optionsAvailable);
+	m_monitorChoice->Append(_("Monitor")+wxString(wxT(" 1")));
+	sizer2->Add(m_monitorChoice, 0, wxGROW|wxALIGN_CENTER_VERTICAL);
 
 	// diable screensaver?
-
 	#if SJ_CAN_DISABLE_SCRSAVER || SJ_CAN_DISABLE_POWERMAN
 		sizer2 = new wxFlexGridSizer(2, SJ_DLG_SPACE, SJ_DLG_SPACE);
-		sizer1->Add(sizer2, 0, wxALL, SJ_DLG_SPACE);
+		sizer1->Add(sizer2, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 
 		#if SJ_CAN_DISABLE_SCRSAVER
 			AddOp(sizer2, 2, SJ_KIOSKF_DISABLE_SCRSAVER, _("Disable screensaver"), false);
@@ -954,6 +884,11 @@ wxPanel* SjKioskConfigPage::CreateMonitorPage(wxWindow* parent)
 			AddOp(sizer2, 2, SJ_KIOSKF_DISABLE_POWERMAN, _("Disable power management"), false);
 		#endif
 	#endif
+
+	sizer1->Add(new wxStaticText(m_tempPanel, -1,
+	        _("For more complex layouts, please refer to the command line options.")), 0, wxALL, SJ_DLG_SPACE);
+
+	sizer1->Add(1, SJ_DLG_SPACE); // some space
 
 	return m_tempPanel;
 }
@@ -1001,52 +936,41 @@ void SjKioskConfigPage::UpdateMonitorPage()
 
 	m_monitorOverview->Clear();
 
-	int monitorSetting;
-	for( monitorSetting = 0; monitorSetting < 2; monitorSetting++ )
+	// set up the monitor choice control and
+	// find out the selected display index or the best display index for this monitor setting
+	m_monitorChoice->Clear();
+	size_t displayPrimaryIndex = 0, displaySelectedIndex = 0x7fffffffL;
+	for( displayIndex = 0; displayIndex < displayCount; displayIndex++ )
 	{
-		// set up the monitor choice control and
-		// find out the selected display index or the best display index for this monitor setting
-		m_monitorChoice[monitorSetting]->Clear();
-		size_t displayPrimaryIndex = 0, displaySelectedIndex = 0x7fffffffL;
-		for( displayIndex = 0; displayIndex < displayCount; displayIndex++ )
+		wxDisplay curr(displayIndex);
+		wxString name = _("Monitor") + wxString::Format(wxT(" %i"), (int)displayIndex+1);
+		m_monitorChoice->Append(name);
+
+		if( curr.IsPrimary() )
 		{
-			wxDisplay curr(displayIndex);
-			wxString name = _("Monitor") + wxString::Format(wxT(" %i"), (int)displayIndex+1);
-			m_monitorChoice[monitorSetting]->Append(name);
-
-			if( curr.IsPrimary() )
-			{
-				displayPrimaryIndex = displayIndex;
-			}
-
-			if( g_kioskModule->m_configMonitor[monitorSetting] == (long)displayIndex )
-			{
-				displaySelectedIndex = displayIndex;
-			}
-
-			if( monitorSetting == 0 )
-			{
-				m_monitorOverview->AddMonitor(curr.GetGeometry());
-			}
+			displayPrimaryIndex = displayIndex;
 		}
 
-		if( displaySelectedIndex == 0x7fffffffL )
+		if( g_kioskModule->m_configMonitor == (long)displayIndex )
 		{
-			displaySelectedIndex = displayPrimaryIndex;
+			displaySelectedIndex = displayIndex;
 		}
 
-		// set the selction in the monitor choice control;
-		// as this might have changed, also remember this setting in the config
-		m_monitorChoice[monitorSetting]->SetSelection(displaySelectedIndex);
-		g_kioskModule->m_configMonitor[monitorSetting] = displaySelectedIndex;
-
-		m_monitorOverview->SetMonitorUsage(displaySelectedIndex,
-		                                   monitorSetting == 0? MONITOR_USAGE_MAIN : MONITOR_USAGE_VIS, true);
-
-		// update monitor resolution
-		UpdateMonitorResChoice(m_monitorResChoice[monitorSetting], displaySelectedIndex,
-		                       g_kioskModule->m_configDispRes[monitorSetting]);
+		m_monitorOverview->AddMonitor(curr.GetGeometry());
 	}
+
+	if( displaySelectedIndex == 0x7fffffffL )
+	{
+		displaySelectedIndex = displayPrimaryIndex;
+	}
+
+	// set the selction in the monitor choice control;
+	// as this might have changed, also remember this setting in the config
+	m_monitorChoice->SetSelection(displaySelectedIndex);
+	g_kioskModule->m_configMonitor = displaySelectedIndex;
+
+	m_monitorOverview->SetMonitorUsage(displaySelectedIndex,
+									   MONITOR_USAGE_MAIN, true);
 
 	if( displayCount <= 1 )
 	{
@@ -1057,71 +981,9 @@ void SjKioskConfigPage::UpdateMonitorPage()
 }
 
 
-void SjKioskConfigPage::UpdateMonitorResChoice( wxChoice* monitorResChoice, size_t displayIndex, wxString& selRes)
-{
-	wxDisplay display(displayIndex);
-
-	// collect all strings
-	wxArrayString modeNames;
-	{
-		wxArrayVideoModes   modes = display.GetModes();
-		size_t              m, mCount = modes.GetCount();
-		for( m = 0; m < mCount; m++ )
-		{
-			if( modes[m].IsOk() && modes[m].GetDepth()>8 )
-			{
-				wxString modeName( getVideoModeName(modes[m]) );
-				if( modeNames.Index(modeName) == wxNOT_FOUND )
-				{
-					modeNames.Add(modeName);
-				}
-			}
-		}
-	}
-
-	// sort all strings
-	modeNames.Sort();
-
-	// update choice control
-	{
-		bool anythingSelected = false;
-		size_t m, mCount = modeNames.GetCount();
-		monitorResChoice->Clear();
-		for( m = 0; m < mCount; m++ )
-		{
-			monitorResChoice->Append(modeNames[m]);
-			if( modeNames[m] == selRes )
-			{
-				monitorResChoice->SetSelection(m);
-				anythingSelected = true;
-			}
-		}
-
-		if( !anythingSelected )
-		{
-			// try to select the default mode
-			wxString newSelRes = getVideoModeName(display.GetCurrentMode());
-			int i = modeNames.Index(newSelRes);
-			if( i == wxNOT_FOUND && !modeNames.IsEmpty() )
-			{
-				newSelRes = modeNames[0];
-				i = 0;
-			}
-
-			if( i != wxNOT_FOUND )
-			{
-				monitorResChoice->SetSelection(i);
-				selRes = newSelRes;
-			}
-		}
-	}
-}
-
-
 void SjKioskConfigPage::OnMonitorChoice(wxCommandEvent& e)
 {
-	int       monitorSetting = e.GetId() - IDC_MONITOR_CHOICE_0;
-	wxChoice* monitorChoice = (wxChoice*)FindWindow(IDC_MONITOR_CHOICE_0+monitorSetting);
+	wxChoice* monitorChoice = (wxChoice*)FindWindow(IDC_MONITOR_CHOICE);
 	if( monitorChoice )
 	{
 		wxBusyCursor busy;
@@ -1130,45 +992,13 @@ void SjKioskConfigPage::OnMonitorChoice(wxCommandEvent& e)
 		size_t newDisplayIndex = monitorChoice->GetSelection();
 		if( newDisplayIndex < displayCount )
 		{
-			long flag = monitorSetting == 0? MONITOR_USAGE_MAIN : MONITOR_USAGE_VIS;
-			m_monitorOverview->SetMonitorUsage(g_kioskModule->m_configMonitor[monitorSetting], flag, false);
+			long flag = MONITOR_USAGE_MAIN;
+			m_monitorOverview->SetMonitorUsage(g_kioskModule->m_configMonitor, flag, false);
 			m_monitorOverview->SetMonitorUsage(newDisplayIndex, flag, true);
 			m_monitorOverview->Refresh();
 			//m_monitorOverview->Update();
 
-			g_kioskModule->m_configMonitor[monitorSetting] = newDisplayIndex;
-			g_kioskModule->m_configDispRes[monitorSetting].Empty();
-
-			UpdateMonitorResChoice(m_monitorResChoice[monitorSetting], newDisplayIndex, g_kioskModule->m_configDispRes[monitorSetting]);
-		}
-	}
-}
-
-
-void SjKioskConfigPage::OnMonitorResChoice(wxCommandEvent& e)
-{
-	int       monitorSetting = e.GetId() - IDC_MONITOR_RES_CHOICE_0;
-	wxChoice* monitorResChoice = (wxChoice*)FindWindow(IDC_MONITOR_RES_CHOICE_0+monitorSetting);
-	if( monitorResChoice )
-	{
-		g_kioskModule->m_configDispRes[monitorSetting] = monitorResChoice->GetStringSelection();
-	}
-}
-
-
-void SjKioskConfigPage::OnMonitorSysSettings(wxCommandEvent& e)
-{
-	long flag = e.GetExtraLong();
-	if( flag == MONITOR_USAGE_MAIN || flag == MONITOR_USAGE_VIS )
-	{
-		long monitorSettingIndex = flag == MONITOR_USAGE_MAIN? 0 : 1;
-		long newDisplayIndex = e.GetInt();
-
-		if( newDisplayIndex >= 0 && newDisplayIndex < (long)m_monitorChoice[monitorSettingIndex]->GetCount() )
-		{
-			m_monitorChoice[monitorSettingIndex]->SetSelection(newDisplayIndex);
-			wxCommandEvent fwd(wxEVT_COMMAND_CHOICE_SELECTED, IDC_MONITOR_CHOICE_0+monitorSettingIndex);
-			OnMonitorChoice(fwd);
+			g_kioskModule->m_configMonitor = newDisplayIndex;
 		}
 	}
 }
@@ -1709,10 +1539,7 @@ void SjKioskModule::LoadConfig()
 		m_configOp              = g_tools->m_config->Read(wxT("kiosk/opf"), SJ_OP_DEF_KIOSK);
 		m_configMaxTracksInQueue= g_tools->m_config->Read(wxT("kiosk/maxTracksInQueue"), SJ_DEF_MAX_TRACKS_IN_QUEUE);
 		m_configLimitToAdvSearch= g_tools->m_config->Read(wxT("kiosk/limitToAdvSearch"), 0L);
-		m_configMonitor[0]      = g_tools->m_config->Read(wxT("kiosk/monitor0"), -1L);
-		m_configMonitor[1]      = g_tools->m_config->Read(wxT("kiosk/monitor1"), -1L);
-		m_configDispRes[0]      = g_tools->m_config->Read(wxT("kiosk/dispRes0"), wxT(""));
-		m_configDispRes[1]      = g_tools->m_config->Read(wxT("kiosk/dispRes1"), wxT(""));
+		m_configMonitor         = g_tools->m_config->Read(wxT("kiosk/monitor0"), -1L);
 		m_configDefExitAction   = (SjShutdownEtc)g_tools->m_config->Read(wxT("kiosk/defExitAction"), (long)SJ_SHUTDOWN_EXIT_KIOSK_MODE);
 
 		m_configUserPassword = g_tools->m_config->Read(wxT("kiosk/password"), wxT(""));
@@ -1744,10 +1571,7 @@ void SjKioskModule::SaveConfig()
 	g_tools->m_config->Write(wxT("kiosk/opf"), m_configOp);
 	g_tools->m_config->Write(wxT("kiosk/maxTracksInQueue"), m_configMaxTracksInQueue);
 	g_tools->m_config->Write(wxT("kiosk/limitToAdvSearch"), m_configLimitToAdvSearch);
-	g_tools->m_config->Write(wxT("kiosk/monitor0"), m_configMonitor[0]);
-	g_tools->m_config->Write(wxT("kiosk/monitor1"), m_configMonitor[1]);
-	g_tools->m_config->Write(wxT("kiosk/dispRes0"), m_configDispRes[0]);
-	g_tools->m_config->Write(wxT("kiosk/dispRes1"), m_configDispRes[1]);
+	g_tools->m_config->Write(wxT("kiosk/monitor0"), m_configMonitor);
 	g_tools->m_config->Write(wxT("kiosk/defExitAction"), (long)m_configDefExitAction);
 	g_tools->m_config->Write(wxT("kiosk/password"), SjTools::ScrambleString(m_configUserPassword));
 	g_tools->m_config->Write(wxT("kiosk/maintenancePassword"), SjTools::ScrambleString(m_configMaintenancePassword));
@@ -1953,7 +1777,7 @@ bool SjKioskModule::ExitRequest(long flag, const wxString* givenPassword, bool f
 void SjKioskModule::DoStart()
 {
 	wxBusyCursor    busy;
-	bool            doCreateBlackFrames = true;
+	bool            createAutoBlackFrames = true;
 	wxArrayLong     displaysUsed;
 
 	// (/)  Shutdown request before?
@@ -1973,9 +1797,6 @@ void SjKioskModule::DoStart()
 	// (1)  begin starting kiosk mode
 	m_interface->m_moduleSystem->BroadcastMsg(IDMODMSG_KIOSK_STARTING);
 
-	// (/)  stop vis. - if needed it is started again later
-	g_visModule->UnprepareWindow();
-
 	// (2)  set shuffle / repeat (this is not restored on leaving kiosk mode)
 	g_mainFrame->SetShuffle((m_configKioskf&SJ_KIOSKF_SHUFFLE)!=0);
 
@@ -1983,43 +1804,7 @@ void SjKioskModule::DoStart()
 		g_mainFrame->SetRepeat(SJ_REPEAT_OFF); // if repeat cannot be changed in kiosk mode, set it off
 
 	// (3a) switch display modes
-	size_t displayCount = wxDisplay::GetCount();
 	m_backupMainFrameRect = g_mainFrame->GetRect();
-	{
-		int i;
-		long switchDone = -1;
-		for( i = 0; i < 2; i++ )
-		{
-			m_backupVideoModeValid[i] = false;
-			if( m_configKioskf & (i==0? SJ_KIOSKF_SWITCHRES_0 : SJ_KIOSKF_SWITCHRES_1) )
-			{
-				if( m_configMonitor[i] >= 0
-				 && m_configMonitor[i] < (long)displayCount
-				 && m_configMonitor[i] != switchDone )
-				{
-					wxDisplay display(m_configMonitor[i]);
-					wxArrayVideoModes modes = display.GetModes();
-					int modeIndex, mCount = modes.GetCount();
-					for( modeIndex = 0; modeIndex < mCount; modeIndex++ )
-					{
-						if( getVideoModeName(modes[modeIndex]) == m_configDispRes[i] )
-						{
-							m_backupVideoMode[i] = display.GetCurrentMode();
-							if( m_backupVideoMode[i].IsOk() )
-							{
-								if( display.ChangeMode(modes[modeIndex]) )
-								{
-									m_backupVideoModeValid[i] = true;
-									switchDone = m_configMonitor[i]; // avoid switching the res. of the same monitor twice
-								}
-							}
-							break;
-						}
-					}
-				}
-			}
-		}
-	}
 
 	// (3b) set exclusive / always on top
 	if( m_configKioskf&(SJ_KIOSKF_DISABLE_AT|SJ_KIOSKF_DISABLE_CAD) )
@@ -2097,43 +1882,38 @@ void SjKioskModule::DoStart()
 	}
 
 	//  (7) set fullscreen / set size
+	size_t displayCount = wxDisplay::GetCount();
+
 	g_mainFrame->ReloadSkin(g_mainFrame->m_availOp, false/*reloadScripts*/);
 
 	m_backupFullScreen = g_mainFrame->IsFullScreen();
 
 	wxString rectStr;
-	if( g_tools->ReadFromCmdLineOrIni(wxT("kioskrect"), rectStr) )
+	if( g_tools->ReadFromCmdLineOrIni("kioskrect", rectStr) )
 	{
-		wxArrayLong arr = SjTools::ExplodeLong(rectStr, ',', 2, 4);
 		wxRect kioskRect;
-		if( arr.GetCount()==2 || arr.GetCount()==3 /*3 if "clipmouse" is added*/ )
+		if( SjTools::ParseRectOrDisplayNumber(rectStr, kioskRect) )
 		{
-			kioskRect.width = arr[0]; kioskRect.height = arr[1];
+			g_mainFrame->SetSize(kioskRect);
+			if( rectStr.AfterLast(',') == "clipmouse" ) {
+				ClipMouse(&kioskRect);
+			}
 		}
-		else
-		{
-			kioskRect.x = arr[0]; kioskRect.y = arr[1];
-			kioskRect.width = arr[2]; kioskRect.height = arr[3];
-		}
-		g_mainFrame->SetSize(kioskRect);
 
-		if( rectStr.AfterLast(',') == wxT("clipmouse") )
-			ClipMouse(&kioskRect);
-
-		doCreateBlackFrames = false;
+		createAutoBlackFrames = false;
 	}
 	else
 	{
 		if( displayCount > 1
-		        && m_configMonitor[0]>=0 && m_configMonitor[0]<(long)displayCount )
+		 && m_configMonitor>=0 && m_configMonitor<(long)displayCount )
 		{
 			// make sure, the window is on the correct display before calling ShowFullScreen()
-			wxDisplay displ(m_configMonitor[0]);
+			wxDisplay displ(m_configMonitor);
 			wxRect geom = displ.GetGeometry();
-			if( wxDisplay::GetFromWindow(g_mainFrame) != m_configMonitor[0] )
+			if( wxDisplay::GetFromWindow(g_mainFrame) != m_configMonitor )
 			{
 				g_mainFrame->SetSize(geom);
-				wxASSERT( wxDisplay::GetFromWindow(g_mainFrame) == m_configMonitor[0] );
+				wxASSERT( wxDisplay::GetFromWindow(g_mainFrame) == m_configMonitor );
 			}
 
 			if( !g_mainFrame->IsAllAvailable() )
@@ -2150,36 +1930,25 @@ void SjKioskModule::DoStart()
 	}
 
 	// (/) create the vis. window and the black frames
-	if( g_tools->ReadFromCmdLineOrIni(wxT("visrect"), rectStr) )
+	if( g_tools->ReadFromCmdLineOrIni("visrect", rectStr) )
 	{
-		wxArrayLong arr = SjTools::ExplodeLong(rectStr, ',', 2, 4);
-		wxRect visRect;
-		if( arr.GetCount()==2 )
-		{
-			visRect.width = arr[0]; visRect.height = arr[1];
-		}
-		else
-		{
-			visRect.x = arr[0]; visRect.y = arr[1];
-			visRect.width = arr[2]; visRect.height = arr[3];
-		}
-		g_visModule->PrepareWindow(0, &visRect);
-
-		doCreateBlackFrames = false;
-	}
-	else if( m_configMonitor[1] != m_configMonitor[0]
-	         && m_configMonitor[1] >= 0 && m_configMonitor[1] < (long)displayCount )
-	{
-		wxDisplay displ(m_configMonitor[1]);
-		if( displ.IsOk() )
-		{
-			g_visModule->PrepareWindow(m_configMonitor[1], NULL);
-			displaysUsed.Add(m_configMonitor[1]);
-		}
+		createAutoBlackFrames = false;
 	}
 
-	if( doCreateBlackFrames
-	 && displayCount > 1 )
+	if( g_tools->ReadFromCmdLineOrIni("blackrect", rectStr) )
+	{
+		wxArrayString rects = SjTools::Explode(rectStr, ';', 1, 32);
+		for( int r = 0; r < (int)rects.GetCount(); r++ )
+		{
+			wxRect rect;
+			if( SjTools::ParseRectOrDisplayNumber(rects.Item(r), rect) )
+			{
+				SjBlackFrame* blackFrame = new SjBlackFrame(wxPoint(rect.x,rect.y), wxSize(rect.width,rect.height));
+				m_blackFrames.Add(blackFrame);
+			}
+		}
+	}
+	else if( createAutoBlackFrames )
 	{
 		for( int d = 0; d < (int)displayCount; d++ )
 		{
@@ -2187,12 +1956,7 @@ void SjKioskModule::DoStart()
 			{
 				wxDisplay displ(d);
 				wxRect rect = displ.GetGeometry();
-				SjBlackFrame* blackFrame = new SjBlackFrame(NULL, -1,
-				        wxT(""),
-				        wxPoint(rect.x,rect.y), wxSize(rect.width,rect.height),
-				        wxSTAY_ON_TOP | // <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
-				        wxFRAME_NO_TASKBAR);
-				blackFrame->ShowFullScreen(true);
+				SjBlackFrame* blackFrame = new SjBlackFrame(wxPoint(rect.x,rect.y), wxSize(rect.width,rect.height));
 				m_blackFrames.Add(blackFrame);
 			}
 		}
@@ -2266,7 +2030,6 @@ void SjKioskModule::DoExit(bool restoreWindow)
 	g_mainFrame->m_availOp = m_backupOp & ~SJ_OP_KIOSKON;
 
 	// (/)  stop vis., delete black frames
-	g_visModule->UnprepareWindow();
 	for( int i = 0; i < (int)m_blackFrames.GetCount(); i++ )
 	{
 		wxWindowList::Node *node;
@@ -2282,19 +2045,6 @@ void SjKioskModule::DoExit(bool restoreWindow)
 		}
 	}
 	m_blackFrames.Clear();
-
-	// (3a) restore display modes
-	{
-		int i;
-		for( i = 0; i < 2; i++ )
-		{
-			if( m_backupVideoModeValid[i] )
-			{
-				wxDisplay display(m_configMonitor[i]);
-				display.ChangeMode(m_backupVideoMode[i]);
-			}
-		}
-	}
 
 	// (3b) restore exclusive / always on top
 	#ifndef __WXMAC__

@@ -1475,9 +1475,6 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU_RANGE  (IDPLAYER_FIRST,
 	                 IDPLAYER_LAST,             SjMainFrame::OnFwdToPlayer          )
 	EVT_MENU        (IDO_DND_ONDATA,            SjMainFrame::OnIDO_DND_ONDATA       )
-	/*
-	EVT_MENU        (IDO_SETVISEMBEDDED,        SjMainFrame::OnSetVisEmbedded       )
-	*/
 	EVT_MENU        (IDO_PASTE,                 SjMainFrame::OnPaste                )
 	EVT_MENU        (IDO_PASTE_USING_COORD,     SjMainFrame::OnPaste                )
 	EVT_MENU        (IDO_ESC,                   SjMainFrame::OnEsc                  )
@@ -2346,9 +2343,9 @@ void SjMainFrame::OnIconizeWindow(wxIconizeEvent& event)
 
 	if( event.IsIconized() )
 	{
-		if( g_visModule )   // g_visModule may be NULL if the program should be minimized initially
-		{	// eg. using the command line option --minimize; 2.10beta1-beta7 crashed here
-			g_visModule->UnprepareWindow();
+		if( g_visModule )
+		{
+			g_visModule->StopVis();
 		}
 	}
 

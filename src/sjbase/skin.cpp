@@ -3843,7 +3843,7 @@ long SjSkinWindow::GetTargetProp(int targetId)
 }
 
 
-bool SjSkinWindow::GetVisEmbedRect(wxRect* retRect, bool* retIsOverWorkspace, bool* retVisAutoStart) const
+void SjSkinWindow::GetVisEmbedRect(wxRect* retRect, bool* retIsOverWorkspace, bool* retVisAutoStart) const
 {
 	wxRect dummy1; if( retRect == NULL ) retRect = &dummy1;
 	bool   dummy2; if( retVisAutoStart == NULL ) retVisAutoStart = &dummy2;
@@ -3908,5 +3908,12 @@ bool SjSkinWindow::GetVisEmbedRect(wxRect* retRect, bool* retIsOverWorkspace, bo
 		}
 	}
 
-	return retRectOk;
+	// just use upper left right part
+	if( !retRectOk )
+	{
+		retRect->x      = 0;
+		retRect->y      = 0;
+		retRect->width  = 160;
+		retRect->height = 90;
+	}
 }

@@ -36,7 +36,6 @@
 
 #define IDMODMSG_VIS_FWD_SWITCH_RENDERER    IDMODMSG__VIS_MOD_PRIVATE_1__
 #define IDMODMSG_VIS_FWD_CLOSE              IDMODMSG__VIS_MOD_PRIVATE_2__
-#define IDMODMSG_VIS_FWD_ATTACH_DETACH      IDMODMSG__VIS_MOD_PRIVATE_3__
 #define IDMODMSG_VIS_FWD_SWITCH_BACK        IDMODMSG__VIS_MOD_PRIVATE_4__
 
 #if SJ_USE_PROJECTM
@@ -61,12 +60,10 @@ SjVisModule::SjVisModule(SjInterfaceBase* interf)
 {
 	m_file                      = "memory:vis.lib";
 	m_name                      = _("Video screen");
-	m_visFrame                  = NULL;
+	m_visOwnFrame               = NULL;
 	m_visWindow                 = NULL;
 	m_visWindowVisible          = false;
 	m_visIsStarted              = false;
-	m_explicitlyPrepared        = false;
-	m_inAttachDetach            = false;
 	m_modal                     = 0;
 }
 
@@ -89,8 +86,24 @@ bool SjVisModule::FirstLoad()
 	m_visFlags = g_tools->m_config->Read("player/visflags", SJ_VIS_FLAGS_DEFAULT);
 
 	// create the vis. window - the window is always needed as it is eg. a parent for videos;
-	// if it is not visible, it is moved aside
-	m_visWindow = new SjVisWindow(g_mainFrame);
+	// if it is not visible, it is moved aside.
+	wxString rectStr;
+	if( g_tools->ReadFromCmdLineOrIni("visrect", rectStr) )
+	{
+		wxRect visRect;
+		if( SjTools::ParseRectOrDisplayNumber(rectStr, visRect) )
+		{
+			m_visOwnFrame = new SjVisFrame(NULL, // <-- <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
+				wxPoint(visRect.x, visRect.y), wxSize(visRect.width, visRect.height),
+				wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE | wxFRAME_NO_TASKBAR | wxSTAY_ON_TOP);
+			if( m_visOwnFrame )
+			{
+				m_visOwnFrame->Show();
+			}
+		}
+	}
+
+	m_visWindow = new SjVisWindow(m_visOwnFrame? (wxWindow*)m_visOwnFrame : (wxWindow*)g_mainFrame);
 	if( !m_visWindow ) { return false; }
 
 	MoveVisAway();
@@ -105,8 +118,16 @@ bool SjVisModule::FirstLoad()
 
 void SjVisModule::LastUnload()
 {
+	SetCurrRenderer(NULL);
 	g_vidoutModule->Unload();
-	UnprepareWindow();
+	CloseWindow__();
+
+	if( m_visOwnFrame )
+	{
+		m_visOwnFrame->Destroy();
+		m_visOwnFrame = NULL;
+	}
+
 	g_visModule = NULL;
 }
 
@@ -122,27 +143,10 @@ void SjVisModule::WriteVisFlags()
  ******************************************************************************/
 
 
-void SjVisModule::PrepareWindow(int fullscreenDisplay, const wxRect* fullscreenVisRect__)
-{
-	if( OpenWindow__(fullscreenDisplay, fullscreenVisRect__) )
-	{
-		m_explicitlyPrepared = true;
-	}
-}
-
-
-void SjVisModule::UnprepareWindow()
-{
-	SetCurrRenderer(NULL);
-	CloseWindow__();
-	m_explicitlyPrepared = false;
-}
-
-
 void SjVisModule::StartVis()
 {
 	g_mainFrame->m_autoCtrl.m_stateStartVisTimestamp = SjTools::GetMsTicks(); // we forgot this in 2.10beta3, see http://www.silverjuke.net/forum/viewtopic.php?p=2994#2994
-	OpenWindow__(-1, NULL);
+	OpenWindow__();
 	if( m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY )
 	{
 		wxString desiredRenderer = GetDesiredRenderer();
@@ -165,8 +169,7 @@ void SjVisModule::StopVis()
 		g_mainFrame->m_autoCtrl.m_stateStopVisTimestamp = SjTools::GetMsTicks(); // we forgot this in 2.10beta3, see http://www.silverjuke.net/forum/viewtopic.php?p=2994#2994
 
 		SetCurrRenderer(NULL);
-		if( !m_explicitlyPrepared )
-			CloseWindow__();
+		CloseWindow__();
 	}
 }
 
@@ -176,7 +179,7 @@ void SjVisModule::StopVis()
  ******************************************************************************/
 
 
-bool SjVisModule::OpenWindow__(int fullscreenDisplay, const wxRect* fullscreenVisRect__)
+bool SjVisModule::OpenWindow__()
 {
 	wxASSERT( wxThread::IsMain() );
 
@@ -184,136 +187,27 @@ bool SjVisModule::OpenWindow__(int fullscreenDisplay, const wxRect* fullscreenVi
 	if( m_visWindowVisible || g_mainFrame == NULL || g_visModule == NULL )
 		return false;
 
-	#if 1 // TODO: Remove this hack
-	fullscreenDisplay = -1;
-	m_visFlags |= SJ_VIS_FLAGS_EMBEDDED;
-	#endif
-
-	bool    createFullScreen = false;
-	long    createStyle = wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE;
-	wxRect  createRect;
-	if( fullscreenDisplay == -1 )
+	if( !m_visOwnFrame )
 	{
-		// open the vis. window embedded or floating
-		// ---------------------------------------------------------------------------------------------
+		wxRect r;
+		g_mainFrame->GetVisEmbedRect(&r, &m_visIsOverWorkspace);
 
-		wxRect defaultClientRect;
-		bool   defaultClientRectValid = g_mainFrame->GetVisEmbedRect(&defaultClientRect, &m_visIsOverWorkspace);
+        m_visWindow->SetSize(r);
 
-		m_visState = SJ_VIS_EMBEDDED;
-		if( !g_mainFrame->IsKioskStarted() )
-			m_visState = (m_visFlags & SJ_VIS_FLAGS_EMBEDDED)? SJ_VIS_EMBEDDED : SJ_VIS_FLOATING;
-
-		if( m_visState == SJ_VIS_EMBEDDED && !defaultClientRectValid )
-		{
-			if( g_mainFrame->IsKioskStarted() )
-				return false; // in kiosk mode we should not allow floating windows!
-			m_visState = SJ_VIS_FLOATING;
-		}
-
-		if( m_visState == SJ_VIS_EMBEDDED )
-		{
-			// create embedded
-			// -----------------------------------------------------------------------------------------
-
-			wxASSERT( defaultClientRectValid );
-
-			createRect = defaultClientRect;
-		}
-		else
-		{
-			// create floating
-			// -----------------------------------------------------------------------------------------
-
-			wxASSERT( !g_mainFrame->IsKioskStarted() );
-
-			createStyle |= (wxDEFAULT_FRAME_STYLE & ~wxMINIMIZE_BOX);
-
-			bool setDefault = false;
-			createRect = g_tools->ReadRect("player/visrect");
-			if( createRect.width == 0 || createRect.height == 0 )
-			{
-				setDefault = true;
-			}
-			else
-			{
-				wxRect testRect = createRect;
-				SjDialog::EnsureRectDisplayVisibility(testRect);
-				if( testRect != createRect )
-					setDefault = true;
-			}
-
-			if( setDefault )
-			{
-				createRect = defaultClientRect;
-				g_mainFrame->ClientToScreen(&createRect.x, &createRect.y);
-				createRect.x += 60;
-				createRect.y += 60;
-				if( createRect.width  < 320 ) createRect.width  = 320;
-				if( createRect.height < 200 ) createRect.height = 200;
-			}
-		}
-	}
-	else
-	{
-		// open the vis. window as a fullscreen; optionally, we use only a part of the screen
-		// ---------------------------------------------------------------------------------------------
-
-		m_visState = SJ_VIS_OWNSCREEN;
-		createStyle |= wxFRAME_NO_TASKBAR;
-		createStyle |= wxSTAY_ON_TOP; // <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
-		if( fullscreenVisRect__ )
-		{
-			createRect = *fullscreenVisRect__;
-		}
-		else
-		{
-			wxDisplay display(fullscreenDisplay);
-			if( !display.IsOk() )
-				return false;
-			createRect = display.GetGeometry();
-			createFullScreen = true;
-		}
-	}
-
-	// finally, show the window
-	// ---------------------------------------------------------------------------------------------
-
-	if( m_visState == SJ_VIS_EMBEDDED )
-	{
-        m_visWindow->SetSize(createRect);
-
-		if( m_visIsOverWorkspace )
+		if( m_visIsOverWorkspace ) {
 			g_mainFrame->MoveWorkspaceAway(true);
-		g_mainFrame->Update();
+		}
 
-		m_visWindowVisible = true;
+		g_mainFrame->Update();
 	}
 	else
 	{
-		m_visFrame = new SjVisFrame(createFullScreen? NULL : g_mainFrame, // <-- <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
-		                                      wxPoint(createRect.x, createRect.y), wxSize(createRect.width, createRect.height),
-		                                      createStyle);
-		// show the frame
-		if( createFullScreen )
-		{
-			m_visFrame->ShowFullScreen(true);
-		}
-		else
-		{
-			m_visFrame->SetIcons(g_mainFrame->m_iconBundle);
-			m_visFrame->Show();
-		}
-
-		// do reparent
-		g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_BEFORE_REPARENT);
-        m_visWindow->Reparent(m_visFrame);
-        g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_AFTER_REPARENT);
-
-		// done with the frame creation
-		m_visWindowVisible = true;
+		int windowW, windowH;
+        m_visOwnFrame->GetSize(&windowW, &windowH);
+        m_visWindow->SetSize(wxRect(0, 0, windowW, windowH));
 	}
 
+	m_visWindowVisible = true;
 	return true;
 }
 
@@ -326,26 +220,9 @@ bool SjVisModule::CloseWindow__()
 		return false;
 
 	// move workspace back to view
-	if( m_visState == SJ_VIS_EMBEDDED && m_visIsOverWorkspace )
+	if( !m_visOwnFrame && m_visIsOverWorkspace )
 	{
 		g_mainFrame->MoveWorkspaceAway(false);
-	}
-
-	// close the frame, if used
-	if( m_visFrame )
-	{
-		if( m_visState == SJ_VIS_FLOATING && !m_visFrame->IsMaximized() )
-		{
-			wxRect r = m_visFrame->GetRect();
-			g_tools->WriteRect("player/visrect", r);
-		}
-
-		g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_BEFORE_REPARENT);
-		m_visWindow->Reparent(g_mainFrame);
-		g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_AFTER_REPARENT);
-
-		m_visFrame->Destroy();
-		m_visFrame = NULL;
 	}
 
 	// hide the window
@@ -453,21 +330,12 @@ void SjVisModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_WINDOW_SIZED_MOVED )
 	{
-		if( m_visWindowVisible && m_visState == SJ_VIS_EMBEDDED )
+		if( m_visWindowVisible && !m_visOwnFrame )
 		{
 			wxRect r;
-			bool wasOverWorkspace = m_visIsOverWorkspace;
-			if( g_mainFrame->GetVisEmbedRect(&r, &m_visIsOverWorkspace) )
-			{
-				m_visWindow->SetSize(r);
-				g_mainFrame->MoveWorkspaceAway(m_visIsOverWorkspace); // the state may change on layout switches!
-			}
-			else
-			{
-				StopOrCloseRequest();
-				if( wasOverWorkspace )
-					g_mainFrame->MoveWorkspaceAway(false); // added in 2.53beta1, see http://www.silverjuke.net/forum/topic-2438.html
-			}
+			g_mainFrame->GetVisEmbedRect(&r, &m_visIsOverWorkspace);
+			m_visWindow->SetSize(r);
+			g_mainFrame->MoveWorkspaceAway(m_visIsOverWorkspace); // the state may change on layout switches!
 		}
 	}
 	else if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED || msg == IDMODMSG_VIDEO_DETECTED )
@@ -480,7 +348,7 @@ void SjVisModule::ReceiveMsg(int msg)
 
 		if( m_visWindowVisible )
 		{
-			if( !m_inAttachDetach && (m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY) )
+			if( (m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY) )
 			{
 				wxString realNextRenderer = GetRealNextRenderer(desiredRenderer);
 				if( !realNextRenderer.IsEmpty() )
@@ -508,28 +376,11 @@ void SjVisModule::ReceiveMsg(int msg)
 	else if( msg == IDMODMSG_VIS_FWD_SWITCH_RENDERER )
 	{
 		// ... we are here again
-		if( !m_inAttachDetach )
-		{
-			SetCurrRenderer(SJ_SET_FROM_m_temp1str__);
-		}
-	}
-	else if( msg == IDMODMSG_VIS_FWD_ATTACH_DETACH )
-	{
-		if( m_inAttachDetach )
-		{
-			StopVis();
-			OpenWindow__(-1, NULL);
-			SetCurrRenderer(SJ_SET_FROM_m_temp1str__);
-
-			m_inAttachDetach = false;
-		}
+		SetCurrRenderer(SJ_SET_FROM_m_temp1str__);
 	}
 	else if( msg == IDMODMSG_VIS_FWD_CLOSE )
 	{
-		if( !m_inAttachDetach )
-		{
-			StopVis();
-		}
+		StopVis();
 	}
 }
 
@@ -625,10 +476,6 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 	submenu->AppendCheckItem(IDO_VIS_AUTOSWITCHOVER, _("If appropriate, switch over automatically"));
 	submenu->Check(IDO_VIS_AUTOSWITCHOVER, (m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY)!=0);
 
-	submenu->AppendCheckItem(IDO_VIS_EMBEDWINDOW, _("Attached window"));
-	submenu->Check(IDO_VIS_EMBEDWINDOW, IsEmbedded());
-	submenu->Enable(IDO_VIS_EMBEDWINDOW, (currRenderer!=NULL) && !g_mainFrame->IsKioskStarted() && g_mainFrame->GetVisEmbedRect());
-
 	submenu->AppendCheckItem(IDO_VIS_HALFSIZE, _("Half size"));
 	submenu->Check(IDO_VIS_HALFSIZE, (m_visFlags & SJ_VIS_FLAGS_HALF_SIZE)!=0);
 	submenu->Enable(IDO_VIS_HALFSIZE, (currRenderer!=NULL));
@@ -662,7 +509,7 @@ void SjVisModule::OnVisMenu(int id)
 						g_tools->m_config->Write("player/vismodule", newRenderer->PackFileName());
 						if( !m_visWindowVisible ) {
 							g_mainFrame->m_autoCtrl.m_stateStartVisTimestamp = SjTools::GetMsTicks(); // we forgot this in 2.10beta3, see http://www.silverjuke.net/forum/viewtopic.php?p=2994#2994
-							OpenWindow__(-1, NULL);
+							OpenWindow__();
 						}
 						SetCurrRenderer(newRenderer); // UpdateVisMenu() implicitly called
 					}
@@ -745,28 +592,6 @@ void SjVisModule::OnVisMenu(int id)
 			{
 				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY);
 				WriteVisFlags();
-			}
-			return;
-
-		case IDO_VIS_EMBEDWINDOW:
-			if( g_mainFrame->IsAllAvailable() && !g_mainFrame->IsKioskStarted() && !m_inAttachDetach )
-			{
-				bool newEmbedded = !IsEmbedded();
-				if( newEmbedded && !g_mainFrame->GetVisEmbedRect() )
-					return; // can't embed now
-
-				m_inAttachDetach = true;
-
-				SjVisRendererModule* m = GetCurrRenderer();
-				if( m )
-					m_temp1str__ = m->PackFileName();
-
-				SetCurrRenderer(NULL);
-
-				SjTools::SetFlag(m_visFlags, SJ_VIS_FLAGS_EMBEDDED, newEmbedded);
-				WriteVisFlags();
-
-				g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_ATTACH_DETACH));
 			}
 			return;
 	}

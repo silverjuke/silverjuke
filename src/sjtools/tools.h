@@ -626,6 +626,8 @@ public:
 	static wxString FormatRect          (const wxRect&);
 	static wxRect   ParseRect           (const wxString&);
 
+	static bool     ParseRectOrDisplayNumber(const wxString&, wxRect& ret);
+
 	#define         SJ_FT_ALLOW_ZERO    0x01L
 	#define         SJ_FT_MIN_5_CHARS   0x02L
 	#define         SJ_FT_PREPEND_MINUS 0x04L

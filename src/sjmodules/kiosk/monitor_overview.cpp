@@ -35,18 +35,10 @@
 WX_DEFINE_OBJARRAY(SjArrayMonitorOvItem);
 
 
-#define IDC_FOR_MAIN        (IDM_FIRSTPRIVATE+1)
-#define IDC_FOR_VIS         (IDM_FIRSTPRIVATE+2)
-
-
 BEGIN_EVENT_TABLE(SjMonitorOverview, wxWindow)
 	EVT_SIZE            (               SjMonitorOverview::OnSize               )
 	EVT_ERASE_BACKGROUND(               SjMonitorOverview::OnEraseBackground    )
 	EVT_PAINT           (               SjMonitorOverview::OnPaint              )
-	EVT_CONTEXT_MENU    (               SjMonitorOverview::OnMouseRightUp       )
-	EVT_LEFT_DCLICK     (               SjMonitorOverview::OnMouseLeftDClick    )
-	EVT_MENU            (IDC_FOR_MAIN,  SjMonitorOverview::OnMenuSelect         )
-	EVT_MENU            (IDC_FOR_VIS,   SjMonitorOverview::OnMenuSelect         )
 END_EVENT_TABLE()
 
 
@@ -346,7 +338,7 @@ void SjMonitorOverview::DrawBg(wxDC& dc, long what, const wxRect& drawRect, bool
 		}
 		dc.DrawRectangle(rect);
 
-		wxString text = /*_("Karaoke, Vis. etc");*/wxT("Ob-la-di Ob-la-da life goes on bra Lala");
+		wxString text = "Ob-la-di Ob-la-da life goes on bra Lala";
 		wxCoord w, h, decent;
 		dc.GetTextExtent(text, &w, &h, &decent);
 		dc.SetClippingRegion(rect);
@@ -354,18 +346,6 @@ void SjMonitorOverview::DrawBg(wxDC& dc, long what, const wxRect& drawRect, bool
 		dc.DestroyClippingRegion();
 	}
 }
-
-
-
-/*void SjMonitorOverview::DrawVisBg(wxDC& dc, const wxRect& drawRect, bool full)
-{
-    wxString text = _("Karaoke, Vis. etc");//wxT("Ob-la-di Ob-la-da life goes on bra Lala");
-    wxCoord w, h;
-    dc.GetTextExtent(text, &w, &h);
-    dc.SetClippingRegion(drawRect);
-    dc.DrawText(text, drawRect.x-h/4, drawRect.y+drawRect.height-h);
-    dc.DestroyClippingRegion();
-}*/
 
 
 long SjMonitorOverview::FindMonitorByPoint(int x, int y) const
@@ -380,59 +360,3 @@ long SjMonitorOverview::FindMonitorByPoint(int x, int y) const
 }
 
 
-void SjMonitorOverview::OnContextMenu(int x, int y)
-{
-	m_affectedIndex = FindMonitorByPoint(x, y);
-	if( m_affectedIndex != -1 )
-	{
-		SjMenu menu(0);
-
-		menu.AppendCheckItem(IDC_FOR_MAIN, _("Main window"));
-		menu.AppendCheckItem(IDC_FOR_VIS, _("Video screen"));
-
-		long monitorUsage =  m_monitors[m_affectedIndex].m_monitorUsage;
-		if( monitorUsage & MONITOR_USAGE_DUMMY )
-		{
-			menu.Enable(IDC_FOR_MAIN, false);
-			menu.Enable(IDC_FOR_VIS, false);
-		}
-		else
-		{
-			menu.Check(IDC_FOR_MAIN, (monitorUsage & MONITOR_USAGE_MAIN)!=0);
-			menu.Check(IDC_FOR_VIS, (monitorUsage & MONITOR_USAGE_VIS)!=0);
-		}
-
-		PopupMenu(&menu);
-	}
-}
-
-
-void SjMonitorOverview::OnMenuSelect(wxCommandEvent& e)
-{
-	long mCount = (long)m_monitors.GetCount();
-	if( m_affectedIndex >= 0 && m_affectedIndex < mCount )
-	{
-		long flag = e.GetId()==IDC_FOR_MAIN? MONITOR_USAGE_MAIN : MONITOR_USAGE_VIS;
-		wxCommandEvent* fwd = new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, GetId());
-		fwd->SetExtraLong(flag);
-		if( !(m_monitors[m_affectedIndex].m_monitorUsage&flag) )
-		{
-			fwd->SetInt(m_affectedIndex);
-			QueueEvent(fwd);
-		}
-		else if( mCount > 1 )
-		{
-			fwd->SetInt((m_affectedIndex+1)%mCount);
-			QueueEvent(fwd);
-		}
-	}
-}
-
-
-void SjMonitorOverview::OnMouseLeftDClick(wxMouseEvent& e)
-{
-	if( FindMonitorByPoint(e.GetX(), e.GetY()) != -1 )
-	{
-		QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, GetId()));
-	}
-}
