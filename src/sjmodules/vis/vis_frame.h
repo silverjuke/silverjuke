@@ -34,7 +34,7 @@
 class SjVisFrame : public wxFrame
 {
 public:
-					SjVisFrame          (wxWindow* parent, const wxPoint& pos, const wxSize& size, long style);
+					SjVisFrame          (wxWindow* parent, const wxPoint& pos, const wxSize& size, bool fullscreen);
 	                ~SjVisFrame         ();
 
 private:

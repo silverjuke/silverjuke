@@ -31,11 +31,14 @@
 #include <sjmodules/vis/vis_module.h>
 
 
-SjVisFrame::SjVisFrame( wxWindow* parent, const wxPoint& pos, const wxSize& size, long style)
+SjVisFrame::SjVisFrame( wxWindow* parent, const wxPoint& pos, const wxSize& size, bool fullscreen)
 	: wxFrame(parent, wxID_ANY, _("Video screen"), pos, size,
-				wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE | style)
+				fullscreen? (wxDEFAULT_FRAME_STYLE|wxCLIP_CHILDREN|wxFULL_REPAINT_ON_RESIZE|wxFRAME_NO_TASKBAR) : (wxCLIP_CHILDREN|wxFULL_REPAINT_ON_RESIZE|wxFRAME_NO_TASKBAR))
 {
 	SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MAIN));
+	if( fullscreen ) {
+        ShowFullScreen(true);
+	}
 }
 
 

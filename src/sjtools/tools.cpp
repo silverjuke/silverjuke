@@ -1279,8 +1279,9 @@ wxRect SjTools::ParseRect(const wxString& str__)
 }
 
 
-bool SjTools::ParseRectOrDisplayNumber(const wxString& str, wxRect& rect)
+bool SjTools::ParseRectOrDisplayNumber(const wxString& str, wxRect& rect, bool& rectFullscreen)
 {
+	rectFullscreen = false;
 	wxArrayLong arr = ExplodeLong(str, ',', 1, 4);
 	if( arr.GetCount() == 1 ) // one parameter: display number, starting at #1
 	{
@@ -1290,6 +1291,7 @@ bool SjTools::ParseRectOrDisplayNumber(const wxString& str, wxRect& rect)
 			wxDisplay displ(visDisplayIndexInternal);
 			if( displ.IsOk() ) {
 				rect = displ.GetGeometry();
+				rectFullscreen = true;
 				return true; // success
 			}
 			else {

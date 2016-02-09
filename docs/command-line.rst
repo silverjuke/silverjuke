@@ -100,24 +100,22 @@ starting with two dashes ('**-**'). **silverjuke** supports the following option
   mode is running with limited functionality, the update process cannot be
   aborted.
 
---kioskrect=X,Y,W,H[,clipmouse]
+--kioskrect=DISPLAY|X,Y,W,H[,clipmouse]
   With this option you can force the Silverjuke window to the given rectangle
   when using the kiosk mode. This is useful if you want to show sth. beside the
-  Silverjuke window (by default, the whole screen is used). If the x and y
-  parameters are skipped, the window will be placed at the upper left corner at
-  0/0.
+  Silverjuke window (by default, the whole screen is used).
 
   Moreover, if you add the "clipmouse" modifier, the mouse cannot be moved
   outside the given rectangle. Instead of X,Y,W,H you can also give a simple
-  display number.
+  DISPLAY number, the first display has the number 1.
 
---visrect=X,Y,W,H
+--visrect=DISPLAY|X,Y,W,H
   Assign a static portion of the screen to the visualization. Instead of X,Y,W,H
-  you can also give a simple display number.
+  you can also give a simple DISPLAY number, the first display has the number 1.
 
---blackrect=X,Y,W,H[;X,Y,W,H;...]
+--blackrect=DISPLAY|X,Y,W,H[;DISPLAY|X,Y,W,H;...]
   Areas to cover by black rectangles. Instead of X,Y,W,H you can also give a 
-  simple display number.
+  simple DISPLAY number, the first display has the number 1.
 
 --volup
   increase the main volume

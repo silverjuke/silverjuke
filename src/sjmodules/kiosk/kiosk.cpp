@@ -50,12 +50,15 @@
 class SjBlackFrame : public wxFrame
 {
 public:
-	SjBlackFrame        (const wxPoint& pos, const wxSize& size)
-		: wxFrame(NULL, wxID_ANY, "", pos, size, wxSTAY_ON_TOP | // <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
-						wxFRAME_NO_TASKBAR)
+	SjBlackFrame        (const wxPoint& pos, const wxSize& size, bool fullscreen)
+		: wxFrame(NULL, wxID_ANY, "", pos, size,
+					fullscreen? (wxDEFAULT_FRAME_STYLE|wxFRAME_NO_TASKBAR) : (wxSTAY_ON_TOP|wxFRAME_NO_TASKBAR))
 	{
 		SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MAIN));
 		Show();
+		if( fullscreen ) {
+			ShowFullScreen(true);
+		}
 	}
 
 private:
@@ -1809,11 +1812,10 @@ void SjKioskModule::DoStart()
 	// (3b) set exclusive / always on top
 	if( m_configKioskf&(SJ_KIOSKF_DISABLE_AT|SJ_KIOSKF_DISABLE_CAD) )
 	{
-		m_backupAlwaysOnTop = g_mainFrame->IsAlwaysOnTop();
-
 		if( !g_debug )
 		{
-			g_mainFrame->SetWindowStyle(g_mainFrame->GetWindowStyle() | wxSTAY_ON_TOP);
+			g_mainFrame->ShowAlwaysOnTop(true);
+			g_visModule->ShowVisAlwaysOnTop(true);
 			// we don't do this in debug mode as an always-on-top windows makes debugging almost impossible
 		}
 	}
@@ -1892,11 +1894,15 @@ void SjKioskModule::DoStart()
 	if( g_tools->ReadFromCmdLineOrIni("kioskrect", rectStr) )
 	{
 		wxRect kioskRect;
-		if( SjTools::ParseRectOrDisplayNumber(rectStr, kioskRect) )
+		bool   kioskRectFullscreen;
+		if( SjTools::ParseRectOrDisplayNumber(rectStr, kioskRect, kioskRectFullscreen) )
 		{
 			g_mainFrame->SetSize(kioskRect);
 			if( rectStr.AfterLast(',') == "clipmouse" ) {
 				ClipMouse(&kioskRect);
+			}
+			if( kioskRectFullscreen ) {
+				g_mainFrame->ShowFullScreen(true);
 			}
 		}
 
@@ -1940,10 +1946,11 @@ void SjKioskModule::DoStart()
 		wxArrayString rects = SjTools::Explode(rectStr, ';', 1, 32);
 		for( int r = 0; r < (int)rects.GetCount(); r++ )
 		{
-			wxRect rect;
-			if( SjTools::ParseRectOrDisplayNumber(rects.Item(r), rect) )
+			wxRect blackRect;
+			bool   blackRectFullscreen;
+			if( SjTools::ParseRectOrDisplayNumber(rects.Item(r), blackRect, blackRectFullscreen) )
 			{
-				SjBlackFrame* blackFrame = new SjBlackFrame(wxPoint(rect.x,rect.y), wxSize(rect.width,rect.height));
+				SjBlackFrame* blackFrame = new SjBlackFrame(wxPoint(blackRect.x,blackRect.y), wxSize(blackRect.width,blackRect.height), blackRectFullscreen);
 				m_blackFrames.Add(blackFrame);
 			}
 		}
@@ -1956,7 +1963,8 @@ void SjKioskModule::DoStart()
 			{
 				wxDisplay displ(d);
 				wxRect rect = displ.GetGeometry();
-				SjBlackFrame* blackFrame = new SjBlackFrame(wxPoint(rect.x,rect.y), wxSize(rect.width,rect.height));
+				SjBlackFrame* blackFrame = new SjBlackFrame(wxPoint(rect.x,rect.y), wxSize(rect.width,rect.height), true);
+				blackFrame->ShowFullScreen(true);
 				m_blackFrames.Add(blackFrame);
 			}
 		}
@@ -2052,10 +2060,8 @@ void SjKioskModule::DoExit(bool restoreWindow)
 	#endif
 	if( m_configKioskf&(SJ_KIOSKF_DISABLE_AT|SJ_KIOSKF_DISABLE_CAD) )
 	{
-		if( !m_backupAlwaysOnTop )
-		{
-			g_mainFrame->SetWindowStyle(g_mainFrame->GetWindowStyle() & ~wxSTAY_ON_TOP);
-		}
+		g_mainFrame->ShowAlwaysOnTop(false);
+		g_visModule->ShowVisAlwaysOnTop(false);
 	}
 
 	if( restoreWindow )

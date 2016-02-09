@@ -91,11 +91,12 @@ bool SjVisModule::FirstLoad()
 	if( g_tools->ReadFromCmdLineOrIni("visrect", rectStr) )
 	{
 		wxRect visRect;
-		if( SjTools::ParseRectOrDisplayNumber(rectStr, visRect) )
+		bool   visRectFullscreen;
+		if( SjTools::ParseRectOrDisplayNumber(rectStr, visRect, visRectFullscreen) )
 		{
 			m_visOwnFrame = new SjVisFrame(NULL, // <-- <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
 				wxPoint(visRect.x, visRect.y), wxSize(visRect.width, visRect.height),
-				wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE | wxFRAME_NO_TASKBAR | wxSTAY_ON_TOP);
+				visRectFullscreen);
 			if( m_visOwnFrame )
 			{
 				m_visOwnFrame->Show();
@@ -152,8 +153,9 @@ void SjVisModule::StartVis()
 		wxString desiredRenderer = GetDesiredRenderer();
 		wxString realNextRenderer = GetRealNextRenderer(desiredRenderer);
 		SjVisRendererModule* m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(realNextRenderer);
-		wxASSERT( m );
-		SetCurrRenderer(m);
+		if( m ) {
+			SetCurrRenderer(m);
+		}
 	}
 	else
 	{
@@ -243,6 +245,25 @@ bool SjVisModule::CloseWindow__()
 void SjVisModule::StopOrCloseRequest()
 {
 	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_FWD_CLOSE));
+}
+
+
+void SjVisModule::ShowVisAlwaysOnTop(bool set) const
+{
+	// this only affects non-embedded video screens using a separate frame:
+	// as these frames are created upon program start, they may lay over the main window - which would get
+	// unusable if the video screens has the wxSTAY_ON_TOP flag after creation.
+	// so we set wxSTAY_ON_TOP only during the kiosk mode.
+	if( m_visOwnFrame )
+	{
+		long s = m_visOwnFrame->GetWindowStyle();
+		if( set ) {
+			m_visOwnFrame->SetWindowStyle(s | wxSTAY_ON_TOP);
+		}
+		else {
+			m_visOwnFrame->SetWindowStyle(s & ~wxSTAY_ON_TOP);
+		}
+	}
 }
 
 
