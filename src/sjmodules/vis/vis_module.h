@@ -65,7 +65,7 @@ public:
 
 	// More state
 	bool            IsOverWorkspace     () const { return (m_visWindowVisible && !m_visOwnFrame && m_visIsOverWorkspace); }
-	bool            IsWindowPrepared    () const { return (m_visWindowVisible!=false); }
+	bool            IsWindowPrepared    () const { return (m_visWindowVisible!=false||m_visOwnFrame!=NULL); }
 	void            ShowVisAlwaysOnTop  (bool) const;
 
 	// used by the SjVisImpl class

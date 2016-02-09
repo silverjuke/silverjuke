@@ -146,6 +146,9 @@ void SjVisModule::WriteVisFlags()
 
 void SjVisModule::StartVis()
 {
+	if( IsVisStarted() )
+		return;
+
 	g_mainFrame->m_autoCtrl.m_stateStartVisTimestamp = SjTools::GetMsTicks(); // we forgot this in 2.10beta3, see http://www.silverjuke.net/forum/viewtopic.php?p=2994#2994
 	OpenWindow__();
 	if( m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY )
@@ -153,9 +156,7 @@ void SjVisModule::StartVis()
 		wxString desiredRenderer = GetDesiredRenderer();
 		wxString realNextRenderer = GetRealNextRenderer(desiredRenderer);
 		SjVisRendererModule* m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(realNextRenderer);
-		if( m ) {
-			SetCurrRenderer(m);
-		}
+		SetCurrRenderer(m? m : SJ_SET_LAST_SELECTED);
 	}
 	else
 	{
