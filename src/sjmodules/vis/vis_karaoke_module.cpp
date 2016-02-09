@@ -300,12 +300,12 @@ private:
 	   -- people shall use the menu button atop of the window
 	   Edit 3.04: well, but we'll need this for the kiosk mode */
 	// /*
-	void            OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftDown(this, e); }
-	void            OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftUp(this, e); }
-	void            OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseRightUp(this, e); }
-	void            OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftDClick(this, e); }
+	void            OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftDown(e); }
+	void            OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftUp(e); }
+	void            OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseRightUp(e); }
+	void            OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseLeftDClick(e); }
 	// */
-	void            OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseEnter(this, e); }
+	void            OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_karaokeModule->m_impl->OnMouseEnter(e); }
 
 	bool            m_inPaint;
 
@@ -689,18 +689,18 @@ void SjKaraokeModule::UpdateBg(bool keepImg)
 }
 
 
-bool SjKaraokeModule::Start(SjVisImpl* impl, bool justContinue)
+bool SjKaraokeModule::Start(SjVisWindow* impl)
 {
 	m_impl = impl;
 	m_currUrl = wxT(":*");  // something invalid, but not empty - otherwise the comparison for new tracks
 	// will fail if the url is empty!
 	if( m_karaokeWindow == NULL )
 	{
-		m_karaokeWindow = new SjKaraokeWindow(this, m_impl->GetWindow());
+		m_karaokeWindow = new SjKaraokeWindow(this, m_impl);
 
 		if( m_karaokeWindow  )
 		{
-			ReceiveMsgTrackOnAirChanged(justContinue);
+			ReceiveMsgTrackOnAirChanged();
 
 			wxRect visRect = impl->GetRendererClientRect();
 			m_karaokeWindow->SetSize(visRect);
@@ -738,7 +738,7 @@ void SjKaraokeModule::Stop()
 }
 
 
-void SjKaraokeModule::ReceiveMsgTrackOnAirChanged(bool justContinue)
+void SjKaraokeModule::ReceiveMsgTrackOnAirChanged()
 {
 	if( m_karaokeWindow )
 	{
@@ -751,7 +751,7 @@ void SjKaraokeModule::ReceiveMsgTrackOnAirChanged(bool justContinue)
 		{
 			m_currUrl = newUrl;
 
-			if( m_bg == NULL || !justContinue )
+			if( m_bg == NULL )
 				UpdateBg();
 
 			m_karaokeWindow->m_karaokeMaster.Init(newUrl, ti.m_leadArtistName, ti.m_trackName);
@@ -767,12 +767,12 @@ void SjKaraokeModule::ReceiveMsg(int msg)
 
 	if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED )
 	{
-		ReceiveMsgTrackOnAirChanged(false);
+		ReceiveMsgTrackOnAirChanged();
 	}
 }
 
 
-void SjKaraokeModule::PleaseUpdateSize(SjVisImpl* impl)
+void SjKaraokeModule::PleaseUpdateSize(SjVisWindow* impl)
 {
 	if( m_karaokeWindow )
 	{
@@ -836,10 +836,10 @@ void SjKaraokeModule::OnMenuOption(int i)
 		case IDC_BG_USERDEF_DIR_CHANGE:
 			g_visModule->SetModal(true);
 			{
-				SJ_WINDOW_DISABLER(m_impl->GetWindow());
+				SJ_WINDOW_DISABLER(m_impl);
 
 				::wxBeginBusyCursor(wxHOURGLASS_CURSOR);
-				wxDirDialog dirDialog(m_impl->GetWindow(),
+				wxDirDialog dirDialog(m_impl,
 				                      _("Please select a directory with images"),
 				                      m_bgUserDefDir);
 				::wxEndBusyCursor();

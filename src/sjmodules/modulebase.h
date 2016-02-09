@@ -579,7 +579,7 @@ public:
  ******************************************************************************/
 
 
-class SjVisImpl;
+class SjVisWindow;
 
 
 class SjVisRendererModule : public SjModule
@@ -591,9 +591,8 @@ public:
 	}
 
 	// Start the visualisation. The module should use the
-	// public interface of SjVisModule and SjVisImpl
-	// "justContinue" ist just a hint, set if the vis. window was attached/detached and is started therefore.
-	virtual bool    Start               (SjVisImpl*, bool justContinue) = 0;
+	// public interface of SjVisModule and SjVisWindow.
+	virtual bool    Start               (SjVisWindow*) = 0;
 
 	// Stop the visualisation. After Stop() is called, the
 	// player object given to Start() is no longer valid.
@@ -603,8 +602,8 @@ public:
 	virtual void    AddMenuOptions      (SjMenu&) {}
 	virtual void    OnMenuOption        (int i) {}
 
-	// when the size has changed ... the module should call SjVisImpl::GetRendererClientRect() or SjVisImpl::GetRendererScreenRect()
-	virtual void    PleaseUpdateSize    (SjVisImpl*) = 0;
+	// when the size has changed ... the module should call SjVisWindow::GetRendererClientRect() or SjVisImpl::GetRendererScreenRect()
+	virtual void    PleaseUpdateSize    (SjVisWindow*) = 0;
 
 	// AddVisData() function is called from without the audio DSP output, so please be fast and do not do
 	// weird things here!

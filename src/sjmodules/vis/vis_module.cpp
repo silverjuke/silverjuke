@@ -29,6 +29,7 @@
 #include <sjbase/base.h>
 #include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_window.h>
+#include <sjmodules/vis/vis_frame.h>
 #include <sjmodules/vis/vis_karaoke_module.h>
 #include <sjmodules/vis/vis_vidout_module.h>
 #include <wx/display.h>
@@ -44,6 +45,8 @@
 	#define DEFAULT_VIS_FILE_NAME "memory:oscilloscope.lib"
 #endif
 
+#undef VIS_DEBUG_VIEW
+
 
 /*******************************************************************************
  * Constructor & Co.
@@ -56,9 +59,11 @@ SjVisModule* g_visModule = NULL;
 SjVisModule::SjVisModule(SjInterfaceBase* interf)
 	: SjCommonModule(interf)
 {
-	m_file                      = wxT("memory:vis.lib");
+	m_file                      = "memory:vis.lib";
 	m_name                      = _("Video screen");
+	m_visFrame                  = NULL;
 	m_visWindow                 = NULL;
+	m_visWindowVisible          = false;
 	m_visIsStarted              = false;
 	m_explicitlyPrepared        = false;
 	m_inAttachDetach            = false;
@@ -66,11 +71,34 @@ SjVisModule::SjVisModule(SjInterfaceBase* interf)
 }
 
 
+void SjVisModule::MoveVisAway()
+{
+	m_visWindow->SetSize(
+		#ifdef VIS_DEBUG_VIEW
+			0, 0,
+		#else
+			-10000, -10000,
+		#endif
+		64, 64);
+}
+
+
 bool SjVisModule::FirstLoad()
 {
 	g_visModule = this;
-	m_visFlags = g_tools->m_config->Read(wxT("player/visflags"), SJ_VIS_FLAGS_DEFAULT);
-	g_vidoutModule->Load(); // the "video window handle" is needed even if the "video screen" is closed
+	m_visFlags = g_tools->m_config->Read("player/visflags", SJ_VIS_FLAGS_DEFAULT);
+
+	// create the vis. window - the window is always needed as it is eg. a parent for videos;
+	// if it is not visible, it is moved aside
+	m_visWindow = new SjVisWindow(g_mainFrame);
+	if( !m_visWindow ) { return false; }
+
+	MoveVisAway();
+	m_visWindow->Show(); // sic! we hide the window by moving it out of view
+	m_visWindowVisible = false;
+
+	// the "video window handle" is needed even if the "video screen" is closed
+	g_vidoutModule->Load();
 	return true;
 }
 
@@ -85,7 +113,7 @@ void SjVisModule::LastUnload()
 
 void SjVisModule::WriteVisFlags()
 {
-	g_tools->m_config->Write(wxT("player/visflags"), m_visFlags);
+	g_tools->m_config->Write("player/visflags", m_visFlags);
 }
 
 
@@ -125,7 +153,7 @@ void SjVisModule::StartVis()
 	}
 	else
 	{
-		SetCurrRenderer(SJ_SET_LAST_SELECTED, false); // false=just continue
+		SetCurrRenderer(SJ_SET_LAST_SELECTED);
 	}
 }
 
@@ -153,8 +181,13 @@ bool SjVisModule::OpenWindow__(int fullscreenDisplay, const wxRect* fullscreenVi
 	wxASSERT( wxThread::IsMain() );
 
 	// if the window is already opened, this function simply does nothing
-	if( m_visWindow || g_mainFrame == NULL || g_visModule == NULL )
+	if( m_visWindowVisible || g_mainFrame == NULL || g_visModule == NULL )
 		return false;
+
+	#if 1 // TODO: Remove this hack
+	fullscreenDisplay = -1;
+	m_visFlags |= SJ_VIS_FLAGS_EMBEDDED;
+	#endif
 
 	bool    createFullScreen = false;
 	long    createStyle = wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE;
@@ -197,7 +230,7 @@ bool SjVisModule::OpenWindow__(int fullscreenDisplay, const wxRect* fullscreenVi
 			createStyle |= (wxDEFAULT_FRAME_STYLE & ~wxMINIMIZE_BOX);
 
 			bool setDefault = false;
-			createRect = g_tools->ReadRect(wxT("player/visrect"));
+			createRect = g_tools->ReadRect("player/visrect");
 			if( createRect.width == 0 || createRect.height == 0 )
 			{
 				setDefault = true;
@@ -243,47 +276,42 @@ bool SjVisModule::OpenWindow__(int fullscreenDisplay, const wxRect* fullscreenVi
 		}
 	}
 
-	// finally, create the window
+	// finally, show the window
 	// ---------------------------------------------------------------------------------------------
 
 	if( m_visState == SJ_VIS_EMBEDDED )
 	{
-		SjVisEmbed* visEmbed = new SjVisEmbed(g_mainFrame, wxID_ANY,
-		                                      wxPoint(createRect.x, createRect.y), wxSize(createRect.width, createRect.height),
-		                                      createStyle);
-		visEmbed->InitImpl();
+        m_visWindow->SetSize(createRect);
 
-		// show the control
-		visEmbed->Show();
 		if( m_visIsOverWorkspace )
 			g_mainFrame->MoveWorkspaceAway(true);
 		g_mainFrame->Update();
 
-		// done with the control creation
-		m_visWindow = visEmbed;
+		m_visWindowVisible = true;
 	}
 	else
 	{
-		SjVisFrame* visFrame = new SjVisFrame(createFullScreen? NULL : g_mainFrame, // <-- <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
-		                                      wxID_ANY,
-		                                      m_name,
+		m_visFrame = new SjVisFrame(createFullScreen? NULL : g_mainFrame, // <-- <-- without this and with g_mainFrame instead of NULL as parent, the tastbar stays visible!
 		                                      wxPoint(createRect.x, createRect.y), wxSize(createRect.width, createRect.height),
 		                                      createStyle);
-		visFrame->InitImpl();
-
 		// show the frame
 		if( createFullScreen )
 		{
-			visFrame->ShowFullScreen(true);
+			m_visFrame->ShowFullScreen(true);
 		}
 		else
 		{
-			visFrame->SetIcons(g_mainFrame->m_iconBundle);
-			visFrame->Show();
+			m_visFrame->SetIcons(g_mainFrame->m_iconBundle);
+			m_visFrame->Show();
 		}
 
+		// do reparent
+		g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_BEFORE_REPARENT);
+        m_visWindow->Reparent(m_visFrame);
+        g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_AFTER_REPARENT);
+
 		// done with the frame creation
-		m_visWindow = visFrame;
+		m_visWindowVisible = true;
 	}
 
 	return true;
@@ -297,20 +325,34 @@ bool SjVisModule::CloseWindow__()
 	if( m_visWindow == NULL )
 		return false;
 
+	// move workspace back to view
 	if( m_visState == SJ_VIS_EMBEDDED && m_visIsOverWorkspace )
-		g_mainFrame->MoveWorkspaceAway(false);
-
-	// save position
-	if( m_visState == SJ_VIS_FLOATING && !((SjVisFrame*)m_visWindow)->IsMaximized() )
 	{
-		wxRect r = m_visWindow->GetRect();
-		g_tools->WriteRect(wxT("player/visrect"), r);
+		g_mainFrame->MoveWorkspaceAway(false);
+	}
+
+	// close the frame, if used
+	if( m_visFrame )
+	{
+		if( m_visState == SJ_VIS_FLOATING && !m_visFrame->IsMaximized() )
+		{
+			wxRect r = m_visFrame->GetRect();
+			g_tools->WriteRect("player/visrect", r);
+		}
+
+		g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_BEFORE_REPARENT);
+		m_visWindow->Reparent(g_mainFrame);
+		g_mainFrame->m_moduleSystem.BroadcastMsg(IDMODMSG_VIS_AFTER_REPARENT);
+
+		m_visFrame->Destroy();
+		m_visFrame = NULL;
 	}
 
 	// hide the window
-	m_visWindow->Hide();
-	m_visWindow->Destroy();
-	m_visWindow = NULL;
+	m_visWindow->SetRenderer(NULL);
+
+	MoveVisAway();
+	m_visWindowVisible = false;
 
 	return true;
 }
@@ -357,16 +399,16 @@ wxString SjVisModule::GetDesiredRenderer()
 wxString SjVisModule::GetRealNextRenderer(const wxString& desiredRenderer)
 {
 	SjVisRendererModule* currRenderer__ = GetCurrRenderer(); // may be NULL
-	wxString nextRenderer, currRenderer = currRenderer__? currRenderer__->m_file : wxT("");
+	wxString nextRenderer, currRenderer = currRenderer__? currRenderer__->m_file : "";
 
 	if( desiredRenderer.IsEmpty() )
 	{
 		// neither vidout nor karaoke desired, switch to a visualisation
-		if( currRenderer == wxT("") || currRenderer == wxT("memory:vidout.lib") || currRenderer == wxT("memory:karaoke.lib") )
+		if( currRenderer == "" || currRenderer == "memory:vidout.lib" || currRenderer == "memory:karaoke.lib" )
 		{
 			nextRenderer = DEFAULT_VIS_FILE_NAME;
-			wxString moduleName = g_tools->m_config->Read(wxT("player/vismodule"), wxT(""));
-			if( moduleName != wxT("memory:vidout.lib") && moduleName != wxT("memory:karaoke.lib") ) {
+			wxString moduleName = g_tools->m_config->Read("player/vismodule", "");
+			if( moduleName != "memory:vidout.lib" && moduleName != "memory:karaoke.lib" ) {
 				SjModule* m = g_mainFrame->m_moduleSystem.FindModuleByFile(moduleName);
 				if( m && m->m_type == SJ_MODULETYPE_VIS_RENDERER ) {
 					nextRenderer = moduleName;
@@ -387,24 +429,10 @@ wxString SjVisModule::GetRealNextRenderer(const wxString& desiredRenderer)
 
 SjVisRendererModule* SjVisModule::GetCurrRenderer() const
 {
-	SjVisImpl* impl = GetVisImpl();
+	SjVisWindow* impl = GetVisWindow();
 	if( impl )
 	{
 		return impl->GetRenderer();
-	}
-
-	return NULL;
-}
-
-
-SjVisImpl* SjVisModule::GetVisImpl() const
-{
-	if( m_visWindow )
-	{
-		if( m_visState == SJ_VIS_EMBEDDED )
-			return &(((SjVisEmbed*)m_visWindow)->m_impl);
-		else
-			return &(((SjVisFrame*)m_visWindow)->m_impl);
 	}
 
 	return NULL;
@@ -425,7 +453,7 @@ void SjVisModule::ReceiveMsg(int msg)
 {
 	if( msg == IDMODMSG_WINDOW_SIZED_MOVED )
 	{
-		if( m_visWindow && m_visState == SJ_VIS_EMBEDDED )
+		if( m_visWindowVisible && m_visState == SJ_VIS_EMBEDDED )
 		{
 			wxRect r;
 			bool wasOverWorkspace = m_visIsOverWorkspace;
@@ -450,7 +478,7 @@ void SjVisModule::ReceiveMsg(int msg)
 
 		wxString desiredRenderer = GetDesiredRenderer();
 
-		if( m_visWindow )
+		if( m_visWindowVisible )
 		{
 			if( !m_inAttachDetach && (m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY) )
 			{
@@ -491,7 +519,7 @@ void SjVisModule::ReceiveMsg(int msg)
 		{
 			StopVis();
 			OpenWindow__(-1, NULL);
-			SetCurrRenderer(SJ_SET_FROM_m_temp1str__, false /*just continue*/);
+			SetCurrRenderer(SJ_SET_FROM_m_temp1str__);
 
 			m_inAttachDetach = false;
 		}
@@ -506,9 +534,9 @@ void SjVisModule::ReceiveMsg(int msg)
 }
 
 
-void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disable vis.*/, bool justContinue)
+void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disable vis.*/)
 {
-	if( m_visWindow == NULL )
+	if( !m_visWindowVisible )
 		return;
 
 	// handle some special values
@@ -521,7 +549,7 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 	}
 	else if( m==SJ_SET_LAST_SELECTED )
 	{
-		wxString moduleName = g_tools->m_config->Read(wxT("player/vismodule"), wxT(""));
+		wxString moduleName = g_tools->m_config->Read("player/vismodule", "");
 		m = (SjVisRendererModule*)g_mainFrame->m_moduleSystem.FindModuleByFile(moduleName);
 		if( m == NULL || m->m_type != SJ_MODULETYPE_VIS_RENDERER )
 		{
@@ -539,11 +567,7 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 	m_visIsStarted = (m!=NULL);
 
 	// let the window set the renderer
-	SjVisImpl* impl = GetVisImpl();
-	if( impl )
-	{
-		impl->SetRenderer(m, justContinue);
-	}
+	m_visWindow->SetRenderer(m);
 
 	// inform all others
 	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDMODMSG_VIS_STATE_CHANGED));
@@ -616,7 +640,7 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 
 void SjVisModule::OnVisMenu(int id)
 {
-	SjVisImpl* impl = GetVisImpl();
+	if( m_visWindow == NULL ) return;
 
 	// start an explicit video screen
 	if( id>=IDO_VIS_STARTFIRST && id<=IDO_VIS_STARTLAST )
@@ -635,8 +659,8 @@ void SjVisModule::OnVisMenu(int id)
 				{
 					if( newRenderer != GetCurrRenderer() )
 					{
-						g_tools->m_config->Write(wxT("player/vismodule"), newRenderer->PackFileName());
-						if( impl==NULL ) {
+						g_tools->m_config->Write("player/vismodule", newRenderer->PackFileName());
+						if( !m_visWindowVisible ) {
 							g_mainFrame->m_autoCtrl.m_stateStartVisTimestamp = SjTools::GetMsTicks(); // we forgot this in 2.10beta3, see http://www.silverjuke.net/forum/viewtopic.php?p=2994#2994
 							OpenWindow__(-1, NULL);
 						}
@@ -707,12 +731,12 @@ void SjVisModule::OnVisMenu(int id)
 			return;
 
 		case IDO_VIS_HALFSIZE:
-			if( g_mainFrame->IsAllAvailable() && impl )
+			if( g_mainFrame->IsAllAvailable() && m_visWindowVisible )
 			{
 				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_HALF_SIZE);
 				WriteVisFlags();
-				impl->CalcPositions();
-				impl->m_thisWindow->Refresh();
+				m_visWindow->CalcPositions();
+				m_visWindow->Refresh();
 			}
 			return;
 

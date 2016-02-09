@@ -36,8 +36,6 @@ class SjKaraokeModule;
 class SjKaraokeWindow;
 class SjKaraokeFrame;
 
-class SjVisImpl;
-
 
 enum SjKaraokeBgType
 {
@@ -92,11 +90,11 @@ class SjKaraokeModule : public SjVisRendererModule
 public:
 						SjKaraokeModule     (SjInterfaceBase* interf);
 
-	bool                Start               (SjVisImpl*, bool justContinue);
+	bool                Start               (SjVisWindow*);
 	void                Stop                ();
 
 	void                ReceiveMsg          (int);
-	void                PleaseUpdateSize    (SjVisImpl*);
+	void                PleaseUpdateSize    (SjVisWindow*);
 
 	void                AddMenuOptions      (SjMenu& m);
 	void                OnMenuOption        (int i);
@@ -107,9 +105,9 @@ protected:
 
 private:
 	SjKaraokeWindow*    m_karaokeWindow;
-	void                ReceiveMsgTrackOnAirChanged(bool justContinue);
+	void                ReceiveMsgTrackOnAirChanged();
 
-	SjVisImpl*          m_impl;
+	SjVisWindow*        m_impl;
 
 	wxString            m_currUrl;
 

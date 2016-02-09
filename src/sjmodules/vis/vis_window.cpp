@@ -21,18 +21,7 @@
  *
  * File:    vis_window.cpp
  * Authors: Björn Petersen
- * Purpose: This file provides two classes, SjVisEmbed and
- *          SjVisFrame that are used as parents for the visualizations
- *          (either embedded or floating)
- *
- *******************************************************************************
- *
- * Normally one would use multiple inheritance for the both vis. windows
- * (one based on wxWindow and the other based on wxFrame) - however, I did
- * not really get it to work with wxWidget :-(
- *
- * So there are to "dummy" classes SjVisEmbed and SjVisFrame which
- * does nothing but forwarding all important calls to SjVisImpl.
+ * Purpose: Parent classes for the visualizations
  *
  ******************************************************************************/
 
@@ -44,47 +33,48 @@
 
 
 /*******************************************************************************
- *  SjVisImpl Constructor / Configuration
+ * SjVisWindow
  ******************************************************************************/
 
 
-SjVisImpl::SjVisImpl()
+SjVisWindow::SjVisWindow(wxWindow* parent)
+		: wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize,
+					wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE)
 {
-	m_thisWindow = NULL;
 	m_renderer = NULL;
 
 	m_keyDown = false;
 	m_mouseDown = false;
-}
-
-
-void SjVisImpl::Init(wxWindow* thisWindow, bool thisWindowIsFrame)
-{
-	wxASSERT( m_thisWindow == NULL );
-
-	m_thisWindow        = thisWindow;
-	m_thisWindowIsFrame = thisWindowIsFrame;
 
 	CalcPositions();
 }
 
 
-void SjVisImpl::Exit()
+SjVisWindow::~SjVisWindow()
 {
 	RemoveRenderer();
 	wxASSERT( m_renderer == NULL );
 }
 
 
-/*******************************************************************************
- * SjVisImpl Drawing Related stuff
- ******************************************************************************/
+BEGIN_EVENT_TABLE(SjVisWindow, wxWindow)
+	EVT_ERASE_BACKGROUND(                       SjVisWindow::OnEraseBackground   )
+	EVT_PAINT           (                       SjVisWindow::OnPaint             )
+	EVT_SIZE            (                       SjVisWindow::OnSize              )
+	EVT_KEY_DOWN        (                       SjVisWindow::OnKeyDown           )
+	EVT_KEY_UP          (                       SjVisWindow::OnKeyUp             )
+	EVT_LEFT_DOWN       (                       SjVisWindow::OnMouseLeftDown     )
+	EVT_LEFT_UP         (                       SjVisWindow::OnMouseLeftUp       )
+	EVT_LEFT_DCLICK     (                       SjVisWindow::OnMouseLeftDClick   )
+	EVT_CONTEXT_MENU    (                       SjVisWindow::OnMouseRightUp      )
+	EVT_ENTER_WINDOW    (                       SjVisWindow::OnMouseEnter        )
+END_EVENT_TABLE()
 
 
-void SjVisImpl::CalcPositions()
+void SjVisWindow::CalcPositions()
 {
 	int w, h;
-	m_thisWindow->GetClientSize(&w, &h);
+	GetClientSize(&w, &h);
 
 	m_rendererRect.x = 0;
 	m_rendererRect.y = 0;
@@ -106,41 +96,17 @@ void SjVisImpl::CalcPositions()
 }
 
 
-void SjVisImpl::OnEraseBackground(wxEraseEvent& e)
+void SjVisWindow::OnPaint(wxPaintEvent& e)
 {
-}
-
-
-void SjVisImpl::OnPaint(wxPaintEvent& e)
-{
-	wxPaintDC paintDc(m_thisWindow);
+	wxPaintDC paintDc(this);
 
 	paintDc.SetBrush(*wxBLACK_BRUSH);
 	paintDc.SetPen(*wxTRANSPARENT_PEN);
-	paintDc.DrawRectangle(m_thisWindow->GetClientSize());
+	paintDc.DrawRectangle(GetClientSize());
 }
 
 
-/*******************************************************************************
- *  SjVisImpl Mouse / Keyboard / Context-Menu
- ******************************************************************************/
-
-
-wxPoint SjVisImpl::GetEventMousePosition(wxWindow* from, wxMouseEvent& e) const
-{
-	// as mouse events are forwared from m_thisWindow or from any client,
-	// this function converts to coordinated relative to m_thisWindow
-
-	wxASSERT( from );
-
-	wxPoint pt = from->ClientToScreen(e.GetPosition());
-	pt = m_thisWindow->ScreenToClient(pt);
-
-	return pt;
-}
-
-
-void SjVisImpl::OnKeyUp(wxKeyEvent& event)
+void SjVisWindow::OnKeyUp(wxKeyEvent& event)
 {
 	int targetId = g_accelModule->KeyEvent2CmdId(event, SJA_MAIN);
 
@@ -152,7 +118,7 @@ void SjVisImpl::OnKeyUp(wxKeyEvent& event)
 		g_mainFrame->GetEventHandler()->ProcessEvent(fwd);
 	}
 	else if( m_keyDown
-	         && event.GetKeyCode() == WXK_ESCAPE )
+	      && event.GetKeyCode() == WXK_ESCAPE )
 	{
 		if( g_visModule->IsOverWorkspace() || g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS) )
 			g_visModule->StopOrCloseRequest();
@@ -164,69 +130,33 @@ void SjVisImpl::OnKeyUp(wxKeyEvent& event)
 }
 
 
-void SjVisImpl::OnMouseEnter(wxWindow* from, wxMouseEvent& event)
+void SjVisWindow::OnMouseEnter(wxMouseEvent& event)
 {
 	// if the mouse enters this window, send a mouse leave
 	// message to the parent window
-	if( !m_thisWindowIsFrame )
-	{
-		wxASSERT( m_thisWindow->GetParent() );
-		m_thisWindow->GetParent()->GetEventHandler()->QueueEvent(new wxMouseEvent(wxEVT_LEAVE_WINDOW));
-	}
+	g_mainFrame->GetEventHandler()->QueueEvent(new wxMouseEvent(wxEVT_LEAVE_WINDOW));
 }
 
 
-void SjVisImpl::OnMouseLeftUp(wxWindow* from, wxMouseEvent& event)
+void SjVisWindow::OnMouseLeftUp(wxMouseEvent& event)
 {
 	if( !m_mouseDown || g_mainFrame == NULL || g_visModule == NULL )
 		return; // do not consume "half clicks"
 
-	/* -- if over workspace, always close the window on a left click, 
+	/* -- if over workspace, always close the window on a left click,
 	   -- this is a good idea to be consisten with the kiosk mode.
 	   -- special vis. function can be created using the keyboard or the main menu.
 	   -- as we create all vis. ourselves now, there should be no problems with
 	   -- inconsistency now.
 	*/
-	//if( !g_mainFrame->IsAllAvailable() )
+	if( g_visModule->IsOverWorkspace() )
 	{
-		if( g_visModule->IsOverWorkspace() /*|| g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)*/ )
-		{
-			g_visModule->StopOrCloseRequest();
-		}
+		g_visModule->StopOrCloseRequest();
 	}
 }
 
 
-void SjVisImpl::OnMouseRightUp(wxWindow* from, wxContextMenuEvent& event)
-{
-	/* -- if we add the cntext menu again, we should take care of events that destroy this window.
-	   -- moreover, we should think over not to close the window on a simple click then.
-	wxPoint mousePt = m_thisWindow->ScreenToClient(event.GetPosition());
-
-	if( g_mainFrame->IsAllAvailable() )
-	{
-		SjMenu m(0);
-
-		g_visModule->UpdateVisMenu(&m);
-
-		// do popup!
-		m_thisWindow->PopupMenu(&m, mousePt.x, mousePt.y);
-	}
-	*/
-}
-
-
-void SjVisImpl::OnMouseLeftDClick(wxWindow* from, wxMouseEvent& event)
-{
-}
-
-
-/*******************************************************************************
- * Changing the renderers
- ******************************************************************************/
-
-
-void SjVisImpl::SetRenderer(SjVisRendererModule* rendererModule, bool justContinue)
+void SjVisWindow::SetRenderer(SjVisRendererModule* rendererModule)
 {
 	wxASSERT( wxThread::IsMain() );
 
@@ -240,7 +170,7 @@ void SjVisImpl::SetRenderer(SjVisRendererModule* rendererModule, bool justContin
 		if( rendererModule->Load() )
 		{
 			m_renderer = rendererModule;
-			rendererModule->Start(this, justContinue);
+			rendererModule->Start(this);
 		}
 	}
 	else
@@ -252,7 +182,7 @@ void SjVisImpl::SetRenderer(SjVisRendererModule* rendererModule, bool justContin
 }
 
 
-void SjVisImpl::RemoveRenderer()
+void SjVisWindow::RemoveRenderer()
 {
 	if( m_renderer )
 	{
@@ -263,25 +193,19 @@ void SjVisImpl::RemoveRenderer()
 }
 
 
-/*******************************************************************************
- * The following functions are meant to be used for the
- * vis. implementations (SjVisRendererModule)
- ******************************************************************************/
-
-
-wxRect SjVisImpl::GetRendererClientRect() const
+wxRect SjVisWindow::GetRendererClientRect() const
 {
 	return m_rendererRect;
 }
 
 
-wxRect SjVisImpl::GetRendererScreenRect() const
+wxRect SjVisWindow::GetRendererScreenRect() const
 {
 	wxRect  screenRect = m_rendererRect;
 	int     x = screenRect.x;
 	int     y = screenRect.y;
 
-	m_thisWindow->ClientToScreen(&x, &y);
+	ClientToScreen(&x, &y);
 
 	screenRect.x = x;
 	screenRect.y = y;
@@ -290,58 +214,3 @@ wxRect SjVisImpl::GetRendererScreenRect() const
 }
 
 
-/*******************************************************************************
- * Instanceable Classes
- ******************************************************************************/
-
-
-void SjVisFrame::OnCloseWindow(wxCloseEvent&)
-{
-	g_visModule->StopVis();
-}
-
-
-SjVisFrame::SjVisFrame( wxWindow* parent, wxWindowID id, const wxString& title,
-                        const wxPoint& pos, const wxSize& size,
-                        long style)
-	: wxFrame(parent, id, title, pos, size, style)
-{
-	SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MAIN));
-}
-
-
-void SjVisFrame::OnFwdToMainFrame(wxCommandEvent& e)
-{
-	g_mainFrame->GetEventHandler()->ProcessEvent(e);
-}
-
-
-BEGIN_EVENT_TABLE(SjVisFrame, wxFrame)
-	EVT_ERASE_BACKGROUND(                       SjVisFrame::OnEraseBackground   )
-	EVT_PAINT           (                       SjVisFrame::OnPaint             )
-	EVT_SIZE            (                       SjVisFrame::OnSize              )
-	EVT_KEY_DOWN        (                       SjVisFrame::OnKeyDown           )
-	EVT_KEY_UP          (                       SjVisFrame::OnKeyUp             )
-	EVT_LEFT_DOWN       (                       SjVisFrame::OnMouseLeftDown     )
-	EVT_LEFT_UP         (                       SjVisFrame::OnMouseLeftUp       )
-	EVT_LEFT_DCLICK     (                       SjVisFrame::OnMouseLeftDClick   )
-	EVT_CONTEXT_MENU    (                       SjVisFrame::OnMouseRightUp      )
-	EVT_ENTER_WINDOW    (                       SjVisFrame::OnMouseEnter        )
-	//EVT_MENU_RANGE      (IDO_VIS_FIRST__, IDO_VIS_LAST__, SjVisFrame::OnFwdToMainFrame )
-	EVT_MENU_RANGE      (IDT_FIRST, IDT_LAST,   SjVisFrame::OnFwdToMainFrame    )
-	EVT_CLOSE           (                       SjVisFrame::OnCloseWindow       )
-END_EVENT_TABLE()
-
-
-BEGIN_EVENT_TABLE(SjVisEmbed, wxWindow)
-	EVT_ERASE_BACKGROUND(                       SjVisEmbed::OnEraseBackground   )
-	EVT_PAINT           (                       SjVisEmbed::OnPaint             )
-	EVT_SIZE            (                       SjVisEmbed::OnSize              )
-	EVT_KEY_DOWN        (                       SjVisEmbed::OnKeyDown           )
-	EVT_KEY_UP          (                       SjVisEmbed::OnKeyUp             )
-	EVT_LEFT_DOWN       (                       SjVisEmbed::OnMouseLeftDown     )
-	EVT_LEFT_UP         (                       SjVisEmbed::OnMouseLeftUp       )
-	EVT_LEFT_DCLICK     (                       SjVisEmbed::OnMouseLeftDClick   )
-	EVT_CONTEXT_MENU    (                       SjVisEmbed::OnMouseRightUp      )
-	EVT_ENTER_WINDOW    (                       SjVisEmbed::OnMouseEnter        )
-END_EVENT_TABLE()

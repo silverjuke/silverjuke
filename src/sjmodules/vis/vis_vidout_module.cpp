@@ -29,6 +29,7 @@
 #include <sjbase/base.h>
 #if SJ_USE_VIDEO
 #include <wx/glcanvas.h>
+#include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_window.h>
 #include <sjmodules/vis/vis_vidout_module.h>
 
@@ -58,10 +59,10 @@ private:
 	void        OnEraseBackground   (wxEraseEvent& e);
 	void        OnPaint             (wxPaintEvent& e);
 
-	void        OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftDown(this, e); }
-	void        OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftUp(this, e); }
-	void        OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseRightUp(this, e); }
-	void        OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftDClick(this, e); }
+	void        OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftDown(e); }
+	void        OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftUp(e); }
+	void        OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseRightUp(e); }
+	void        OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) g_vidoutModule->m_impl->OnMouseLeftDClick(e); }
 
 	DECLARE_EVENT_TABLE ();
 };
@@ -80,9 +81,11 @@ END_EVENT_TABLE()
 
 SjVidoutWindow::SjVidoutWindow(wxWindow* parent)
 	#if PARENT_WINDOW_CLASS==wxGLCanvas
-		: wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize)
+		: wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize,
+			wxNO_BORDER | wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE)
 	#else
-		: PARENT_WINDOW_CLASS(parent, -1, wxPoint(-1000,-1000), wxSize(100,100), wxNO_BORDER)
+		: PARENT_WINDOW_CLASS(parent, -1, wxPoint(-1000,-1000), wxSize(100,100),
+			wxNO_BORDER | wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE)
 	#endif
 {
 }
@@ -154,13 +157,14 @@ bool SjVidoutModule::FirstLoad()
 	//
 	// we create the window here but we will find out the "real" window handle later on IDMODMSG_PROGRAM_LOADED -
 	// this allows eg. GTK to really realize the window in between.
-	m_theWindow = new SjVidoutWindow(g_mainFrame);
-	HideTheWindow();
+	m_theWindow = new SjVidoutWindow(g_visModule->GetVisWindow());
+	MoveVidoutAway();
+	m_theWindow->Show(); // sic! we hide the window by moving it away
 	return true;
 }
 
 
-void SjVidoutModule::HideTheWindow()
+void SjVidoutModule::MoveVidoutAway()
 {
 	if( m_theWindow )
 	{
@@ -170,14 +174,12 @@ void SjVidoutModule::HideTheWindow()
 			#else
 				-10000, -10000,
 			#endif
-		    64, 48);
-
-		m_theWindow->Show(); // sic! we _always_ show the window to the the OS realize it. Hiding is implemtented by moving it out of view.
+		    32, 32);
 	}
 }
 
 
-bool SjVidoutModule::Start(SjVisImpl* impl, bool justContinue)
+bool SjVidoutModule::Start(SjVisWindow* impl)
 {
 	wxASSERT( wxThread::IsMain() );
 
@@ -186,15 +188,7 @@ bool SjVidoutModule::Start(SjVisImpl* impl, bool justContinue)
 	// create the window holding the vis.
 	if( m_theWindow  )
 	{
-		/*
-		m_theWindow->Reparent(impl->GetWindow());
-
-		wxRect visRect = impl->GetRendererClientRect();
-		m_theWindow->SetSize(visRect);
-
-		ReceiveMsg(IDMODMSG_TRACK_ON_AIR_CHANGED); // this will assign the stream to the video window
-
-		*/
+		PleaseUpdateSize(impl);
 	}
 
 	return true;
@@ -207,11 +201,7 @@ void SjVidoutModule::Stop()
 
 	if( m_theWindow )
 	{
-		/*
-		m_theWindow->Hide();
-		m_theWindow->Reparent(g_mainFrame);
-		*/
-		HideTheWindow();
+		MoveVidoutAway();
 	}
 
 	m_impl = NULL;
@@ -224,31 +214,16 @@ void SjVidoutModule::ReceiveMsg(int msg)
 
 	switch( msg )
 	{
+		case IDMODMSG_VIS_BEFORE_REPARENT:
+			if( m_impl )
+				g_mainFrame->Stop();
+			break;
+
+		case IDMODMSG_VIS_AFTER_REPARENT:
 		case IDMODMSG_PROGRAM_LOADED:
 			m_os_window_handle = (void*)m_theWindow->GetXWindow();
 			break;
 	}
-
-	msg = 1;
-
-	/*
-	if( msg == IDMODMSG_TRACK_ON_AIR_CHANGED && m_theWindow )
-	{
-		// see if the most recent stream is a video file
-		SjBassStream* hstream = g_mainFrame->m_player.RefCurrStream();
-		if( hstream )
-		{
-			if( hstream->m_decoderModule
-			        && hstream->m_decoderModule->IsVideoDecoder() )
-			{
-				BASS_DSHOW_ChannelSetWindow(hstream->m_chHandle, (HWND)m_theWindow->GetHandle());
-				SetProperVideoSize(hstream->m_chHandle);
-			}
-
-			hstream->UnRef();
-		}
-	}
-	*/
 }
 
 
@@ -262,69 +237,14 @@ void SjVidoutModule::OnMenuOption(int)
 }
 
 
-void SjVidoutModule::PleaseUpdateSize(SjVisImpl* impl)
+void SjVidoutModule::PleaseUpdateSize(SjVisWindow* impl)
 {
 	if( m_theWindow )
 	{
 		wxRect visRect = impl->GetRendererClientRect();
 		m_theWindow->SetSize(visRect);
-
-		/*
-		SjBassStream* hstream = g_mainFrame->m_player.RefCurrStream();
-		if( hstream )
-		{
-			if( hstream->m_decoderModule
-			        && hstream->m_decoderModule->IsVideoDecoder() )
-			{
-				SetProperVideoSize(hstream->m_chHandle);
-			}
-
-			hstream->UnRef();
-		}
-		*/
 	}
 }
-
-
-/*
-void SjVidoutModule::SetProperVideoSize(DWORD ch)
-{
-	int winWidth, winHeight, videoWidth, videoHeight, newWidth, newHeight;
-	float widthRatio, heightRatio, scale;
-
-	// get available window size
-	{	wxSize s = m_theWindow->GetClientSize();
-		winWidth = s.x; winHeight = s.y;
-	}
-
-	if( winWidth <= 32 || winHeight <= 32 )
-		goto Fallback;
-
-	// get video size
-	{	VideoInfo video;
-		BASS_DSHOW_ChannelGetInfo(ch, &video);
-		videoWidth = video.Width; videoHeight = video.Height;
-	}
-
-	if( videoWidth < 10 || videoHeight < 10 )
-		goto Fallback;
-
-	// SET NEW SIZE: calculate the size regarding the aspect ratio
-	widthRatio  = (float)winWidth / (float)videoWidth;
-	heightRatio = (float)winHeight / (float)videoHeight;
-	scale = widthRatio < heightRatio? widthRatio : heightRatio;
-
-	newWidth = (int)((float)videoWidth * scale);
-	newHeight = (int)((float)videoHeight * scale);
-
-	BASS_DSHOW_ChannelResizeWindow(ch, (winWidth-newWidth)/2, (winHeight-newHeight)/2, newWidth, newHeight);
-	return;
-
-	// SET NEW SIZE: use the whole screen
-Fallback:
-	BASS_DSHOW_ChannelResizeWindow(ch, 0, 0, winWidth, winHeight);
-}
-*/
 
 
 #endif // SJ_USE_VIDEO

@@ -1399,11 +1399,11 @@ private:
 	bool                ImplOk              () const            { return (m_oscModule&&m_oscModule->m_impl); }
 	void                OnKeyDown           (wxKeyEvent& e)     { if(ImplOk()) m_oscModule->m_impl->OnKeyDown(e); }
 	void                OnKeyUp             (wxKeyEvent& e)     { if(ImplOk()) m_oscModule->m_impl->OnKeyUp(e); }
-	void                OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDown(this, e); }
-	void                OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftUp(this, e); }
-	void                OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseRightUp(this, e); }
-	void                OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDClick(this, e); }
-	void                OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseEnter(this, e); }
+	void                OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDown(e); }
+	void                OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftUp(e); }
+	void                OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseRightUp(e); }
+	void                OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseLeftDClick(e); }
+	void                OnMouseEnter        (wxMouseEvent& e)   { if(ImplOk()) m_oscModule->m_impl->OnMouseEnter(e); }
 	void                OnShowFigures       (wxCommandEvent&)   { ShowFigures(-1); }
 	void                OnTimer             (wxTimerEvent&);
 	friend class        SjOscModule;
@@ -1639,21 +1639,21 @@ SjOscModule::SjOscModule(SjInterfaceBase* interf)
 }
 
 
-bool SjOscModule::Start(SjVisImpl* impl, bool justContinue)
+bool SjOscModule::Start(SjVisWindow* impl)
 {
 	if( m_oscWindow == NULL )
 	{
 		m_impl = impl;
 
 		m_showFlags		= g_tools->m_config->Read(wxT("player/oscflags"), SJ_OSC_SHOW_DEFAULT);
-		m_oscWindow = new SjOscWindow(this, impl->GetWindow());
+		m_oscWindow = new SjOscWindow(this, impl);
 
 		if( m_oscWindow  )
 		{
 			ReceiveMsg(IDMODMSG_TRACK_ON_AIR_CHANGED);
 
-			m_forceSpectrAnim= !justContinue;
-			m_forceOscAnim   = !justContinue;
+			m_forceSpectrAnim= true;
+			m_forceOscAnim   = true;
 
 			wxRect visRect = impl->GetRendererClientRect();
 			m_oscWindow->SetSize(visRect);
@@ -1695,7 +1695,7 @@ void SjOscModule::ReceiveMsg(int msg)
 }
 
 
-void SjOscModule::PleaseUpdateSize(SjVisImpl* impl)
+void SjOscModule::PleaseUpdateSize(SjVisWindow* impl)
 {
 	wxRect visRect = impl->GetRendererClientRect();
 	m_oscWindow->SetSize(visRect);

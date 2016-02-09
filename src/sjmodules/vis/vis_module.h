@@ -30,15 +30,16 @@
 #define __SJ_VIS_MODULE_H__
 
 
+class SjVisWindow;
+class SjVisFrame;
+
+
 enum SjVisState
 {
     SJ_VIS_EMBEDDED     = 0,
     SJ_VIS_FLOATING     = 1,
     SJ_VIS_OWNSCREEN    = 2
 };
-
-
-class SjVisImpl;
 
 
 class SjVisModule : public SjCommonModule
@@ -89,14 +90,14 @@ public:
 	void            AddVisData          (const float* data, long bytes);
 
 	// More state
-	bool            IsOverWorkspace     () const { return (m_visWindow!=NULL && m_visState==SJ_VIS_EMBEDDED && m_visIsOverWorkspace); }
+	bool            IsOverWorkspace     () const { return (m_visWindowVisible && m_visState==SJ_VIS_EMBEDDED && m_visIsOverWorkspace); }
 	bool            IsEmbedded          () const { return (m_visState==SJ_VIS_EMBEDDED); }
-	bool            IsWindowPrepared    () const { return (m_visWindow!=NULL); }
+	bool            IsWindowPrepared    () const { return (m_visWindowVisible!=false); }
 
 	// used by the SjVisImpl class
 	void            StopOrCloseRequest  ();
 
-	// some settings - real by all, write please only for SjVisImpl
+	// some settings - real by all, write please only for SjVisWindow
 	#define         SJ_VIS_FLAGS_EMBEDDED                   0x00000001L
 	#define         SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY  0x00000008L
 	#define         SJ_VIS_FLAGS_HALF_SIZE                  0x00010000L
@@ -104,8 +105,8 @@ public:
 	long            m_visFlags;
 	void            WriteVisFlags       ();
 
-	// normally not needed beside for SjVisImpl
-	void                    SetCurrRenderer         (SjVisRendererModule* m, bool justContinue=false);
+	// normally not needed beside for SjVisWindow
+	void                    SetCurrRenderer         (SjVisRendererModule* m);
 	SjVisRendererModule*    GetCurrRenderer         () const;
 	void                    SetModal                (bool set) { m_modal += set? 1 : -1; }
 
@@ -117,9 +118,9 @@ public:
 	// if there is no need to change the renderer, the empty string is returned.
 	wxString        GetRealNextRenderer (const wxString& desiredRenderer);
 
-	// returns the SjVisImpl structure from the m_visWindow (which is either a frame or a child window)
+	// returns the SjVisWindow structure from the m_visWindow (which is either a frame or a child window)
 	// may be NULL if the video screen is not opened.
-	SjVisImpl*      GetVisImpl          () const;
+	SjVisWindow*    GetVisWindow        () const { return m_visWindow; }
 
 protected:
 	// protected stuff
@@ -133,11 +134,15 @@ private:
 	                                     const wxRect* fullscreenVisRect);
 	bool            CloseWindow__       ();
 
+	SjVisFrame*     m_visFrame;
 	bool            m_explicitlyPrepared;
 
-	wxWindow*       m_visWindow;
+	SjVisWindow*    m_visWindow;
+	bool            m_visWindowVisible;
 	SjVisState      m_visState;
 	bool            m_visIsOverWorkspace;
+
+	void            MoveVisAway         ();
 
 	// is started? the vis renderer may be NULL if the vis. is started
 	// (either for some moments when the vis. changes or if the renderer initialisation fails)

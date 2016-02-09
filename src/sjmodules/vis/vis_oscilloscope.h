@@ -34,7 +34,7 @@ class SjOscModule;
 class SjOscWindow;
 
 
-class SjVisImpl;
+class SjVisWindow;
 
 
 class SjOscModule : public SjVisRendererModule
@@ -42,17 +42,17 @@ class SjOscModule : public SjVisRendererModule
 public:
 	                SjOscModule         (SjInterfaceBase* interf);
 
-	bool            Start               (SjVisImpl*, bool justContinue);
+	bool            Start               (SjVisWindow*);
 	void            Stop                ();
 
 	void            ReceiveMsg          (int);
 	void            AddMenuOptions      (SjMenu&);
 	void            OnMenuOption        (int);
-	void            PleaseUpdateSize    (SjVisImpl*);
+	void            PleaseUpdateSize    (SjVisWindow*);
 	void            AddVisData          (const float* buffer, long bytes);
 private:
 	SjOscWindow*    m_oscWindow;
-	SjVisImpl*      m_impl;
+	SjVisWindow*    m_impl;
 	bool            m_forceSpectrAnim;
 	bool            m_forceOscAnim;
 	bool            m_titleChanged;

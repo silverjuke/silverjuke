@@ -42,20 +42,20 @@ public:
 	                SjProjectmModule    (SjInterfaceBase* interf);
 	                ~SjProjectmModule   ();
 
-	bool            Start               (SjVisImpl*, bool justContinue);
+	bool            Start               (SjVisWindow*);
 	void            Stop                ();
 
 	void            ReceiveMsg          (int);
 	void            AddMenuOptions      (SjMenu&);
 	void            OnMenuOption        (int);
-	void            PleaseUpdateSize    (SjVisImpl*);
+	void            PleaseUpdateSize    (SjVisWindow*);
 	void            AddVisData          (const float* buffer, long bytes);
 
 private:
 	SjProjectmGlCanvas* m_glCanvas;
 	wxGLContext*    m_glContext;
 	projectM*       m_projectMobj;
-	SjVisImpl*      m_impl;
+	SjVisWindow*    m_impl;
 
 	friend class    SjProjectmGlCanvas;
 };

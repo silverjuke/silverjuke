@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -19,52 +19,31 @@
  *
  *******************************************************************************
  *
- * File:    vidout_module.h
+ * File:    vis_frame.h
  * Authors: Björn Petersen
- * Purpose: The video output module (not: the decoder module)
+ * Purpose: Frame for floating/ownscreen visualizations
  *
  ******************************************************************************/
 
 
-#ifndef __SJ_VIDOUT_MODULE_H__
-#define __SJ_VIDOUT_MODULE_H__
-#if SJ_USE_VIDEO
+
+#ifndef __SJ_VIS_FRAME_H__
+#define __SJ_VIS_FRAME_H__
 
 
-class SjVidoutWindow;
-
-
-class SjVidoutModule : public SjVisRendererModule
+class SjVisFrame : public wxFrame
 {
 public:
-	                SjVidoutModule      (SjInterfaceBase* interf);
-	                ~SjVidoutModule     ();
-
-	bool            FirstLoad           ();
-
-	bool            Start               (SjVisWindow*);
-	void            Stop                ();
-
-	void            ReceiveMsg          (int);
-	void            AddMenuOptions      (SjMenu&);
-	void            OnMenuOption        (int);
-	void            PleaseUpdateSize    (SjVisWindow*);
-
-	void*           m_os_window_handle;
+					SjVisFrame          (wxWindow* parent, const wxPoint& pos, const wxSize& size, long style);
+	                ~SjVisFrame         ();
 
 private:
-	SjVisWindow*    m_impl;
+	void            OnSize              (wxSizeEvent& e);
+	void            OnFwdToMainFrame    (wxCommandEvent& e);
+	void            OnCloseWindow       (wxCloseEvent&);
 
-	SjVidoutWindow* m_theWindow;
-	void            MoveVidoutAway      ();
-
-	friend class    SjVidoutWindow;
+	DECLARE_EVENT_TABLE ();
 };
 
 
-extern SjVidoutModule* g_vidoutModule;
-
-
-#endif // SJ_USE_VIDEO
-#endif // __SJ_VIDOUT_MODULE_H__
-
+#endif // __SJ_VIS_FRAME_H__

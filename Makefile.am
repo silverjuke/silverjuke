@@ -209,6 +209,7 @@ silverjuke_SOURCES = \
 	src/sjmodules/vis/vis_bg.cpp \
 	src/sjmodules/vis/vis_cdg_raw.cpp \
 	src/sjmodules/vis/vis_cdg_reader.cpp \
+	src/sjmodules/vis/vis_frame.cpp \
 	src/sjmodules/vis/vis_karaoke_module.cpp \
 	src/sjmodules/vis/vis_module.cpp \
 	src/sjmodules/vis/vis_oscilloscope.cpp \

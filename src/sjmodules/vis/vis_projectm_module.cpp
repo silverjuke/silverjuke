@@ -57,10 +57,10 @@ public:
 	void        OnEraseBackground   (wxEraseEvent& e);
 	void        OnPaint             (wxPaintEvent& e);
 
-	void        OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseLeftDown(this, e); }
-	void        OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseLeftUp(this, e); }
-	void        OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseRightUp(this, e); }
-	void        OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseLeftDClick(this, e); }
+	void        OnMouseLeftDown     (wxMouseEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseLeftDown(e); }
+	void        OnMouseLeftUp       (wxMouseEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseLeftUp(e); }
+	void        OnMouseRightUp      (wxContextMenuEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseRightUp(e); }
+	void        OnMouseLeftDClick   (wxMouseEvent& e)   { if(ImplOk()) s_theProjectmModule->m_impl->OnMouseLeftDClick(e); }
 
 	void        OnTimer             (wxTimerEvent&);
 
@@ -216,7 +216,7 @@ SjProjectmModule::~SjProjectmModule()
 }
 
 
-bool SjProjectmModule::Start(SjVisImpl* impl, bool justContinue)
+bool SjProjectmModule::Start(SjVisWindow* impl)
 {
 	m_impl = impl;
 
@@ -224,7 +224,7 @@ bool SjProjectmModule::Start(SjVisImpl* impl, bool justContinue)
 	if( m_glCanvas != NULL )
 		{ return false; }
 
-	m_glCanvas = new SjProjectmGlCanvas(impl->GetWindow());
+	m_glCanvas = new SjProjectmGlCanvas(impl);
 	if( m_glCanvas == NULL )
 		{ wxLogError("Cannot init projectM (canvas creation failed)."); return false; }
 
@@ -287,7 +287,7 @@ void SjProjectmModule::OnMenuOption(int)
 }
 
 
-void SjProjectmModule::PleaseUpdateSize(SjVisImpl* impl)
+void SjProjectmModule::PleaseUpdateSize(SjVisWindow* impl)
 {
 	if( m_glCanvas )
 	{

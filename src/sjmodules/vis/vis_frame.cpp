@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -19,52 +19,49 @@
  *
  *******************************************************************************
  *
- * File:    vidout_module.h
+ * File:    vis_frame.cpp
  * Authors: Björn Petersen
- * Purpose: The video output module (not: the decoder module)
+ * Purpose: Frame for floating/ownscreen visualizations
  *
  ******************************************************************************/
 
 
-#ifndef __SJ_VIDOUT_MODULE_H__
-#define __SJ_VIDOUT_MODULE_H__
-#if SJ_USE_VIDEO
+#include <sjbase/base.h>
+#include <sjmodules/vis/vis_frame.h>
+#include <sjmodules/vis/vis_module.h>
 
 
-class SjVidoutWindow;
-
-
-class SjVidoutModule : public SjVisRendererModule
+SjVisFrame::SjVisFrame( wxWindow* parent, const wxPoint& pos, const wxSize& size, long style)
+	: wxFrame(parent, wxID_ANY, _("Video screen"), pos, size,
+				wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE | style)
 {
-public:
-	                SjVidoutModule      (SjInterfaceBase* interf);
-	                ~SjVidoutModule     ();
-
-	bool            FirstLoad           ();
-
-	bool            Start               (SjVisWindow*);
-	void            Stop                ();
-
-	void            ReceiveMsg          (int);
-	void            AddMenuOptions      (SjMenu&);
-	void            OnMenuOption        (int);
-	void            PleaseUpdateSize    (SjVisWindow*);
-
-	void*           m_os_window_handle;
-
-private:
-	SjVisWindow*    m_impl;
-
-	SjVidoutWindow* m_theWindow;
-	void            MoveVidoutAway      ();
-
-	friend class    SjVidoutWindow;
-};
+	SetAcceleratorTable(g_accelModule->GetAccelTable(SJA_MAIN));
+}
 
 
-extern SjVidoutModule* g_vidoutModule;
+SjVisFrame::~SjVisFrame()
+{
+}
 
 
-#endif // SJ_USE_VIDEO
-#endif // __SJ_VIDOUT_MODULE_H__
+BEGIN_EVENT_TABLE(SjVisFrame, wxFrame)
+	//EVT_MENU_RANGE    (IDO_VIS_FIRST__, IDO_VIS_LAST__, SjVisFrame::OnFwdToMainFrame )
+	EVT_MENU_RANGE      (IDT_FIRST, IDT_LAST,   SjVisFrame::OnFwdToMainFrame    )
+	EVT_CLOSE           (                       SjVisFrame::OnCloseWindow       )
+END_EVENT_TABLE()
+
+
+void SjVisFrame::OnFwdToMainFrame(wxCommandEvent& e)
+{
+	g_mainFrame->GetEventHandler()->ProcessEvent(e);
+}
+
+
+void SjVisFrame::OnCloseWindow(wxCloseEvent&)
+{
+	g_visModule->StopVis();
+}
+
+
+
 

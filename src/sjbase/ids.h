@@ -403,6 +403,8 @@
 #define IDMODMSG__VIS_MOD_PRIVATE_2__               11052
 #define IDMODMSG__VIS_MOD_PRIVATE_3__               11053
 #define IDMODMSG__VIS_MOD_PRIVATE_4__               11054
+#define IDMODMSG_VIS_BEFORE_REPARENT                11055
+#define IDMODMSG_VIS_AFTER_REPARENT                 11056
 
 #define IDMODMSG_PROGRAM_LOADED                     11060 /* send to indicate, the program is loaded and the main window is shown*/
 
