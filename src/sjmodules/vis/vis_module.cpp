@@ -100,6 +100,9 @@ bool SjVisModule::FirstLoad()
 			if( m_visOwnFrame )
 			{
 				m_visOwnFrame->Show();
+				if( g_mainFrame->IsAlwaysOnTop() ) {
+					ShowVisAlwaysOnTop(true); // sync with the always-on-top-state of the main window; SjMainFrame::SetAlwaysOnTop() also calls SetVisAlwaysOnTop()
+				}
 			}
 		}
 	}
@@ -251,10 +254,7 @@ void SjVisModule::StopOrCloseRequest()
 
 void SjVisModule::ShowVisAlwaysOnTop(bool set) const
 {
-	// this only affects non-embedded video screens using a separate frame:
-	// as these frames are created upon program start, they may lay over the main window - which would get
-	// unusable if the video screens has the wxSTAY_ON_TOP flag after creation.
-	// so we set wxSTAY_ON_TOP only during the kiosk mode.
+	// this only affects non-embedded video screens using a separate top-level-window
 	if( m_visOwnFrame )
 	{
 		long s = m_visOwnFrame->GetWindowStyle();

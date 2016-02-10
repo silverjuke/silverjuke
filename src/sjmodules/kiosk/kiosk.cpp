@@ -1814,8 +1814,8 @@ void SjKioskModule::DoStart()
 	{
 		if( !g_debug )
 		{
+			m_backupAlwaysOnTop = g_mainFrame->IsAlwaysOnTop();
 			g_mainFrame->ShowAlwaysOnTop(true);
-			g_visModule->ShowVisAlwaysOnTop(true);
 			// we don't do this in debug mode as an always-on-top windows makes debugging almost impossible
 		}
 	}
@@ -2060,8 +2060,7 @@ void SjKioskModule::DoExit(bool restoreWindow)
 	#endif
 	if( m_configKioskf&(SJ_KIOSKF_DISABLE_AT|SJ_KIOSKF_DISABLE_CAD) )
 	{
-		g_mainFrame->ShowAlwaysOnTop(false);
-		g_visModule->ShowVisAlwaysOnTop(false);
+		g_mainFrame->ShowAlwaysOnTop(m_backupAlwaysOnTop);
 	}
 
 	if( restoreWindow )

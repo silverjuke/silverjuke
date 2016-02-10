@@ -123,6 +123,7 @@ private:
 	// backuped settings that are restored if the kiosk mode exits
 	long            m_backupOp;
 	bool            m_backupFullScreen;
+	bool            m_backupAlwaysOnTop;
 	bool            m_backupResetAccel;
 	wxString        m_backupLayout;
 	wxRect          m_backupMainFrameRect;

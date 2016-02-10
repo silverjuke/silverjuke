@@ -41,6 +41,7 @@
 #include <sjbase/skinml.h>
 #include <sjmodules/kiosk/kiosk.h>
 #include <sjmodules/kiosk/virtkeybd.h>
+#include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_bg.h>
 #include <see_dom/sj_see.h>
 #include <wx/display.h>
@@ -2827,6 +2828,11 @@ void SjSkinWindow::ShowAlwaysOnTop(bool alwaysOnTop)
 		else
 		{
 			SetWindowStyle(GetWindowStyle() & ~wxSTAY_ON_TOP);
+		}
+
+		if( g_visModule )
+		{
+			g_visModule->ShowVisAlwaysOnTop(alwaysOnTop);
 		}
 
 		SetSkinTargetValue(IDT_ALWAYS_ON_TOP, IsAlwaysOnTop()? 1 : 0);
