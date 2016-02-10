@@ -118,7 +118,9 @@ public: virtual              ~SjBackendStream ();
 
 	// these fields may be used by user for any purposes; must _not_ be used by derived classes!
 	void*                    m_userdata;
-	uintptr_t                m_userdata_isVideo;
+	bool                     m_userdata_isVideo;
+	long                     m_userdata_realMs;
+	SjVolumeCalc             m_userdata_volumeCalc;
 
 	// the following fiels should be treated as "private" to SjBackendStream and derived classes,
 	// howver, they're declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)

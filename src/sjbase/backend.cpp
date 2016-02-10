@@ -70,6 +70,7 @@ SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBack
 	m_cbp.stream       = this;
 	m_userdata         = userdata;
 	m_userdata_isVideo = false;
+	m_userdata_realMs  = 0;
 
 	// we keep a list of all streams created on the backend; may be useful for the implementations
 	backend->m_allStreams.Add(this);
