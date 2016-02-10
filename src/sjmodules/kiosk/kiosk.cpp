@@ -1897,14 +1897,6 @@ void SjKioskModule::DoStart()
 				g_mainFrame->SetSize(geom);
 				wxASSERT( wxDisplay::GetFromWindow(g_mainFrame) == m_configMonitor );
 			}
-
-			if( !g_mainFrame->IsAllAvailable() )
-			{
-				if( !g_debug )
-				{
-					ClipMouse(&geom); // makes debugging impossible ...
-				}
-			}
 		}
 
 		g_mainFrame->ShowFullScreen(true);
