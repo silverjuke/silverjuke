@@ -131,7 +131,6 @@ public:
 	void            PlaybackDone        (const wxString& url, unsigned long startingTime, double newGain, long realDecodedBytes);
 	void            GetAutoVol          (const wxString& url, double* trackGain, double* albumGain) const; // set to < 0 if unknown
 	double          GetAutoVol          (const wxString& url, bool useAlbumGainIfPossible);
-	long            GetAutoVolCount     ();
 	bool            AreTracksSubsequent (const wxString& url1, const wxString& url2);
 
 	// Get more tracks from an artist or album,
@@ -256,7 +255,6 @@ private:
 
 	wxString        m_lastLeadArtistName,
 	                m_lastTrackName;
-	long            m_autoVolCount;
 
 	SjLLHash        m_addedArtIds;
 

@@ -94,7 +94,7 @@ void SjEffectDlg::UpdateStateText(int id, const wxString& state)
 class SjAutovolDlg : public SjEffectDlg
 {
 public:
-	SjAutovolDlg        (wxWindow* parent);
+	                SjAutovolDlg        (wxWindow* parent);
 	static void     OpenDialog          (wxWindow* alignToWindow);
 	static void     CloseDialog         ();
 	static bool     IsDialogOpen        () { return s_dialog!=NULL; }
@@ -144,7 +144,6 @@ private:
 #define IDC_MAXGAINSLIDER           (IDM_FIRSTPRIVATE+2)
 #define IDC_AUTOVOLRESET            (IDM_FIRSTPRIVATE+4)
 #define IDC_STATE_CURR_TRACK        (IDM_FIRSTPRIVATE+5)
-#define IDC_STATE_CALCULATION_COUNT (IDM_FIRSTPRIVATE+9)
 #define IDC_USE_ALBUM_VOL           (IDM_FIRSTPRIVATE+10)
 #define IDC_AUTO_VOL_ENABLED        (IDM_FIRSTPRIVATE+11)
 
@@ -276,7 +275,6 @@ SjAutovolDlg::SjAutovolDlg(wxWindow* parent)
 	AddStateBox(sizer1);
 
 	AddState(_("Current volume:"),  IDC_STATE_CURR_TRACK);
-	AddState(_("Calculated volumes:"),IDC_STATE_CALCULATION_COUNT);
 
 	UpdateState();
 	StartStateTimer();
@@ -302,9 +300,6 @@ void SjAutovolDlg::UpdateState()
 		str = SjTools::FormatGain(g_mainFrame->m_player.AvGetCalculatedGain());
 	}
 	UpdateStateText(IDC_STATE_CURR_TRACK, str);
-
-	// calculation count
-	UpdateStateText(IDC_STATE_CALCULATION_COUNT, SjTools::FormatNumber(g_mainFrame->m_libraryModule->GetAutoVolCount()));
 }
 
 

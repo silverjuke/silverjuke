@@ -416,7 +416,6 @@ SjLibraryModule::SjLibraryModule(SjInterfaceBase* interf)
 	m_searchOffsets = NULL;
 	m_searchOffsetsCount = -1; // no search
 	m_filterAzFirstHidden = FALSE;
-	m_autoVolCount = -1;
 	m_hiliteRegExOk = false;
 
 	ForgetRememberedValues();
@@ -871,7 +870,6 @@ bool SjLibraryModule::UpdateAllCol(wxWindow* parent, bool deepUpdate)
 
 	// success
 	transaction.Commit();
-	m_autoVolCount = -1;
 	ForgetRememberedValues();
 	return TRUE;
 }
@@ -4350,25 +4348,6 @@ double SjLibraryModule::GetAutoVol(const wxString& url, bool useAlbumGainIfPossi
 		GetAutoVol(url, &trackGain, NULL /*speed up loading*/);
 		return trackGain;
 	}
-}
-
-
-long SjLibraryModule::GetAutoVolCount()
-{
-	if( m_autoVolCount == -1 )
-	{
-		wxBusyCursor busy;
-
-		m_autoVolCount = 0;
-		wxSqlt sql;
-		sql.Query(wxT("SELECT COUNT(*) FROM tracks WHERE autovol!=0;"));
-		if( sql.Next() )
-		{
-			m_autoVolCount = sql.GetLong(0);
-		}
-	}
-
-	return m_autoVolCount;
 }
 
 
