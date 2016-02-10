@@ -373,13 +373,13 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 			g_object_set(G_OBJECT(source), "uri", uriGstStr, NULL /*NULL marks end of list*/);
 		}
 
-		if( seekMs > 0 )
-		{
-			gst_element_seek_simple(stream->m_pipeline, GST_FORMAT_TIME,
-				(GstSeekFlags)(GST_SEEK_FLAG_FLUSH|GST_SEEK_FLAG_KEY_UNIT), seekMs*MILLISEC_TO_NANOSEC_FACTOR);
-		}
-
 	stream->set_pipeline_state(GST_STATE_PLAYING);
+
+	if( seekMs > 0 )
+	{
+		gst_element_seek_simple(stream->m_pipeline, GST_FORMAT_TIME,
+			(GstSeekFlags)(GST_SEEK_FLAG_FLUSH|GST_SEEK_FLAG_KEY_UNIT), seekMs*MILLISEC_TO_NANOSEC_FACTOR);
+	}
 
 	return stream;
 }
