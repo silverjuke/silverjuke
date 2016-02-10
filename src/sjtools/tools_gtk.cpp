@@ -27,6 +27,7 @@
 
 
 #include <sjbase/base.h>
+#include <sjtools/msgbox.h>
 #include <sjmodules/kiosk/kiosk.h>
 #include <wx/stdpaths.h>
 
@@ -98,8 +99,9 @@ void SjKioskModule::SetExclusive(bool setExcl)
 }
 
 
-bool SjKioskModule::CanDisableCtrlAltDel(wxWindow* parent)
+bool SjKioskModule::CanSetExclusive(wxWindow* parent)
 {
+    SjMessageBox(_("Please use the operating system to set Silverjuke to an exclusive mode."), _("Kiosk mode"), wxICON_INFORMATION, parent);
 	return false;
 }
 

@@ -35,18 +35,14 @@
 
 
 #define         SJ_KIOSKF_EXIT_KEY              0x00000001L
-#define         SJ_KIOSKF_DISABLE_AT            0x00000002L // disable ALT-TAB
+#define         SJ_KIOSKF_ALWAYS_ON_TOP         0x00000002L
 #define         SJ_KIOSKF_MAX_TRACKS_IN_QUEUE   0x00000008L
 #define         SJ_KIOSKF_EXIT_CORNER           0x00010000L
 #define         SJ_KIOSKF_USE_PASSWORD          0x00020000L
 #define         SJ_KIOSKF_LIMIT_TO_ADV_SEARCH   0x00040000L
 #define         SJ_KIOSKF_SHUFFLE               0x00080000L
-#define         SJ_KIOSKF_SWITCHRES_OLD         0x00100000L
-#define         SJ_KIOSKF_DISABLE_SHUTDOWN      0x00200000L
 #define         SJ_KIOSKF_NO_DBL_TRACKS         0x01000000L
-#define         SJ_KIOSKF_DISABLE_SCRSAVER      0x02000000L
-#define         SJ_KIOSKF_DISABLE_POWERMAN      0x04000000L
-#define         SJ_KIOSKF_DISABLE_CAD           0x08000004L // disable CTRL-ALT-DEL, in Silverjuke<3.00, this was the flag 0x00000004L; changed to force a re-enabling for the driver installation
+#define         SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE  0x08000000L
 #define         SJ_KIOSKF_DEFAULT               0x0001FFF1L
 #define         SJ_KIOSKF_RESETABLE         (SJ_KIOSKF_NO_DBL_TRACKS|SJ_KIOSKF_SHUFFLE|SJ_KIOSKF_MAX_TRACKS_IN_QUEUE|SJ_KIOSKF_LIMIT_TO_ADV_SEARCH)
 
@@ -76,7 +72,7 @@ public:
 
 	bool            IsPasswordDlgOpened () const { return m_passwordDlgOpened; }
 	bool            IsPasswordInUse     ();
-	bool            IsShutdownDisabled  () const { return (m_configKioskf&SJ_KIOSKF_DISABLE_SHUTDOWN)!=0; }
+	bool            IsShutdownDisabled  () const { return (m_configKioskf&SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE)!=0; }
 
 	long            GetLimitToId        () const { return (m_configKioskf&SJ_KIOSKF_LIMIT_TO_ADV_SEARCH)? m_configLimitToAdvSearch : 0; }
 
@@ -129,9 +125,9 @@ private:
 	wxRect          m_backupMainFrameRect;
 	wxArrayPtrVoid  m_blackFrames;
 
-	// CanDisableCtrlAltDel() checks if there are any additional conditions to disable
-	// CTRL+ALT+DEL ...
-	bool            CanDisableCtrlAltDel    (wxWindow* parent);
+	// CanSetExclusive() checks if there are any additional conditions to
+	// disable etc. CTRL+ALT+DEL ...
+	bool            CanSetExclusive     (wxWindow* parent);
 
 	// show the kiosk real exclusive - this should be implemented by the OS
 	void            SetExclusive        (bool);

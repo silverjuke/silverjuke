@@ -458,23 +458,9 @@ wxPanel* SjKioskConfigPage::CreateStartPage(wxWindow* parent)
 
 	AddOp(sizer2f, 2, SJ_KIOSKF_EXIT_CORNER, _("Exit by clicking into two different corners"));
 
-	wxString disableKey;
-	#ifdef __WXMAC__
-		disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_CTRL, WXK_TAB) + wxT(" etc.");
-	#else
-		disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_ALT, WXK_TAB);
-	#endif
-	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_AT, wxString::Format(_("Disable %s"), disableKey.c_str()));
+	AddOp(sizer2f, 2, SJ_KIOSKF_ALWAYS_ON_TOP, _("Always on top"));
 
-	disableKey = SjAccelModule::GetReadableShortcutByKey(wxACCEL_ALT|wxACCEL_CTRL, WXK_DELETE);
-	wxString disableKeyDescr = wxString::Format(_("Disable %s"), disableKey.c_str());
-	if( g_debug )
-	{
-		disableKeyDescr += " (not in debug-mode)";
-	}
-	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_CAD, disableKeyDescr);
-
-	AddOp(sizer2f, 2, SJ_KIOSKF_DISABLE_SHUTDOWN, _("Disable shutdown"));
+	AddOp(sizer2f, 2, SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE, _("Try to set exclusive"));
 
 	wxBoxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
 	sizer1->Add(sizer3, 0, wxLEFT|wxTOP|wxRIGHT, SJ_DLG_SPACE);
@@ -696,20 +682,13 @@ void SjKioskConfigPage::OnOpCheck(wxCommandEvent& event)
 	}
 	else if( clickedField == 2 )
 	{
-		if( clickedFlag == SJ_KIOSKF_DISABLE_CAD && clickedValue )
+		if( clickedFlag == SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE && clickedValue )
 		{
-			// if "disable Ctrl+Alt+Del" is enabled, also enable "disable Alt+Tab"; moreover, CanDisableCtrlAltDel() may result in a reboot; therefore, save the all settings
-			SetOp(2, SJ_KIOSKF_DISABLE_AT, TRUE);
-			Apply();
-			if( !g_kioskModule->CanDisableCtrlAltDel(this) )
+			Apply(); // CanSetExclusive() may result in a reboot; therefore, save the all settings
+			if( !g_kioskModule->CanSetExclusive(this) )
 			{
-				SetOp(2, SJ_KIOSKF_DISABLE_CAD, FALSE);
+				SetOp(2, SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE, false);
 			}
-		}
-		else if( clickedFlag == SJ_KIOSKF_DISABLE_AT && !clickedValue )
-		{
-			// if "disable Alt+Tab" is disabled, also disable "disable Ctrl+Alt+Del"
-			SetOp(2, SJ_KIOSKF_DISABLE_CAD, FALSE);
 		}
 		else if( clickedFlag == SJ_KIOSKF_USE_PASSWORD)
 		{
@@ -1809,19 +1788,16 @@ void SjKioskModule::DoStart()
 	// (3a) switch display modes
 	m_backupMainFrameRect = g_mainFrame->GetRect();
 
-	// (3b) set exclusive / always on top
-	if( m_configKioskf&(SJ_KIOSKF_DISABLE_AT|SJ_KIOSKF_DISABLE_CAD) )
-	{
-		if( !g_debug )
-		{
-			m_backupAlwaysOnTop = g_mainFrame->IsAlwaysOnTop();
-			g_mainFrame->ShowAlwaysOnTop(true);
-			// we don't do this in debug mode as an always-on-top windows makes debugging almost impossible
-		}
+	// (3b) set always on top, set exclusive
+	if( m_configKioskf&SJ_KIOSKF_ALWAYS_ON_TOP ) {
+		m_backupAlwaysOnTop = g_mainFrame->IsAlwaysOnTop();
+		g_mainFrame->ShowAlwaysOnTop(true);
 	}
 
 	#ifndef __WXMAC__ // on mac, this must be very last !
-		SetExclusive(true);
+		if( m_configKioskf&SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE ) {
+			SetExclusive(true);
+		}
 	#endif
 
 	// (4)  set search / deselect all rows
@@ -2007,7 +1983,9 @@ void SjKioskModule::DoStart()
 
 	// (/) set exclusive on Mac (must be last, the flags are checked by SetExclusive())
 	#ifdef __WXMAC__
-	SetExclusive(true);
+		if( m_configKioskf&SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE ) {
+			SetExclusive(true);
+		}
 	#endif
 
 	m_interface->m_moduleSystem->BroadcastMsg(IDMODMSG_KIOSK_STARTED);
@@ -2028,7 +2006,9 @@ void SjKioskModule::DoExit(bool restoreWindow)
 
 	// (X) reset exclusivity on OS X (must be first, the flags are checked by SetExclusive())
 	#ifdef __WXMAC__
-	SetExclusive(false);
+		if( m_configKioskf&SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE ) {
+			SetExclusive(false);
+		}
 	#endif
 
 	// (9) stop watching the time
@@ -2056,9 +2036,12 @@ void SjKioskModule::DoExit(bool restoreWindow)
 
 	// (3b) restore exclusive / always on top
 	#ifndef __WXMAC__
-	SetExclusive(FALSE);
+		if( m_configKioskf&SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE ) {
+			SetExclusive(false);
+		}
 	#endif
-	if( m_configKioskf&(SJ_KIOSKF_DISABLE_AT|SJ_KIOSKF_DISABLE_CAD) )
+
+	if( m_configKioskf&SJ_KIOSKF_ALWAYS_ON_TOP )
 	{
 		g_mainFrame->ShowAlwaysOnTop(m_backupAlwaysOnTop);
 	}
