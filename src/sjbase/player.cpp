@@ -718,6 +718,22 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
  ******************************************************************************/
 
 
+SjBackendStream* SjPlayer::CreateStream(const wxString& url, long seekMs, long fadeMs)
+{
+	SjBackendUserdata* userdata = new SjBackendUserdata(this, fadeMs);
+	if( userdata == NULL ) {
+		return NULL;
+	}
+
+	SjBackendStream* stream = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback, userdata);
+	if( stream == NULL ) {
+		return NULL; // userdata should be deleted via SJBE_MSG_DESTROY_USERDATA
+	}
+
+	return stream;
+}
+
+
 void SjPlayer::Play(long seekMs, bool fadeToPlay)
 {
 	if( !m_isInitialized || !m_backend ) {
@@ -737,8 +753,7 @@ void SjPlayer::Play(long seekMs, bool fadeToPlay)
 		     if( seekMs )     { fadeMs = m_ffGotoMs; }
 		else if( fadeToPlay ) { fadeMs = m_manCrossfadeMs; }
 
-		m_streamA = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback,
-		               new SjBackendUserdata(this, fadeMs));
+		m_streamA = CreateStream(url, seekMs, fadeMs);
 		if( !m_streamA ) {
 			return; // error;
 		}
@@ -855,7 +870,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 				if( !url.IsEmpty() )
 				{
 					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
-					m_streamA = m_backend->CreateStream(url, 0, SjPlayer_BackendCallback, new SjBackendUserdata(this)); // may be NULL, we send the signal anyway!
+					m_streamA = CreateStream(url, 0, 0); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
 						if( !deviceOpendedBefore )
@@ -1034,7 +1049,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 			m_streamA = NULL;
 		}
 
-		m_streamA = m_backend->CreateStream(newUrl, 0, SjPlayer_BackendCallback, new SjBackendUserdata(this)); // may be NULL, we send the signal anyway!
+		m_streamA = CreateStream(newUrl, 0, 0); // may be NULL, we send the signal anyway!
 
 		// realize the new position in the UI
 		m_queue.SetCurrPos(newQueuePos);
