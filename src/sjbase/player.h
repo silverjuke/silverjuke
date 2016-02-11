@@ -42,6 +42,7 @@ public:
 class SjBackend;
 class SjBackendStream;
 class SjBackendCallbackParam;
+class SjVolumeCalc;
 
 
 class SjPlayer

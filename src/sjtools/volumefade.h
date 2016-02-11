@@ -19,68 +19,25 @@
  *
  *******************************************************************************
  *
- * File:    wavework.cpp
+ * File:    volumefade.h
  * Authors: Björn Petersen
- * Purpose: Working with waves
+ * Purpose: Fading Buffers
  *
  ******************************************************************************/
 
 
-#include <sjbase/base.h>
+#ifndef __SJ_VOLUMEFADE_H__
+#define __SJ_VOLUMEFADE_H__
 
 
-double SjDecibel2Gain(double db)
+class SjVolumeFade
 {
-	// for some common parameters, we're using predefined
-	// return values to avoid rounding errors
-	if( db == 14.00 )
-	{
-		return 5.0;
-	}
-	else if( db == 12.00 )
-	{
-		return 4.0;
-	}
-	else
-	{
-		return pow(10.0, db / 20.0);
-	}
-}
+public:
+				    SjVolumeFade        ();
+
+private:
+};
 
 
-double SjGain2Decibel(double gain)
-{
-	// for some common parameters, we're using predefined
-	// return values to avoid rounding errors
-	if( gain == 5.0 )
-	{
-		return 14.0;
-	}
-	else if( gain > 0.0 )
-	{
-		return (20.0 * log10(gain));
-	}
-	else
-	{
-		return 0.0;
-	}
-}
+#endif // __SJ_VOLUMEFADE_H__
 
-
-long SjGain2Long(double gain)
-{
-	if( gain > 0 )
-	{
-		return (long)(gain*1000.0F);
-	}
-	else
-	{
-		return 0;
-	}
-}
-
-
-double SjLong2Gain(long lng)
-{
-	return (double) (((double)lng) / 1000.0F);
-}

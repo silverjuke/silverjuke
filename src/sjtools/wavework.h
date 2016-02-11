@@ -30,5 +30,11 @@
 #define __SJ_WAVEWORK_H__
 
 
+double  SjGain2Decibel      (double gain);
+double  SjDecibel2Gain      (double dB);
+long    SjGain2Long         (double gain);
+double  SjLong2Gain         (long lng);
+
+
 #endif // __SJ_WAVEWORK_H__
 

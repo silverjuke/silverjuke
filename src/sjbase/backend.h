@@ -31,6 +31,10 @@
 #define __SJ_BACKEND_H__
 
 
+#include <sjtools/volumecalc.h>
+#include <sjtools/volumefade.h>
+
+
 class SjBackendStream;
 
 
@@ -121,6 +125,7 @@ public: virtual              ~SjBackendStream ();
 	bool                     m_userdata_isVideo;
 	long                     m_userdata_realMs;
 	SjVolumeCalc             m_userdata_volumeCalc;
+	SjVolumeFade             m_userdata_volumeFade;
 
 	// the following fiels should be treated as "private" to SjBackendStream and derived classes,
 	// howver, they're declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)

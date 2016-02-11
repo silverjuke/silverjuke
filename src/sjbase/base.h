@@ -87,7 +87,7 @@
 #include <sjtools/tools.h>
 #include <sjtools/http.h>
 #include <sjtools/ext_list.h>
-#include <sjtools/volumecalc.h>
+#include <sjtools/wavework.h>
 #include <sjbase/search.h>
 #include <sjbase/playlist.h>
 #include <sjbase/skin.h>

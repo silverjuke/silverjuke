@@ -33,7 +33,6 @@
 class SjVolumeCalc
 {
 public:
-	// constructor
 				    SjVolumeCalc        ();
 
 	// optionally you can set a loaded, precalculated gain;
@@ -83,12 +82,6 @@ private:
 	                m_smoothAdd;
 	double          GetSmoothedData         (const double* s, int n);
 };
-
-
-double  SjGain2Decibel      (double gain);
-double  SjDecibel2Gain      (double dB);
-long    SjGain2Long         (double gain);
-double  SjLong2Gain         (long lng);
 
 
 #endif // __SJ_VOLUMECALC_H__

@@ -243,6 +243,7 @@ silverjuke_SOURCES = \
 	src/sjtools/tools_gtk.cpp \
 	src/sjtools/tooltips.cpp \
 	src/sjtools/volumecalc.cpp \
+	src/sjtools/volumefade.cpp \
 	src/sjtools/wavework.cpp \
 	src/tagger/tg_ape_tag.cpp \
 	src/tagger/tg_a_tagger_frontend.cpp \
