@@ -43,7 +43,7 @@ public:
 	                     SjXineBackend       (SjBackendId);
 	                     ~SjXineBackend      ();
 	void                 GetLittleOptions    (SjArrayLittleOption&);
-	SjBackendStream*     CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
+	SjBackendStream*     CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, SjBackendUserdata*);
 	SjBackendState       GetDeviceState      () const;
 	void                 SetDeviceState      (SjBackendState);
 	void                 SetDeviceVol        (double gain);
@@ -71,7 +71,7 @@ protected:
    	xine_stream_t*      m_xine_stream;
 	xine_event_queue_t*	m_event_queue;
 
-	SjXineBackendStream(const wxString& url, SjXineBackend* backend, SjBackendCallback* cb, void* userdata)
+	SjXineBackendStream(const wxString& url, SjXineBackend* backend, SjBackendCallback* cb, SjBackendUserdata* userdata)
 		: SjBackendStream(url, backend, cb, userdata)
 	{
 		m_backend     = backend;

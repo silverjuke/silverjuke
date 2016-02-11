@@ -31,11 +31,8 @@
 #define __SJ_BACKEND_H__
 
 
-#include <sjtools/volumecalc.h>
-#include <sjtools/volumefade.h>
-
-
 class SjBackendStream;
+class SjBackendUserdata;
 
 
 enum SjBackendId
@@ -55,11 +52,16 @@ enum SjBackendState
 
 enum SjBackendMsg
 {
-	SJBE_MSG_CREATE = 1,     // send on stream creation (in fact, CreateStream() may still fail) before the first SJBE_MSG_DSP,
-	                         // may be used to init some data.  Do not expect samplerate/channels/etc. to contain correct data at this moment.
-	SJBE_MSG_VIDEO_DETECTED, // send if the stream contains video data
-	SJBE_MSG_DSP,
-	SJBE_MSG_END_OF_STREAM
+	SJBE_MSG_CREATE = 1,      // send by the base on stream creation (in fact, CreateStream() may still fail) before the first SJBE_MSG_DSP,
+	                          // may be used to init some data.  Do not expect samplerate/channels/etc. to contain correct data at this moment.
+
+	SJBE_MSG_VIDEO_DETECTED,  // must be send by the implementation if the stream contains video data
+
+	SJBE_MSG_DSP,             // must be send by the implementation
+
+	SJBE_MSG_END_OF_STREAM,   // must be send by the implementation
+
+	SJBE_MSG_DESTROY_USERDATA // send by the base
 };
 
 
@@ -89,7 +91,7 @@ public:
 	                         SjBackend        (SjBackendId id); // The device is in the CLOSED state after construction
 	virtual                  ~SjBackend       ();
 	virtual void             GetLittleOptions (SjArrayLittleOption&) = 0;
-	virtual SjBackendStream* CreateStream     (const wxString& url, long seekMs, SjBackendCallback*, void* userdata) = 0;
+	virtual SjBackendStream* CreateStream     (const wxString& url, long seekMs, SjBackendCallback*, SjBackendUserdata*) = 0;
 	virtual SjBackendState   GetDeviceState   () const = 0;
 	virtual void             SetDeviceState   (SjBackendState state) = 0;
 	virtual void             SetDeviceVol     (double gain) = 0; // 0.0 - 1.0, only called on opened devices
@@ -112,7 +114,7 @@ class SjBackendStream
 {
 	// The following function must be added by the backend implementation.
 	// The user creates stream using SjBackend::CreateStream().
-protected:                   SjBackendStream  (const wxString& url, SjBackend* backend, SjBackendCallback* cb, void* userdata);
+protected:                   SjBackendStream  (const wxString& url, SjBackend* backend, SjBackendCallback* cb, SjBackendUserdata*);
 public: virtual              ~SjBackendStream ();
 	virtual void             GetTime          (long& totalMs, long& elapsedMs) = 0; // -1=unknown
 	virtual void             SeekAbs          (long ms) = 0;
@@ -122,11 +124,7 @@ public: virtual              ~SjBackendStream ();
 	uint32_t                 GetStartingTime  () const { return m_cbp.startingTime; }
 
 	// these fields may be used by user for any purposes; must _not_ be used by derived classes!
-	void*                    m_userdata;
-	bool                     m_userdata_isVideo;
-	long                     m_userdata_realMs;
-	SjVolumeCalc             m_userdata_volumeCalc;
-	SjVolumeFade             m_userdata_volumeFade;
+	SjBackendUserdata*       m_userdata;
 
 	// the following fiels should be treated as "private" to SjBackendStream and derived classes,
 	// howver, they're declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)

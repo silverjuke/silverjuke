@@ -33,9 +33,20 @@
 class SjVolumeFade
 {
 public:
-				    SjVolumeFade        ();
+	                  SjVolumeFade        ();
+	void              SetVolume           (float gain);
+	void              SlideVolume         (float gain, long ms);
+	void              AdjustBuffer        (float* buffer, long bytes, int freq, int channels);
 
 private:
+	wxCriticalSection m_critical;
+
+	float             m_startGain;
+	float             m_destGain;
+
+	long              m_msToSlide;
+	long              m_subsamsToSlide;     // subsam = on channel of a multi-channel-sample; it has always sizeof(float) bytes
+	long              m_subsamsPos;
 };
 
 

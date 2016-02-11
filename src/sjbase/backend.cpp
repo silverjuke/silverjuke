@@ -54,7 +54,7 @@ wxString SjBackend::GetName() const
 }
 
 
-SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBackendCallback* cb, void* userdata)
+SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBackendCallback* cb, SjBackendUserdata* userdata)
 {
 	wxASSERT( wxThread::IsMain() );
 
@@ -68,8 +68,6 @@ SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBack
 	m_cbp.backend      = backend;
 	m_cbp.stream       = this;
 	m_userdata         = userdata;
-	m_userdata_isVideo = false;
-	m_userdata_realMs  = 0;
 
 	// we keep a list of all streams created on the backend; may be useful for the implementations
 	backend->m_allStreams.Add(this);
@@ -84,6 +82,10 @@ SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBack
 SjBackendStream::~SjBackendStream()
 {
 	wxASSERT( wxThread::IsMain() );
+
+	// inform the user that the userdata can be destroyed now; it's up to the user what to do.
+	m_cbp.msg = SJBE_MSG_DESTROY_USERDATA;
+	m_cb(&m_cbp);
 
 	// remove stream from list
 	wxArrayPtrVoid* allStreams =  &m_cbp.backend->m_allStreams;

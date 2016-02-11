@@ -176,7 +176,7 @@ static void xine_event_listener_cb(void* user_data, const xine_event_t* event)
 }
 
 
-SjBackendStream* SjXineBackend::CreateStream(const wxString& url, long seekMs, SjBackendCallback* cb, void* userdata)
+SjBackendStream* SjXineBackend::CreateStream(const wxString& url, long seekMs, SjBackendCallback* cb, SjBackendUserdata* userdata)
 {
 	if( !s_xine )      { wxLogError("Xine Error: Initialization falied."); return NULL; }
 	if( m_currStream ) { wxLogError("Xine Error: There is already a stream on this lane."); return NULL;}

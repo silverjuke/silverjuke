@@ -41,6 +41,8 @@
 #include <sjbase/queue.h>
 #include <sjbase/player.h>
 #include <sjbase/columnmixer.h>
+#include <sjtools/volumecalc.h>
+#include <sjtools/volumefade.h>
 #include <sjmodules/vis/vis_module.h>
 #include <see_dom/sj_see.h>
 
@@ -329,15 +331,6 @@ bool SjPlayer::IsAutoPlayOnAir()
 }
 
 
-bool SjPlayer::IsVideoOnAir()
-{
-	if( m_streamA ) {
-		return m_streamA->m_userdata_isVideo;
-	}
-	return false;
-}
-
-
 void SjPlayer::SaveGatheredInfo(const wxString& url, unsigned long startingTime, SjVolumeCalc* volumeCalc, long realContinuousDecodedMs)
 {
 	if( g_mainFrame
@@ -546,34 +539,63 @@ void SjPlayer::LoadFromResumeFile()
  ******************************************************************************/
 
 
+class SjBackendUserdata
+{
+public:
+	SjBackendUserdata(SjPlayer* player, long onCreateFadeMs = 0)
+	{
+		m_player         = player;
+		m_onCreateFadeMs = onCreateFadeMs;
+		m_isVideo        = false;
+		m_realMs         = 0;
+	}
+	long          m_onCreateFadeMs;
+	SjPlayer*     m_player;
+	bool          m_isVideo;
+	long          m_realMs;
+	SjVolumeCalc  m_volumeCalc;
+	SjVolumeFade  m_volumeFade;
+};
+
+
 long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 {
 	// TAKE CARE: this function is called while processing the audio data,
 	// just before the output.  So please, do not do weird things here.
 
-	SjBackendStream* stream     = cbp->stream;
-	SjPlayer*        player     = (SjPlayer*)stream->m_userdata;
-	SjVolumeCalc*    volumecalc = &stream->m_userdata_volumeCalc;
-	float*           buffer     = cbp->buffer;
-	long             bytes      = cbp->bytes;
+	SjBackendStream*   stream     = cbp->stream;        if( stream == NULL )   { return 0; }
+	SjBackendUserdata* userdata   = stream->m_userdata; if( userdata == NULL ) { return 0; }
+	SjPlayer*          player     = userdata->m_player; if( player == NULL )   { return 0; }
+	float*             buffer     = cbp->buffer; // may be NULL
+	long               bytes      = cbp->bytes;
+	int                samplerate = cbp->samplerate;
+	int                channels   = cbp->channels;
 
 	if( cbp->msg == SJBE_MSG_DSP )
 	{
 		/* DSP
 		***********************************************************************/
 
+		if( buffer == NULL || bytes <= 0 )
+		{
+			return 1; // bad data, message handled
+		}
+
 		// calculate the volume - we do this ALWAYS, if autovol is enabled or not
-		volumecalc->AddBuffer(buffer, bytes, cbp->samplerate, cbp->channels);
+		userdata->m_volumeCalc.AddBuffer(buffer, bytes, samplerate, channels);
 
 		// apply the calulated gain, if desired
 		if( player->m_avEnabled )
 		{
-			volumecalc->AdjustBuffer(buffer, bytes, player->m_avDesiredVolume, player->m_avMaxGain);
+			userdata->m_volumeCalc.AdjustBuffer(buffer, bytes, player->m_avDesiredVolume, player->m_avMaxGain);
 
 			if( stream == player->m_streamA ) {
-				player->m_avCalculatedGain = volumecalc->GetGain();
+				player->m_avCalculatedGain = userdata->m_volumeCalc.GetGain();
 			}
 		}
+
+		// apply optional fadings, eg. for crossfading
+		userdata->m_volumeFade.AdjustBuffer(buffer, bytes, samplerate, channels);
 
 		// forward the data to the visualisation -
 		// we do this last, so autovol, equalizers etc. is visible eg. in the spectrum analyzer
@@ -582,7 +604,7 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			g_visModule->AddVisData(buffer, bytes);
 		}
 
-		return 1;
+		return 1; // done, message handled
 	}
 	else if( cbp->msg == SJBE_MSG_CREATE )
 	{
@@ -591,23 +613,29 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 
 		wxASSERT( wxThread::IsMain() );
 
-		stream->m_userdata_volumeCalc.SetPrecalculatedGain(
+		userdata->m_volumeCalc.SetPrecalculatedGain(
 			g_mainFrame->m_libraryModule->GetAutoVol(stream->GetUrl(), player->AvGetUseAlbumVol())
 		);
 
-		return 1;
+		if( userdata->m_onCreateFadeMs ) {
+			userdata->m_volumeFade.SetVolume(0.0);
+			userdata->m_volumeFade.SlideVolume(1.0, userdata->m_onCreateFadeMs);
+		}
+
+		return 1; // done, message handled
 	}
 	else if( cbp->msg == SJBE_MSG_VIDEO_DETECTED )
 	{
 		/* Video detected
 		***********************************************************************/
 
-		if( !stream->m_userdata_isVideo )
+		if( !userdata->m_isVideo )
 		{
-			stream->m_userdata_isVideo = true;
+			userdata->m_isVideo = true;
 			player->SendSignalToMainThread(IDMODMSG_VIDEO_DETECTED);
 		}
-		return 1;
+
+		return 1; // done, message handled
 	}
 	else if( cbp->msg == SJBE_MSG_END_OF_STREAM )
 	{
@@ -615,10 +643,23 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		***********************************************************************/
 
 		player->SendSignalToMainThread(THREAD_END_OF_STREAM);
-		return 1;
+
+		return 1; // done, message handled
+	}
+	else if( cbp->msg == SJBE_MSG_DESTROY_USERDATA )
+	{
+		/* destroy
+		***********************************************************************/
+
+		wxASSERT( wxThread::IsMain() );
+
+		delete userdata;
+		stream->m_userdata = NULL;
+
+		return 1; // done, message handled
 	}
 
-	return 0;
+	return 0; // message not handled
 }
 
 
@@ -692,7 +733,12 @@ void SjPlayer::Play(long seekMs, bool fadeToPlay)
 			return; // error;
 		}
 
-		m_streamA = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback, this);
+		long fadeMs = 0;
+		     if( seekMs )     { fadeMs = m_ffGotoMs; }
+		else if( fadeToPlay ) { fadeMs = m_manCrossfadeMs; }
+
+		m_streamA = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback,
+		               new SjBackendUserdata(this, fadeMs));
 		if( !m_streamA ) {
 			return; // error;
 		}
@@ -747,7 +793,7 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 	// Do the "real stop" in the implementation part
 	if( m_streamA )
 	{
-		SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata_volumeCalc, m_streamA->m_userdata_realMs);
+		SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata->m_volumeCalc, m_streamA->m_userdata->m_realMs);
 		delete m_streamA;
 		m_streamA = NULL;
 	}
@@ -798,7 +844,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 			// playing, realize the new position
             if( m_streamA )
             {
-				SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata_volumeCalc, m_streamA->m_userdata_realMs);
+				SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata->m_volumeCalc, m_streamA->m_userdata->m_realMs);
 				delete m_streamA;
 				m_streamA = NULL;
             }
@@ -809,7 +855,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 				if( !url.IsEmpty() )
 				{
 					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
-					m_streamA = m_backend->CreateStream(url, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
+					m_streamA = m_backend->CreateStream(url, 0, SjPlayer_BackendCallback, new SjBackendUserdata(this)); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
 						if( !deviceOpendedBefore )
@@ -854,7 +900,7 @@ void SjPlayer::GetTime(long& totalMs, long& elapsedMs, long& remainingMs)
 	// calculate totalMs and elapsedMs, if unknown, -1 is returned.
 	m_streamA->GetTime(totalMs, elapsedMs);
 	if( totalMs > 0 ) {
-		m_streamA->m_userdata_realMs = totalMs;
+		m_streamA->m_userdata->m_realMs = totalMs;
 	}
 
 	// remaining time
@@ -906,6 +952,15 @@ wxString SjPlayer::GetUrlOnAir()
 	}
 
 	return m_streamA->GetUrl();
+}
+
+
+bool SjPlayer::IsVideoOnAir()
+{
+	if( m_streamA && m_streamA->m_userdata ) {
+		return m_streamA->m_userdata->m_isVideo;
+	}
+	return false;
 }
 
 
@@ -974,12 +1029,12 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		// try to create the next stream
 		if( m_streamA )
 		{
-			SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata_volumeCalc, m_streamA->m_userdata_realMs);
+			SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata->m_volumeCalc, m_streamA->m_userdata->m_realMs);
 			delete m_streamA;
 			m_streamA = NULL;
 		}
 
-		m_streamA = m_backend->CreateStream(newUrl, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
+		m_streamA = m_backend->CreateStream(newUrl, 0, SjPlayer_BackendCallback, new SjBackendUserdata(this)); // may be NULL, we send the signal anyway!
 
 		// realize the new position in the UI
 		m_queue.SetCurrPos(newQueuePos);

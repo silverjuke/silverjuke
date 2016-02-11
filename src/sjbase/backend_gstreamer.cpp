@@ -300,7 +300,7 @@ void SjGstreamerBackend::GetLittleOptions(SjArrayLittleOption& lo)
 }
 
 
-SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seekMs, SjBackendCallback* cb, void* userdata)
+SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seekMs, SjBackendCallback* cb, SjBackendUserdata* userdata)
 {
 	SjGstreamerBackendStream* stream = new SjGstreamerBackendStream(uri, this, cb, userdata);
 	if( stream == NULL ) { return NULL; }

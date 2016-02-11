@@ -43,7 +43,7 @@ public:
 	                 SjGstreamerBackend  (SjBackendId);
 	                 ~SjGstreamerBackend () { SetDeviceState(SJBE_STATE_CLOSED); }
 	void             GetLittleOptions    (SjArrayLittleOption&);
-	SjBackendStream* CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, void* userdata);
+	SjBackendStream* CreateStream        (const wxString& url, long seekMs, SjBackendCallback*, SjBackendUserdata* userdata);
 	SjBackendState   GetDeviceState      () const;
 	void             SetDeviceState      (SjBackendState);
 	void             SetDeviceVol        (double gain);
@@ -63,7 +63,7 @@ public:
     void                SeekAbs                   (long ms);
 
 protected:
-	SjGstreamerBackendStream(const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, void* userdata)
+	SjGstreamerBackendStream(const wxString& url, SjGstreamerBackend* backend, SjBackendCallback* cb, SjBackendUserdata* userdata)
 		: SjBackendStream(url, backend, cb, userdata)
     {
 		m_backend      = backend;
