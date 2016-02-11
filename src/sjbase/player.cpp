@@ -584,6 +584,19 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 
 		return 1;
 	}
+	else if( cbp->msg == SJBE_MSG_CREATE )
+	{
+		/* Stream just created - send before any SJBE_MSG_DSP
+		***********************************************************************/
+
+		wxASSERT( wxThread::IsMain() );
+
+		stream->m_userdata_volumeCalc.SetPrecalculatedGain(
+			g_mainFrame->m_libraryModule->GetAutoVol(stream->GetUrl(), player->AvGetUseAlbumVol())
+		);
+
+		return 1;
+	}
 	else if( cbp->msg == SJBE_MSG_VIDEO_DETECTED )
 	{
 		/* Video detected
@@ -664,19 +677,6 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
  ******************************************************************************/
 
 
-SjBackendStream* SjPlayer::CreateStream(const wxString& url, long seekMs)
-{
-	SjBackendStream* newStream = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback, this);
-	if( newStream ) {
-		newStream->m_userdata_volumeCalc.SetPrecalculatedGain(
-			g_mainFrame->m_libraryModule->GetAutoVol(url, AvGetUseAlbumVol())
-		);
-	}
-
-	return newStream;
-}
-
-
 void SjPlayer::Play(long seekMs, bool fadeToPlay)
 {
 	if( !m_isInitialized || !m_backend ) {
@@ -692,7 +692,7 @@ void SjPlayer::Play(long seekMs, bool fadeToPlay)
 			return; // error;
 		}
 
-		m_streamA = CreateStream(url, seekMs);
+		m_streamA = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback, this);
 		if( !m_streamA ) {
 			return; // error;
 		}
@@ -809,7 +809,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 				if( !url.IsEmpty() )
 				{
 					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
-					m_streamA = CreateStream(url, 0); // may be NULL, we send the signal anyway!
+					m_streamA = m_backend->CreateStream(url, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
 						if( !deviceOpendedBefore )
@@ -979,7 +979,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 			m_streamA = NULL;
 		}
 
-		m_streamA = CreateStream(newUrl, 0); // may be NULL, we send the signal anyway!
+		m_streamA = m_backend->CreateStream(newUrl, 0, SjPlayer_BackendCallback, this); // may be NULL, we send the signal anyway!
 
 		// realize the new position in the UI
 		m_queue.SetCurrPos(newQueuePos);

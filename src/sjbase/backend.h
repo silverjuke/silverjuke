@@ -55,7 +55,8 @@ enum SjBackendState
 
 enum SjBackendMsg
 {
-	SJBE_MSG_NONE = 0,
+	SJBE_MSG_CREATE = 1,     // send on stream creation (in fact, CreateStream() may still fail) before the first SJBE_MSG_DSP,
+	                         // may be used to init some data.  Do not expect samplerate/channels/etc. to contain correct data at this moment.
 	SJBE_MSG_VIDEO_DETECTED, // send if the stream contains video data
 	SJBE_MSG_DSP,
 	SJBE_MSG_END_OF_STREAM

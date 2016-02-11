@@ -63,7 +63,6 @@ SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBack
 	m_cbp.samplerate   = 44100;
 	m_cbp.channels     = 2;
 	m_cbp.startingTime = wxDateTime::Now().GetAsDOS();
-	m_cbp.msg          = SJBE_MSG_NONE;
 	m_cbp.buffer       = NULL;
 	m_cbp.bytes        = 0;
 	m_cbp.backend      = backend;
@@ -74,6 +73,11 @@ SjBackendStream::SjBackendStream(const wxString& url, SjBackend* backend, SjBack
 
 	// we keep a list of all streams created on the backend; may be useful for the implementations
 	backend->m_allStreams.Add(this);
+
+	// inform the user about the new stream, can be used to set up m_userdata_*
+	// startingTime is set while samplerate/channels are still invalid!
+	m_cbp.msg          = SJBE_MSG_CREATE;
+	m_cb(&m_cbp);
 }
 
 

@@ -162,7 +162,6 @@ private:
 	// The player's backend, normally selected by a define as SJ_USE_GSTREAMER or SJ_USE_XINE
 	SjBackend*       m_backend;
 	SjBackendStream* m_streamA;
-	SjBackendStream* CreateStream       (const wxString& url, long seekMs);
 
 	// prelisten
 	#define          SJ_PL_MIX       1
