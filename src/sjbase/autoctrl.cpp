@@ -427,6 +427,8 @@ void SjAutoCtrl::OnOneSecondTimer()
 
 		unsigned long thisTimestamp = SjTools::GetMsTicks();
 
+		g_mainFrame->m_player.OneSecondTimer();
+
 		// automatic control: do cleanup temp?
 		//////////////////////////////////////////////////////////////////////////////////////////////
 

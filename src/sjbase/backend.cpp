@@ -48,9 +48,10 @@ SjBackend::~SjBackend()
 
 wxString SjBackend::GetName() const
 {
-	     if(m_id==SJBE_ID_STDOUTPUT) { return "stdoutput"; }
-	else if(m_id==SJBE_ID_PRELISTEN) { return "prelisten"; }
-	else                             { return "unknown";   }
+	     if(m_id==SJBE_ID_STDOUTPUT )  { return "stdoutput";  }
+	else if(m_id==SJBE_ID_PRELISTEN )  { return "prelisten";  }
+	else if(m_id==SJBE_ID_FAKEOUTPUT ) { return "fakeoutput"; }
+	else                               { return "unknown";    }
 }
 
 

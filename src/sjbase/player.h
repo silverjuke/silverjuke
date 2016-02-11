@@ -153,6 +153,8 @@ public:
 	long            m_ffPlay2PauseMs;
 	long            m_ffGotoMs;
 
+	void            OneSecondTimer      ();
+
 	// The IDP_* messages posted to the main module should
 	// be given to ReceiveSignal().  This is to avoid using a separate
 	// thread for this purpose.
@@ -172,6 +174,9 @@ private:
 	#define          SJ_PL_DEFAULT   SJ_PL_MIX
 	long             m_plDest;
 	SjBackend*       m_plBackend;
+
+	// fake output
+	SjBackend*       m_fakeBackend;
 
 	// tools
 	void            SendSignalToMainThread(int id, uintptr_t extraLong=0) const;

@@ -27,6 +27,7 @@
 
 
 #include <sjbase/base.h>
+#include <sjbase/backend.h>
 
 
 double SjDecibel2Gain(double db)
@@ -83,4 +84,17 @@ long SjGain2Long(double gain)
 double SjLong2Gain(long lng)
 {
 	return (double) (((double)lng) / 1000.0F);
+}
+
+
+/*******************************************************************************
+ * Detect Silence
+ ******************************************************************************/
+
+
+bool SjDetectSilence(SjBackend* backend, const wxString& url, long& silenceBegMs, long& silenceEndMs)
+{
+	silenceBegMs = -1;
+	silenceEndMs = -1;
+	return true;
 }

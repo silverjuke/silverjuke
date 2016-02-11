@@ -67,7 +67,7 @@ GstBusSyncReply on_bus_sync_handler(GstBus* bus, GstMessage* msg, gpointer user_
 	if( !gst_is_video_overlay_prepare_window_handle_message(msg) )
 		return GST_BUS_PASS;
 
-	if( !g_vidoutModule || ! g_vidoutModule->m_os_window_handle ) {
+	if( !g_vidoutModule || !g_vidoutModule->m_os_window_handle ) {
 		wxLogError("GStreamer Error: Window for embedding not ready.");
 		return GST_BUS_PASS; // normally, the video is shown in a separate window now.
 	}
@@ -273,8 +273,17 @@ SjGstreamerBackend::SjGstreamerBackend(SjBackendId id)
 	#define VIDEOPIPELINE_ININAME "gstreamer/"+GetName()+"VideoPipeline"
 	#define VIDEOPIPELINE_DEFAULT "autovideosink"
 	wxConfigBase* c = g_tools->m_config;
-	m_iniAudioPipeline = c->Read(AUDIOPIPELINE_ININAME, AUDIOPIPELINE_DEFAULT);
-	m_iniVideoPipeline = c->Read(VIDEOPIPELINE_ININAME, VIDEOPIPELINE_DEFAULT);
+
+	if( GetId()==SJBE_ID_FAKEOUTPUT ) {
+		m_iniAudioPipeline = "fakesink";
+	}
+	else {
+		m_iniAudioPipeline = c->Read(AUDIOPIPELINE_ININAME, AUDIOPIPELINE_DEFAULT);
+	}
+
+	if( WantsVideo() ) {
+		m_iniVideoPipeline = c->Read(VIDEOPIPELINE_ININAME, VIDEOPIPELINE_DEFAULT);
+	}
 
 	// init, log version information
 	static bool s_initialized = false;

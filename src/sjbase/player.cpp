@@ -153,6 +153,7 @@ void SjPlayer::Init()
 
 	m_backend = new BACKEND_CLASSNAME(SJBE_ID_STDOUTPUT);
 	m_plBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN);
+	m_fakeBackend = new BACKEND_CLASSNAME(SJBE_ID_FAKEOUTPUT);
 
 	// load settings
 	wxConfigBase* c = g_tools->m_config;
@@ -257,6 +258,12 @@ void SjPlayer::Exit()
 		{
 			delete m_plBackend;
 			m_plBackend = NULL;
+		}
+
+		if( m_fakeBackend )
+		{
+			delete m_fakeBackend;
+			m_fakeBackend = NULL;
 		}
 
 		m_queue.Exit();
@@ -548,11 +555,13 @@ public:
 		m_onCreateFadeMs = onCreateFadeMs;
 		m_isVideo        = false;
 		m_realMs         = 0;
+		m_silenceEndMs   = -1;
 	}
 	long          m_onCreateFadeMs;
 	SjPlayer*     m_player;
 	bool          m_isVideo;
 	long          m_realMs;
+	long          m_silenceEndMs;
 	SjVolumeCalc  m_volumeCalc;
 	SjVolumeFade  m_volumeFade;
 };
@@ -653,6 +662,8 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 
 		wxASSERT( wxThread::IsMain() );
 
+		player->SaveGatheredInfo(stream->GetUrl(), stream->GetStartingTime(), &userdata->m_volumeCalc, userdata->m_realMs);
+
 		delete userdata;
 		stream->m_userdata = NULL;
 
@@ -718,14 +729,29 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
  ******************************************************************************/
 
 
-SjBackendStream* SjPlayer::CreateStream(const wxString& url, long seekMs, long fadeMs)
+SjBackendStream* SjPlayer::CreateStream(const wxString& url, long explicitSeekMs, long fadeMs)
 {
 	SjBackendUserdata* userdata = new SjBackendUserdata(this, fadeMs);
 	if( userdata == NULL ) {
 		return NULL;
 	}
 
-	SjBackendStream* stream = m_backend->CreateStream(url, seekMs, SjPlayer_BackendCallback, userdata);
+	// first, try to collect some information
+	long silenceBegMs = -1;
+	if( m_skipSilence ) {
+		SjDetectSilence(m_fakeBackend, url, silenceBegMs, userdata->m_silenceEndMs);
+	}
+
+	long startThisMs = 0;
+	if( explicitSeekMs > 0 ) {
+		startThisMs = explicitSeekMs;
+	}
+	else if( silenceBegMs > 0 ) {
+		startThisMs = silenceBegMs;
+	}
+
+	// create the stream
+	SjBackendStream* stream = m_backend->CreateStream(url, startThisMs, SjPlayer_BackendCallback, userdata);
 	if( stream == NULL ) {
 		return NULL; // userdata should be deleted via SJBE_MSG_DESTROY_USERDATA
 	}
@@ -808,7 +834,6 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 	// Do the "real stop" in the implementation part
 	if( m_streamA )
 	{
-		SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata->m_volumeCalc, m_streamA->m_userdata->m_realMs);
 		delete m_streamA;
 		m_streamA = NULL;
 	}
@@ -859,7 +884,6 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 			// playing, realize the new position
             if( m_streamA )
             {
-				SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata->m_volumeCalc, m_streamA->m_userdata->m_realMs);
 				delete m_streamA;
 				m_streamA = NULL;
             }
@@ -979,6 +1003,32 @@ bool SjPlayer::IsVideoOnAir()
 }
 
 
+void SjPlayer::OneSecondTimer()
+{
+	if( (!m_autoCrossfade && !m_skipSilence) || m_streamA == NULL || m_streamA->m_userdata == NULL ) {
+		return; // crossfading and silence detection disabled or no stream
+	}
+
+	long totalMs = -1, elapsedMs = -1;
+	m_streamA->GetTime(totalMs, elapsedMs);
+	if( totalMs < m_autoCrossfadeMs*2 || elapsedMs < 0 ) {
+		return; // do not crossfade on very short tracks or if the position is unknwon
+	}
+
+	#define HEADROOM_MS 50 // assumed time for stream creation
+	long startNextMs = totalMs - HEADROOM_MS;
+	if( m_streamA->m_userdata->m_silenceEndMs > 0 )  { startNextMs -= m_streamA->m_userdata->m_silenceEndMs; }
+	if( m_autoCrossfade )                            { startNextMs -= m_autoCrossfadeMs; }
+
+	if( elapsedMs < startNextMs ) {
+		return; // still waiting for the correct moment
+	}
+
+	// start crossfade!
+	wxLogDebug("START CROSSFADING TO NEXT ...");
+}
+
+
 void SjPlayer::SendSignalToMainThread(int id, uintptr_t extraLong) const
 {
 	if(  g_mainFrame
@@ -1044,7 +1094,6 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		// try to create the next stream
 		if( m_streamA )
 		{
-			SaveGatheredInfo(m_streamA->GetUrl(), m_streamA->GetStartingTime(), &m_streamA->m_userdata->m_volumeCalc, m_streamA->m_userdata->m_realMs);
 			delete m_streamA;
 			m_streamA = NULL;
 		}
