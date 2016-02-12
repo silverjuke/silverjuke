@@ -64,7 +64,7 @@
 
 
 // internal messages
-#define THREAD_END_OF_STREAM_A       (IDPLAYER_FIRST+0)
+#define THREAD_END_OF_STREAM         (IDPLAYER_FIRST+0)
 #define THREAD_AUTO_DELETE           (IDPLAYER_FIRST+1)
 
 
@@ -232,10 +232,7 @@ void SjPlayer::Exit()
 		// SaveSettings() should be called by the caller, if needed
 		m_isInitialized = false;
 
-		if( m_streamA)
-		{
-			DeleteStream(&m_streamA, 0);
-		}
+		DeleteStream(&m_streamA, 0);
 
 		if( m_backend )
 		{
@@ -562,14 +559,14 @@ public:
 };
 
 
-long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
+void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 {
 	// TAKE CARE: this function is called while processing the audio data,
 	// just before the output.  So please, do not do weird things here.
 
-	SjBackendStream*   stream     = cbp->stream;        if( stream == NULL )   { return 0; }
-	SjBackendUserdata* userdata   = stream->m_userdata; if( userdata == NULL ) { return 0; }
-	SjPlayer*          player     = userdata->m_player; if( player == NULL )   { return 0; }
+	SjBackendStream*   stream     = cbp->stream;        if( stream == NULL )   { return; }
+	SjBackendUserdata* userdata   = stream->m_userdata; if( userdata == NULL ) { return; }
+	SjPlayer*          player     = userdata->m_player; if( player == NULL )   { return; }
 	float*             buffer     = cbp->buffer; // may be NULL
 	long               bytes      = cbp->bytes;
 	int                samplerate = cbp->samplerate;
@@ -580,43 +577,39 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		/* DSP
 		***********************************************************************/
 
-		if( buffer == NULL || bytes <= 0 )
+		if( buffer != NULL && bytes > 0 )
 		{
-			return 1; // bad data, message handled
-		}
+			// calculate the volume - we do this ALWAYS, if autovol is enabled or not
+			userdata->m_volumeCalc.AddBuffer(buffer, bytes, samplerate, channels);
 
-		// calculate the volume - we do this ALWAYS, if autovol is enabled or not
-		userdata->m_volumeCalc.AddBuffer(buffer, bytes, samplerate, channels);
+			// apply the calulated gain, if desired
+			if( player->m_avEnabled )
+			{
+				userdata->m_volumeCalc.AdjustBuffer(buffer, bytes, player->m_avDesiredVolume, player->m_avMaxGain);
 
-		// apply the calulated gain, if desired
-		if( player->m_avEnabled )
-		{
-			userdata->m_volumeCalc.AdjustBuffer(buffer, bytes, player->m_avDesiredVolume, player->m_avMaxGain);
+				if( stream == player->m_streamA ) {
+					player->m_avCalculatedGain = userdata->m_volumeCalc.GetGain();
+				}
+			}
 
-			if( stream == player->m_streamA ) {
-				player->m_avCalculatedGain = userdata->m_volumeCalc.GetGain();
+			// apply optional fadings, eg. for crossfading
+			if( !userdata->m_volumeFade.AdjustBuffer(buffer, bytes, samplerate, channels) )
+			{
+				userdata->m_autoDeleteCritical.Enter();
+					if( userdata->m_autoDelete && !userdata->m_autoDeleteSend ) {
+						userdata->m_autoDeleteSend = true;
+						player->SendSignalToMainThread(THREAD_AUTO_DELETE, (uintptr_t)stream);
+					}
+				userdata->m_autoDeleteCritical.Leave();
+			}
+
+			// forward the data to the visualisation -
+			// we do this last, so autovol, equalizers etc. is visible eg. in the spectrum analyzer
+			if( g_visModule->IsVisStarted() && stream == player->m_streamA )
+			{
+				g_visModule->AddVisData(buffer, bytes);
 			}
 		}
-
-		// apply optional fadings, eg. for crossfading
-		if( !userdata->m_volumeFade.AdjustBuffer(buffer, bytes, samplerate, channels) )
-		{
-			userdata->m_autoDeleteCritical.Enter();
-				if( userdata->m_autoDelete && !userdata->m_autoDeleteSend ) {
-					userdata->m_autoDeleteSend = true;
-					player->SendSignalToMainThread(THREAD_AUTO_DELETE, (uintptr_t)stream);
-				}
-			userdata->m_autoDeleteCritical.Leave();
-		}
-
-		// forward the data to the visualisation -
-		// we do this last, so autovol, equalizers etc. is visible eg. in the spectrum analyzer
-		if( g_visModule->IsVisStarted() && stream == player->m_streamA )
-		{
-			g_visModule->AddVisData(buffer, bytes);
-		}
-
-		return 1; // done, message handled
 	}
 	else if( cbp->msg == SJBE_MSG_CREATE )
 	{
@@ -633,8 +626,6 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			userdata->m_volumeFade.SetVolume(0.0);
 			userdata->m_volumeFade.SlideVolume(1.0, userdata->m_onCreateFadeMs);
 		}
-
-		return 1; // done, message handled
 	}
 	else if( cbp->msg == SJBE_MSG_VIDEO_DETECTED )
 	{
@@ -646,8 +637,6 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			userdata->m_isVideo = true;
 			player->SendSignalToMainThread(IDMODMSG_VIDEO_DETECTED);
 		}
-
-		return 1; // done, message handled
 	}
 	else if( cbp->msg == SJBE_MSG_END_OF_STREAM )
 	{
@@ -655,6 +644,7 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		***********************************************************************/
 
 		// auto delete stream?
+		bool sendEos = true;
 		userdata->m_autoDeleteCritical.Enter();
 			if( userdata->m_autoDelete )
 			{
@@ -662,18 +652,15 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 					userdata->m_autoDeleteSend = true;
 					player->SendSignalToMainThread(THREAD_AUTO_DELETE, (uintptr_t)stream);
 				}
-				userdata->m_autoDeleteCritical.Leave(); // do not forget this!
-				return 1; // done, message handled
+				sendEos = false;
 			}
 		userdata->m_autoDeleteCritical.Leave();
 
 		// just send end-of-stream
-		if( stream == player->m_streamA )
+		if( sendEos && stream == player->m_streamA )
 		{
-			player->SendSignalToMainThread(THREAD_END_OF_STREAM_A, (uintptr_t)stream);
+			player->SendSignalToMainThread(THREAD_END_OF_STREAM, (uintptr_t)stream);
 		}
-
-		return 1; // done, message handled
 	}
 	else if( cbp->msg == SJBE_MSG_DESTROY_USERDATA )
 	{
@@ -686,11 +673,7 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 
 		delete userdata;
 		stream->m_userdata = NULL;
-
-		return 1; // done, message handled
 	}
-
-	return 0; // message not handled
 }
 
 
@@ -822,10 +805,7 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 	}
 
 	// Do the "real stop" in the implementation part
-	if( m_streamA )
-	{
-		DeleteStream(&m_streamA, 0);
-	}
+	DeleteStream(&m_streamA, 0);
 
 	if( m_backend )
 	{
@@ -871,10 +851,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 		else if( IsPlaying() )
 		{
 			// playing, realize the new position
-            if( m_streamA )
-            {
-				DeleteStream(&m_streamA, fadeToPos? m_autoCrossfadeMs : 0);
-            }
+			DeleteStream(&m_streamA, fadeToPos? m_autoCrossfadeMs : 0);
 
 			if( m_backend )
 			{
@@ -1057,8 +1034,39 @@ void SjPlayer::OneSecondTimer()
 		return; // still waiting for the correct moment
 	}
 
-	// start crossfade!
-	wxLogDebug("START CROSSFADING TO NEXT ...");
+	// the correct moment is reached!
+	if( m_stopAfterThisTrack || m_stopAfterEachTrack ) {
+		return; // no crossfade, we shall just stop
+	}
+
+	// find out the next url to play
+	wxString newUrl;
+	long newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
+	if( newQueuePos == -1 )
+	{
+		// try to enqueue auto-play url
+		g_mainFrame->m_autoCtrl.DoAutoPlayIfEnabled(false /*ignoreTimeouts*/);
+		newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
+		if( newQueuePos == -1 ) {
+			return; // nothing more to play, stop when reaching THREAD_END_OF_STREAM
+		}
+	}
+	newUrl = m_queue.GetUrlByPos(newQueuePos);
+	if( m_failedUrls.Index( newUrl ) != wxNOT_FOUND ) {
+		return; // the URL has just failed, handle this in THREAD_END_OF_STREAM
+	}
+
+	// try to create the next stream
+	DeleteStream(&m_streamA, m_autoCrossfadeMs);
+	m_streamA = CreateStream(newUrl, 0, m_autoCrossfadeMs);
+	m_queue.SetCurrPos(newQueuePos); // realize the new position in the UI
+
+	if( m_streamA ) {
+		SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
+	}
+	else {
+		SendSignalToMainThread(THREAD_END_OF_STREAM); // error - start over
+	}
 }
 
 
@@ -1079,9 +1087,10 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 {
 	if( !m_isInitialized || m_backend == NULL ) { return; }
 
-	if( signal==THREAD_END_OF_STREAM_A && ((SjBackendStream*)extraLong)==m_streamA )
+	if( signal==THREAD_END_OF_STREAM
+	&& (((SjBackendStream*)extraLong)==m_streamA || extraLong==0) )
 	{
-		// just stop after this track?
+		// just stop after this track? - we're here if the DSP callback sends EOS or if we resend the signal outself
 		if( m_stopAfterThisTrack || m_stopAfterEachTrack )
 		{
 			g_mainFrame->Stop(); // Stop() clears the m_stopAfterThisTrack flag, and, as we go over g_mainFrame, this also sets haltedManually and stops autoPlay
@@ -1094,7 +1103,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		}
 
 		// find out the next url to play
-		wxString	newUrl;
+		wxString newUrl;
 		long newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
 		if( newQueuePos == -1 )
 		{
@@ -1102,10 +1111,8 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 			g_mainFrame->m_autoCtrl.DoAutoPlayIfEnabled(false /*ignoreTimeouts*/);
 			newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
 
-			if( newQueuePos == -1 )
-			{
+			if( newQueuePos == -1 ) {
 				// no chance, there is nothing more to play ...
-				wxLogDebug(" ... receiving THREAD_END_OF_STREAM_A, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ");
 				Stop();
 				SendSignalToMainThread(IDMODMSG_PLAYER_STOPPED_BY_EOQ);
 				return;
@@ -1114,33 +1121,31 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		newUrl = m_queue.GetUrlByPos(newQueuePos);
 
 		// has the URL just failed? try again in the next message loop
-		wxLogDebug(" ... new URL is \"%s\"", newUrl.c_str());
-
-		if( m_failedUrls.Index( newUrl ) != wxNOT_FOUND )
-		{
-			wxLogDebug(" ... the URL has failed before, starting over.");
+		if( m_failedUrls.Index( newUrl ) != wxNOT_FOUND ) {
 			m_queue.SetCurrPos(newQueuePos);
-			SendSignalToMainThread(signal); // start over
+			SendSignalToMainThread(THREAD_END_OF_STREAM, 0); // start over
 			return;
 		}
 
 		// try to create the next stream
-		if( m_streamA )
-		{
-			DeleteStream(&m_streamA, 0);
+		DeleteStream(&m_streamA, 0);
+		m_streamA = CreateStream(newUrl, 0, 0);
+		m_queue.SetCurrPos(newQueuePos); // realize the new position in the UI
+
+		if( m_streamA ) {
+			SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
 		}
-
-		m_streamA = CreateStream(newUrl, 0, 0); // may be NULL, we send the signal anyway!
-
-		// realize the new position in the UI
-		m_queue.SetCurrPos(newQueuePos);
-		SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
+		else {
+			SendSignalToMainThread(THREAD_END_OF_STREAM, 0); // start over
+		}
 	}
 	else if( signal == THREAD_AUTO_DELETE )
 	{
 		// just delete the given stream - the message is needed as we cannot do this from a working thream
         SjBackendStream* toDel = (SjBackendStream*)extraLong;
-        delete toDel;
+        if( toDel ) {
+			delete toDel;
+		}
 	}
 }
 

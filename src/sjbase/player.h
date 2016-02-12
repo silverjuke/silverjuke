@@ -206,7 +206,7 @@ private:
 	wxArrayString   m_failedUrls;
 
 	friend class    SjPlayerModule;
-	friend long     SjPlayer_BackendCallback(SjBackendCallbackParam*);
+	friend void     SjPlayer_BackendCallback(SjBackendCallbackParam*);
 };
 
 

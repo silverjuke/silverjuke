@@ -203,18 +203,18 @@ wxString SjHelpDialog::GetCreditsTopic() const
 
 	    "<ul>"
 			"<li>"
-				"Parts of this software use the wxWidgets User Interface Framework written by the wxWidgets team."
+				"Parts of this software use the wxWidgets User Interface Framework written by the wxWidgets team." // linked dynamically normally, but statically in some cases
 				"<br />"
 			"</li>"
 
 			"<li>"
-				"Other parts are based on the work of the Independent JPEG Group "
+				"Other parts are based on the work of the Independent JPEG Group "  // linked dynamically normally, but statically in some cases
 				"and on the work of Jean-loup Gailly and Mark Adler."
 				"<br />"
 			"</li>"
 
 			"<li>"
-				"The used SQLite Database Library was written by Dr. Richard Hipp."
+				"The used SQLite Database Library was written by Dr. Richard Hipp."  // linked dynamically normally, but statically in some cases
 				"<br />"
 			"</li>"
 

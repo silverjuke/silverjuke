@@ -79,7 +79,7 @@ struct SjBackendCallbackParam
 };
 
 
-typedef long (SjBackendCallback)(SjBackendCallbackParam*);
+typedef void (SjBackendCallback)(SjBackendCallbackParam*);
 
 
 class SjBackend
