@@ -37,6 +37,7 @@ double  SjGain2Decibel      (double gain);
 double  SjDecibel2Gain      (double dB);
 long    SjGain2Long         (double gain);
 double  SjLong2Gain         (long lng);
+void    SjApplyVolume       (float*, long bytes, float gain);
 
 bool    SjDetectSilence     (SjBackend*, const wxString& url, long& silenceBegMs, long& silenceEndMs);
 

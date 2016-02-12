@@ -159,14 +159,21 @@ private:
 	SjBackendStream* CreateStream       (const wxString& url, long seekMs, long fadeMs);
 	void             DeleteStream       (SjBackendStream**, long fadeMs); // the given pointer must not be used by the caller after using this function!
 
+	#define          SJ_SYSVOL_DONTUSE  0
+	#define          SJ_SYSVOL_USE      1
+	#define          SJ_SYSVOL_ONLYINIT 2
+	#define          SJ_SYSVOL_DEFAULT  SJ_SYSVOL_USE
+	long             m_useSysVol;
+
 	// prelisten
 	#define          SJ_PL_MIX       1
 	#define          SJ_PL_LEFT      2
 	#define          SJ_PL_RIGHT     3
 	#define          SJ_PL_OWNOUTPUT 4
 	#define          SJ_PL_DEFAULT   SJ_PL_MIX
-	long             m_plDest;
-	SjBackend*       m_plBackend;
+	long             m_prelistenDest;
+	SjBackend*       m_prelistenBackend;
+	long             m_prelistenUseSysVol;
 
 	// fake output
 	SjBackend*       m_fakeBackend;
@@ -182,6 +189,8 @@ private:
 	int             m_mainBackupVol;
 	bool            m_stopAfterThisTrack;
 	bool            m_stopAfterEachTrack;
+
+
 
 	// auto volume stuff
 	bool            m_avEnabled;

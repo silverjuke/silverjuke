@@ -87,6 +87,15 @@ double SjLong2Gain(long lng)
 }
 
 
+void SjApplyVolume(float* buffer, long bytes, float gain)
+{
+	const float* bufferEnd = buffer + (bytes/sizeof(float));
+	while( buffer < bufferEnd ) {
+		*buffer++ *= gain;
+	}
+}
+
+
 /*******************************************************************************
  * Detect Silence
  ******************************************************************************/

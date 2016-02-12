@@ -83,19 +83,22 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 					+  wxString::Format("|%i|", SJ_PL_LEFT) + _("Left channel")
 					+  wxString::Format("|%i|", SJ_PL_RIGHT) + _("Right channel")
 					+  wxString::Format("|%i|", SJ_PL_OWNOUTPUT) + _("Explicit output");
-	lo.Add(new SjLittleEnumLong(_("Prelisten"), options, &g_mainFrame->m_player.m_plDest, SJ_PL_DEFAULT, "player/prelistenDest", SJ_ICON_MODULE));
+	lo.Add(new SjLittleEnumLong(_("Prelisten"), options, &g_mainFrame->m_player.m_prelistenDest, SJ_PL_DEFAULT, "player/prelistenDest", SJ_ICON_MODULE));
 
 	// backend settings
+	wxString sysVolOptions = wxString::Format("%s|%s|%s", _("No") /*=0*/, _("Yes") /*=1=Use+Init*/, _("Only initalize system volume") /*=2*/);
 	if( g_mainFrame->m_player.m_backend )
 	{
 		SjLittleOption::SetSection(_("Output"));
+		lo.Add(new SjLittleBit(	_("Use system volume"), sysVolOptions, &g_mainFrame->m_player.m_useSysVol, SJ_SYSVOL_DEFAULT, 0, "player/useSysVol", SJ_ICON_MODULE));
 		g_mainFrame->m_player.m_backend->GetLittleOptions(lo);
 	}
 
-	if( g_mainFrame->m_player.m_plBackend )
+	if( g_mainFrame->m_player.m_prelistenBackend )
 	{
 		SjLittleOption::SetSection(_("Prelisten"));
-		g_mainFrame->m_player.m_plBackend->GetLittleOptions(lo);
+		lo.Add(new SjLittleBit(	_("Use system volume"), sysVolOptions, &g_mainFrame->m_player.m_prelistenUseSysVol, SJ_SYSVOL_DEFAULT, 0, "player/prelistenUseSysVol", SJ_ICON_MODULE));
+		g_mainFrame->m_player.m_prelistenBackend->GetLittleOptions(lo);
 	}
 }
 
@@ -134,9 +137,11 @@ SjPlayer::SjPlayer()
 
 	m_backend               = NULL;
 	m_streamA               = NULL;
+	m_useSysVol             = SJ_SYSVOL_DEFAULT;
 
-	m_plBackend             = NULL;
-	m_plDest                = SJ_PL_DEFAULT;
+	m_prelistenBackend      = NULL;
+	m_prelistenDest         = SJ_PL_DEFAULT;
+	m_prelistenUseSysVol    = SJ_SYSVOL_DEFAULT;
 }
 
 
@@ -150,11 +155,12 @@ void SjPlayer::Init()
 	m_queue.Init();
 
 	m_backend = new BACKEND_CLASSNAME(SJBE_ID_STDOUTPUT);
-	m_plBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN);
+	m_prelistenBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN);
 	m_fakeBackend = new BACKEND_CLASSNAME(SJBE_ID_FAKEOUTPUT);
 
 	// load settings
 	wxConfigBase* c = g_tools->m_config;
+	m_useSysVol                 =c->Read("player/useSysVol",           SJ_SYSVOL_DEFAULT); // should be done before SetMainVol()
 	SetMainVol                  (c->Read("player/volume",              SJ_DEF_VOLUME));
 	m_queue.SetShuffle          (c->Read("player/shuffle",             SJ_DEF_SHUFFLE_STATE? 1L : 0L)!=0);
 	m_queue.SetShuffleIntensity (c->Read("player/shuffleIntensity",    SJ_DEF_SHUFFLE_INTENSITY));
@@ -174,7 +180,8 @@ void SjPlayer::Init()
 	m_avDesiredVolume           = (float)c->Read("player/autovoldes",  (long)(SJ_AV_DEF_DESIRED_VOLUME*1000.0F)) / 1000.0F;
 	m_avMaxGain                 = (float)c->Read("player/autovolmax",  (long)(SJ_AV_DEF_MAX_GAIN*1000.0F)) / 1000.0F;
 
-	m_plDest                    =c->Read("player/prelistenDest",       SJ_PL_DEFAULT);
+	m_prelistenDest             =c->Read("player/prelistenDest",       SJ_PL_DEFAULT);
+	m_prelistenUseSysVol        =c->Read("player/prelistenUseSysVol",  SJ_SYSVOL_DEFAULT);
 }
 
 
@@ -214,8 +221,6 @@ void SjPlayer::SaveSettings() const
 	c->Write("player/autovoldes",   (long)(m_avDesiredVolume*1000.0F));
 	c->Write("player/autovolmax",   (long)(m_avMaxGain*1000.0F));
 
-	c->Write("player/prelistenDest",       m_plDest);
-
 	// save repeat - repeating a single track is not remembered by design
 
 	if( m_queue.GetRepeat()!=1 )
@@ -240,10 +245,10 @@ void SjPlayer::Exit()
 			m_backend = NULL;
 		}
 
-		if( m_plBackend )
+		if( m_prelistenBackend )
 		{
-			delete m_plBackend;
-			m_plBackend = NULL;
+			delete m_prelistenBackend;
+			m_prelistenBackend = NULL;
 		}
 
 		if( m_fakeBackend )
@@ -609,6 +614,12 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			{
 				g_visModule->AddVisData(buffer, bytes);
 			}
+
+			// finally, after the visualisation, apply the main volume if we shall not use the system device volume
+			if( player->m_useSysVol != SJ_SYSVOL_USE ) // = SJ_SYSVOL_DONTUSE || SJ_SYSVOL_ONLYINIT
+			{
+				SjApplyVolume(buffer, bytes, player->m_mainGain);
+			}
 		}
 	}
 	else if( cbp->msg == SJBE_MSG_CREATE )
@@ -816,7 +827,7 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 }
 
 
-void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
+void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only function, that _starts_ playback!
 {
 	// This function may only be called from the main thread.
 	wxASSERT( wxThread::IsMain() );
@@ -862,9 +873,13 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 					m_streamA = CreateStream(url, 0, fadeToPos? m_autoCrossfadeMs : 0); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
-						if( !deviceOpendedBefore )
-						{
-							m_backend->SetDeviceVol(m_mainGain);
+						if( !deviceOpendedBefore ) {
+							if( m_useSysVol==SJ_SYSVOL_USE ) {
+								m_backend->SetDeviceVol(m_mainGain);
+							}
+							else if( m_useSysVol==SJ_SYSVOL_ONLYINIT ) {
+								m_backend->SetDeviceVol(1.0);
+							}
 						}
 					}
 				}
@@ -981,7 +996,9 @@ void SjPlayer::SetMainVol(int newVol) // 0..255
 
 	if( m_backend && m_backend->IsDeviceOpened() )
 	{
-		m_backend->SetDeviceVol((float)m_mainGain);
+		if( m_useSysVol==SJ_SYSVOL_USE ) {
+			m_backend->SetDeviceVol((float)m_mainGain);
+		}
 	}
 }
 
