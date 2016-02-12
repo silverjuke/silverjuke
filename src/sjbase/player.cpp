@@ -735,18 +735,21 @@ void SjPlayer::DeleteStream(SjBackendStream** streamPtr, long fadeMs)
 	wxASSERT( wxThread::IsMain() );
 
 	SjBackendStream* stream = *streamPtr;
-	*streamPtr = NULL; // do this very soon, we check eg. against m_streamA on various situations
+	if( stream )
+	{
+		*streamPtr = NULL; // do this very soon, we check eg. against m_streamA on various situations
 
-	if( fadeMs > 0 )
-	{
-		stream->m_userdata->m_autoDeleteCritical.Enter();
-			stream->m_userdata->m_volumeFade.SlideVolume(0.0, fadeMs);
-			stream->m_userdata->m_autoDelete = true; // set this _after_ SlideVolume() - otherwise the other thread may have called AdjustBuffer() without adjusting and found m_autoDelete=true
-		stream->m_userdata->m_autoDeleteCritical.Leave();
-	}
-	else
-	{
-		delete stream;
+		if( fadeMs > 0 )
+		{
+			stream->m_userdata->m_autoDeleteCritical.Enter();
+				stream->m_userdata->m_volumeFade.SlideVolume(0.0, fadeMs);
+				stream->m_userdata->m_autoDelete = true; // set this _after_ SlideVolume() - otherwise the other thread may have called AdjustBuffer() without adjusting and found m_autoDelete=true
+			stream->m_userdata->m_autoDeleteCritical.Leave();
+		}
+		else
+		{
+			delete stream;
+		}
 	}
 }
 
