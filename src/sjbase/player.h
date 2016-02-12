@@ -157,6 +157,7 @@ private:
 	SjBackend*       m_backend;
 	SjBackendStream* m_streamA;
 	SjBackendStream* CreateStream       (const wxString& url, long seekMs, long fadeMs);
+	void             DeleteStream       (SjBackendStream**, long fadeMs); // the given pointer must not be used by the caller after using this function!
 
 	// prelisten
 	#define          SJ_PL_MIX       1

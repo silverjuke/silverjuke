@@ -42,7 +42,8 @@ SjBackend::SjBackend(SjBackendId id)
 SjBackend::~SjBackend()
 {
 	wxASSERT( wxThread::IsMain() );
-	wxASSERT( m_allStreams.GetCount() == 0 );
+	// if crossfading takes place and is not yet finished, there may be a pending stream at this moment.
+	// however, as we're on shutdown, I think, we can safely ignore this situaltion.
 }
 
 

@@ -69,14 +69,17 @@ void SjVolumeFade::SlideVolume(float newGain, long ms)
 }
 
 
-void SjVolumeFade::AdjustBuffer(float* buffer, long bufferBytes, int freq, int channels)
+bool SjVolumeFade::AdjustBuffer(float* buffer, long bufferBytes, int freq, int channels)
 {
 	long bufferSubsams = bufferBytes/sizeof(float);
+	bool sthAdjusted = false;
 
 	m_critical.Enter();
 
 		if( m_subsamsToSlide )
 		{
+			sthAdjusted = true;
+
 			// calculate the total number of subsams to slide
 			if( m_subsamsToSlide == NEEDS_RECALCULATION )
 			{
@@ -92,7 +95,7 @@ void SjVolumeFade::AdjustBuffer(float* buffer, long bufferBytes, int freq, int c
 			// go through all subsams
 			long  subsamsPos = m_subsamsPos, i;
 			float subsamsToSlideF = (float)m_subsamsToSlide;
-			float gainDiff = m_destGain-m_startGain;
+			float gainDiff = m_destGain-m_startGain; // is a value between -1..0 or 0..1
 			float sliderPos;
 			float startGain = m_startGain;
 			for( i = 0; i < subsamsToSlideNow; i++ )
@@ -128,6 +131,8 @@ void SjVolumeFade::AdjustBuffer(float* buffer, long bufferBytes, int freq, int c
 			*buffer++ *= gain;
 		}
 	}
+
+	return sthAdjusted;
 }
 
 

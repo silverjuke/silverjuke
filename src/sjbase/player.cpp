@@ -64,7 +64,8 @@
 
 
 // internal messages
-#define THREAD_END_OF_STREAM         (IDPLAYER_FIRST+0)
+#define THREAD_END_OF_STREAM_A       (IDPLAYER_FIRST+0)
+#define THREAD_AUTO_DELETE           (IDPLAYER_FIRST+1)
 
 
 SjPlayerModule::SjPlayerModule(SjInterfaceBase* interf)
@@ -233,8 +234,7 @@ void SjPlayer::Exit()
 
 		if( m_streamA)
 		{
-			delete m_streamA;
-			m_streamA = NULL;
+			DeleteStream(&m_streamA, 0);
 		}
 
 		if( m_backend )
@@ -545,6 +545,8 @@ public:
 		m_isVideo        = false;
 		m_realMs         = 0;
 		m_silenceEndMs   = -1;
+		m_autoDelete     = false; // if set, the stream is deleted on EOS or if fading is done
+		m_autoDeleteSend = false;
 	}
 	long          m_onCreateFadeMs;
 	SjPlayer*     m_player;
@@ -553,6 +555,10 @@ public:
 	long          m_silenceEndMs;
 	SjVolumeCalc  m_volumeCalc;
 	SjVolumeFade  m_volumeFade;
+
+	bool              m_autoDelete;
+	bool              m_autoDeleteSend;
+	wxCriticalSection m_autoDeleteCritical;
 };
 
 
@@ -593,7 +599,15 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		}
 
 		// apply optional fadings, eg. for crossfading
-		userdata->m_volumeFade.AdjustBuffer(buffer, bytes, samplerate, channels);
+		if( !userdata->m_volumeFade.AdjustBuffer(buffer, bytes, samplerate, channels) )
+		{
+			userdata->m_autoDeleteCritical.Enter();
+				if( userdata->m_autoDelete && !userdata->m_autoDeleteSend ) {
+					userdata->m_autoDeleteSend = true;
+					player->SendSignalToMainThread(THREAD_AUTO_DELETE, (uintptr_t)stream);
+				}
+			userdata->m_autoDeleteCritical.Leave();
+		}
 
 		// forward the data to the visualisation -
 		// we do this last, so autovol, equalizers etc. is visible eg. in the spectrum analyzer
@@ -640,7 +654,24 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		/* End of stream
 		***********************************************************************/
 
-		player->SendSignalToMainThread(THREAD_END_OF_STREAM);
+		// auto delete stream?
+		userdata->m_autoDeleteCritical.Enter();
+			if( userdata->m_autoDelete )
+			{
+				if( !userdata->m_autoDeleteSend ) {
+					userdata->m_autoDeleteSend = true;
+					player->SendSignalToMainThread(THREAD_AUTO_DELETE, (uintptr_t)stream);
+				}
+				userdata->m_autoDeleteCritical.Leave(); // do not forget this!
+				return 1; // done, message handled
+			}
+		userdata->m_autoDeleteCritical.Leave();
+
+		// just send end-of-stream
+		if( stream == player->m_streamA )
+		{
+			player->SendSignalToMainThread(THREAD_END_OF_STREAM_A, (uintptr_t)stream);
+		}
 
 		return 1; // done, message handled
 	}
@@ -660,56 +691,6 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 	}
 
 	return 0; // message not handled
-}
-
-
-/*******************************************************************************
- * Volume and AutoVol
- ******************************************************************************/
-
-
-void SjPlayer::SetMainVol(int newVol) // 0..255
-{
-	// This function may only be called from the main thread.
-	wxASSERT( wxThread::IsMain() );
-
-	if( newVol < 0 )   { newVol = 0;   }
-	if( newVol > 255 ) { newVol = 255; }
-
-	m_mainVol   = newVol;
-	m_mainGain  = ((double)newVol)/255.0F;
-
-	if( m_backend && m_backend->IsDeviceOpened() )
-	{
-		m_backend->SetDeviceVol((float)m_mainGain);
-	}
-}
-
-
-void SjPlayer::SetMainVolMute(bool mute)
-{
-	// This function may only be called from the main thread.
-	wxASSERT( wxThread::IsMain() );
-
-	if( mute )
-	{
-		if( m_mainBackupVol == -1 ) { m_mainBackupVol = m_mainVol; }
-		SetMainVol(0);
-	}
-	else
-	{
-		SetMainVol(m_mainBackupVol > 8? m_mainBackupVol : SJ_DEF_VOLUME);
-		m_mainBackupVol = -1;
-	}
-}
-
-
-void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
-{
-	if( m_avUseAlbumVol != useAlbumVol )
-	{
-		m_avUseAlbumVol = useAlbumVol;
-	}
 }
 
 
@@ -746,6 +727,27 @@ SjBackendStream* SjPlayer::CreateStream(const wxString& url, long explicitSeekMs
 	}
 
 	return stream;
+}
+
+
+void SjPlayer::DeleteStream(SjBackendStream** streamPtr, long fadeMs)
+{
+	wxASSERT( wxThread::IsMain() );
+
+	SjBackendStream* stream = *streamPtr;
+	*streamPtr = NULL; // do this very soon, we check eg. against m_streamA on various situations
+
+	if( fadeMs > 0 )
+	{
+		stream->m_userdata->m_autoDeleteCritical.Enter();
+			stream->m_userdata->m_volumeFade.SlideVolume(0.0, fadeMs);
+			stream->m_userdata->m_autoDelete = true; // set this _after_ SlideVolume() - otherwise the other thread may have called AdjustBuffer() without adjusting and found m_autoDelete=true
+		stream->m_userdata->m_autoDeleteCritical.Leave();
+	}
+	else
+	{
+		delete stream;
+	}
 }
 
 
@@ -819,8 +821,7 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 	// Do the "real stop" in the implementation part
 	if( m_streamA )
 	{
-		delete m_streamA;
-		m_streamA = NULL;
+		DeleteStream(&m_streamA, 0);
 	}
 
 	if( m_backend )
@@ -869,8 +870,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 			// playing, realize the new position
             if( m_streamA )
             {
-				delete m_streamA;
-				m_streamA = NULL;
+				DeleteStream(&m_streamA, fadeToPos? m_autoCrossfadeMs : 0);
             }
 
 			if( m_backend )
@@ -879,7 +879,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 				if( !url.IsEmpty() )
 				{
 					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
-					m_streamA = CreateStream(url, 0, 0); // may be NULL, we send the signal anyway!
+					m_streamA = CreateStream(url, 0, fadeToPos? m_autoCrossfadeMs : 0); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
 						if( !deviceOpendedBefore )
@@ -988,6 +988,51 @@ bool SjPlayer::IsVideoOnAir()
 }
 
 
+void SjPlayer::SetMainVol(int newVol) // 0..255
+{
+	// This function may only be called from the main thread.
+	wxASSERT( wxThread::IsMain() );
+
+	if( newVol < 0 )   { newVol = 0;   }
+	if( newVol > 255 ) { newVol = 255; }
+
+	m_mainVol   = newVol;
+	m_mainGain  = ((double)newVol)/255.0F;
+
+	if( m_backend && m_backend->IsDeviceOpened() )
+	{
+		m_backend->SetDeviceVol((float)m_mainGain);
+	}
+}
+
+
+void SjPlayer::SetMainVolMute(bool mute)
+{
+	// This function may only be called from the main thread.
+	wxASSERT( wxThread::IsMain() );
+
+	if( mute )
+	{
+		if( m_mainBackupVol == -1 ) { m_mainBackupVol = m_mainVol; }
+		SetMainVol(0);
+	}
+	else
+	{
+		SetMainVol(m_mainBackupVol > 8? m_mainBackupVol : SJ_DEF_VOLUME);
+		m_mainBackupVol = -1;
+	}
+}
+
+
+void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
+{
+	if( m_avUseAlbumVol != useAlbumVol )
+	{
+		m_avUseAlbumVol = useAlbumVol;
+	}
+}
+
+
 void SjPlayer::OneSecondTimer()
 {
 	if( (!m_autoCrossfade && !m_skipSilence) || m_streamA == NULL || m_streamA->m_userdata == NULL ) {
@@ -1031,7 +1076,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 {
 	if( !m_isInitialized || m_backend == NULL ) { return; }
 
-	if( signal == THREAD_END_OF_STREAM )
+	if( signal==THREAD_END_OF_STREAM_A && ((SjBackendStream*)extraLong)==m_streamA )
 	{
 		// just stop after this track?
 		if( m_stopAfterThisTrack || m_stopAfterEachTrack )
@@ -1057,7 +1102,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 			if( newQueuePos == -1 )
 			{
 				// no chance, there is nothing more to play ...
-				wxLogDebug(" ... receiving THREAD_END_OF_STREAM, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ");
+				wxLogDebug(" ... receiving THREAD_END_OF_STREAM_A, stopping and sending IDMODMSG_PLAYER_STOPPED_BY_EOQ");
 				Stop();
 				SendSignalToMainThread(IDMODMSG_PLAYER_STOPPED_BY_EOQ);
 				return;
@@ -1079,8 +1124,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		// try to create the next stream
 		if( m_streamA )
 		{
-			delete m_streamA;
-			m_streamA = NULL;
+			DeleteStream(&m_streamA, 0);
 		}
 
 		m_streamA = CreateStream(newUrl, 0, 0); // may be NULL, we send the signal anyway!
@@ -1088,6 +1132,12 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		// realize the new position in the UI
 		m_queue.SetCurrPos(newQueuePos);
 		SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
+	}
+	else if( signal == THREAD_AUTO_DELETE )
+	{
+		// just delete the given stream - the message is needed as we cannot do this from a working thream
+        SjBackendStream* toDel = (SjBackendStream*)extraLong;
+        delete toDel;
 	}
 }
 

@@ -36,7 +36,7 @@ public:
 	                  SjVolumeFade        ();
 	void              SetVolume           (float gain);
 	void              SlideVolume         (float gain, long ms);
-	void              AdjustBuffer        (float* buffer, long bytes, int freq, int channels);
+	bool              AdjustBuffer        (float* buffer, long bytes, int freq, int channels);
 
 private:
 	wxCriticalSection m_critical;
