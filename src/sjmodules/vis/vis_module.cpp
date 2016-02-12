@@ -115,7 +115,9 @@ bool SjVisModule::FirstLoad()
 	m_visWindowVisible = false;
 
 	// the "video window handle" is needed even if the "video screen" is closed
+	#if SJ_USE_VIDEO
 	g_vidoutModule->Load();
+	#endif
 	return true;
 }
 
@@ -123,7 +125,9 @@ bool SjVisModule::FirstLoad()
 void SjVisModule::LastUnload()
 {
 	SetCurrRenderer(NULL);
+	#if SJ_USE_VIDEO
 	g_vidoutModule->Unload();
+	#endif
 	CloseWindow__();
 
 	if( m_visOwnFrame )

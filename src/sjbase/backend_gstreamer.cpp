@@ -290,6 +290,7 @@ SjGstreamerBackend::SjGstreamerBackend(SjBackendId id)
 	if( !s_initialized )
 	{
 		gst_init(NULL, NULL);
+		s_initialized = true;
 
 		guint major, minor, micro, nano;
 		gst_version(&major, &minor, &micro, &nano);
