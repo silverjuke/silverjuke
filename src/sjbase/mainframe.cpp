@@ -1882,7 +1882,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					OnSkinTargetEvent(IDT_ENQUEUE_LAST, value, 0); // recursive call
 					if( !(g_accelModule->m_flags&SJ_ACCEL_START_PLAYBACK_ON_ENQUEUE) && m_player.m_queue.GetCount() && !m_player.IsPlaying() )
 					{
-						PlayOrPause(accelFlags != 0);// playback not started on enqueue, start it here
+						PlayOrPause();// playback not started on enqueue, start it here
 						return;
 					}
 
@@ -1900,7 +1900,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 
 				if( IsOpAvailable(SJ_OP_PLAYPAUSE) )
 				{
-					PlayOrPause(accelFlags != 0); // this also sets m_haltedManually
+					PlayOrPause(); // this also sets m_haltedManually
 				}
 				break;
 
@@ -1969,7 +1969,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDT_PREV:
 				if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 				{
-					GotoPrev(accelFlags!=0);
+					GotoPrev();
 				}
 				break;
 

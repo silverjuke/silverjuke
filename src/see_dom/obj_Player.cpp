@@ -92,7 +92,7 @@ IMPLEMENT_FUNCTION(player, stop)
 
 IMPLEMENT_FUNCTION(player, prev)
 {
-	g_mainFrame->GotoPrev(false);
+	g_mainFrame->GotoPrev();
 	RETURN_UNDEFINED;
 }
 

@@ -68,9 +68,9 @@ public:
 	// Basic Player Control.
 	// The playback is NOT started implicit by Goto() or Enqueue() functions.
 	// To check if the operations were successfull, use the Is*()/Get*() functions.
-	void            Play                (long ms=0, bool fadeToPlay=false);
-	void            Pause               (bool fadeToPause=false);
-	void            PlayOrPause         (bool fadeToPlayOrPause=false)      { if(IsPlaying()) {Pause(fadeToPlayOrPause);} else {Play(0, fadeToPlayOrPause);} }
+	void            Play                (long ms=0);
+	void            Pause               ();
+	void            PlayOrPause         ()                                  { if(IsPlaying()) {Pause();} else {Play(0);} }
 	void            Stop                (bool stopVisIfPlaying=true);
 	void            StopAfterThisTrack  (bool s)                            { m_stopAfterThisTrack=s; }
 	bool            StopAfterThisTrack  () const                            { return m_stopAfterThisTrack; }
@@ -99,7 +99,7 @@ public:
 	// GotoPrev()/GotoNextIgnoreAP() are NOT the same as GotoRelPos(-1/+1) as the former
 	// regards shuffle settings and the latter does not.
 	bool            HasPrev             ()                      { return m_queue.GetPrevPos(SJ_PREVNEXT_LOOKUP_ONLY)!=-1; }
-	void            GotoPrev            (bool fadeToPrev)       { long p=m_queue.GetPrevPos(0); if(p!=-1) { GotoAbsPos(p, fadeToPrev); } }
+	void            GotoPrev            ()                      { long p=m_queue.GetPrevPos(0); if(p!=-1) { GotoAbsPos(p); } }
 	bool            HasNextIgnoreAP     ()                      { return m_queue.GetNextPos(SJ_PREVNEXT_LOOKUP_ONLY)!=-1; }
 	bool            GotoNextIgnoreAP    (bool fadeToNext)       { long p=m_queue.GetNextPos(0); if(p!=-1) { GotoAbsPos(p, fadeToNext); return true; } else { return false; } }
 	void            GotoRelPos          (long p)                { GotoAbsPos(m_queue.GetCurrPos()+p); }
@@ -144,14 +144,6 @@ public:
 	#define         SJ_DEF_CROSSFADE_MS 10000L
 	long            m_autoCrossfadeMs;
 	long            m_manCrossfadeMs;
-
-	#define         SJ_FF_DEF_PAUSE2PLAY_MS 150
-	#define         SJ_FF_DEF_PLAY2PAUSE_MS 300
-	#define         SJ_FF_DEF_PLAY2EXIT_MS  500 // cannot be edited, we will always be "smart"
-	#define         SJ_FF_DEF_GOTO_MS       1000
-	long            m_ffPause2PlayMs;
-	long            m_ffPlay2PauseMs;
-	long            m_ffGotoMs;
 
 	void            OneSecondTimer      ();
 

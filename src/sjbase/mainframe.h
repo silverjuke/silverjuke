@@ -79,7 +79,7 @@ public:
 	void            Play                (long ms=0) { m_player.Play(ms); m_haltedManually=FALSE; UpdateDisplay(); }
 	void            Pause               ()       { m_player.Pause(); m_haltedManually=TRUE; UpdateDisplay(); }
 	void            Stop                () { m_player.Stop(); m_haltedManually=TRUE; UpdateDisplay(); }
-	void            PlayOrPause         (bool fadeToPlayOrPause) { m_player.PlayOrPause(fadeToPlayOrPause); m_haltedManually=m_player.IsPaused(); UpdateDisplay(); }
+	void            PlayOrPause         () { m_player.PlayOrPause(); m_haltedManually=m_player.IsPaused(); UpdateDisplay(); }
 	void            ReplayIfPlaying     ();
 	void            SeekAbs             (long m) { m_player.SeekAbs(m); UpdateDisplay(); }
 	void            SeekRel             (long m) { m_player.SeekRel(m); UpdateDisplay(); }
@@ -90,7 +90,7 @@ public:
 	void            UpdateEnqueuedUrl   (const wxString& url, bool urlVerified, long playtimeMs) { m_player.m_queue.UpdateUrl(url, urlVerified, playtimeMs); }
 	void            GotoAbsPos          (long p) { m_player.GotoAbsPos(p); m_display.m_scrollPos=-1; }
 	void            GotoUrl             (const wxString& url) { m_player.GotoUrl(url); m_display.m_scrollPos=-1; if(!IsPlaying()) {UpdateDisplay();} }
-	void            GotoPrev            (bool fadeToPrev) { m_player.GotoPrev(fadeToPrev); m_display.m_scrollPos=-1; if(!IsPlaying()) {UpdateDisplay();} }
+	void            GotoPrev            () { m_player.GotoPrev(); m_display.m_scrollPos=-1; if(!IsPlaying()) {UpdateDisplay();} }
 	bool            GotoNextRegardAP    (bool fadeToNext, bool ignoreTimeouts=true);
 	void            SetAbsMainVol       (long v);
 	void            SetRelMainVol       (long v) { SetAbsMainVol(m_player.GetMainVol()+v); }

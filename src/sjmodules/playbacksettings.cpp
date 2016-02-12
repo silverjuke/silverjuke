@@ -401,17 +401,12 @@ void SjAutovolDlg::OnMyCancel(wxCommandEvent&)
 #define IDC_ONLY_FADE_OUT               (IDM_FIRSTPRIVATE+6)
 
 #define IDC_RESET_CROSSFADE             (IDM_FIRSTPRIVATE+10)
-#define IDC_RESET_FASTFADE              (IDM_FIRSTPRIVATE+11)
-
-#define FASTFADE_COUNT 3
-#define IDC_FASTFADE_FIRST              (IDM_FIRSTPRIVATE+100)                  // range start
-#define IDC_FASTFADE_LAST               (IDC_FASTFADE_FIRST+(FASTFADE_COUNT-1)) // range end
 
 
 class SjCrossfadeDlg : public SjEffectDlg
 {
 public:
-	SjCrossfadeDlg      (wxWindow* parent);
+	                SjCrossfadeDlg      (wxWindow* parent);
 	static void     OpenDialog          (wxWindow* alignToWindow);
 	static void     CloseDialog         ();
 	static bool     IsDialogOpen        () { return s_dialog!=NULL; }
@@ -443,30 +438,15 @@ private:
 	bool            m_orgOnlyFadeOut;
 	void            OnOnlyFadeOut(wxCommandEvent&);
 
-	// "fast fade"
-	wxArrayString   m_fastfadeLabels;
-	long            m_fastfadeDef[FASTFADE_COUNT];
-	long            m_fastfadeOrg[FASTFADE_COUNT];
-	long*           m_fastfadeSaveTo[FASTFADE_COUNT];
-	SjDlgSlider     m_fastfadeSlider[FASTFADE_COUNT];
-	void            OnFastfadeSlider (wxScrollEvent& e) {
-		int i=e.GetId()-IDC_FASTFADE_FIRST;
-		wxASSERT( i >= 0 && i < FASTFADE_COUNT );
-		m_fastfadeSlider[i].Update();
-		*(m_fastfadeSaveTo[i]) = m_fastfadeSlider[i].GetValue();
-	}
-
-
 	// misc
-	static SjCrossfadeDlg*
-	s_dialog;
+	static SjCrossfadeDlg* s_dialog;
 	void            EnableDisable       ();
 	void            OnCrossfadeReset    (wxCommandEvent&);
 	void            OnFastfadeReset     (wxCommandEvent&);
 	void            OnMyOk              (wxCommandEvent&) { SjCrossfadeDlg::CloseDialog(); }
 	void            OnMyCancel          (wxCommandEvent&);
 	void            OnMyClose           (wxCloseEvent&) { SjCrossfadeDlg::CloseDialog(); }
-	DECLARE_EVENT_TABLE ()
+	                DECLARE_EVENT_TABLE ()
 };
 
 
@@ -491,11 +471,6 @@ BEGIN_EVENT_TABLE(SjCrossfadeDlg, SjEffectDlg)
 	EVT_CHECKBOX            (IDC_SKIP_SILENCE,              SjCrossfadeDlg::OnSkipSilence               )
 	EVT_CHECKBOX            (IDC_ONLY_FADE_OUT,             SjCrossfadeDlg::OnOnlyFadeOut               )
 	EVT_BUTTON              (IDC_RESET_CROSSFADE,           SjCrossfadeDlg::OnCrossfadeReset            )
-
-	// fastfade
-	EVT_COMMAND_SCROLL_RANGE(IDC_FASTFADE_FIRST, IDC_FASTFADE_LAST,
-	                         SjCrossfadeDlg::OnFastfadeSlider            )
-	EVT_BUTTON              (IDC_RESET_FASTFADE,            SjCrossfadeDlg::OnFastfadeReset             )
 
 	// misc.
 	EVT_BUTTON              (wxID_OK,                       SjCrossfadeDlg::OnMyOk                      )
@@ -560,18 +535,6 @@ SjCrossfadeDlg::SjCrossfadeDlg(wxWindow* parent)
 	m_orgSkipSilence                = player->GetSkipSilence();
 	m_orgOnlyFadeOut                = player->GetOnlyFadeOut();
 
-	m_fastfadeLabels.Add(wxString::Format(wxT("%s -> %s:"), _("Pause"), _("Play"))); // from "stop to play" there is no fading
-	m_fastfadeSaveTo[0] = &player->m_ffPause2PlayMs;
-	m_fastfadeDef[0] = SJ_FF_DEF_PAUSE2PLAY_MS;
-
-	m_fastfadeLabels.Add(wxString::Format(wxT("%s -> %s/%s:"), _("Play"), _("Pause"), _("Stop")));
-	m_fastfadeSaveTo[1] = &player->m_ffPlay2PauseMs;
-	m_fastfadeDef[1] = SJ_FF_DEF_PLAY2PAUSE_MS;
-
-	m_fastfadeLabels.Add(wxString::Format(wxT("%s -> %s:"), _("Play"), _("Next track")));
-	m_fastfadeSaveTo[2] = &player->m_ffGotoMs;
-	m_fastfadeDef[2] = SJ_FF_DEF_GOTO_MS;
-
 	// create dialog
 	wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
 	SetSizer(sizer1);
@@ -618,29 +581,6 @@ SjCrossfadeDlg::SjCrossfadeDlg(wxWindow* parent)
 	wxButton* button = new wxButton(this, IDC_RESET_CROSSFADE, _("Reset to default values"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	sizer2->Add(button, 0, wxALL, SJ_DLG_SPACE);
 
-	// "fast fade"
-
-	sizer2 = new wxStaticBoxSizer(new wxStaticBox(this, -1, _("Other fadings")), wxVERTICAL);
-	sizer1->Add(sizer2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
-
-	sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
-
-	sizer3 = new wxFlexGridSizer(3, SJ_DLG_SPACE/2, SJ_DLG_SPACE);
-	sizer3->AddGrowableCol(1);
-	sizer2->Add(sizer3, 0, wxALL, SJ_DLG_SPACE);
-	for( int i = 0; i < FASTFADE_COUNT; i++ )
-	{
-		m_fastfadeOrg[i] = *(m_fastfadeSaveTo[i]);
-		sizer3->Add(new wxStaticText(this, -1, m_fastfadeLabels[i]), 0, wxALIGN_CENTER_VERTICAL);
-
-		m_fastfadeSlider[i].Create(this, sizer3, IDC_FASTFADE_FIRST+i, SJ_SLIDER_MS | SJ_SLIDER_SNAP10,
-		                           m_fastfadeOrg[i], 10, 2000);
-	}
-
-	button = new wxButton(this, IDC_RESET_FASTFADE, _("Reset to default values"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
-	sizer2->Add(button, 0, wxALL, SJ_DLG_SPACE);
-
-
 	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	sizer1->SetSizeHints(this);
@@ -676,16 +616,6 @@ void SjCrossfadeDlg::OnCrossfadeReset(wxCommandEvent&)
 	g_mainFrame->m_player.SetAutoCrossfadeSubseqDetect(true);
 
 	EnableDisable();
-}
-
-
-void SjCrossfadeDlg::OnFastfadeReset(wxCommandEvent&)
-{
-	for( int i = 0; i < FASTFADE_COUNT; i++ )
-	{
-		m_fastfadeSlider[i].SetValue(m_fastfadeDef[i]);
-		*(m_fastfadeSaveTo[i]) = m_fastfadeDef[i];
-	}
 }
 
 
@@ -735,9 +665,6 @@ void SjCrossfadeDlg::OnMyCancel(wxCommandEvent&)
 	g_mainFrame->m_player.m_autoCrossfadeMs = m_autoCrossfadeMsOrg;
 	g_mainFrame->m_player.SetOnlyFadeOut(m_orgOnlyFadeOut);
 	g_mainFrame->m_player.SetSkipSilence(m_orgSkipSilence);
-
-	for( int i = 0; i < FASTFADE_COUNT; i++ )
-		*(m_fastfadeSaveTo[i]) = m_fastfadeOrg[i];
 
 	// Close dialog, this calls Destroy(), do not used delete!
 	SjCrossfadeDlg::CloseDialog();

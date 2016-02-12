@@ -134,7 +134,7 @@ bool SjConnection::OnExecute(const wxString& topic, const void* data_, size_t si
 	}
 	else if( topic==wxT("toggle") )
 	{
-		g_mainFrame->PlayOrPause(false /*no fade to play/pause*/);
+		g_mainFrame->PlayOrPause();
 	}
 	else if( topic==wxT("togglevis") )
 	{
@@ -153,7 +153,7 @@ bool SjConnection::OnExecute(const wxString& topic, const void* data_, size_t si
 	}
 	else if( topic==wxT("prev") )
 	{
-		g_mainFrame->GotoPrev(false /*no fade to next*/);
+		g_mainFrame->GotoPrev();
 	}
 	else if( topic==wxT("next") )
 	{

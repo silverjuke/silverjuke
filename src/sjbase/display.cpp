@@ -193,7 +193,7 @@ void SjMainFrame::OnSkinDisplayEvent(int targetId, SjSkinValue& value, long acce
 				{
 					if( IsOpAvailable(SJ_OP_PLAYPAUSE) )
 					{
-						PlayOrPause(accelFlags != 0);
+						PlayOrPause();
 					}
 				}
 				else if( m_player.m_queue.WasPlayed(queuePos) )

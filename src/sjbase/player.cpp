@@ -130,9 +130,6 @@ SjPlayer::SjPlayer()
 	m_manCrossfadeMs        = SJ_DEF_CROSSFADE_MS;
 	m_skipSilence           = TRUE; // no discussion, always recommended
 	m_onlyFadeOut           = false; // radio-like: only fade out, the new track starts with the full volume
-	m_ffPause2PlayMs        = SJ_FF_DEF_PAUSE2PLAY_MS;
-	m_ffPlay2PauseMs        = SJ_FF_DEF_PLAY2PAUSE_MS;
-	m_ffGotoMs              = SJ_FF_DEF_GOTO_MS;
 
 	m_backend               = NULL;
 	m_streamA               = NULL;
@@ -170,10 +167,6 @@ void SjPlayer::Init()
 	SetOnlyFadeOut              (c->Read("player/onlyFadeOut",         0L/*defaults to off*/)!=0);
 
 	StopAfterEachTrack          (c->Read("player/stopAfterEachTrack",  0L)!=0);
-
-	m_ffPause2PlayMs            =c->Read("player/ffPause2Play",        SJ_FF_DEF_PAUSE2PLAY_MS);
-	m_ffPlay2PauseMs            =c->Read("player/ffPlay2Pause",        SJ_FF_DEF_PLAY2PAUSE_MS);
-	m_ffGotoMs                  =c->Read("player/ffGoto",              SJ_FF_DEF_GOTO_MS);
 
 	AvEnable                    (c->Read("player/autovol",             SJ_AV_DEF_STATE? 1L : 0L)!=0);
 	AvSetUseAlbumVol            (c->Read("player/usealbumvol",         SJ_AV_DEF_USE_ALBUM_VOL? 1L : 0L)!=0);
@@ -214,10 +207,6 @@ void SjPlayer::SaveSettings() const
 	c->Write("player/onlyFadeOut",         GetOnlyFadeOut()? 1L : 0L);
 	c->Write("player/stopAfterEachTrack",  StopAfterEachTrack()? 1L : 0L);
 	c->Write("player/crossfadeSubseqDetect",GetAutoCrossfadeSubseqDetect()? 1L : 0L);
-
-	c->Write("player/ffPause2Play",        m_ffPause2PlayMs);
-	c->Write("player/ffPlay2Pause",        m_ffPlay2PauseMs);
-	c->Write("player/ffGoto",              m_ffGotoMs);
 
 	c->Write("player/autovol",             AvIsEnabled()? 1L : 0L);
 	c->Write("player/usealbumvol",         AvGetUseAlbumVol()? 1L : 0L);
@@ -608,7 +597,7 @@ long SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 
 		// forward the data to the visualisation -
 		// we do this last, so autovol, equalizers etc. is visible eg. in the spectrum analyzer
-		if( g_visModule->IsVisStarted() )
+		if( g_visModule->IsVisStarted() && stream == player->m_streamA )
 		{
 			g_visModule->AddVisData(buffer, bytes);
 		}
@@ -760,7 +749,7 @@ SjBackendStream* SjPlayer::CreateStream(const wxString& url, long explicitSeekMs
 }
 
 
-void SjPlayer::Play(long seekMs, bool fadeToPlay)
+void SjPlayer::Play(long seekMs)
 {
 	if( !m_isInitialized || !m_backend ) {
 		return;
@@ -775,11 +764,7 @@ void SjPlayer::Play(long seekMs, bool fadeToPlay)
 			return; // error;
 		}
 
-		long fadeMs = 0;
-		     if( seekMs )     { fadeMs = m_ffGotoMs; }
-		else if( fadeToPlay ) { fadeMs = m_manCrossfadeMs; }
-
-		m_streamA = CreateStream(url, seekMs, fadeMs);
+		m_streamA = CreateStream(url, seekMs, 0);
 		if( !m_streamA ) {
 			return; // error;
 		}
@@ -795,7 +780,7 @@ void SjPlayer::Play(long seekMs, bool fadeToPlay)
 }
 
 
-void SjPlayer::Pause(bool fadeToPause)
+void SjPlayer::Pause()
 {
 	if( !m_isInitialized || !m_backend ) {
 		return;
@@ -1006,13 +991,13 @@ bool SjPlayer::IsVideoOnAir()
 void SjPlayer::OneSecondTimer()
 {
 	if( (!m_autoCrossfade && !m_skipSilence) || m_streamA == NULL || m_streamA->m_userdata == NULL ) {
-		return; // crossfading and silence detection disabled or no stream
+		return; // crossfading and silence detection disabled OR no stream
 	}
 
 	long totalMs = -1, elapsedMs = -1;
 	m_streamA->GetTime(totalMs, elapsedMs);
-	if( totalMs < m_autoCrossfadeMs*2 || elapsedMs < 0 ) {
-		return; // do not crossfade on very short tracks or if the position is unknwon
+	if( totalMs < m_autoCrossfadeMs*2 || elapsedMs < 0 || m_streamA->m_userdata->m_isVideo ) {
+		return; // do not crossfade on very short tracks OR if the position is unknwon OR if the current stream is a video (may cause problems if the next stream is also a video)
 	}
 
 	#define HEADROOM_MS 50 // assumed time for stream creation
