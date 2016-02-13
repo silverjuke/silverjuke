@@ -2,12 +2,13 @@ Silverjuke Changes
 ================================================================================
 
 
-V16.2 (09.02.2016)
+V16.2 (13.02.2016)
 ================================================================================
 
 - New: Native support for "projectM", a Milkdrop-esque visualization
 - New "Video screen" menu with direct access to all relating options
 - New: Video support for Linux
+- New: "Crossfading" and "Automatic Volume" for Linux, Mac and Windows
 - For the linux port, GSteamer is used by default, Xine is still an option
 - The video screen is closed if another view is selected or by a simple click
 - New command line option "--blackrect" to cover unused areas
