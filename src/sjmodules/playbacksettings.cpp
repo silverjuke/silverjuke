@@ -612,8 +612,8 @@ void SjCrossfadeDlg::OnCrossfadeReset(wxCommandEvent&)
 	g_mainFrame->m_player.SetSkipSilence(true);
 
 	// reset "no subsequent fadings"
-	m_subseqDetectCheck->SetValue(true);
-	g_mainFrame->m_player.SetAutoCrossfadeSubseqDetect(true);
+	m_subseqDetectCheck->SetValue(false);
+	g_mainFrame->m_player.SetAutoCrossfadeSubseqDetect(false);
 
 	EnableDisable();
 }

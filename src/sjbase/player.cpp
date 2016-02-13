@@ -129,7 +129,7 @@ SjPlayer::SjPlayer()
 	m_avCalculatedGain      = 1.0F;
 
 	m_autoCrossfade         = SJ_DEF_AUTO_CROSSFADE_ENABLED;
-	m_autoCrossfadeSubseqDetect = TRUE;
+	m_autoCrossfadeSubseqDetect = false;
 	m_autoCrossfadeMs       = SJ_DEF_CROSSFADE_MS;
 	m_manCrossfadeMs        = SJ_DEF_CROSSFADE_MS;
 	m_skipSilence           = TRUE; // no discussion, always recommended
@@ -167,7 +167,7 @@ void SjPlayer::Init()
 	m_queue.SetRepeat ((SjRepeat)c->Read("player/repeat",              0L));
 	m_queue.SetQueueFlags       (c->Read("player/avoidBoredom",        SJ_QUEUEF_DEFAULT), c->Read("player/boredomMinutes", SJ_DEF_BOREDOM_TRACK_MINUTES), c->Read("player/boredomArtistMinutes", SJ_DEF_BOREDOM_ARTIST_MINUTES));
 	SetAutoCrossfade            (c->Read("player/crossfadeActive",     SJ_DEF_AUTO_CROSSFADE_ENABLED? 1L : 0L)!=0);
-	SetAutoCrossfadeSubseqDetect(c->Read("player/crossfadeSubseqDetect",1L/*always recommended*/)!=0);
+	SetAutoCrossfadeSubseqDetect(c->Read("player/crossfadeSubseq",     0L/*defaults to off*/)!=0);
 	m_autoCrossfadeMs           =c->Read("player/crossfadeMs",         SJ_DEF_CROSSFADE_MS);
 	m_manCrossfadeMs            =c->Read("player/crossfadeManMs",      SJ_DEF_CROSSFADE_MS);
 	SetSkipSilence              (c->Read("player/crossfadeSkipSilence",1L/*always recommended*/)!=0);
@@ -214,7 +214,7 @@ void SjPlayer::SaveSettings() const
 	c->Write("player/crossfadeSkipSilence",GetSkipSilence()? 1L : 0L);
 	c->Write("player/onlyFadeOut",         GetOnlyFadeOut()? 1L : 0L);
 	c->Write("player/stopAfterEachTrack",  StopAfterEachTrack()? 1L : 0L);
-	c->Write("player/crossfadeSubseqDetect",GetAutoCrossfadeSubseqDetect()? 1L : 0L);
+	c->Write("player/crossfadeSubseq",     GetAutoCrossfadeSubseqDetect()? 1L : 0L);
 
 	c->Write("player/autovol",             AvIsEnabled()? 1L : 0L);
 	c->Write("player/usealbumvol",         AvGetUseAlbumVol()? 1L : 0L);
