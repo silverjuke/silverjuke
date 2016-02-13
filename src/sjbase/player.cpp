@@ -862,7 +862,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only fun
 		else if( IsPlaying() )
 		{
 			// playing, realize the new position
-			DeleteStream(&m_streamA, fadeToPos? m_autoCrossfadeMs : 0);
+			DeleteStream(&m_streamA, fadeToPos? m_manCrossfadeMs : 0);
 
 			if( m_backend )
 			{
@@ -870,7 +870,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only fun
 				if( !url.IsEmpty() )
 				{
 					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
-					m_streamA = CreateStream(url, 0, fadeToPos? m_autoCrossfadeMs : 0); // may be NULL, we send the signal anyway!
+					m_streamA = CreateStream(url, 0, (fadeToPos && !m_onlyFadeOut)? m_manCrossfadeMs : 0); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
 						if( !deviceOpendedBefore ) {
@@ -1075,7 +1075,7 @@ void SjPlayer::OneSecondTimer()
 
 	// try to create the next stream
 	DeleteStream(&m_streamA, m_autoCrossfadeMs);
-	m_streamA = CreateStream(newUrl, 0, m_autoCrossfadeMs);
+	m_streamA = CreateStream(newUrl, 0, m_onlyFadeOut? 0 : m_autoCrossfadeMs);
 	m_queue.SetCurrPos(newQueuePos); // realize the new position in the UI
 
 	if( m_streamA ) {
