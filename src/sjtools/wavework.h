@@ -40,7 +40,7 @@ double  SjLong2Gain         (long lng);
 void    SjApplyVolume       (float* buffer, long bytes, float gain);
 void    SjMixdownChannels   (float* buffer, long bytes, int channels, int destCh);
 
-bool    SjDetectSilence     (SjBackend*, const wxString& url, long& silenceBegMs, long& silenceEndMs);
+void    SjDetectSilence     (SjBackend*, const wxString& url, long& silenceBegMs, long& silenceEndMs);
 
 
 #endif // __SJ_WAVEWORK_H__

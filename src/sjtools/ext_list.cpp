@@ -200,6 +200,7 @@ void SjExtList::RepositoryInit()
 		RepositoryAdd(wxT("tif tiff"),                      SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"), wxT("TIFF")));
 		RepositoryAdd(wxT("tta"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("TrueAudio")));
 		RepositoryAdd(wxT("txt"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-files"), wxT("Text")));
+		RepositoryAdd("vob",                                SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-video"), "DVD Video"));
 		RepositoryAdd(wxT("wma wmv wm asf asx wax wvx wmx"),SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("Windows Media")));
 		RepositoryAdd(wxT("wpl"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("Windows Media")));
 		RepositoryAdd(wxT("wv"),                            SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("WavPack")));
