@@ -96,6 +96,26 @@ void SjApplyVolume(float* buffer, long bytes, float gain)
 }
 
 
+void SjMixdownChannels(float* buffer, long bytes, int channels, int destCh)
+{
+	// in a buffer defined by buffer-bytes-channels, mix all channels to destCh and mute the other ones
+	if( channels <= 1 || channels > 256 || destCh < 0 || destCh >= channels ) return; // error
+
+	float subsamsSum;
+	long sampleStart, subsam, subsams = bytes / sizeof(float);
+	for( sampleStart = 0; sampleStart < subsams; sampleStart += channels )
+	{
+		subsamsSum = 0;
+		for( subsam = 0; subsam < channels; subsam++ )
+		{
+			subsamsSum += buffer[sampleStart+subsam];
+			buffer[sampleStart+subsam] = 0;
+		}
+		buffer[sampleStart+destCh] = subsamsSum / channels;
+	}
+}
+
+
 /*******************************************************************************
  * Detect Silence
  ******************************************************************************/
