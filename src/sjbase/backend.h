@@ -38,8 +38,7 @@ class SjBackendUserdata;
 enum SjBackendId
 {
 	SJBE_ID_STDOUTPUT  = 0,
-	SJBE_ID_PRELISTEN  = 1,
-	SJBE_ID_FAKEOUTPUT = 2 // do not output anything but call the DSP callback; used eg. for silence detection
+	SJBE_ID_PRELISTEN  = 1
 };
 
 

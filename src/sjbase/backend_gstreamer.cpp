@@ -273,14 +273,7 @@ SjGstreamerBackend::SjGstreamerBackend(SjBackendId id)
 	#define VIDEOPIPELINE_ININAME "gstreamer/"+GetName()+"VideoPipeline"
 	#define VIDEOPIPELINE_DEFAULT "autovideosink"
 	wxConfigBase* c = g_tools->m_config;
-
-	if( GetId()==SJBE_ID_FAKEOUTPUT ) {
-		m_iniAudioPipeline = "fakesink";
-	}
-	else {
-		m_iniAudioPipeline = c->Read(AUDIOPIPELINE_ININAME, AUDIOPIPELINE_DEFAULT);
-	}
-
+	m_iniAudioPipeline = c->Read(AUDIOPIPELINE_ININAME, AUDIOPIPELINE_DEFAULT);
 	if( WantsVideo() ) {
 		m_iniVideoPipeline = c->Read(VIDEOPIPELINE_ININAME, VIDEOPIPELINE_DEFAULT);
 	}

@@ -396,9 +396,10 @@ void SjAutovolDlg::OnMyCancel(wxCommandEvent&)
 #define IDC_MAN_CROSSFADE_SLIDER        (IDM_FIRSTPRIVATE+1)
 #define IDC_AUTO_CROSSFADE_ENABLED      (IDM_FIRSTPRIVATE+2)
 #define IDC_AUTO_CROSSFADE_SLIDER       (IDM_FIRSTPRIVATE+3)
-#define IDC_SKIP_SILENCE                (IDM_FIRSTPRIVATE+4)
-#define IDC_SUBSEQ_DETECT               (IDM_FIRSTPRIVATE+5)
-#define IDC_ONLY_FADE_OUT               (IDM_FIRSTPRIVATE+6)
+#define IDC_CROSSFADE_OFFSET_END_SLIDER (IDM_FIRSTPRIVATE+4)
+#define IDC_SKIP_SILENCE                (IDM_FIRSTPRIVATE+5)
+#define IDC_SUBSEQ_DETECT               (IDM_FIRSTPRIVATE+6)
+#define IDC_ONLY_FADE_OUT               (IDM_FIRSTPRIVATE+7)
 
 #define IDC_RESET_CROSSFADE             (IDM_FIRSTPRIVATE+10)
 
@@ -425,14 +426,14 @@ private:
 	long            m_autoCrossfadeMsOrg;
 	void            OnAutoCrossfadeMsSlider (wxScrollEvent&) { m_autoCrossfadeMsSlider.Update(); g_mainFrame->m_player.m_autoCrossfadeMs = m_autoCrossfadeMsSlider.GetValue(); }
 
+	SjDlgSlider     m_crossfadeOffsetEndMsSlider;
+	long            m_crossfadeOffsetEndMsOrg;
+	void            OnCrossfadeOffsetEndMsSlider (wxScrollEvent&) { m_crossfadeOffsetEndMsSlider.Update(); g_mainFrame->m_player.m_crossfadeOffsetEndMs = m_crossfadeOffsetEndMsSlider.GetValue(); }
+
 	// crossfade options
 	wxCheckBox*     m_subseqDetectCheck;
 	bool            m_subseqDetectOrg;
 	void            OnSubseqDetect(wxCommandEvent&);
-
-	wxCheckBox*     m_skipSilenceCheck;
-	bool            m_orgSkipSilence;
-	void            OnSkipSilence(wxCommandEvent&);
 
 	wxCheckBox*     m_onlyFadeOutCheck;
 	bool            m_orgOnlyFadeOut;
@@ -467,8 +468,8 @@ BEGIN_EVENT_TABLE(SjCrossfadeDlg, SjEffectDlg)
 	EVT_COMMAND_SCROLL      (IDC_MAN_CROSSFADE_SLIDER,      SjCrossfadeDlg::OnManCrossfadeMsSlider      )
 	EVT_CHECKBOX            (IDC_AUTO_CROSSFADE_ENABLED,    SjCrossfadeDlg::OnAutoCrossfadeEnable       )
 	EVT_COMMAND_SCROLL      (IDC_AUTO_CROSSFADE_SLIDER,     SjCrossfadeDlg::OnAutoCrossfadeMsSlider     )
+	EVT_COMMAND_SCROLL      (IDC_CROSSFADE_OFFSET_END_SLIDER, SjCrossfadeDlg::OnCrossfadeOffsetEndMsSlider )
 	EVT_CHECKBOX            (IDC_SUBSEQ_DETECT,             SjCrossfadeDlg::OnSubseqDetect              )
-	EVT_CHECKBOX            (IDC_SKIP_SILENCE,              SjCrossfadeDlg::OnSkipSilence               )
 	EVT_CHECKBOX            (IDC_ONLY_FADE_OUT,             SjCrossfadeDlg::OnOnlyFadeOut               )
 	EVT_BUTTON              (IDC_RESET_CROSSFADE,           SjCrossfadeDlg::OnCrossfadeReset            )
 
@@ -530,9 +531,9 @@ SjCrossfadeDlg::SjCrossfadeDlg(wxWindow* parent)
 	m_manCrossfadeMsOrg             = player->m_manCrossfadeMs;
 	m_autoCrossfadeOrgEnabled       = player->GetAutoCrossfade();
 	m_autoCrossfadeMsOrg            = player->m_autoCrossfadeMs;
+	m_crossfadeOffsetEndMsOrg       = player->m_crossfadeOffsetEndMs;
 
 	m_subseqDetectOrg               = player->GetAutoCrossfadeSubseqDetect();
-	m_orgSkipSilence                = player->GetSkipSilence();
 	m_orgOnlyFadeOut                = player->GetOnlyFadeOut();
 
 	// create dialog
@@ -561,6 +562,12 @@ SjCrossfadeDlg::SjCrossfadeDlg(wxWindow* parent)
 	m_autoCrossfadeMsSlider.Create(this, sizer3, IDC_AUTO_CROSSFADE_SLIDER, SJ_SLIDER_MS_SEC,
 	                               m_autoCrossfadeMsOrg, 0, 30000);
 
+	// offsets
+	sizer3->Add(new wxStaticText(this, -1, _("Offset to end:")), 0, wxALIGN_CENTER_VERTICAL);
+
+	m_crossfadeOffsetEndMsSlider.Create(this, sizer3, IDC_CROSSFADE_OFFSET_END_SLIDER, SJ_SLIDER_MS_SEC,
+	                              m_crossfadeOffsetEndMsOrg, 0, 30000);
+
 	sizer2->Add(SJ_DLG_SPACE/2, SJ_DLG_SPACE/2);
 
 	// subsequent detect
@@ -572,11 +579,6 @@ SjCrossfadeDlg::SjCrossfadeDlg(wxWindow* parent)
 	m_onlyFadeOutCheck = new wxCheckBox(this, IDC_ONLY_FADE_OUT, _("Only fade out the old track, the new track starts with full volume"));
 	m_onlyFadeOutCheck->SetValue(m_orgOnlyFadeOut);
 	sizer2->Add(m_onlyFadeOutCheck, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
-
-	// skip silence
-	m_skipSilenceCheck = new wxCheckBox(this, IDC_SKIP_SILENCE, _("Skip silence between tracks"));
-	m_skipSilenceCheck->SetValue(m_orgSkipSilence);
-	sizer2->Add(m_skipSilenceCheck, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	wxButton* button = new wxButton(this, IDC_RESET_CROSSFADE, _("Reset to default values"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	sizer2->Add(button, 0, wxALL, SJ_DLG_SPACE);
@@ -602,14 +604,13 @@ void SjCrossfadeDlg::OnCrossfadeReset(wxCommandEvent&)
 	m_autoCrossfadeMsSlider.SetValue(SJ_DEF_CROSSFADE_MS);
 	g_mainFrame->m_player.m_autoCrossfadeMs = SJ_DEF_CROSSFADE_MS;
 
+	// reset offset
+	m_crossfadeOffsetEndMsSlider.SetValue(SJ_DEF_CROSSFADE_OFFSET_END_MS);
+	g_mainFrame->m_player.m_crossfadeOffsetEndMs = SJ_DEF_CROSSFADE_OFFSET_END_MS;
+
 	// reset "only fade out"
 	m_onlyFadeOutCheck->SetValue(false);
 	g_mainFrame->m_player.SetOnlyFadeOut(false);
-
-	// reset "skip silence" -- it doesn't matter if crossfading is default or not,
-	// if we're here and crossfading is enabled and so skipping silence is recommended
-	m_skipSilenceCheck->SetValue(true);
-	g_mainFrame->m_player.SetSkipSilence(true);
 
 	// reset "no subsequent fadings"
 	m_subseqDetectCheck->SetValue(false);
@@ -623,6 +624,7 @@ void SjCrossfadeDlg::EnableDisable()
 {
 	bool e = m_autoCrossfadeCheck->IsChecked();
 	m_autoCrossfadeMsSlider.Enable(e);
+	m_crossfadeOffsetEndMsSlider.Enable(e);
 	m_subseqDetectCheck->Enable(e);
 }
 
@@ -632,13 +634,6 @@ void SjCrossfadeDlg::OnAutoCrossfadeEnable(wxCommandEvent&)
 	bool e = m_autoCrossfadeCheck->IsChecked();
 	g_mainFrame->m_player.SetAutoCrossfade(e);
 	EnableDisable();
-}
-
-
-void SjCrossfadeDlg::OnSkipSilence(wxCommandEvent&)
-{
-	bool e = m_skipSilenceCheck->IsChecked();
-	g_mainFrame->m_player.SetSkipSilence(e);
 }
 
 
@@ -663,8 +658,8 @@ void SjCrossfadeDlg::OnMyCancel(wxCommandEvent&)
 	g_mainFrame->m_player.SetAutoCrossfadeSubseqDetect(m_subseqDetectOrg);
 	g_mainFrame->m_player.m_manCrossfadeMs = m_manCrossfadeMsOrg;
 	g_mainFrame->m_player.m_autoCrossfadeMs = m_autoCrossfadeMsOrg;
+	g_mainFrame->m_player.m_crossfadeOffsetEndMs = m_crossfadeOffsetEndMsOrg;
 	g_mainFrame->m_player.SetOnlyFadeOut(m_orgOnlyFadeOut);
-	g_mainFrame->m_player.SetSkipSilence(m_orgSkipSilence);
 
 	// Close dialog, this calls Destroy(), do not used delete!
 	SjCrossfadeDlg::CloseDialog();

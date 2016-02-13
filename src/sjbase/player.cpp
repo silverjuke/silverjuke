@@ -132,7 +132,7 @@ SjPlayer::SjPlayer()
 	m_autoCrossfadeSubseqDetect = false;
 	m_autoCrossfadeMs       = SJ_DEF_CROSSFADE_MS;
 	m_manCrossfadeMs        = SJ_DEF_CROSSFADE_MS;
-	m_skipSilence           = TRUE; // no discussion, always recommended
+	m_crossfadeOffsetEndMs  = SJ_DEF_CROSSFADE_OFFSET_END_MS;
 	m_onlyFadeOut           = false; // radio-like: only fade out, the new track starts with the full volume
 
 	m_backend               = NULL;
@@ -156,7 +156,6 @@ void SjPlayer::Init()
 
 	m_backend = new BACKEND_CLASSNAME(SJBE_ID_STDOUTPUT);
 	m_prelistenBackend = new BACKEND_CLASSNAME(SJBE_ID_PRELISTEN);
-	m_fakeBackend = new BACKEND_CLASSNAME(SJBE_ID_FAKEOUTPUT);
 
 	// load settings
 	wxConfigBase* c = g_tools->m_config;
@@ -170,7 +169,7 @@ void SjPlayer::Init()
 	SetAutoCrossfadeSubseqDetect(c->Read("player/crossfadeSubseq",     0L/*defaults to off*/)!=0);
 	m_autoCrossfadeMs           =c->Read("player/crossfadeMs",         SJ_DEF_CROSSFADE_MS);
 	m_manCrossfadeMs            =c->Read("player/crossfadeManMs",      SJ_DEF_CROSSFADE_MS);
-	SetSkipSilence              (c->Read("player/crossfadeSkipSilence",1L/*always recommended*/)!=0);
+	m_crossfadeOffsetEndMs      =c->Read("player/crossfadeOffsetEndMs",SJ_DEF_CROSSFADE_OFFSET_END_MS);
 	SetOnlyFadeOut              (c->Read("player/onlyFadeOut",         0L/*defaults to off*/)!=0);
 
 	StopAfterEachTrack          (c->Read("player/stopAfterEachTrack",  0L)!=0);
@@ -210,8 +209,8 @@ void SjPlayer::SaveSettings() const
 
 	c->Write("player/crossfadeActive",     GetAutoCrossfade()? 1L : 0L);
 	c->Write("player/crossfadeMs",         m_autoCrossfadeMs);
+	c->Write("player/crossfadeOffsetEndMs",m_crossfadeOffsetEndMs);
 	c->Write("player/crossfadeManMs",      m_manCrossfadeMs);
-	c->Write("player/crossfadeSkipSilence",GetSkipSilence()? 1L : 0L);
 	c->Write("player/onlyFadeOut",         GetOnlyFadeOut()? 1L : 0L);
 	c->Write("player/stopAfterEachTrack",  StopAfterEachTrack()? 1L : 0L);
 	c->Write("player/crossfadeSubseq",     GetAutoCrossfadeSubseqDetect()? 1L : 0L);
@@ -249,12 +248,6 @@ void SjPlayer::Exit()
 		{
 			delete m_prelistenBackend;
 			m_prelistenBackend = NULL;
-		}
-
-		if( m_fakeBackend )
-		{
-			delete m_fakeBackend;
-			m_fakeBackend = NULL;
 		}
 
 		m_queue.Exit();
@@ -546,7 +539,6 @@ public:
 		m_onCreateFadeMs = onCreateFadeMs;
 		m_isVideo        = false;
 		m_realMs         = 0;
-		m_silenceEndMs   = -1;
 		m_autoDelete     = false; // if set, the stream is deleted on EOS or if fading is done
 		m_autoDeleteSend = false;
 	}
@@ -554,7 +546,6 @@ public:
 	SjPlayer*     m_player;
 	bool          m_isVideo;
 	long          m_realMs;
-	long          m_silenceEndMs;
 	SjVolumeCalc  m_volumeCalc;
 	SjVolumeFade  m_volumeFade;
 
@@ -701,17 +692,9 @@ SjBackendStream* SjPlayer::CreateStream(const wxString& url, long explicitSeekMs
 	}
 
 	// first, try to collect some information
-	long silenceBegMs = -1;
-	if( m_skipSilence ) {
-		SjDetectSilence(m_fakeBackend, url, silenceBegMs, userdata->m_silenceEndMs);
-	}
-
 	long startThisMs = 0;
 	if( explicitSeekMs > 0 ) {
 		startThisMs = explicitSeekMs;
-	}
-	else if( silenceBegMs > 0 ) {
-		startThisMs = silenceBegMs;
 	}
 
 	// create the stream
@@ -1032,7 +1015,7 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
 
 void SjPlayer::OneSecondTimer()
 {
-	if( (!m_autoCrossfade && !m_skipSilence) || m_streamA == NULL || m_streamA->m_userdata == NULL ) {
+	if( !m_autoCrossfade || m_streamA == NULL || m_streamA->m_userdata == NULL ) {
 		return; // crossfading and silence detection disabled OR no stream
 	}
 
@@ -1044,8 +1027,7 @@ void SjPlayer::OneSecondTimer()
 
 	#define HEADROOM_MS 50 // assumed time for stream creation
 	long startNextMs = totalMs - HEADROOM_MS;
-	if( m_streamA->m_userdata->m_silenceEndMs > 0 )  { startNextMs -= m_streamA->m_userdata->m_silenceEndMs; }
-	if( m_autoCrossfade )                            { startNextMs -= m_autoCrossfadeMs; }
+	if( m_autoCrossfade )  { startNextMs -= m_autoCrossfadeMs+m_crossfadeOffsetEndMs; }
 
 	if( elapsedMs < startNextMs ) {
 		return; // still waiting for the correct moment

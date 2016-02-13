@@ -137,12 +137,12 @@ public:
 	bool            GetAutoCrossfadeSubseqDetect() const { return m_autoCrossfadeSubseqDetect; }
 	void            SetOnlyFadeOut      (bool e) { m_onlyFadeOut = e; }
 	bool            GetOnlyFadeOut      () const { return m_onlyFadeOut; }
-	void            SetSkipSilence      (bool r) { m_skipSilence=r; }
-	bool            GetSkipSilence      () const { return m_skipSilence; }
 
 	// Crossfade & Other fadings: Time settings
 	#define         SJ_DEF_CROSSFADE_MS 10000L
 	long            m_autoCrossfadeMs;
+	#define         SJ_DEF_CROSSFADE_OFFSET_END_MS 3000L
+	long            m_crossfadeOffsetEndMs;
 	long            m_manCrossfadeMs;
 
 	void            OneSecondTimer      ();
@@ -175,9 +175,6 @@ private:
 	SjBackend*       m_prelistenBackend;
 	long             m_prelistenUseSysVol;
 
-	// fake output
-	SjBackend*       m_fakeBackend;
-
 	// tools
 	void            SendSignalToMainThread(int id, uintptr_t extraLong=0) const;
 	void            SaveGatheredInfo    (const wxString& url, unsigned long startingTime, SjVolumeCalc*, long realDecodedBytes);
@@ -203,7 +200,6 @@ private:
 	#define         SJ_DEF_AUTO_CROSSFADE_ENABLED   true
 	bool            m_autoCrossfade;
 	bool            m_autoCrossfadeSubseqDetect;
-	bool            m_skipSilence;
 	bool            m_onlyFadeOut;
 
 	// Misc
