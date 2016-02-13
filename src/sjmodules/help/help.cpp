@@ -131,7 +131,7 @@ void SjHelpDialog::GotoHtml(const wxString& html, const wxString& title)
 {
 	// set content
 	m_htmlWindow->InitPage();
-	m_htmlWindow->AppendToPage(wxT("<p><img src=\"memory:aboutlogo.gif\"></p>")+html);
+	m_htmlWindow->AppendToPage("<p><img src=\"memory:aboutlogo.gif\"></p>"+html);
 
 	// set title
 	SetTitle(title);
@@ -139,7 +139,7 @@ void SjHelpDialog::GotoHtml(const wxString& html, const wxString& title)
 
 
 /*******************************************************************************
- *  SjHelpDialog - Open a property page
+ * SjHelpDialog - Open a property page
  ******************************************************************************/
 
 
@@ -150,7 +150,7 @@ void SjHelpDialog::GotoProp(SjProp& prop)
 	prop.InitIterator();
 	if( prop.Next() )
 	{
-		title += wxT(" - ") + (prop.GetFlags()&SJ_PROP_HEADLINE? prop.GetName() : prop.GetValue());
+		title += " - " + (prop.GetFlags()&SJ_PROP_HEADLINE? prop.GetName() : prop.GetValue());
 	}
 
 	// set content
@@ -171,23 +171,24 @@ wxString SjHelpDialog::GetAboutTopic() const
 {
 	wxString ret;
 
-	ret = wxT("<center>")
-	      wxT("<p>&nbsp;<img src=\"memory:aboutlogo.gif\">&nbsp;</p>") // the &nbsp; left and right are needed for wxHTML to calculate the correct height; a simple image is not sufficient
-	      wxT("<h1>") + wxString::Format(wxT("%s %i.%i.%i"), SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR, SJ_VERSION_REVISION) + wxT("</h1>")
-	      wxT("<p>The Jukebox. Grown up.</p>") /*n/t*/;
+	ret = "<center>"
+		  "<p>&nbsp;</p>"
+	      "<p>&nbsp;<img src=\"memory:aboutlogo.gif\">&nbsp;</p>" // the &nbsp; left and right are needed for wxHTML to calculate the correct height; a simple image is not sufficient
+	      "<h1>" + wxString::Format("%s %i.%i.%i", SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR, SJ_VERSION_REVISION) + "</h1>"
+	      "<p>The Jukebox. Grown up.</p>" /*n/t*/;
 
 	if( g_mainFrame->IsAllAvailable() )
 	{
-		ret += wxT("<p><a href=\"web:0\">") + wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME) + wxT("...</a></p>");
+		ret += "<p><a href=\"web:0\">" + wxString::Format(_("%s on the web"), SJ_PROGRAM_NAME) + "...</a></p>";
 	}
 	else
 	{
-		ret += wxT("<p>http://www.silverjuke.net</p>");
+		ret += "<p>http://www.silverjuke.net</p>";
 	}
 
-	ret += wxT("<p>Copyright &copy; 2016 Bj&ouml;rn Petersen Software Design and Development</p>")
-	      wxT("<p><a href=\"page:3\">Credits and License notes...</a></p>")
-	      wxT("</center>");
+	ret += "<p>Copyright &copy; 2016 Bj&ouml;rn Petersen Software Design and Development</p>"
+	       "<p><a href=\"page:3\">Contributors and License notes...</a></p>"
+	       "</center>";
 
 	return ret;
 }
@@ -196,10 +197,24 @@ wxString SjHelpDialog::GetAboutTopic() const
 wxString SjHelpDialog::GetCreditsTopic() const
 {
 	static const char* credits =
-	    "<p>"
-			"Credits (not only) to third parties:"
-			"<br />&nbsp;"
-	    "</p>"
+	    "<h1>"
+			"Contributors"
+	    "</h1>"
+	    "<ul>"
+			"<li>Thorsten Behrens</li>"
+			"<li>Roy Bråthen</li>"
+			"<li>Joop Goedkoop</li>"
+			"<li>Dan Larsen</li>"
+			"<li>Chris La Mantia</li>"
+			"<li>David Minář</li>"
+			"<li>Dr. Tobias Quathamer</li>"
+			"<li>Claude Stürzel</li>"
+			"<li>Antoni Vicente</li>"
+	    "</ul>"
+
+	    "<h1>"
+			"Credits and License notes"
+	    "</h1>"
 
 	    "<ul>"
 			"<li>"
@@ -363,7 +378,7 @@ void SjHelpDialog::GotoTopic(SjHelpTopicId topicId)
 SjHelpModule::SjHelpModule(SjInterfaceBase* interf)
 	: SjCommonModule(interf)
 {
-	m_file          = wxT("memory:help.lib");
+	m_file          = "memory:help.lib";
 	m_name          = _("Help-system");
 	m_helpDialog    = NULL;
 }
@@ -395,14 +410,14 @@ void SjHelpModule::OpenHelp(wxWindow* parent, SjHelpTopicId topicId, SjProp* pro
 	if( m_helpDialog == NULL )
 	{
 		m_helpDialog = new SjHelpDialog(this, g_mainFrame);
-		m_helpDialog->SetSize(580, 380);
+		m_helpDialog->SetSize(400, 450);
 	}
 
 	if( prop )
 	{
 		m_helpDialog->GotoProp(*prop);
 	}
-	else if( html != wxT("") )
+	else if( html != "" )
 	{
 		m_helpDialog->GotoHtml(html, title);
 	}
