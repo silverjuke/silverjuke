@@ -24,7 +24,7 @@ Beyond the usual gcc and system development packages, chances are you'll also
 need the following stuff:
 
 - OpenGL libraries, eg. libgl1-mesa-dev
-- libgstreamer-dev _or_ xine-devel
+- libgstreamer1.0-dev
 - wxWidgets-wxcontainer-devel
 - libsqlite3-dev
 - python-docutils (for rst2man)

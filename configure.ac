@@ -48,7 +48,6 @@ fi
 
 # Detect the needed libraries
 PKG_CHECK_MODULES([ZLIB], [zlib])
-PKG_CHECK_MODULES([LIBXINE], [libxine])
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
 PKG_CHECK_MODULES([GST], [gstreamer-1.0 gstreamer-plugins-base-1.0])
 PKG_CHECK_MODULES([GL], [gl])
