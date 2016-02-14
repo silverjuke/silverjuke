@@ -47,7 +47,7 @@ public:
 
     ~BuiltinParams();
 
-    /** Param database initalizer / destructor functions */
+    /** Param database initializer / destructor functions */
     int init_builtin_param_db(const PresetInputs & presetInputs, PresetOutputs & presetOutputs);
     int load_all_builtin_param(const PresetInputs & presetInputs, PresetOutputs & presetOutputs);
     int destroy_builtin_param_db();

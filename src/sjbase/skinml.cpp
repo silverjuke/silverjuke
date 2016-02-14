@@ -958,7 +958,7 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 			skin->m_hasScripts = true;
 		}
 
-		// initalize the colours
+		// initialize the colours
 		if( tag.HasParam(wxT("FGCOLOR")) || tag.HasParam(wxT("BGCOLOR")) )
 		{
 			currItem->m_colours = new SjSkinColour[SJ_COLOUR_COUNT];

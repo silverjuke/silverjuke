@@ -86,7 +86,7 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 	lo.Add(new SjLittleEnumLong(_("Prelisten"), options, &g_mainFrame->m_player.m_prelistenDest, SJ_PL_DEFAULT, "player/prelistenDest", SJ_ICON_MODULE));
 
 	// backend settings
-	wxString sysVolOptions = wxString::Format("%s|%s|%s", _("No") /*=0*/, _("Yes") /*=1=Use+Init*/, _("Only initalize system volume") /*=2*/);
+	wxString sysVolOptions = wxString::Format("%s|%s|%s", _("No") /*=0*/, _("Yes") /*=1=Use+Init*/, _("Only initialize system volume") /*=2*/);
 	if( g_mainFrame->m_player.m_backend )
 	{
 		SjLittleOption::SetSection(_("Output"));
