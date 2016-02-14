@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-01-02 17:11+0100\n"
+"POT-Creation-Date: 2016-02-14 12:51+0100\n"
 "PO-Revision-Date: 2010-10-04 14:51+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: French\n"
@@ -21,8 +21,14 @@ msgstr "Mode veille désactivé"
 msgid "Play time exceeded"
 msgstr ""
 
-msgid "Drag folders with music here."
-msgstr "Tirez dans cette fenêtre un répertoire de fichiers musicaux."
+msgid "Default"
+msgstr "Standard"
+
+# dt. "Geräte"
+#, fuzzy
+#| msgid "Devices"
+msgid "Device"
+msgstr "Périphériques"
 
 msgid "Show covers"
 msgstr "Afficher les pochettes"
@@ -83,6 +89,9 @@ msgstr "Afficher les pochettes"
 #, c-format
 msgid "%s tracks"
 msgstr "%s titres"
+
+msgid "Drag folders with music here."
+msgstr "Tirez dans cette fenêtre un répertoire de fichiers musicaux."
 
 msgid "Reset to default values"
 msgstr "Réinitialiser aux valeurs standard "
@@ -261,78 +270,6 @@ msgstr "Répéter tous les titres/le titre en cours"
 msgid "Search in \"%s\""
 msgstr "Rechercher dans \"%s\""
 
-msgid "Fatal error"
-msgstr "Erreur fatale"
-
-msgid "Ctrl"
-msgstr "Ctrl"
-
-msgid "Alt"
-msgstr "Alt"
-
-msgid "Shift"
-msgstr "Maj"
-
-msgid "Enlarge window"
-msgstr "Agrandir la fenêtre"
-
-msgid "Shrink window"
-msgstr "Diminuer la fenêtre"
-
-msgid "Enlarge display"
-msgstr "Augmenter la taille d'affichage"
-
-msgid "Shrink display"
-msgstr "Diminuer la taille d'affichage"
-
-# dt. "Geräte"
-#, fuzzy
-#| msgid "Devices"
-msgid "Services"
-msgstr "Périphériques"
-
-# %s will be replaced by the program name, usually "Silverjuke"
-#, c-format
-msgid "Hide %s"
-msgstr "Cacher %s"
-
-# %s will be replaced by the program name, usually "Silverjuke"
-#, fuzzy
-#| msgid "Hide %s"
-msgid "Hide Others"
-msgstr "Cacher %s"
-
-#, fuzzy
-#| msgid "Show file"
-msgid "Show All"
-msgstr "Voir le fichier"
-
-#, fuzzy, c-format
-#| msgid "Exit %s"
-msgid "Quit %s"
-msgstr "Quitter %s"
-
-msgid "Full screen"
-msgstr "Plein écran"
-
-msgid "Show file"
-msgstr "Voir le fichier"
-
-msgid "Explore"
-msgstr "Explore"
-
-msgid "Reveal in Finder"
-msgstr "Afficher dans le Finder"
-
-msgid "Info..."
-msgstr "Infos..."
-
-msgid "State"
-msgstr "Etat"
-
-msgid "Modules on the web..."
-msgstr "Modules sur internet..."
-
 msgid "Help"
 msgstr "Aide"
 
@@ -341,8 +278,10 @@ msgstr "Aide"
 msgid "Add folders and files"
 msgstr "Lire fichiers et répertoires"
 
-msgid "Extras"
-msgstr ""
+#, fuzzy
+#| msgid "File extension"
+msgid "Extensions"
+msgstr "Extension de fichier"
 
 msgid "Show remaining time"
 msgstr "Afficher le temps restant"
@@ -376,13 +315,14 @@ msgstr "Volume"
 msgid "Same zoom in all views"
 msgstr "Même zoom sur toutes les vues"
 
+msgid "Fonts and covers"
+msgstr "Police de caractères / pochettes"
+
 msgid "Zoom"
 msgstr "Zoom"
 
-#, fuzzy
-#| msgid "Fit to screen"
-msgid "Video screen"
-msgstr "Adapter à l'écran"
+msgid "Skins"
+msgstr "Skins"
 
 #, fuzzy
 #| msgid "Start kiosk mode"
@@ -417,14 +357,25 @@ msgstr "Affichage"
 msgid "Playback"
 msgstr "Lecture"
 
+#, fuzzy
+#| msgid "Fit to screen"
+msgid "Video screen"
+msgstr "Adapter à l'écran"
+
 msgid "Kiosk mode"
 msgstr "Mode kiosque"
 
 msgid "None"
 msgstr ""
 
+msgid "Further options"
+msgstr "Options supplémentaires"
+
 msgid "Queue"
 msgstr "Playlist"
+
+msgid "Automatic control"
+msgstr "Contrôles automatiques"
 
 msgid "Current view"
 msgstr "Affichage actuel"
@@ -445,22 +396,45 @@ msgstr "Rechercher sélection de musique"
 msgid "Edit tracks/Get info"
 msgstr "Contenu de la piste/Infos"
 
+msgid "Show file"
+msgstr "Voir le fichier"
+
 msgid "Cover editor"
 msgstr "Afficher la pochette"
 
-#, fuzzy
-#| msgid "Supported file-types"
-msgid "Supported file types"
-msgstr "Types de fichiers supportés"
+msgid "Mix"
+msgstr ""
 
-msgid "Default"
-msgstr "Standard"
-
-# dt. "Geräte"
 #, fuzzy
-#| msgid "Devices"
-msgid "Device"
-msgstr "Périphériques"
+#| msgid "Channels"
+msgid "Left channel"
+msgstr "Canaux"
+
+msgid "Right channel"
+msgstr ""
+
+msgid "Explicit output"
+msgstr ""
+
+msgid "Prelisten"
+msgstr "Pré-écoute"
+
+msgid "No"
+msgstr "Non"
+
+msgid "Yes"
+msgstr "Oui"
+
+#, fuzzy
+#| msgid "Only initalize system volume"
+msgid "Only initialize system volume"
+msgstr "Initialiser le volume système"
+
+msgid "Output"
+msgstr ""
+
+msgid "Use system volume"
+msgstr "Utiliser le volume système"
 
 msgid "Several artists"
 msgstr "Plusieurs artistes"
@@ -705,6 +679,12 @@ msgstr "Lire les titres à la suite du titre en cours"
 msgid "Play tracks now"
 msgstr "Lire les titres maintenant"
 
+msgid "Volume up"
+msgstr "Augmenter le volume"
+
+msgid "Volume down"
+msgstr "Diminuer le volume"
+
 msgid "Unqueue tracks"
 msgstr "Supprimer les titres de la playlist"
 
@@ -734,17 +714,16 @@ msgstr "Recherche avant"
 msgid "Fade to next"
 msgstr "Fondu vers le titre suivant"
 
-msgid "Volume up"
-msgstr "Augmenter le volume"
-
-msgid "Volume down"
-msgstr "Diminuer le volume"
-
 msgid "Mute"
 msgstr "Enlever le son"
 
 msgid "Reload skin"
 msgstr "Recharger les skin"
+
+#, fuzzy
+#| msgid "Fit to screen"
+msgid "Toggle video screen"
+msgstr "Adapter à l'écran"
 
 msgid "Smooth"
 msgstr "Adoucir la structure de l'image"
@@ -939,14 +918,19 @@ msgstr "Conseils"
 msgid "Mouse wheel"
 msgstr "Molette de la souris"
 
-msgid "Scroll vertically"
-msgstr "Dérouler verticalement"
-
-msgid "Scroll horizontally"
+#, fuzzy
+#| msgid "Scroll horizontally"
+msgid "Scroll horizontally in album view"
 msgstr "Dérouler horizontalement"
 
-msgid "Context sensitive"
-msgstr "Sensible au contexte"
+msgid "Modifier key toggles axis"
+msgstr ""
+
+msgid "Right mouse button toggles axis"
+msgstr ""
+
+msgid "Modify volume, scrollbars, letters etc."
+msgstr ""
 
 msgid "Use multimedia keyboard keys"
 msgstr "Utiliser les touches d'un clavier multimédia"
@@ -967,9 +951,6 @@ msgstr "Demander avant de vider la playlist"
 #| msgid "Ask before changing my rating"
 msgid "Ask before changing the rating"
 msgstr "Demander avant de modifier ma notation"
-
-msgid "Further options"
-msgstr "Options supplémentaires"
 
 # This string should be set to the abbreviation used for "num" on the numpad area of the keyboard. %s is replaced by a digit or a character.
 #, c-format
@@ -1354,12 +1335,6 @@ msgstr "Enregistrer les sélections modifiées"
 msgid "Ask"
 msgstr "Demander"
 
-msgid "Yes"
-msgstr "Oui"
-
-msgid "No"
-msgstr "Non"
-
 msgid "Max. history size"
 msgstr "Taille maxi de l'historique"
 
@@ -1573,10 +1548,8 @@ msgstr "Pas de jetons"
 msgid "Credit: %i"
 msgstr "Jetons: %i"
 
-#, fuzzy
-#| msgid "Exit %s"
-msgid "Exit"
-msgstr "Quitter %s"
+msgid "Start"
+msgstr "Démarrer"
 
 #, fuzzy
 #| msgid "Functionality"
@@ -1618,14 +1591,8 @@ msgstr "Terminer avec la touche %s"
 msgid "Exit by clicking into two different corners"
 msgstr "Terminer en cliquant dans deux coins différents"
 
-# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
-#, c-format
-msgid "Disable %s"
-msgstr "Désactiver %s"
-
-# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
-msgid "Disable shutdown"
-msgstr "Désactiver l'arrêt du système"
+msgid "Try to set exclusive"
+msgstr ""
 
 #, fuzzy
 msgid "Ask for a password on exit"
@@ -1665,19 +1632,8 @@ msgid "Please enter the password again for verification."
 msgstr ""
 "Pour éviter une erreur de saisie, veuillez entrer de nouveau le mot de passe."
 
-msgid ""
-"If you have more than one monitor connected to your computer,\n"
-"you can assign the different Silverjuke windows to different monitors here."
-msgstr ""
-"Si vous avez plus d'un écran connecté à votre système,\n"
-"vous pouvez ici assigner les différentes fenêtres Silverjuke à ces écrans."
-
 msgid "Overview:"
 msgstr "Vue d'ensemble:"
-
-# String is followed by the strings "Main window" or "Karaoke, Vis. etc"
-msgid "Monitor for"
-msgstr "Ecran pour"
 
 msgid "Main window"
 msgstr "Fenêtre principale"
@@ -1685,15 +1641,13 @@ msgstr "Fenêtre principale"
 msgid "Monitor"
 msgstr "écran"
 
-# %s will be replaced by a control for selecting the display resolution
-#, c-format
-msgid "Switch resolution to %s"
-msgstr "Modifier la résolution: %s"
-
 msgid "Disable screensaver"
 msgstr ""
 
 msgid "Disable power management"
+msgstr ""
+
+msgid "For more complex layouts, please refer to the command line options."
 msgstr ""
 
 msgid ""
@@ -1784,9 +1738,6 @@ msgstr "Mémoriser les jetons entre les exécutions du programme"
 
 msgid "Current credit:"
 msgstr "Jetons disponibles:"
-
-msgid "Start"
-msgstr "Démarrer"
 
 msgid "Please enter your password to exit the kiosk mode."
 msgstr "Veuillez entrer votre mot de passe pour terminer le mode kiosque"
@@ -1974,6 +1925,14 @@ msgstr "O:"
 msgid "C:"
 msgstr "C:"
 
+msgid "Stop prelistening"
+msgstr "Stop pré-écoute"
+
+# %s will be replaced by the program name, used eg. in VST-Modules
+#, c-format
+msgid "Prelisten \"%s\""
+msgstr "Pré-écoute \"%s\""
+
 # %s will be replaced by the name of the track
 #, c-format
 msgid "Enqueue \"%s\""
@@ -2106,6 +2065,11 @@ msgid "Options"
 msgstr "Options"
 
 #, fuzzy
+#| msgid "Supported file-types"
+msgid "Supported file types"
+msgstr "Types de fichiers supportés"
+
+#, fuzzy
 #| msgid "My music library"
 msgid "Music library"
 msgstr "Ma musique"
@@ -2142,9 +2106,6 @@ msgstr "Ampli. maximum:"
 msgid "Current volume:"
 msgstr "Volume actuel:"
 
-msgid "Calculated volumes:"
-msgstr "Niveaux sonores calculés:"
-
 msgid "Fading"
 msgstr "Fondu"
 
@@ -2157,6 +2118,9 @@ msgstr "Fondu ouv/fermeture manuel:"
 msgid "Automatic crossfades:"
 msgstr "Fondu ouv/fermeture automatique:"
 
+msgid "Offset to end:"
+msgstr ""
+
 msgid "No crossfades between subsequent tracks of the same album"
 msgstr "Pas de fondu entre les pistes du même album"
 
@@ -2165,17 +2129,8 @@ msgstr ""
 "Fondu de fermeture sur l'ancien titre, le nouveau titre démarre au volume "
 "normal"
 
-msgid "Skip silence between tracks"
-msgstr "Sauter le silence entre deux titres"
-
-msgid "Other fadings"
-msgstr "Autres fondus"
-
 msgid "Resume"
 msgstr ""
-
-msgid "Automatic control"
-msgstr "Contrôles automatiques"
 
 msgid "Jingles"
 msgstr "Jingles"
@@ -2670,12 +2625,6 @@ msgstr "(n caractères)"
 msgid "Void information"
 msgstr "Aucune information"
 
-msgid "Skins"
-msgstr "Skins"
-
-msgid "Fonts and covers"
-msgstr "Police de caractères / pochettes"
-
 # %s will be replaced by the program name, usually "Silverjuke"
 #, c-format
 msgid ""
@@ -2690,6 +2639,9 @@ msgstr ""
 
 msgid "Name"
 msgstr "Nom"
+
+msgid "Info..."
+msgstr "Infos..."
 
 msgid "Update list"
 msgstr "Actualiser la liste"
@@ -2738,17 +2690,25 @@ msgstr "Karaoke Prompt"
 msgid "No images found in \"%s\"."
 msgstr "Aucune image trouvée dans \"%s\"."
 
+# This is an option in the context menu of the new vis. / karaoke screen; dt. "Hintergrund"
+msgid "Background"
+msgstr "Arrière-plan"
+
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
 msgid "Use %s-files"
 msgstr ""
 
-# This is an option in the context menu of the new vis. / karaoke screen; dt. "Hintergrund"
-msgid "Background"
-msgstr "Arrière-plan"
-
 msgid "Please select a directory with images"
 msgstr "Veuillez sélectionner un répertoire avec des images"
+
+# This is an option in the context menu of the new vis. / karaoke screen; dt. "Bei Bedarf automatisch umschalten"
+msgid "If appropriate, switch over automatically"
+msgstr "Si besoin, basculer automatiquement"
+
+# This is an option in the context menu of the new vis. / karaoke screen
+msgid "Half size"
+msgstr "Réduit à 50%"
 
 msgid "Spectrum Monitor"
 msgstr "Spectrum Monitor"
@@ -2770,20 +2730,12 @@ msgid "Show other figures"
 msgstr "Fonds étoilé"
 
 #, fuzzy
+msgid "Visualization"
+msgstr "Démarrer la visualisation"
+
+#, fuzzy
 msgid "Video output"
 msgstr "Sortie audio"
-
-# This is an option in the context menu of the new vis. / karaoke screen; dt. "Bei Bedarf automatisch umschalten"
-msgid "If appropriate, switch over automatically"
-msgstr "Si besoin, basculer automatiquement"
-
-# This is an option in the context menu of the new vis. / karaoke screen
-msgid "Attached window"
-msgstr "Fenêtre attachée"
-
-# This is an option in the context menu of the new vis. / karaoke screen
-msgid "Half size"
-msgstr "Réduit à 50%"
 
 msgid "Search homepage"
 msgstr "Chercher la homepage"
@@ -2848,6 +2800,9 @@ msgstr ""
 
 msgid "Append"
 msgstr ""
+
+msgid "State"
+msgstr "Etat"
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
@@ -3049,6 +3004,72 @@ msgstr[1] "%i jours"
 msgid "Invalid regular expression \"%s\"."
 msgstr "Expression régulière invalide \"%s\""
 
+msgid "Fatal error"
+msgstr "Erreur fatale"
+
+msgid "Ctrl"
+msgstr "Ctrl"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Shift"
+msgstr "Maj"
+
+msgid "Enlarge window"
+msgstr "Agrandir la fenêtre"
+
+msgid "Shrink window"
+msgstr "Diminuer la fenêtre"
+
+msgid "Enlarge display"
+msgstr "Augmenter la taille d'affichage"
+
+msgid "Shrink display"
+msgstr "Diminuer la taille d'affichage"
+
+# dt. "Geräte"
+#, fuzzy
+#| msgid "Devices"
+msgid "Services"
+msgstr "Périphériques"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, c-format
+msgid "Hide %s"
+msgstr "Cacher %s"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, fuzzy
+#| msgid "Hide %s"
+msgid "Hide Others"
+msgstr "Cacher %s"
+
+#, fuzzy
+#| msgid "Show file"
+msgid "Show All"
+msgstr "Voir le fichier"
+
+#, fuzzy, c-format
+#| msgid "Exit %s"
+msgid "Quit %s"
+msgstr "Quitter %s"
+
+msgid "Extras"
+msgstr ""
+
+msgid "Full screen"
+msgstr "Plein écran"
+
+msgid "Modules on the web..."
+msgstr "Modules sur internet..."
+
+msgid "Explore"
+msgstr "Explore"
+
+msgid "Reveal in Finder"
+msgstr "Afficher dans le Finder"
+
 # %s will be replaced by the file name
 #, c-format
 msgid "The file \"%s\" does not exist."
@@ -3058,6 +3079,57 @@ msgstr "Le fichier \"%s\" n'existe pas."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Ne peut exécuter \"%s\"."
+
+msgid "Please use the operating system to set Silverjuke to an exclusive mode."
+msgstr ""
+
+#~ msgid "Scroll vertically"
+#~ msgstr "Dérouler verticalement"
+
+#~ msgid "Context sensitive"
+#~ msgstr "Sensible au contexte"
+
+#, fuzzy
+#~| msgid "Exit %s"
+#~ msgid "Exit"
+#~ msgstr "Quitter %s"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#~ msgid "Disable %s"
+#~ msgstr "Désactiver %s"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#~ msgid "Disable shutdown"
+#~ msgstr "Désactiver l'arrêt du système"
+
+#~ msgid ""
+#~ "If you have more than one monitor connected to your computer,\n"
+#~ "you can assign the different Silverjuke windows to different monitors "
+#~ "here."
+#~ msgstr ""
+#~ "Si vous avez plus d'un écran connecté à votre système,\n"
+#~ "vous pouvez ici assigner les différentes fenêtres Silverjuke à ces écrans."
+
+# String is followed by the strings "Main window" or "Karaoke, Vis. etc"
+#~ msgid "Monitor for"
+#~ msgstr "Ecran pour"
+
+# %s will be replaced by a control for selecting the display resolution
+#~ msgid "Switch resolution to %s"
+#~ msgstr "Modifier la résolution: %s"
+
+#~ msgid "Calculated volumes:"
+#~ msgstr "Niveaux sonores calculés:"
+
+#~ msgid "Skip silence between tracks"
+#~ msgstr "Sauter le silence entre deux titres"
+
+#~ msgid "Other fadings"
+#~ msgstr "Autres fondus"
+
+# This is an option in the context menu of the new vis. / karaoke screen
+#~ msgid "Attached window"
+#~ msgstr "Fenêtre attachée"
 
 #~ msgid "Show album name"
 #~ msgstr "Afficher le nom de l'album"
@@ -3161,16 +3233,6 @@ msgstr "Ne peut exécuter \"%s\"."
 # %s will be replaced by the program name, usually "Silverjuke"
 #~ msgid "Buy %s..."
 #~ msgstr "Acheter %s..."
-
-#~ msgid "Prelisten"
-#~ msgstr "Pré-écoute"
-
-#~ msgid "Stop prelistening"
-#~ msgstr "Stop pré-écoute"
-
-# %s will be replaced by the program name, used eg. in VST-Modules
-#~ msgid "Prelisten \"%s\""
-#~ msgstr "Pré-écoute \"%s\""
 
 #~ msgid "Unlicenced version"
 #~ msgstr "Version non enregistrée"
@@ -3527,12 +3589,6 @@ msgstr "Ne peut exécuter \"%s\"."
 #~ msgid "Use separate FX settings"
 #~ msgstr "Utiliser d'autres paramétres FX"
 
-#~ msgid "Use system volume"
-#~ msgstr "Utiliser le volume système"
-
-#~ msgid "Only initalize system volume"
-#~ msgstr "Initialiser le volume système"
-
 #~ msgid ""
 #~ "The \"system tray\" is an area normally placed at the edge of the "
 #~ "screen.\n"
@@ -3593,10 +3649,6 @@ msgstr "Ne peut exécuter \"%s\"."
 #, fuzzy
 #~ msgid "Open %s"
 #~ msgstr "Ouvrir %s"
-
-#, fuzzy
-#~ msgid "Visualization"
-#~ msgstr "Démarrer la visualisation"
 
 #, fuzzy
 #~ msgid "Selection: %s"

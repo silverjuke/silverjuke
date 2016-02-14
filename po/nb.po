@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-01-02 17:11+0100\n"
+"POT-Creation-Date: 2016-02-14 12:51+0100\n"
 "PO-Revision-Date: 2010-10-04 14:47+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Norwegian Bokmal\n"
@@ -21,8 +21,14 @@ msgstr "Sovemodus deaktivitert"
 msgid "Play time exceeded"
 msgstr ""
 
-msgid "Drag folders with music here."
-msgstr "Dra musikkfiler hit"
+# This string is added to some options in menus,  do not forget to surround the value with brackets.
+msgid "Default"
+msgstr "Standard"
+
+#, fuzzy
+#| msgid "Devices"
+msgid "Device"
+msgstr "Utganger"
 
 msgid "Show covers"
 msgstr "Vis omslag"
@@ -83,6 +89,9 @@ msgstr "Vis omslag"
 #, c-format
 msgid "%s tracks"
 msgstr "%s spor"
+
+msgid "Drag folders with music here."
+msgstr "Dra musikkfiler hit"
 
 msgid "Reset to default values"
 msgstr "Sette til standardvalg"
@@ -257,77 +266,6 @@ msgstr "Repeter alle/repeter Nåværende"
 msgid "Search in \"%s\""
 msgstr "Let etter i \"%s\""
 
-msgid "Fatal error"
-msgstr "Alvorlig feil"
-
-msgid "Ctrl"
-msgstr "Ctrl"
-
-msgid "Alt"
-msgstr "Alt"
-
-msgid "Shift"
-msgstr "Shift"
-
-msgid "Enlarge window"
-msgstr "Forstørre Vindu"
-
-msgid "Shrink window"
-msgstr "forminsk Vindu"
-
-msgid "Enlarge display"
-msgstr "Forstørre display"
-
-msgid "Shrink display"
-msgstr "Forminsk display"
-
-#, fuzzy
-#| msgid "Devices"
-msgid "Services"
-msgstr "Utganger"
-
-# %s will be replaced by the program name, usually "Silverjuke"
-#, c-format
-msgid "Hide %s"
-msgstr "Gjem %s"
-
-# %s will be replaced by the program name, usually "Silverjuke"
-#, fuzzy
-#| msgid "Hide %s"
-msgid "Hide Others"
-msgstr "Gjem %s"
-
-#, fuzzy
-#| msgid "Show file"
-msgid "Show All"
-msgstr "Vis fil"
-
-#, fuzzy, c-format
-#| msgid "Exit %s"
-msgid "Quit %s"
-msgstr "Avslutt %s"
-
-msgid "Full screen"
-msgstr "Full skjerm"
-
-msgid "Show file"
-msgstr "Vis fil"
-
-msgid "Explore"
-msgstr "Utforsk"
-
-msgid "Reveal in Finder"
-msgstr "Vis i finner"
-
-msgid "Info..."
-msgstr "Informasjon..."
-
-msgid "State"
-msgstr "Tillstand"
-
-msgid "Modules on the web..."
-msgstr "Moduler på nettet.."
-
 msgid "Help"
 msgstr "Hjelp"
 
@@ -336,8 +274,10 @@ msgstr "Hjelp"
 msgid "Add folders and files"
 msgstr "Les filer og kataloger"
 
-msgid "Extras"
-msgstr ""
+#, fuzzy
+#| msgid "File extension"
+msgid "Extensions"
+msgstr "Filendelse"
 
 msgid "Show remaining time"
 msgstr "Vis resterende tid"
@@ -371,13 +311,14 @@ msgstr "Volum"
 msgid "Same zoom in all views"
 msgstr "Samme zoom i alle utseende"
 
+msgid "Fonts and covers"
+msgstr "Fonter og omslag"
+
 msgid "Zoom"
 msgstr "Zoom"
 
-#, fuzzy
-#| msgid "Fit to screen"
-msgid "Video screen"
-msgstr "Tilpass til skjerm"
+msgid "Skins"
+msgstr "Skins"
 
 #, fuzzy
 #| msgid "Start kiosk mode"
@@ -410,14 +351,25 @@ msgstr "Utseende"
 msgid "Playback"
 msgstr "Spilling"
 
+#, fuzzy
+#| msgid "Fit to screen"
+msgid "Video screen"
+msgstr "Tilpass til skjerm"
+
 msgid "Kiosk mode"
 msgstr "Festmodus"
 
 msgid "None"
 msgstr ""
 
+msgid "Further options"
+msgstr "Avanserte valg"
+
 msgid "Queue"
 msgstr "Kø"
+
+msgid "Automatic control"
+msgstr "Automatisk kontroll"
 
 msgid "Current view"
 msgstr "Det du ser nå"
@@ -438,22 +390,45 @@ msgstr "Se etter etter musikkvalg"
 msgid "Edit tracks/Get info"
 msgstr "Editer spor/Se etter informasjon"
 
+msgid "Show file"
+msgstr "Vis fil"
+
 msgid "Cover editor"
 msgstr "Omslagseditor"
 
-#, fuzzy
-#| msgid "Supported file-types"
-msgid "Supported file types"
-msgstr "Støttede filtyper"
-
-# This string is added to some options in menus,  do not forget to surround the value with brackets.
-msgid "Default"
-msgstr "Standard"
+msgid "Mix"
+msgstr ""
 
 #, fuzzy
-#| msgid "Devices"
-msgid "Device"
-msgstr "Utganger"
+#| msgid "Channels"
+msgid "Left channel"
+msgstr "Kanaler"
+
+msgid "Right channel"
+msgstr ""
+
+msgid "Explicit output"
+msgstr ""
+
+msgid "Prelisten"
+msgstr "Forhåndslytting"
+
+msgid "No"
+msgstr "Nei"
+
+msgid "Yes"
+msgstr "Ja"
+
+#, fuzzy
+#| msgid "Only initalize system volume"
+msgid "Only initialize system volume"
+msgstr "Bruk bare systemvolumet"
+
+msgid "Output"
+msgstr ""
+
+msgid "Use system volume"
+msgstr "Bruk system volum"
 
 msgid "Several artists"
 msgstr "Flere artister"
@@ -694,6 +669,12 @@ msgstr "Spill spor etter dette"
 msgid "Play tracks now"
 msgstr "Spill spor"
 
+msgid "Volume up"
+msgstr "Volum opp"
+
+msgid "Volume down"
+msgstr "Volum ned"
+
 msgid "Unqueue tracks"
 msgstr "Fjern spor"
 
@@ -723,17 +704,16 @@ msgstr "Søk forover"
 msgid "Fade to next"
 msgstr "Gli over til neste"
 
-msgid "Volume up"
-msgstr "Volum opp"
-
-msgid "Volume down"
-msgstr "Volum ned"
-
 msgid "Mute"
 msgstr "Demp"
 
 msgid "Reload skin"
 msgstr "Last inn utseende"
+
+#, fuzzy
+#| msgid "Fit to screen"
+msgid "Toggle video screen"
+msgstr "Tilpass til skjerm"
 
 msgid "Smooth"
 msgstr "Myk"
@@ -927,14 +907,19 @@ msgstr "Verktøytips"
 msgid "Mouse wheel"
 msgstr "Musehjul"
 
-msgid "Scroll vertically"
-msgstr "Rukk vertkalt"
-
-msgid "Scroll horizontally"
+#, fuzzy
+#| msgid "Scroll horizontally"
+msgid "Scroll horizontally in album view"
 msgstr "Rull horisontalt"
 
-msgid "Context sensitive"
-msgstr "Kontekst følsom"
+msgid "Modifier key toggles axis"
+msgstr ""
+
+msgid "Right mouse button toggles axis"
+msgstr ""
+
+msgid "Modify volume, scrollbars, letters etc."
+msgstr ""
 
 msgid "Use multimedia keyboard keys"
 msgstr "Bruk multimedatastaturknapper"
@@ -952,9 +937,6 @@ msgstr "Spør før man renser spillelisten"
 #| msgid "Ask before changing my rating"
 msgid "Ask before changing the rating"
 msgstr "Spør før man forandrer mine karakterer"
-
-msgid "Further options"
-msgstr "Avanserte valg"
 
 # This string should be set to the abbreviation used for "num" on the numpad area of the keyboard. %s is replaced by a digit or a character.
 #, c-format
@@ -1335,12 +1317,6 @@ msgstr "Lagre modifisert musikkbiblotek"
 msgid "Ask"
 msgstr "Spør"
 
-msgid "Yes"
-msgstr "Ja"
-
-msgid "No"
-msgstr "Nei"
-
 msgid "Max. history size"
 msgstr "Maks historiestørrelse"
 
@@ -1546,10 +1522,8 @@ msgstr "Ingen kreditt"
 msgid "Credit: %i"
 msgstr "Kreditt: %i"
 
-#, fuzzy
-#| msgid "Exit %s"
-msgid "Exit"
-msgstr "Avslutt %s"
+msgid "Start"
+msgstr "Start"
 
 #, fuzzy
 #| msgid "Functionality"
@@ -1591,13 +1565,8 @@ msgstr "Avslutt med å trykke %s"
 msgid "Exit by clicking into two different corners"
 msgstr "Gå ut ved å klikke i to forskjellige hjørner"
 
-# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
-#, c-format
-msgid "Disable %s"
-msgstr "Koble ut %s"
-
-msgid "Disable shutdown"
-msgstr "koble ut avstenging"
+msgid "Try to set exclusive"
+msgstr ""
 
 #, fuzzy
 msgid "Ask for a password on exit"
@@ -1636,19 +1605,8 @@ msgstr "Bare spor fra musikkvalget %s"
 msgid "Please enter the password again for verification."
 msgstr "Slå inn passordet en gang til for verifisering"
 
-msgid ""
-"If you have more than one monitor connected to your computer,\n"
-"you can assign the different Silverjuke windows to different monitors here."
-msgstr ""
-"Hvis du har mer enn en skjerm tilkoblet din datamaskin, \n"
-" kan du sette opp de forskjellige Silverjuke vinduene til forskjellige "
-"skjermer her."
-
 msgid "Overview:"
 msgstr "Oversikt:"
-
-msgid "Monitor for"
-msgstr "Monitor for"
 
 msgid "Main window"
 msgstr "Hovedvindu"
@@ -1656,17 +1614,15 @@ msgstr "Hovedvindu"
 msgid "Monitor"
 msgstr "Monitor"
 
-# %s will be replaced by a control for selecting the display resolution
-#, c-format
-msgid "Switch resolution to %s"
-msgstr "Forandre oppløsning til %s"
-
 # %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
 msgid "Disable screensaver"
 msgstr "Slå av skjermsparer"
 
 msgid "Disable power management"
 msgstr "Slå av strømstyring"
+
+msgid "For more complex layouts, please refer to the command line options."
+msgstr ""
 
 msgid ""
 "If no physical keyboard is present, you can use our virtual keyboard;\n"
@@ -1751,9 +1707,6 @@ msgstr "Husk innbetaling mellom programoppstarter"
 
 msgid "Current credit:"
 msgstr "Innbetalt:"
-
-msgid "Start"
-msgstr "Start"
 
 msgid "Please enter your password to exit the kiosk mode."
 msgstr "Oppgi passord for å gå ut av festmodus."
@@ -1934,6 +1887,13 @@ msgstr "O:"
 msgid "C:"
 msgstr "C:"
 
+msgid "Stop prelistening"
+msgstr "Stopp forhåndslytting"
+
+#, c-format
+msgid "Prelisten \"%s\""
+msgstr "Forhåndslytting \"%s\""
+
 # %s will be replaced by the name of the track
 #, c-format
 msgid "Enqueue \"%s\""
@@ -2061,6 +2021,11 @@ msgid "Options"
 msgstr "Valg"
 
 #, fuzzy
+#| msgid "Supported file-types"
+msgid "Supported file types"
+msgstr "Støttede filtyper"
+
+#, fuzzy
 #| msgid "My music library"
 msgid "Music library"
 msgstr "Mitt musikkbibliotek"
@@ -2097,9 +2062,6 @@ msgstr "Max. gain:"
 msgid "Current volume:"
 msgstr "nåværende volum:"
 
-msgid "Calculated volumes:"
-msgstr "Kalkulert volum:"
-
 msgid "Fading"
 msgstr "Fading"
 
@@ -2112,23 +2074,17 @@ msgstr "Manuell kryssfading:"
 msgid "Automatic crossfades:"
 msgstr "Automatisk kryssfading:"
 
+msgid "Offset to end:"
+msgstr ""
+
 msgid "No crossfades between subsequent tracks of the same album"
 msgstr "Ingen kryssfadinger mellom spor fra samme album"
 
 msgid "Only fade out the old track, the new track starts with full volume"
 msgstr "Bare fade ut gammelt spor, det nye starter med fullt volum"
 
-msgid "Skip silence between tracks"
-msgstr "Fjern opphold mellom spor"
-
-msgid "Other fadings"
-msgstr "Andre fadinger"
-
 msgid "Resume"
 msgstr ""
-
-msgid "Automatic control"
-msgstr "Automatisk kontroll"
 
 msgid "Jingles"
 msgstr "Lydsnutter"
@@ -2605,12 +2561,6 @@ msgstr "(n karakterer)"
 msgid "Void information"
 msgstr "Tom informasjon"
 
-msgid "Skins"
-msgstr "Skins"
-
-msgid "Fonts and covers"
-msgstr "Fonter og omslag"
-
 # %s will be replaced by the program name, usually "Silverjuke"
 #, c-format
 msgid ""
@@ -2625,6 +2575,9 @@ msgstr ""
 
 msgid "Name"
 msgstr "Navn"
+
+msgid "Info..."
+msgstr "Informasjon..."
 
 msgid "Update list"
 msgstr "Oppdater liste"
@@ -2671,16 +2624,22 @@ msgstr "Karaoke tegn"
 msgid "No images found in \"%s\"."
 msgstr "Ingen bilder funnet i \"%s\"."
 
+msgid "Background"
+msgstr "Bakgrunn"
+
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
 msgid "Use %s-files"
 msgstr "Bruk %s-filer"
 
-msgid "Background"
-msgstr "Bakgrunn"
-
 msgid "Please select a directory with images"
 msgstr "Vennligst velg en katalog med bilder"
+
+msgid "If appropriate, switch over automatically"
+msgstr "Hvis mulig, koble over automatisk"
+
+msgid "Half size"
+msgstr "Halv størrelse"
 
 msgid "Spectrum Monitor"
 msgstr "Spektrum Monitor"
@@ -2700,17 +2659,12 @@ msgid "Show other figures"
 msgstr "Vis stjerneregn"
 
 #, fuzzy
+msgid "Visualization"
+msgstr "Start visulasjon"
+
+#, fuzzy
 msgid "Video output"
 msgstr "Lydutgang"
-
-msgid "If appropriate, switch over automatically"
-msgstr "Hvis mulig, koble over automatisk"
-
-msgid "Attached window"
-msgstr "Tilkoblet Vindu"
-
-msgid "Half size"
-msgstr "Halv størrelse"
 
 msgid "Search homepage"
 msgstr "Se etter i hjemmesiden"
@@ -2776,6 +2730,9 @@ msgstr "Skriv over \"%s\"?"
 
 msgid "Append"
 msgstr "Bruk"
+
+msgid "State"
+msgstr "Tillstand"
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
@@ -2962,6 +2919,71 @@ msgstr[1] "%i dager"
 msgid "Invalid regular expression \"%s\"."
 msgstr "Ugyldig regulær ekspresjon \"%s\"."
 
+msgid "Fatal error"
+msgstr "Alvorlig feil"
+
+msgid "Ctrl"
+msgstr "Ctrl"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Shift"
+msgstr "Shift"
+
+msgid "Enlarge window"
+msgstr "Forstørre Vindu"
+
+msgid "Shrink window"
+msgstr "forminsk Vindu"
+
+msgid "Enlarge display"
+msgstr "Forstørre display"
+
+msgid "Shrink display"
+msgstr "Forminsk display"
+
+#, fuzzy
+#| msgid "Devices"
+msgid "Services"
+msgstr "Utganger"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, c-format
+msgid "Hide %s"
+msgstr "Gjem %s"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, fuzzy
+#| msgid "Hide %s"
+msgid "Hide Others"
+msgstr "Gjem %s"
+
+#, fuzzy
+#| msgid "Show file"
+msgid "Show All"
+msgstr "Vis fil"
+
+#, fuzzy, c-format
+#| msgid "Exit %s"
+msgid "Quit %s"
+msgstr "Avslutt %s"
+
+msgid "Extras"
+msgstr ""
+
+msgid "Full screen"
+msgstr "Full skjerm"
+
+msgid "Modules on the web..."
+msgstr "Moduler på nettet.."
+
+msgid "Explore"
+msgstr "Utforsk"
+
+msgid "Reveal in Finder"
+msgstr "Vis i finner"
+
 # %s will be replaced by the file name
 #, c-format
 msgid "The file \"%s\" does not exist."
@@ -2971,6 +2993,55 @@ msgstr "Denne filen \"%s\" eksisterer ikke."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Kan ikke starte \"%s\"."
+
+msgid "Please use the operating system to set Silverjuke to an exclusive mode."
+msgstr ""
+
+#~ msgid "Scroll vertically"
+#~ msgstr "Rukk vertkalt"
+
+#~ msgid "Context sensitive"
+#~ msgstr "Kontekst følsom"
+
+#, fuzzy
+#~| msgid "Exit %s"
+#~ msgid "Exit"
+#~ msgstr "Avslutt %s"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#~ msgid "Disable %s"
+#~ msgstr "Koble ut %s"
+
+#~ msgid "Disable shutdown"
+#~ msgstr "koble ut avstenging"
+
+#~ msgid ""
+#~ "If you have more than one monitor connected to your computer,\n"
+#~ "you can assign the different Silverjuke windows to different monitors "
+#~ "here."
+#~ msgstr ""
+#~ "Hvis du har mer enn en skjerm tilkoblet din datamaskin, \n"
+#~ " kan du sette opp de forskjellige Silverjuke vinduene til forskjellige "
+#~ "skjermer her."
+
+#~ msgid "Monitor for"
+#~ msgstr "Monitor for"
+
+# %s will be replaced by a control for selecting the display resolution
+#~ msgid "Switch resolution to %s"
+#~ msgstr "Forandre oppløsning til %s"
+
+#~ msgid "Calculated volumes:"
+#~ msgstr "Kalkulert volum:"
+
+#~ msgid "Skip silence between tracks"
+#~ msgstr "Fjern opphold mellom spor"
+
+#~ msgid "Other fadings"
+#~ msgstr "Andre fadinger"
+
+#~ msgid "Attached window"
+#~ msgstr "Tilkoblet Vindu"
 
 #~ msgid "Show album name"
 #~ msgstr "Vis albumnavn"
@@ -3076,15 +3147,6 @@ msgstr "Kan ikke starte \"%s\"."
 # %s will be replaced by the program name, usually "Silverjuke"
 #~ msgid "Buy %s..."
 #~ msgstr "Kjøp %s..."
-
-#~ msgid "Prelisten"
-#~ msgstr "Forhåndslytting"
-
-#~ msgid "Stop prelistening"
-#~ msgstr "Stopp forhåndslytting"
-
-#~ msgid "Prelisten \"%s\""
-#~ msgstr "Forhåndslytting \"%s\""
 
 #~ msgid "Unlicenced version"
 #~ msgstr "Ulisensert versjon"
@@ -3368,12 +3430,6 @@ msgstr "Kan ikke starte \"%s\"."
 #~ msgid "Use separate FX settings"
 #~ msgstr "Bruk separate FX innstillinger"
 
-#~ msgid "Use system volume"
-#~ msgstr "Bruk system volum"
-
-#~ msgid "Only initalize system volume"
-#~ msgstr "Bruk bare systemvolumet"
-
 #~ msgid ""
 #~ "The \"system tray\" is an area normally placed at the edge of the "
 #~ "screen.\n"
@@ -3430,10 +3486,6 @@ msgstr "Kan ikke starte \"%s\"."
 #, fuzzy
 #~ msgid "Open %s"
 #~ msgstr "Åpne %s..."
-
-#, fuzzy
-#~ msgid "Visualization"
-#~ msgstr "Start visulasjon"
 
 #, fuzzy
 #~ msgid "Selection: %s"

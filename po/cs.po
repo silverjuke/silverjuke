@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-01-02 17:11+0100\n"
+"POT-Creation-Date: 2016-02-14 12:51+0100\n"
 "PO-Revision-Date: 2011-06-30 20:39+0100\n"
 "Last-Translator: David Minář <antro@pb.cz>\n"
 "Language-Team: Czech\n"
@@ -21,8 +21,13 @@ msgstr "Režim spánku deaktivován."
 msgid "Play time exceeded"
 msgstr ""
 
-msgid "Drag folders with music here."
-msgstr "Sem přetáhněte složky s hudbou."
+msgid "Default"
+msgstr "Výchozí"
+
+#, fuzzy
+#| msgid "Devices"
+msgid "Device"
+msgstr "Zařízení"
 
 msgid "Show covers"
 msgstr "Zobrazit obaly"
@@ -83,6 +88,9 @@ msgstr "Zobrazit obaly"
 #, c-format
 msgid "%s tracks"
 msgstr "%s skladeb"
+
+msgid "Drag folders with music here."
+msgstr "Sem přetáhněte složky s hudbou."
 
 msgid "Reset to default values"
 msgstr "Reset na výchozí hodnoty"
@@ -258,77 +266,6 @@ msgstr "Opakování všech/opakování aktuálních"
 msgid "Search in \"%s\""
 msgstr "Hledat v \"%s\""
 
-msgid "Fatal error"
-msgstr "Fatální chyba"
-
-msgid "Ctrl"
-msgstr "Ctrl"
-
-msgid "Alt"
-msgstr "Alt"
-
-msgid "Shift"
-msgstr "Shift"
-
-msgid "Enlarge window"
-msgstr "Zvětšit okno"
-
-msgid "Shrink window"
-msgstr "Zmenšit okno"
-
-msgid "Enlarge display"
-msgstr "Zvětšit zobrazení"
-
-msgid "Shrink display"
-msgstr "Zmenšit zobrazení"
-
-#, fuzzy
-#| msgid "Devices"
-msgid "Services"
-msgstr "Zařízení"
-
-# %s will be replaced by the program name, usually "Silverjuke"
-#, c-format
-msgid "Hide %s"
-msgstr "Skrýt %s"
-
-# %s will be replaced by the program name, usually "Silverjuke"
-#, fuzzy
-#| msgid "Hide %s"
-msgid "Hide Others"
-msgstr "Skrýt %s"
-
-#, fuzzy
-#| msgid "Show file"
-msgid "Show All"
-msgstr "Zobrazit soubor"
-
-#, fuzzy, c-format
-#| msgid "Exit %s"
-msgid "Quit %s"
-msgstr "Ukončit %s"
-
-msgid "Full screen"
-msgstr "Celá obrazovka"
-
-msgid "Show file"
-msgstr "Zobrazit soubor"
-
-msgid "Explore"
-msgstr "Prozkoumat"
-
-msgid "Reveal in Finder"
-msgstr "Najít ve vyhledávači"
-
-msgid "Info..."
-msgstr "Info..."
-
-msgid "State"
-msgstr "Stav"
-
-msgid "Modules on the web..."
-msgstr "Moduly na webu..."
-
 msgid "Help"
 msgstr "Pomoc"
 
@@ -337,8 +274,10 @@ msgstr "Pomoc"
 msgid "Add folders and files"
 msgstr "Načísti soubory a složky"
 
-msgid "Extras"
-msgstr ""
+#, fuzzy
+#| msgid "File extension"
+msgid "Extensions"
+msgstr "Přípona souboru"
 
 msgid "Show remaining time"
 msgstr "Zobrazit zbývající čas"
@@ -372,13 +311,14 @@ msgstr "Hlasitost"
 msgid "Same zoom in all views"
 msgstr "Stejné přiblížení ve všech pohledech"
 
+msgid "Fonts and covers"
+msgstr "Písma a obaly"
+
 msgid "Zoom"
 msgstr "Přiblížení"
 
-#, fuzzy
-#| msgid "Fit to screen"
-msgid "Video screen"
-msgstr "Přizpůsobit obrazovce"
+msgid "Skins"
+msgstr "Skiny"
 
 #, fuzzy
 #| msgid "Start kiosk mode"
@@ -411,14 +351,25 @@ msgstr "Zobrazit"
 msgid "Playback"
 msgstr "Přehrávání"
 
+#, fuzzy
+#| msgid "Fit to screen"
+msgid "Video screen"
+msgstr "Přizpůsobit obrazovce"
+
 msgid "Kiosk mode"
 msgstr "Kiosk režim"
 
 msgid "None"
 msgstr ""
 
+msgid "Further options"
+msgstr "Další možnosti"
+
 msgid "Queue"
 msgstr "Playlist"
+
+msgid "Automatic control"
+msgstr "Automatické řízení"
 
 msgid "Current view"
 msgstr "Aktuální zobrazení"
@@ -439,21 +390,45 @@ msgstr "Vyhledat podle výběru hudby"
 msgid "Edit tracks/Get info"
 msgstr "Úpravy skladeb/Více info"
 
+msgid "Show file"
+msgstr "Zobrazit soubor"
+
 msgid "Cover editor"
 msgstr "Editor obalů"
 
-#, fuzzy
-#| msgid "Supported file-types"
-msgid "Supported file types"
-msgstr "Podporované typy souborů"
-
-msgid "Default"
-msgstr "Výchozí"
+msgid "Mix"
+msgstr ""
 
 #, fuzzy
-#| msgid "Devices"
-msgid "Device"
-msgstr "Zařízení"
+#| msgid "Channels"
+msgid "Left channel"
+msgstr "Kanály"
+
+msgid "Right channel"
+msgstr ""
+
+msgid "Explicit output"
+msgstr ""
+
+msgid "Prelisten"
+msgstr "Odposlech"
+
+msgid "No"
+msgstr "Ne"
+
+msgid "Yes"
+msgstr "Ano"
+
+#, fuzzy
+#| msgid "Only initalize system volume"
+msgid "Only initialize system volume"
+msgstr "Pouze inicializace hlasitosti systému"
+
+msgid "Output"
+msgstr ""
+
+msgid "Use system volume"
+msgstr "Použít systémovou hlasitost"
 
 msgid "Several artists"
 msgstr "Několik interpretů"
@@ -694,6 +669,12 @@ msgstr "Přehrát další skladby"
 msgid "Play tracks now"
 msgstr "Přehrát skladby okamžitě"
 
+msgid "Volume up"
+msgstr "Zesílení"
+
+msgid "Volume down"
+msgstr "Zeslabení"
+
 msgid "Unqueue tracks"
 msgstr "Odstranění skladeb z playlistu"
 
@@ -723,17 +704,16 @@ msgstr "Posun vpřed"
 msgid "Fade to next"
 msgstr "Plynule přejít na další"
 
-msgid "Volume up"
-msgstr "Zesílení"
-
-msgid "Volume down"
-msgstr "Zeslabení"
-
 msgid "Mute"
 msgstr "Ztlumit"
 
 msgid "Reload skin"
 msgstr "Znovunačíst skin"
+
+#, fuzzy
+#| msgid "Fit to screen"
+msgid "Toggle video screen"
+msgstr "Přizpůsobit obrazovce"
 
 msgid "Smooth"
 msgstr "Hladký"
@@ -926,14 +906,19 @@ msgstr "Popisy"
 msgid "Mouse wheel"
 msgstr "Kolečko myši"
 
-msgid "Scroll vertically"
-msgstr "Rolovat vertikálně"
-
-msgid "Scroll horizontally"
+#, fuzzy
+#| msgid "Scroll horizontally"
+msgid "Scroll horizontally in album view"
 msgstr "Rolovat vodorovně"
 
-msgid "Context sensitive"
-msgstr "Kontextová citlivost"
+msgid "Modifier key toggles axis"
+msgstr ""
+
+msgid "Right mouse button toggles axis"
+msgstr ""
+
+msgid "Modify volume, scrollbars, letters etc."
+msgstr ""
 
 msgid "Use multimedia keyboard keys"
 msgstr "Použijte multimediální klávesy"
@@ -951,9 +936,6 @@ msgstr "Zeptat se před vymazáním playlistu"
 #| msgid "Ask before changing my rating"
 msgid "Ask before changing the rating"
 msgstr "Zeptat se na hodnocení před změnou"
-
-msgid "Further options"
-msgstr "Další možnosti"
 
 # This string should be set to the abbreviation used for "num" on the numpad area of the keyboard. %s is replaced by a digit or a character.
 #, c-format
@@ -1328,12 +1310,6 @@ msgstr "Uložit upravený hudební výběr"
 msgid "Ask"
 msgstr "Zeptat se"
 
-msgid "Yes"
-msgstr "Ano"
-
-msgid "No"
-msgstr "Ne"
-
 msgid "Max. history size"
 msgstr "Maximální historická velikost"
 
@@ -1540,10 +1516,8 @@ msgstr "Žádný kredit."
 msgid "Credit: %i"
 msgstr "Kredit: %i"
 
-#, fuzzy
-#| msgid "Exit %s"
-msgid "Exit"
-msgstr "Ukončit %s"
+msgid "Start"
+msgstr "Start"
 
 #, fuzzy
 #| msgid "Functionality"
@@ -1582,13 +1556,8 @@ msgstr "Ukončit stiskem klávesy %s"
 msgid "Exit by clicking into two different corners"
 msgstr "Ukončit kliknutím do obou horních rohů obrazovky"
 
-# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
-#, c-format
-msgid "Disable %s"
-msgstr "Zakázat %s"
-
-msgid "Disable shutdown"
-msgstr "Zakázat vypnutí"
+msgid "Try to set exclusive"
+msgstr ""
 
 msgid "Ask for a password on exit"
 msgstr "Při ukončení požádat o heslo"
@@ -1625,18 +1594,8 @@ msgstr "Omezit výběr hudby na %s"
 msgid "Please enter the password again for verification."
 msgstr "Zadejte prosím heslo pro ověření."
 
-msgid ""
-"If you have more than one monitor connected to your computer,\n"
-"you can assign the different Silverjuke windows to different monitors here."
-msgstr ""
-"Pokud máte připojeno více monitorů,\n"
-"můžete nastavit, kde co zobrazovat."
-
 msgid "Overview:"
 msgstr "Přehled:"
-
-msgid "Monitor for"
-msgstr "Monitor pro"
 
 msgid "Main window"
 msgstr "Hlavní okno"
@@ -1644,15 +1603,14 @@ msgstr "Hlavní okno"
 msgid "Monitor"
 msgstr "Monitor"
 
-#, c-format
-msgid "Switch resolution to %s"
-msgstr "Přepnout rozlišení na %s"
-
 msgid "Disable screensaver"
 msgstr "Zakázat spořič obrazovky"
 
 msgid "Disable power management"
 msgstr "Zakázat správu napájení"
+
+msgid "For more complex layouts, please refer to the command line options."
+msgstr ""
 
 msgid ""
 "If no physical keyboard is present, you can use our virtual keyboard;\n"
@@ -1737,9 +1695,6 @@ msgstr "Pamatuje si vložený kredit po spuštění programu"
 
 msgid "Current credit:"
 msgstr "Aktuální kredit:"
-
-msgid "Start"
-msgstr "Start"
 
 msgid "Please enter your password to exit the kiosk mode."
 msgstr "Zadejte své heslo pro ukončení kiosk režimu."
@@ -1921,6 +1876,13 @@ msgstr "O:"
 msgid "C:"
 msgstr "C:"
 
+msgid "Stop prelistening"
+msgstr "Konec odposlechu"
+
+#, c-format
+msgid "Prelisten \"%s\""
+msgstr "Odposlech \"%s\""
+
 # %s will be replaced by the name of the track
 #, c-format
 msgid "Enqueue \"%s\""
@@ -2055,6 +2017,11 @@ msgid "Options"
 msgstr "Možnosti"
 
 #, fuzzy
+#| msgid "Supported file-types"
+msgid "Supported file types"
+msgstr "Podporované typy souborů"
+
+#, fuzzy
 #| msgid "My music library"
 msgid "Music library"
 msgstr "Hudební knihovny"
@@ -2092,9 +2059,6 @@ msgstr "Max. zisk:"
 msgid "Current volume:"
 msgstr "Aktuální hlasitost:"
 
-msgid "Calculated volumes:"
-msgstr "Vypočítaná hlasitost:"
-
 msgid "Fading"
 msgstr "Prolínání"
 
@@ -2107,23 +2071,17 @@ msgstr "Manuální prolínání:"
 msgid "Automatic crossfades:"
 msgstr "Automatická prolínání:"
 
+msgid "Offset to end:"
+msgstr ""
+
 msgid "No crossfades between subsequent tracks of the same album"
 msgstr "Zakázat prolínání mezi skladbami ze stejného alba"
 
 msgid "Only fade out the old track, the new track starts with full volume"
 msgstr "Jakmile dohraje  stará skladba, nová skladba začíná s plným zesílením"
 
-msgid "Skip silence between tracks"
-msgstr "Přeskočit ticho mezi skladbami"
-
-msgid "Other fadings"
-msgstr "Ostatní volby prolínání"
-
 msgid "Resume"
 msgstr ""
-
-msgid "Automatic control"
-msgstr "Automatické řízení"
 
 msgid "Jingles"
 msgstr "Znělky"
@@ -2606,12 +2564,6 @@ msgstr "(n znaků)"
 msgid "Void information"
 msgstr "Void informace"
 
-msgid "Skins"
-msgstr "Skiny"
-
-msgid "Fonts and covers"
-msgstr "Písma a obaly"
-
 # %s will be replaced by the program name, usually "Silverjuke"
 #, c-format
 msgid ""
@@ -2624,6 +2576,9 @@ msgstr ""
 
 msgid "Name"
 msgstr "Jméno"
+
+msgid "Info..."
+msgstr "Info..."
 
 msgid "Update list"
 msgstr "Aktualizace seznamu"
@@ -2669,15 +2624,21 @@ msgstr "Karaoke řádek"
 msgid "No images found in \"%s\"."
 msgstr "Nebyly nalezeny žádné obrázky v \"%s\"."
 
+msgid "Background"
+msgstr "Pozadí"
+
 #, c-format
 msgid "Use %s-files"
 msgstr "Použít %s-soubory"
 
-msgid "Background"
-msgstr "Pozadí"
-
 msgid "Please select a directory with images"
 msgstr "Vyberte prosím adresář s obrázky"
+
+msgid "If appropriate, switch over automatically"
+msgstr "V případě potřeby přepínat automaticky"
+
+msgid "Half size"
+msgstr "Poloviční velikost"
 
 msgid "Spectrum Monitor"
 msgstr "Spektrum Monitor"
@@ -2696,17 +2657,11 @@ msgstr "Zobrazit hvězdné pole"
 msgid "Show other figures"
 msgstr "Zobrazit hvězdné pole"
 
+msgid "Visualization"
+msgstr "Vizualizace"
+
 msgid "Video output"
 msgstr "Video výstup"
-
-msgid "If appropriate, switch over automatically"
-msgstr "V případě potřeby přepínat automaticky"
-
-msgid "Attached window"
-msgstr "Přiložené okna"
-
-msgid "Half size"
-msgstr "Poloviční velikost"
 
 msgid "Search homepage"
 msgstr "Vyhledat domovskou stránku"
@@ -2773,6 +2728,9 @@ msgstr "Přepsat \"%s\"?"
 
 msgid "Append"
 msgstr "Připojit"
+
+msgid "State"
+msgstr "Stav"
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
@@ -2960,6 +2918,71 @@ msgstr[2] "%i dní"
 msgid "Invalid regular expression \"%s\"."
 msgstr "Neplatný regulární výraz \"%s\"."
 
+msgid "Fatal error"
+msgstr "Fatální chyba"
+
+msgid "Ctrl"
+msgstr "Ctrl"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Shift"
+msgstr "Shift"
+
+msgid "Enlarge window"
+msgstr "Zvětšit okno"
+
+msgid "Shrink window"
+msgstr "Zmenšit okno"
+
+msgid "Enlarge display"
+msgstr "Zvětšit zobrazení"
+
+msgid "Shrink display"
+msgstr "Zmenšit zobrazení"
+
+#, fuzzy
+#| msgid "Devices"
+msgid "Services"
+msgstr "Zařízení"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, c-format
+msgid "Hide %s"
+msgstr "Skrýt %s"
+
+# %s will be replaced by the program name, usually "Silverjuke"
+#, fuzzy
+#| msgid "Hide %s"
+msgid "Hide Others"
+msgstr "Skrýt %s"
+
+#, fuzzy
+#| msgid "Show file"
+msgid "Show All"
+msgstr "Zobrazit soubor"
+
+#, fuzzy, c-format
+#| msgid "Exit %s"
+msgid "Quit %s"
+msgstr "Ukončit %s"
+
+msgid "Extras"
+msgstr ""
+
+msgid "Full screen"
+msgstr "Celá obrazovka"
+
+msgid "Modules on the web..."
+msgstr "Moduly na webu..."
+
+msgid "Explore"
+msgstr "Prozkoumat"
+
+msgid "Reveal in Finder"
+msgstr "Najít ve vyhledávači"
+
 # %s will be replaced by the file name
 #, c-format
 msgid "The file \"%s\" does not exist."
@@ -2969,6 +2992,53 @@ msgstr "Soubor \"%s\" neexistuje."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Nelze spustit \"%s\"."
+
+msgid "Please use the operating system to set Silverjuke to an exclusive mode."
+msgstr ""
+
+#~ msgid "Scroll vertically"
+#~ msgstr "Rolovat vertikálně"
+
+#~ msgid "Context sensitive"
+#~ msgstr "Kontextová citlivost"
+
+#, fuzzy
+#~| msgid "Exit %s"
+#~ msgid "Exit"
+#~ msgstr "Ukončit %s"
+
+# %s will be replaced by a shortcut, eg. CTRL-ALT-DEL or ALT-TAB
+#~ msgid "Disable %s"
+#~ msgstr "Zakázat %s"
+
+#~ msgid "Disable shutdown"
+#~ msgstr "Zakázat vypnutí"
+
+#~ msgid ""
+#~ "If you have more than one monitor connected to your computer,\n"
+#~ "you can assign the different Silverjuke windows to different monitors "
+#~ "here."
+#~ msgstr ""
+#~ "Pokud máte připojeno více monitorů,\n"
+#~ "můžete nastavit, kde co zobrazovat."
+
+#~ msgid "Monitor for"
+#~ msgstr "Monitor pro"
+
+#~ msgid "Switch resolution to %s"
+#~ msgstr "Přepnout rozlišení na %s"
+
+#~ msgid "Calculated volumes:"
+#~ msgstr "Vypočítaná hlasitost:"
+
+#~ msgid "Skip silence between tracks"
+#~ msgstr "Přeskočit ticho mezi skladbami"
+
+#~ msgid "Other fadings"
+#~ msgstr "Ostatní volby prolínání"
+
+#~ msgid "Attached window"
+#~ msgstr "Přiložené okna"
 
 #~ msgid "Show album name"
 #~ msgstr "Zobrazit název alba"
@@ -3074,15 +3144,6 @@ msgstr "Nelze spustit \"%s\"."
 # %s will be replaced by the program name, usually "Silverjuke"
 #~ msgid "Buy %s..."
 #~ msgstr "Koupit %s..."
-
-#~ msgid "Prelisten"
-#~ msgstr "Odposlech"
-
-#~ msgid "Stop prelistening"
-#~ msgstr "Konec odposlechu"
-
-#~ msgid "Prelisten \"%s\""
-#~ msgstr "Odposlech \"%s\""
 
 #~ msgid "Unlicenced version"
 #~ msgstr "Neregistrovaná verze"
@@ -3377,12 +3438,6 @@ msgstr "Nelze spustit \"%s\"."
 #~ msgid "Use separate FX settings"
 #~ msgstr "Používat oddělené nastavení efektů"
 
-#~ msgid "Use system volume"
-#~ msgstr "Použít systémovou hlasitost"
-
-#~ msgid "Only initalize system volume"
-#~ msgstr "Pouze inicializace hlasitosti systému"
-
 #~ msgid ""
 #~ "The \"system tray\" is an area normally placed at the edge of the "
 #~ "screen.\n"
@@ -3437,9 +3492,6 @@ msgstr "Nelze spustit \"%s\"."
 
 #~ msgid "Open %s"
 #~ msgstr "Otevřít %s"
-
-#~ msgid "Visualization"
-#~ msgstr "Vizualizace"
 
 #~ msgid "Selection: %s"
 #~ msgstr "Výběr: %s"

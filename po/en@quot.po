@@ -27,10 +27,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: silverjuke 15.11\n"
+"Project-Id-Version: silverjuke 16.2.3\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-01-02 17:11+0100\n"
-"PO-Revision-Date: 2016-01-02 17:11+0100\n"
+"POT-Creation-Date: 2016-02-14 12:51+0100\n"
+"PO-Revision-Date: 2016-02-14 12:51+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
@@ -48,8 +48,11 @@ msgstr "Sleep mode deactivated."
 msgid "Play time exceeded"
 msgstr "Play time exceeded"
 
-msgid "Drag folders with music here."
-msgstr "Drag folders with music here."
+msgid "Default"
+msgstr "Default"
+
+msgid "Device"
+msgstr "Device"
 
 msgid "Show covers"
 msgstr "Show covers"
@@ -105,6 +108,9 @@ msgstr "Show cover titles"
 #, c-format
 msgid "%s tracks"
 msgstr "%s tracks"
+
+msgid "Drag folders with music here."
+msgstr "Drag folders with music here."
 
 msgid "Reset to default values"
 msgstr "Reset to default values"
@@ -274,76 +280,14 @@ msgstr "Repeat all/repeat current"
 msgid "Search in \"%s\""
 msgstr "Search in “%s”"
 
-msgid "Fatal error"
-msgstr "Fatal error"
-
-msgid "Ctrl"
-msgstr "Ctrl"
-
-msgid "Alt"
-msgstr "Alt"
-
-msgid "Shift"
-msgstr "Shift"
-
-msgid "Enlarge window"
-msgstr "Enlarge window"
-
-msgid "Shrink window"
-msgstr "Shrink window"
-
-msgid "Enlarge display"
-msgstr "Enlarge display"
-
-msgid "Shrink display"
-msgstr "Shrink display"
-
-msgid "Services"
-msgstr "Services"
-
-#, c-format
-msgid "Hide %s"
-msgstr "Hide %s"
-
-msgid "Hide Others"
-msgstr "Hide Others"
-
-msgid "Show All"
-msgstr "Show All"
-
-#, c-format
-msgid "Quit %s"
-msgstr "Quit %s"
-
-msgid "Full screen"
-msgstr "Full screen"
-
-msgid "Show file"
-msgstr "Show file"
-
-msgid "Explore"
-msgstr "Explore"
-
-msgid "Reveal in Finder"
-msgstr "Reveal in Finder"
-
-msgid "Info..."
-msgstr "Info..."
-
-msgid "State"
-msgstr "State"
-
-msgid "Modules on the web..."
-msgstr "Modules on the web..."
-
 msgid "Help"
 msgstr "Help"
 
 msgid "Add folders and files"
 msgstr "Add folders and files"
 
-msgid "Extras"
-msgstr "Extras"
+msgid "Extensions"
+msgstr "Extensions"
 
 msgid "Show remaining time"
 msgstr "Show remaining time"
@@ -375,11 +319,14 @@ msgstr "Columns"
 msgid "Same zoom in all views"
 msgstr "Same zoom in all views"
 
+msgid "Fonts and covers"
+msgstr "Fonts and covers"
+
 msgid "Zoom"
 msgstr "Zoom"
 
-msgid "Video screen"
-msgstr "Video screen"
+msgid "Skins"
+msgstr "Skins"
 
 msgid "Start kiosk mode..."
 msgstr "Start kiosk mode..."
@@ -407,14 +354,23 @@ msgstr "View"
 msgid "Playback"
 msgstr "Playback"
 
+msgid "Video screen"
+msgstr "Video screen"
+
 msgid "Kiosk mode"
 msgstr "Kiosk mode"
 
 msgid "None"
 msgstr "None"
 
+msgid "Further options"
+msgstr "Further options"
+
 msgid "Queue"
 msgstr "Queue"
+
+msgid "Automatic control"
+msgstr "Automatic control"
 
 msgid "Current view"
 msgstr "Current view"
@@ -435,17 +391,41 @@ msgstr "Search for music selection"
 msgid "Edit tracks/Get info"
 msgstr "Edit tracks/Get info"
 
+msgid "Show file"
+msgstr "Show file"
+
 msgid "Cover editor"
 msgstr "Cover editor"
 
-msgid "Supported file types"
-msgstr "Supported file types"
+msgid "Mix"
+msgstr "Mix"
 
-msgid "Default"
-msgstr "Default"
+msgid "Left channel"
+msgstr "Left channel"
 
-msgid "Device"
-msgstr "Device"
+msgid "Right channel"
+msgstr "Right channel"
+
+msgid "Explicit output"
+msgstr "Explicit output"
+
+msgid "Prelisten"
+msgstr "Prelisten"
+
+msgid "No"
+msgstr "No"
+
+msgid "Yes"
+msgstr "Yes"
+
+msgid "Only initialize system volume"
+msgstr "Only initialize system volume"
+
+msgid "Output"
+msgstr "Output"
+
+msgid "Use system volume"
+msgstr "Use system volume"
 
 msgid "Several artists"
 msgstr "Several artists"
@@ -676,6 +656,12 @@ msgstr "Play tracks next"
 msgid "Play tracks now"
 msgstr "Play tracks now"
 
+msgid "Volume up"
+msgstr "Volume up"
+
+msgid "Volume down"
+msgstr "Volume down"
+
 msgid "Unqueue tracks"
 msgstr "Unqueue tracks"
 
@@ -703,17 +689,14 @@ msgstr "Seek forward"
 msgid "Fade to next"
 msgstr "Fade to next"
 
-msgid "Volume up"
-msgstr "Volume up"
-
-msgid "Volume down"
-msgstr "Volume down"
-
 msgid "Mute"
 msgstr "Mute"
 
 msgid "Reload skin"
 msgstr "Reload skin"
+
+msgid "Toggle video screen"
+msgstr "Toggle video screen"
 
 msgid "Smooth"
 msgstr "Smooth"
@@ -883,14 +866,17 @@ msgstr "Tooltips"
 msgid "Mouse wheel"
 msgstr "Mouse wheel"
 
-msgid "Scroll vertically"
-msgstr "Scroll vertically"
+msgid "Scroll horizontally in album view"
+msgstr "Scroll horizontally in album view"
 
-msgid "Scroll horizontally"
-msgstr "Scroll horizontally"
+msgid "Modifier key toggles axis"
+msgstr "Modifier key toggles axis"
 
-msgid "Context sensitive"
-msgstr "Context sensitive"
+msgid "Right mouse button toggles axis"
+msgstr "Right mouse button toggles axis"
+
+msgid "Modify volume, scrollbars, letters etc."
+msgstr "Modify volume, scrollbars, letters etc."
 
 msgid "Use multimedia keyboard keys"
 msgstr "Use multimedia keyboard keys"
@@ -906,9 +892,6 @@ msgstr "Ask before clearing the playlist"
 
 msgid "Ask before changing the rating"
 msgstr "Ask before changing the rating"
-
-msgid "Further options"
-msgstr "Further options"
 
 #, c-format
 msgid "Num%s"
@@ -1257,12 +1240,6 @@ msgstr "Save modified music selections"
 msgid "Ask"
 msgstr "Ask"
 
-msgid "Yes"
-msgstr "Yes"
-
-msgid "No"
-msgstr "No"
-
 msgid "Max. history size"
 msgstr "Max. history size"
 
@@ -1453,8 +1430,8 @@ msgstr "No credit."
 msgid "Credit: %i"
 msgstr "Credit: %i"
 
-msgid "Exit"
-msgstr "Exit"
+msgid "Start"
+msgstr "Start"
 
 msgid "Functions"
 msgstr "Functions"
@@ -1493,12 +1470,8 @@ msgstr "Exit by hitting %s"
 msgid "Exit by clicking into two different corners"
 msgstr "Exit by clicking into two different corners"
 
-#, c-format
-msgid "Disable %s"
-msgstr "Disable %s"
-
-msgid "Disable shutdown"
-msgstr "Disable shutdown"
+msgid "Try to set exclusive"
+msgstr "Try to set exclusive"
 
 msgid "Ask for a password on exit"
 msgstr "Ask for a password on exit"
@@ -1534,18 +1507,8 @@ msgstr "Limit tracks to the music selection %s"
 msgid "Please enter the password again for verification."
 msgstr "Please enter the password again for verification."
 
-msgid ""
-"If you have more than one monitor connected to your computer,\n"
-"you can assign the different Silverjuke windows to different monitors here."
-msgstr ""
-"If you have more than one monitor connected to your computer,\n"
-"you can assign the different Silverjuke windows to different monitors here."
-
 msgid "Overview:"
 msgstr "Overview:"
-
-msgid "Monitor for"
-msgstr "Monitor for"
 
 msgid "Main window"
 msgstr "Main window"
@@ -1553,15 +1516,14 @@ msgstr "Main window"
 msgid "Monitor"
 msgstr "Monitor"
 
-#, c-format
-msgid "Switch resolution to %s"
-msgstr "Switch resolution to %s"
-
 msgid "Disable screensaver"
 msgstr "Disable screensaver"
 
 msgid "Disable power management"
 msgstr "Disable power management"
+
+msgid "For more complex layouts, please refer to the command line options."
+msgstr "For more complex layouts, please refer to the command line options."
 
 msgid ""
 "If no physical keyboard is present, you can use our virtual keyboard;\n"
@@ -1647,9 +1609,6 @@ msgstr "Remember credits between program starts"
 
 msgid "Current credit:"
 msgstr "Current credit:"
-
-msgid "Start"
-msgstr "Start"
 
 msgid "Please enter your password to exit the kiosk mode."
 msgstr "Please enter your password to exit the kiosk mode."
@@ -1824,6 +1783,13 @@ msgstr "O:"
 msgid "C:"
 msgstr "C:"
 
+msgid "Stop prelistening"
+msgstr "Stop prelistening"
+
+#, c-format
+msgid "Prelisten \"%s\""
+msgstr "Prelisten “%s”"
+
 #, c-format
 msgid "Enqueue \"%s\""
 msgstr "Enqueue “%s”"
@@ -1931,6 +1897,9 @@ msgstr "Remove source"
 msgid "Options"
 msgstr "Options"
 
+msgid "Supported file types"
+msgstr "Supported file types"
+
 msgid "Music library"
 msgstr "Music library"
 
@@ -1965,9 +1934,6 @@ msgstr "Max. gain:"
 msgid "Current volume:"
 msgstr "Current volume:"
 
-msgid "Calculated volumes:"
-msgstr "Calculated volumes:"
-
 msgid "Fading"
 msgstr "Fading"
 
@@ -1980,23 +1946,17 @@ msgstr "Manual crossfades:"
 msgid "Automatic crossfades:"
 msgstr "Automatic crossfades:"
 
+msgid "Offset to end:"
+msgstr "Offset to end:"
+
 msgid "No crossfades between subsequent tracks of the same album"
 msgstr "No crossfades between subsequent tracks of the same album"
 
 msgid "Only fade out the old track, the new track starts with full volume"
 msgstr "Only fade out the old track, the new track starts with full volume"
 
-msgid "Skip silence between tracks"
-msgstr "Skip silence between tracks"
-
-msgid "Other fadings"
-msgstr "Other fadings"
-
 msgid "Resume"
 msgstr "Resume"
-
-msgid "Automatic control"
-msgstr "Automatic control"
 
 msgid "Jingles"
 msgstr "Jingles"
@@ -2423,12 +2383,6 @@ msgstr "Disk number (2 characters)"
 msgid "Void information"
 msgstr "Void information"
 
-msgid "Skins"
-msgstr "Skins"
-
-msgid "Fonts and covers"
-msgstr "Fonts and covers"
-
 #, c-format
 msgid ""
 "With different skins you can change the \"look and feel\" of %s. Just\n"
@@ -2441,6 +2395,9 @@ msgstr ""
 
 msgid "Name"
 msgstr "Name"
+
+msgid "Info..."
+msgstr "Info..."
 
 msgid "Update list"
 msgstr "Update list"
@@ -2486,15 +2443,21 @@ msgstr "Karaoke Prompt"
 msgid "No images found in \"%s\"."
 msgstr "No images found in “%s”."
 
+msgid "Background"
+msgstr "Background"
+
 #, c-format
 msgid "Use %s-files"
 msgstr "Use %s-files"
 
-msgid "Background"
-msgstr "Background"
-
 msgid "Please select a directory with images"
 msgstr "Please select a directory with images"
+
+msgid "If appropriate, switch over automatically"
+msgstr "If appropriate, switch over automatically"
+
+msgid "Half size"
+msgstr "Half size"
 
 msgid "Spectrum Monitor"
 msgstr "Spectrum Monitor"
@@ -2511,17 +2474,11 @@ msgstr "Show starfield"
 msgid "Show other figures"
 msgstr "Show other figures"
 
+msgid "Visualization"
+msgstr "Visualization"
+
 msgid "Video output"
 msgstr "Video output"
-
-msgid "If appropriate, switch over automatically"
-msgstr "If appropriate, switch over automatically"
-
-msgid "Attached window"
-msgstr "Attached window"
-
-msgid "Half size"
-msgstr "Half size"
 
 msgid "Search homepage"
 msgstr "Search homepage"
@@ -2581,6 +2538,9 @@ msgstr "Overwrite “%s”?"
 
 msgid "Append"
 msgstr "Append"
+
+msgid "State"
+msgstr "State"
 
 #, c-format
 msgid "%s-files"
@@ -2707,6 +2667,62 @@ msgstr[1] "%i days"
 msgid "Invalid regular expression \"%s\"."
 msgstr "Invalid regular expression “%s”."
 
+msgid "Fatal error"
+msgstr "Fatal error"
+
+msgid "Ctrl"
+msgstr "Ctrl"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Shift"
+msgstr "Shift"
+
+msgid "Enlarge window"
+msgstr "Enlarge window"
+
+msgid "Shrink window"
+msgstr "Shrink window"
+
+msgid "Enlarge display"
+msgstr "Enlarge display"
+
+msgid "Shrink display"
+msgstr "Shrink display"
+
+msgid "Services"
+msgstr "Services"
+
+#, c-format
+msgid "Hide %s"
+msgstr "Hide %s"
+
+msgid "Hide Others"
+msgstr "Hide Others"
+
+msgid "Show All"
+msgstr "Show All"
+
+#, c-format
+msgid "Quit %s"
+msgstr "Quit %s"
+
+msgid "Extras"
+msgstr "Extras"
+
+msgid "Full screen"
+msgstr "Full screen"
+
+msgid "Modules on the web..."
+msgstr "Modules on the web..."
+
+msgid "Explore"
+msgstr "Explore"
+
+msgid "Reveal in Finder"
+msgstr "Reveal in Finder"
+
 #, c-format
 msgid "The file \"%s\" does not exist."
 msgstr "The file “%s” does not exist."
@@ -2714,3 +2730,7 @@ msgstr "The file “%s” does not exist."
 #, c-format
 msgid "Cannot execute \"%s\"."
 msgstr "Cannot execute “%s”."
+
+msgid "Please use the operating system to set Silverjuke to an exclusive mode."
+msgstr ""
+"Please use the operating system to set Silverjuke to an exclusive mode."
