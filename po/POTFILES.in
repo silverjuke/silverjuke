@@ -1,16 +1,18 @@
 # List of source files which contain translatable strings.
 src/sjbase/autoctrl.cpp
-src/sjbase/browser.cpp
+src/sjbase/backend.cpp
+src/sjbase/backend_gstreamer.cpp
+src/sjbase/backend_xine.cpp
 src/sjbase/browser_album.cpp
 src/sjbase/browser_cover.cpp
+src/sjbase/browser.cpp
 src/sjbase/browser_list.cpp
 src/sjbase/columnmixer.cpp
 src/sjbase/display.cpp
 src/sjbase/mainapp.cpp
 src/sjbase/mainframe.cpp
 src/sjbase/mainframe_menu.cpp
-src/sjbase/player_base.cpp
-src/sjbase/player_impl_xine.cpp
+src/sjbase/player.cpp
 src/sjbase/playlist.cpp
 src/sjbase/queue.cpp
 src/sjbase/search.cpp
@@ -57,6 +59,7 @@ src/sjmodules/viewsettings.cpp
 src/sjmodules/vis/vis_bg.cpp
 src/sjmodules/vis/vis_cdg_raw.cpp
 src/sjmodules/vis/vis_cdg_reader.cpp
+src/sjmodules/vis/vis_frame.cpp
 src/sjmodules/vis/vis_karaoke_module.cpp
 src/sjmodules/vis/vis_module.cpp
 src/sjmodules/vis/vis_oscilloscope.cpp
@@ -82,6 +85,7 @@ src/sjtools/levensthein.c
 src/sjtools/littleoption.cpp
 src/sjtools/msgbox.cpp
 src/sjtools/normalise.cpp
+src/sjtools/ringbuffer.cpp
 src/sjtools/sqlt.cpp
 src/sjtools/temp_n_cache.cpp
 src/sjtools/testdrive.cpp
@@ -90,6 +94,8 @@ src/sjtools/tools.cpp
 src/sjtools/tools_gtk.cpp
 src/sjtools/tooltips.cpp
 src/sjtools/volumecalc.cpp
+src/sjtools/volumefade.cpp
+src/sjtools/wavework.cpp
 src/tagger/tg_ape_tag.cpp
 src/tagger/tg_a_tagger_frontend.cpp
 src/tagger/tg_bytefile.cpp
