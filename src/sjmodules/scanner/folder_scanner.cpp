@@ -109,7 +109,7 @@ END_EVENT_TABLE()
 
 
 SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScannerModule, SjFolderScannerSource* source, wxWindow* parent)
-	: SjDialog(parent, wxT(""), SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE)
+	: SjDialog(parent, "", SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE)
 {
 	// init dialog
 	m_initDone = FALSE;
@@ -204,7 +204,7 @@ SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScan
 		AddStateBox(sizer1);
 
 		long trackCount = folderScannerModule->GetTrackCount__(source);
-		AddState(_("Track count")+wxString(wxT(":")), trackCount>-1? SjTools::FormatNumber(trackCount) : wxString(_("n/a")));
+		AddState(_("Track count")+wxString(":"), trackCount>-1? SjTools::FormatNumber(trackCount) : wxString(_("n/a")));
 	}
 
 	// buttons
@@ -373,7 +373,7 @@ bool SjFolderScannerModule::ConfigSource(long index, wxWindow* parent)
 	if( needsDeepUpdate )
 	{
 		wxSqlt sql;
-		sql.ConfigWrite(wxT("folderscanner/deepupdate/")+currSourceObj->UrlPlusFile(), 1);
+		sql.ConfigWrite("folderscanner/deepupdate/"+currSourceObj->UrlPlusFile(), 1);
 	}
 
 	// done so far
@@ -391,7 +391,7 @@ bool SjFolderScannerModule::ConfigSource(long index, wxWindow* parent)
 SjFolderScannerModule::SjFolderScannerModule(SjInterfaceBase* interf)
 	: SjScannerModule(interf)
 {
-	m_file                  = wxT("memory:folderscanner.lib");
+	m_file                  = "memory:folderscanner.lib";
 	m_sort                  = 0; // start of list
 	m_name                  = _("Read files and folders");
 
@@ -443,7 +443,7 @@ void SjFolderScannerModule::SaveSettings__()
 	wxSqlt sql;
 
 	int sourceCount = m_listOfSources.GetCount();
-	sql.ConfigWrite(wxT("folderscanner/sourceCount"), (long)sourceCount);
+	sql.ConfigWrite("folderscanner/sourceCount", (long)sourceCount);
 
 	SjFolderScannerSourceList::Node* currSourceNode = m_listOfSources.GetFirst();
 	SjFolderScannerSource*           currSourceObj;
@@ -511,7 +511,7 @@ SjFolderScannerSource* SjFolderScannerModule::GetSourceObj__(long index)
 	SjFolderScannerSourceList::Node* currSourceNode = m_listOfSources.Item(index);
 	if( currSourceNode == NULL )
 	{
-		wxLogError(wxT("Cannot get folder source object at index %i.")/*n/t*/, (int)index);
+		wxLogError("Cannot get folder source object at index %i."/*n/t*/, (int)index);
 		return NULL;
 	}
 
@@ -526,7 +526,7 @@ wxString SjFolderScannerModule::GetSourceUrl(long index)
 {
 	SjFolderScannerSource* currSourceObj = GetSourceObj__(index);
 
-	return currSourceObj? currSourceObj->UrlPlusFile() : wxString(wxT(""));
+	return currSourceObj? currSourceObj->UrlPlusFile() : wxString("");
 }
 
 
@@ -564,7 +564,7 @@ wxString SjFolderScannerModule::GetSourceNotes(long index)
 			return _("No update");
 		}
 	}
-	return wxT("");
+	return "";
 }
 
 
@@ -600,7 +600,7 @@ long SjFolderScannerModule::AddSources(int sourceType, wxWindow* parent)
 		// show "select dir" dialog
 		wxDirDialog dirDialog(parent,
 		                      _("Select a folder with music-files"),
-		                      defSource? defSource->m_url : wxString(wxT("")),
+		                      defSource? defSource->m_url : wxString(""),
 		                      wxDD_DEFAULT_STYLE & ~(wxDD_NEW_DIR_BUTTON ));
 		if( dirDialog.ShowModal() != wxID_OK )
 		{
@@ -615,8 +615,8 @@ long SjFolderScannerModule::AddSources(int sourceType, wxWindow* parent)
 		// show "select file" dialog
 		wxFileDialog fileDialog(parent,
 		                        _("Select music-file"),
-		                        defSource? defSource->m_url : wxString(wxT("")),
-		                        wxT(""), g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_MUSICFILES|SJ_EXT_ARCHIVES).GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
+		                        defSource? defSource->m_url : wxString(""),
+		                        "", g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_MUSICFILES|SJ_EXT_ARCHIVES).GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
 		if( fileDialog.ShowModal() != wxID_OK )
 		{
 			return -1; // nothing added
@@ -679,7 +679,7 @@ long SjFolderScannerModule::DoAddUrl(const wxString& newUrl__, const wxString& n
 bool SjFolderScannerModule::AddUrl(const wxString& url)
 {
 	bool sthAdded;
-	DoAddUrl(url, wxT(""), sthAdded);
+	DoAddUrl(url, "", sthAdded);
 	return sthAdded;
 }
 
@@ -875,7 +875,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 			if( dirEntryFn.IsOk() && wxDir::Exists(dirEntryStr) )
 			{
 				// ... collect FILES using wxDir (allows us to read HIDDEN files)
-				wxDir::GetAllFiles(dirEntryStr, &fileEntries, wxT("*"),
+				wxDir::GetAllFiles(dirEntryStr, &fileEntries, "*",
 								   wxDIR_FILES
 								   |   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENFILES)? wxDIR_HIDDEN : 0));
 				FileNamesToURLs(fileEntries);
@@ -886,7 +886,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 		if( scanUsingFS )
 		{
 			// ... collect FILES using wxFileSystem
-			dirEntryStr = fileSystem.FindFirst(wxT("*"), wxFILE);
+			dirEntryStr = fileSystem.FindFirst("*", wxFILE);
 			while( !dirEntryStr.IsEmpty() )
 			{
 				fileEntries.Add(dirEntryStr);
@@ -907,7 +907,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 			{
 				wxDir theDir(dirEntryStr);
 				wxString theEntry;
-				bool cont = theDir.GetFirst(&theEntry, wxT("*"),  wxDIR_DIRS
+				bool cont = theDir.GetFirst(&theEntry, "*",  wxDIR_DIRS
 						|   ((source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS)? wxDIR_HIDDEN : 0));
 				while ( cont )
 				{
@@ -923,11 +923,11 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 		if( scanUsingFS )
 		{
 			// ... collect all DIRECTORIES using wxFileSystem
-			dirEntryStr = fileSystem.FindFirst(wxT("*"), wxDIR);
+			dirEntryStr = fileSystem.FindFirst("*", wxDIR);
 			while( !dirEntryStr.IsEmpty() )
 			{
-				dirEntryStr.Replace(wxT("tar:/"), wxT("tar:")); // THIS IS A HACK!!!
-				dirEntryStr.Replace(wxT("zip:/"), wxT("zip:")); // THIS IS A HACK!!!
+				dirEntryStr.Replace("tar:/", "tar:"); // THIS IS A HACK!!!
+				dirEntryStr.Replace("zip:/", "zip:"); // THIS IS A HACK!!!
 				// the files system returns directories as
 				// "c:/bla/bla.zip#zip:/dir" which must be called
 				// "c:/bla/bla.zip#zip:dir"
@@ -964,7 +964,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 			if( fsFile )
 			{
 				// add art
-				if( !arts.IsEmpty() ) arts += wxT("\n");
+				if( !arts.IsEmpty() ) arts += "\n";
 				arts += currUrl;
 
 				// set crc
@@ -1005,7 +1005,7 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 	{
 		currUrl = subdirEntries.Item(entryIndex);
 
-		if( !IterateDir__(currUrl, wxT(""), deepUpdate, source, receiver, retTrackCount) )
+		if( !IterateDir__(currUrl, "", deepUpdate, source, receiver, retTrackCount) )
 		{
 			return FALSE; // user abort
 		}
@@ -1022,7 +1022,7 @@ long SjFolderScannerModule::GetTrackCount__(SjFolderScannerSource* source)
 
 	// returns -1 for "don't know"
 	wxSqlt sql;
-	return sql.ConfigRead(wxT("folderscanner/trackCount/")+source->UrlPlusFile(), -1);
+	return sql.ConfigRead("folderscanner/trackCount/"+source->UrlPlusFile(), -1);
 }
 
 
@@ -1089,7 +1089,7 @@ bool SjFolderScannerModule::IterateTrackInfo(SjColModule* receiver)
 				if( GetTrackCount__(currSource) != trackCount )
 				{
 					wxSqlt sql;
-					sql.ConfigWrite(wxT("folderscanner/trackCount/")+currSource->UrlPlusFile(), trackCount);
+					sql.ConfigWrite("folderscanner/trackCount/"+currSource->UrlPlusFile(), trackCount);
 				}
 			}
 		}

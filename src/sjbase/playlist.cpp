@@ -101,9 +101,9 @@ void SjPlaylistEntry::LoadAddInfo(long what)
 			if( m_urlOk )
 			{
 				wxString testUrl = GetUrl();
-				if( !testUrl.StartsWith(wxT("http:")) // this may be a steam - in this case (or in others) we get into an endless loop
-				 && !testUrl.StartsWith(wxT("https:"))
-				 && !testUrl.StartsWith(wxT("ftp:")) )
+				if( !testUrl.StartsWith("http:") // this may be a steam - in this case (or in others) we get into an endless loop
+				 && !testUrl.StartsWith("https:")
+				 && !testUrl.StartsWith("ftp:") )
 				{
 					SjTrackInfo trackInfo;
 					wxFileSystem fs;
@@ -148,7 +148,7 @@ wxString SjPlaylistEntry::GetLocalFile(const wxString& containerFile__)
 	{
 		wxString containerFile(containerFile__);
 		#ifdef __WXMSW__
-			containerFile.Replace(wxT("/"), wxT("\\"));
+			containerFile.Replace("/", "\\");
 		#endif
 		wxFileName containerFn(containerFile);
 
@@ -165,18 +165,18 @@ void SjPlaylistEntry::SetRealtimeInfo(const wxString& info__)
 	// use "--" as the artist/title separator, leave out the artist, show all in uppercase
 	// and so on ...
 	wxString info(info__);
-	info.Replace(wxT("--"), wxT("-"));
+	info.Replace("--", "-");
 	if( info.Upper() == info || info.Lower() == info )
 	{
 		info = SjTools::Capitalize(info);
 	}
 
-	while( info.Len() > 0 && (info[0] == wxT('-') || info[0] == wxT(' ')) )
+	while( info.Len() > 0 && (info[0] == '-' || info[0] == ' ') )
 	{
 		info = info.Mid(1);
 	}
 
-	while( info.Len() > 0 && (info.Last() == wxT('-') || info.Last() == wxT(' ')) )
+	while( info.Len() > 0 && (info.Last() == '-' || info.Last() == ' ') )
 	{
 		info = info.Left(info.Len()-1);
 	}
@@ -184,7 +184,7 @@ void SjPlaylistEntry::SetRealtimeInfo(const wxString& info__)
 	// set the normalized info string as
 	CheckAddInfo(SJ_ADDINFO_MISC);
 
-	int p = info.Find(wxT(" - "));
+	int p = info.Find(" - ");
 	if( p != -1 )
 	{
 		wxString i1 = info.Left(p).Trim();
@@ -236,12 +236,12 @@ void SjPlaylistEntry::VerifyUrl()
 	wxString url(m_url.BeforeFirst('\t'));
 
 	// get the long and absolute version of the URL
-	if( url.StartsWith(wxT("file:")) )
+	if( url.StartsWith("file:") )
 	{
 		wxFileName urlFn = wxFileSystem::URLToFileName(url);
 		url = urlFn.GetLongPath();
 	}
-	else if( !url.StartsWith(wxT("stub:")) )
+	else if( !url.StartsWith("stub:") )
 	{
 		wxFileName urlFn(url, wxPATH_NATIVE);
 		if( !urlFn.IsAbsolute() )
@@ -255,7 +255,7 @@ void SjPlaylistEntry::VerifyUrl()
 
 				// make urlFn absolute using MakeAbsolute(GetPath()) (GetPath() does not return the name, so this should work just fine)
 				#ifdef __WXMSW__
-					containerPath.Replace(wxT("/"), wxT("\\")); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
+					containerPath.Replace("/", "\\"); // needed as wxPATH_NATIVE obviously expects native paths ... see http://www.silverjuke.net/forum/post.php?p=14207#14207
 				#endif
 				wxFileName tempFn(containerPath, wxPATH_NATIVE);
 				urlFn.MakeAbsolute(tempFn.GetPath(wxPATH_GET_VOLUME));
@@ -279,10 +279,10 @@ void SjPlaylistEntry::VerifyUrl()
 	{
 			wxFSFile* fsFile = NULL;
 
-			if( !url.StartsWith(wxT(".."))
-			 && !url.StartsWith(wxT("./"))
-			 && !url.StartsWith(wxT(".\\"))
-			 && !url.StartsWith(wxT("stub:")) )
+			if( !url.StartsWith("..")
+			 && !url.StartsWith("./")
+			 && !url.StartsWith(".\\")
+			 && !url.StartsWith("stub:") )
 			{
 				wxFileSystem fileSystem;
 				fsFile = fileSystem.OpenFile(url);
@@ -330,10 +330,10 @@ void SjPlaylistEntry::VerifyUrl()
 	#ifdef __WXMSW__
 	{
 		wxSqlt sql;
-		sql.Query(wxT("SELECT url FROM tracks WHERE url='") + sql.QParam(fsFileLocation) + wxT("';"));
+		sql.Query("SELECT url FROM tracks WHERE url='" + sql.QParam(fsFileLocation) + "';");
 		if( !sql.Next() )
 		{
-			sql.Query(wxT("SELECT url FROM tracks WHERE url LIKE '") + sql.QParam(fsFileLocation) + wxT("';"));
+			sql.Query("SELECT url FROM tracks WHERE url LIKE '" + sql.QParam(fsFileLocation) + "';");
 			while( sql.Next() )                 //          ^^^ LIKE is case-insensitive
 			{	//          <<< use while() as the url may contain '%'
 				wxString test = sql.GetString(0);
@@ -641,7 +641,7 @@ wxString SjPlaylist::SuggestPlaylistName()
 	}
 	else if( (m_cacheFlags&SJ_CACHE_ALBUM_FINE) && (m_cacheFlags&SJ_CACHE_LEAD_ARTIST_FINE) )
 	{
-		ret = m_overallLeadArtistName + wxT(" - ") + m_overallAlbumName;
+		ret = m_overallLeadArtistName + " - " + m_overallAlbumName;
 	}
 	else if( m_cacheFlags&SJ_CACHE_ALBUM_FINE )
 	{
@@ -697,7 +697,7 @@ bool SjPlaylist::AddFromM3uFile(const wxString& nativePath, long addMax, long fl
 	wxString ext = SjTools::GetExt(nativePath);
 
 	wxMBConv* fileContentMbConv = &wxConvISO8859_1;
-	if( ext == wxT("m3u8") )
+	if( ext == "m3u8" )
 	{
 		fileContentMbConv = &wxConvUTF8;
 	}
@@ -717,17 +717,17 @@ bool SjPlaylist::AddFromM3uFile(const wxString& nativePath, long addMax, long fl
 			// skip empty lines
 			continue;
 		}
-		else if( *currLinePtr == wxT('#') )
+		else if( *currLinePtr == '#' )
 		{
 			// read comment - the comment is used by VerifyUrl() to find the track in the library if the URL cannot be found (bad path, bad name etc.)
-			if( wxStrncmp(currLinePtr, wxT("#EXTINF:"), 8)==0 )
+			if( wxStrncmp(currLinePtr, "#EXTINF:", 8)==0 )
 			{
 				currTitle = wxString(&currLinePtr[8]);
 				currTitle = currTitle.AfterFirst(',');              // skip seconds parameter from "#EXTINF:seconds,artiest ..."
 
-				if( currTitle.Replace(wxT(" - "), wxT("\t\t")) < 1 )// normally, the format ist "Artist - Title" ...
+				if( currTitle.Replace(" - ", "\t\t") < 1 )          // normally, the format ist "Artist - Title" ...
 				{                                                   // ... however, since 3.02, we also allow "Artist-Title" ...
-					currTitle.Replace(wxT("-"), wxT("\t\t"));       // ... and, later in VerifyUrl() also "Title - Artist" and "Title-Artist" :-)
+					currTitle.Replace("-", "\t\t");                 // ... and, later in VerifyUrl() also "Title - Artist" and "Title-Artist" :-)
 				}
 			}
 			continue;
@@ -757,7 +757,7 @@ wxString SjPlaylist::SaveAsM3u(const wxString& containerFile, long flags)
 
 	if( !(flags & SJ_M3U_NO_EXT) )
 	{
-		ret << wxT("#EXTM3U") << linebreak;
+		ret << "#EXTM3U" << linebreak;
 	}
 
 	long i, iCount = GetCount(), seconds;
@@ -769,7 +769,7 @@ wxString SjPlaylist::SaveAsM3u(const wxString& containerFile, long flags)
 			if( !(flags & SJ_M3U_NO_EXT) )
 			{
 				seconds = Item(i).GetPlaytimeMs()/1000;
-				ret << wxString::Format(wxT("#EXTINF:%i,%s - %s"), (int)(seconds==-1? 0 : seconds), Item(i).GetLeadArtistName().c_str(), Item(i).GetTrackName().c_str()) << linebreak;
+				ret << wxString::Format("#EXTINF:%i,%s - %s", (int)(seconds==-1? 0 : seconds), Item(i).GetLeadArtistName().c_str(), Item(i).GetTrackName().c_str()) << linebreak;
 			}
 
 			ret << urlToSave + linebreak;
@@ -819,17 +819,17 @@ bool SjPlaylist::AddFromPlsFile(const wxString& nativePath, long addMax, long fl
 		currLine = currLinePtr;
 
 		// split line at '='
-		currBegin = currLine.BeforeFirst(wxT('='));
+		currBegin = currLine.BeforeFirst('=');
 		currBegin.Trim(TRUE); // beginning is already trimmed
 		if( currBegin.IsEmpty() ) continue;
 
-		currRest = currLine.AfterFirst(wxT('='));
+		currRest = currLine.AfterFirst('=');
 		currRest.Trim(FALSE); // end is already trimmed
 		if( currRest.IsEmpty() ) continue;
 
 		// does the line begin with 'file<num>'
 		currBegin.MakeLower();
-		if( currBegin.StartsWith(wxT("file"), &currNumStr) )
+		if( currBegin.StartsWith("file", &currNumStr) )
 		{
 			if( !currNumStr.ToLong(&currNumLong, 10) || currNumLong < 1 || currNumLong > 0xFFFFL ) continue;
 
@@ -838,14 +838,14 @@ bool SjPlaylist::AddFromPlsFile(const wxString& nativePath, long addMax, long fl
 			urls[currNumLong-1] = currRest;
 			urlCount++;
 		}
-		else if( currBegin.StartsWith(wxT("title"), &currNumStr) )
+		else if( currBegin.StartsWith("title", &currNumStr) )
 		{
 			if( !currNumStr.ToLong(&currNumLong, 10) || currNumLong < 1 || currNumLong > 0xFFFFL ) continue;
 
 			// set title, helpful for VerifyUrl(), see comments in AddFromM3u()
 			if( currNumLong>titleCount ) titles.Insert(wxEmptyString, titleCount, currNumLong-titleCount);
-			if( currRest.Replace(wxT(" - "), wxT("\t\t")) < 1 )
-				currRest.Replace(wxT("-"), wxT("\t\t"));
+			if( currRest.Replace(" - ", "\t\t") < 1 )
+				currRest.Replace("-", "\t\t");
 			titles[currNumLong-1] = currRest;
 			titleCount++;
 		}
@@ -886,11 +886,11 @@ wxString SjPlaylist::SaveAsPls(const wxString& containerFile, long flags)
 	wxString    playlistName = SuggestPlaylistName();
 	wxString    urlToSave;
 
-	ret << wxT("[playlist]") << linebreak;
+	ret << "[playlist]" << linebreak;
 
 	if( !playlistName.IsEmpty() )
 	{
-		ret << wxT("PlaylistName=") << playlistName << linebreak;
+		ret << "PlaylistName=" << playlistName << linebreak;
 	}
 
 	long i, iCount = GetCount(), savedCount = 0, seconds;
@@ -900,12 +900,12 @@ wxString SjPlaylist::SaveAsPls(const wxString& containerFile, long flags)
 
 		if( Item(i).IsUrlOk() )
 		{
-			num = wxString::Format(wxT("%i"), (int)i+1);
+			num = wxString::Format("%i", (int)i+1);
 			seconds = Item(i).GetPlaytimeMs()/1000;
 
-			ret << wxT("File")   << num << wxT("=") << urlToSave << linebreak;
-			ret << wxT("Title")  << num << wxT("=") << Item(i).GetLeadArtistName() << wxT(" - ") << Item(i).GetTrackName() << linebreak;
-			ret << wxT("Length") << num << wxT("=") << wxString::Format(wxT("%i"), seconds==-1? 0 : (int)seconds) << linebreak;
+			ret << "File"   << num << "=" << urlToSave << linebreak;
+			ret << "Title"  << num << "=" << Item(i).GetLeadArtistName() << " - " << Item(i).GetTrackName() << linebreak;
+			ret << "Length" << num << "=" << wxString::Format("%i", seconds==-1? 0 : (int)seconds) << linebreak;
 
 			savedCount++;
 		}
@@ -915,8 +915,8 @@ wxString SjPlaylist::SaveAsPls(const wxString& containerFile, long flags)
 
 	// these MUST be the last entries,
 	// see http://docs.wasabidev.org/wasabi_developer_manual/winamp_playlists_and_playlist_directory.php#playlists_formats
-	ret << wxString::Format(wxT("NumberOfEntries=%i"), (int)savedCount) << linebreak;
-	ret << wxT("Version=2") << linebreak;
+	ret << wxString::Format("NumberOfEntries=%i", (int)savedCount) << linebreak;
+	ret << "Version=2" << linebreak;
 
 	return ret;
 }
@@ -951,8 +951,8 @@ bool SjPlaylist::AddFromCueFile(const wxString& nativePath, long addMax, long fl
 
 		// read line
 		currLine = currLinePtr;
-		currLine.Replace(wxT("\t"), wxT(" "));
-		if( currLine.Left(5).Upper()!=wxT("FILE ") ) continue;
+		currLine.Replace("\t", " ");
+		if( currLine.Left(5).Upper()!="FILE " ) continue;
 
 		// get stuff between quotes
 		if( currLine.Find('"')!=-1 )
@@ -992,8 +992,8 @@ wxString SjPlaylist::SaveAsCue(const wxString& containerFile, long flags)
 	wxString    linebreak = SjTools::GetLineBreak();
 	wxString    urlToSave;
 
-	ret << wxT("PERFORMER \"") << GetLeadArtistName() << wxT("\"") << linebreak;
-	ret << wxT("TITLE \"") << GetAlbumName() << wxT("\"") << linebreak;
+	ret << "PERFORMER \"" << GetLeadArtistName() << "\"" << linebreak;
+	ret << "TITLE \"" << GetAlbumName() << "\"" << linebreak;
 
 	long i, iCount = GetCount();
 	for( i = 0; i < iCount; i++ )
@@ -1010,11 +1010,11 @@ wxString SjPlaylist::SaveAsCue(const wxString& containerFile, long flags)
 				}
 			#endif
 
-			ret << wxT("FILE \"") << urlToSave << wxT("\" WAVE") << linebreak;
-			ret << wxT("  TRACK ") << wxString::Format(i<=99? wxT("%02i") : wxT("%i"), (int)i+1) << wxT(" AUDIO") << linebreak;
-			ret << wxT("    TITLE \"") << Item(i).GetTrackName() << wxT("\"") << linebreak;
-			ret << wxT("    PERFORMER \"") << Item(i).GetLeadArtistName() << wxT("\"") << linebreak;
-			ret << wxT("    INDEX 01 00:00:00") << linebreak;
+			ret << "FILE \"" << urlToSave << "\" WAVE" << linebreak;
+			ret << "  TRACK " << wxString::Format(i<=99? "%02i" : "%i", (int)i+1) << " AUDIO" << linebreak;
+			ret << "    TITLE \"" << Item(i).GetTrackName() << "\"" << linebreak;
+			ret << "    PERFORMER \"" << Item(i).GetLeadArtistName() << "\"" << linebreak;
+			ret << "    INDEX 01 00:00:00" << linebreak;
 		}
 
 		if( !SjBusyInfo::Set(urlToSave) ) break;
@@ -1049,8 +1049,8 @@ bool SjPlaylist::AddFromXspfXmlWplFile(const wxString& nativePath, long addMax, 
 	    ...
 	</track> */
 	wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvUTF8);
-	content.Replace(wxT("\n"), wxT("")); // remove line-ends, this allows to put tags over several lines as
-	content.Replace(wxT("\r"), wxT("")); // <location> \n \n \n bla \n \n \n</location>.
+	content.Replace("\n", ""); // remove line-ends, this allows to put tags over several lines as
+	content.Replace("\r", ""); // <location> \n \n \n bla \n \n \n</location>.
 	// below, we will convert the character "<" to a linebreak ...
 
 	/* ... convert the following XML/iTunes format to XSPF ...
@@ -1061,12 +1061,12 @@ bool SjPlaylist::AddFromXspfXmlWplFile(const wxString& nativePath, long addMax, 
 	    <key>Location</key><string>file://localhost/Volumes/music/mp3/L/Led%20Zeppelin/1982%20Coda/05%20Ozone%20Baby.mp3</string>
 	    ...
 	</dict> */
-	if( content.Replace(wxT("<key>Name</key><string>"), wxT("<title>")) > 0 )
+	if( content.Replace("<key>Name</key><string>", "<title>") > 0 )
 	{
-		content.Replace(wxT("<key>Artist</key><string>"), wxT("<creator>"));
-		content.Replace(wxT("<key>Album</key><string>"), wxT("<album>"));
-		content.Replace(wxT("<key>Location</key><string>"), wxT("<location>"));
-		content.Replace(wxT("/dict"), wxT("/track"));
+		content.Replace("<key>Artist</key><string>", "<creator>");
+		content.Replace("<key>Album</key><string>", "<album>");
+		content.Replace("<key>Location</key><string>", "<location>");
+		content.Replace("/dict", "/track");
 	}
 
 	/* ... convert the following Windows Media Player/WPL format  to XSPF ...
@@ -1084,17 +1084,17 @@ bool SjPlaylist::AddFromXspfXmlWplFile(const wxString& nativePath, long addMax, 
 	        ...
 	    </seq>
 	</body> */
-	if( content.Find(wxT("<?wpl")) != wxNOT_FOUND )
+	if( content.Find("<?wpl") != wxNOT_FOUND )
 	{
-		if( content.Replace(wxT("<media src=\""), wxT("<location>")) > 0 )
+		if( content.Replace("<media src=\"", "<location>") > 0 )
 		{
-			content.Replace(wxT("\""), wxT("</track>"));
-			content.Replace(wxT("&apos;"), wxT("'")); // &apos; is no real html entity. normal entities are handled below
+			content.Replace("\"", "</track>");
+			content.Replace("&apos;", "'"); // &apos; is no real html entity. normal entities are handled below
 		}
 	}
 
 	// treat "<" as a new line mark, this allows easy parsing without using a XML tree
-	content.Replace(wxT("<"), wxT("\n"));
+	content.Replace("<", "\n");
 
 	// go through the content
 	long                    filesAdded = 0;
@@ -1113,43 +1113,43 @@ bool SjPlaylist::AddFromXspfXmlWplFile(const wxString& nativePath, long addMax, 
 		if( *currLinePtr == 0 ) continue; // skip empty line
 
 		// remove xspf prefix, if any (used by some apps, see http://wiki.xiph.org/List_of_known_XSPF_extensions )
-		if( wxStrncmp(currLinePtr, wxT("xspf:"), 5)==0 )
+		if( wxStrncmp(currLinePtr, "xspf:", 5)==0 )
 			currLinePtr += 5;
 
-		if( wxStrncmp(currLinePtr, wxT("creator"), 7)==0 )
+		if( wxStrncmp(currLinePtr, "creator", 7)==0 )
 		{
 			// set last artist name
 			lastArtistName = currLinePtr;
-			lastArtistName = lastArtistName.AfterFirst(wxT('>'));
+			lastArtistName = lastArtistName.AfterFirst('>');
 			lastArtistName = entPars.Parse(lastArtistName);
 		}
-		else if( wxStrncmp(currLinePtr, wxT("album"), 5)==0 )
+		else if( wxStrncmp(currLinePtr, "album", 5)==0 )
 		{
 			// set last album name
 			lastAlbumName = currLinePtr;
-			lastAlbumName = lastAlbumName.AfterFirst(wxT('>'));
+			lastAlbumName = lastAlbumName.AfterFirst('>');
 			lastAlbumName = entPars.Parse(lastAlbumName);
 		}
-		else if( wxStrncmp(currLinePtr, wxT("title"), 5)==0 )
+		else if( wxStrncmp(currLinePtr, "title", 5)==0 )
 		{
 			// set last track name
 			lastTrackName = currLinePtr;
-			lastTrackName = lastTrackName.AfterFirst(wxT('>'));
+			lastTrackName = lastTrackName.AfterFirst('>');
 			lastTrackName = entPars.Parse(lastTrackName);
 		}
-		else if( wxStrncmp(currLinePtr, wxT("location"), 8)==0 )
+		else if( wxStrncmp(currLinePtr, "location", 8)==0 )
 		{
 			// set last location
 			lastLocation = currLinePtr;
-			lastLocation = lastLocation.AfterFirst(wxT('>'));
+			lastLocation = lastLocation.AfterFirst('>');
 			lastLocation = entPars.Parse(lastLocation);
 		}
-		else if( wxStrncmp(currLinePtr, wxT("/track"), 6)==0 )
+		else if( wxStrncmp(currLinePtr, "/track", 6)==0 )
 		{
 			// flush
 			if( lastLocation.IsEmpty() && !lastTrackName.IsEmpty() && !lastArtistName.IsEmpty() )
 			{
-				lastLocation = wxT("stub://") + SjTools::EnsureValidFileNameChars(lastArtistName) + wxT("-") + SjTools::EnsureValidFileNameChars(lastAlbumName) + wxT("-") + SjNormaliseString(lastTrackName, 0) + wxT(".mp3");
+				lastLocation = "stub://" + SjTools::EnsureValidFileNameChars(lastArtistName) + "-" + SjTools::EnsureValidFileNameChars(lastAlbumName) + "-" + SjNormaliseString(lastTrackName, 0) + ".mp3";
 				// in 99.99% of all cases, this stub location will fail, however, this creates a fine entry in the playlist
 			}
 
@@ -1180,41 +1180,41 @@ wxString SjPlaylist::SaveAsXspf(const wxString& containerFile, long flags)
 
 	// prepare date
 	wxDateTime dt = wxDateTime::Now().ToUTC();
-	wxString dtString = dt.Format(wxT("%Y-%m-%dT%H:%M:%S+00:00"));
+	wxString dtString = dt.Format("%Y-%m-%dT%H:%M:%S+00:00");
 
 	// write prologue
-	ret << wxT("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") << linebreak;
-	ret << wxT("<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\">") << linebreak;
-	ret << wxT("<date>") << dtString << wxT("</date>") << linebreak;
-	ret << wxT("<meta rel=\"generator\">") << wxString::Format(wxT("%s %i.%i"), SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR) << wxT("</meta>") << linebreak;
-	ret << wxT("<trackList>") << linebreak;
+	ret << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" << linebreak;
+	ret << "<playlist version=\"1\" xmlns=\"http://xspf.org/ns/0/\">" << linebreak;
+	ret << "<date>" << dtString << "</date>" << linebreak;
+	ret << "<meta rel=\"generator\">" << wxString::Format("%s %i.%i", SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR) << "</meta>" << linebreak;
+	ret << "<trackList>" << linebreak;
 
 	// write the tracks - the recommended order is location-title-creator-album, see http://wiki.xiph.org/index.php/XSPF_v1_Notes_and_Errata
 	long i, iCount = GetCount();
 	for( i = 0; i < iCount; i++ )
 	{
-		ret << wxT("\t<track>") << linebreak;
+		ret << "\t<track>" << linebreak;
 
 		// write url
-		ret << wxT("\t\t<location>") << SjTools::Htmlentities(Item(i).GetUrl()) << wxT("</location>") << linebreak;
+		ret << "\t\t<location>" << SjTools::Htmlentities(Item(i).GetUrl()) << "</location>" << linebreak;
 
 		// write title
-		ret << wxT("\t\t<title>") << SjTools::Htmlentities(Item(i).GetTrackName()) << wxT("</title>") << linebreak;
+		ret << "\t\t<title>" << SjTools::Htmlentities(Item(i).GetTrackName()) << "</title>" << linebreak;
 
 		// write artist
-		ret << wxT("\t\t<creator>") << SjTools::Htmlentities(Item(i).GetLeadArtistName()) << wxT("</creator>") << linebreak;
+		ret << "\t\t<creator>" << SjTools::Htmlentities(Item(i).GetLeadArtistName()) << "</creator>" << linebreak;
 
 		// write album
-		ret << wxT("\t\t<album>") << SjTools::Htmlentities(Item(i).GetAlbumName()) << wxT("</album>") << linebreak;
+		ret << "\t\t<album>" << SjTools::Htmlentities(Item(i).GetAlbumName()) << "</album>" << linebreak;
 
-		ret << wxT("\t</track>") << linebreak;
+		ret << "\t</track>" << linebreak;
 
 		if( !SjBusyInfo::Set(url) ) break;
 	}
 
 	// write epilogue
-	ret << wxT("</trackList>") << linebreak;
-	ret << wxT("</playlist>") << linebreak;
+	ret << "</trackList>" << linebreak;
+	ret << "</playlist>" << linebreak;
 
 	return ret;
 }
@@ -1233,16 +1233,16 @@ bool SjPlaylist::SaveAsDlg(wxWindow* parentWindow)
 	SjExtList           extList = g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_PLAYLISTS_WRITE);
 
 	// create the dialog
-	wxFileDialog dlg(parentWindow, _("Save playlist"), wxT(""),
+	wxFileDialog dlg(parentWindow, _("Save playlist"), "",
 	                 SuggestPlaylistFileName(),
 	                 extList.GetFileDlgStr(wxFD_SAVE),
 	                 wxFD_SAVE|wxFD_OVERWRITE_PROMPT|wxFD_CHANGE_DIR);
 
 	// set the last extension used
-	wxString lastPlaylistFormat = g_tools->m_config->Read(wxT("main/playlistFormat"));
+	wxString lastPlaylistFormat = g_tools->m_config->Read("main/playlistFormat");
 	long filterIndex = extList.GetFileDlgIndex(lastPlaylistFormat);
 	if( filterIndex == -1 )
-		filterIndex = extList.GetFileDlgIndex(wxT("m3u"));
+		filterIndex = extList.GetFileDlgIndex("m3u");
 	dlg.SetFilterIndex(filterIndex);
 
 	// show the dialog
@@ -1253,7 +1253,7 @@ bool SjPlaylist::SaveAsDlg(wxWindow* parentWindow)
 	wxString selPath, selExt;
 	extList.GetFileDlgPath(dlg, selPath, selExt);
 	if( selExt != lastPlaylistFormat )
-		g_tools->m_config->Write(wxT("main/playlistFormat"), selExt);
+		g_tools->m_config->Write("main/playlistFormat", selExt);
 
 	if( GetCount() > 500 )
 	{
@@ -1277,24 +1277,24 @@ bool SjPlaylist::SaveAsFile(const wxString& path, const wxString& type, long fla
 	wxMBConv*           fileContentMbConv = &wxConvUTF8;
 	wxBusyCursor        busy;
 
-	if( type == wxT("cue") )
+	if( type == "cue" )
 	{
 		fileContent = SaveAsCue(path, flags);
 		fileContentMbConv = &wxConvISO8859_1;
 	}
-	else if( type == wxT("pls") )
+	else if( type == "pls" )
 	{
 		fileContent = SaveAsPls(path, flags);
 		fileContentMbConv = &wxConvISO8859_1;
 	}
-	else if( type == wxT("xspf") )
+	else if( type == "xspf" )
 	{
 		fileContent = SaveAsXspf(path, flags);
 	}
 	else /* "m3u" or "m3u8" */
 	{
 		fileContent = SaveAsM3u(path, flags);
-		if( type != wxT("m3u8") /*else leave default*/ )
+		if( type != "m3u8" /*else leave default*/ )
 			fileContentMbConv = &wxConvISO8859_1;
 	}
 
@@ -1304,7 +1304,7 @@ bool SjPlaylist::SaveAsFile(const wxString& path, const wxString& type, long fla
 		if( SjTools::ReplaceNonISO88591Characters(fileContent) )
 		{
 			/*
-			wxLogWarning(wxT("Because of limitations of the file format, some characters could not be written to \"%s\"."),
+			wxLogWarning("Because of limitations of the file format, some characters could not be written to \"%s\".",
 			    path.c_str());
 			*/
 		}
@@ -1345,7 +1345,7 @@ bool SjPlaylist::AddFromFileDlg(wxWindow* parentWindow)
 	SJ_WINDOW_DISABLER(parentWindow);
 
 	// create the dialog
-	wxFileDialog dlg(parentWindow, _("Open playlist"), wxT(""),
+	wxFileDialog dlg(parentWindow, _("Open playlist"), "",
 	                 SuggestPlaylistFileName(),
 	                 g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_PLAYLISTS_READ).GetFileDlgStr(),
 	                 wxFD_OPEN|wxFD_CHANGE_DIR);
@@ -1368,15 +1368,15 @@ bool SjPlaylist::AddFromFile(const wxString& nativePath, long addMax, long flags
 	if( addMax <= 0 ) addMax = 0x7FFFFFFL;
 
 	// load basic urls - the AddFrom*() function should not validate the files!
-	if( ext == wxT("pls") )
+	if( ext == "pls" )
 	{
 		ret = AddFromPlsFile(nativePath, addMax, flags);
 	}
-	else if( ext == wxT("cue") )
+	else if( ext == "cue" )
 	{
 		ret = AddFromCueFile(nativePath, addMax, flags);
 	}
-	else if( ext == wxT("xspf") || ext == wxT("xml") || ext == wxT("wpl") )
+	else if( ext == "xspf" || ext == "xml" || ext == "wpl" )
 	{
 		ret = AddFromXspfXmlWplFile(nativePath, addMax, flags);
 	}

@@ -274,7 +274,7 @@ SjMyMusicConfigPage::SjMyMusicConfigPage(SjMyMusicModule* myMusicModule, wxWindo
 	dialogSizer->SetSizeHints(this);
 
 	// init data
-	InitPage(g_tools->m_config->Read(wxT("settings/selSource"), wxT("")));
+	InitPage(g_tools->m_config->Read("settings/selSource", ""));
 }
 
 
@@ -306,7 +306,7 @@ void SjMyMusicConfigPage::UpdateButtons()
 
 	if( m_updateButton )
 	{
-		m_updateButton->SetLabel(wxString::Format(m_idxChanged? wxT("* %s%s") : wxT(" %s%s "), _("Update music library"), SJ_BUTTON_MENU_ARROW));
+		m_updateButton->SetLabel(wxString::Format(m_idxChanged? "* %s%s" : " %s%s ", _("Update music library"), SJ_BUTTON_MENU_ARROW));
 	}
 }
 
@@ -394,9 +394,9 @@ void SjMyMusicConfigPage::InitPage(const wxString& selSourceUrl)
 		sourceNotes = item->GetScannerModule()->GetSourceNotes(item->GetIndex());
 		if( !sourceNotes.IsEmpty() )
 		{
-			listitem.m_text.Append(wxT(" ("));
+			listitem.m_text.Append(" (");
 			listitem.m_text.Append(sourceNotes);
-			listitem.m_text.Append(wxT(')'));
+			listitem.m_text.Append(')');
 		}
 
 		new_i = m_listCtrl->InsertItem(listitem);
@@ -485,7 +485,7 @@ void SjMyMusicConfigPage::OnDelSource(wxCommandEvent& event)
 		SJ_WINDOW_DISABLER(SjDialog::FindTopLevel(this));
 		if( source->GetScannerModule()->DeleteSource(source->GetIndex(), SjDialog::FindTopLevel(this)) )
 		{
-			InitPage(wxT(""));
+			InitPage("");
 			m_idxChanged = TRUE;
 			UpdateButtons();
 		}
@@ -570,7 +570,7 @@ void SjMyMusicConfigPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 			wxASSERT( scannerModule->m_addSourceTypes_.GetCount() == scannerModule->m_addSourceIcons_.GetCount() );
 			for( i = 0; i < scannerModule->m_addSourceTypes_.GetCount(); i++ )
 			{
-				m.Append(IDC_MODULE00+typeCount, scannerModule->m_addSourceTypes_.Item(i)+wxT("..."));
+				m.Append(IDC_MODULE00+typeCount, scannerModule->m_addSourceTypes_.Item(i)+"...");
 
 				typeCount++;
 			}
@@ -595,7 +595,7 @@ void SjMyMusicConfigPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 
 		if( source )
 		{
-			m.Append(IDC_IDXCONFIGSOURCE, wxString::Format(_("Options for \"%s\""), SjTools::ShortenUrl(source->GetUrl()).c_str())+wxT("..."));
+			m.Append(IDC_IDXCONFIGSOURCE, wxString::Format(_("Options for \"%s\""), SjTools::ShortenUrl(source->GetUrl()).c_str())+"...");
 		}
 		else
 		{
@@ -640,7 +640,7 @@ void SjMyMusicConfigPage::OnUpdate(wxCommandEvent& event)
 SjMyMusicModule::SjMyMusicModule(SjInterfaceBase* interf)
 	: SjCommonModule(interf)
 {
-	m_file          = wxT("memory:mymusic.lib");
+	m_file          = "memory:mymusic.lib";
 	m_name          = _("Jukebox");
 	m_guiIcon          = SJ_ICON_MUSICLIB;
 	m_sort          = 10;

@@ -134,13 +134,13 @@ void SjModuleSystem::Init()
 	}
 
 	// add playlist extensions
-	m_playlistExtListRead. AddExt(wxT("m3u,m3u8,pls,cue,wpl,xml,xspf"));
-	m_playlistExtListWrite.AddExt(wxT("m3u,m3u8,pls,cue,xspf"));
+	m_playlistExtListRead. AddExt("m3u,m3u8,pls,cue,wpl,xml,xspf");
+	m_playlistExtListWrite.AddExt("m3u,m3u8,pls,cue,xspf");
 
 
 	// init database...
 	{
-		wxLogInfo(wxT("Loading %s"), g_tools->m_dbFile.c_str());
+		wxLogInfo("Loading %s", g_tools->m_dbFile.c_str());
 
 		// ...open database
 		wxSqltDb* db = new wxSqltDb(g_tools->m_dbFile);
@@ -160,22 +160,22 @@ void SjModuleSystem::Init()
 			// first opening...
 			wxSqlt sql;
 
-			db->SetCache(g_tools->m_config->Read(wxT("main/idxCacheBytes"), SJ_DEF_SQLITE_CACHE_BYTES));
-			db->SetSync(g_tools->m_config->Read(wxT("main/idxCacheSync"), SJ_DEF_SQLITE_SYNC));
+			db->SetCache(g_tools->m_config->Read("main/idxCacheBytes", SJ_DEF_SQLITE_CACHE_BYTES));
+			db->SetSync(g_tools->m_config->Read("main/idxCacheSync", SJ_DEF_SQLITE_SYNC));
 
 			// ...create silverjuke header table
-			sql.ConfigWrite(wxT("dbversion"), CURR_DB_VERSION);
-			sql.ConfigWrite(wxT("created"), (long)wxDateTime::Now().GetAsDOS());
+			sql.ConfigWrite("dbversion", CURR_DB_VERSION);
+			sql.ConfigWrite("created", (long)wxDateTime::Now().GetAsDOS());
 
 			// ...create arts tables, this table is used by several modules
-			sql.Query(wxT("CREATE TABLE arts (id INTEGER PRIMARY KEY, url TEXT, operations TEXT);"));
-			sql.Query(wxT("CREATE INDEX artsindex01 ON arts (url);"));
+			sql.Query("CREATE TABLE arts (id INTEGER PRIMARY KEY, url TEXT, operations TEXT);");
+			sql.Query("CREATE INDEX artsindex01 ON arts (url);");
 		}
 		else
 		{
 			// subsequent opening
 			wxSqlt sql;
-			long dbversion = sql.ConfigRead(wxT("dbversion"), -1);
+			long dbversion = sql.ConfigRead("dbversion", -1);
 			if( dbversion == 1 )
 			{
 				// in dbversion1 there were some bugs in the file system; most tracks were store using file names, tracks with problems may be stored using file://.  This lead to many confusing situations.
@@ -186,16 +186,16 @@ void SjModuleSystem::Init()
 					wxSqltTransaction transaction;
 					fileName2Url__(sql, "tracks");
 					g_mainFrame->UpdateIndexAfterConstruction(); // to update the arts table
-					sql.ConfigWrite(wxT("dbversion"), 2);
+					sql.ConfigWrite("dbversion", 2);
 					transaction.Commit();
 				}
-				dbversion = sql.ConfigRead(wxT("dbversion"), -1);
+				dbversion = sql.ConfigRead("dbversion", -1);
 			}
 
 			if( dbversion != CURR_DB_VERSION )
 			{
 				// normally, this should not happen; the database format should be stable.
-				wxMessageBox(wxString::Format(wxT("Bad version of the jukebox file \"%s\". Delete the file and try over; we'll recreate a more correct version then. For now, the program will terminate.")/*n/t*/, g_tools->m_dbFile.c_str()));
+				wxMessageBox(wxString::Format("Bad version of the jukebox file \"%s\". Delete the file and try over; we'll recreate a more correct version then. For now, the program will terminate."/*n/t*/, g_tools->m_dbFile.c_str()));
 				SjMainApp::FatalError();
 			}
 		}
@@ -307,13 +307,13 @@ wxArrayString SjModuleSystem::GetStubImageExt() const
 	wxArrayString ret;
 
 	#if wxUSE_LIBTIFF
-		ret.Add(wxT("tiff"));
+		ret.Add("tiff");
 	#endif
 
 	#if wxUSE_LIBJPEG
-		ret.Add(wxT("jpe"));
-		ret.Add(wxT("jpeg"));
-		ret.Add(wxT("jif"));
+		ret.Add("jpe");
+		ret.Add("jpeg");
+		ret.Add("jif");
 	#endif
 
 	return ret;
@@ -515,7 +515,7 @@ void SjModuleSystem::BroadcastMsg(int msg)
 
 	if( inSendMsg == msg )
 	{
-		wxLogError(wxT("Recursive call of SjModuleSystem::SendMsg (msg=%i).")/*n/t*/, (int)msg);
+		wxLogError("Recursive call of SjModuleSystem::SendMsg (msg=%i)."/*n/t*/, (int)msg);
 	}
 	else
 	{
@@ -670,11 +670,11 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 		SjLogString logToString(suppressNoAccessErrors);
 
 		#if defined(__WXMSW__)
-			entryStr = fs.FindFirst(wxT("*.dll"), wxFILE);
+			entryStr = fs.FindFirst("*.dll", wxFILE);
 		#elif defined(__WXMAC__)
-			entryStr = fs.FindFirst(wxT("*.dylib"), wxFILE);
+			entryStr = fs.FindFirst("*.dylib", wxFILE);
 		#else
-			entryStr = fs.FindFirst(wxT("*.so"), wxFILE);
+			entryStr = fs.FindFirst("*.so", wxFILE);
 		#endif
 	}
 
@@ -695,7 +695,7 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 	if( !s_searchedForScripts )
 	{
 		entryStrings.Clear();
-		entryStr = fs.FindFirst(wxT("*.js"), wxFILE);
+		entryStr = fs.FindFirst("*.js", wxFILE);
 		while( !entryStr.IsEmpty() )
 		{
 			m_moduleSystem->m_scripts.Add(entryStr);
@@ -738,7 +738,7 @@ bool SjInterfaceBase::IsModuleAdded(SjModuleList& list,
 
 			if( currModule->m_name == name )
 			{
-				/*wxLogWarning(wxT("The Modules \"%s\" and \"%s\" seems to be identical.") n/t,
+				/*wxLogWarning("The Modules \"%s\" and \"%s\" seems to be identical." n/t,
 				    currModule->m_file.c_str(), file.c_str());
 				*/
 				return TRUE;
@@ -774,19 +774,19 @@ void SjInterfaceBase::WriteToCache(const wxString& file, const wxString& info__,
 	}
 
 	// init info with timestamp
-	wxString info = wxString::Format(wxT("%lu:"), fileTimestamp);
+	wxString info = wxString::Format("%lu:", fileTimestamp);
 
 	// add user stuff to info
-	wxStringTokenizer tkz(info__, wxT("\t"), wxTOKEN_RET_EMPTY_ALL);
+	wxStringTokenizer tkz(info__, "\t", wxTOKEN_RET_EMPTY_ALL);
 	wxString currToken;
 	while( tkz.HasMoreTokens() )
 	{
 		currToken = tkz.GetNextToken();
-		info += wxString::Format(wxT("%i:%s:"), (int)currToken.Len(), currToken.c_str());
+		info += wxString::Format("%i:%s:", (int)currToken.Len(), currToken.c_str());
 	}
 
 	// write to cache
-	g_tools->m_config->Write(wxT("modulecache/") + key, info);
+	g_tools->m_config->Write("modulecache/" + key, info);
 }
 
 
@@ -808,7 +808,7 @@ bool SjInterfaceBase::ReadFromCache(const wxString& file, wxArrayString& retInfo
 	}
 
 	// get info from cache as "<timestamp>:<len1>:<val1>:<len2>:<val2>:<len3> ..."
-	wxString info(g_tools->m_config->Read(wxT("modulecache/") + key, wxT("")));
+	wxString info(g_tools->m_config->Read("modulecache/" + key, ""));
 	if( info.IsEmpty() )
 	{
 		return FALSE; // not in cache
@@ -816,18 +816,18 @@ bool SjInterfaceBase::ReadFromCache(const wxString& file, wxArrayString& retInfo
 
 	// get cache timestamp
 	long l;
-	if( !info.BeforeFirst(wxT(':')).ToLong(&l, 10) ) { l = 0; }
+	if( !info.BeforeFirst(':').ToLong(&l, 10) ) { l = 0; }
 	if( (unsigned long)l != fileTimestamp )
 	{
 		return FALSE; // cache out of date
 	}
-	info = info.AfterFirst(wxT(':'));
+	info = info.AfterFirst(':');
 
 	// get cache data
 	long currLen;
-	while( info.BeforeFirst(wxT(':')).ToLong(&currLen, 10) )
+	while( info.BeforeFirst(':').ToLong(&currLen, 10) )
 	{
-		info = info.AfterFirst(wxT(':'));
+		info = info.AfterFirst(':');
 
 		if( currLen >= (long)info.Len() ) { return FALSE; }
 		retInfo.Add(info.Left(currLen));
@@ -866,7 +866,7 @@ void SjCol::AddRow(SjRow* row)
 		m_rows = new SjRow*[m_rowMaxCount];
 		if( m_rows == NULL )
 		{
-			wxLogFatalError(wxT("Out of memory on allocating rows."));
+			wxLogFatalError("Out of memory on allocating rows.");
 		}
 
 		if( oldRows )
@@ -1061,7 +1061,7 @@ wxString SjModule::PackFileName(const wxString& file, int fileIndex)
 {
 	if( fileIndex )
 	{
-		return wxString::Format(wxT("%s,%i"), file.c_str(), (int)fileIndex);
+		return wxString::Format("%s,%i", file.c_str(), (int)fileIndex);
 	}
 	else
 	{
@@ -1095,10 +1095,10 @@ wxString SjModule::GetUniqueStrId(const wxString& file, int fileIndex)
 {
 	wxString str(PackFileName(file, fileIndex));
 
-	str.Replace(wxT("."),  wxT("X"));
-	str.Replace(wxT(":"),  wxT("X"));
-	str.Replace(wxT("/"),  wxT("X"));
-	str.Replace(wxT("\\"), wxT("X"));
+	str.Replace(".",  "X");
+	str.Replace(":",  "X");
+	str.Replace("/",  "X");
+	str.Replace("\\", "X");
 
 	return SjNormaliseString(str, 0);
 }
@@ -1223,41 +1223,41 @@ wxString SjTrackInfo::GetFormattedValue(long ti) const
 {
 	switch( ti )
 	{
-		case SJ_TI_YEAR:            if( m_year <= 0 )           return wxT(""); /*else*/ break;
-		case SJ_TI_TRACKNR:         if( m_trackNr <= 0 )        return wxT(""); /*else*/ break;
-		case SJ_TI_TRACKCOUNT:      if( m_trackCount <= 0 )     return wxT(""); /*else*/ break;
-		case SJ_TI_DISKNR:          if( m_diskNr <= 0 )         return wxT(""); /*else*/ break;
-		case SJ_TI_DISKCOUNT:       if( m_diskCount <= 0 )      return wxT(""); /*else*/ break;
-		case SJ_TI_BEATSPERMINUTE:  if( m_beatsPerMinute <= 0 ) return wxT(""); /*else*/ break;
+		case SJ_TI_YEAR:            if( m_year <= 0 )           return ""; /*else*/ break;
+		case SJ_TI_TRACKNR:         if( m_trackNr <= 0 )        return ""; /*else*/ break;
+		case SJ_TI_TRACKCOUNT:      if( m_trackCount <= 0 )     return ""; /*else*/ break;
+		case SJ_TI_DISKNR:          if( m_diskNr <= 0 )         return ""; /*else*/ break;
+		case SJ_TI_DISKCOUNT:       if( m_diskCount <= 0 )      return ""; /*else*/ break;
+		case SJ_TI_BEATSPERMINUTE:  if( m_beatsPerMinute <= 0 ) return ""; /*else*/ break;
 
 		case SJ_TI_PLAYTIMEMS:
-			if( m_playtimeMs <= 0 ) return wxT("");
+			if( m_playtimeMs <= 0 ) return "";
 			return SjTools::FormatTime(m_playtimeMs/1000);
 
 		case SJ_TI_X_TIMEADDED:
 			return SjTools::FormatDate(m_timeAdded, SJ_FORMAT_ADDTIME);
 
 		case SJ_TI_X_TIMEMODIFIED:
-			if( m_timeModified <= 0 ) return wxT("");
+			if( m_timeModified <= 0 ) return "";
 			return SjTools::FormatDate(m_timeModified, SJ_FORMAT_ADDTIME);
 
 		case SJ_TI_X_LASTPLAYED:
-			if( m_lastPlayed <= 0 ) return wxT("");
+			if( m_lastPlayed <= 0 ) return "";
 			return SjTools::FormatDate(m_lastPlayed, SJ_FORMAT_ADDTIME);
 
 		case SJ_TI_X_SAMPLERATE:
-			if( m_samplerate <= 0 ) return wxT("");
+			if( m_samplerate <= 0 ) return "";
 			return SjTools::FormatNumber(m_samplerate);
 
 		case SJ_TI_X_BITRATE:
-			if( m_bitrate <= 0 ) return wxT("");
+			if( m_bitrate <= 0 ) return "";
 			return SjTools::FormatNumber(m_bitrate);
 
 		case SJ_TI_X_DATABYTES:
 			return SjTools::FormatBytes(m_dataBytes);
 
 		case SJ_TI_X_AUTOVOL:
-			if( m_autoVol <= 0 ) return wxT("");
+			if( m_autoVol <= 0 ) return "";
 			return SjTools::FormatGain(SjLong2Gain(m_autoVol), false);
 
 		case SJ_TI_Y_FILETYPE:
@@ -1270,8 +1270,8 @@ wxString SjTrackInfo::GetFormattedValue(long ti) const
 			long queueCount = g_mainFrame->GetAllQueuePosByUrl(m_url, pos);
 			for( long i = 0; i < queueCount; i++ )
 			{
-				if( i ) ret += wxT(", ");
-				ret += wxString::Format(wxT("%i"), (int)(pos[i]+1));
+				if( i ) ret += ", ";
+				ret += wxString::Format("%i", (int)(pos[i]+1));
 			}
 			return ret;
 		}
@@ -1288,7 +1288,7 @@ wxString SjTrackInfo::GetFormattedValue(long ti) const
 			}
 			else
 			{
-				return wxT("");
+				return "";
 			}
 
 	}
@@ -1302,7 +1302,7 @@ wxString SjTrackInfo::GetValue(long ti) const
 	#define RETURN_STRING(n) \
          return (n);
 	#define RETURN_LONG(n) \
-         return wxString::Format(wxT("%i"), (int)(n));
+         return wxString::Format("%i", (int)(n));
 
 	switch( ti )
 	{
@@ -1328,7 +1328,7 @@ wxString SjTrackInfo::GetValue(long ti) const
 	}
 
 	wxASSERT( 0 );
-	return wxT("***");
+	return "***";
 }
 
 
@@ -1399,7 +1399,7 @@ wxString SjTrackInfo::GetFieldDescr(long ti)
 		case SJ_TI_Y_FILETYPE:      return _("File type");
 		case SJ_TI_Y_QUEUEPOS:      return _("Queue position");
 
-		default:                    return wxT("***");
+		default:                    return "***";
 	}
 }
 
@@ -1408,35 +1408,35 @@ wxString SjTrackInfo::GetFieldDbName(long ti)
 {
 	switch( ti )
 	{
-		case SJ_TI_URL:             return wxT("url");
-		case SJ_TI_TRACKNAME:       return wxT("trackName");
-		case SJ_TI_TRACKNR:         return wxT("trackNr");
-		case SJ_TI_TRACKCOUNT:      return wxT("trackCount");
-		case SJ_TI_DISKNR:          return wxT("diskNr");
-		case SJ_TI_DISKCOUNT:       return wxT("diskCount");
-		case SJ_TI_LEADARTISTNAME:  return wxT("leadArtistName");
-		case SJ_TI_ORGARTISTNAME:   return wxT("orgArtistName");
-		case SJ_TI_COMPOSERNAME:    return wxT("composerName");
-		case SJ_TI_ALBUMNAME:       return wxT("albumName");
-		case SJ_TI_GENRENAME:       return wxT("genreName");
-		case SJ_TI_GROUPNAME:       return wxT("groupName");
-		case SJ_TI_COMMENT:         return wxT("comment");
-		case SJ_TI_BEATSPERMINUTE:  return wxT("beatsperminute");
-		case SJ_TI_RATING:          return wxT("rating");
-		case SJ_TI_YEAR:            return wxT("year");
-		case SJ_TI_PLAYTIMEMS:      return wxT("playtimeMs");
+		case SJ_TI_URL:             return "url";
+		case SJ_TI_TRACKNAME:       return "trackName";
+		case SJ_TI_TRACKNR:         return "trackNr";
+		case SJ_TI_TRACKCOUNT:      return "trackCount";
+		case SJ_TI_DISKNR:          return "diskNr";
+		case SJ_TI_DISKCOUNT:       return "diskCount";
+		case SJ_TI_LEADARTISTNAME:  return "leadArtistName";
+		case SJ_TI_ORGARTISTNAME:   return "orgArtistName";
+		case SJ_TI_COMPOSERNAME:    return "composerName";
+		case SJ_TI_ALBUMNAME:       return "albumName";
+		case SJ_TI_GENRENAME:       return "genreName";
+		case SJ_TI_GROUPNAME:       return "groupName";
+		case SJ_TI_COMMENT:         return "comment";
+		case SJ_TI_BEATSPERMINUTE:  return "beatsperminute";
+		case SJ_TI_RATING:          return "rating";
+		case SJ_TI_YEAR:            return "year";
+		case SJ_TI_PLAYTIMEMS:      return "playtimeMs";
 
-		case SJ_TI_X_TIMEADDED:     return wxT("timeadded");
-		case SJ_TI_X_TIMEMODIFIED:  return wxT("timemodified");
-		case SJ_TI_X_LASTPLAYED:    return wxT("lastplayed");
-		case SJ_TI_X_TIMESPLAYED:   return wxT("timesplayed");
-		case SJ_TI_X_DATABYTES:     return wxT("databytes");
-		case SJ_TI_X_BITRATE:       return wxT("bitrate");
-		case SJ_TI_X_SAMPLERATE:    return wxT("samplerate");
-		case SJ_TI_X_CHANNELS:      return wxT("channels");
-		case SJ_TI_X_AUTOVOL:       return wxT("autovol");
+		case SJ_TI_X_TIMEADDED:     return "timeadded";
+		case SJ_TI_X_TIMEMODIFIED:  return "timemodified";
+		case SJ_TI_X_LASTPLAYED:    return "lastplayed";
+		case SJ_TI_X_TIMESPLAYED:   return "timesplayed";
+		case SJ_TI_X_DATABYTES:     return "databytes";
+		case SJ_TI_X_BITRATE:       return "bitrate";
+		case SJ_TI_X_SAMPLERATE:    return "samplerate";
+		case SJ_TI_X_CHANNELS:      return "channels";
+		case SJ_TI_X_AUTOVOL:       return "autovol";
 
-		default:                    wxASSERT(0); return wxT("id");
+		default:                    wxASSERT(0); return "id";
 	}
 }
 
@@ -1496,22 +1496,22 @@ wxString SjTrackInfo::Diff(const SjTrackInfo& o) const
      if( a != o.a ) \
      { \
          wxString t(a), o_t(o.a); \
-         t.Replace(wxT(" "), wxT("")); o_t.Replace(wxT(" "), wxT("")); \
+         t.Replace(" ", ""); o_t.Replace(" ", ""); \
          if( t != o_t ) \
          { \
-             ret += wxString::Format(wxT("\n%s: %s != %s"), wxT(#a), a.c_str(), o.a.c_str()); \
+             ret += wxString::Format("\n%s: %s != %s", #a, a.c_str(), o.a.c_str()); \
          } \
          else \
          { \
              wxString t(a), o_t(o.a); \
-             t.Replace(wxT(" "), wxT("_")); o_t.Replace(wxT(" "), wxT("_")); \
-             ret += wxString::Format(wxT("\n%s: %s != %s"), wxT(#a), t.c_str(), o_t.c_str()); \
+             t.Replace(" ", "_"); o_t.Replace(" ", "_"); \
+             ret += wxString::Format("\n%s: %s != %s", #a, t.c_str(), o_t.c_str()); \
          } \
      }
 
 	#define DIFF_LONG(a) \
      if( a != o.a ) \
-         ret += wxString::Format(wxT("\n%s: %i != %i"), wxT(#a), (int)a, (int)o.a);
+         ret += wxString::Format("\n%s: %i != %i", #a, (int)a, (int)o.a);
 
 	DIFF_LONG   (m_id);
 	DIFF_LONG   (m_updatecrc);
@@ -1547,11 +1547,11 @@ wxString SjTrackInfo::Diff(const SjTrackInfo& o) const
 
 	if( ret.IsEmpty() )
 	{
-		ret = wxT("The two track information objects for \"")  + m_url + wxT("\" equal.\n");
+		ret = "The two track information objects for \""  + m_url + "\" equal.\n";
 	}
 	else
 	{
-		ret.Prepend(wxT("I found the following differences for \"") + m_url +  wxT("\":\n"));
+		ret.Prepend("I found the following differences for \"" + m_url +  "\":\n");
 	}
 
 	return ret;

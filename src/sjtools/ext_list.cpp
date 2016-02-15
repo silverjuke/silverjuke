@@ -41,22 +41,22 @@ wxArrayString SjExtList::String2Array(const wxString& str__)
 	wxArrayString ret;
 	wxString str(str__);
 
-	str.Replace(wxT(";"), wxT(","));
-	str.Replace(wxT(" "), wxT(","));
-	str.Replace(wxT("/"), wxT(","));
-	str.Replace(wxT("\\"),wxT(","));
-	str.Replace(wxT("?"), wxT(""));
-	str.Replace(wxT("*"), wxT(""));
-	str.Replace(wxT("."), wxT(""));
-	str.Replace(wxT("("), wxT(""));
-	str.Replace(wxT(")"), wxT(""));
-	str.Replace(wxT("["), wxT(""));
-	str.Replace(wxT("]"), wxT(""));
-	str.Replace(wxT("\""),wxT(""));
-	str.Replace(wxT("'"), wxT(""));
+	str.Replace(";", ",");
+	str.Replace(" ", ",");
+	str.Replace("/", ",");
+	str.Replace("\\",",");
+	str.Replace("?", "");
+	str.Replace("*", "");
+	str.Replace(".", "");
+	str.Replace("(", "");
+	str.Replace(")", "");
+	str.Replace("[", "");
+	str.Replace("]", "");
+	str.Replace("\"","");
+	str.Replace("'", "");
 	str.MakeLower();
 
-	wxStringTokenizer tkz(str, wxT(","));
+	wxStringTokenizer tkz(str, ",");
 	wxString curr;
 	while( tkz.HasMoreTokens() )
 	{
@@ -81,12 +81,12 @@ wxString SjExtList::Array2String(const wxArrayString& array, int maxExtToReturn)
 	{
 		if( i )
 		{
-			ret += wxT(", ");
+			ret += ", ";
 		}
 
 		if( maxExtToReturn == 0 )
 		{
-			ret += wxT("...");
+			ret += "...";
 			break;
 		}
 		else
@@ -280,22 +280,22 @@ wxString SjExtList::GetFileDlgStr(long flags)
 			if( currIndex == wxNOT_FOUND )
 			{
 				allDescr.Add(currDescr);
-				allExt.Add(wxT("*.")+m_ext[i]);
+				allExt.Add("*."+m_ext[i]);
 			}
 			else
 			{
-				allExt[currIndex] += wxT(";*.")+m_ext[i];
+				allExt[currIndex] += ";*."+m_ext[i];
 			}
 
-			if( i ) supportedExt += wxT(";");
-			supportedExt += wxT("*.")+m_ext[i];
+			if( i ) supportedExt += ";";
+			supportedExt += "*."+m_ext[i];
 		}
 
 		// add extensions after descriptions and sort them
 		iCount = allDescr.GetCount();
 		for( i = 0; i < iCount; i++ )
 		{
-			allDescr[i] += wxT("\n") + allExt[i];
+			allDescr[i] += "\n" + allExt[i];
 		}
 
 		allDescr.Sort();
@@ -321,15 +321,15 @@ wxString SjExtList::GetFileDlgStr(long flags)
 	{
 		wxString currDescr = allDescr[i].BeforeFirst('\n');
 		wxString currExt = allDescr[i].AfterFirst('\n');
-		ret += currDescr + wxT(" (") + currExt+ wxT(")") wxT("|") + currExt + wxT("|");
+		ret += currDescr + " (" + currExt+ ")" "|" + currExt + "|";
 
 		m_extFileDialog.Add(currExt);
 	}
 
 	if( !(flags & wxFD_SAVE) )
 	{
-		ret << _("All files") << wxT(" (*.*)|*.*");
-		m_extFileDialog.Add(wxT(""));
+		ret << _("All files") << " (*.*)|*.*";
+		m_extFileDialog.Add("");
 	}
 	else
 	{
@@ -367,7 +367,7 @@ wxString SjExtList::GetFileDlgExt(long index)
 		}
 	}
 
-	return wxT("");
+	return "";
 }
 
 
@@ -389,7 +389,7 @@ void SjExtList::GetFileDlgPath(wxFileDialog& fileDialog, wxString& selPath, wxSt
 		selExt = GetFileDlgExt(fileDialog.GetFilterIndex());
 		if( !selExt.IsEmpty() )
 		{
-			selPath << wxT(".") << selExt;
+			selPath << "." << selExt;
 		}
 	}
 	else if( !LookupExt(selExt) )
