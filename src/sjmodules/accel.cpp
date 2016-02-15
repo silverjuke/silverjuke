@@ -101,6 +101,8 @@ bool SjAccelModule::FirstLoad()
 	OrgCmd(_("Search"),                         IDT_SEARCH_BUTTON,         SJA_MAIN); OrgKey(wxACCEL_CTRL, 'F');
 	OrgCmd(_("Music selection..."),             IDT_ADV_SEARCH,            SJA_MAIN); OrgKey(wxACCEL_ALT, 'F');
 	OrgCmd(_os(_("Settings"))+wxT("..."),       IDT_SETTINGS,              SJA_MAIN); OrgKey(wxACCEL_ALT, 'P'); OrgKey(wxACCEL_ALT, WXK_RETURN);
+	OrgCmd(_("Equalizer")+wxString("..."),      IDO_SETTINGS_EQUALIZER,    SJA_MAIN);
+	OrgCmd(_("Automatic control")+wxString("..."), IDO_SETTINGS_AUTOCTRL,  SJA_MAIN);
 	OrgCmd(wxString::Format(_os(_("Exit %s")), SJ_PROGRAM_NAME),
 	                                            IDT_QUIT,                  SJA_MAIN);
                                                                                              #ifdef __WXMSW__

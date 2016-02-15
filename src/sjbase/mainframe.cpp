@@ -1447,7 +1447,8 @@ BEGIN_EVENT_TABLE(SjMainFrame, SjSkinWindow)
 	EVT_MENU        (IDO_SETTINGS_SKINS,                        SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_SETTINGS_FONTNCOVER,                   SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_SETTINGS_QUEUE,                        SjMainFrame::OnFwdToSkin     )
-	EVT_MENU        (IDO_SETTINGS_AUTOVOL,                      SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_SETTINGS_AUTOCTRL,                     SjMainFrame::OnFwdToSkin     )
+	EVT_MENU        (IDO_SETTINGS_EQUALIZER,                    SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_REALLYENDSEARCH,                       SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_CORNERCLICK,                           SjMainFrame::OnFwdToSkin     )
 	EVT_MENU        (IDO_ABOUT_OPEN_WWW,                        SjMainFrame::OnFwdToSkin     )
@@ -1757,7 +1758,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				break;
 
 			case IDO_SETTINGS_QUEUE:
-			case IDO_SETTINGS_AUTOVOL:
+			case IDO_SETTINGS_AUTOCTRL:
 				if( IsAllAvailable() )
 				{
 					OpenSettings("memory:playbacksettings.lib", 0, targetId==IDO_SETTINGS_QUEUE? 0 : 2);

@@ -423,7 +423,8 @@ void SjMainFrame::CreatePlaybackMenu(SjMenu* playbackMenu)
 
 		if( IsAllAvailable() )
 		{
-			playbackMenu->Append(IDO_SETTINGS_AUTOVOL, _("Automatic control")+wxString("..."));
+			playbackMenu->Append(IDO_SETTINGS_EQUALIZER);
+			playbackMenu->Append(IDO_SETTINGS_AUTOCTRL);
 		}
 	}
 }
