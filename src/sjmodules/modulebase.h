@@ -711,12 +711,8 @@ public:
 	#define         SJ_EXT_MUSICFILES           0x001
 	#define         SJ_EXT_IMAGEFILES           0x002
 	#define         SJ_EXT_ARCHIVES             0x004
-	#define         SJ_EXT_SKINFILES            0x008
-	#define         SJ_EXT_LANGUAGEFILES        0x010
-	#define         SJ_EXT_DATABASES            0x020
 	#define         SJ_EXT_PLAYLISTS_READ       0x040
 	#define         SJ_EXT_PLAYLISTS_WRITE      0x080
-	#define         SJ_EXT_KARAOKE              0x100
 	SjExtList       GetAssignedExt              (long flags);
 
 	// searching modules

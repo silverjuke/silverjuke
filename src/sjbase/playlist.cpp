@@ -356,15 +356,11 @@ void SjPlaylistEntry::VerifyUrl()
 
 	m_url = fsFileLocation;
 
-	// file is okay - but is it playable by us?
-	if( g_mainFrame->m_player.TestUrl(m_url) )
-	{
-		m_urlOk = TRUE; // very fine ;-)
-	}
+	m_urlOk = TRUE; // assume, it is also playable, we cannot be more exact berfore we really try it
 
 	// done
 	#ifdef DEBUG_VERIFY
-		wxLogDebug(wxT("%s verified..."), m_url.c_str());
+		wxLogDebug("%s verified...", m_url.c_str());
 	#endif
 }
 

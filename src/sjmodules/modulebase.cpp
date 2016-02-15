@@ -453,31 +453,32 @@ SjScannerModule* SjModuleSystem::FindScannerModuleByUrl(const wxString& url)
 
 SjExtList SjModuleSystem::GetAssignedExt(long flags)
 {
-	SjExtList       ret;
+	SjExtList ret;
 
-	// directly playable files
+	// potentially playable files
 	if( flags & SJ_EXT_MUSICFILES )
 	{
-		wxBusyCursor busy;
-		ret.AddExt(g_mainFrame->m_player.GetExtList());
+		ret.AddExt(
+			"aac ac3 aif aiff ape asf au dts f4a fla flac "
+			"m4a m4b mac mp+ mp1 mp2 mp3 mpa mpc mpp "
+			"nsa ofr oga ogg opus shn snd spx tta wav wma wv ra "
+			#if SJ_USE_VIDEO
+			"3g2 3gp asx avi dv f4p f4v flv "
+			"mjpg mkv mka mov m2t m2ts m2v m4v m4p mp4 mpg mpe mpeg mpv mts "
+			"nsv ogm ogv ogx pva qt qtl rm rmvb trp ts vob wax webm wmv "
+			#endif
+		);
 	}
 
 	// files types read along with the playable files
 	if( flags & SJ_EXT_ARCHIVES )
 	{
-		ret.AddExt(wxT("tar"));
-		ret.AddExt(wxT("zip"));
+		ret.AddExt("tar zip");
 	}
 
 	if( flags & SJ_EXT_IMAGEFILES )
 	{
 		ret.AddExt(m_imageExtList);
-	}
-
-	if( flags & SJ_EXT_KARAOKE )
-	{
-		ret.AddExt(wxT("cdg")); // graphics from from mp3+g
-		ret.AddExt(wxT("lrc"));
 	}
 
 	// other file types
@@ -489,17 +490,6 @@ SjExtList SjModuleSystem::GetAssignedExt(long flags)
 	if( flags & SJ_EXT_PLAYLISTS_WRITE )
 	{
 		ret.AddExt(m_playlistExtListWrite);
-	}
-
-	if( flags & SJ_EXT_SKINFILES )
-	{
-		ret.AddExt(wxT("sjs"));
-		ret.AddExt(wxT("xml"));
-	}
-
-	if( flags & SJ_EXT_LANGUAGEFILES )
-	{
-		ret.AddExt(wxT("mo"));
 	}
 
 	return ret;

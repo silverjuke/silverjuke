@@ -85,6 +85,7 @@ private:
 	wxCheckBox*     m_readHiddenDirsCheckBox;
 	wxCheckBox*     m_readZipCheckBox;
 	wxCheckBox*     m_readId3CheckBox;
+	wxTextCtrl*     m_additionalExtTextCtrl;
 	wxTextCtrl*     m_ignoreExtTextCtrl;
 	wxTextCtrl*     m_infoMaskTextCtrl;
 
@@ -133,7 +134,22 @@ SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScan
 	m_enabledCheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_ENABLED? TRUE : FALSE);
 	sizer3->Add(m_enabledCheckBox, 0, wxALIGN_CENTER_VERTICAL);
 
+	// read ID3-Tags?
+	m_readId3CheckBox = new wxCheckBox(this, -1, _("Read (ID3)-tags"));
+	m_readId3CheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_READID3? TRUE : FALSE);
+	sizer2->Add(m_readId3CheckBox, 0, wxLEFT|wxRIGHT|wxTOP|wxBOTTOM, SJ_DLG_SPACE);
+
+	// file mask combobox
+	sizer2->Add(new wxStaticText(this, -1,  _("Path and file pattern for track-information if (ID3-)tags are missing:")), 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
+
+	m_infoMaskTextCtrl = new wxTextCtrl(this, -1, source->m_trackInfoMatcher.GetPattern());
+	sizer2->Add(m_infoMaskTextCtrl, 0, wxLEFT|wxRIGHT|wxGROW, SJ_DLG_SPACE);
+
+	wxStaticText* staticText = new wxStaticText(this, -1, "("+wxString(_("Placeholders:"))+" <Nr>, <Title>, <Artist>, <Album>, <Genre>, <Group>, <Year>)");
+	sizer2->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+
 	// ignore ext combobox
+	m_additionalExtTextCtrl = NULL;
 	m_ignoreExtTextCtrl = NULL;
 	m_doUpdateCheckBox = NULL;
 	m_readHiddenFilesCheckBox = NULL;
@@ -141,59 +157,42 @@ SjFolderSettingsDialog::SjFolderSettingsDialog(SjFolderScannerModule* folderScan
 	m_readZipCheckBox = NULL;
 	if( isDir )
 	{
-		sizer2->Add(new wxStaticText(this, -1,
-		                             _("Ignore music-files and images with the following extensions:")), 0, wxLEFT|wxTOP|wxRIGHT, SJ_DLG_SPACE);
-
-		m_ignoreExtTextCtrl = new wxTextCtrl(this, -1, source->m_ignoreExt.GetExt());
-		sizer2->Add(m_ignoreExtTextCtrl, 0, wxLEFT|wxRIGHT|wxGROW, SJ_DLG_SPACE);
-
-		wxStaticText* staticText = new wxStaticText(this, -1,
-		        _("(separate the extensions using the comma, case is ignored)"));
-		sizer2->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
-
 		m_doUpdateCheckBox = new wxCheckBox(this, -1, _("Include folder to the update process"));
 		m_doUpdateCheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_DOUPDATE? TRUE : FALSE);
 		sizer2->Add(m_doUpdateCheckBox, 0, wxLEFT|wxTOP|wxRIGHT, SJ_DLG_SPACE);
-		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
+		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2);
 
-		// only implemented and usefull for MSW - esp for
-		// reading hidden covers from the WMP
 		m_readHiddenFilesCheckBox = new wxCheckBox(this, -1, _("Read hidden files"));
 		m_readHiddenFilesCheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_READHIDDENFILES? TRUE : FALSE);
 		sizer2->Add(m_readHiddenFilesCheckBox, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
-		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
+		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2);
 
 		m_readHiddenDirsCheckBox = new wxCheckBox(this, -1, _("Read hidden folders"));
 		m_readHiddenDirsCheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_READHIDDENDIRS? TRUE : FALSE);
 		sizer2->Add(m_readHiddenDirsCheckBox, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
-		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
+		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2);
 
 		m_readZipCheckBox = new wxCheckBox(this, -1, _("Read inside ZIP-/TAR-archives"));
 		m_readZipCheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_READZIP? TRUE : FALSE);
-		sizer2->Add(m_readZipCheckBox, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
-		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
+		sizer2->Add(m_readZipCheckBox, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+
+		wxFlexGridSizer* sizer2f = new wxFlexGridSizer(2, 0, SJ_DLG_SPACE/2);
+		sizer2f->AddGrowableCol(0);
+		sizer2f->AddGrowableCol(1);
+		sizer2->Add(sizer2f, 0, wxLEFT|wxRIGHT|wxGROW, SJ_DLG_SPACE);
+
+			sizer2f->Add(new wxStaticText(this, -1, _("Additional file extensions:")), 0, wxGROW, SJ_DLG_SPACE);
+			sizer2f->Add(new wxStaticText(this, -1, _("Ignore file extensions:")), 0, wxGROW, SJ_DLG_SPACE);
+
+			m_additionalExtTextCtrl = new wxTextCtrl(this, -1, source->m_additionalExt.GetExt());
+			sizer2f->Add(m_additionalExtTextCtrl, 0, wxGROW, SJ_DLG_SPACE);
+
+			m_ignoreExtTextCtrl = new wxTextCtrl(this, -1, source->m_ignoreExt.GetExt());
+			sizer2f->Add(m_ignoreExtTextCtrl, 0, wxGROW, SJ_DLG_SPACE);
+
+		wxStaticText* staticText = new wxStaticText(this, -1, _("(separate the extensions using the comma, case is ignored)"));
+		sizer2->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 	}
-	else
-	{
-		sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
-	}
-
-	// read ID3-Tags?
-	m_readId3CheckBox = new wxCheckBox(this, -1, _("Read (ID3)-tags"));
-	m_readId3CheckBox->SetValue(source->m_flags&SJ_FOLDERSCANNER_READID3? TRUE : FALSE);
-	sizer2->Add(m_readId3CheckBox, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
-	sizer2->Add(SJ_DLG_SPACE, SJ_DLG_SPACE/2); // some space
-
-	// file mask combobox
-	sizer2->Add(new wxStaticText(this, -1,
-	                             _("Path and file pattern for track-information if (ID3-)tags are missing:")), 0, wxLEFT|wxTOP|wxRIGHT, SJ_DLG_SPACE);
-
-	m_infoMaskTextCtrl = new wxTextCtrl(this, -1, source->m_trackInfoMatcher.GetPattern());
-	sizer2->Add(m_infoMaskTextCtrl, 0, wxLEFT|wxRIGHT|wxGROW, SJ_DLG_SPACE);
-
-	wxStaticText* staticText = new wxStaticText(this, -1,
-	        wxT("(")+wxString(_("Placeholders:"))+wxT(" <Nr>, <Title>, <Artist>, <Album>, <Genre>, <Group>, <Year>)"));
-	sizer2->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	// reset button
 	wxButton* button = new wxButton(this, IDC_RESET, _("Reset to default values"), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
@@ -252,9 +251,14 @@ void SjFolderSettingsDialog::EnableDisable()
 
 void SjFolderSettingsDialog::OnReset(wxCommandEvent&)
 {
+	if( m_additionalExtTextCtrl )
+	{
+		m_additionalExtTextCtrl->SetValue("");
+	}
+
 	if( m_ignoreExtTextCtrl )
 	{
-		m_ignoreExtTextCtrl->SetValue(wxT(""));
+		m_ignoreExtTextCtrl->SetValue("");
 	}
 
 	if( m_doUpdateCheckBox )
@@ -350,7 +354,17 @@ bool SjFolderScannerModule::ConfigSource(long index, wxWindow* parent)
 		needsDeepUpdate = TRUE;
 	}
 
-	// check ignore extension
+	// check additional/ignore extension
+	if( dlg.m_additionalExtTextCtrl )
+	{
+		SjExtList newAdditionalExt(dlg.m_additionalExtTextCtrl->GetValue());
+		if( newAdditionalExt != currSourceObj->m_additionalExt )
+		{
+			currSourceObj->m_additionalExt = newAdditionalExt;
+			needsUpdate = TRUE;
+		}
+	}
+
 	if( dlg.m_ignoreExtTextCtrl )
 	{
 		SjExtList newIgnoreExt(dlg.m_ignoreExtTextCtrl->GetValue());
@@ -412,24 +426,25 @@ void SjFolderScannerModule::LoadSettings__()
 	m_listOfSources.Clear();
 	wxSqlt sql;
 
-	int                     sourceCount = sql.ConfigRead(wxT("folderscanner/sourceCount"), 0L);
+	int                     sourceCount = sql.ConfigRead("folderscanner/sourceCount", 0L);
 	int                     currSourceIndex;
 	wxString                currSourceStr;
 	SjFolderScannerSource*  currSourceObj;
 	for( currSourceIndex = 0; currSourceIndex < sourceCount; currSourceIndex++ )
 	{
-		currSourceStr = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT(""));
+		currSourceStr = sql.ConfigRead(wxString::Format("folderscanner/url%i", (int)currSourceIndex), "");
 		if( !currSourceStr.IsEmpty() )
 		{
 			currSourceStr = SjTools::EnsureTrailingSlash(currSourceStr);
 			currSourceObj = new SjFolderScannerSource;
 			if( currSourceObj )
 			{
-				currSourceObj->m_url        = currSourceStr;
-				currSourceObj->m_file       = sql.ConfigRead(wxString::Format(wxT("folderscanner/file%i"), (int)currSourceIndex), wxT(""));
-				currSourceObj->m_ignoreExt  = sql.ConfigRead(wxString::Format(wxT("folderscanner/ignoreExt%i"), (int)currSourceIndex), wxT(""));
-				currSourceObj->m_trackInfoMatcher.Compile(SJ_TI_URL, sql.ConfigRead(wxString::Format(wxT("folderscanner/pattern%i"), (int)currSourceIndex), SjTrackInfoMatcher::GetDefaultPattern()));
-				currSourceObj->m_flags      =  sql.ConfigRead(wxString::Format(wxT("folderscanner/flags%i"), (int)currSourceIndex), SJ_FOLDERSCANNER_DEFFLAGS);
+				currSourceObj->m_url           = currSourceStr;
+				currSourceObj->m_file          = sql.ConfigRead(wxString::Format("folderscanner/file%i", (int)currSourceIndex), "");
+				currSourceObj->m_additionalExt = sql.ConfigRead(wxString::Format("folderscanner/additionalExt%i", (int)currSourceIndex), "");
+				currSourceObj->m_ignoreExt     = sql.ConfigRead(wxString::Format("folderscanner/ignoreExt%i", (int)currSourceIndex), "");
+				currSourceObj->m_trackInfoMatcher.Compile(SJ_TI_URL, sql.ConfigRead(wxString::Format("folderscanner/pattern%i", (int)currSourceIndex), SjTrackInfoMatcher::GetDefaultPattern()));
+				currSourceObj->m_flags         =  sql.ConfigRead(wxString::Format("folderscanner/flags%i", (int)currSourceIndex), SJ_FOLDERSCANNER_DEFFLAGS);
 				m_listOfSources.Append(currSourceObj);
 			}
 		}
@@ -453,11 +468,12 @@ void SjFolderScannerModule::SaveSettings__()
 		// write source
 		currSourceObj = currSourceNode->GetData();
 		wxASSERT(currSourceObj);
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), currSourceObj->m_url);
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/file%i"), (int)currSourceIndex), currSourceObj->m_file);
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/ignoreExt%i"), (int)currSourceIndex), currSourceObj->m_ignoreExt.GetExt());
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/pattern%i"), (int)currSourceIndex), currSourceObj->m_trackInfoMatcher.GetPattern());
-		sql.ConfigWrite(wxString::Format(wxT("folderscanner/flags%i"), (int)currSourceIndex), currSourceObj->m_flags);
+		sql.ConfigWrite(wxString::Format("folderscanner/url%i", (int)currSourceIndex), currSourceObj->m_url);
+		sql.ConfigWrite(wxString::Format("folderscanner/file%i", (int)currSourceIndex), currSourceObj->m_file);
+		sql.ConfigWrite(wxString::Format("folderscanner/additionalExt%i", (int)currSourceIndex), currSourceObj->m_additionalExt.GetExt());
+		sql.ConfigWrite(wxString::Format("folderscanner/ignoreExt%i", (int)currSourceIndex), currSourceObj->m_ignoreExt.GetExt());
+		sql.ConfigWrite(wxString::Format("folderscanner/pattern%i", (int)currSourceIndex), currSourceObj->m_trackInfoMatcher.GetPattern());
+		sql.ConfigWrite(wxString::Format("folderscanner/flags%i", (int)currSourceIndex), currSourceObj->m_flags);
 
 		// next source
 		currSourceIndex++;
@@ -468,20 +484,21 @@ void SjFolderScannerModule::SaveSettings__()
 	while( 1 /*exit by break*/ )
 	{
 		#define MAX_DEL 1000
-		if( sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT("*"))==wxT("*") /*check for existance (`*` is an invalid URL)*/
+		if( sql.ConfigRead(wxString::Format("folderscanner/url%i", (int)currSourceIndex), "*")=="*" /*check for existance (`*` is an invalid URL)*/
 		 || currSourceIndex > MAX_DEL /*avoid deadlocks*/ )
 		{
 			break; // done
 		}
 
-		wxString url = sql.ConfigRead(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex), wxT(""));
+		wxString url = sql.ConfigRead(wxString::Format("folderscanner/url%i", (int)currSourceIndex), "");
 
-		sql.ConfigDeleteEntry(wxT("folderscanner/deepupdate/")+url);
-		sql.ConfigDeleteEntry(wxT("folderscanner/trackCount/")+url);
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/url%i"), (int)currSourceIndex));
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/ignoreExt%i"), (int)currSourceIndex));
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/pattern%i"), (int)currSourceIndex));
-		sql.ConfigDeleteEntry(wxString::Format(wxT("folderscanner/flags%i"), (int)currSourceIndex));
+		sql.ConfigDeleteEntry("folderscanner/deepupdate/"+url);
+		sql.ConfigDeleteEntry("folderscanner/trackCount/"+url);
+		sql.ConfigDeleteEntry(wxString::Format("folderscanner/url%i", (int)currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format("folderscanner/additionalExt%i", (int)currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format("folderscanner/ignoreExt%i", (int)currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format("folderscanner/pattern%i", (int)currSourceIndex));
+		sql.ConfigDeleteEntry(wxString::Format("folderscanner/flags%i", (int)currSourceIndex));
 
 		currSourceIndex++;
 	}
@@ -656,11 +673,12 @@ long SjFolderScannerModule::DoAddUrl(const wxString& newUrl__, const wxString& n
 
 	// add new source
 	SjFolderScannerSource* currSourceObj = new SjFolderScannerSource;
-	currSourceObj->m_url        = newUrl;
-	currSourceObj->m_file       = newFile;
-	currSourceObj->m_ignoreExt  = (defSource && newFile.IsEmpty())? defSource->m_ignoreExt : SjExtList();
+	currSourceObj->m_url           = newUrl;
+	currSourceObj->m_file          = newFile;
+	currSourceObj->m_additionalExt = (defSource && newFile.IsEmpty())? defSource->m_additionalExt : SjExtList();
+	currSourceObj->m_ignoreExt     = (defSource && newFile.IsEmpty())? defSource->m_ignoreExt : SjExtList();
 	currSourceObj->m_trackInfoMatcher.Compile(SJ_TI_URL, defSource? defSource->m_trackInfoMatcher.GetPattern() : SjTrackInfoMatcher::GetDefaultPattern());
-	currSourceObj->m_flags      = SJ_FOLDERSCANNER_DEFFLAGS;
+	currSourceObj->m_flags         = SJ_FOLDERSCANNER_DEFFLAGS;
 
 	if( !newFile.IsEmpty() )
 	{
@@ -744,13 +762,6 @@ bool SjFolderScannerModule::IterateFile__(const wxString&        url,
 	{
 		ret = TRUE; // success, the file is already in the database
 		retTrackCount++;
-		goto Cleanup;
-	}
-
-	// check if the current extension can be handled by the player
-	if( !g_mainFrame->m_player.TestUrl(url) )
-	{
-		ret = TRUE; // error, but continue
 		goto Cleanup;
 	}
 
@@ -981,15 +992,15 @@ bool SjFolderScannerModule::IterateDir__(const wxString&        url, // may or m
 		currUrl = fileEntries.Item(entryIndex);
 		currExt = SjTools::GetExt(currUrl);
 
-		if( (source->m_flags&SJ_FOLDERSCANNER_READZIP) && currExt == wxT("zip") )
+		if( (source->m_flags&SJ_FOLDERSCANNER_READZIP) && currExt == "zip" )
 		{
-			subdirEntries.Add(currUrl + wxT("#zip:/"));
+			subdirEntries.Add(currUrl + "#zip:/");
 		}
-		else if( (source->m_flags&SJ_FOLDERSCANNER_READZIP) && currExt == wxT("tar") )
+		else if( (source->m_flags&SJ_FOLDERSCANNER_READZIP) && currExt == "tar" )
 		{
-			subdirEntries.Add(currUrl + wxT("#tar:/"));
+			subdirEntries.Add(currUrl + "#tar:/");
 		}
-		else if( !source->m_ignoreExt.LookupExt(currExt) )
+		else if( source->m_musicExt.LookupExt(currExt) )
 		{
 			// the file is an understood media file
 			if( !IterateFile__(currUrl, deepUpdate, arts, crc32, source, receiver, retTrackCount) )
@@ -1043,14 +1054,19 @@ bool SjFolderScannerModule::IterateTrackInfo(SjColModule* receiver)
 
 		if( currSource->m_flags&SJ_FOLDERSCANNER_ENABLED )
 		{
+			// set up the extensions to read
+			currSource->m_musicExt = g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_MUSICFILES);
+			currSource->m_musicExt.AddExt(currSource->m_additionalExt);
+			currSource->m_musicExt.SubExt(currSource->m_ignoreExt);
+
 			// deep update current source?
 			{
 				wxSqlt sql;
 				doIterateDir = TRUE;
-				deepUpdate = sql.ConfigRead(wxT("folderscanner/deepupdate/")+currSource->UrlPlusFile(), 0)? TRUE : FALSE;
+				deepUpdate = sql.ConfigRead("folderscanner/deepupdate/"+currSource->UrlPlusFile(), 0)? TRUE : FALSE;
 				if( deepUpdate )
 				{
-					sql.ConfigWrite(wxT("folderscanner/deepupdate/")+currSource->UrlPlusFile(), 0L);
+					sql.ConfigWrite("folderscanner/deepupdate/"+currSource->UrlPlusFile(), 0L);
 				}
 			}
 

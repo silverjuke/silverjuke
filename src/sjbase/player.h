@@ -61,10 +61,6 @@ public:
 	void            LoadFromResumeFile  ();
 	wxString        GetResumeFile       () const;
 
-	// Check if a given file is playable
-	bool            TestUrl             (const wxString& url);
-	const SjExtList* GetExtList         ();
-
 	// Basic Player Control.
 	// The playback is NOT started implicit by Goto() or Enqueue() functions.
 	// To check if the operations were successfull, use the Is*()/Get*() functions.

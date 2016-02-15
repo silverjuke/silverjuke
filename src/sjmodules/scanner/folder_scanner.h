@@ -50,6 +50,8 @@ public:
 
 	wxString        m_url;
 	wxString        m_file; // empty if the URL specifies a directory that should be read recursive
+	SjExtList       m_musicExt; // set up on scanning from default extensions, m_additionalExt and m_ignoreExt
+	SjExtList       m_additionalExt;
 	SjExtList       m_ignoreExt;
 	SjTrackInfoMatcher m_trackInfoMatcher;
 	long            m_flags;

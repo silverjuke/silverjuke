@@ -190,37 +190,8 @@ wxPanel* SjMyMusicConfigPage::CreatePage(wxWindow* parent)
 	m_configMenuButton = new wxButton(page, IDC_IDXCONFIGSOURCEMENU, _("Options")+wxString(SJ_BUTTON_MENU_ARROW), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	buttonSizer->Add(m_configMenuButton, 0, wxLEFT|wxTOP|wxBOTTOM, SJ_DLG_SPACE);
 
-	m_updateButton = new wxButton(page, IDC_IDXUPDATEMENU, wxString::Format(wxT(" %s%s "), _("Update music library"), SJ_BUTTON_MENU_ARROW), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
+	m_updateButton = new wxButton(page, IDC_IDXUPDATEMENU, wxString::Format(" %s%s ", _("Update music library"), SJ_BUTTON_MENU_ARROW), wxDefaultPosition, wxDefaultSize, wxBU_EXACTFIT);
 	buttonSizer->Add(m_updateButton, 0, wxALL, SJ_DLG_SPACE);
-
-	// add supported files hint
-	SjExtList supportedExt = g_mainFrame->m_moduleSystem.GetAssignedExt(SJ_EXT_MUSICFILES); // equals to `g_mainFrame->m_player.GetExtList()`
-
-	wxArrayString arrayStr;
-	for( int i = supportedExt.GetCount()-1; i >= 0; i-- ) {
-		arrayStr.Add(supportedExt.GetExt(i));
-	}
-	arrayStr.Sort();
-
-	wxString line = _("Supported file types") + ": ", text, ext;
-	size_t i, i_cnt = arrayStr.GetCount();
-	bool hasMp3 = false, hasOgg = false;
-	for( i = 0; i < i_cnt; i++ )
-	{
-		ext = arrayStr.Item(i);
-		line += ext;
-		if( i != i_cnt-1 ) { line += ", "; }
-		if( line.Len() > 75 ) { if( text.Len() ) { text += "\n"; } text += line; line = ""; }
-		if( ext == "mp3" ) { hasMp3 = true; }
-		if( ext == "ogg" ) { hasOgg = true; }
-        if( hasMp3 && hasOgg && i != i_cnt-1 && i >= 70 ) { line += wxString::Format("%i", (int)(i_cnt-i-1)) + "  more"; break; }
-	}
-	if( line.Len() ) { if( text.Len() ) { text += "\n"; } text += line; }
-
-	staticText = new wxStaticText(page, -1, text);
-	sizer1->Add(staticText, 0, wxALL, SJ_DLG_SPACE);
-
-	sizer1->Add(1, SJ_DLG_SPACE); // some space
 
 	return page;
 }

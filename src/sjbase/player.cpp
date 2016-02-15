@@ -260,45 +260,6 @@ void SjPlayer::Exit()
  ******************************************************************************/
 
 
-const SjExtList* SjPlayer::GetExtList()
-{
-	static SjExtList s_exstList;
-	bool s_extListInitialized = false;
-	if( !s_extListInitialized )
-	{
-		// TODO: return really supported extensions here - or simply define a global "default" list and allow the user to modify it
-		// (instead of let the user define extensions to ignore)
-		s_exstList.AddExt("16sv, 4xm, 669, 8svx, aac, ac3, aif, aiff, amf, anim, anim3, anim5, anim7, anim8, anx, asc, "
-			"asf, ass, asx, au, aud, avi, axa, axv, cak, cin, cpk, dat, dif, dps, dts, dv, f4a, f4v, film, flac, flc, fli, flv, "
-			"ik2, iki, ilbm, it, m2t, m2ts, m4a, m4b, mdl, med, mjpg, mkv, mng, mod, mov, mp+, mp2, mp3, mp4, mpa, mpc, mpeg, mpega, "
-			"mpg, mpp, mpv, mts, mv8, mve, nsv, oga, ogg, ogm, ogv, ogx, pes, pva, qt, qtl, ra, rm, rmvb, roq, s3m, shn, smi, snd, "
-			"spx, srt, ssa, stm, str, sub, svx, trp, ts, tta, vmd, vob, voc, vox, vqa, wav, wax, wbm, webm, wma, wmv, wv, wve, wvp, "
-			"wvx, xa, xa1, xa2, xap, xas, xm, y4m"); // (list is from xine)
-	}
-	return &s_exstList;
-}
-
-
-bool SjPlayer::TestUrl(const wxString& url)
-{
-	if( !m_isInitialized ) {
-		return false;
-	}
-
-	wxString ext = SjTools::GetExt(url);
-	if( ext.IsEmpty() ) {
-		return false;
-	}
-
-	const SjExtList* extList = GetExtList();
-	if( extList && !extList->LookupExt(ext) ) {
-		return false;
-	}
-
-	return true; // URL is fine
-}
-
-
 bool SjPlayer::IsAutoPlayOnAir()
 {
 	if( !m_isInitialized ) {

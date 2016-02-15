@@ -46,6 +46,7 @@ public:
 	void            AddExt          (const SjExtList& o)        { AddArray(o.m_ext); }
 	void            AddExt          (const SjExtList* o)        { if(o) { AddArray(o->m_ext); } }
 	void            AddExt00        (const char*);
+	void            SubExt          (const SjExtList& o)        { SubArray(o.m_ext); }
 	int             GetCount        () const                    { return (int)m_ext.GetCount(); }
 	wxString        GetExt          (int i) const               { return m_ext.Item(i); }
 	wxString        GetExt          () const                    { return Array2String(m_ext, -1); }
@@ -66,22 +67,18 @@ public:
 	bool            HasIntersectionWith (const SjExtList&) const;
 
 	// our little repository with information about some well-known extensions (used to find out playable files and for the file selector)
-	#define SJ_EXT_TYPE_UNKNOWN             0
-	#define SJ_EXT_TYPE_PLAYABLE            1 // playable files are audio or video files as mp3, ogg, avi, mp4; just to decide whether to add a file to the library; playlists are _not_ playable in this sense!
-	#define SJ_EXT_TYPE_KNOWN_UNPLAYABLE    2
-	static void     RepositoryAdd   (const wxString& ext, long extType, const wxString& descr);
+	static void     RepositoryAdd   (const wxString& ext, const wxString& descr);
 	static wxString RepositoryDescr (const wxString& ext);
-	static long     RepositoryType  (const wxString& ext);
 
 private:
 	wxArrayString           m_ext;
 	mutable SjSLHash        m_hash;
 	void                    AddArray        (const wxArrayString&);
+	void                    SubArray        (const wxArrayString&);
 	static wxArrayString    String2Array    (const wxString&);
 	static wxString         Array2String    (const wxArrayString&, int maxExtToReturn);
 	static void             RepositoryInit  ();
 	static wxArrayString    s_repositoryExt;
-	static wxArrayLong      s_repositoryType;
 	static wxArrayString    s_repositoryDescr;
 	wxArrayString           m_extFileDialog; // only valid after calling PrepareForFileDialog()
 };

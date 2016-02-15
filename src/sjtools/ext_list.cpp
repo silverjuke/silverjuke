@@ -32,7 +32,6 @@
 
 
 wxArrayString   SjExtList::s_repositoryExt;
-wxArrayLong     SjExtList::s_repositoryType;
 wxArrayString   SjExtList::s_repositoryDescr;
 
 
@@ -100,17 +99,32 @@ wxString SjExtList::Array2String(const wxArrayString& array, int maxExtToReturn)
 
 void SjExtList::AddArray(const wxArrayString& other)
 {
-	size_t i, count = other.GetCount();
-	for( i = 0; i < count; i++ )
+	size_t o, oCount = other.GetCount();
+	for( o = 0; o < oCount; o++ )
 	{
-		if( m_ext.Index(other.Item(i)) == wxNOT_FOUND )
+		if( m_ext.Index(other.Item(o)) == wxNOT_FOUND )
 		{
-			m_ext.Add(other.Item(i));
+			m_ext.Add(other.Item(o));
 		}
 	}
 	m_ext.Sort();
 }
 
+
+void SjExtList::SubArray(const wxArrayString& other)
+{
+	size_t o, oCount = other.GetCount();
+	for( o = 0; o < oCount; o++ )
+	{
+		int selfIndex = m_ext.Index(other.Item(o));
+		if( selfIndex != wxNOT_FOUND )
+		{
+			m_ext.RemoveAt(selfIndex);
+		}
+	}
+	m_ext.Sort();
+	m_hash.Clear(); // we rebuild the hash if the number of item differs. as long as we always add, this works. If we sub, we have to invalidate as we may come to the same count.
+}
 
 void SjExtList::AddExt00(const char* p)
 {
@@ -156,65 +170,71 @@ void SjExtList::RepositoryInit()
 		s_repositoryInitialized = TRUE;
 
 		// the list does not describe all supported types;
-		// the list gives only names to types that MAY be supported.
+		// the list gives only names to types that _may_ be supported.
 		//
 		// do not merge different file types (okay, let's say _too_ different file types),
 		// as we use these descriptions also to let the user select a file format on save.
-		//
-		// moreover, this list is also used by some players to filter supported, playable files
-		// eg. from text and image files that are also supported, but not useful in this sense for silverjuke
-		// (more concrete, we filter eg. xine_get_file_extensions() using this repository)
-		RepositoryAdd(wxT("669 amf bp bp3 cus cust dm2 far ")
-		              wxT("fc fc13 fc14 fc3 fc4 hip it itz mdz mo3 ")
-		              wxT("mod mon mtm nst okt ptm s3m s3z sfx sid1 ")
-		              wxT("stm stz ult umx xm xmz"),        SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("MOD")));
-		RepositoryAdd(wxT("aif aiff"),                      SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("AIFF")));
-		RepositoryAdd(wxT("ani bmp cur dib ico rle"),       SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"),wxT("BMP")));
-		RepositoryAdd(wxT("ape apl mac"),                   SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Monkey")));
-		RepositoryAdd(wxT("avi"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-video"), wxT("AVI")));
-		RepositoryAdd(wxT("cue"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxT("Cue Sheets"));
-		RepositoryAdd(wxT("fla flac"),                      SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("FLAC")));
-		RepositoryAdd(wxT("gif"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"),wxT("GIF")));
-		RepositoryAdd(wxT("ham ham6 ham8"),                 SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"),wxT("HAM")));
-		RepositoryAdd(wxT("iff"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"),wxT("IFF")));
-		RepositoryAdd(wxT("jpeg jpe jpg jif"),              SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"),wxT("JPEG")));
-		RepositoryAdd(wxT("m3u"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("M3U")));
-		RepositoryAdd(wxT("m3u8"),                          SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("M3U8/Unicode")));
-		RepositoryAdd(wxT("mid midi miz rmi kar"),          SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("MIDI")));
-		RepositoryAdd(wxT("mov qt"),                        SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-video"), wxT("QuickTime")));
-		RepositoryAdd(wxT("mp1 mp2 mp3 mpa mpga"),          SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("MPEG")));
-		RepositoryAdd(wxT("mpg mpeg m2v"),                  SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-video"), wxT("MPEG")));
-		RepositoryAdd(wxT("mp4 m4a"),                       SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("MP4")));
-		RepositoryAdd(wxT("mpc mpp mp+"),                   SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Musepack/MPEGplus")));
-		RepositoryAdd(wxT("nsv nsa"),                       SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Nullsoft")));
-		RepositoryAdd(wxT("ogg"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Ogg-Vorbis")));
-		RepositoryAdd(wxT("pls"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("PLS")));
-		RepositoryAdd(wxT("png"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-files"), wxT("PNG")));
-		RepositoryAdd(wxT("ra rm rv rmvb rmj rms ")
-		              wxT("rmm rax rvx rp rtx rt, mx"),     SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Real")));
-		RepositoryAdd(wxT("ram"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("RAM")));
-		RepositoryAdd(wxT("js"),                            SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Script-files"));
-		RepositoryAdd(wxT("sjs"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke skin-files"));
-		RepositoryAdd(wxT("jukebox"),                       SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Silverjuke jukebox-files"));
-		RepositoryAdd(wxT("spx"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("Speex")));
-		RepositoryAdd(wxT("tif tiff"),                      SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-images"), wxT("TIFF")));
-		RepositoryAdd(wxT("tta"),                           SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("TrueAudio")));
-		RepositoryAdd(wxT("txt"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-files"), wxT("Text")));
-		RepositoryAdd("vob",                                SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-video"), "DVD Video"));
-		RepositoryAdd(wxT("wma wmv wm asf asx wax wvx wmx"),SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-files"), wxT("Windows Media")));
-		RepositoryAdd(wxT("wpl"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("Windows Media")));
-		RepositoryAdd(wxT("wv"),                            SJ_EXT_TYPE_PLAYABLE,           wxString::Format(_("%s-audio"), wxT("WavPack")));
-		RepositoryAdd(wxT("xml"),                           SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("XML")));
-		RepositoryAdd(wxT("xspf"),                          SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   wxString::Format(_("%s-playlists"), wxT("XSPF")));
-		RepositoryAdd(wxT("zip rar tar gz tgz"),            SJ_EXT_TYPE_KNOWN_UNPLAYABLE,   _("Archive-files"));
+		RepositoryAdd("3g2 3gp",                       wxString::Format(_("%s-video"), "3GPP"));
+		RepositoryAdd("aac",                           wxString::Format(_("%s-audio"), "AAC"));
+		RepositoryAdd("ac3",                           wxString::Format(_("%s-audio"), "AC-3"));
+		RepositoryAdd("aif aiff",                      wxString::Format(_("%s-audio"), "AIFF"));
+		RepositoryAdd("ani bmp cur dib ico rle",       wxString::Format(_("%s-images"),"BMP"));
+		RepositoryAdd("ape apl mac",                   "Monkey's Audio");
+		RepositoryAdd("au snd",                        wxString::Format(_("%s-audio"), "Sun/NeXT"));
+		RepositoryAdd("avi",                           wxString::Format(_("%s-video"), "AVI"));
+		RepositoryAdd("cue",                           "Cue Sheets");
+		RepositoryAdd("dts",                           wxString::Format(_("%s-audio"), "DTS"));
+		RepositoryAdd("dv",                            "Digital Video");
+		RepositoryAdd("fla flac",                      wxString::Format(_("%s-audio"), "FLAC"));
+		RepositoryAdd("flv f4a f4v f4p",               wxString::Format(_("%s-video"), "Flash"));
+		RepositoryAdd("gif",                           wxString::Format(_("%s-images"),"GIF"));
+		RepositoryAdd("ham ham6 ham8",                 wxString::Format(_("%s-images"),"HAM"));
+		RepositoryAdd("iff",                           wxString::Format(_("%s-images"),"IFF"));
+		RepositoryAdd("jpeg jpe jpg jif",              wxString::Format(_("%s-images"),"JPEG"));
+		RepositoryAdd("m3u",                           wxString::Format(_("%s-playlists"), "M3U"));
+		RepositoryAdd("m3u8",                          wxString::Format(_("%s-playlists"), "M3U8/Unicode"));
+		RepositoryAdd("mid midi miz rmi kar",          wxString::Format(_("%s-files"), "MIDI"));
+		RepositoryAdd("mjpg",                          "Motion JPEG");
+		RepositoryAdd("mkv mka mks mk3d",              wxString::Format(_("%s-files"), "Matroska"));
+		RepositoryAdd("mov qt qtl",                    wxString::Format(_("%s-video"), "QuickTime"));
+		RepositoryAdd("mp1 mp2 mp3 mpa mpga",          wxString::Format(_("%s-audio"), "MP3"));
+		RepositoryAdd("mpg mpeg mpe m2v mpv",          wxString::Format(_("%s-video"), "MPEG"));
+		RepositoryAdd("mp4 m4a m4v m4p m4b",           wxString::Format(_("%s-files"), "MP4"));
+		RepositoryAdd("mpc mpp mp+",                   wxString::Format(_("%s-audio"), "Musepack/MPEGplus"));
+		RepositoryAdd("nsv nsa",                       wxString::Format(_("%s-files"), "Nullsoft"));
+		RepositoryAdd("ogg oga ogm ogv ogx",           "Ogg-Vorbis"); // skip "-files" to shorten the longest strings in the extension list
+		RepositoryAdd("opus",                          wxString::Format(_("%s-audio"), "Opus"));
+		RepositoryAdd("ofr",                           wxString::Format(_("%s-audio"), "OptimFrog"));
+		RepositoryAdd("pls",                           wxString::Format(_("%s-playlists"), "PLS"));
+		RepositoryAdd("png mng",                       wxString::Format(_("%s-files"), "PNG"));
+		RepositoryAdd("pva",                           wxString::Format(_("%s-video"), "Hauppauge"));
+		RepositoryAdd("ra rm rv rmvb rmj rms rmm rax rvx rp rtx rt, mx", "RealAudio/RealVideo");
+		RepositoryAdd("ram",                           wxString::Format(_("%s-playlists"), "RAM"));
+		RepositoryAdd("js",                            _("Script-files"));
+		RepositoryAdd("sjs",                           _("Silverjuke skin-files"));
+		RepositoryAdd("jukebox",                       _("Silverjuke jukebox-files"));
+		RepositoryAdd("shn",                           wxString::Format(_("%s-audio"), "Shorten"));
+		RepositoryAdd("spx",                           wxString::Format(_("%s-audio"), "Speex"));
+		RepositoryAdd("tif tiff",                      wxString::Format(_("%s-images"), "TIFF"));
+		RepositoryAdd("ts trp m2t m2ts mts",           "Transport Stream");
+		RepositoryAdd("tta",                           "TrueAudio");
+		RepositoryAdd("txt",                           wxString::Format(_("%s-files"), "Text"));
+		RepositoryAdd("vob",                           "DVD Video");
+		RepositoryAdd("wav",                           wxString::Format(_("%s-audio"), "Wave"));
+		RepositoryAdd("webm",                          wxString::Format(_("%s-video"), "WebM"));
+		RepositoryAdd("wma wmv wm asf asx wax wmx",    "Windows Media"); // skip "-files" to shorten the longest strings in the extension list
+		RepositoryAdd("wpl wvx",                       wxString::Format(_("%s-playlists"), "Windows Media"));
+		RepositoryAdd("wv",                            wxString::Format(_("%s-audio"), "WavPack"));
+		RepositoryAdd("xml",                           wxString::Format(_("%s-playlists"), "XML"));
+		RepositoryAdd("xspf",                          wxString::Format(_("%s-playlists"), "XSPF"));
+		RepositoryAdd("zip rar tar gz tgz",            _("Archive-files"));
 	}
 
 	wxASSERT( s_repositoryExt.GetCount() == s_repositoryDescr.GetCount() );
-	wxASSERT( s_repositoryExt.GetCount() == s_repositoryType.GetCount() );
 }
 
 
-void SjExtList::RepositoryAdd(const wxString& extStr, long extType, const wxString& extDescr)
+void SjExtList::RepositoryAdd(const wxString& extStr, const wxString& extDescr)
 {
 	RepositoryInit();
 	if( !extStr.IsEmpty() )
@@ -223,12 +243,10 @@ void SjExtList::RepositoryAdd(const wxString& extStr, long extType, const wxStri
 		int i, iCount = extArray.GetCount();
 		for( i = 0; i < iCount; i++ )
 		{
-			if( s_repositoryExt.Index(extArray[i]) == wxNOT_FOUND )
-			{
-				s_repositoryExt.Add(extArray[i]);
-				s_repositoryType.Add(extType);
-				s_repositoryDescr.Add(extDescr);
-			}
+			wxASSERT( s_repositoryExt.Index(extArray[i]) == wxNOT_FOUND );
+
+			s_repositoryExt.Add(extArray[i]);
+			s_repositoryDescr.Add(extDescr);
 		}
 	}
 }
@@ -248,20 +266,6 @@ wxString SjExtList::RepositoryDescr(const wxString& ext)
 	}
 }
 
-
-long SjExtList::RepositoryType(const wxString& ext)
-{
-	RepositoryInit();
-	int index = s_repositoryExt.Index(ext);
-	if( index == wxNOT_FOUND )
-	{
-		return SJ_EXT_TYPE_UNKNOWN;
-	}
-	else
-	{
-		return s_repositoryType.Item(index);
-	}
-}
 
 wxString SjExtList::GetFileDlgStr(long flags)
 {
@@ -312,8 +316,8 @@ wxString SjExtList::GetFileDlgStr(long flags)
 		// if a filter is longer, "*.*" is used.  I don't know a work around --
 		// the supported extensions get easily longer than 256 bytes.
 
-		ret << _("Supported file-types") << wxT("|") << supportedExt << wxT("|");
-		m_extFileDialog.Add(wxT(""));
+		ret << _("Known file-types") << "|" << supportedExt << "|";
+		m_extFileDialog.Add("");
 	}
 
 	iCount = allDescr.GetCount();
