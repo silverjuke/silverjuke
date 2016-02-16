@@ -171,6 +171,9 @@ private:
 	SjBackend*       m_prelistenBackend;
 	long             m_prelistenUseSysVol;
 
+	// the trash
+	wxArrayPtrVoid   m_trashedStreams;
+
 	// tools
 	void            SendSignalToMainThread(int id, uintptr_t extraLong=0) const;
 	void            SaveGatheredInfo    (const wxString& url, unsigned long startingTime, SjVolumeCalc*, long realDecodedBytes);

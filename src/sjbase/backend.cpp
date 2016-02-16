@@ -90,14 +90,9 @@ SjBackendStream::~SjBackendStream()
 
 	// remove stream from list
 	wxArrayPtrVoid* allStreams =  &m_cbp.backend->m_allStreams;
-	size_t i, iCnt = allStreams->GetCount();
-	for( i = 0; i < iCnt; i++ )
-	{
-		if( allStreams->Item(i) == this )
-		{
-			allStreams->RemoveAt(i);
-			break;
-		}
+	int i = allStreams->Index(this);
+	if( i != wxNOT_FOUND ) {
+		allStreams->RemoveAt(i);
 	}
 }
 

@@ -414,7 +414,9 @@ SjBackendState SjGstreamerBackend::GetDeviceState() const
 
 void SjGstreamerBackend::SetDeviceState(SjBackendState state)
 {
-	if( state == SJBE_STATE_CLOSED ) { return; } // close a device by removing all streams on it
+	if( state == SJBE_STATE_CLOSED ) {
+		return; // if there are no streams on the device, it is closed, nothing special to do here
+	}
 
 	const wxArrayPtrVoid& allStreams = GetAllStreams();
 	size_t i, iCnt = allStreams.GetCount();

@@ -679,6 +679,7 @@ void SjPlayer::DeleteStream(SjBackendStream** streamPtr, long fadeMs)
 
 		if( fadeMs > 0 )
 		{
+			m_trashedStreams.Add(stream);
 			stream->m_userdata->m_autoDeleteCritical.Enter();
 				stream->m_userdata->m_volumeFade.SlideVolume(0.0, fadeMs);
 				stream->m_userdata->m_autoDelete = true; // set this _after_ SlideVolume() - otherwise the other thread may have called AdjustBuffer() without adjusting and found m_autoDelete=true
@@ -759,11 +760,18 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 		g_visModule->StopVisIfOverWorkspace();
 	}
 
-	// Do the "real stop" in the implementation part
-	DeleteStream(&m_streamA, 0);
-
+	// delete all streams on the device, set the device to CLOSED
+	// (on all other placed, please use `DeleteStream()` instead of `delete stream` which will allow fading, check pointers etc.)
 	if( m_backend )
 	{
+		delete m_streamA;
+		m_streamA = NULL;
+		while( m_trashedStreams.GetCount() > 0 ) {
+			SjBackendStream* stream = (SjBackendStream*)m_trashedStreams.Item(0);
+			m_trashedStreams.RemoveAt(0);
+			delete stream;
+		}
+
 		m_backend->SetDeviceState(SJBE_STATE_CLOSED);
 	}
 
@@ -1046,6 +1054,7 @@ void SjPlayer::SendSignalToMainThread(int id, uintptr_t extraLong) const
 void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 {
 	if( !m_isInitialized || m_backend == NULL ) { return; }
+	wxASSERT( wxThread::IsMain() );
 
 	if( signal==THREAD_END_OF_STREAM
 	&& (((SjBackendStream*)extraLong)==m_streamA || extraLong==0) )
@@ -1101,9 +1110,12 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 	}
 	else if( signal == THREAD_AUTO_DELETE )
 	{
-		// just delete the given stream - the message is needed as we cannot do this from a working thream
+		// just delete the given stream - the message is needed as we cannot do this from a working thread
+		// moreover, as we're again the the main thread, we can also safely modify m_trashedStreams
         SjBackendStream* toDel = (SjBackendStream*)extraLong;
-        if( toDel ) {
+        int i = m_trashedStreams.Index(toDel);
+        if( toDel && i != wxNOT_FOUND ) {
+			m_trashedStreams.RemoveAt(i);
 			delete toDel;
 		}
 	}
