@@ -382,6 +382,7 @@ void SjViewSettingsPage::OnChangeSkin(wxListEvent& event)
 				QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDC_CANCELSKINSELECTION));
 			}
 
+			g_mainFrame->UpdateDisplay();
 			g_mainFrame->Refresh();
 			g_mainFrame->UpdateMainMenu(); // skins menu entries may be deleted
 		}
@@ -676,6 +677,7 @@ void SjViewSettingsModule::DoneConfigPage(wxWindow* configPage__, int doneAction
 			wxBusyCursor busy;
 
 			g_mainFrame->LoadSkin(configPage->m_orgSkinPath, SJ_OP_DEF_NONKIOSK);
+			g_mainFrame->UpdateDisplay();
 			g_mainFrame->Refresh();
 			g_mainFrame->UpdateMainMenu(); // skins menu entries may be deleted
 
