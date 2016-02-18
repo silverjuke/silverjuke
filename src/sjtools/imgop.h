@@ -139,4 +139,12 @@ private:
 };
 
 
+// Set RGB Coefficents
+// (intensity factors: 0.2125, 0.7154, 0.0721 (ITU Rec. BT.709))
+#define SJ_COEFF_RED   6968L
+#define SJ_COEFF_GREEN 23434L
+#define SJ_COEFF_BLUE  2366L
+#define SJ_COEFF_SUM   32768L
+
+
 #endif /* __SJ_IMGOP_H__ */

@@ -658,19 +658,6 @@ bool SjImgOp::DoGrayscale(wxImage& image)
 	                        maskG = image.GetMaskGreen(),
 	                        maskB = image.GetMaskBlue();
 
-	/* Set RGB Coefficents
-	 * (intensity factors: 0.2125, 0.7154, 0.0721 (ITU Rec. BT.709))
-	 */
-
-	#define COEFF_RED   6968L
-	#define COEFF_GREEN 23434L
-	#define COEFF_BLUE  2366L
-	#define COEFF_SUM   32768L
-
-	#if (COEFF_RED+COEFF_GREEN+COEFF_BLUE)!=COEFF_SUM
-	#error The Sum of the RGB Coefficents is not correct!
-	#endif
-
 	/*
 	 * grayscale image
 	 */
@@ -695,9 +682,12 @@ bool SjImgOp::DoGrayscale(wxImage& image)
 			}
 
 			/* get gray value from current RGB pixel */
-			gray = (    (long)currSrcLinePtr[0] * COEFF_RED
-			            +       (long)currSrcLinePtr[1] * COEFF_GREEN
-			            +       (long)currSrcLinePtr[2] * COEFF_BLUE    ) / COEFF_SUM;
+			#if (SJ_COEFF_RED+SJ_COEFF_GREEN+SJ_COEFF_BLUE)!=SJ_COEFF_SUM
+				#error The Sum of the RGB Coefficents is not correct!
+			#endif
+			gray = (    (long)currSrcLinePtr[0] * SJ_COEFF_RED
+			    +       (long)currSrcLinePtr[1] * SJ_COEFF_GREEN
+			    +       (long)currSrcLinePtr[2] * SJ_COEFF_BLUE    ) / SJ_COEFF_SUM;
 
 			/* set gray value to current RGB pixel */
 			*currSrcLinePtr++ = (unsigned char)gray;
