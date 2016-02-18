@@ -728,8 +728,6 @@ void SjMainFrame::UpdateDisplay()
 				if( queuePos == queuePlayingPos && !recentPlayer->IsStopped() )
 				{
 					value.value |= SJ_VFLAG_VMIN_IS_TIME;
-					if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
-						value.value |= SJ_VFLAG_TIME_CLICKABLE;
 
 					long totalTime = recentPlayer->GetTotalTime();
 					if( m_showRemainingTime && totalTime > 0 )
@@ -988,13 +986,11 @@ void SjMainFrame::OnElapsedTimeTimer(wxTimerEvent& event)
 			value.thumbSize = 0;
 			value.value     = elapsedMs/SJ_SEEK_RESOLUTION;
 		}
-		SetSkinTargetValueIfPossible(IDT_SEEK, value);
+		SetSkinTargetValueIfPossible(IDT_SEEK, value); // "if possible" avoids update the target eg. if it conflicts with an drag'n'drop image
 
 		if( m_display.m_backupedCurrLine != -1 )
 		{
 			value.value  = SJ_VFLAG_VMIN_IS_TIME | SJ_VFLAG_ICONL_PLAY;
-			if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
-				value.value |= SJ_VFLAG_TIME_CLICKABLE;
 
 			if( m_showRemainingTime && totalMs > 0 )
 			{

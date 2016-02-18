@@ -419,7 +419,6 @@ long SjSkinMlParserData::ParseCond(const wxString& str__, bool& notFlag)
 		else if( token == wxT("unqueue")                            )   { flags |= SJ_OP_UNQUEUE;           }
 		else if( token == wxT("enlargedisplay")/*for sj<2.52beta2*/ )   { flags |= SJ_OP_TOGGLE_ELEMENTS;   }
 		else if( token == wxT("toggleelements")                     )   { flags |= SJ_OP_TOGGLE_ELEMENTS;   }
-		else if( token == wxT("toggletimemode")                     )   { flags |= SJ_OP_TOGGLE_TIME_MODE;  }
 		else if( token == wxT("albumview")                          )   { flags |= SJ_OP_ALBUM_VIEW;        }
 		else if( token == wxT("coverview")                          )   { flags |= SJ_OP_COVER_VIEW;        }
 		else if( token == wxT("listview")                           )   { flags |= SJ_OP_LIST_VIEW;         }

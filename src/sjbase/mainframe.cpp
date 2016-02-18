@@ -1840,12 +1840,9 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				/*else fall through*/
 			case IDT_TOGGLE_TIME_MODE:
 			case IDO_TOGGLE_TIME_MODE2:
-				if( IsOpAvailable(SJ_OP_TOGGLE_TIME_MODE) )
-				{
-					m_showRemainingTime = !m_showRemainingTime;
-					UpdateDisplay();
-					UpdateMenuBarQueue();
-				}
+				m_showRemainingTime = !m_showRemainingTime;
+				UpdateDisplay();
+				UpdateMenuBarQueue();
 				break;
 
 			case IDO_DISPLAY_TOTAL_TIME:
