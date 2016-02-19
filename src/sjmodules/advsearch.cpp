@@ -1331,7 +1331,7 @@ SjAdvSearchDialog::SjAdvSearchDialog(long preselectId)
 
 	// ...buttons
 	sizer2 = new wxBoxSizer(wxHORIZONTAL);
-	m_mainSizer->Add(sizer2, 0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE);
+	m_mainSizer->Add(sizer2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	m_menuButton = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
 	sizer2->Add(m_menuButton, 0, wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);

@@ -88,7 +88,7 @@ SjHelpDialog::SjHelpDialog(SjHelpModule* helpModule, wxWindow* parent)
 
 	// create the button sizer
 	wxBoxSizer* buttonSizer = new wxBoxSizer(wxHORIZONTAL);
-	sizer1->Add(buttonSizer, 0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE);
+	sizer1->Add(buttonSizer, 0, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	// align close button to the right
 	buttonSizer->Add(1, 1, 1, wxGROW|wxRIGHT, SJ_DLG_SPACE*2);

@@ -175,7 +175,7 @@ SjSettingsDlg::SjSettingsDlg(SjSettingsModule* settingsModule, wxWindow* parent)
 	m_pageSizer->Add(m_toolBar, 0, wxGROW);
 
 	m_buttonSizer = SjDialog::CreateButtons(this, SJ_DLG_OK, _("Close"));
-	m_dialogSizer->Add(m_buttonSizer, 0, wxGROW|wxLEFT|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+	m_dialogSizer->Add(m_buttonSizer, 0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE*2);
 
 	m_dialogSizer->SetSizeHints(this);
 
@@ -235,7 +235,7 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 					title.Append(m_currPageModule->m_name);
 					SetTitle(title);
 
-					m_pageSizer->Add(m_currPageWindow, 1, wxGROW, 0);
+					m_pageSizer->Add(m_currPageWindow, 1, wxGROW|wxALL, SJ_DLG_SPACE);
 					m_pageSizer->Layout();
 
 					// calculate the border size
