@@ -333,7 +333,7 @@ void SjMainFrame::OnSkinDisplayEvent(int targetId, SjSkinValue& value, long acce
 			case IDT_PRELISTEN_VOL_UP:
 			case IDT_PRELISTEN_VOL_DOWN:
 				{
-					m_player.SetPrelistenGain(m_player.GetPrelistenGain() + 0.1 * (targetId==IDT_PRELISTEN_VOL_UP?1:-1));
+					m_player.SetPrelistenGain(m_player.GetPrelistenGain() + 0.05 * (targetId==IDT_PRELISTEN_VOL_UP?1:-1));
 					s_showPrelistenVolUntil = SjTools::GetMsTicks() + SDM_STATE_CHANGE_MS;
 					UpdateDisplay();
 				}
@@ -558,7 +558,7 @@ void SjMainFrame::AddDisplayOverlay(SjSkinValue* lineValue, SjSkinValue* seekVal
 
 		if( SjTools::GetMsTicks()<s_showPrelistenVolUntil ) {
 			float currVol = m_player.GetPrelistenGain();
-			lineValue->string += _("Volume") + wxString::Format(": %i%%", (int)(currVol*10)*10);
+			lineValue->string += _("Volume") + wxString::Format(": %i%%", (int)(currVol*100+.5));
 		}
 		else {
 			lineValue->string += _("Prelisten") + m_overlayCacheTrackName;

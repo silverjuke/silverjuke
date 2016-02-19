@@ -885,12 +885,12 @@ void SjSkinBoxItem::DrawOverlay(wxDC& dc)
 	int sub = drawRect.height/7;
 	drawRect.width -= sub;
 
-	// draw icons left
+	// draw icons left (an alternative might be "\u2296 CIRCLED MINUS" and "\u2295 CIRCLED PLUS" or SjTools::DrawIcon(dc, rect2, SJ_DRAWICON_VOL*);)
 	{
+		// volume down
 		wxRect rect2(drawRect);
 		rect2.width = drawRect.height;
 
-		//wxRect rect3(rect2); rect3.Deflate(2); dc.DrawRectangle(rect3);
 		dc.GetTextExtent("-", &w, &h);
 		dc.DrawText("-", rect2.x+(rect2.width-w)/2, rect2.y);
 
@@ -899,10 +899,9 @@ void SjSkinBoxItem::DrawOverlay(wxDC& dc)
 		drawRect.x += m_overlayVolDownW;
 		drawRect.width -= m_overlayVolDownW;
 
-		// up ...
+		// volume up
 		rect2.x += rect2.width;
 
-		//rect3 = rect2; rect3.Deflate(2); dc.DrawRectangle(rect3);
 		dc.GetTextExtent("+", &w, &h);
 		dc.DrawText("+", rect2.x+(rect2.width-w)/2, rect2.y);
 
