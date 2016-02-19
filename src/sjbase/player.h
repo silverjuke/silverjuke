@@ -67,7 +67,7 @@ public:
 	void            Play                (long ms=0);
 	void            Pause               ();
 	void            PlayOrPause         ()                                  { if(IsPlaying()) {Pause();} else {Play(0);} }
-	void            Stop                (bool stopVisIfPlaying=true);
+	void            Stop                (bool stopVisIfPlaying=true, bool keepPrelisten=true);
 	void            StopAfterThisTrack  (bool s)                            { m_stopAfterThisTrack=s; }
 	bool            StopAfterThisTrack  () const                            { return m_stopAfterThisTrack; }
 	void            StopAfterEachTrack  (bool s)                            { m_stopAfterEachTrack=s; }
@@ -78,8 +78,9 @@ public:
 	wxString        GetUrlOnAir         ();
 	bool            IsAutoPlayOnAir     ();
 	bool            IsVideoOnAir        (); // has the running title a video stream?
-	bool            AreTheseUrlsCurrentlyPrelistening(const wxArrayString&) { return false; }
-	void            TogglePrelisten     (const wxArrayString& urls) {}
+	void            TogglePrelisten     (const wxArrayString& urls);
+	bool            IsPrelistening      () const { return (m_prelistenStream!=NULL); }
+	void            GetPrelistenInfo    (wxString& url, long& totalMs, long& elapsedMs, long& remainingMs);
 
 	// Handling the main volume slider and "mute", volumes between 0..255 are valid.
 	// If you mute the volume, the returned main volume is 0.
@@ -88,6 +89,8 @@ public:
 	void            SetMainVolMute      (bool);
 	bool            GetMainVolMute      () const                            { return (GetMainVol()==0); }
 	void            ToggleMainVolMute   ()                                  { SetMainVolMute(!GetMainVolMute()); }
+	float           GetPrelistenGain    () const { return m_prelistenGain; }
+	void            SetPrelistenGain    (float);
 
 	// Goto specific tracks in the queue; if playing, this will stop the currently
 	// playing song and start the new one. If pause, this will stop the player.
@@ -108,8 +111,8 @@ public:
 	long            GetElapsedTime      ()          { long t1, t2, t3; GetTime(t1, t2, t3); return t2; }
 	long            GetRemainingTime    ()          { long t1, t2, t3; GetTime(t1, t2, t3); return t3; }
 	long            GetEnqueueTime      ();
-	void            SeekAbs             (long ms);
-	void            SeekRel             (long ms)   { SeekAbs(GetElapsedTime()+ms); }
+	void            Seek                (long ms);
+	void            SeekPrelisten       (long ms);
 
 	// Automatic volume
 	#define         SJ_AV_DEF_STATE             TRUE
@@ -152,7 +155,7 @@ private:
 	// The player's backend, normally selected by a define as SJ_USE_GSTREAMER or SJ_USE_XINE
 	SjBackend*       m_backend;
 	SjBackendStream* m_streamA;
-	SjBackendStream* CreateStream       (const wxString& url, long seekMs, long fadeMs);
+	SjBackendStream* CreateStream       (const wxString& url, bool createPrelistenStream, long seekMs, long fadeMs);
 	void             DeleteStream       (SjBackendStream**, long fadeMs); // the given pointer must not be used by the caller after using this function!
 
 	#define          SJ_SYSVOL_DONTUSE  0
@@ -169,7 +172,11 @@ private:
 	#define          SJ_PL_DEFAULT   SJ_PL_MIX
 	long             m_prelistenDest;
 	SjBackend*       m_prelistenBackend;
+	SjBackendStream* m_prelistenStream;
 	long             m_prelistenUseSysVol;
+	float            m_prelistenGain;
+	#define          SJ_DEF_PL_MIX_QUIET 0.25
+	float            m_prelistenMixQuiet; // in mix mode, the normal channel is quieted by this gain
 
 	// the trash
 	wxArrayPtrVoid   m_trashedStreams;

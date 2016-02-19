@@ -370,7 +370,9 @@ bool SjSkinBoxItem::Create(const wxHtmlTag& tag, wxString& error)
 	m_totalMs       = 0;
 	m_flags         = 0;
 	m_font          = wxFont(10/*size changed later*/, wxSWISS, wxNORMAL, wxNORMAL, FALSE, fontFace);
-	m_fontHeight    = 0;
+	m_fontHeight    = 0; // calculated on first draw
+	m_overlayXrel   = -600000;
+	m_overlayW      = 0;
 
 	if( tag.HasParam(wxT("TEXT")) )
 	{
@@ -380,14 +382,14 @@ bool SjSkinBoxItem::Create(const wxHtmlTag& tag, wxString& error)
 	m_border = FALSE;
 	int test;
 	if( tag.GetParamAsInt(wxT("BORDER"), &test)
-	        && test )
+	 && test )
 	{
 		m_border = TRUE;
 	}
 
 	m_centerOffset = 0;
 	if( tag.GetParamAsInt(wxT("CENTEROFFSET"), &test)
-	        && test )
+	 && test )
 	{
 		m_centerOffset = test;
 	}
@@ -401,7 +403,6 @@ bool SjSkinBoxItem::Create(const wxHtmlTag& tag, wxString& error)
 				m_prop |= SJ_SKIN_PROP_HIDE_CREDIT_IN_DISPLAY;
 		}
 	}
-
 
 	wxString dummy;
 	if( !CheckTarget(dummy) )
@@ -428,6 +429,23 @@ bool SjSkinBoxItem::Create(const wxHtmlTag& tag, wxString& error)
 		m_height.SetAbs(16);
 	}
 
+	// calculate colours used for the overlay
+	if( m_colours[SJ_COLOUR_NORMAL].fgSet ) {
+		m_fgBrush.SetColour(m_colours[SJ_COLOUR_NORMAL].fgColour);
+	}
+
+	if( m_colours[SJ_COLOUR_NORMAL].bgSet ) {
+		m_overlayFgColour = m_colours[SJ_COLOUR_NORMAL].bgColour;
+	}
+	else {
+		wxColour& c = m_colours[SJ_COLOUR_NORMAL].fgColour;
+		long r = c.Red(), g = c.Green(), b = c.Blue();
+		long bggray = (r*SJ_COEFF_RED + g*SJ_COEFF_GREEN + b*SJ_COEFF_BLUE) / SJ_COEFF_SUM;
+		long fggray = bggray + (bggray < 128? 127 : -127);
+		m_overlayFgColour.Set(fggray, fggray, fggray);
+	}
+	m_overlayFgPen.SetColour(m_overlayFgColour);
+
 	return TRUE;
 }
 
@@ -438,15 +456,24 @@ void SjSkinBoxItem::SetValue(const SjSkinValue& value)
 	long runningMs = (flags&SJ_VFLAG_VMIN_IS_TIME)? value.vmin : 0;
 	long totalMs = (flags&SJ_VFLAG_VMAX_IS_TIME)? value.vmax : 0;
 
+	wxString newText = value.string, newOverlayParam;
+	newText.Replace("\r", "");
+	if( flags & SJ_VFLAG_OVERLAY ) {
+		newText = value.string.BeforeFirst('\n');        // Returns the whole string if '\n') is not found.
+		newOverlayParam = value.string.AfterFirst('\n'); // Returns an empty string if '\n') is not found.
+	}
+
 	if( m_runningMs != runningMs
 	 || m_totalMs != totalMs
 	 || m_flags != flags
-	 || m_text != value.string )
+	 || m_text != newText
+	 || m_overlayParam != newOverlayParam )
 	{
-		m_text = value.string;
-		m_flags = flags;
-		m_runningMs = runningMs;
-		m_totalMs = totalMs;
+		m_runningMs    = runningMs;
+		m_totalMs      = totalMs;
+		m_flags        = flags;
+		m_text         = newText;
+		m_overlayParam = newOverlayParam;
 		RedrawMe();
 	}
 }
@@ -462,9 +489,30 @@ int SjSkinBoxItem::FindSubitem(long x, long y, wxRect& subitemRect)
 	 && x < (m_rect.x + m_rect.width)
 	 && y < (m_rect.y + m_rect.height) )
 	{
-		if( x > m_rect.x+m_timeXrel
-		 && x < m_rect.x+m_timeXrel+m_timeW
-		 && m_flags & SJ_VFLAG_TIME_CLICKABLE )
+		if( m_flags & SJ_VFLAG_OVERLAY // check first for overlay, as this may use the same positions than underlaying items
+		 && x > m_rect.x+m_overlayXrel
+		 && x < m_rect.x+m_overlayXrel+m_overlayW )
+		{
+			subitemRect.x = m_rect.x+m_overlayXrel;
+			subitemRect.width = m_overlayW;
+			if( x > m_rect.x+m_overlayTimeXrel
+			 && x < m_rect.x+m_overlayTimeXrel+m_overlayTimeW )
+			{
+				subitemRect.x = m_rect.x+m_overlayTimeXrel;
+				subitemRect.width = m_overlayTimeW;
+				return SJ_SUBITEM_OVERLAY_TIME;
+			}
+			else if( x > m_rect.x+m_overlayIconRightXrel
+			      && x < m_rect.x+m_overlayIconRightXrel+m_overlayIconRightW )
+			{
+				subitemRect.x = m_rect.x+m_overlayIconRightXrel;
+				subitemRect.width = m_overlayIconRightW;
+				return SJ_SUBITEM_OVERLAY_ICONRIGHT;
+			}
+			return SJ_SUBITEM_OVERLAY;
+		}
+		else if( x > m_rect.x+m_timeXrel
+		      && x < m_rect.x+m_timeXrel+m_timeW )
 		{
 			subitemRect.x = m_rect.x+m_timeXrel;
 			subitemRect.width = m_timeW;
@@ -564,7 +612,7 @@ void SjSkinBoxItem::DrawIcon(wxDC& dc, const wxRect& rect, long icon, bool selec
 }
 
 
-void SjSkinBoxItem::DrawText(wxDC& dc, const wxString& text, int x, int y, bool selected)
+void SjSkinBoxItem::DrawTextPart(wxDC& dc, const wxString& text, int x, int y, bool selected)
 {
 	SjSkinColour* base = &m_colours[selected? SJ_COLOUR_SELECTION : SJ_COLOUR_NORMAL];
 	if( base->hiSet )
@@ -581,25 +629,6 @@ void SjSkinBoxItem::DrawText(wxDC& dc, const wxString& text, int x, int y, bool 
 void SjSkinBoxItem::DrawText(wxDC& dc)
 {
 	wxCoord w, h;
-
-	// change font if needed
-	if( m_fontHeight != m_rect.height )
-	{
-		m_fontHeight = m_rect.height;
-		int fontPtSize = 32;
-		while( 1 )
-		{
-			m_font.SetPointSize(fontPtSize);
-			dc.SetFont(m_font);
-			dc.GetTextExtent(wxT("Ag"), &w, &h);
-			dc.SetFont(*wxNORMAL_FONT);
-			if( h<=m_fontHeight || fontPtSize<=6 )
-			{
-				break;
-			}
-			fontPtSize--;
-		}
-	}
 
 	// draw background if needed
 	DrawBackground(dc);
@@ -637,7 +666,6 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 			case SJ_VFLAG_ICONL_PLAYED:     DrawIcon(dc, rect2, SJ_DRAWICON_CHECK, hilite);         break;
 			case SJ_VFLAG_ICONL_ERRONEOUS:  DrawIcon(dc, rect2, SJ_DRAWICON_DELETE, hilite);        break;
 			case SJ_VFLAG_ICONL_MOVED_DOWN: DrawIcon(dc, rect2, SJ_DRAWICON_MOVED_DOWN, hilite);    break;
-			case SJ_VFLAG_ICONL_VOLDOWN:    DrawIcon(dc, rect2, SJ_DRAWICON_VOLDOWN, hilite);       break;
 			default:                                                                                break;
 		}
 
@@ -654,8 +682,6 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 			switch( m_flags & SJ_VFLAG_ICONR_MASK )
 			{
 				case SJ_VFLAG_ICONR_DELETE:  DrawIcon(dc, rect2, SJ_DRAWICON_DELETE, hilite);   break;
-				case SJ_VFLAG_ICONR_VOLUP:   DrawIcon(dc, rect2, SJ_DRAWICON_VOLUP, hilite);    break;
-				case SJ_VFLAG_ICONR_VOLDOWN: DrawIcon(dc, rect2, SJ_DRAWICON_VOLDOWN, hilite);  break;
 			}
 
 			m_iconRightW    = rect1.width + sub*2;
@@ -685,8 +711,8 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 		dc.GetTextExtent(playtimeMs, &m_timeW, &h);
 		if( m_timeW < drawRect.width/2 )
 		{
-			DrawText(dc, playtimeMs, drawRect.x + drawRect.width - m_timeW, drawRect.y,
-			         (m_flags&SJ_VFLAG_BOLD) || (m_mouseState==SJ_MOUSE_STATE_CLICKED));
+			DrawTextPart(dc, playtimeMs, drawRect.x + drawRect.width - m_timeW, drawRect.y,
+			         (m_flags&SJ_VFLAG_BOLD) || (m_mouseState==SJ_MOUSE_STATE_CLICKED && !(m_mouseSubitem&SJ_SUBITEM_OVERLAY)));
 
 			m_timeXrel = (drawRect.x + drawRect.width - m_timeW) - m_rect.x;
 			drawRect.width -= m_timeW+8;
@@ -713,7 +739,7 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 		{
 			dc.GetTextExtent(text1, &text1w, &h);
 			if( (text1w + points1w + quoter1w) <= rect1.width
-			        || text1.IsEmpty() )
+			  || text1.IsEmpty() )
 			{
 				// string that fits found; append points and
 				// quotes if needed
@@ -729,7 +755,7 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 					text1.Append('"');
 				}
 
-				DrawText(dc, text1, rect1.x + rect1.width/2 - w/2, rect1.y, FALSE);
+				DrawTextPart(dc, text1, rect1.x + rect1.width/2 - w/2, rect1.y, FALSE);
 				break; // done
 			}
 			else if( !shortTextTried && m_text.Find('\t')!=-1 )
@@ -777,8 +803,8 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 				}
 
 				// draw!
-				DrawText(dc, text1, drawRect.x, drawRect.y,
-				         (m_flags&SJ_VFLAG_BOLD) || (m_mouseState==SJ_MOUSE_STATE_CLICKED && m_mouseSubitem!=SJ_SUBITEM_TIME));
+				DrawTextPart(dc, text1, drawRect.x, drawRect.y,
+				         (m_flags&SJ_VFLAG_BOLD) || (m_mouseState==SJ_MOUSE_STATE_CLICKED && m_mouseSubitem!=SJ_SUBITEM_TIME && !(m_mouseSubitem&SJ_SUBITEM_OVERLAY)));
 				break; // done
 			}
 
@@ -817,6 +843,112 @@ void SjSkinBoxItem::DrawText(wxDC& dc)
 }
 
 
+void SjSkinBoxItem::DrawOverlay(wxDC& dc)
+{
+	wxCoord  w, h;
+	wxString track_name = m_overlayParam.BeforeFirst('\n');
+	wxString time_str   = m_overlayParam.AfterFirst('\n');
+
+	// calculate overlay position (these two values are also used to check mouse clicks)
+	m_overlayW = (32 + m_rect.width/2); if( m_overlayW > m_rect.width ) { m_overlayW = m_rect.width; }
+	m_overlayXrel = (m_rect.width - m_overlayW) / 2;
+	if( !(m_flags & SJ_VFLAG_IGNORECENTEROFFSET) ) { m_overlayXrel += m_centerOffset; }
+
+	// draw background
+	dc.SetPen(m_colours[SJ_COLOUR_NORMAL].fgPen);
+	dc.SetBrush(m_fgBrush);
+	wxRect drawRect = m_rect;
+	drawRect.x += m_overlayXrel;
+	drawRect.width = m_overlayW;
+	dc.DrawRectangle(drawRect);
+
+	// set colors, pens and fonts
+	dc.SetPen(m_overlayFgPen);
+	dc.SetTextForeground(m_overlayFgColour);
+
+	dc.SetFont(m_font);
+
+	int sub = drawRect.height/7;
+	drawRect.x += sub*2;
+	drawRect.width -= sub*3;
+
+	// draw icon right
+	bool hiliteLine = (m_mouseSubitem==SJ_SUBITEM_OVERLAY_ICONRIGHT && m_mouseState==SJ_MOUSE_STATE_CLICKED);
+	{
+		wxRect rect2(drawRect);
+		rect2.height -= sub*2;
+		rect2.width = rect2.height;
+		rect2.x = (drawRect.x + drawRect.width) - rect2.width - sub;
+		rect2.y += sub;
+
+		SjTools::DrawIcon(dc, rect2, SJ_DRAWICON_DELETE);
+		if( hiliteLine ) { wxRect rect3(rect2); rect3.x++; SjTools::DrawIcon(dc, rect3, SJ_DRAWICON_DELETE); }
+
+		m_overlayIconRightW    = rect2.width + sub*2;
+		m_overlayIconRightXrel = (rect2.x - sub) - m_rect.x;
+		drawRect.width -= m_overlayIconRightW + sub;
+	}
+
+	// draw time (only if it does not take more than half of the available space)
+	bool hiliteTime = (m_mouseSubitem==SJ_SUBITEM_OVERLAY_TIME && m_mouseState==SJ_MOUSE_STATE_CLICKED);
+	m_overlayTimeW    = 0;
+	m_overlayTimeXrel = -666666;
+	if( time_str.Len() > 0 )
+	{
+		dc.GetTextExtent(time_str, &w, &h);
+		int N = w/time_str.Len(), w_org = w;
+		w = ((w+N) / N) * N; // round up to the next multiple of 8 (avoids flickering on slightly different font widths)
+		if( w < drawRect.width/2 ) {
+			wxRect rect2(drawRect);
+			rect2.x += drawRect.width - w;
+			rect2.width = w;
+
+			dc.DrawText(time_str, rect2.x+(w-w_org), rect2.y);
+			if( hiliteLine || hiliteTime ) { dc.DrawText(time_str, rect2.x+(w-w_org)+1, rect2.y); }
+
+			m_overlayTimeW    = rect2.width;
+			m_overlayTimeXrel = rect2.x - m_rect.x;
+			drawRect.width -= m_overlayTimeW + sub;
+		}
+	}
+
+	// draw text
+	bool fit = false;
+	wxString text2(track_name);
+	int i = track_name.Len();
+	do
+	{
+		dc.GetTextExtent(text2, &w, &h);
+		if( w <= drawRect.width ) {
+			fit = true;
+			break;
+		}
+		i--;
+		text2 = track_name.SubString(0, i);
+		text2.Trim();
+		if( text2.Right(1)==":" && text2.Len() >= 2 ) { text2 = text2.SubString(0, text2.Len()-2); } // avoid strings as "Prelisten:.."
+		if( text2.IsEmpty() ) { break; }
+		text2 += POINTS_STRING;
+	}
+	while( i > 0 );
+
+	if( fit ) {
+		dc.DrawText(text2, drawRect.x, drawRect.y);
+		if( hiliteLine ) { dc.DrawText(text2, drawRect.x+1, drawRect.y); }
+	}
+
+	// strike?
+	if(  m_mouseSubitem==SJ_SUBITEM_OVERLAY_ICONRIGHT )
+	{
+		int strikeY = drawRect.y + drawRect.height/2;
+		dc.DrawLine(m_rect.x+m_overlayXrel+sub, strikeY, m_rect.x+m_overlayIconRightXrel, strikeY);
+	}
+
+	// set normal font, release our font from DC
+	dc.SetFont(*wxNORMAL_FONT);
+}
+
+
 void SjSkinBoxItem::DrawImage(wxDC& dc)
 {
 	wxASSERT(m_skinWindow);
@@ -848,18 +980,45 @@ void SjSkinBoxItem::OnPaint(wxDC& dc)
 	m_timeW         = 0;
 	m_iconRightXrel = -600000;
 	m_iconRightW    = 0;
+	m_overlayXrel   = -600000;
+	m_overlayW      = 0;
 
 	if( m_flags & SJ_VFLAG_STRING_IS_IMAGE_URL )
 	{
 		DrawImage(dc);
 	}
-	else if( !m_text.IsEmpty() )
-	{
-		DrawText(dc);
-	}
 	else
 	{
-		DrawBackground(dc);
+		if( m_fontHeight != m_rect.height ) // change font if needed
+		{
+			m_fontHeight = m_rect.height;
+			int fontPtSize = 32;
+			while( 1 ) {
+				wxCoord w, h;
+				m_font.SetPointSize(fontPtSize);
+				dc.SetFont(m_font);
+				dc.GetTextExtent("Ag", &w, &h);
+				dc.SetFont(*wxNORMAL_FONT);
+				if( h<=m_fontHeight || fontPtSize<=6 ) {
+					break;
+				}
+				fontPtSize--;
+			}
+		}
+
+		if( !m_text.IsEmpty() )
+		{
+			DrawText(dc);
+		}
+		else
+		{
+			DrawBackground(dc);
+		}
+
+		if( m_flags & SJ_VFLAG_OVERLAY )
+		{
+			DrawOverlay(dc);
+		}
 	}
 }
 
@@ -931,13 +1090,23 @@ SjMouseUsed SjSkinBoxItem::OnMouseLeftUp(long x, long y, long accelFlags, bool c
 
 			ret = SJ_MOUSE_USED;
 		}
-		else if( orgSubitem == SJ_SUBITEM_TIME )
+		else if( orgSubitem == SJ_SUBITEM_TIME || orgSubitem == SJ_SUBITEM_OVERLAY_TIME )
 		{
 			RedrawMe();
 			SjSkinValue dummy;
 			m_skinWindow->OnSkinTargetEvent(IDT_TOGGLE_TIME_MODE, dummy, accelFlags);
 
 			ret = SJ_MOUSE_USED;
+		}
+		else if( orgSubitem & SJ_SUBITEM_OVERLAY )
+		{
+			if( orgSubitem == SJ_SUBITEM_OVERLAY_ICONRIGHT ) {
+				SjSkinValue dummy;
+				m_skinWindow->OnSkinTargetEvent(IDT_PRELISTEN, dummy, accelFlags);
+                RedrawMe();
+			}
+
+            ret = SJ_MOUSE_USED;
 		}
 		else if( orgSubitem != SJ_SUBITEM_NONE )
 		{

@@ -64,8 +64,9 @@
 
 
 // internal messages
-#define THREAD_END_OF_STREAM         (IDPLAYER_FIRST+0)
+#define THREAD_END_OF_STREAM_A       (IDPLAYER_FIRST+0)
 #define THREAD_AUTO_DELETE           (IDPLAYER_FIRST+1)
+#define THREAD_PRELISTEN_END         (IDPLAYER_FIRST+2)
 
 
 SjPlayerModule::SjPlayerModule(SjInterfaceBase* interf)
@@ -86,10 +87,10 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 	lo.Add(new SjLittleEnumLong(_("Prelisten"), options, &g_mainFrame->m_player.m_prelistenDest, SJ_PL_DEFAULT, "player/prelistenDest", SJ_ICON_MODULE));
 
 	// backend settings
-	wxString sysVolOptions = wxString::Format("%s|%s|%s", _("No") /*=0*/, _("Yes") /*=1=Use+Init*/, _("Only initialize system volume") /*=2*/);
 	if( g_mainFrame->m_player.m_backend )
 	{
 		SjLittleOption::SetSection(_("Output"));
+		wxString sysVolOptions = wxString::Format("%s|%s|%s", _("No") /*=0*/, _("Yes") /*=1=Use+Init*/, _("Only initialize system volume") /*=2*/);
 		lo.Add(new SjLittleBit(	_("Use system volume"), sysVolOptions, &g_mainFrame->m_player.m_useSysVol, SJ_SYSVOL_DEFAULT, 0, "player/useSysVol", SJ_ICON_MODULE));
 		g_mainFrame->m_player.m_backend->GetLittleOptions(lo);
 	}
@@ -97,6 +98,7 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 	if( g_mainFrame->m_player.m_prelistenBackend )
 	{
 		SjLittleOption::SetSection(_("Prelisten"));
+		wxString sysVolOptions = wxString::Format("%s|%s", _("No") /*=0*/, _("Yes") /*=1*/); // for prelistening, we rely on m_prelistenGain - this is much easier for the different destinations; and _if_ we really use an explicit output, its volume is normally not editable by the normal system controls, so an init+Gain should work well
 		lo.Add(new SjLittleBit(	_("Use system volume"), sysVolOptions, &g_mainFrame->m_player.m_prelistenUseSysVol, SJ_SYSVOL_DEFAULT, 0, "player/prelistenUseSysVol", SJ_ICON_MODULE));
 		g_mainFrame->m_player.m_prelistenBackend->GetLittleOptions(lo);
 	}
@@ -140,7 +142,9 @@ SjPlayer::SjPlayer()
 	m_useSysVol             = SJ_SYSVOL_DEFAULT;
 
 	m_prelistenBackend      = NULL;
+	m_prelistenStream       = NULL;
 	m_prelistenDest         = SJ_PL_DEFAULT;
+	m_prelistenGain         = 1.0F;
 	m_prelistenUseSysVol    = SJ_SYSVOL_DEFAULT;
 }
 
@@ -181,6 +185,7 @@ void SjPlayer::Init()
 
 	m_prelistenDest             =c->Read("player/prelistenDest",       SJ_PL_DEFAULT);
 	m_prelistenUseSysVol        =c->Read("player/prelistenUseSysVol",  SJ_SYSVOL_DEFAULT);
+	m_prelistenMixQuiet         = (float)c->Read("player/prelistenMixQuiet", (long)(SJ_DEF_PL_MIX_QUIET*1000.0F)) / 1000.0F;
 }
 
 
@@ -252,34 +257,6 @@ void SjPlayer::Exit()
 
 		m_queue.Exit();
 	}
-}
-
-
-/*******************************************************************************
- * SjPlayer - Misc.
- ******************************************************************************/
-
-
-bool SjPlayer::IsAutoPlayOnAir()
-{
-	if( !m_isInitialized ) {
-		return false;
-	}
-
-	wxString urlOnAir = GetUrlOnAir();
-	if( !urlOnAir.IsEmpty() )
-	{
-		long urlOnAirPos = m_queue.GetClosestPosByUrl(urlOnAir);
-		if( urlOnAirPos != wxNOT_FOUND )
-		{
-			if( m_queue.GetFlags(urlOnAirPos)&SJ_PLAYLISTENTRY_AUTOPLAY )
-			{
-				return true;
-			}
-		}
-	}
-
-	return false;
 }
 
 
@@ -494,17 +471,21 @@ void SjPlayer::LoadFromResumeFile()
 class SjBackendUserdata
 {
 public:
-	SjBackendUserdata(SjPlayer* player, long onCreateFadeMs = 0)
+	SjBackendUserdata(SjPlayer* player, bool isPrelistenStream, long onCreateFadeMs, float onCreateFadeDestGain)
 	{
-		m_player         = player;
-		m_onCreateFadeMs = onCreateFadeMs;
-		m_isVideo        = false;
-		m_realMs         = 0;
-		m_autoDelete     = false; // if set, the stream is deleted on EOS or if fading is done
-		m_autoDeleteSend = false;
+		m_player               = player;
+		m_isPrelistenStream    = isPrelistenStream;
+		m_onCreateFadeMs       = onCreateFadeMs;
+		m_onCreateFadeDestGain = onCreateFadeDestGain;
+		m_isVideo              = false;
+		m_realMs               = 0;
+		m_autoDelete           = false; // if set, the stream is deleted on EOS or if fading is done
+		m_autoDeleteSend       = false;
 	}
 	long          m_onCreateFadeMs;
+	float         m_onCreateFadeDestGain;
 	SjPlayer*     m_player;
+	bool          m_isPrelistenStream;
 	bool          m_isVideo;
 	long          m_realMs;
 	SjVolumeCalc  m_volumeCalc;
@@ -520,6 +501,8 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 {
 	// TAKE CARE: this function is called while processing the audio data,
 	// just before the output.  So please, do not do weird things here.
+
+	// TAKE CARE II: `stream` may lay on different backends!
 
 	SjBackendStream*   stream     = cbp->stream;        if( stream == NULL )   { return; }
 	SjBackendUserdata* userdata   = stream->m_userdata; if( userdata == NULL ) { return; }
@@ -549,6 +532,17 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 				}
 			}
 
+			// equalizer
+
+			// TODO ...
+
+			// forward the data to the visualisation -
+			// we do this after autovol, equalizers etc. so that these changes become visible eg. in the spectrum analyzer
+			if( g_visModule->IsVisStarted() && stream == player->m_streamA /*this also excludes prelistening*/ )
+			{
+				g_visModule->AddVisData(buffer, bytes);
+			}
+
 			// apply optional fadings, eg. for crossfading
 			if( !userdata->m_volumeFade.AdjustBuffer(buffer, bytes, samplerate, channels) )
 			{
@@ -560,17 +554,30 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 				userdata->m_autoDeleteCritical.Leave();
 			}
 
-			// forward the data to the visualisation -
-			// we do this last, so autovol, equalizers etc. is visible eg. in the spectrum analyzer
-			if( g_visModule->IsVisStarted() && stream == player->m_streamA )
+			// finally, after the visualisation, apply the main volume and mixdown channels, if appropriate ...
+			if( !userdata->m_isPrelistenStream )
 			{
-				g_visModule->AddVisData(buffer, bytes);
-			}
+				// ... normal stream
+				if( player->m_prelistenDest == SJ_PL_LEFT || player->m_prelistenDest == SJ_PL_RIGHT ) {
+					SjMixdownChannels(buffer, bytes, channels, player->m_prelistenDest==SJ_PL_LEFT? 1 : 0);
+				}
 
-			// finally, after the visualisation, apply the main volume if we shall not use the system device volume
-			if( player->m_useSysVol != SJ_SYSVOL_USE ) // = SJ_SYSVOL_DONTUSE || SJ_SYSVOL_ONLYINIT
+				if( player->m_useSysVol != SJ_SYSVOL_USE ) { // = SJ_SYSVOL_DONTUSE || SJ_SYSVOL_ONLYINIT
+					SjApplyVolume(buffer, bytes, player->m_mainGain);
+				}
+			}
+			else
 			{
-				SjApplyVolume(buffer, bytes, player->m_mainGain);
+				// ... prelisten stream
+				if( player->m_prelistenDest == SJ_PL_LEFT || player->m_prelistenDest == SJ_PL_RIGHT ) {
+					SjMixdownChannels(buffer, bytes, channels, player->m_prelistenDest==SJ_PL_LEFT? 0 : 1);
+				}
+
+				if( player->m_prelistenDest == SJ_PL_MIX && player->m_useSysVol != SJ_SYSVOL_USE ) { // on prelisten "mix", first apply the normal volume to the channel!
+					SjApplyVolume(buffer, bytes, player->m_mainGain);
+				}
+
+				SjApplyVolume(buffer, bytes, player->m_prelistenGain);
 			}
 		}
 	}
@@ -587,7 +594,7 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 
 		if( userdata->m_onCreateFadeMs ) {
 			userdata->m_volumeFade.SetVolume(0.0);
-			userdata->m_volumeFade.SlideVolume(1.0, userdata->m_onCreateFadeMs);
+			userdata->m_volumeFade.SlideVolume(userdata->m_onCreateFadeDestGain, userdata->m_onCreateFadeMs);
 		}
 	}
 	else if( cbp->msg == SJBE_MSG_VIDEO_DETECTED )
@@ -595,7 +602,7 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		/* Video detected
 		***********************************************************************/
 
-		if( !userdata->m_isVideo )
+		if( !userdata->m_isVideo && !userdata->m_isPrelistenStream )
 		{
 			userdata->m_isVideo = true;
 			player->SendSignalToMainThread(IDMODMSG_VIDEO_DETECTED);
@@ -620,9 +627,16 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		userdata->m_autoDeleteCritical.Leave();
 
 		// just send end-of-stream
-		if( sendEos && stream == player->m_streamA )
+		if( sendEos )
 		{
-			player->SendSignalToMainThread(THREAD_END_OF_STREAM, (uintptr_t)stream);
+			if( stream == player->m_streamA /*this also excludes prelistening streams*/ )
+			{
+				player->SendSignalToMainThread(THREAD_END_OF_STREAM_A, (uintptr_t)stream);
+			}
+			else if( userdata->m_isPrelistenStream )
+			{
+				player->SendSignalToMainThread(THREAD_PRELISTEN_END, (uintptr_t)stream);
+			}
 		}
 	}
 	else if( cbp->msg == SJBE_MSG_DESTROY_USERDATA )
@@ -645,21 +659,33 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
  ******************************************************************************/
 
 
-SjBackendStream* SjPlayer::CreateStream(const wxString& url, long explicitSeekMs, long fadeMs)
+SjBackendStream* SjPlayer::CreateStream(const wxString& url, bool createPrelistenStream, long explicitSeekMs, long fadeMs)
 {
-	SjBackendUserdata* userdata = new SjBackendUserdata(this, fadeMs);
+	float fadeDest = 1.0;
+	if( !createPrelistenStream && m_prelistenStream && m_prelistenDest == SJ_PL_MIX ) {
+		if( fadeMs <= 0 ) fadeMs = 10;
+		fadeDest = m_prelistenMixQuiet;
+	}
+
+	SjBackendUserdata* userdata = new SjBackendUserdata(this, createPrelistenStream, fadeMs, fadeDest);
 	if( userdata == NULL ) {
 		return NULL;
 	}
 
-	// first, try to collect some information
 	long startThisMs = 0;
 	if( explicitSeekMs > 0 ) {
 		startThisMs = explicitSeekMs;
 	}
 
 	// create the stream
-	SjBackendStream* stream = m_backend->CreateStream(url, startThisMs, SjPlayer_BackendCallback, userdata);
+	SjBackendStream* stream;
+	if( createPrelistenStream && m_prelistenDest == SJ_PL_OWNOUTPUT ) {
+		stream = m_prelistenBackend->CreateStream(url, startThisMs, SjPlayer_BackendCallback, userdata);
+	}
+	else {
+		stream = m_backend->CreateStream(url, startThisMs, SjPlayer_BackendCallback, userdata);
+	}
+
 	if( stream == NULL ) {
 		return NULL; // userdata should be deleted via SJBE_MSG_DESTROY_USERDATA
 	}
@@ -708,7 +734,7 @@ void SjPlayer::Play(long seekMs)
 			return; // error;
 		}
 
-		m_streamA = CreateStream(url, seekMs, 0);
+		m_streamA = CreateStream(url, false, seekMs, 0);
 		if( !m_streamA ) {
 			return; // error;
 		}
@@ -742,7 +768,7 @@ void SjPlayer::Pause()
 }
 
 
-void SjPlayer::Stop(bool stopVisIfPlaying)
+void SjPlayer::Stop(bool stopVisIfPlaying, bool keepPrelisten)
 {
 	// This function may only be called from the main thread.
 	wxASSERT( wxThread::IsMain() );
@@ -760,19 +786,31 @@ void SjPlayer::Stop(bool stopVisIfPlaying)
 		g_visModule->StopVisIfOverWorkspace();
 	}
 
-	// delete all streams on the device, set the device to CLOSED
+	// delete all streams on the devices
 	// (on all other placed, please use `DeleteStream()` instead of `delete stream` which will allow fading, check pointers etc.)
-	if( m_backend )
-	{
+	if( m_streamA ) {
 		delete m_streamA;
 		m_streamA = NULL;
-		while( m_trashedStreams.GetCount() > 0 ) {
-			SjBackendStream* stream = (SjBackendStream*)m_trashedStreams.Item(0);
-			m_trashedStreams.RemoveAt(0);
-			delete stream;
-		}
+	}
 
+	if( m_prelistenStream && !keepPrelisten ) {
+		delete m_prelistenStream; // may lay on m_backend or m_prelistenBackend
+		m_prelistenStream = NULL;
+	}
+
+	while( m_trashedStreams.GetCount() > 0 ) {
+		SjBackendStream* stream = (SjBackendStream*)m_trashedStreams.Item(0);
+		m_trashedStreams.RemoveAt(0);
+		delete stream;
+	}
+
+	// CLOSE devices
+	if( m_backend ) {
 		m_backend->SetDeviceState(SJBE_STATE_CLOSED);
+	}
+
+	if( m_prelistenBackend && m_prelistenStream == NULL ) {
+		m_prelistenBackend->SetDeviceState(SJBE_STATE_CLOSED);
 	}
 
 	m_paused = false;
@@ -822,7 +860,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only fun
 				if( !url.IsEmpty() )
 				{
 					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
-					m_streamA = CreateStream(url, 0, (fadeToPos && !m_onlyFadeOut)? m_manCrossfadeMs : 0); // may be NULL, we send the signal anyway!
+					m_streamA = CreateStream(url, false, 0, (fadeToPos && !m_onlyFadeOut)? m_manCrossfadeMs : 0); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
 						if( !deviceOpendedBefore ) {
@@ -845,14 +883,18 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only fun
 }
 
 
-void SjPlayer::SeekAbs(long seekMs)
+void SjPlayer::Seek(long seekMs)
 {
-	if( !m_isInitialized ) {
-		return;
-	}
-
 	if( m_streamA ) {
 		m_streamA->SeekAbs(seekMs);
+	}
+}
+
+
+void SjPlayer::SeekPrelisten(long seekMs)
+{
+	if( m_prelistenStream ) {
+		m_prelistenStream->SeekAbs(seekMs);
 	}
 }
 
@@ -935,6 +977,24 @@ bool SjPlayer::IsVideoOnAir()
 }
 
 
+bool SjPlayer::IsAutoPlayOnAir()
+{
+	if( !m_isInitialized ) { return false; }
+
+	wxString urlOnAir = GetUrlOnAir();
+	if( !urlOnAir.IsEmpty() ) {
+		long urlOnAirPos = m_queue.GetClosestPosByUrl(urlOnAir);
+		if( urlOnAirPos != wxNOT_FOUND ) {
+			if( m_queue.GetFlags(urlOnAirPos)&SJ_PLAYLISTENTRY_AUTOPLAY ) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+
 void SjPlayer::SetMainVol(int newVol) // 0..255
 {
 	// This function may only be called from the main thread.
@@ -982,6 +1042,59 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
 }
 
 
+void SjPlayer::TogglePrelisten(const wxArrayString& urls)
+{
+	if( m_prelistenStream )
+	{
+		// stop prelisten
+		DeleteStream(&m_prelistenStream, 1000);
+		if( m_streamA && m_prelistenDest == SJ_PL_MIX ) {
+			m_streamA->m_userdata->m_volumeFade.SlideVolume(1.0, 2000);
+		}
+	}
+	else if( urls.GetCount() >= 1 )
+	{
+		// start prelisten
+		bool deviceOpendedBefore = m_prelistenBackend->IsDeviceOpened();
+
+		m_prelistenStream = CreateStream(urls[0], true, 0, 0);
+		if( m_prelistenStream && m_streamA && m_prelistenDest == SJ_PL_MIX ) {
+			m_streamA->m_userdata->m_volumeFade.SlideVolume(m_prelistenMixQuiet, 1000);
+		}
+
+		if( !deviceOpendedBefore && m_prelistenDest==SJ_PL_OWNOUTPUT && m_prelistenUseSysVol ) {
+			m_prelistenBackend->SetDeviceVol(1.0);
+		}
+	}
+}
+
+
+void SjPlayer::SetPrelistenGain(float newGain)
+{
+	if( newGain < 0.1 ) newGain = 0.1;
+	if( newGain > 1.5 ) newGain = 1.5; // allow little overdrive
+	m_prelistenGain = newGain;
+}
+
+
+void SjPlayer::GetPrelistenInfo(wxString& url, long& totalMs, long& elapsedMs, long& remainingMs)
+{
+	url = "";
+	totalMs = -1;
+	elapsedMs = -1;
+	remainingMs = -1;
+	if( m_prelistenStream )
+	{
+		url = m_prelistenStream->GetUrl();
+        m_prelistenStream->GetTime(totalMs, elapsedMs);
+		if( totalMs != -1 && elapsedMs != -1 ) {
+			remainingMs = totalMs - elapsedMs;
+			if( remainingMs < 0 ) { remainingMs = 0; }
+		}
+	}
+}
+
+
 void SjPlayer::OneSecondTimer()
 {
 	if( !m_autoCrossfade || m_streamA == NULL || m_streamA->m_userdata == NULL ) {
@@ -1016,24 +1129,24 @@ void SjPlayer::OneSecondTimer()
 		g_mainFrame->m_autoCtrl.DoAutoPlayIfEnabled(false /*ignoreTimeouts*/);
 		newQueuePos = m_queue.GetNextPos(SJ_PREVNEXT_REGARD_REPEAT);
 		if( newQueuePos == -1 ) {
-			return; // nothing more to play, stop when reaching THREAD_END_OF_STREAM
+			return; // nothing more to play, stop when reaching THREAD_END_OF_STREAM_A
 		}
 	}
 	newUrl = m_queue.GetUrlByPos(newQueuePos);
 	if( m_failedUrls.Index( newUrl ) != wxNOT_FOUND ) {
-		return; // the URL has just failed, handle this in THREAD_END_OF_STREAM
+		return; // the URL has just failed, handle this in THREAD_END_OF_STREAM_A
 	}
 
 	// try to create the next stream
 	DeleteStream(&m_streamA, m_autoCrossfadeMs);
-	m_streamA = CreateStream(newUrl, 0, m_onlyFadeOut? 0 : m_autoCrossfadeMs);
+	m_streamA = CreateStream(newUrl, false, 0, m_onlyFadeOut? 0 : m_autoCrossfadeMs);
 	m_queue.SetCurrPos(newQueuePos); // realize the new position in the UI
 
 	if( m_streamA ) {
 		SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
 	}
 	else {
-		SendSignalToMainThread(THREAD_END_OF_STREAM); // error - start over
+		SendSignalToMainThread(THREAD_END_OF_STREAM_A); // error - start over
 	}
 }
 
@@ -1056,7 +1169,7 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 	if( !m_isInitialized || m_backend == NULL ) { return; }
 	wxASSERT( wxThread::IsMain() );
 
-	if( signal==THREAD_END_OF_STREAM
+	if( signal==THREAD_END_OF_STREAM_A
 	&& (((SjBackendStream*)extraLong)==m_streamA || extraLong==0) )
 	{
 		// just stop after this track? - we're here if the DSP callback sends EOS or if we resend the signal outself
@@ -1092,20 +1205,30 @@ void SjPlayer::ReceiveSignal(int signal, uintptr_t extraLong)
 		// has the URL just failed? try again in the next message loop
 		if( m_failedUrls.Index( newUrl ) != wxNOT_FOUND ) {
 			m_queue.SetCurrPos(newQueuePos);
-			SendSignalToMainThread(THREAD_END_OF_STREAM, 0); // start over
+			SendSignalToMainThread(THREAD_END_OF_STREAM_A, 0); // start over
 			return;
 		}
 
 		// try to create the next stream
 		DeleteStream(&m_streamA, 0);
-		m_streamA = CreateStream(newUrl, 0, 0);
+		m_streamA = CreateStream(newUrl, false, 0, 0);
 		m_queue.SetCurrPos(newQueuePos); // realize the new position in the UI
 
 		if( m_streamA ) {
 			SendSignalToMainThread(IDMODMSG_TRACK_ON_AIR_CHANGED);
 		}
 		else {
-			SendSignalToMainThread(THREAD_END_OF_STREAM, 0); // start over
+			SendSignalToMainThread(THREAD_END_OF_STREAM_A, 0); // start over
+		}
+	}
+	else if( signal == THREAD_PRELISTEN_END )
+	{
+		// prelisten stream ended - safely delete the steam from the main thread and update display, menus etc.
+		if( ((SjBackendStream*)extraLong) == m_prelistenStream )
+		{
+			DeleteStream(&m_prelistenStream, 0);
+			g_mainFrame->m_libraryModule->UpdateMenuBar();
+			g_mainFrame->UpdateDisplay();
 		}
 	}
 	else if( signal == THREAD_AUTO_DELETE )

@@ -3766,7 +3766,7 @@ void SjLibraryModule::UpdateMenu(SjMenu* enqueueMenu, SjMenu* editMenu, bool upd
 	if( g_mainFrame->IsOpAvailable(SJ_OP_PRELISTEN) && trackCount >= 1 )
 	{
 		enqueueMenu->Enable(IDT_PRELISTEN, TRUE);
-		if( g_mainFrame->m_player.AreTheseUrlsCurrentlyPrelistening(allUrls) )
+		if( g_mainFrame->m_player.IsPrelistening() )
 		{
 			enqueueMenu->SetLabel(IDT_PRELISTEN, _("Stop prelistening"));
 		}

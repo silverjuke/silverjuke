@@ -596,7 +596,7 @@ void SjMainApp::DoShutdownEtc(SjShutdownEtc action, long restoreOrgVol)
 	}
 
 	// stop playback
-	g_mainFrame->Stop();
+	g_mainFrame->Stop(false);
 
 	if( restoreOrgVol != -1 )
 	{

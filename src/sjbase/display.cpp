@@ -327,54 +327,62 @@ void SjMainFrame::OnSkinDisplayEvent(int targetId, SjSkinValue& value, long acce
 				}
 				break;
 
+			case IDT_PRELISTEN_VOL_UP:
+			case IDT_PRELISTEN_VOL_DOWN:
+				{
+					m_player.SetPrelistenGain(m_player.GetPrelistenGain() + 0.1 * (targetId==IDT_PRELISTEN_VOL_UP?1:-1));
+					float currVol = m_player.GetPrelistenGain();
+                    SetDisplayMsg(wxString::Format(_("Prelisten") + ": " + _("Volume") + ": %i%%", (int)(currVol*10)*10), SDM_STATE_CHANGE_MS);
+				}
+				break;
+
 				// seek
 
 			case IDT_SEEK:
-				if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
-				{
-					SjPlayer* recentPlayer = &g_mainFrame->m_player;
-
-					recentPlayer->SeekAbs(value.value*SJ_SEEK_RESOLUTION);
-					UpdateDisplay();
+				if( m_player.IsPrelistening() ) {
+					m_player.SeekPrelisten(value.value*SJ_SEEK_RESOLUTION);
 				}
+				else if( IsOpAvailable(SJ_OP_EDIT_QUEUE) ) {
+					m_player.Seek(value.value*SJ_SEEK_RESOLUTION);
+				}
+				UpdateDisplay();
 				break;
 
 			case IDT_SEEK_BWD:
 			case IDT_SEEK_FWD:
-				if( IsOpAvailable(SJ_OP_EDIT_QUEUE) )
-				{
-					SjPlayer* recentPlayer = &g_mainFrame->m_player;
-
-					recentPlayer->SeekRel(targetId==IDT_SEEK_BWD? -5000 : 5000);
-					UpdateDisplay();
+				if( m_player.IsPrelistening() ) {
+					wxString url; long totalMs = -1, elapsedMs = -1, remainingMs = -1;
+					m_player.GetPrelistenInfo(url, totalMs, elapsedMs, remainingMs);
+					m_player.SeekPrelisten(elapsedMs + (targetId==IDT_SEEK_BWD? -5000 : 5000));
 				}
+				else if( IsOpAvailable(SJ_OP_EDIT_QUEUE) ) {
+					m_player.Seek(m_player.GetElapsedTime() + (targetId==IDT_SEEK_BWD? -5000 : 5000));
+				}
+				UpdateDisplay();
 				break;
 
 				// misc.
 
 			case IDO_DISPLAY_COVER_EXPLR:
-			{
-				SjPlayer* recentPlayer = &g_mainFrame->m_player;
-				g_tools->ExploreUrl(m_columnMixer.GetTrackCoverUrl(recentPlayer->m_queue.GetUrlByPos(-1)));
-			}
-			break;
+				{
+					g_tools->ExploreUrl(m_columnMixer.GetTrackCoverUrl(m_player.m_queue.GetUrlByPos(-1)));
+				}
+				break;
 
 			case IDT_DISPLAY_COVER:
 			case IDO_DISPLAY_COVER: // IDO_DISPLAY_COVER is only used for the menu item
 				if(  value.value == SJ_SUBITEM_TEXT_DCLICK
-				        || (value.value == SJ_SUBITEM_TEXT_MIDDLECLICK && g_accelModule->m_middleMouseAction==SJ_ACCEL_MID_OPENS_TAG_EDITOR)
-				        ||  targetId != IDT_DISPLAY_COVER )
+				 || (value.value == SJ_SUBITEM_TEXT_MIDDLECLICK && g_accelModule->m_middleMouseAction==SJ_ACCEL_MID_OPENS_TAG_EDITOR)
+				 ||  targetId != IDT_DISPLAY_COVER )
 				{
 
 					// open the cover editor for the display cover
-					SjPlayer* recentPlayer = &g_mainFrame->m_player;
-
-					wxString trackUrl = recentPlayer->m_queue.GetUrlByPos(-1);
+					wxString trackUrl = m_player.m_queue.GetUrlByPos(-1);
 					wxSqlt sql;
 					sql.Query(wxT("SELECT albumid FROM tracks WHERE url='") + sql.QParam(trackUrl) + wxT("';"));
 					unsigned long albumId = sql.Next()? sql.GetLong(0) : 0;
 
-					wxString selArtUrl = m_columnMixer.GetTrackCoverUrl(recentPlayer->m_queue.GetUrlByPos(-1));
+					wxString selArtUrl = m_columnMixer.GetTrackCoverUrl(m_player.m_queue.GetUrlByPos(-1));
 
 					wxArrayLong artIds;
 					wxArrayString artUrls;
@@ -511,6 +519,72 @@ wxString SjMainFrame::CombineArtistNTitle(const wxString& artist, const wxString
 }
 
 
+void SjMainFrame::AddDisplayOverlay(SjSkinValue* lineValue, SjSkinValue* seekValue)
+{
+	// get prelisten URL
+	wxString url;
+	long totalMs = -1, elapsedMs = -1, remainingMs = -1;
+	m_player.GetPrelistenInfo(url, totalMs, elapsedMs, remainingMs);
+
+	// get prelisten track name and time
+	if( m_overlayCacheTrackNameFor != url ) {
+		m_overlayCacheTrackNameFor = url;
+		m_overlayCacheTrackName.Clear();
+		m_overlayCachePlaytimeMs = -1;
+		SjTrackInfo ti;
+		if( g_mainFrame->m_libraryModule->GetTrackInfo(url, ti, SJ_TI_QUICKINFO, false) ) {
+			m_overlayCacheTrackName = ": " + ti.m_trackName;
+			m_overlayCacheTrackName.Replace("\n", "");
+			m_overlayCachePlaytimeMs = ti.m_playtimeMs;
+		}
+	}
+
+	if( totalMs < 0 ) {
+		totalMs = m_overlayCachePlaytimeMs;
+	}
+
+	// add overly to the line (by just adding the overlay string after a linefeed to the normal text)
+	if( lineValue )
+	{
+		long displayTotalMs = totalMs;
+		if( !(m_skinFlags&SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME) ) { displayTotalMs = -1; }
+
+		lineValue->value |= SJ_VFLAG_OVERLAY;
+		lineValue->string += "\n" + _("Prelisten") + m_overlayCacheTrackName + "\n";
+		if( m_showRemainingTime && remainingMs >= 0 ) {
+			lineValue->string += "-" + SjTools::FormatTime(remainingMs/1000, SJ_FT_ALLOW_ZERO);
+			if( displayTotalMs > 0 ) { lineValue->string += " / "; }
+		}
+		else if( !m_showRemainingTime && elapsedMs >= 0 ) {
+			lineValue->string += SjTools::FormatTime(elapsedMs/1000, SJ_FT_ALLOW_ZERO);
+			if( displayTotalMs > 0 ) { lineValue->string += " / "; }
+		}
+
+		if( displayTotalMs > 0 ) {
+			lineValue->string += SjTools::FormatTime(displayTotalMs/1000);
+		}
+	}
+
+	// set seeker to the overlay progress
+	if( seekValue )
+	{
+		seekValue->string.Empty();
+		seekValue->vmin      = 0;
+		seekValue->vmax      = 0;
+		seekValue->thumbSize = 0;
+		if( totalMs > 0 )
+		{
+			seekValue->vmax  = totalMs/SJ_SEEK_RESOLUTION; if( seekValue->vmax==0 ) seekValue->vmax = 1;
+			seekValue->value = elapsedMs/SJ_SEEK_RESOLUTION;
+		}
+		else
+		{
+			seekValue->value = 0;
+		}
+	}
+}
+
+
 void SjMainFrame::UpdateDisplay()
 {
 	SjSkinValue     value;
@@ -521,17 +595,14 @@ void SjMainFrame::UpdateDisplay()
 	                visLine;
 	wxASSERT(visLineCount>=0);
 
-	// get the player
-	SjPlayer*       recentPlayer = &g_mainFrame->m_player;
-
 	// get the number of tracks in the queue
-	long            queueTrackCount = recentPlayer->m_queue.GetCount(),
-	                queuePlayingPos = recentPlayer->m_queue.GetCurrPos(),
+	long            queueTrackCount = m_player.m_queue.GetCount(),
+	                queuePlayingPos = m_player.m_queue.GetCurrPos(),
 	                queuePos;
 	wxASSERT(queueTrackCount>=0);
 
 	// current stuff
-	SjPlaylistEntry&    urlInfo1 = recentPlayer->m_queue.GetInfo(-1);
+	SjPlaylistEntry&    urlInfo1 = m_player.m_queue.GetInfo(-1);
 	wxString            currTrackName = urlInfo1.GetTrackName();
 	wxString            currArtistName = urlInfo1.GetLeadArtistName();
 
@@ -541,7 +612,7 @@ void SjMainFrame::UpdateDisplay()
 	{
 		if( queuePlayingPos != -1 )
 		{
-			value.string = m_columnMixer.GetTrackCoverUrl(recentPlayer->m_queue.GetUrlByPos(-1));
+			value.string = m_columnMixer.GetTrackCoverUrl(m_player.m_queue.GetUrlByPos(-1));
 			value.value = SJ_VFLAG_STRING_IS_IMAGE_URL;
 			SetSkinTargetValue(IDT_DISPLAY_COVER, value);
 		}
@@ -552,17 +623,24 @@ void SjMainFrame::UpdateDisplay()
 	}
 
 	// update seeker
+	value.string.Empty();
+	if( m_player.IsPrelistening() )
 	{
-		totalMs = recentPlayer->GetTotalTime();
-		value.string.Empty();
-		if( !recentPlayer->IsStopped() && totalMs > 0 )
+		AddDisplayOverlay(NULL, &value);
+		if( value.value > 0 ) {
+			SetSkinTargetValue(IDT_SEEK, value);
+		}
+	}
+	else
+	{
+		totalMs = m_player.GetTotalTime();
+		if( !m_player.IsStopped() && totalMs > 0 )
 		{
-			elapsedMs = recentPlayer->GetElapsedTime();
+			elapsedMs = m_player.GetElapsedTime();
 
 			value.vmax  = totalMs/SJ_SEEK_RESOLUTION; if( value.vmax==0 ) value.vmax = 1;
 			value.value = elapsedMs/SJ_SEEK_RESOLUTION;
 			SetSkinTargetValue(IDT_SEEK, value);
-
 		}
 		else
 		{
@@ -574,16 +652,8 @@ void SjMainFrame::UpdateDisplay()
 	// update main window title and the "currTrack" target
 	if( !IsStopped() )
 	{
-		wxString title, titleArtistName(currArtistName), titleTrackName(currTrackName);
-		if( recentPlayer != &m_player )
-		{
-			SjPlaylistEntry& urlInfo4 = m_player.m_queue.GetInfo(-1);
-			titleTrackName = urlInfo4.GetTrackName();
-			titleArtistName = urlInfo4.GetLeadArtistName();
-		}
-
 		// set windows title
-		title = CombineArtistNTitle(titleArtistName, titleTrackName, wxT(" - "));
+		wxString title = CombineArtistNTitle(currArtistName, currTrackName, wxT(" - "));
 		title.Append(wxT(" - "));
 		title.Append(SJ_PROGRAM_NAME);
 		SetTitle(title);
@@ -621,6 +691,7 @@ void SjMainFrame::UpdateDisplay()
 				{
 					value.string.Empty();
 				}
+
 				SetSkinTargetValue(IDT_DISPLAY_LINE_FIRST+visLine, value);
 			}
 		}
@@ -665,6 +736,11 @@ void SjMainFrame::UpdateDisplay()
 			{
 				value.string.Empty();
 			}
+
+			if( visLine == visLineCount-1 && m_player.IsPrelistening() ) {
+				AddDisplayOverlay(&value, NULL);
+			}
+
 			SetSkinTargetValue(IDT_DISPLAY_LINE_FIRST+visLine, value);
 		}
 	}
@@ -696,12 +772,12 @@ void SjMainFrame::UpdateDisplay()
 			if( queuePos >= 0 && queuePos < queueTrackCount )
 			{
 				// ...name
-				SjPlaylistEntry& urlInfo2 = recentPlayer->m_queue.GetInfo(queuePos);
+				SjPlaylistEntry& urlInfo2 = m_player.m_queue.GetInfo(queuePos);
 				value.string = CombineArtistNTitle(urlInfo2.GetLeadArtistName(), urlInfo2.GetTrackName());
 
 				if( m_skinFlags&SJ_SKIN_SHOW_DISPLAY_AUTOPLAY )
 				{
-					if( recentPlayer->m_queue.GetFlags(queuePos)&SJ_PLAYLISTENTRY_AUTOPLAY )
+					if( m_player.m_queue.GetFlags(queuePos)&SJ_PLAYLISTENTRY_AUTOPLAY )
 					{
 						value.string.Prepend(_("AutoPlay")+wxString(wxT(": ")));
 					}
@@ -725,15 +801,15 @@ void SjMainFrame::UpdateDisplay()
 					value.value |= (SJ_VFLAG_ICONR_DELETE);
 				}
 
-				if( queuePos == queuePlayingPos && !recentPlayer->IsStopped() )
+				if( queuePos == queuePlayingPos && !m_player.IsStopped() )
 				{
 					value.value |= SJ_VFLAG_VMIN_IS_TIME;
 
-					long totalTime = recentPlayer->GetTotalTime();
+					long totalTime = m_player.GetTotalTime();
 					if( m_showRemainingTime && totalTime > 0 )
 					{
 						value.value |= SJ_VFLAG_VMIN_MINUS;
-						value.vmin = recentPlayer->GetRemainingTime();
+						value.vmin = m_player.GetRemainingTime();
 						if( value.vmin <= 0 )
 						{
 							value.vmin = urlInfo2.GetPlaytimeMs();
@@ -741,7 +817,7 @@ void SjMainFrame::UpdateDisplay()
 					}
 					else
 					{
-						value.vmin = recentPlayer->GetElapsedTime();
+						value.vmin = m_player.GetElapsedTime();
 					}
 
 					if( m_skinFlags&SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME )
@@ -769,29 +845,29 @@ void SjMainFrame::UpdateDisplay()
 				// ...left icon
 				if( queuePos == queuePlayingPos )
 				{
-					if( recentPlayer->IsStopped() ) { value.value |= SJ_VFLAG_ICONL_STOP; }
-					else if( recentPlayer->IsPaused() )  { value.value |= SJ_VFLAG_ICONL_PAUSE; }
-					else                                 { value.value |= SJ_VFLAG_ICONL_PLAY; }
+					     if( m_player.IsStopped() ) { value.value |= SJ_VFLAG_ICONL_STOP; }
+					else if( m_player.IsPaused() )  { value.value |= SJ_VFLAG_ICONL_PAUSE; }
+					else                            { value.value |= SJ_VFLAG_ICONL_PLAY; }
 
 					m_display.m_backupedCurrTitle = value.string;
 					m_display.m_backupedCurrLine = visLine;
 				}
 				else
 				{
-					long entryFlags     = recentPlayer->m_queue.GetFlags(queuePos);
+					long entryFlags = m_player.m_queue.GetFlags(queuePos);
 					if( entryFlags & SJ_PLAYLISTENTRY_MOVED_DOWN )
 					{
-						if( !recentPlayer->m_queue.IsBoring(queuePos, currTimestamp) )
+						if( !m_player.m_queue.IsBoring(queuePos, currTimestamp) )
 						{
 							entryFlags &= ~SJ_PLAYLISTENTRY_MOVED_DOWN;
-							recentPlayer->m_queue.SetFlags(queuePos, entryFlags);
+							m_player.m_queue.SetFlags(queuePos, entryFlags);
 						}
 					}
 
-					if( entryFlags&SJ_PLAYLISTENTRY_ERRONEOUS )        { value.value |= SJ_VFLAG_ICONL_ERRONEOUS; }
-					else if( recentPlayer->m_queue.WasPlayed(queuePos) )    { value.value |= SJ_VFLAG_ICONL_PLAYED; }
-					else if( entryFlags&SJ_PLAYLISTENTRY_MOVED_DOWN )       { value.value |= SJ_VFLAG_ICONL_MOVED_DOWN; }
-					else                                                    { value.value |= SJ_VFLAG_ICONL_EMPTY; }
+					     if( entryFlags&SJ_PLAYLISTENTRY_ERRONEOUS )   { value.value |= SJ_VFLAG_ICONL_ERRONEOUS; }
+					else if( m_player.m_queue.WasPlayed(queuePos) )    { value.value |= SJ_VFLAG_ICONL_PLAYED; }
+					else if( entryFlags&SJ_PLAYLISTENTRY_MOVED_DOWN )  { value.value |= SJ_VFLAG_ICONL_MOVED_DOWN; }
+					else                                               { value.value |= SJ_VFLAG_ICONL_EMPTY; }
 				}
 			}
 			else
@@ -799,6 +875,11 @@ void SjMainFrame::UpdateDisplay()
 				// ...empty line
 				value.value = SJ_VFLAG_ICONL_EMPTY;
 				value.string.Empty();
+			}
+
+			if( visLine == visLineCount-1 && m_player.IsPrelistening() ) {
+				value.value |= queueTrackCount? SJ_VFLAG_IGNORECENTEROFFSET : 0;
+				AddDisplayOverlay(&value, NULL);
 			}
 
 			SetSkinTargetValue(IDT_DISPLAY_LINE_FIRST+visLine, value);
@@ -912,7 +993,7 @@ void SjMainFrame::OnElapsedTimeTimer(wxTimerEvent& event)
 
 	// display stuff
 	unsigned long   thisTimestamp = SjTools::GetMsTicks();
-	SjPlayer*       recentPlayer = &g_mainFrame->m_player;
+	bool            displayOverlayUpdated = false, seekOverlayUpdated = false;
 
 	if( HasSkinTarget(IDT_CURR_TIME) )
 	{
@@ -969,22 +1050,27 @@ void SjMainFrame::OnElapsedTimeTimer(wxTimerEvent& event)
 		}
 	}
 
-	if( recentPlayer && !recentPlayer->IsStopped() )
+	if( !m_player.IsStopped() )
 	{
 		SjSkinValue     value;
-		long            totalMs = recentPlayer->GetTotalTime();
-		long            elapsedMs = recentPlayer->GetElapsedTime();
-		bool            isPaused = recentPlayer->IsPaused();
-		bool            stopAfterTrack = ( recentPlayer->StopAfterThisTrack()||recentPlayer->StopAfterEachTrack() );
-		bool            blink = (  (&m_player==recentPlayer&&stopAfterTrack )
-		                           || isPaused );
+		long            totalMs        = m_player.GetTotalTime();
+		long            elapsedMs      = m_player.GetElapsedTime();
+		bool            isPaused       = m_player.IsPaused();
+		bool            stopAfterTrack = ( m_player.StopAfterThisTrack() || m_player.StopAfterEachTrack() );
+		bool            blink          = ( stopAfterTrack || isPaused );
 
-		if( totalMs > 0 )
-		{
-			value.vmin      = 0;
-			value.vmax      = totalMs/SJ_SEEK_RESOLUTION;
-			value.thumbSize = 0;
-			value.value     = elapsedMs/SJ_SEEK_RESOLUTION;
+		if( m_player.IsPrelistening() ) {
+			AddDisplayOverlay(NULL, &value);
+			seekOverlayUpdated = true;
+		}
+		else {
+			if( totalMs > 0 )
+			{
+				value.vmin      = 0;
+				value.vmax      = totalMs/SJ_SEEK_RESOLUTION;
+				value.thumbSize = 0;
+				value.value     = elapsedMs/SJ_SEEK_RESOLUTION;
+			}
 		}
 		SetSkinTargetValueIfPossible(IDT_SEEK, value); // "if possible" avoids update the target eg. if it conflicts with an drag'n'drop image
 
@@ -994,7 +1080,7 @@ void SjMainFrame::OnElapsedTimeTimer(wxTimerEvent& event)
 
 			if( m_showRemainingTime && totalMs > 0 )
 			{
-				value.vmin = recentPlayer->GetRemainingTime();
+				value.vmin = m_player.GetRemainingTime();
 				value.value |= SJ_VFLAG_VMIN_MINUS;
 			}
 			else
@@ -1039,10 +1125,20 @@ void SjMainFrame::OnElapsedTimeTimer(wxTimerEvent& event)
 				}
 			}
 
-			SetSkinTargetValueIfPossible(IDT_DISPLAY_LINE_FIRST+m_display.m_backupedCurrLine, value);
+			if( m_player.IsPrelistening() && m_display.m_backupedCurrLine == (GetLinesCount()-1) ) {
+				value.value |= m_player.m_queue.GetCount()? SJ_VFLAG_IGNORECENTEROFFSET : 0;
+				AddDisplayOverlay(&value, NULL);
+				displayOverlayUpdated = true;
+			}
+
+			SetSkinTargetValueIfPossible(IDT_DISPLAY_LINE_FIRST+m_display.m_backupedCurrLine, value); // "if possible" avoids update the target eg. if it conflicts with an drag'n'drop image
 
 			m_blinkBlink = !m_blinkBlink;
 		}
+	}
+
+	if( m_player.IsPrelistening() && (!displayOverlayUpdated || !seekOverlayUpdated) ) {
+		UpdateDisplay();
 	}
 
 Done:

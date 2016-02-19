@@ -128,9 +128,12 @@ public: virtual              ~SjBackendStream ();
 
 	// the following fiels should be treated as "private" to SjBackendStream and derived classes,
 	// howver, they're declared as public to be usable from callbacks (for speed reasons, this avoids one level of iteration)
-	wxString                 m_url;
 	SjBackendCallback*       m_cb;
 	SjBackendCallbackParam   m_cbp;
+
+private:
+	// m_url is declared as private to stop derived classes from changing it! m_url always be the same as given to CreateStream()!
+	wxString                 m_url;
 };
 
 

@@ -1905,7 +1905,7 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 			case IDT_STOP:
 				if( IsOpAvailable(SJ_OP_PLAYPAUSE) )
 				{
-					Stop();
+					Stop(false);
 				}
 				break;
 

@@ -78,11 +78,9 @@ public:
 	// Public Player Functions
 	void            Play                (long ms=0) { m_player.Play(ms); m_haltedManually=FALSE; UpdateDisplay(); }
 	void            Pause               ()       { m_player.Pause(); m_haltedManually=TRUE; UpdateDisplay(); }
-	void            Stop                () { m_player.Stop(); m_haltedManually=TRUE; UpdateDisplay(); }
+	void            Stop                (bool keepPrelistening=true) { m_player.Stop(true, keepPrelistening); m_haltedManually=TRUE; UpdateDisplay(); }
 	void            PlayOrPause         () { m_player.PlayOrPause(); m_haltedManually=m_player.IsPaused(); UpdateDisplay(); }
 	void            ReplayIfPlaying     ();
-	void            SeekAbs             (long m) { m_player.SeekAbs(m); UpdateDisplay(); }
-	void            SeekRel             (long m) { m_player.SeekRel(m); UpdateDisplay(); }
 	void            Enqueue             (const wxString& url, long pos, bool verified, bool autoPlay=false, bool uiChecks=true) { wxArrayString a; a.Add(url); Enqueue(a, pos, verified, autoPlay, uiChecks); } /* pos=-1: enqueue last, pos=-2: play next, pos=-3: play now */
 	void            Enqueue             (const wxArrayString&, long pos, bool verified, bool autoPlay=false, bool uiChecks=true);
 	void            UnqueueAll          ()       { m_player.m_queue.UnqueueAll(&m_player, TRUE); m_display.m_scrollPos=-1; UpdateDisplay(); /*the caller should update the browser as he may enqueue new tracks just after the unqueue!*/ }
@@ -255,6 +253,9 @@ private:
 	void            OnSkinDisplayEvent  (int targetId, SjSkinValue&, long accelFlags);
 	wxString        CombineArtistNTitle (const wxString& artist, const wxString& title, const wxString& sep=wxT("\t"));
 	void            UpdateCurrTime      ();
+	void            AddDisplayOverlay   (SjSkinValue* line, SjSkinValue* seek);
+	wxString        m_overlayCacheTrackName, m_overlayCacheTrackNameFor;
+	long            m_overlayCachePlaytimeMs;
 
 private:
 	// Functions overwritten from SjSkinWindow

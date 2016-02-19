@@ -1803,7 +1803,7 @@ bool SjTagEditorDlg::Data2Dsk_Write(const wxString& orgUrl, SjTrackInfo& ti, boo
 	 && (orgUrl != ti.m_url || g_tagEditorModule->GetWriteId3Tags()) )
 	{
 		stoppedPos = g_mainFrame->GetElapsedTime();
-		g_mainFrame->Stop();
+		g_mainFrame->Stop(false);
 		stopped = TRUE;
 
 		// wait a little moment until the track is faded out and stopped

@@ -85,7 +85,7 @@ IMPLEMENT_FUNCTION(player, pause)
 
 IMPLEMENT_FUNCTION(player, stop)
 {
-	g_mainFrame->Stop();
+	g_mainFrame->Stop(false);
 	RETURN_UNDEFINED;
 }
 
@@ -323,7 +323,7 @@ IMPLEMENT_PUT(player)
 
 	if( VAL_PROPERTY( time ) )
 	{
-		g_mainFrame->m_player.SeekAbs( VAL_LONG );
+		g_mainFrame->m_player.Seek( VAL_LONG );
 		g_mainFrame->UpdateDisplay();
 	}
 	else if( VAL_PROPERTY( queuePos ) )

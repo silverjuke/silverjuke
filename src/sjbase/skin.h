@@ -70,10 +70,9 @@ class SjSee;
 #define         SJ_OP_UNQUEUE           0x00010000L
 #define         SJ_OP_MUSIC_SEL_GENRE   0x00020000L
 #define         SJ_OP_ZOOM              0x00040000L
-#define         SJ_OP_TOGGLE_TIME_MODE  0x00080000L
 #define         SJ_OP_REPEAT            0x00100000L
 #define         SJ_OP_ALL               0x00800000L
-#define         SJ_OP_DEF_KIOSK        (SJ_OP_KIOSKON|SJ_OP_SEARCH|SJ_OP_TOGGLE_ELEMENTS|SJ_OP_TOGGLE_TIME_MODE|SJ_OP_ALBUM_VIEW|SJ_OP_ZOOM)
+#define         SJ_OP_DEF_KIOSK        (SJ_OP_KIOSKON|SJ_OP_SEARCH|SJ_OP_TOGGLE_ELEMENTS|SJ_OP_ALBUM_VIEW|SJ_OP_ZOOM)
 #define         SJ_OP_DEF_NONKIOSK     (0x00FFFFFFL&~SJ_OP_KIOSKON)
 #define         SJ_OP_OS_MAC            0x01000000L
 #define         SJ_OP_OS_WIN            0x02000000L
@@ -153,14 +152,14 @@ public:
 	}
 
 	long            value;              // - 0/1/2/... for <button> normal/selected/other/...
-	// - position for <scrollbar>
-	// - VFLAG_* for <box>
+	                                    // - position for <scrollbar>
+	                                    // - VFLAG_* for <box>
 	#define         SJ_VFLAG_CENTER                 0x0000001
 	#define         SJ_VFLAG_VMIN_IS_TIME           0x0000002
 	#define         SJ_VFLAG_VMIN_MINUS             0x0000004
 	#define         SJ_VFLAG_VMAX_IS_TIME           0x0000008
-	#define         SJ_VFLAG_TIME_CLICKABLE         0x0000010
 	#define         SJ_VFLAG_STRING_IS_IMAGE_URL    0x0000020
+	#define         SJ_VFLAG_OVERLAY                0x0000040
 	#define         SJ_VFLAG_MOVABLE                0x0000100
 	#define         SJ_VFLAG_BOLD                   0x0000400
 	#define         SJ_VFLAG_IGNORECENTEROFFSET     0x0000800
@@ -171,21 +170,18 @@ public:
 	#define         SJ_VFLAG_ICONL_STOP             0x0008000
 	#define         SJ_VFLAG_ICONL_PLAYED           0x0010000
 	#define         SJ_VFLAG_ICONL_ERRONEOUS        0x0020000
-	#define         SJ_VFLAG_ICONL_VOLDOWN          0x0040000
 	#define         SJ_VFLAG_ICONL_MOVED_DOWN       0x0080000
 	#define         SJ_VFLAG_ICONR_MASK             0xFF00000
 	#define         SJ_VFLAG_ICONR_DELETE           0x0100000
-	#define         SJ_VFLAG_ICONR_VOLDOWN          0x0200000
-	#define         SJ_VFLAG_ICONR_VOLUP            0x0400000
 
 	long            vmin, vmax;         // used by <scrollbar> and <box>;
-	// for events skin -> client, vmin are the accelerator flags
-	// buttons do blink if vmax ist set to SJ_VMAX_BLINK
+	                                    // for events skin -> client, vmin are the accelerator flags
+	                                    // buttons do blink if vmax ist set to SJ_VMAX_BLINK
 	#define         SJ_VMAX_BLINK                   0x0000001
 
 	long            thumbSize;          // used by <scrollbar>, if != 0, the max. value decreases by thumbSize
 
-	wxString        string;             // used by <box>
+	wxString        string;            // used by <box>
 };
 
 
@@ -385,23 +381,39 @@ private:
 	void            DrawBackground      (wxDC& dc);
 	void            DrawImage           (wxDC& dc);
 	void            DrawText            (wxDC& dc);
-	void            DrawText            (wxDC& dc, const wxString& text, int x, int y, bool selected);
+	void            DrawOverlay         (wxDC& dc);
+
+	void            DrawTextPart        (wxDC& dc, const wxString& text, int x, int y, bool selected);
 	void            DrawIcon            (wxDC& dc, const wxRect&, long icon, bool hilite);
 
-	// the subitems
-	#define         SJ_SUBITEM_NONE             0
-	#define         SJ_SUBITEM_ICONLEFT         1
-	#define         SJ_SUBITEM_TEXT             2
-	#define         SJ_SUBITEM_TIME             3
-	#define         SJ_SUBITEM_ICONRIGHT        4
-	#define         SJ_SUBITEM_TEXT_MOUSEDOWN   665 // needed for passing events only
-	#define         SJ_SUBITEM_TEXT_DCLICK      666 // needed for passing events only
-	#define         SJ_SUBITEM_TEXT_MIDDLECLICK 667 // needed for passing events only
+	// subitems
+	#define         SJ_SUBITEM_NONE               0x00
+	#define         SJ_SUBITEM_ICONLEFT           0x01
+	#define         SJ_SUBITEM_TEXT               0x02
+	#define         SJ_SUBITEM_TIME               0x03
+	#define         SJ_SUBITEM_ICONRIGHT          0x04
+	#define         SJ_SUBITEM_OVERLAY            0x10 // can also be used for testing for _any_ overlay item
+	#define         SJ_SUBITEM_OVERLAY_TIME       0x11
+	#define         SJ_SUBITEM_OVERLAY_ICONRIGHT  0x12
+	#define         SJ_SUBITEM_TEXT_MOUSEDOWN     0x20 // needed for passing events only
+	#define         SJ_SUBITEM_TEXT_DCLICK        0x21 // needed for passing events only
+	#define         SJ_SUBITEM_TEXT_MIDDLECLICK   0x22 // needed for passing events only
 	int             FindSubitem         (long x, long y, wxRect& subitemRect);
 
 	wxCoord         m_iconLeftW,
 	                m_timeXrel, m_timeW,
 	                m_iconRightXrel, m_iconRightW;
+
+	// overlay subitems
+	wxCoord         m_overlayXrel, m_overlayW,
+	                m_overlayTimeXrel, m_overlayTimeW,
+	                m_overlayIconRightW, m_overlayIconRightXrel;
+	wxString        m_overlayParam;
+	wxBrush         m_fgBrush; // used to draw the overlay background, we could also enable SjSkinColour::fbBrush, however, we need this _only_ for the prelisten overlay, so we do not created hundreds of brushes
+	wxColour        m_overlayFgColour;
+	wxPen           m_overlayFgPen;
+
+
 
 	friend class    SjSkinWindow;
 };
