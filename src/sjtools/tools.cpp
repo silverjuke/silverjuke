@@ -2741,6 +2741,9 @@ void SjTools::wxColourFromLong(wxColour& colour, long l)
 
 void SjTools::DrawIcon(wxDC& dc, const wxRect& rect, long flags)
 {
+	// NB: If the icons are weird or seem to change after redraw - this seems to be a bug in wxWidgets -
+	// _normally_ the last pixel of a DrawLine()-command is not drawn, however, _sometimes_ this happens anyway.
+	// Maybe we should get rid of this whole function and use Unicode characters instead. Or only use DrawPoint().
 	int x = rect.x, y = rect.y;
 
 	if( flags & SJ_DRAWICON_PLAY )
@@ -2832,7 +2835,8 @@ void SjTools::DrawIcon(wxDC& dc, const wxRect& rect, long flags)
 		int i;
 		for( i = 0; i < 7; i++ )
 		{
-			dc.DrawLine(x+i, y+ypoints[i], x+i, y+ypoints[i]+2);
+			dc.DrawPoint(x+i, y+ypoints[i]);
+			dc.DrawPoint(x+i, y+ypoints[i]+1);
 		}
 	}
 	else if( flags & SJ_DRAWICON_MOVED_DOWN )
