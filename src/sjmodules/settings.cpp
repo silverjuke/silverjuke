@@ -176,6 +176,7 @@ SjSettingsDlg::SjSettingsDlg(SjSettingsModule* settingsModule, wxWindow* parent)
 
 	m_buttonSizer = SjDialog::CreateButtons(this, SJ_DLG_OK, _("Close"));
 	m_dialogSizer->Add(m_buttonSizer, 0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE*2);
+	m_dialogSizer->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
 
 	m_dialogSizer->SetSizeHints(this);
 
