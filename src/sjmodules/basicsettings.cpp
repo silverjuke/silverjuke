@@ -95,7 +95,7 @@ SjSearchPathDlg::SjSearchPathDlg(wxWindow* parent, const wxArrayString& paths)
 	wxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
 	SetSizer(sizer1);
 
-	wxSizer* sizer2 = new wxStaticBoxSizer(new wxStaticBox(this, -1, _("The search paths are used for skins, language files and modules.")), wxVERTICAL);
+	wxSizer* sizer2 = new wxStaticBoxSizer(new wxStaticBox(this, -1, ""), wxVERTICAL);
 	sizer1->Add(sizer2, 1, wxGROW|wxALL, SJ_DLG_SPACE);
 
 	wxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
