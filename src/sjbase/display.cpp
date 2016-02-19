@@ -167,6 +167,9 @@ void SjDisplayEditDlg::OnUrlChanged(const wxString& oldUrl, const wxString& newU
  ******************************************************************************/
 
 
+unsigned long s_showPrelistenVolUntil = 0;
+
+
 void SjMainFrame::OnSkinDisplayEvent(int targetId, SjSkinValue& value, long accelFlags)
 {
 	if( targetId >= IDT_DISPLAY_LINE_FIRST && targetId <= IDT_DISPLAY_LINE_LAST )
@@ -331,8 +334,8 @@ void SjMainFrame::OnSkinDisplayEvent(int targetId, SjSkinValue& value, long acce
 			case IDT_PRELISTEN_VOL_DOWN:
 				{
 					m_player.SetPrelistenGain(m_player.GetPrelistenGain() + 0.1 * (targetId==IDT_PRELISTEN_VOL_UP?1:-1));
-					float currVol = m_player.GetPrelistenGain();
-                    SetDisplayMsg(wxString::Format(_("Prelisten") + ": " + _("Volume") + ": %i%%", (int)(currVol*10)*10), SDM_STATE_CHANGE_MS);
+					s_showPrelistenVolUntil = SjTools::GetMsTicks() + SDM_STATE_CHANGE_MS;
+					UpdateDisplay();
 				}
 				break;
 
@@ -550,7 +553,19 @@ void SjMainFrame::AddDisplayOverlay(SjSkinValue* lineValue, SjSkinValue* seekVal
 		if( !(m_skinFlags&SJ_SKIN_SHOW_DISPLAY_TOTAL_TIME) ) { displayTotalMs = -1; }
 
 		lineValue->value |= SJ_VFLAG_OVERLAY;
-		lineValue->string += "\n" + _("Prelisten") + m_overlayCacheTrackName + "\n";
+
+		lineValue->string += "\n";
+
+		if( SjTools::GetMsTicks()<s_showPrelistenVolUntil ) {
+			float currVol = m_player.GetPrelistenGain();
+			lineValue->string += _("Volume") + wxString::Format(": %i%%", (int)(currVol*10)*10);
+		}
+		else {
+			lineValue->string += _("Prelisten") + m_overlayCacheTrackName;
+		}
+
+		lineValue->string += "\n";
+
 		if( m_showRemainingTime && remainingMs >= 0 ) {
 			lineValue->string += "-" + SjTools::FormatTime(remainingMs/1000, SJ_FT_ALLOW_ZERO);
 			if( displayTotalMs > 0 ) { lineValue->string += " / "; }

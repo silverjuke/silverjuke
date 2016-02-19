@@ -495,8 +495,22 @@ int SjSkinBoxItem::FindSubitem(long x, long y, wxRect& subitemRect)
 		{
 			subitemRect.x = m_rect.x+m_overlayXrel;
 			subitemRect.width = m_overlayW;
-			if( x > m_rect.x+m_overlayTimeXrel
-			 && x < m_rect.x+m_overlayTimeXrel+m_overlayTimeW )
+			if( x > m_rect.x+m_overlayVolDownXrel
+			 && x < m_rect.x+m_overlayVolDownXrel+m_overlayVolDownW )
+			{
+				subitemRect.x = m_rect.x+m_overlayVolDownXrel;
+				subitemRect.width = m_overlayVolDownW;
+				return SJ_SUBITEM_OVERLAY_VOLDOWN;
+			}
+			if( x > m_rect.x+m_overlayVolUpXrel
+			 && x < m_rect.x+m_overlayVolUpXrel+m_overlayVolUpW )
+			{
+				subitemRect.x = m_rect.x+m_overlayVolUpXrel;
+				subitemRect.width = m_overlayVolUpW;
+				return SJ_SUBITEM_OVERLAY_VOLUP;
+			}
+			else if( x > m_rect.x+m_overlayTimeXrel
+			      && x < m_rect.x+m_overlayTimeXrel+m_overlayTimeW )
 			{
 				subitemRect.x = m_rect.x+m_overlayTimeXrel;
 				subitemRect.width = m_overlayTimeW;
@@ -869,8 +883,36 @@ void SjSkinBoxItem::DrawOverlay(wxDC& dc)
 	dc.SetFont(m_font);
 
 	int sub = drawRect.height/7;
-	drawRect.x += sub*2;
-	drawRect.width -= sub*3;
+	drawRect.width -= sub;
+
+	// draw icons left
+	{
+		wxRect rect2(drawRect);
+		rect2.width = drawRect.height;
+
+		//wxRect rect3(rect2); rect3.Deflate(2); dc.DrawRectangle(rect3);
+		dc.GetTextExtent("-", &w, &h);
+		dc.DrawText("-", rect2.x+(rect2.width-w)/2, rect2.y);
+
+		m_overlayVolDownXrel = rect2.x;
+		m_overlayVolDownW = rect2.width;
+		drawRect.x += m_overlayVolDownW;
+		drawRect.width -= m_overlayVolDownW;
+
+		// up ...
+		rect2.x += rect2.width;
+
+		//rect3 = rect2; rect3.Deflate(2); dc.DrawRectangle(rect3);
+		dc.GetTextExtent("+", &w, &h);
+		dc.DrawText("+", rect2.x+(rect2.width-w)/2, rect2.y);
+
+		m_overlayVolUpXrel = rect2.x;
+		m_overlayVolUpW = rect2.width;
+		drawRect.x += m_overlayVolUpW;
+		drawRect.width -= m_overlayVolUpW;
+	}
+
+
 
 	// draw icon right
 	bool hiliteLine = (m_mouseSubitem==SJ_SUBITEM_OVERLAY_ICONRIGHT && m_mouseState==SJ_MOUSE_STATE_CLICKED);
@@ -1100,7 +1142,12 @@ SjMouseUsed SjSkinBoxItem::OnMouseLeftUp(long x, long y, long accelFlags, bool c
 		}
 		else if( orgSubitem & SJ_SUBITEM_OVERLAY )
 		{
-			if( orgSubitem == SJ_SUBITEM_OVERLAY_ICONRIGHT ) {
+			if( orgSubitem == SJ_SUBITEM_OVERLAY_VOLDOWN || orgSubitem == SJ_SUBITEM_OVERLAY_VOLUP ) {
+				SjSkinValue dummy;
+				m_skinWindow->OnSkinTargetEvent(orgSubitem == SJ_SUBITEM_OVERLAY_VOLDOWN? IDT_PRELISTEN_VOL_DOWN : IDT_PRELISTEN_VOL_UP, dummy, accelFlags);
+                RedrawMe();
+			}
+			else if( orgSubitem == SJ_SUBITEM_OVERLAY_ICONRIGHT ) {
 				SjSkinValue dummy;
 				m_skinWindow->OnSkinTargetEvent(IDT_PRELISTEN, dummy, accelFlags);
                 RedrawMe();

@@ -393,8 +393,10 @@ private:
 	#define         SJ_SUBITEM_TIME               0x03
 	#define         SJ_SUBITEM_ICONRIGHT          0x04
 	#define         SJ_SUBITEM_OVERLAY            0x10 // can also be used for testing for _any_ overlay item
-	#define         SJ_SUBITEM_OVERLAY_TIME       0x11
-	#define         SJ_SUBITEM_OVERLAY_ICONRIGHT  0x12
+	#define         SJ_SUBITEM_OVERLAY_VOLDOWN    0x11
+	#define         SJ_SUBITEM_OVERLAY_VOLUP      0x12
+	#define         SJ_SUBITEM_OVERLAY_TIME       0x13
+	#define         SJ_SUBITEM_OVERLAY_ICONRIGHT  0x14
 	#define         SJ_SUBITEM_TEXT_MOUSEDOWN     0x20 // needed for passing events only
 	#define         SJ_SUBITEM_TEXT_DCLICK        0x21 // needed for passing events only
 	#define         SJ_SUBITEM_TEXT_MIDDLECLICK   0x22 // needed for passing events only
@@ -406,6 +408,8 @@ private:
 
 	// overlay subitems
 	wxCoord         m_overlayXrel, m_overlayW,
+	                m_overlayVolDownXrel, m_overlayVolDownW,
+	                m_overlayVolUpXrel, m_overlayVolUpW,
 	                m_overlayTimeXrel, m_overlayTimeW,
 	                m_overlayIconRightW, m_overlayIconRightXrel;
 	wxString        m_overlayParam;

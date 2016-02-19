@@ -90,7 +90,7 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 	if( g_mainFrame->m_player.m_backend )
 	{
 		SjLittleOption::SetSection(_("Output"));
-		wxString sysVolOptions = wxString::Format("%s|%s|%s", _("No") /*=0*/, _("Yes") /*=1=Use+Init*/, _("Only initialize system volume") /*=2*/);
+		wxString sysVolOptions = wxString::Format("%s|%s|%s", _("No") /*=0*/, _("Yes") /*=1=Use+Init*/, _("Initialize") /*=2*/);
 		lo.Add(new SjLittleBit(	_("Use system volume"), sysVolOptions, &g_mainFrame->m_player.m_useSysVol, SJ_SYSVOL_DEFAULT, 0, "player/useSysVol", SJ_ICON_MODULE));
 		g_mainFrame->m_player.m_backend->GetLittleOptions(lo);
 	}
@@ -98,7 +98,7 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 	if( g_mainFrame->m_player.m_prelistenBackend )
 	{
 		SjLittleOption::SetSection(_("Prelisten"));
-		wxString sysVolOptions = wxString::Format("%s|%s", _("No") /*=0*/, _("Yes") /*=1*/); // for prelistening, we rely on m_prelistenGain - this is much easier for the different destinations; and _if_ we really use an explicit output, its volume is normally not editable by the normal system controls, so an init+Gain should work well
+		wxString sysVolOptions = wxString::Format("%s|%s", _("No") /*=0*/, _("Initialize") /*=1*/); // for prelistening, we rely on m_prelistenGain - this is much easier for the different destinations; and _if_ we really use an explicit output, its volume is normally not editable by the normal system controls, so an init+Gain should work well
 		lo.Add(new SjLittleBit(	_("Use system volume"), sysVolOptions, &g_mainFrame->m_player.m_prelistenUseSysVol, SJ_SYSVOL_DEFAULT, 0, "player/prelistenUseSysVol", SJ_ICON_MODULE));
 		g_mainFrame->m_player.m_prelistenBackend->GetLittleOptions(lo);
 	}
