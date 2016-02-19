@@ -1,6 +1,14 @@
 Silverjuke Changes
 ================================================================================
 
+V16.3 (19.02.2016)
+================================================================================
+
+- New prelistening options: Mix, Left/Right channel, Explicit output
+- New prelistening overlay
+- New: Include/Exclude extensions in the source settings
+- Bug fixes
+
 
 V16.2 (14.02.2016)
 ================================================================================
