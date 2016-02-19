@@ -62,7 +62,6 @@ public:
 
 	SjEmbedTo       EmbedTo             () { return SJ_EMBED_TO_MAIN; }
 	wxWindow*       GetConfigPage       (wxWindow* parent, int selectedPage);
-	void            GetConfigButtons    (wxString& okText, wxString& cancelText, bool& okBold);
 	void            DoneConfigPage      (wxWindow* configPage, int action);
 	void            GetLittleOptions    (SjArrayLittleOption& lo);
 

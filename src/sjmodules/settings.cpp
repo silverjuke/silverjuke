@@ -88,7 +88,6 @@ private:
 	// common
 	SjSettingsModule* m_settingsModule;
 	bool            m_trackSelectionChanges;
-	void            OnCancel            (wxCommandEvent&);
 	void            OnOK                (wxCommandEvent&);
 	void            OnClose             (wxCloseEvent&);
 	void            OnOpenSettingsAsync (wxCommandEvent&);
@@ -100,7 +99,7 @@ private:
 BEGIN_EVENT_TABLE(SjSettingsDlg, SjDialog)
 	EVT_TOOL_RANGE              (1000, 2000,            SjSettingsDlg::OnSelectionChange    )
 	EVT_BUTTON                  (wxID_OK,               SjSettingsDlg::OnOK                 )
-	EVT_BUTTON                  (wxID_CANCEL,           SjSettingsDlg::OnCancel             )
+	EVT_BUTTON                  (wxID_CANCEL,           SjSettingsDlg::OnOK                 ) // sic! Close=Apply, Esc=Close => Esc=Apply
 	EVT_CLOSE                   (                       SjSettingsDlg::OnClose              )
 	EVT_MENU                    (IDO_OPENSETTINGSASYNC, SjSettingsDlg::OnOpenSettingsAsync  )
 END_EVENT_TABLE()
@@ -175,11 +174,8 @@ SjSettingsDlg::SjSettingsDlg(SjSettingsModule* settingsModule, wxWindow* parent)
 
 	m_pageSizer->Add(m_toolBar, 0, wxGROW);
 
-	m_buttonSizer = SjDialog::CreateButtons(this, SJ_DLG_OK_CANCEL);
-	m_dialogSizer->Add(m_buttonSizer,
-	                   0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE*2);
-
-	m_dialogSizer->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
+	m_buttonSizer = SjDialog::CreateButtons(this, SJ_DLG_OK, _("Close"));
+	m_dialogSizer->Add(m_buttonSizer, 0, wxGROW|wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 
 	m_dialogSizer->SetSizeHints(this);
 
@@ -214,7 +210,7 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 		if( m_currPageModule )
 		{
 			m_currPageModule->m_notebookPage = GetNotebookPage();
-			m_currPageModule->DoneConfigPage(m_currPageWindow, SJ_CONFIGPAGE_DONE_GENERIC);
+			m_currPageModule->DoneConfigPage(m_currPageWindow, SJ_CONFIGPAGE_DONE_OK_CLICKED);
 			m_currPageModule->Unload();
 			m_currPageModule = NULL;
 		}
@@ -263,27 +259,6 @@ void SjSettingsDlg::LoadPage(const wxString& file, int index, int page__)
 						SetClientSize(clientSize);
 					}
 					SetSizeHints(minSize.x+borderSize.x, minSize.y+borderSize.y);
-
-					// set button texts
-					wxString okText, cancelText;
-					bool okBold;
-					m_currPageModule->GetConfigButtons(okText, cancelText, okBold);
-
-					wxButton* okButton = (wxButton*)FindWindow(wxID_OK);
-					if( okButton )
-					{
-						okButton->SetLabel(okText);
-
-						wxFont font = GetFont();
-						if( okBold ) font.SetWeight(wxBOLD);
-						okButton->SetFont(font);
-					}
-
-					wxButton* cancelButton = (wxButton*)FindWindow(wxID_CANCEL);
-					if( cancelButton )
-					{
-						cancelButton->SetLabel(cancelText);
-					}
 
 					// add a size event explicitly, the pages rely on this and it is not always send by wxWidgets (send on 2.x, not send on 3.x)
 					// note, that this event should be send _after_ the controls are layouted; normally, this should be the case here.
@@ -418,18 +393,6 @@ void SjSettingsDlg::OnSelectionChange(wxCommandEvent& event)
 }
 
 
-void SjSettingsDlg::OnCancel(wxCommandEvent&)
-{
-	if( m_currPageWindow && m_currPageModule )
-	{
-		m_currPageModule->DoneConfigPage(m_currPageWindow, SJ_CONFIGPAGE_DONE_CANCEL_CLICKED);
-	}
-
-	UnloadPage();
-	Destroy(); // do not used delete!
-}
-
-
 void SjSettingsDlg::OnOK(wxCommandEvent&)
 {
 	if( m_currPageWindow && m_currPageModule )
@@ -446,7 +409,7 @@ void SjSettingsDlg::OnOK(wxCommandEvent&)
 void SjSettingsDlg::OnClose(wxCloseEvent&)
 {
 	wxCommandEvent fwd;
-	OnCancel(fwd);
+	OnOK(fwd);
 }
 
 

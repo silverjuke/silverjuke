@@ -312,10 +312,9 @@ public:
 
 	// Still configuration.  Load the modules before using the following functions.
 	virtual wxWindow* GetConfigPage       (wxWindow* parent, int selectedPage) { return NULL; }
-	virtual void    GetConfigButtons    (wxString& okText, wxString& cancelText, bool& okBold) { okText=_("OK"); cancelText=_("Cancel"); okBold=FALSE; }
-	#define         SJ_CONFIGPAGE_DONE_GENERIC          0
+	#define         SJ_CONFIGPAGE_DONE_GENERIC          0 // deprecated, no longer send
 	#define         SJ_CONFIGPAGE_DONE_OK_CLICKED       1
-	#define         SJ_CONFIGPAGE_DONE_CANCEL_CLICKED   2
+	#define         SJ_CONFIGPAGE_DONE_CANCEL_CLICKED   2 // deprecated, no longer send
 	virtual void    DoneConfigPage      (wxWindow* configPage, int action) { }
 	int             m_notebookPage;     // used by the settings dialog to remember the current page if a notebook is present
 

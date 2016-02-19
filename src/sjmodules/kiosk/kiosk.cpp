@@ -453,8 +453,17 @@ wxPanel* SjKioskConfigPage::CreateStartPage(wxWindow* parent)
 	wxSizer* sizer2f = new wxFlexGridSizer(1, SJ_DLG_SPACE/2, SJ_DLG_SPACE*3);
 	sizer1->Add(sizer2f, 0, wxLEFT|wxTOP|wxRIGHT, SJ_DLG_SPACE);
 
-	wxString startKey = g_accelModule->GetReadableShortcutsByCmd(IDT_TOGGLE_KIOSK, SJ_SHORTCUTS_LOCAL|SJ_SHORTCUTS_SYSTEMWIDE);
-	AddOp(sizer2f, 2, SJ_KIOSKF_EXIT_KEY, wxString::Format(_("Exit by hitting %s"), startKey.c_str()));
+	wxBoxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
+	sizer2f->Add(sizer3);
+
+		wxString startKey = g_accelModule->GetReadableShortcutsByCmd(IDT_TOGGLE_KIOSK, SJ_SHORTCUTS_LOCAL|SJ_SHORTCUTS_SYSTEMWIDE);
+		AddOp(sizer3, 2, SJ_KIOSKF_EXIT_KEY, wxString::Format(_("Exit by hitting %s"), startKey.c_str()));
+
+		AddStaticText(sizer3, " - " + _("Action:"));
+
+		m_defExitActionChoice = SjPasswordDlg::CreateExitActionChoice(m_tempPanel, g_kioskModule->m_configDefExitAction, TRUE);
+		m_defExitActionChoice->Enable(m_optionsAvailable);
+		sizer3->Add(m_defExitActionChoice, 0, wxLEFT, SJ_DLG_SPACE);
 
 	AddOp(sizer2f, 2, SJ_KIOSKF_EXIT_CORNER, _("Exit by clicking into two different corners"));
 
@@ -462,8 +471,8 @@ wxPanel* SjKioskConfigPage::CreateStartPage(wxWindow* parent)
 
 	AddOp(sizer2f, 2, SJ_KIOSKF_TRY_TO_SET_EXCLUSIVE, _("Try to set exclusive"));
 
-	wxBoxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
-	sizer1->Add(sizer3, 0, wxLEFT|wxTOP|wxRIGHT, SJ_DLG_SPACE);
+	sizer3 = new wxBoxSizer(wxHORIZONTAL);
+	sizer1->Add(sizer3, 0, wxLEFT|wxRIGHT, SJ_DLG_SPACE);
 
 	AddOp(sizer3, 2, SJ_KIOSKF_USE_PASSWORD, _("Ask for a password on exit"));
 
@@ -471,14 +480,12 @@ wxPanel* SjKioskConfigPage::CreateStartPage(wxWindow* parent)
 	m_changePasswordButton->Enable((g_kioskModule->m_configKioskf&SJ_KIOSKF_USE_PASSWORD)? true : false);
 	sizer3->Add(m_changePasswordButton, 0, wxLEFT|wxALIGN_CENTER_VERTICAL, SJ_DLG_SPACE/2);
 
-	sizer3 = new wxBoxSizer(wxHORIZONTAL);
-	sizer1->Add(sizer3, 0, wxALL, SJ_DLG_SPACE);
-
-	AddStaticText(sizer3, _("Exit action:"));
-
-	m_defExitActionChoice = SjPasswordDlg::CreateExitActionChoice(m_tempPanel, g_kioskModule->m_configDefExitAction, TRUE);
-	m_defExitActionChoice->Enable(m_optionsAvailable);
-	sizer3->Add(m_defExitActionChoice, 0, wxLEFT, SJ_DLG_SPACE);
+	wxButton* startButton = new wxButton(m_tempPanel, IDT_TOGGLE_KIOSK, _("Start"), wxDefaultPosition, wxDefaultSize);
+	wxFont font = parent->GetFont();
+	font.SetWeight(wxBOLD);
+	startButton->SetFont(font);
+	sizer1->Add(SJ_DLG_SPACE*2, SJ_DLG_SPACE*2);
+	sizer1->Add(startButton, 0, wxLEFT, SJ_DLG_SPACE);
 
 	return m_tempPanel;
 }
@@ -1567,29 +1574,9 @@ wxWindow* SjKioskModule::GetConfigPage(wxWindow* parent, int selectedPage)
 }
 
 
-void SjKioskModule::GetConfigButtons(wxString& okText, wxString& cancelText, bool& okBold)
-{
-	okText = KioskStarted()? _("Stop") : _("Start");
-	cancelText = _("Close");
-	okBold = TRUE;
-}
-
-
 void SjKioskModule::DoneConfigPage(wxWindow* configPage, int doneAction)
 {
 	((SjKioskConfigPage*)configPage)->Apply();
-
-	if( doneAction == SJ_CONFIGPAGE_DONE_OK_CLICKED )
-	{
-		if( KioskStarted() )
-		{
-			ExitRequest(0);
-		}
-		else
-		{
-			DoStart();
-		}
-	}
 }
 
 
