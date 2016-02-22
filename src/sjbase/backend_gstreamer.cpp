@@ -166,7 +166,7 @@ void on_pad_added(GstElement* decodebin, GstPad* newSourcePad, gpointer userdata
 		if( stream->m_backend->WantsVideo() )
 		{
 			GError* error = NULL;
-			GstElement* videosink = gst_parse_bin_from_description(stream->m_backend->m_iniVideoPipeline, true, &error);
+			GstElement* videosink = gst_parse_bin_from_description(stream->m_backend->m_iniVideoPipeline.utf8_str(), true, &error);
 			if( error ) {
 				const gchar* errormessage = error->message; GST_TO_WXSTRING(errormessage);
 				wxLogError("GStreamer Error: %s. Please check the video configuration at Settings/Advanced.", errormessageWxStr.c_str());
@@ -324,7 +324,7 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 	GstElement* audioconvert = gst_element_factory_make("audioconvert",  "sjAudioEntry");
 	GstElement* capsfilter   = gst_element_factory_make("capsfilter",    NULL          );
 	GstElement* volume       = gst_element_factory_make("volume",        "sjVolume"    );
-	GstElement* audiosink    = gst_parse_bin_from_description(m_iniAudioPipeline, true, &error);
+	GstElement* audiosink    = gst_parse_bin_from_description(m_iniAudioPipeline.utf8_str(), true, &error);
 	if( error ) {
 		const gchar* errormessage = error->message; GST_TO_WXSTRING(errormessage);
 		wxLogError("GStreamer Error: %s. Please check the audio configuration at Settings/Advanced.", errormessageWxStr.c_str());

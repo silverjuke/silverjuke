@@ -132,7 +132,7 @@ wxString SjLogListCtrl::OnGetItemText(long index, long column) const
 			// default format
 			fmt = _T("%c");
 		}
-		return TimeStamp(fmt, time);
+		return TimeStamp(fmt.c_str(), time);
 	}
 }
 
