@@ -93,9 +93,9 @@ void SjNumpadMenuHandler::UpdatePages()
 		AddPage (IDT_SEARCH);
 		if( g_mainFrame->IsOpAvailable(SJ_OP_SEARCH) )
 		{
-			AddEntry(currKey++, IDT_SEARCH, 0, _("Search"));
+			AddEntry(currKey++, IDT_SEARCH, 0, _("Search").c_str());
 		}
-		AddEntry(currKey++, IDM_ENDSIMPLESEARCH, 0, _("End search"));
+		AddEntry(currKey++, IDM_ENDSIMPLESEARCH, 0, _("End search").c_str());
 	}
 
 	// zoom / scroll
@@ -114,9 +114,9 @@ void SjNumpadMenuHandler::UpdatePages()
 	{
 		if( !zoomPageStarted )
 			AddPage (IDT_ZOOM_OUT);
-		AddEntry(3, IDT_NUMPAD_PAGE_DOWN,   SJ_ENTRY_HOLD, _("Down"));
-		AddEntry(4, IDT_NUMPAD_PAGE_LEFT,   SJ_ENTRY_HOLD, _("Left"));
-		AddEntry(5, IDT_NUMPAD_PAGE_RIGHT,  SJ_ENTRY_HOLD, _("Right"));
+		AddEntry(3, IDT_NUMPAD_PAGE_DOWN,   SJ_ENTRY_HOLD, _("Down").c_str());
+		AddEntry(4, IDT_NUMPAD_PAGE_LEFT,   SJ_ENTRY_HOLD, _("Left").c_str());
+		AddEntry(5, IDT_NUMPAD_PAGE_RIGHT,  SJ_ENTRY_HOLD, _("Right").c_str());
 		zoomPageStarted = true;
 	}
 
@@ -132,7 +132,7 @@ void SjNumpadMenuHandler::UpdatePages()
 		}
 		if( g_mainFrame->IsOpAvailable(SJ_OP_PLAYPAUSE) )
 		{
-			AddEntry(3, IDT_PLAY, 0, g_mainFrame->IsPlaying()? _("Pause") : _("Play"));
+			AddEntry(3, IDT_PLAY, 0, g_mainFrame->IsPlaying()? _("Pause").c_str() : _("Play").c_str());
 			AddEntry(4, IDT_STOP);
 		}
 	}
@@ -169,9 +169,9 @@ void SjNumpadMenuHandler::UpdatePages()
 	if(  g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)
 	 || (g_visModule->IsVisStarted() && g_visModule->IsOverWorkspace()) )
 	{
-		AddEntry(1, IDT_VIS_TOGGLE, 0, _("Video screen"));
+		AddEntry(1, IDT_VIS_TOGGLE, 0, _("Video screen").c_str());
 	}
-	AddEntry(2, IDT_TOGGLE_KIOSK, 0, g_mainFrame->IsKioskStarted()? wxString(_("Exit kiosk mode")) : wxString(_("Start kiosk mode")));
+	AddEntry(2, IDT_TOGGLE_KIOSK, 0, g_mainFrame->IsKioskStarted()? wxString(_("Exit kiosk mode")).c_str() : wxString(_("Start kiosk mode")).c_str());
 }
 
 
