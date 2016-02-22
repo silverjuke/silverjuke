@@ -41,7 +41,7 @@ public:
 
 class SjBackend;
 class SjBackendStream;
-class SjBackendCallbackParam;
+struct SjBackendCallbackParam;
 class SjVolumeCalc;
 
 
