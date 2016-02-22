@@ -281,7 +281,11 @@ wxWindow* SjDialog::FindTopLevel(wxWindow* w__)
 
 wxWindow* SjDialog::FindWindowFromHandle(void* handle)
 {
+#if 0
 	wxWindowList::Node *node;
+#else
+	wxWindowList::compatibility_iterator node;
+#endif
 	for ( node = wxTopLevelWindows.GetFirst(); node; node = node->GetNext() )
 	{
 		wxWindow *winTop = node->GetData();
@@ -305,7 +309,11 @@ wxWindow* SjDialog::GetSuitableDlgParent()
 		return g_mainFrame;
 
 	// try active (modal) dialogs or windows
+#if 0
 	wxWindowList::Node *node;
+#else
+	wxWindowList::compatibility_iterator node;
+#endif
 	for ( node = wxTopLevelWindows.GetFirst(); node; node = node->GetNext() )
 	{
 		wxTopLevelWindow* winTop = (wxTopLevelWindow*)node->GetData();

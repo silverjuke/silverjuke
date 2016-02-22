@@ -153,7 +153,11 @@ SjSettingsDlg::SjSettingsDlg(SjSettingsModule* settingsModule, wxWindow* parent)
 	// go through all modules
 	int currModuleIndex = 0;
 	SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_COMMON);
+#if 0
 	SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#else
+	SjModuleList::compatibility_iterator moduleNode = moduleList->GetFirst();
+#endif
 	wxString label;
 	while( moduleNode )
 	{

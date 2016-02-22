@@ -307,7 +307,11 @@ bool SjMainFrame::UpdateIndex(wxWindow* parent, bool deepUpdate)
 			SjModuleList* list = m_moduleSystem.GetModules(SJ_MODULETYPE_COL);
 			wxASSERT(list);
 
-			SjModuleList::Node* moduleNode = list->GetFirst();
+#if 0
+            SjModuleList::Node* moduleNode = list->GetFirst();
+#else
+            SjModuleList::compatibility_iterator moduleNode = list->GetFirst();
+#endif
 			while( moduleNode )
 			{
 				SjColModule* module = (SjColModule*)moduleNode->GetData();
@@ -566,7 +570,11 @@ bool SjMainFrame::DragNDrop(SjDragNDropAction action,
 			{
 				// find out the module that will handle the dnd stuff
 				SjModuleList* list = m_moduleSystem.GetModules(SJ_MODULETYPE_COMMON);
-				SjModuleList::Node* moduleNode = list->GetFirst();
+#if 0
+                SjModuleList::Node* moduleNode = list->GetFirst();
+#else
+                SjModuleList::compatibility_iterator moduleNode = list->GetFirst();
+#endif
 				while( moduleNode )
 				{
 					SjCommonModule* module = (SjCommonModule*)moduleNode->GetData();
@@ -1147,7 +1155,11 @@ SjMainFrame::SjMainFrame(SjMainApp* mainApp, int id, long skinFlags, const wxPoi
 		for( i = 0; i < 2; i++ )
 		{
 			SjModuleList* list = m_moduleSystem.GetModules(SJ_MODULETYPE_ALL);
-			SjModuleList::Node* moduleNode = list->GetFirst();
+#if 0
+            SjModuleList::Node* moduleNode = list->GetFirst();
+#else
+            SjModuleList::compatibility_iterator moduleNode = list->GetFirst();
+#endif
 			while( moduleNode )
 			{
 				SjModule* module = moduleNode->GetData();
@@ -1352,7 +1364,11 @@ SjMainFrame::~SjMainFrame(void)
 		g_tools->m_toolTipManager.ExitForever();
 	#endif
 
+#if 0
 	wxWindowList::Node *node;
+#else
+	wxWindowList::compatibility_iterator node;
+#endif
 	for ( node = wxTopLevelWindows.GetFirst(); node; node = node->GetNext() )
 	{
 		wxWindow *winTop = node->GetData();

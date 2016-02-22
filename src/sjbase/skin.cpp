@@ -270,7 +270,11 @@ void SjSkinItem::RedrawMe()
 		m_hasOverlayingItems = 0;
 		bool                     thisItemFound = FALSE;
 		SjSkinItem*           item;
+#if 0
 		SjSkinItemList::Node* itemnode = m_skinWindow->m_currLayout->m_itemList.GetFirst();
+#else
+		SjSkinItemList::compatibility_iterator itemnode = m_skinWindow->m_currLayout->m_itemList.GetFirst();
+#endif
 		while( itemnode )
 		{
 			item = itemnode->GetData();
@@ -2547,7 +2551,11 @@ void SjSkinWindow::MoveWorkspaceAway(bool moveAway)
 			}
 			else
 			{
+#if 0
 				SjSkinItemList::Node* itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#else
+                SjSkinItemList::compatibility_iterator itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#endif
 				if ( itemnode )
 				{
 					SjSkinItem* item = itemnode->GetData();
@@ -2639,11 +2647,14 @@ void SjSkinWindow::LoadLayout(SjSkinLayout* newLayout /*may be NULL*/,
 
 	// remove all timers of the old layout
 	SjSkinItem*           item;
-	SjSkinItemList::Node* itemnode;
+#if 0
+    SjSkinItemList::Node* itemnode;
+#else
+    SjSkinItemList::compatibility_iterator itemnode;
+#endif
 	if( m_currLayout )
 	{
 		SjSkinItem*           item;
-		SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
 		while( itemnode )
 		{
 			item = itemnode->GetData();
@@ -3033,7 +3044,11 @@ void SjSkinWindow::ReloadSkin(long conditions, bool reloadScripts, SjLoadLayoutF
 void SjSkinWindow::CalcChildItemRectangles(SjSkinItem* parent)
 {
 	// pass 1: calculate width / height
+#if 0
 	SjSkinItemList::Node *childNode = parent->m_children.GetFirst();
+#else
+    SjSkinItemList::compatibility_iterator childNode = parent->m_children.GetFirst();
+#endif
 	SjSkinItem           *child, *prevChild = NULL;
 	while( childNode )
 	{
@@ -3091,7 +3106,11 @@ void SjSkinWindow::CalcItemRectangles(long width, long height)
 	}
 
 	// set root item size and start recursion
+#if 0
 	SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#else
+    SjSkinItemList::compatibility_iterator itemnode = m_currLayout->m_itemList.GetFirst();
+#endif
 	if( itemnode )
 	{
 		SjSkinItem* item = itemnode->GetData();
@@ -3142,7 +3161,11 @@ SjSkinItem* SjSkinWindow::FindClickableItem(long x, long y) const
 	if( m_currLayout )
 	{
 		SjSkinItem*           item;
-		SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetLast();
+#if 0
+        SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#else
+        SjSkinItemList::compatibility_iterator itemnode = m_currLayout->m_itemList.GetFirst();
+#endif
 		while( itemnode )
 		{
 			item = itemnode->GetData();
@@ -3176,7 +3199,11 @@ SjSkinItem* SjSkinWindow::FindFirstItemByTargetId(int targetId) const
 	// currently, there is no FindNextItemByTargetId() function, for this purpose,
 	// use the target list directly.
 
+#if 0
 	SjSkinItemList::Node* itemnode = m_targets[targetId].m_itemList.GetFirst();
+#else
+    SjSkinItemList::compatibility_iterator itemnode = m_targets[targetId].m_itemList.GetFirst();
+#endif
 
 	return itemnode? itemnode->GetData() : NULL;
 }
@@ -3191,7 +3218,11 @@ bool SjSkinWindow::HasSkinTarget(int targetId) const
 void SjSkinWindow::SetSkinTargetValue(int targetId, const SjSkinValue& value, bool onlyIfPossible)
 {
 	SjSkinItem*           item;
+#if 0
 	SjSkinItemList::Node* itemnode;
+#else
+    SjSkinItemList::compatibility_iterator itemnode;
+#endif
 
 	if(targetId <= 0 || targetId > IDT_LAST )
 	{
@@ -3247,7 +3278,11 @@ void SjSkinWindow::SetSkinText(const wxString& userId, const wxString& text)
 		layout = m_currSkin->GetLayout(l);
 		if( layout )
 		{
-			SjSkinItemList::Node* itemnode = layout->m_itemList.GetFirst();
+#if 0
+            SjSkinItemList::Node* itemnode = layout->m_itemList.GetFirst();
+#else
+            SjSkinItemList::compatibility_iterator itemnode = layout->m_itemList.GetFirst();
+#endif
 			while( itemnode )
 			{
 				item = itemnode->GetData();
@@ -3288,7 +3323,11 @@ bool SjSkinWindow::HideSkinTarget(int targetId, bool hide, bool redraw)
 
 		// hide all item with the given id
 		SjSkinItem*           item;
-		SjSkinItemList::Node* itemnode = m_targets[targetId].m_itemList.GetFirst();
+#if 0
+        SjSkinItemList::Node* itemnode = m_targets[targetId].m_itemList.GetFirst();
+#else
+        SjSkinItemList::compatibility_iterator itemnode = m_targets[targetId].m_itemList.GetFirst();
+#endif
 		while( itemnode )
 		{
 			item = itemnode->GetData();
@@ -3317,7 +3356,11 @@ void SjSkinWindow::HidingSkinTargetsDone(bool redraw)
 	if( m_currLayout /*may be NULL when calling eg. from LoadLayout()*/ )
 	{
 		SjSkinItem*           item;
-		SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#if 0
+        SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#else
+        SjSkinItemList::compatibility_iterator itemnode = m_currLayout->m_itemList.GetFirst();
+#endif
 		while( itemnode )
 		{
 			item = itemnode->GetData();
@@ -3703,7 +3746,11 @@ void SjSkinWindow::OnImageThere(SjImageThereEvent& event)
 	wxClientDC dc(this);
 
 	SjSkinItem*           item;
-	SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#if 0
+    SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#else
+    SjSkinItemList::compatibility_iterator itemnode = m_currLayout->m_itemList.GetFirst();
+#endif
 	SjImgThreadObj*       obj = event.GetObj();
 	while( itemnode )
 	{
@@ -3738,7 +3785,11 @@ void SjSkinWindow::RedrawAll(wxDC& dc,
 
 	// draw all items
 	SjSkinItem*           item;
-	SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#if 0
+    SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#else
+    SjSkinItemList::compatibility_iterator itemnode = m_currLayout->m_itemList.GetFirst();
+#endif
 	while( itemnode )
 	{
 		item = itemnode->GetData();
@@ -3794,7 +3845,11 @@ void SjSkinWindow::RedrawFinalLines(wxDC& dc, long finalMoveX, long finalMoveY)
 			dc.SetBrush(*wxTRANSPARENT_BRUSH);
 
 			SjSkinItem*           item;
-			SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#if 0
+            SjSkinItemList::Node* itemnode = m_currLayout->m_itemList.GetFirst();
+#else
+            SjSkinItemList::compatibility_iterator itemnode = m_currLayout->m_itemList.GetFirst();
+#endif
 			while( itemnode )
 			{
 				item = itemnode->GetData();
@@ -3835,7 +3890,11 @@ void SjSkinWindow::OnEraseBackground(wxEraseEvent&)
 long SjSkinWindow::GetTargetProp(int targetId)
 {
 	long retProp = 0;
-	SjSkinItemList::Node* itemnode = m_targets[targetId].m_itemList.GetFirst();
+#if 0
+    SjSkinItemList::Node* itemnode = m_targets[targetId].m_itemList.GetFirst();
+#else
+    SjSkinItemList::compatibility_iterator itemnode = m_targets[targetId].m_itemList.GetFirst();
+#endif
 	while( itemnode )
 	{
 		SjSkinItem* item = itemnode->GetData();
@@ -3859,7 +3918,11 @@ void SjSkinWindow::GetVisEmbedRect(wxRect* retRect, bool* retIsOverWorkspace, bo
 	*retVisAutoStart = false;
 	if( !retRectOk )
 	{
+#if 0
 		SjSkinItemList::Node* itemnode = m_targets[IDT_VIS_RECT].m_itemList.GetFirst();
+#else
+        SjSkinItemList::compatibility_iterator itemnode = m_targets[IDT_VIS_RECT].m_itemList.GetFirst();
+#endif
 		if( itemnode )
 		{
 			SjSkinDivItem* item = (SjSkinDivItem*)itemnode->GetData();
@@ -3885,7 +3948,11 @@ void SjSkinWindow::GetVisEmbedRect(wxRect* retRect, bool* retIsOverWorkspace, bo
 	{
 		if( m_currLayout->m_hasWorkspace && m_workspaceWindow )
 		{
-			SjSkinItemList::Node* itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#if 0
+            SjSkinItemList::Node* itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#else
+            SjSkinItemList::compatibility_iterator itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#endif
 			if ( itemnode )
 			{
 				SjSkinItem* item = itemnode->GetData();
@@ -3903,7 +3970,11 @@ void SjSkinWindow::GetVisEmbedRect(wxRect* retRect, bool* retIsOverWorkspace, bo
 		*retIsOverWorkspace = false;
 		if( retRectOk && m_currLayout->m_hasWorkspace && m_workspaceWindow )
 		{
-			SjSkinItemList::Node* itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#if 0
+            SjSkinItemList::Node* itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#else
+            SjSkinItemList::compatibility_iterator itemnode = m_targets[IDT_WORKSPACE].m_itemList.GetFirst();
+#endif
 			if ( itemnode )
 			{
 				SjSkinItem* item = itemnode->GetData();

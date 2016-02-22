@@ -54,7 +54,11 @@ SjSkinEnumerator::SjSkinEnumerator()
 	}
 
 	// add URL to duplicate names
+#if 0
 	SjSkinEnumeratorList::Node *node1 = m_listOfSkins.GetFirst(), *node2;
+#else
+	SjSkinEnumeratorList::compatibility_iterator node1 = m_listOfSkins.GetFirst(), node2;
+#endif
 	SjSkinEnumeratorItem *item1, *item2;
 	bool name1Ok;
 	while( node1 )

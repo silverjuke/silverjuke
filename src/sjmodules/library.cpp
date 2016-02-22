@@ -815,7 +815,11 @@ bool SjLibraryModule::UpdateAllCol(wxWindow* parent, bool deepUpdate)
 	{
 		SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_SCANNER);
 		wxASSERT(moduleList);
+#if 0
 		SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#else
+		SjModuleList::compatibility_iterator moduleNode = moduleList->GetFirst();
+#endif
 		while( moduleNode )
 		{
 			SjScannerModule* scannerModule = (SjScannerModule*)moduleNode->GetData();
@@ -1099,12 +1103,21 @@ void SjUpdateAlbumsTempData::ClearHash1()
 }
 
 
-int SjLibraryModule_CmpAlbums(const SjUpdateAlbum** i1, const SjUpdateAlbum** i2)
-{
+#if 0
+ int SjLibraryModule_CmpAlbums(const SjUpdateAlbum** i1, const SjUpdateAlbum** i2)
+ {
 	wxASSERT(i1 && *i1 && i2 && *i2);
 
 	return (*i1)->m_sort.Cmp((*i2)->m_sort);
-}
+ }
+#else
+ int SjLibraryModule_CmpAlbums(const void* i1, const void* i2)
+ {
+	wxASSERT(i1 && *i1 && i2 && *i2);
+
+	return ((SjUpdateAlbum*)i1)->m_sort.Cmp(((SjUpdateAlbum*)i2)->m_sort);
+ }
+#endif
 
 
 void SjLibraryModule::GetPossibleAlbumArts(long albumId, wxArrayLong& albumArtIds,
@@ -1496,8 +1509,13 @@ bool SjLibraryModule::CombineTracksToAlbums()
 		SjSLHash                    allStep1Albums;
 		SjUpdateAlbum*              currStep1Album;
 
+#if 0
 		SjUpdateAlbumList::Node*    currAlbumNode;
 		SjUpdateAlbumList::Node*    nextAlbumNode;
+#else
+		SjUpdateAlbumList::compatibility_iterator currAlbumNode;
+		SjUpdateAlbumList::compatibility_iterator nextAlbumNode;
+#endif
 		long                        currTrackCount, i;
 
 		// collect all compilation albums from step #1
@@ -1555,7 +1573,11 @@ bool SjLibraryModule::CombineTracksToAlbums()
 	{
 		wxSqltTransaction           transaction;
 
+#if 0
 		SjUpdateAlbumList::Node*    currAlbumNode;
+#else
+		SjUpdateAlbumList::compatibility_iterator currAlbumNode;
+#endif
 		long                        currAlbumIndex = 0;
 
 		wxArrayLong                 artIds;

@@ -54,7 +54,15 @@ public:
 	int             m_skinCount; // MUST be 1!
 	SjSkinLayout*   m_currLayout;
 	SjSkinItemList  m_itemStack;
-	SjSkinItem*     GetLastItem         () { SjSkinItemList::Node* n = m_itemStack.GetLast(); return n? n->GetData() : NULL; }
+	SjSkinItem*     GetLastItem         ()
+    {
+#if 0
+        SjSkinItemList::Node* n = m_itemStack.GetLast();
+#else
+        SjSkinItemList::compatibility_iterator n = m_itemStack.GetLast();
+#endif
+        return n? n->GetData() : NULL;
+    }
 
 	// conditions, one of the SJ_OP_* flags
 	long            m_currCond;

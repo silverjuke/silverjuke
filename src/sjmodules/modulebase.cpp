@@ -111,7 +111,11 @@ void SjModuleSystem::Init()
 {
 	// add extensions read by wxImage
 	wxList&         imgHandlerList = wxImage::GetHandlers();
+#if 0
 	wxList::Node*   imgNode = imgHandlerList.GetFirst();
+#else
+	wxList::compatibility_iterator imgNode = imgHandlerList.GetFirst();
+#endif
 	wxImageHandler* imgHandler;
 	while( imgNode )
 	{
@@ -218,7 +222,11 @@ void SjModuleSystem::Exit()
 	#endif
 
 	// unload all modules -- we do this in two steps: first the plugins, then the internal modules
+#if 0
 	SjModuleList::Node* moduleNode;
+#else
+	SjModuleList::compatibility_iterator moduleNode;
+#endif
 	for( i = 0; i < 2; i++ )
 	{
 		moduleNode = m_listOfModules.GetFirst();
@@ -253,12 +261,15 @@ void SjModuleSystem::Exit()
 	while( moduleNode )
 	{
 		delete moduleNode->GetData();
-		delete moduleNode;
 		moduleNode = m_listOfModules.GetFirst();
 	}
 
 	// delete all module interfaces
+#if 0
 	SjInterfaceList::Node* interfaceNode = m_listOfInterfaces.GetFirst();
+#else
+	SjInterfaceList::compatibility_iterator interfaceNode = m_listOfInterfaces.GetFirst();
+#endif
 	while( interfaceNode )
 	{
 		SjInterfaceBase* interf = interfaceNode->GetData();
@@ -266,7 +277,6 @@ void SjModuleSystem::Exit()
 
 		// next module
 		delete interf;
-		delete interfaceNode;
 		interfaceNode = m_listOfInterfaces.GetFirst();
 	}
 	m_listOfInterfaces.Clear();
@@ -320,6 +330,7 @@ wxArrayString SjModuleSystem::GetStubImageExt() const
 }
 
 
+#if 0
 int SjModuleSystem_CmpModulesByAll(const SjModule** m1, const SjModule** m2)
 {
 	wxASSERT(m1 && *m1 && m2 && *m2);
@@ -341,7 +352,29 @@ int SjModuleSystem_CmpModulesByAll(const SjModule** m1, const SjModule** m2)
 
 	return (*m1)->m_type - (*m2)->m_type;
 }
+#else
+int SjModuleSystem_CmpModulesByAll(const void* m1, const void* m2)
+{
+	wxASSERT(m1 && m2);
 
+	// in versions before 1.23beta1, the internal interface was compared by a name of " ".
+	// why? to put it up in the list?
+    wxString interf1 = ((const SjModule*)m1)->m_interface->GetName();
+	wxString interf2 = ((const SjModule*)m2)->m_interface->GetName();
+
+	if( ((const SjModule*)m1)->m_type == ((const SjModule*)m2)->m_type )
+	{
+		if( ((const SjModule*)m1)->m_sort == ((const SjModule*)m2)->m_sort )
+		{
+			return ((const SjModule*)m1)->m_name.CmpNoCase(((const SjModule*)m2)->m_name);
+		}
+
+		return ((const SjModule*)m1)->m_sort - ((const SjModule*)m2)->m_sort;
+	}
+
+	return ((const SjModule*)m1)->m_type - ((const SjModule*)m2)->m_type;
+}
+#endif
 
 void SjModuleSystem::LoadModules()
 {
@@ -354,7 +387,11 @@ void SjModuleSystem::LoadModules()
 	#endif
 
 	// get modules
+#if 0
 	SjInterfaceList::Node* interfaceNode = m_listOfInterfaces.GetFirst();
+#else
+	SjInterfaceList::compatibility_iterator interfaceNode = m_listOfInterfaces.GetFirst();
+#endif
 	while( interfaceNode )
 	{
 		SjInterfaceBase* interf = interfaceNode->GetData();
@@ -374,7 +411,11 @@ void SjModuleSystem::LoadModules()
 	for( type = 1; type < SJ_MODULETYPE_COUNT; type++ )
 	{
 		m_listOfModules2[type].Clear();
+#if 0
 		SjModuleList::Node* moduleNode = m_listOfModules.GetFirst();
+#else
+		SjModuleList::compatibility_iterator moduleNode = m_listOfModules.GetFirst();
+#endif
 		while( moduleNode )
 		{
 			SjModule* module = moduleNode->GetData();
@@ -410,7 +451,11 @@ SjModuleList* SjModuleSystem::GetModules(SjModuleType type)
 SjModule* SjModuleSystem::FindModuleByFile(const wxString& file, int fileIndex)
 {
 	SjModuleList*       list = GetModules(SJ_MODULETYPE_ALL);
+#if 0
 	SjModuleList::Node* moduleNode = list->GetFirst();
+#else
+    SjModuleList::compatibility_iterator moduleNode = list->GetFirst();
+#endif
 	SjModule*           module;
 	while( moduleNode )
 	{
@@ -433,7 +478,11 @@ SjModule* SjModuleSystem::FindModuleByFile(const wxString& file, int fileIndex)
 SjScannerModule* SjModuleSystem::FindScannerModuleByUrl(const wxString& url)
 {
 	SjModuleList*       scannerList = GetModules(SJ_MODULETYPE_SCANNER);
+#if 0
 	SjModuleList::Node* scannerNode = scannerList->GetFirst();
+#else
+	SjModuleList::compatibility_iterator scannerNode = scannerList->GetFirst();
+#endif
 	while( scannerNode )
 	{
 		SjScannerModule* scannerModule = (SjScannerModule*)scannerNode->GetData();
@@ -536,7 +585,11 @@ void SjModuleSystem::BroadcastMsg(int msg)
 		#endif
 
 		// send message to all modules
+#if 0
 		SjModuleList::Node* moduleNode = m_listOfModules.GetFirst();
+#else
+		SjModuleList::compatibility_iterator moduleNode = m_listOfModules.GetFirst();
+#endif
 		while( moduleNode )
 		{
 			SjModule* module = moduleNode->GetData();
@@ -586,7 +639,11 @@ bool SjModuleSystem::PopPending(SjModule* m)
 	wxASSERT( !m->IsLoaded() );
 
 	// module in list of pending modules?
+#if 0
 	SjModuleList::Node* node = m_listOfPendingModules.Find(m);
+#else
+	SjModuleList::compatibility_iterator node = m_listOfPendingModules.Find(m);
+#endif
 	if( node )
 	{
 		// yes: remove from list
@@ -607,7 +664,11 @@ void SjModuleSystem::UnloadPending(bool ignoreTimestamp)
 
 	// physicall unload pending modules
 	unsigned long thisTimestamp = SjTools::GetMsTicks();
+#if 0
 	SjModuleList::Node* node = m_listOfPendingModules.GetFirst();
+#else
+	SjModuleList::compatibility_iterator node = m_listOfPendingModules.GetFirst();
+#endif
 	while( node )
 	{
 		SjModule* m = node->GetData();
@@ -722,7 +783,11 @@ void SjInterfaceBase::AddModulesFromSearchPaths(SjModuleList& list, bool suppres
 bool SjInterfaceBase::IsModuleAdded(SjModuleList& list,
                                     const wxString& file, int fileIndex, const wxString& name)
 {
+#if 0
 	SjModuleList::Node* currModuleNode = list.GetFirst();
+#else
+	SjModuleList::compatibility_iterator* currModuleNode = list.GetFirst();
+#endif
 	while( currModuleNode )
 	{
 		SjModule* currModule = currModuleNode->GetData();

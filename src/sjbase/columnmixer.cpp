@@ -55,7 +55,11 @@ void SjColumnMixer::LoadModules(SjModuleSystem* moduleSystem)
 	wxASSERT(m_libraryModule==NULL);
 
 	SjModuleList*       moduleList = moduleSystem->GetModules(SJ_MODULETYPE_COL);
-	SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#if 0
+    SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#else
+    SjModuleList::compatibility_iterator moduleNode = moduleList->GetFirst();
+#endif
 	while( moduleNode )
 	{
 		SjColModule* module = (SjColModule*)moduleNode->GetData();

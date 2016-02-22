@@ -470,7 +470,11 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 	visMenu->Clear();
 	SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_VIS_RENDERER);
 	int i = 0;
+#if 0
 	SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#else
+	SjModuleList::compatibility_iterator moduleNode = moduleList->GetFirst();
+#endif
 	while( moduleNode )
 	{
 		SjVisRendererModule* module = (SjVisRendererModule*)moduleNode->GetData();
@@ -523,7 +527,11 @@ void SjVisModule::OnVisMenu(int id)
 			// change the selected vis. renderer
 			int i = 0;
 			SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_VIS_RENDERER);
+#if 0
 			SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#else
+			SjModuleList::compatibility_iterator moduleNode = moduleList->GetFirst();
+#endif
 			while( moduleNode )
 			{
 				SjVisRendererModule* newRenderer = (SjVisRendererModule*)moduleNode->GetData();

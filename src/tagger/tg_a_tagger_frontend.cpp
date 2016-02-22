@@ -248,7 +248,11 @@ wxFSFile* SjTaggerFsHandler::OpenFile(wxFileSystem& fs, const wxString& location
 		const ID3v2_FrameList* frameList = id3v2->frameList(wxT("APIC"));
 		if( frameList == NULL ) { return NULL; }
 
+#if 0
 		ID3v2_FrameList::Node* node = frameList->GetFirst();
+#else
+		ID3v2_FrameList::compatibility_iterator node = frameList->GetFirst();
+#endif
 		ID3v2_AttachedPictureFrame* frame = NULL;
 		for( ; node; node = node->GetNext() )
 		{
@@ -428,7 +432,11 @@ SjResult SjGetTrackInfoFromID3Etc(wxFSFile* fsFile, SjTrackInfo& ti, long flags)
 			if( frameList != NULL )
 			{
 				int                         index = 0;
+#if 0
 				ID3v2_FrameList::Node*      node = frameList->GetFirst();
+#else
+				ID3v2_FrameList::compatibility_iterator node = frameList->GetFirst();
+#endif
 				ID3v2_AttachedPictureFrame* frame;
 				wxString                    ext;
 				for( ; node; node = node->GetNext() )
@@ -649,7 +657,11 @@ void SjGetMoreInfoFromID3Etc(wxFSFile* fsFile, SjProp& prop)
 			prop.Add(temp, wxT(""), SJ_PROP_HEADLINE);
 
 			// ... go through all frame ...
+#if 0
 			ID3v2_FrameList::Node* node = id3v2->frameList().GetFirst();
+#else
+			ID3v2_FrameList::compatibility_iterator node = id3v2->frameList().GetFirst();
+#endif
 			SjStringType encoding = SJ_UTF8; bool encodingSet = FALSE; bool encodingMixed = FALSE;
 			for( ; node; node = node->GetNext() )
 			{

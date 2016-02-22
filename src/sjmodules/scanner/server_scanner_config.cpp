@@ -164,7 +164,11 @@ void SjServerScannerConfigDialog::EnableDisable()
 		bool                enable = m_enabledCheckBox->GetValue();
 
 		wxWindowList&       children = GetChildren();
+#if 0
 		wxWindowList::Node* childNode = children.GetFirst();
+#else
+		wxWindowList::compatibility_iterator childNode = children.GetFirst();
+#endif
 		while( childNode )
 		{
 			wxWindow*   child = childNode->GetData();

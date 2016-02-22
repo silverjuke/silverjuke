@@ -402,7 +402,11 @@ ID3v2_UserTextIdentificationFrame *find(ID3v2_Tag *tag, const wxString &descript
 	*/
 	if( l )
 	{
+#if 0
 		for ( ID3v2_FrameList::Node *node = l->GetFirst(); node; node = node->GetNext() )
+#else
+		for ( ID3v2_FrameList::compatibility_iterator node = l->GetFirst(); node; node = node->GetNext() )
+#endif
 		{
 			ID3v2_UserTextIdentificationFrame *f = (ID3v2_UserTextIdentificationFrame*)node->GetData();
 			if( f && f->description() == description )

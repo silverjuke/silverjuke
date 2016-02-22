@@ -57,7 +57,11 @@ ID3v2_Tag::~ID3v2_Tag()
 	if( m_footer ) delete m_footer;
 
 	// delete all frame list contents, the frame list itself is destroyed automatically
+#if 0
 	ID3v2_FrameList::Node* node = m_frameList.GetFirst();
+#else
+	ID3v2_FrameList::compatibility_iterator node = m_frameList.GetFirst();
+#endif
 	for( ; node; node = node->GetNext() )
 	{
 		delete node->GetData();
@@ -80,7 +84,11 @@ wxString ID3v2_Tag::simpleFrame(const wxString& frameId) const
 	ID3v2_FrameList* list = frameList(frameId);
 	if( list )
 	{
+#if 0
 		ID3v2_FrameList::Node* node = list->GetFirst();
+#else
+		ID3v2_FrameList::compatibility_iterator node = list->GetFirst();
+#endif
 		if( node )
 		{
 			return node->GetData()->toString();
@@ -150,7 +158,11 @@ ID3v2_CommentsFrame* ID3v2_Tag::findCommentFrame() const
 	if( list )
 	{
 		// prefer comments without description, start searching with the last (mostly the newest)
+#if 0
 		ID3v2_FrameList::Node* node = list->GetLast();
+#else
+		ID3v2_FrameList::compatibility_iterator node = list->GetLast();
+#endif
 		while( node )
 		{
 			frame = (ID3v2_CommentsFrame*)node->GetData();
@@ -382,7 +394,11 @@ long ID3v2_Tag::rating() const
 	ID3v2_FrameList*          list = frameList("POPM");
 	if( list )
 	{
+#if 0
 		for ( ID3v2_FrameList::Node* node = list->GetLast(); node; node = node->GetPrevious() )
+#else
+		for ( ID3v2_FrameList::compatibility_iterator node = list->GetLast(); node; node = node->GetPrevious() )
+#endif
 		{
 			frame = (ID3v2_PopularimeterFrame*)node->GetData();
 			if( frame->GetEmail() == g_taggerOptions->m_ratingUser ) {
@@ -541,7 +557,11 @@ void ID3v2_Tag::setRating(long rating5)
 		ID3v2_FrameList* list = frameList("POPM");
 		if( list )
 		{
+#if 0
 			for ( ID3v2_FrameList::Node* node = list->GetLast(); node; node = node->GetPrevious() )
+#else
+			for ( ID3v2_FrameList::compatibility_iterator node = list->GetLast(); node; node = node->GetPrevious() )
+#endif
 			{
 				frame = (ID3v2_PopularimeterFrame*)node->GetData();
 				if( frame->GetEmail() == g_taggerOptions->m_ratingUser ) {
@@ -661,7 +681,11 @@ void ID3v2_Tag::removeFrames(const wxString &id)
 	ID3v2_FrameList* l = frameList(id);
 	if( l )
 	{
+#if 0
 		ID3v2_FrameList::Node* first;
+#else
+		ID3v2_FrameList::compatibility_iterator first;
+#endif
 		while( (first=l->GetFirst()) != NULL )
 		{
 			removeFrame(first->GetData(), true);
@@ -683,7 +707,11 @@ SjByteVector ID3v2_Tag::render()
 	// Loop through the frames rendering them and adding them to the tagData.
 
 	//for(FrameList::Iterator it = d->frameList.begin(); it != d->frameList.end(); it++)
+#if 0
 	for ( ID3v2_FrameList::Node *node = m_frameList.GetFirst(); node; node = node->GetNext() )
+#else
+	for ( ID3v2_FrameList::compatibility_iterator node = m_frameList.GetFirst(); node; node = node->GetNext() )
+#endif
 	{
 		ID3v2_Frame* it = node->GetData();
 		if(!it->header()->tagAlterPreservation())
@@ -841,7 +869,11 @@ void ID3v2_Tag::setTextFrame(const wxString &id, const wxString &value)
 	ID3v2_FrameList* it = frameList(id);
 	if( it )
 	{
+#if 0
 		ID3v2_FrameList::Node* l = it->GetFirst();
+#else
+		ID3v2_FrameList::compatibility_iterator l = it->GetFirst();
+#endif
 		if( l )
 		{
 			l->GetData()->setText(value);

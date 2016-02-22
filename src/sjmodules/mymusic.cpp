@@ -248,7 +248,11 @@ SjMyMusicConfigPage::SjMyMusicConfigPage(SjMyMusicModule* myMusicModule, wxWindo
 	for( int type=0; type<=1; type++ )
 	{
 		SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(type==0? SJ_MODULETYPE_COL : SJ_MODULETYPE_COMMON);
+#if 0
 		SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#else
+		SjModuleList::compatibility_iterator moduleNode = moduleList->GetFirst();
+#endif
 		while( moduleNode )
 		{
 			SjCommonModule* commonModule = (SjCommonModule*)moduleNode->GetData();
@@ -349,7 +353,11 @@ void SjMyMusicConfigPage::InitPage(const wxString& selSourceUrl)
 	SjModuleList* list = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_SCANNER);
 	wxASSERT(list);
 
-	SjModuleList::Node* moduleNode = list->GetFirst();
+#if 0
+    SjModuleList::Node* moduleNode = list->GetFirst();
+#else
+    SjModuleList::compatibility_iterator moduleNode = list->GetFirst();
+#endif
 	SjScannerModule*    scannerModule;
 	while( moduleNode )
 	{
@@ -375,7 +383,11 @@ void SjMyMusicConfigPage::InitPage(const wxString& selSourceUrl)
 
 	// go through all search directories
 	SjSettingsSourceItem*           item;
+#if 0
 	SjSettingsSourceItemList::Node* itemnode = m_listOfSources.GetFirst();
+#else
+	SjSettingsSourceItemList::compatibility_iterator itemnode = m_listOfSources.GetFirst();
+#endif
 	int                             i = 0, new_i;
 	bool                            anythingSelected = FALSE;
 	wxString                        sourceNotes;
@@ -431,7 +443,11 @@ void SjMyMusicConfigPage::OnAddSources(wxCommandEvent& event)
 	wxASSERT(list);
 
 	// find the correct module
-	SjModuleList::Node* moduleNode = list->GetFirst();
+#if 0
+    SjModuleList::Node* moduleNode = list->GetFirst();
+#else
+    SjModuleList::compatibility_iterator moduleNode = list->GetFirst();
+#endif
 	SjScannerModule*    scannerModule = NULL;
 	int                 typeCount = 0, typeIndex = -1;
 	while( moduleNode && typeIndex == -1 )
@@ -556,7 +572,11 @@ void SjMyMusicConfigPage::ShowContextMenu(wxWindow* window, const wxPoint& pt)
 		SjModuleList* list = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_SCANNER);
 		wxASSERT(list);
 
-		SjModuleList::Node* moduleNode = list->GetFirst();
+#if 0
+        SjModuleList::Node* moduleNode = list->GetFirst();
+#else
+        SjModuleList::compatibility_iterator moduleNode = list->GetFirst();
+#endif
 		SjScannerModule*    scannerModule;
 		int                 typeCount = 0;
 
@@ -668,7 +688,11 @@ void SjMyMusicModule::DoneConfigPage(wxWindow* configPage__, int doneAction__)
 	for( int type=0; type<=1; type++ )
 	{
 		SjModuleList* moduleList = g_mainFrame->m_moduleSystem.GetModules(type==0? SJ_MODULETYPE_COL : SJ_MODULETYPE_COMMON);
-		SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#if 0
+        SjModuleList::Node* moduleNode = moduleList->GetFirst();
+#else
+        SjModuleList::compatibility_iterator moduleNode = moduleList->GetFirst();
+#endif
 		while( moduleNode )
 		{
 			SjCommonModule* commonModule = (SjCommonModule*)moduleNode->GetData();
