@@ -180,7 +180,12 @@ private:
 	bool            m_shutdownCalled;
 
 	void            CleanupRamCache     (long cacheLeaveBytes);
-	SjImgThreadObjList::Node* SearchImg (SjImgThreadObjList& list, const wxString& url, unsigned long timestamp, const SjImgOp&, bool matchOp);
+#if 0
+    SjImgThreadObj* SearchImg
+#else
+    SjImgThreadObjList::compatibility_iterator SearchImg
+#endif
+	                         (SjImgThreadObjList& list, const wxString& url, unsigned long timestamp, const SjImgOp&, bool matchOp);
 
 	bool            m_triedCreation;
 	bool            m_doExitThread;

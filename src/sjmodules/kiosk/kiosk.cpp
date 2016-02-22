@@ -1997,7 +1997,11 @@ void SjKioskModule::DoExit(bool restoreWindow)
 	// (/)  stop vis., delete black frames
 	for( int i = 0; i < (int)m_blackFrames.GetCount(); i++ )
 	{
+#if 0
 		wxWindowList::Node *node;
+#else
+		wxWindowList::compatibility_iterator node;
+#endif
 		wxWindow* toDestroy = (wxWindow*)m_blackFrames.Item(i);
 		for ( node = wxTopLevelWindows.GetFirst(); node; node = node->GetNext() )
 		{

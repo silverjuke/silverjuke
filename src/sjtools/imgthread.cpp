@@ -45,7 +45,11 @@ const wxEventType wxEVT_IMAGE_THERE = wxNewEventType();
 void* SjImgThread::Entry()
 {
 	int                         getFirst = -1;
-	SjImgThreadObjList::Node*   node;
+#if 0
+	SjImgThreadObj*             node;
+#else
+    SjImgThreadObjList::compatibility_iterator node;
+#endif
 	SjImgThreadObj*             obj = NULL;
 	bool                        objOk;
 	long                        imagesThisRound;
@@ -213,7 +217,11 @@ void SjImgThread::RequireKill(wxEvtHandler* evtHandler)
 	// remove the event handler from all rest objects
 	{
 		wxCriticalSectionLocker locker(m_critsect);
-		SjImgThreadObjList::Node    *node;
+#if 0
+		SjImgThreadObj              *node;
+#else
+        SjImgThreadObjList::compatibility_iterator node;
+#endif
 		SjImgThreadObj              *obj;
 		bool                        cacheChecked = false;
 
@@ -244,7 +252,11 @@ void SjImgThread::RequireStart(wxEvtHandler* evtHandler)
 	if( m_shutdownCalled )
 		return;
 
-	SjImgThreadObjList::Node    *node, *nodeNext;
+#if 0
+	SjImgThreadObj              *node, *nodeNext;
+#else
+    SjImgThreadObjList::compatibility_iterator node, nodeNext;
+#endif
 	SjImgThreadObj              *obj;
 
 	/* init the thread if not yet done
@@ -318,7 +330,11 @@ SjImgThreadObj* SjImgThread::RequireImage(
 	if( m_condition )
 	{
 		wxCriticalSectionLocker     locker(m_critsect);
-		SjImgThreadObjList::Node    *nodeInCache, *nodeWaiting;
+#if 0
+		SjImgThreadObj              *nodeInCache, *nodeWaiting;
+#else
+        SjImgThreadObjList::compatibility_iterator nodeInCache, nodeWaiting;
+#endif
 		SjImgThreadObj              *objInCache, *newObj;
 		unsigned long               timestamp = 0;
 
@@ -461,7 +477,11 @@ void SjImgThread::ReleaseImage(wxEvtHandler* evtHandler, SjImgThreadObj* obj, bo
 
 		if( removeFromRamCache && obj->m_usage == 0 )
 		{
-			SjImgThreadObjList::Node* node = m_anchorCached.Find(obj);
+#if 0
+			SjImgThreadObj* node = m_anchorCached.Find(obj);
+#else
+            SjImgThreadObjList::compatibility_iterator node = m_anchorCached.Find(obj);
+#endif
 			if( node )
 			{
 				m_ramCacheUsedBytes -= obj->GetBytes();
@@ -498,7 +518,11 @@ void SjImgThread::CleanupRamCache(long cacheLeaveBytes)
 {
 	/* this function must be called from within m_critsect allocated!
 	 */
-	SjImgThreadObjList::Node *node = m_anchorCached.GetFirst(), *nextNode;
+#if 0
+	SjImgThreadObj *node = m_anchorCached.GetFirst(), *nextNode;
+#else
+    SjImgThreadObjList::compatibility_iterator node = m_anchorCached.GetFirst(), nextNode;
+#endif
 	while( node )
 	{
 		nextNode = node->GetNext();
@@ -532,7 +556,11 @@ void SjImgThread::CleanupRamCache(long cacheLeaveBytes)
 }
 
 
-SjImgThreadObjList::Node* SjImgThread::SearchImg(
+#if 0
+ SjImgThreadObj* SjImgThread::SearchImg(
+#else
+ SjImgThreadObjList::compatibility_iterator SjImgThread::SearchImg(
+#endif
         SjImgThreadObjList&   anchor,
         const wxString&       url,
         unsigned long         timestamp,
@@ -541,7 +569,11 @@ SjImgThreadObjList::Node* SjImgThread::SearchImg(
 {
 	/* this function must be called from within m_critsect allocated!
 	 */
-	SjImgThreadObjList::Node *node, *otherNode = 0;
+#if 0
+	SjImgThreadObj *node, *otherNode = 0;
+#else
+    SjImgThreadObjList::compatibility_iterator node, otherNode;
+#endif
 	SjImgThreadObj* img;
 
 	node = anchor.GetFirst();
@@ -695,11 +727,14 @@ SjImgThread::~SjImgThread()
 {
 	wxASSERT( m_shutdownCalled );
 
-	SjImgThreadObjList::Node* objnode = m_anchorWaiting.GetFirst();
+#if 0
+	SjImgThreadObj* objnode = m_anchorWaiting.GetFirst();
+#else
+    SjImgThreadObjList::compatibility_iterator objnode = m_anchorWaiting.GetFirst();
+#endif
 	while( objnode )
 	{
 		delete objnode->GetData();
-		delete objnode;
 		objnode = m_anchorWaiting.GetFirst();
 	}
 
@@ -712,7 +747,6 @@ SjImgThread::~SjImgThread()
 		}
 
 		delete objnode->GetData();
-		delete objnode;
 		objnode = m_anchorCached.GetFirst();
 	}
 

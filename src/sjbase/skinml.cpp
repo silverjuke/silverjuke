@@ -1326,12 +1326,20 @@ SjSkinSkin* SjSkinMlParser::ParseFile(const wxString& url,
 		// set the layout targets,
 		// copy item trees if items are used multiple times
 		{
+#if 0
 			SjSkinLayoutList::Node*  layoutnode;
+#else
+			SjSkinLayoutList::compatibility_iterator layoutnode;
+#endif
 			SjSkinLayout*            layout;
 			wxString                    layoutName;
 			SjSkinLayout*            layoutTarget;
 
+#if 0
 			SjSkinItemList::Node*    itemnode;
+#else
+			SjSkinItemList::compatibility_iterator itemnode;
+#endif
 			SjSkinItem*              item;
 
 			layoutnode = m_data->m_skin->m_layoutList.GetFirst();
@@ -1588,7 +1596,11 @@ SjSkinImage* SjSkinMlParserData::LoadSkinImage(const wxString& file, const wxHtm
 
 	// check if we have already loaded the given file
 	{
+#if 0
 		SjSkinImageList::Node* node = m_skin->m_imageList.GetFirst();
+#else
+		SjSkinImageList::compatibility_iterator node = m_skin->m_imageList.GetFirst();
+#endif
 		while( node )
 		{
 			image = node->GetData();
@@ -1827,7 +1839,11 @@ SjSkinLayout::SjSkinLayout(SjSkinSkin* skin, const wxString& name, int index)
 
 SjSkinLayout::~SjSkinLayout()
 {
+#if 0
 	SjSkinItemList::Node* node = m_itemList.GetFirst();
+#else
+	SjSkinItemList::compatibility_iterator node = m_itemList.GetFirst();
+#endif
 	while( node )
 	{
 		SjSkinItem* item = node->GetData();
@@ -1841,7 +1857,6 @@ SjSkinLayout::~SjSkinLayout()
 		}
 
 		delete item;
-		delete node;
 		node = m_itemList.GetFirst();
 	}
 }
@@ -1872,23 +1887,29 @@ SjSkinSkin::~SjSkinSkin()
 	#endif
 
 	// delete all layouts
+#if 0
 	SjSkinLayoutList::Node* layoutnode = m_layoutList.GetFirst();
+#else
+	SjSkinLayoutList::compatibility_iterator layoutnode = m_layoutList.GetFirst();
+#endif
 	while( layoutnode )
 	{
 		wxASSERT(layoutnode->GetData());
 		delete layoutnode->GetData();
-		delete layoutnode;
 		layoutnode = m_layoutList.GetFirst();
 	}
 
 	// delete all images, this should be done AFTER deleting the
 	// layouts as the layouts and items have references to the images
+#if 0
 	SjSkinImageList::Node* imagenode = m_imageList.GetFirst();
+#else
+    SjSkinImageList::compatibility_iterator imagenode = m_imageList.GetFirst();
+#endif
 	while( imagenode )
 	{
 		wxASSERT(imagenode->GetData());
 		delete imagenode->GetData();
-		delete imagenode;
 		imagenode = m_imageList.GetFirst();
 	}
 }
@@ -1896,7 +1917,11 @@ SjSkinSkin::~SjSkinSkin()
 
 SjSkinLayout* SjSkinSkin::GetLayout(int index)
 {
+#if 0
 	SjSkinLayoutList::Node* node = m_layoutList.Item(index);
+#else
+	SjSkinLayoutList::compatibility_iterator node = m_layoutList.Item(index);
+#endif
 	if( node )
 	{
 		SjSkinLayout* layout = node->GetData();
@@ -1911,7 +1936,11 @@ SjSkinLayout* SjSkinSkin::GetLayout(int index)
 
 SjSkinLayout* SjSkinSkin::GetLayout(const wxString& name)
 {
+#if 0
 	SjSkinLayoutList::Node* node = m_layoutList.GetFirst();
+#else
+	SjSkinLayoutList::compatibility_iterator node = m_layoutList.GetFirst();
+#endif
 	while( node )
 	{
 		SjSkinLayout* layout = node->GetData();
@@ -1931,10 +1960,18 @@ SjSkinLayout* SjSkinSkin::GetLayout(const wxString& name)
 
 void SjSkinSkin::ConnectToSkinWindow(SjSkinWindow* skinWindow)
 {
+#if 0
 	SjSkinLayoutList::Node*  layoutnode;
+#else
+	SjSkinLayoutList::compatibility_iterator layoutnode;
+#endif
 	SjSkinLayout*            layout;
 
+#if 0
 	SjSkinItemList::Node*    itemnode;
+#else
+	SjSkinItemList::compatibility_iterator itemnode;
+#endif
 	SjSkinItem*              item;
 
 	layoutnode = m_layoutList.GetFirst();

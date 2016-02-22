@@ -228,7 +228,11 @@ void SjFolderSettingsDialog::EnableDisable()
 		bool                enable = m_enabledCheckBox->GetValue();
 
 		wxWindowList&       children = GetChildren();
+#if 0
 		wxWindowList::Node* childNode = children.GetFirst();
+#else
+		wxWindowList::compatibility_iterator childNode = children.GetFirst();
+#endif
 		while( childNode )
 		{
 			wxWindow*   child = childNode->GetData();
@@ -460,7 +464,11 @@ void SjFolderScannerModule::SaveSettings__()
 	int sourceCount = m_listOfSources.GetCount();
 	sql.ConfigWrite("folderscanner/sourceCount", (long)sourceCount);
 
+#if 0
 	SjFolderScannerSourceList::Node* currSourceNode = m_listOfSources.GetFirst();
+#else
+	SjFolderScannerSourceList::compatibility_iterator currSourceNode = m_listOfSources.GetFirst();
+#endif
 	SjFolderScannerSource*           currSourceObj;
 	int                              currSourceIndex = 0;
 	while( currSourceNode )
@@ -525,7 +533,11 @@ long SjFolderScannerModule::GetSourceCount()
 
 SjFolderScannerSource* SjFolderScannerModule::GetSourceObj__(long index)
 {
+#if 0
 	SjFolderScannerSourceList::Node* currSourceNode = m_listOfSources.Item(index);
+#else
+	SjFolderScannerSourceList::compatibility_iterator currSourceNode = m_listOfSources.Item(index);
+#endif
 	if( currSourceNode == NULL )
 	{
 		wxLogError("Cannot get folder source object at index %i."/*n/t*/, (int)index);
@@ -1045,7 +1057,11 @@ bool SjFolderScannerModule::IterateTrackInfo(SjColModule* receiver)
 	wxString            onlyThisFile;
 
 	// go through all sources
+#if 0
 	SjFolderScannerSourceList::Node* currSourceNode = m_listOfSources.GetFirst();
+#else
+	SjFolderScannerSourceList::compatibility_iterator currSourceNode = m_listOfSources.GetFirst();
+#endif
 	SjFolderScannerSource*           currSource;
 	while( currSourceNode )
 	{

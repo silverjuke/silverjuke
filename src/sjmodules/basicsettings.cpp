@@ -753,7 +753,11 @@ SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basi
 	// init the little options array
 	{
 		SjModuleList* listOfModules = g_mainFrame->m_moduleSystem.GetModules(SJ_MODULETYPE_ALL);
+#if 0
 		SjModuleList::Node* moduleNode = listOfModules->GetFirst();
+#else
+		SjModuleList::compatibility_iterator moduleNode = listOfModules->GetFirst();
+#endif
 		while( moduleNode )
 		{
 			SjModule* module = moduleNode->GetData();
