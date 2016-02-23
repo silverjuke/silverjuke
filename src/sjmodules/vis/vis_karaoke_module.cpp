@@ -403,6 +403,10 @@ void SjKaraokeWindow::OnTimer(wxTimerEvent&)
 	if( m_inPaint ) return;
 	m_inPaint = true;
 
+	#ifdef __WXMAC__
+	m_pleaseUpdateAll = true; // partly updates do not work well on Mac OS X
+	#endif
+
 	// does the size of the window have changed?
 	if( m_clientSize != GetClientSize() || m_bgChanged )
 	{
