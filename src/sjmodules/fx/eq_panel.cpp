@@ -65,15 +65,15 @@ static const SjFxParamDef s_graphicEqParam[] =
 	{   "440", },
 	{   "622", },
 	{   "880", },
-	{  "1.2K", },
-	{  "1.8K", },
-	{  "2.5K", },
-	{  "3.5K", },
-	{  "5K",   },
-	{  "7K",   },
-	{ "10K",   },
-	{ "14K",   },
-	{ "20K",   }
+	{  "1.2", },
+	{  "1.8", },
+	{  "2.5", },
+	{  "3.5", },
+	{  "5",   },
+	{  "7",   },
+	{ "10",   },
+	{ "14",   },
+	{ "20",   }
 };
 
 
@@ -94,6 +94,7 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 	sizer1->Add(allSliderSizer, 1, wxGROW|wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
 
 	// units
+	/*
 	wxSizer* paramSizer = new wxBoxSizer(wxVERTICAL);
 	allSliderSizer->Add(paramSizer, 0, wxGROW);
 
@@ -102,6 +103,7 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 	paramSizer->Add(SJ_DLG_SPACE, SJ_DLG_SPACE, 1, wxGROW);
 	paramSizer->Add(new wxStaticText(this, wxID_ANY, "db"), 0, wxALIGN_LEFT);
 	paramSizer->Add(new wxStaticText(this, wxID_ANY, " "), 0, wxALIGN_LEFT, SJ_DLG_SPACE);
+	*/
 
 	wxStaticText* staticText;
 	for( int p = 0; p < SJ_EQ_BANDS; p++ )
@@ -113,14 +115,11 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 		allSliderSizer->Add(paramSizer, 1, wxGROW, SJ_DLG_SPACE);
 
 		// create the label
-		if( p%2==1 ) { paramSizer->Add(new wxStaticText(this, wxID_ANY, " " , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER); }
+		paramSizer->Add(new wxStaticText(this, wxID_ANY, p==0? "Hz" : (p==9?"KHz" : " ") , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER);
 
 		wxString label = param->descr;
 		staticText = new wxStaticText(this, wxID_ANY, label, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTER);
 		paramSizer->Add(staticText, 0, wxALIGN_CENTER);
-
-		if( p%2==0 ) { paramSizer->Add(new wxStaticText(this, wxID_ANY, "|" , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER); }
-
 
 		// create the slider
 		wxSlider* slider = new wxSlider(this,
@@ -129,15 +128,13 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 			wxDefaultPosition,
 			wxSize(-1, 120),
 			wxSL_VERTICAL | wxSL_INVERSE);
-		paramSizer->Add(slider, 1, wxGROW);
+		paramSizer->Add(slider, 1, wxALIGN_CENTER);
 
 		// create the current value field
-		if( p%2==0 ) { paramSizer->Add(new wxStaticText(this, wxID_ANY, "|" , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER); }
-
 		staticText = new wxStaticText(this, IDM_LABEL_FIRST+p, "\u00B10" /*set to widest string*/, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE);
 		paramSizer->Add(staticText, 0, wxALIGN_CENTER);
 
-		if( p%2==1 ) { paramSizer->Add(new wxStaticText(this, wxID_ANY, " " , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER); }
+		paramSizer->Add(new wxStaticText(this, wxID_ANY, p==0?"dB":" " , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER);
 	}
 
 	// controls below the sliders
