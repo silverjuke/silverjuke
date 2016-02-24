@@ -8,7 +8,7 @@
 #ifndef RenderItemDISTANCEMETRIC_H_
 #define RenderItemDISTANCEMETRIC_H_
 
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 #include "Renderable.hpp"
 #include <limits>
 #include <functional>

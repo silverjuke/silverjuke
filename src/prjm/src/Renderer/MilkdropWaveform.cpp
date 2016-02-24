@@ -165,7 +165,7 @@ void MilkdropWaveform::MaximizeColors(RenderContext &context)
 void MilkdropWaveform::WaveformMath(RenderContext &context)
 {
 
-	//int i;
+	//int i;  // EDIT BY SJ
 
 	float r, theta;
 

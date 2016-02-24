@@ -38,10 +38,10 @@ class Preset;
 
 #include <vector>
 
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 #include "Param.hpp"
 #include "PerFrameEqn.hpp"
-#include "../Renderer/Waveform.hpp"
+#include "../Renderer/Waveform.hpp"  // EDIT BY SJ
 
 #include <map>
 

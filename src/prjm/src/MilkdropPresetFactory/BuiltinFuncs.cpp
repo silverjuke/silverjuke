@@ -17,7 +17,7 @@
 #include "BuiltinFuncs.hpp"
 #include <string>
 #include <iostream>
-#include "../fatal.h"
+#include "../fatal.h" // EDIT BY SJ
 
 std::map<std::string, Func*> BuiltinFuncs::builtin_func_tree;
 

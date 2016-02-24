@@ -13,13 +13,13 @@
 #ifndef _BUILTIN_FUNCS_HPP
 #define _BUILTIN_FUNCS_HPP
 
-#include "../Common.hpp"
+#include "../Common.hpp" // EDIT BY SJ
 #include "Func.hpp"
 #include <cmath>
 #include <cstdlib>
 #include <cassert>
 
-#include "../RandomNumberGenerators.hpp"
+#include "../RandomNumberGenerators.hpp" // EDIT BY SJ
 
 /* Wrappers for all the builtin functions
    The arg_list pointer is a list of floats. Its

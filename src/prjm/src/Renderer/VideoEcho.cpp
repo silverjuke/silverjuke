@@ -5,7 +5,7 @@
  *      Author: pete
  */
 
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 
 #ifdef USE_GLES1
 #include <GLES/gl.h>
@@ -15,7 +15,7 @@
 #include <OpenGL/glu.h>
 #else
 #include <GL/gl.h>
-//#include <GL/glu.h>
+//#include <GL/glu.h>  // EDIT BY SJ
 #endif
 #endif
 

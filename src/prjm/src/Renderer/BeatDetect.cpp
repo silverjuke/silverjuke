@@ -29,10 +29,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 
-#include "../Common.hpp"
-#include "../PCM.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../PCM.hpp"  // EDIT BY SJ
 #include <cmath>
 #include "BeatDetect.hpp"
 

@@ -19,13 +19,13 @@
 *
 */
 
-#include "Renderer/RenderItemMatcher.hpp"
-#include "Renderer/RenderItemMergeFunction.hpp"
+#include "Renderer/RenderItemMatcher.hpp"  // EDIT BY SJ
+#include "Renderer/RenderItemMergeFunction.hpp"  // EDIT BY SJ
 #include "fatal.h"
 #include "Common.hpp"
 
 #ifdef WIN32
-#include <dirent-win32/dirent.h>
+#include <dirent-win32/dirent.h>  // EDIT BY SJ
 #endif
 
 #include "timer.h"
@@ -37,28 +37,28 @@
 #ifdef WIN32
 #include <time.h>
 #endif
-#include "Renderer/PipelineContext.hpp"
+#include "Renderer/PipelineContext.hpp"  // EDIT BY SJ
 #include <iostream>
 #include "projectM.hpp"
-#include "Renderer/BeatDetect.hpp"
+#include "Renderer/BeatDetect.hpp"  // EDIT BY SJ
 #include "Preset.hpp"
 #include "PipelineMerger.hpp"
 #include "PCM.hpp"                    //Sound data handler (buffering, FFT, etc.)
 
 #include <map>
 
-#include "Renderer/Renderer.hpp"
+#include "Renderer/Renderer.hpp"  // EDIT BY SJ
 #include "PresetChooser.hpp"
 #include "ConfigFile.h"
-#include "Renderer/TextureManager.hpp"
+#include "Renderer/TextureManager.hpp"  // EDIT BY SJ
 #include "TimeKeeper.hpp"
-#include "Renderer/RenderItemMergeFunction.hpp"
+#include "Renderer/RenderItemMergeFunction.hpp"  // EDIT BY SJ
 
 #ifdef USE_THREADS
 #ifdef __WXMSW__
-#include <pthread-win32/pthread.h>
+#include <pthread-win32/pthread.h>  // EDIT BY SJ
 #else
-#include "pthread.h"
+#include "pthread.h"  // EDIT BY SJ
 #endif
 
 pthread_mutex_t mutex;
@@ -108,7 +108,7 @@ projectM::~projectM()
     delete(_pipelineContext);
     delete(_pipelineContext2);
 	#ifdef WIN32
-	m_activePreset.release(); // EDIT BY SJ - don't know why, but the pointer m_activePreset points to is bad at this time
+	m_activePreset.release(); // EDIT BY SJ - TODO/TOFIX: don't know why, but the pointer m_activePreset points to is bad at this time
 	#endif
 }
 
@@ -132,7 +132,7 @@ beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pip
 
 }
 
-projectM::projectM(const Settings& settings, int flags):
+projectM::projectM(const Settings& settings, int flags):  // EDIT BY SJ
 beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pipelineContext(new PipelineContext()), _pipelineContext2(new PipelineContext())
 {
     readSettings(settings);
@@ -882,7 +882,7 @@ void projectM::switchPreset(std::auto_ptr<Preset> & targetPreset) {
     {
         bool atEndPosition = false;
 
-        int newSelectedIndex = 0;
+        int newSelectedIndex = 0; // EDIT BY SJ
 
 
         if (*m_presetPos == m_presetChooser->end()) // Case: preset not selected

@@ -6,7 +6,7 @@
 #include <sys/types.h>
 
 #ifdef WIN32
-#include <dirent-win32/dirent.h>
+#include <dirent-win32/dirent.h>  // EDIT BY SJ
 #endif
 
 #ifdef LINUX

@@ -28,7 +28,7 @@
 #else
 	#include <GL/gl.h>
 	#include <GL/glx.h>
-	#define APIENTRY
+	#define APIENTRY  // EDIT BY SJ
 #endif
 
 #include "SOIL.h"
@@ -40,7 +40,7 @@
 #include <string.h>
 
 /*	error reporting	*/
-const char *result_string_pointer = "SOIL initialized";
+const char *result_string_pointer = "SOIL initialized";  // EDIT BY SJ
 
 /*	for loading cube maps	*/
 enum{

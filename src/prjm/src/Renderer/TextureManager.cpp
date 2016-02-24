@@ -2,7 +2,7 @@
 #include <GL/gl.h>
 #endif
 #ifdef WIN32
-#include <GL/gl.h> //#include "glew.h"
+#include <GL/gl.h> //#include "glew.h"  // EDIT BY SJ
 #endif
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
@@ -15,7 +15,7 @@
 #endif
 
 #ifdef WIN32
-#include <dirent-win32/dirent.h>
+#include <dirent-win32/dirent.h>  // EDIT BY SJ
 #endif
 
 #ifdef LINUX
@@ -26,8 +26,8 @@
 #include <dirent.h>
 #endif
 #include "TextureManager.hpp"
-#include "../Common.hpp"
-#include "../IdleTextures.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../IdleTextures.hpp"  // EDIT BY SJ
 
 
 

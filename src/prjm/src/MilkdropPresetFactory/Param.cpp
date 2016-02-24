@@ -26,15 +26,15 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include "../fatal.h"
-#include "../Common.hpp"
+#include "../fatal.h"  // EDIT BY SJ
+#include "../Common.hpp"  // EDIT BY SJ
 
 #include "CustomShape.hpp"
 #include "Eval.hpp"
 #include "Expr.hpp"
 #include "InitCond.hpp"
 #include "Param.hpp"
-#include "../Preset.hpp"
+#include "../Preset.hpp"  // EDIT BY SJ
 #include <map>
 #include <iostream>
 #include <cassert>

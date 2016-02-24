@@ -27,7 +27,7 @@
 #include <stdio.h>
 //#include <GL/gl.h>
 #include <iostream>
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 #include "FBO.hpp"
 
 

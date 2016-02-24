@@ -29,7 +29,7 @@
 #ifndef _EXPR_H
 #define _EXPR_H
 
-#include "../dlldefs.h"
+#include "../dlldefs.h"  // EDIT BY SJ
 #include "CValue.hpp"
 
 class Param;

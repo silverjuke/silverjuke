@@ -9,7 +9,7 @@
 #include <GL/gl.h>
 #endif
 #ifdef WIN32
-#include <GL/gl.h> // "glew.h"
+#include <GL/gl.h> // "glew.h"  // EDIT BY SJ
 #endif
 #ifdef __APPLE__
 #include <OpenGL/gl.h>

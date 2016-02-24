@@ -24,8 +24,8 @@
 #include <stdlib.h>
 
 #include <cassert>
-#include "../fatal.h"
-#include "../Common.hpp"
+#include "../fatal.h"  // EDIT BY SJ
+#include "../Common.hpp"  // EDIT BY SJ
 
 #include "CustomWave.hpp"
 #include "Eval.hpp"
@@ -35,7 +35,7 @@
 #include "PerPointEqn.hpp"
 #include <map>
 #include <iostream>
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 
 /* Evaluates a per point equation for the current custom wave given by interface_wave ptr */
 void PerPointEqn::evaluate(int i)

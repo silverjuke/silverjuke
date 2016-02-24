@@ -46,7 +46,7 @@ inline float gaussian(float mean, float sigma)
 
 	w = sqrt( (-2.0 * log( w ) ) / w );
 	y1 = x1 * w;
-	//y2 = x2 * w;
+	//y2 = x2 * w;  // EDIT BY SJ
 
 	float ret = y1*sigma + mean;
 

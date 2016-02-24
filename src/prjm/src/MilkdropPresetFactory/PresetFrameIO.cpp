@@ -1,10 +1,10 @@
 #include "PresetFrameIO.hpp"
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 #include <math.h>
 #include <cassert>
 #include <iostream>
 #include <cmath>
-#include "../Renderer/BeatDetect.hpp"
+#include "../Renderer/BeatDetect.hpp"  // EDIT BY SJ
 
 PresetInputs::PresetInputs() : PipelineContext()
 {

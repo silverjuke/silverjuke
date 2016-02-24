@@ -5,7 +5,7 @@
  *      Author: pete
  */
 #include "Pipeline.hpp"
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 
 Pipeline::Pipeline() : staticPerPixel(false),gx(0),gy(0),blur1n(1), blur2n(1), blur3n(1),
 blur1x(1), blur2x(1), blur3x(1),

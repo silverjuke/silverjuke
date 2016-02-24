@@ -20,8 +20,8 @@
  */
 
 #include <sstream>
-#include "../Common.hpp"
-#include "../fatal.h"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../fatal.h"  // EDIT BY SJ
 
 #include "CustomShape.hpp"
 #include "Eval.hpp"
@@ -29,11 +29,11 @@
 #include "InitCond.hpp"
 #include "Param.hpp"
 #include "PerFrameEqn.hpp"
-#include "../Preset.hpp"
+#include "../Preset.hpp"  // EDIT BY SJ
 #include <map>
 #include "ParamUtils.hpp"
 #include "InitCondUtils.hpp"
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 
 
 

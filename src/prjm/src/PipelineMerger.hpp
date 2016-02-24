@@ -2,8 +2,8 @@
 #define PRESET_MERGE_HPP
 #include "Preset.hpp"
 #include "Renderer/Pipeline.hpp" // EDIT BY SJ
-#include "Renderer/RenderItemMatcher.hpp"
-#include "Renderer/RenderItemMergeFunction.hpp"
+#include "Renderer/RenderItemMatcher.hpp"  // EDIT BY SJ
+#include "Renderer/RenderItemMergeFunction.hpp"  // EDIT BY SJ
 
 class PipelineMerger
 {

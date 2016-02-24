@@ -1,5 +1,5 @@
 
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 
 #ifdef USE_GLES1
 #include <GLES/gl.h>

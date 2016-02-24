@@ -24,8 +24,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "../Common.hpp"
-#include "../fatal.h"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../fatal.h"  // EDIT BY SJ
 
 #include "Func.hpp"
 #include <map>

@@ -1,5 +1,5 @@
 
-#include "../fatal.h"
+#include "../fatal.h"  // EDIT BY SJ
 #include "BuiltinParams.hpp"
 #include <cassert>
 #include <iostream>
@@ -7,7 +7,7 @@
 #include "InitCondUtils.hpp"
 #include <sstream>
 #include <stdio.h>
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 
 BuiltinParams::BuiltinParams() {}
 

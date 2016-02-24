@@ -30,7 +30,7 @@
 #ifndef _MilkdropPreset_HPP
 #define _MilkdropPreset_HPP
 
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 #include <string>
 #include <cassert>
 #include <map>
@@ -45,7 +45,7 @@
 #include "BuiltinParams.hpp"
 #include "PresetFrameIO.hpp"
 #include "InitCond.hpp"
-#include "../Preset.hpp"
+#include "../Preset.hpp"  // EDIT BY SJ
 
 class CustomWave;
 class CustomShape;

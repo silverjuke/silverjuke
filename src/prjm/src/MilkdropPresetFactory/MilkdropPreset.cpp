@@ -24,7 +24,7 @@
 #include <cstdlib>
 
 #ifdef WIN32
-#include <dirent-win32/dirent.h>
+#include <dirent-win32/dirent.h>  // EDIT BY SJ
 #else
 #include <dirent.h>
 #endif /** WIN32 */
@@ -34,7 +34,7 @@
 #include "Parser.hpp"
 #include "ParamUtils.hpp"
 #include "InitCondUtils.hpp"
-#include "../fatal.h"
+#include "../fatal.h"  // EDIT BY SJ
 #include <iostream>
 #include <fstream>
 

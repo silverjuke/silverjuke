@@ -1,12 +1,12 @@
 #ifndef PRESET_FRAME_IO_HPP
 #define PRESET_FRAME_IO_HPP
 #include <vector>
-#include "../Renderer/MilkdropWaveform.hpp"
-#include "../Renderer/Pipeline.hpp"
-#include "../Renderer/Filters.hpp"
+#include "../Renderer/MilkdropWaveform.hpp"  // EDIT BY SJ
+#include "../Renderer/Pipeline.hpp"  // EDIT BY SJ
+#include "../Renderer/Filters.hpp"  // EDIT BY SJ
 #include "CustomShape.hpp"
 #include "CustomWave.hpp"
-#include "../Renderer/VideoEcho.hpp"
+#include "../Renderer/VideoEcho.hpp"  // EDIT BY SJ
 
 
 /// Container for all *read only* engine variables a preset requires to

@@ -19,7 +19,7 @@
  *
  */
 
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 
 #include "Expr.hpp"
 #include <cassert>

@@ -25,8 +25,8 @@
 
 #include <sstream>
 
-#include "../Common.hpp"
-#include "../fatal.h"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../fatal.h"  // EDIT BY SJ
 
 #include "CustomWave.hpp"
 #include "Eval.hpp"
@@ -35,11 +35,11 @@
 #include "Param.hpp"
 #include "PerFrameEqn.hpp"
 #include "PerPointEqn.hpp"
-#include "../Preset.hpp"
+#include "../Preset.hpp"  // EDIT BY SJ
 #include <map>
 #include "ParamUtils.hpp"
 #include "InitCondUtils.hpp"
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 #define MAX_SAMPLE_SIZE 4096
 
 

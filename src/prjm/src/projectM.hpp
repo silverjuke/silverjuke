@@ -30,7 +30,7 @@
 #define _PROJECTM_HPP
 
 #ifdef WIN32
-#include <dirent-win32/dirent.h>
+#include <dirent-win32/dirent.h>  // EDIT BY SJ
 #else
 #include <dirent.h>
 #endif /** WIN32 */
@@ -139,7 +139,7 @@ public:
     };
 
   projectM(std::string config_file, int flags = FLAG_NONE);
-  projectM(const Settings& settings, int flags = FLAG_NONE);
+  projectM(const Settings& settings, int flags = FLAG_NONE);  // EDIT BY SJ
 
   //DLLEXPORT projectM(int gx, int gy, int fps, int texsize, int width, int height,std::string preset_url,std::string title_fonturl, std::string title_menuurl);
 

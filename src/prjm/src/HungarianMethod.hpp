@@ -36,7 +36,7 @@ void init_labels(const double cost[N][N])
 void augment(const double cost[N][N]) //main function of the algorithm
 {
     if (max_match == n) return;        //check wether matching is already perfect
-    int x, y, root = 0;                    //just counters and root vertex
+    int x, y, root = 0;  // EDIT BY SJ                   //just counters and root vertex
     int q[N], wr = 0, rd = 0;          //q - queue for bfs, wr,rd - write and read
                                        //pos in queue
     memset(S, false, sizeof(S));       //init set S

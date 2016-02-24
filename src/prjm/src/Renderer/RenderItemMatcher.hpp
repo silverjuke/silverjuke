@@ -12,7 +12,7 @@
 #include <vector>
 #include <map>
 #include <iostream>
-#include "../HungarianMethod.hpp"
+#include "../HungarianMethod.hpp"  // EDIT BY SJ
 
 typedef std::vector<std::pair<RenderItem*, RenderItem*> > RenderItemMatchList;
 

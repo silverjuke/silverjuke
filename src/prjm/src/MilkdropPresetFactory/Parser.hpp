@@ -118,7 +118,7 @@ typedef enum {
     tSemiColon, /* ; */
     tStringTooLong, /* special token to indicate an invalid string length */
     tStringBufferFilled /* the string buffer for this line is maxed out */
-  } sj_token_t;
+  } sj_token_t;  // EDIT BY SJ - a simple token_t may cause compilation problems
 
 class CustomShape;
 class CustomWave;

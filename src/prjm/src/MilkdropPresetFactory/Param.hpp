@@ -51,7 +51,7 @@
 
 
 #include "Expr.hpp"
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 #include <cmath>
 #include <string>
 class InitCond;

@@ -1,6 +1,6 @@
 #include "PipelineMerger.hpp"
-#include "Renderer/RenderItemMatcher.hpp"
-#include "Renderer/RenderItemMergeFunction.hpp"
+#include "Renderer/RenderItemMatcher.hpp"  // EDIT BY SJ
+#include "Renderer/RenderItemMergeFunction.hpp"  // EDIT BY SJ
 
 const double PipelineMerger::e(2.71828182845904523536);
 const double PipelineMerger::s(0.5);

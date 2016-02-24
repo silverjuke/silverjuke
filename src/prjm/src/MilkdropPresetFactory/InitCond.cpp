@@ -24,15 +24,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../Common.hpp"
-#include "../fatal.h"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../fatal.h"  // EDIT BY SJ
 
 #include "Expr.hpp"
 #include "InitCond.hpp"
 #include "Param.hpp"
 #include <map>
 
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 #include <cassert>
 #include <iostream>
 

@@ -23,14 +23,14 @@
 #include <cstdio>
 #include <cstdlib>
 
-#include "../Common.hpp"
-#include "../fatal.h"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../fatal.h"  // EDIT BY SJ
 
 #include "Eval.hpp"
 #include "Expr.hpp"
 #include "Param.hpp"
 #include "Func.hpp"
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 
 #include "BuiltinFuncs.hpp"
 

@@ -26,8 +26,8 @@
 #include <iostream>
 #include <stdlib.h>
 
-#include "../Common.hpp"
-#include "../fatal.h"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../fatal.h"  // EDIT BY SJ
 
 #include "CustomWave.hpp"
 #include "CustomShape.hpp"
@@ -42,7 +42,7 @@
 #include <map>
 #include "ParamUtils.hpp"
 
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 #include <iostream>
 #include <sstream>
 #include "BuiltinFuncs.hpp"

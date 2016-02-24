@@ -29,7 +29,7 @@
 #ifndef _FUNC_H
 #define _FUNC_H
 
-#include "../Common.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
 #include <string>
 
 /* Function Type */

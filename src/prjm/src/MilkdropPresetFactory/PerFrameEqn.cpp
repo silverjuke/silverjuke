@@ -23,8 +23,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../fatal.h"
-#include "../Common.hpp"
+#include "../fatal.h"  // EDIT BY SJ
+#include "../Common.hpp"  // EDIT BY SJ
 
 #include "Param.hpp"
 #include "PerFrameEqn.hpp"
@@ -32,7 +32,7 @@
 #include "Eval.hpp"
 #include "Expr.hpp"
 
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 #include <cassert>
 
 /* Evaluate an equation */

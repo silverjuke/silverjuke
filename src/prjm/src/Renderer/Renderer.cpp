@@ -1,15 +1,15 @@
 #include "Renderer.hpp"
-#include "../wipemalloc.h"
+#include "../wipemalloc.h"  // EDIT BY SJ
 #include "math.h"
-#include "../Common.hpp"
-#include "../KeyHandler.hpp"
+#include "../Common.hpp"  // EDIT BY SJ
+#include "../KeyHandler.hpp"  // EDIT BY SJ
 #include "TextureManager.hpp"
 #include <iostream>
 #include <algorithm>
 #include <sys/stat.h>
 #include <cassert>
-#include "../omptl/omptl"
-#include "../omptl/omptl_algorithm"
+#include "../omptl/omptl"  // EDIT BY SJ
+#include "../omptl/omptl_algorithm"  // EDIT BY SJ
 #include "UserTexture.hpp"
 
 class Preset;
@@ -19,8 +19,8 @@ Renderer::Renderer(int width, int height, int gx, int gy, int texsize, BeatDetec
 	title_fontURL(_titlefontURL), menu_fontURL(_menufontURL), presetURL(_presetURL), m_presetName("None"), vw(width),
 			vh(height), texsize(texsize), mesh(gx, gy)
 {
-	//int x;
-	//int y;
+	//int x;  // EDIT BY SJ
+	//int y;  // EDIT BY SJ
 
 	this->totalframes = 1;
 	this->noSwitch = false;
