@@ -3,7 +3,7 @@
 #if SJ_USE_PROJECTM
 
 
-#include "src/ConfigFile.cpp"
+//#include "src/ConfigFile.cpp"
 #include "src/fftsg.cpp"
 #include "src/KeyHandler.cpp"
 #include "src/MilkdropPresetFactory/BuiltinFuncs.cpp"

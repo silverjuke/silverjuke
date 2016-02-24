@@ -123,6 +123,7 @@ void projectM::projectM_resetTextures()
 }
 
 
+/* EDIT BY SJ
 projectM::projectM ( std::string config_file, int flags) :
 beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pipelineContext(new PipelineContext()), _pipelineContext2(new PipelineContext())
 {
@@ -131,6 +132,7 @@ beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pip
     projectM_resetGL(_settings.windowWidth, _settings.windowHeight);
 
 }
+*/
 
 projectM::projectM(const Settings& settings, int flags):  // EDIT BY SJ
 beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pipelineContext(new PipelineContext()), _pipelineContext2(new PipelineContext())
@@ -141,6 +143,7 @@ beatDetect ( 0 ), renderer ( 0 ),  _pcm(0), m_presetPos(0), m_flags(flags), _pip
 }
 
 
+/* EDIT BY SJ
 bool projectM::writeConfig(const std::string & configFile, const Settings & settings) {
 
     ConfigFile config ( configFile );
@@ -168,9 +171,10 @@ bool projectM::writeConfig(const std::string & configFile, const Settings & sett
     } else
         return false;
 }
+*/
 
 
-
+/* EDIT BY SJ
 void projectM::readConfig (const std::string & configFile )
 {
     std::cout << "[projectM] config file: " << configFile << std::endl;
@@ -246,7 +250,7 @@ void projectM::readConfig (const std::string & configFile )
 
 
 }
-
+*/
 
 void projectM::readSettings (const Settings & settings )
 {

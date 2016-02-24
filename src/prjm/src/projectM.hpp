@@ -138,7 +138,7 @@ public:
 	bool softCutRatingsEnabled;
     };
 
-  projectM(std::string config_file, int flags = FLAG_NONE);
+  //projectM(std::string config_file, int flags = FLAG_NONE); // EDIT BY SJ
   projectM(const Settings& settings, int flags = FLAG_NONE);  // EDIT BY SJ
 
   //DLLEXPORT projectM(int gx, int gy, int fps, int texsize, int width, int height,std::string preset_url,std::string title_fonturl, std::string title_menuurl);
@@ -161,7 +161,7 @@ public:
   }
 
   /// Writes a settings configuration to the specified file
-  static bool writeConfig(const std::string & configFile, const Settings & settings);
+  //static bool writeConfig(const std::string & configFile, const Settings & settings); // EDIT BY SJ
 
 
   /// Sets preset iterator position to the passed in index
@@ -280,7 +280,7 @@ private:
   int count;
   float fpsstart;
 
-  void readConfig(const std::string &configFile);
+  //void readConfig(const std::string &configFile); // EDIT BY SJ
   void readSettings(const Settings &settings);
   void projectM_init(int gx, int gy, int fps, int texsize, int width, int height);
   void projectM_reset();
