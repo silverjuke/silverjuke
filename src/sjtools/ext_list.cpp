@@ -185,6 +185,7 @@ void SjExtList::RepositoryInit()
 		RepositoryAdd("cue",                           "Cue Sheets");
 		RepositoryAdd("dts",                           wxString::Format(_("%s-audio"), "DTS"));
 		RepositoryAdd("dv",                            "Digital Video");
+		RepositoryAdd("feq",                           "Equalizer Preset");
 		RepositoryAdd("fla flac",                      wxString::Format(_("%s-audio"), "FLAC"));
 		RepositoryAdd("flv f4a f4v f4p",               wxString::Format(_("%s-video"), "Flash"));
 		RepositoryAdd("gif",                           wxString::Format(_("%s-images"),"GIF"));

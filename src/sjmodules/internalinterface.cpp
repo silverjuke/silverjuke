@@ -40,6 +40,7 @@
 #include <sjmodules/arteditor.h>
 #include <sjmodules/mymusic.h>
 #include <sjmodules/playbacksettings.h>
+#include <sjmodules/fx/fx_settings.h>
 #include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_karaoke_module.h>
 #include <sjmodules/vis/vis_oscilloscope.h>
@@ -69,6 +70,7 @@ void SjInternalInterface::LoadModules(SjModuleList& list)
 	list.Append   (new SjMyMusicModule            (this));
 	list.Append   (new SjBasicSettingsModule      (this));
 	list.Append   (new SjPlaybackSettingsModule   (this));
+	list.Append   (new SjFxSettingsModule         (this));
 	list.Append   (new SjViewSettingsModule       (this));
 	list.Append   (new SjHelpModule               (this));
 	list.Append   (new SjArtEditorModule          (this));

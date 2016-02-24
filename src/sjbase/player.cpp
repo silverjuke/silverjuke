@@ -44,6 +44,7 @@
 #include <sjtools/volumecalc.h>
 #include <sjtools/volumefade.h>
 #include <sjmodules/vis/vis_module.h>
+#include <sjmodules/fx/equalizer.h>
 #include <see_dom/sj_see.h>
 
 #if SJ_USE_GSTREAMER
@@ -490,6 +491,7 @@ public:
 	long          m_realMs;
 	SjVolumeCalc  m_volumeCalc;
 	SjVolumeFade  m_volumeFade;
+	SjEqualizer   m_equalizer;
 
 	bool              m_autoDelete;
 	bool              m_autoDeleteSend;
@@ -532,9 +534,10 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 				}
 			}
 
-			// equalizer
-
-			// TODO ...
+			// equalizer - after volumeCalc, otherwise, volumeCalc would calculate the volume depending on the eq settings
+			{
+				userdata->m_equalizer.AdjustBuffer(buffer, bytes, samplerate, channels);
+			}
 
 			// forward the data to the visualisation -
 			// we do this after autovol, equalizers etc. so that these changes become visible eg. in the spectrum analyzer

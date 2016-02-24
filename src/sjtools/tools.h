@@ -404,6 +404,7 @@ enum SjIcon
     // large icons
 	,SJ_ICON_MUSICLIB = 1
     ,SJ_ICON_PLAYBACK_SETTINGS = 2
+	,SJ_ICON_FX_SETTINGS = 3
     ,SJ_ICON_SKIN = 4
     ,SJ_ICON_KIOSK = 5
     ,SJ_ICON_ADVANCED = 6

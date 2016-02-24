@@ -1757,6 +1757,13 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 				}
 				break;
 
+			case IDO_SETTINGS_EQUALIZER:
+				if( IsAllAvailable() )
+				{
+					OpenSettings("memory:fxsettings.lib", 0, 0);
+				}
+				break;
+
 			case IDO_SETTINGS_QUEUE:
 			case IDO_SETTINGS_AUTOCTRL:
 				if( IsAllAvailable() )

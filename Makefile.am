@@ -175,6 +175,9 @@ silverjuke_SOURCES = \
 	src/sjmodules/arteditor.cpp \
 	src/sjmodules/basicsettings.cpp \
 	src/sjmodules/cinterface.cpp \
+	src/sjmodules/fx/eq_panel.cpp \
+	src/sjmodules/fx/equalizer.cpp \
+	src/sjmodules/fx/fx_settings.cpp \
 	src/sjmodules/help/help.cpp \
 	src/sjmodules/help/htmlwindow.cpp \
 	src/sjmodules/internalinterface.cpp \
