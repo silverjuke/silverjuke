@@ -71,7 +71,7 @@ public:
 };
 
 
-BEGIN_EVENT_TABLE(SjProjectmGlCanvas, wxWindow)
+BEGIN_EVENT_TABLE(SjProjectmGlCanvas, wxGLCanvas)
 	EVT_LEFT_DOWN       (                       SjProjectmGlCanvas::OnMouseLeftDown     )
 	EVT_LEFT_UP         (                       SjProjectmGlCanvas::OnMouseLeftUp       )
 	EVT_LEFT_DCLICK     (                       SjProjectmGlCanvas::OnMouseLeftDClick   )
@@ -180,6 +180,8 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 		#ifdef __WXMSW__
 			wxASSERT( _CrtCheckMemory() );
 		#endif
+
+		//SetCurrent(*s_theProjectmModule->m_glContext); -- this is only needed if we use several GL contexts at the same in the same thread
 
 		s_theProjectmModule->m_projectMobj->renderFrame();
 		s_theProjectmModule->m_glCanvas->SwapBuffers();
