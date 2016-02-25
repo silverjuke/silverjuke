@@ -234,8 +234,10 @@
 #define IDO_VIS_OPTIONLAST      4899    /* range end */
 #define IDO_VIS_HALFSIZE        4901
 #define IDO_VIS_AUTOSWITCHOVER  4902
-#define IDO_VIS_NEXTPRESET      4903
-#define IDO_VIS_PREVPRESET      4904
+#define IDO_VIS_SHOWPRESETNAME  4903
+#define IDO_VIS_GOTORNDPRESET   4904
+#define IDO_VIS_NEXTPRESET      4905
+#define IDO_VIS_PREVPRESET      4906
 #define IDO_VIS_LAST__          4920 /* range end */
 #define IDO_wxID_LOWEST         4999 /* range start, used by wx */
 #define IDO_wxID_HIGHEST        5999 /* range end, used by wx */

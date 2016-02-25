@@ -124,8 +124,11 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 		SetCurrent(*s_theProjectmModule->m_glContext);
 
 		// vis. presets path
-		wxString presetPath = SjTools::EnsureTrailingSlash(SjTools::GetGlobalAppDataDir());
-		presetPath = SjTools::EnsureTrailingSlash(presetPath + "vis");
+		wxString presetPath = g_tools->m_config->Read("main/visPresetDir", "");
+		if( presetPath == "" ) {
+			presetPath = SjTools::EnsureTrailingSlash(SjTools::GetGlobalAppDataDir()) + "vis";
+		}
+		presetPath = SjTools::EnsureTrailingSlash(presetPath);
 
 		if( g_debug )
 		{
@@ -279,13 +282,62 @@ void SjProjectmModule::ReceiveMsg(int msg)
 }
 
 
-void SjProjectmModule::AddMenuOptions(SjMenu&)
+void SjProjectmModule::AddMenuOptions(SjMenu& m)
 {
+	m.Append(IDO_VIS_SHOWPRESETNAME);
+	m.Append(IDO_VIS_GOTORNDPRESET);
+	m.Append(IDO_VIS_PREVPRESET);
+	m.Append(IDO_VIS_NEXTPRESET);
 }
 
 
-void SjProjectmModule::OnMenuOption(int)
+void SjProjectmModule::OnMenuOption(int id)
 {
+	if( !m_projectMobj ) { return; }
+
+	bool showNewPresetName = false;
+	switch( id )
+	{
+		case IDO_VIS_SHOWPRESETNAME:
+			showNewPresetName = true;
+			break;
+
+		case IDO_VIS_GOTORNDPRESET:
+			m_projectMobj->selectRandom(true /*hard cut*/);
+			showNewPresetName = true;
+			break;
+
+		case IDO_VIS_PREVPRESET:
+			m_projectMobj->selectPrevious(true /*hard cut*/);
+			showNewPresetName = true;
+			break;
+
+		case IDO_VIS_NEXTPRESET:
+			m_projectMobj->selectNext(true /*hard cut*/);
+			showNewPresetName = true;
+			break;
+	}
+
+	if( showNewPresetName )
+	{
+		wxString msg;
+		unsigned int newIndex;
+		if( m_projectMobj->selectedPresetIndex(newIndex) )
+		{
+			unsigned int presetCount = m_projectMobj->getPlaylistSize();
+            msg = wxString::Format("%i/%i: ", (int)(newIndex+1), (int)presetCount);
+
+            std::string name = m_projectMobj->getPresetName(newIndex);
+
+            msg += name;
+            msg.Replace(".milk", "");
+		}
+		else
+		{
+			msg = "Bad index";
+		}
+		g_mainFrame->SetDisplayMsg(msg);
+	}
 }
 
 

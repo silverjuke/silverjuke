@@ -561,7 +561,11 @@ void SjVisModule::OnVisMenu(int id)
 	// no else - we might have changed the ID above
 
 	// other video screen commands
-	if( id >= IDO_VIS_OPTIONFIRST && id <= IDO_VIS_OPTIONLAST )
+	if( (id >= IDO_VIS_OPTIONFIRST && id <= IDO_VIS_OPTIONLAST)
+	 ||  id == IDO_VIS_SHOWPRESETNAME
+	 ||  id == IDO_VIS_GOTORNDPRESET
+	 ||  id == IDO_VIS_PREVPRESET
+	 ||  id == IDO_VIS_NEXTPRESET  )
 	{
 		// renderer options
 		SjVisRendererModule* currRenderer = GetCurrRenderer();
