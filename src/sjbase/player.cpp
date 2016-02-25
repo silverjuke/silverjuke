@@ -1074,8 +1074,8 @@ void SjPlayer::TogglePrelisten(const wxArrayString& urls)
 
 void SjPlayer::SetPrelistenGain(float newGain)
 {
-	if( newGain < 0.1 ) newGain = 0.1;
-	if( newGain > 1.5 ) newGain = 1.5; // allow little overdrive
+	if( newGain < 0.1F ) newGain = 0.1F;
+	if( newGain > 1.5F ) newGain = 1.5F; // allow little overdrive
 	m_prelistenGain = newGain;
 }
 
