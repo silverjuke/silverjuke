@@ -111,6 +111,10 @@ projectM::~projectM()
 
     delete(_pipelineContext);
     delete(_pipelineContext2);
+
+	if( timeKeeper ) { delete(timeKeeper); } // EDIT BY SJ: Fix a memory leak
+	if( _merger    ) { delete(_merger);    } // EDIT BY SJ: Fix a memory leak
+	if( _matcher   ) { delete(_matcher);   } // EDIT BY SJ: Fix a memory leak
 }
 
 unsigned projectM::initRenderToTexture()

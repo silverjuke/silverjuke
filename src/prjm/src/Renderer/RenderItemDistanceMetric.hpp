@@ -103,7 +103,9 @@ typedef std::map<TypeIdPair, RenderItemDistanceMetric*> DistanceMetricMap;
 public:
 
 	MasterRenderItemDistance() {}
-	virtual ~MasterRenderItemDistance() {}
+	virtual ~MasterRenderItemDistance() {
+		for( DistanceMetricMap::iterator it=_distanceMetricMap.begin(); it!=_distanceMetricMap.end(); it++ ) { delete it->second; } // EDIT BY SJ: Fix a memory leak
+	}
 
 	inline void addMetric(RenderItemDistanceMetric * fun) {
 		_distanceMetricMap[fun->typeIdPair()] = fun;

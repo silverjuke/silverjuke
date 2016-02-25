@@ -283,6 +283,7 @@ void PresetOutputs::Initialize ( int gx, int gy )
 
 	assert(this->gx > 0);
 	int x;
+	/* EDIT BY SJ: Fix a memory leak (x_mesh and y_mesh already allocated in setStaticPerPixel())
 	this->x_mesh= ( float ** ) wipemalloc ( gx * sizeof ( float * ) );
 	for ( x = 0; x < gx; x++ )
 	{
@@ -293,6 +294,7 @@ void PresetOutputs::Initialize ( int gx, int gy )
 	{
 		this->y_mesh[x] = ( float * ) wipemalloc ( gy * sizeof ( float ) );
 	}
+	*/
 	this->sx_mesh= ( float ** ) wipemalloc ( gx * sizeof ( float * ) );
 	for ( x = 0; x < gx; x++ )
 	{

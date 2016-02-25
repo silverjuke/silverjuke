@@ -201,7 +201,9 @@ typedef std::map<TypeIdPair, RenderItemMergeFunction*> MergeFunctionMap;
 public:
 
 	MasterRenderItemMerge() {}
-	virtual ~MasterRenderItemMerge() {}
+	virtual ~MasterRenderItemMerge() {
+		for( MergeFunctionMap::iterator it=_mergeFunctionMap.begin(); it!=_mergeFunctionMap.end(); it++ ) { delete it->second; } // EDIT BY SJ: Fix a memory leak
+	}
 
 	inline void add(RenderItemMergeFunction * fun) {
 		_mergeFunctionMap[fun->typeIdPair()] = fun;
