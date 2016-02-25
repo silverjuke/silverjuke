@@ -36,6 +36,7 @@
 
 #ifdef _MSC_VER
 	#pragma warning( disable : 4244 4305 4996; once : 4018 )
+	#pragma warning( disable : 4800 4101 4800 4018 4804 ) // EDIT BY SJ
 	#define WIN32_LEAN_AND_MEAN
 	#define NOMINMAX
 	#include <windows.h>

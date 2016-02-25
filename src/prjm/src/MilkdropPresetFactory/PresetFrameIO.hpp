@@ -75,6 +75,7 @@ public:
 
     void Initialize(int gx, int gy);
     PresetOutputs();
+    PresetOutputs(const PresetOutputs& o) { wxASSERT_MSG(0, "The PresetOutputs copy constructor is not save! (in fact, there are always on two real instances of PresetOutputs - and many references)."); } // EDIT BY SJ
     ~PresetOutputs();
     virtual void Render(const BeatDetect &music, const PipelineContext &context);
     void PerPixelMath( const PipelineContext &context);

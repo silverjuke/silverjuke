@@ -90,7 +90,7 @@ MilkdropPreset::~MilkdropPreset()
   }
   customWaves.clear();
  customShapes.clear();
- presetOutputs().customWaves.clear();
+ presetOutputs().customWaves.clear(); // This crashes in the projectM destructor if destroyPresetTools() is called before (COMMENT BY SJ)
  presetOutputs().customShapes.clear();
   presetOutputs().drawables.clear();
 

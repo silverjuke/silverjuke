@@ -94,6 +94,10 @@ projectM::~projectM()
     printf("p");
     std::cout << std::endl;
     #endif
+
+    m_activePreset.reset();  // FIXED: EDIT BY SJ: m_activePreset->presetOutput is a pointer to m_presetLoader->_presetFactoryManager->_factoryList->_presetOutputs2 which is destroyed by destroyPresetTools()
+    m_activePreset2.reset(); // so, make sure, it is released before destroyPresetTools() (not implicitly after the destructor)
+
     destroyPresetTools();
 
     if ( renderer )
@@ -107,9 +111,6 @@ projectM::~projectM()
 
     delete(_pipelineContext);
     delete(_pipelineContext2);
-	#ifdef WIN32
-	m_activePreset.release(); // EDIT BY SJ - TODO/TOFIX: don't know why, but the pointer m_activePreset points to is bad at this time
-	#endif
 }
 
 unsigned projectM::initRenderToTexture()
