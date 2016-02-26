@@ -1568,9 +1568,14 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 	      ||  targetId == IDT_ZOOM_OUT
 	      ||  targetId == IDT_ZOOM_NORMAL )
 	{
-		// this stuff will be forwarded to the browser
+		// this stuff will be forwarded to the browser (or some keys to the vis.)
 		// (we may come from there, but this is not necessarily the case, eg. when using "real" accelerators or buttons for this)
-		m_browser->OnSkinTargetEvent(targetId, value, accelFlags);
+		if( g_visModule->IsOverWorkspace() && (targetId >= IDT_WORKSPACE_KEY_LEFT && targetId <= IDT_WORKSPACE_KEY_DOWN) ) {
+			g_visModule->OnVisMenu(targetId);
+		}
+		else {
+			m_browser->OnSkinTargetEvent(targetId, value, accelFlags);
+		}
 	}
 	else if( targetId >= IDT_LAYOUT_FIRST && targetId <= IDT_LAYOUT_LAST )
 	{

@@ -562,16 +562,14 @@ void SjVisModule::OnVisMenu(int id)
 
 	// other video screen commands
 	if( (id >= IDO_VIS_OPTIONFIRST && id <= IDO_VIS_OPTIONLAST)
-	 ||  id == IDO_VIS_SHOWPRESETNAME
-	 ||  id == IDO_VIS_GOTORNDPRESET
-	 ||  id == IDO_VIS_PREVPRESET
-	 ||  id == IDO_VIS_NEXTPRESET  )
+	 || (id >= IDT_WORKSPACE_KEY_LEFT && id <= IDT_WORKSPACE_KEY_DOWN) )
 	{
 		// renderer options
 		SjVisRendererModule* currRenderer = GetCurrRenderer();
 		if( currRenderer )
 		{
 			currRenderer->OnMenuOption(id);
+			UpdateVisMenu(g_mainFrame->m_visMenu); // recreate the menu, this vis. module may add different entries/change selections etc.
 		}
 	}
 	else switch( id )

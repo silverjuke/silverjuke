@@ -185,11 +185,6 @@ bool SjAccelModule::FirstLoad()
 		OrgCmd(_("Add credit")+wxString::Format(wxT(" (+%i)"), (int)((idtCredit-IDT_ADD_CREDIT_01)+1)), idtCredit, SJA_MAIN);
 	}
 
-	OrgCmd(_("Show preset name"),      IDO_VIS_SHOWPRESETNAME, SJA_MAIN);
-	OrgCmd(_("Go to random preset"),   IDO_VIS_GOTORNDPRESET, SJA_MAIN);
-	OrgCmd(_("Go to previous preset"), IDO_VIS_PREVPRESET, SJA_MAIN);
-	OrgCmd(_("Go to next preset"),     IDO_VIS_NEXTPRESET, SJA_MAIN);
-
 	// tools shortcuts
 
 	{

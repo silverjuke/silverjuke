@@ -46,6 +46,14 @@ static SjProjectmModule* s_theProjectmModule = NULL;
 #define SLEEP_MS                40 // results in 25 frames/s - TODO: We should adapt this to larger values if rendering takes too long (or render only every Nth frame, so that we need not to change the timer)
 #define IDC_TIMER               (IDM_FIRSTPRIVATE+130)
 
+#define IDC_GO_TO_PREV_PRESET   (IDO_VIS_OPTIONFIRST+1)
+#define IDC_GO_TO_NEXT_PRESET   (IDO_VIS_OPTIONFIRST+2)
+#define IDC_GO_TO_RANDOM_PRESET (IDO_VIS_OPTIONFIRST+3)
+#define IDC_SHOW_PRESET_NAME    (IDO_VIS_OPTIONFIRST+4)
+#define IDC_DO_SHUFFLE          (IDO_VIS_OPTIONFIRST+5)
+#define IDC_DURATIONS_FIRST     (IDO_VIS_OPTIONFIRST+6)
+#define IDC_DURATIONS_LAST      (IDO_VIS_OPTIONFIRST+56)
+
 
 class SjProjectmGlCanvas : public wxGLCanvas
 {
@@ -124,7 +132,7 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 		SetCurrent(*s_theProjectmModule->m_glContext);
 
 		// vis. presets path
-		wxString presetPath = g_tools->m_config->Read("main/visPresetDir", "");
+		wxString presetPath = g_tools->m_config->Read("main/prjmdir", "");
 		if( presetPath == "" ) {
 			presetPath = SjTools::EnsureTrailingSlash(SjTools::GetGlobalAppDataDir()) + "vis";
 		}
@@ -147,24 +155,38 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 			"",    // std::string titleFontURL;
 			"",    // std::string menuFontURL;
 			10,    // int smoothPresetDuration;
-			15,    // int presetDuration;
+			s_theProjectmModule->m_prjmDuration,    // int presetDuration;
 			10.0,  // float beatSensitivity;
 			true,  // bool aspectCorrection;
 			0.0,   // float easterEgg;
-			true,  // bool shuffleEnabled;
+			(s_theProjectmModule->m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE)!=0,  // bool shuffleEnabled;
 			false, // bool softCutRatingsEnabled;
 		};
 
 		try {
 			s_theProjectmModule->m_projectMobj = new projectM(s, projectM::FLAG_NONE);
 
-				#ifdef __WXMSW__
-					wxASSERT( _CrtCheckMemory() );
-				#endif
+			#ifdef __WXMSW__
+				wxASSERT( _CrtCheckMemory() );
+			#endif
 
 			// by default, after creation the "Idle preset with the projectM" is selected until we fade to the next one;
-			// as this gets boring after little time, we switch over to a random preset.
-			s_theProjectmModule->m_projectMobj->selectRandom(true /*hardCut*/);
+			// as this gets boring after little time, we switch over to another preset.
+			if( (s_theProjectmModule->m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE)
+			 && (s_theProjectmModule->m_prjmDuration<=SJ_PRJMDURATION_STD) )
+			{
+				s_theProjectmModule->m_projectMobj->selectRandom(true /*hardCut*/); // init by random if (1) random is enabled and (2) a longer preset time is choosen
+			}
+			else
+			{
+				long desiredIndex = g_tools->m_config->Read("main/prjmindex", (long)-1);
+				if( desiredIndex >= 0 && desiredIndex < s_theProjectmModule->m_projectMobj->getPlaylistSize() ) {
+					s_theProjectmModule->m_projectMobj->selectPreset(desiredIndex, true /*hardCut*/);
+				}
+				else {
+					s_theProjectmModule->m_projectMobj->selectRandom(true /*hardCut*/);
+				}
+			}
 
 			wxSize size = GetSize();
 			s_theProjectmModule->m_projectMobj->projectM_resetGL(size.x, size.y);
@@ -221,6 +243,27 @@ SjProjectmModule::~SjProjectmModule()
 }
 
 
+bool SjProjectmModule::FirstLoad()
+{
+	m_prjmFlags    = g_tools->m_config->Read("main/prjmflags",   SJ_PRJMFLAGS_DEFAULT);
+	m_prjmDuration = g_tools->m_config->Read("main/prjmseconds", SJ_PRJMDURATION_STD);
+	if( m_prjmDuration < SJ_PRJMDURATION_MIN ) { m_prjmDuration = SJ_PRJMDURATION_MIN; }
+	if( m_prjmDuration > SJ_PRJMDURATION_MAX ) { m_prjmDuration = SJ_PRJMDURATION_MAX; }
+	return true;
+}
+
+
+void SjProjectmModule::WritePrjmConfig()
+{
+	g_tools->m_config->Write("main/prjmflags", m_prjmFlags);
+	g_tools->m_config->Write("main/prjmseconds", m_prjmDuration);
+
+	unsigned int currIndex = -1;
+	if( !m_projectMobj || !m_projectMobj->selectedPresetIndex(currIndex) ) { currIndex = -1; }
+	g_tools->m_config->Write("main/prjmindex", (long)currIndex);
+}
+
+
 bool SjProjectmModule::Start(SjVisWindow* impl)
 {
 	m_impl = impl;
@@ -250,6 +293,8 @@ void SjProjectmModule::Stop()
 	if( m_glCanvas ) {
 		m_glCanvas->m_timer.Stop();
 	}
+
+	WritePrjmConfig();
 
 	if( m_projectMobj )
 	{
@@ -282,12 +327,39 @@ void SjProjectmModule::ReceiveMsg(int msg)
 }
 
 
+static const int s_durations[] = { 3, 5, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300, 420, 600,  0/*mark end*/ };
+static wxString s_duration_text(int i)
+{
+	wxString text;
+	if( s_durations[i] >= 120 ) {
+		text = wxString::Format("%i ", s_durations[i]/60) + _("minutes");
+	}
+	else {
+		text = wxString::Format("%i ", s_durations[i]) + _("seconds");
+	}
+	if( s_durations[i] == SJ_PRJMDURATION_STD ) { text += " (" + _("Default") + ")"; }
+	return text;
+}
+
+
 void SjProjectmModule::AddMenuOptions(SjMenu& m)
 {
-	m.Append(IDO_VIS_SHOWPRESETNAME);
-	m.Append(IDO_VIS_GOTORNDPRESET);
-	m.Append(IDO_VIS_PREVPRESET);
-	m.Append(IDO_VIS_NEXTPRESET);
+	m.Append(IDC_GO_TO_PREV_PRESET, _("Go to previous preset"));
+	m.Append(IDC_GO_TO_NEXT_PRESET, _("Go to next preset"));
+	m.Append(IDC_GO_TO_RANDOM_PRESET, _("Go to random preset"));
+	m.Append(IDC_SHOW_PRESET_NAME, _("Show preset name"));
+
+	m.AppendSeparator();
+
+	m.AppendCheckItem(IDC_DO_SHUFFLE, _("Preset shuffle"));
+	m.Check(IDC_DO_SHUFFLE, (m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE)!=0);
+
+	SjMenu* submenu = new SjMenu(0);
+		for( int i = 0; s_durations[i]; i++ ) {
+			submenu->AppendCheckItem(IDC_DURATIONS_FIRST+i, s_duration_text(i));
+			if( s_durations[i] == m_prjmDuration ) { submenu->Check(IDC_DURATIONS_FIRST+i, true); }
+		}
+	m.Append(wxID_ANY, _("Preset duration"), submenu);
 }
 
 
@@ -296,45 +368,71 @@ void SjProjectmModule::OnMenuOption(int id)
 	if( !m_projectMobj ) { return; }
 
 	bool showNewPresetName = false;
-	switch( id )
+	if( id >= IDC_DURATIONS_FIRST && id <= IDC_DURATIONS_LAST )
 	{
-		case IDO_VIS_SHOWPRESETNAME:
-			showNewPresetName = true;
-			break;
-
-		case IDO_VIS_GOTORNDPRESET:
-			m_projectMobj->selectRandom(true /*hard cut*/);
-			showNewPresetName = true;
-			break;
-
-		case IDO_VIS_PREVPRESET:
+		for( int i = 0; s_durations[i]; i++ ) {
+			if( i==(id-IDC_DURATIONS_FIRST) ) {
+				m_prjmDuration = s_durations[i];
+				WritePrjmConfig();
+				m_projectMobj->changePresetDuration(m_prjmDuration);
+				g_mainFrame->SetDisplayMsg(_("Preset duration") + ": " + s_duration_text(i), SDM_STATE_CHANGE_MS);
+			}
+		}
+	}
+	else switch( id )
+	{
+		case IDT_WORKSPACE_KEY_LEFT:
+		case IDC_GO_TO_PREV_PRESET:
 			m_projectMobj->selectPrevious(true /*hard cut*/);
 			showNewPresetName = true;
 			break;
 
-		case IDO_VIS_NEXTPRESET:
+		case IDT_WORKSPACE_KEY_RIGHT:
+		case IDC_GO_TO_NEXT_PRESET:
 			m_projectMobj->selectNext(true /*hard cut*/);
 			showNewPresetName = true;
+			break;
+
+		case IDT_WORKSPACE_KEY_DOWN:
+		case IDC_GO_TO_RANDOM_PRESET:
+			m_projectMobj->selectRandom(true /*hard cut*/);
+			showNewPresetName = true;
+			break;
+
+		case IDT_WORKSPACE_KEY_UP:
+		case IDC_SHOW_PRESET_NAME:
+			showNewPresetName = true;
+			break;
+
+		case IDC_DO_SHUFFLE:
+			SjTools::ToggleFlag(m_prjmFlags, SJ_PRJMFLAGS_SHUFFLE);
+			WritePrjmConfig();
+			m_projectMobj->setShuffleEnabled((m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE)!=0);
+			// do a change right now to reflect the new state
+			if( m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE ) {
+				m_projectMobj->selectRandom(true /*hard cut*/);
+				g_mainFrame->SetDisplayMsg(_("Preset shuffle") + ": " + _("On"), SDM_STATE_CHANGE_MS);
+			}
+			else {
+				g_mainFrame->SetDisplayMsg(_("Preset shuffle") + ": " + _("Off"), SDM_STATE_CHANGE_MS);
+			}
 			break;
 	}
 
 	if( showNewPresetName )
 	{
 		wxString msg;
-		unsigned int newIndex;
-		if( m_projectMobj->selectedPresetIndex(newIndex) )
+		unsigned int newIndex, presetCount = m_projectMobj->getPlaylistSize();
+		if( presetCount > 0 && m_projectMobj->selectedPresetIndex(newIndex) )
 		{
-			unsigned int presetCount = m_projectMobj->getPlaylistSize();
             msg = wxString::Format("%i/%i: ", (int)(newIndex+1), (int)presetCount);
-
             std::string name = m_projectMobj->getPresetName(newIndex);
-
             msg += name;
             msg.Replace(".milk", "");
 		}
 		else
 		{
-			msg = "Bad index";
+			msg = "0/0: " + _("No presets found.");
 		}
 		g_mainFrame->SetDisplayMsg(msg);
 	}

@@ -52,6 +52,16 @@ public:
 	void            AddVisData          (const float* buffer, long bytes);
 
 private:
+	#define         SJ_PRJMFLAGS_SHUFFLE    0x00000001L
+	#define         SJ_PRJMFLAGS_DEFAULT    0x0000FFFFL
+	long            m_prjmFlags;
+	#define         SJ_PRJMDURATION_MIN     3
+	#define         SJ_PRJMDURATION_STD     20
+	#define         SJ_PRJMDURATION_MAX     600
+	int             m_prjmDuration;
+	bool            FirstLoad           ();
+	void            WritePrjmConfig     ();
+
 	SjProjectmGlCanvas* m_glCanvas;
 	wxGLContext*    m_glContext;
 	projectM*       m_projectMobj;
