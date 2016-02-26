@@ -327,7 +327,7 @@ void SjProjectmModule::ReceiveMsg(int msg)
 }
 
 
-static const int s_durations[] = { 5, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300, 420, 600, 900, 1800, 3600,  0/*mark end*/ };
+static const int s_durations[] = { 5, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300, /*420, 600, 900, 1800, 3600,*/  0/*mark end*/ }; // do not use too long preset times; not sure, if this always works. Moreover, "bad" presets should not take too long. The user can set longer presettimes in the INI.
 static wxString s_duration_text(int i)
 {
 	wxString text;

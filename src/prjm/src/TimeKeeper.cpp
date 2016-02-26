@@ -97,10 +97,10 @@ int TimeKeeper::PresetFrameA()
   }
 
 double TimeKeeper::sampledPresetDuration() {
-#ifdef WIN32
+//#ifdef WIN32 // EDIT BY SJ: Allow presets lasting longer than 1 minute
 	return  _presetDuration;
-#else
-		return fmax(1, fmin(60, RandomNumberGenerators::gaussian
-			(_presetDuration, _easterEgg)));
-#endif
+//#else
+//		return fmax(1, fmin(60, RandomNumberGenerators::gaussian
+//			(_presetDuration, _easterEgg)));
+//#endif
 }

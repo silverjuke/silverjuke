@@ -57,7 +57,7 @@ private:
 	long            m_prjmFlags;
 	#define         SJ_PRJMDURATION_MIN     3
 	#define         SJ_PRJMDURATION_STD     20
-	#define         SJ_PRJMDURATION_MAX     600
+	#define         SJ_PRJMDURATION_MAX     36000 // allow large values to be set in the INI, with the risk sth. is working wrong. Via the GUI, we allow only up to 5 minutes.
 	int             m_prjmDuration;
 	bool            FirstLoad           ();
 	void            WritePrjmConfig     ();
