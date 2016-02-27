@@ -344,10 +344,10 @@ static wxString s_duration_text(int i)
 
 void SjProjectmModule::AddMenuOptions(SjMenu& m)
 {
+	m.Append(IDC_SHOW_PRESET_NAME, _("Preset info"));
 	m.Append(IDC_GO_TO_PREV_PRESET, _("Go to previous preset"));
 	m.Append(IDC_GO_TO_NEXT_PRESET, _("Go to next preset"));
 	m.Append(IDC_GO_TO_RANDOM_PRESET, _("Go to random preset"));
-	m.Append(IDC_SHOW_PRESET_NAME, _("Show preset name"));
 
 	m.AppendSeparator();
 
