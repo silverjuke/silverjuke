@@ -644,7 +644,7 @@ void SjLogDialog::OnSave(wxCommandEvent& event)
 
 		wxString line;
 		line << TimeStamp(wxT("%Y-%m-%d %H:%M:%S"), (time_t)time)
-		     << wxString::Format(wxT(".%03i"), time%1000)
+		     << wxString::Format(".%03i", (int)time%1000)
 		     << wxT(": ")
 		     << SjLogListCtrl::GetSeverityChar(severity)
 		     << wxT(": ")
