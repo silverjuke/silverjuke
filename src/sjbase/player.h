@@ -30,6 +30,9 @@
 #define __SJ_PLAYER_H__
 
 
+#include <sjmodules/fx/equalizer.h>
+
+
 class SjPlayerModule : public SjCommonModule
 {
 public:
@@ -129,6 +132,10 @@ public:
 	float           AvGetMaxGain        () const { return m_avMaxGain; }
 	float           AvGetCalculatedGain () const { return m_avCalculatedGain; } // this does not include the desired volume nor the max. gain!
 
+	// Equalizer
+	void            EqSetParam          (const bool* enabled, const SjEqParam*);
+	void            EqGetParam          (bool* e, SjEqParam* p) const { if(e){*e=m_eqEnabled;} if(p){*p=m_eqParam;} }
+
 	// Crossfade & Other fadings
 	void            SetAutoCrossfade    (bool e) { m_autoCrossfade=e; }
 	bool            GetAutoCrossfade    () const { return m_autoCrossfade; }
@@ -193,14 +200,17 @@ private:
 	bool            m_stopAfterThisTrack;
 	bool            m_stopAfterEachTrack;
 
-
-
 	// auto volume stuff
 	bool            m_avEnabled;
 	bool            m_avUseAlbumVol;
 	float           m_avDesiredVolume;
 	float           m_avMaxGain;
 	float           m_avCalculatedGain;
+
+	// equalizer
+	#define         SJ_EQ_DEF_ENABLED     false
+	bool            m_eqEnabled;
+	SjEqParam       m_eqParam;
 
 	// crossfading etc.
 	#define         SJ_DEF_AUTO_CROSSFADE_ENABLED   true

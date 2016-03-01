@@ -131,6 +131,8 @@ SjPlayer::SjPlayer()
 	m_avUseAlbumVol         = SJ_AV_DEF_USE_ALBUM_VOL;
 	m_avCalculatedGain      = 1.0F;
 
+	m_eqEnabled             = SJ_EQ_DEF_ENABLED;
+
 	m_autoCrossfade         = SJ_DEF_AUTO_CROSSFADE_ENABLED;
 	m_autoCrossfadeSubseqDetect = false;
 	m_autoCrossfadeMs       = SJ_DEF_CROSSFADE_MS;
@@ -184,6 +186,9 @@ void SjPlayer::Init()
 	m_avDesiredVolume           = (float)c->Read("player/autovoldes",  (long)(SJ_AV_DEF_DESIRED_VOLUME*1000.0F)) / 1000.0F;
 	m_avMaxGain                 = (float)c->Read("player/autovolmax",  (long)(SJ_AV_DEF_MAX_GAIN*1000.0F)) / 1000.0F;
 
+	m_eqEnabled                 = (c->Read("player/eqActive",          SJ_EQ_DEF_ENABLED? 1L : 0L))!=0;
+	m_eqParam.FromString        (  c->Read("player/eqParam",           ""));
+
 	m_prelistenDest             =c->Read("player/prelistenDest",       SJ_PL_DEFAULT);
 	m_prelistenUseSysVol        =c->Read("player/prelistenUseSysVol",  SJ_SYSVOL_DEFAULT);
 	m_prelistenMixQuiet         = (float)c->Read("player/prelistenMixQuiet", (long)(SJ_DEF_PL_MIX_QUIET*1000.0F)) / 1000.0F;
@@ -225,6 +230,9 @@ void SjPlayer::SaveSettings() const
 	c->Write("player/usealbumvol",         AvGetUseAlbumVol()? 1L : 0L);
 	c->Write("player/autovoldes",   (long)(m_avDesiredVolume*1000.0F));
 	c->Write("player/autovolmax",   (long)(m_avMaxGain*1000.0F));
+
+	c->Write("player/eqActive", m_eqEnabled? 1L : 0L);
+	c->Write("player/eqParam", m_eqParam.ToString());
 
 	// save repeat - repeating a single track is not remembered by design
 
@@ -535,6 +543,7 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			}
 
 			// equalizer - after volumeCalc, otherwise, volumeCalc would calculate the volume depending on the eq settings
+			if( player->m_eqEnabled )
 			{
 				userdata->m_equalizer.AdjustBuffer(buffer, bytes, samplerate, channels);
 			}
@@ -594,6 +603,8 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 		userdata->m_volumeCalc.SetPrecalculatedGain(
 			g_mainFrame->m_libraryModule->GetAutoVol(stream->GetUrl(), player->AvGetUseAlbumVol())
 		);
+
+		userdata->m_equalizer.SetParam(player->m_eqParam);
 
 		if( userdata->m_onCreateFadeMs ) {
 			userdata->m_volumeFade.SetVolume(0.0);
@@ -1042,6 +1053,21 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
 	{
 		m_avUseAlbumVol = useAlbumVol;
 	}
+}
+
+
+void SjPlayer::EqSetParam(const bool* newEnabled, const SjEqParam* newParam)
+{
+    if( newEnabled ) {
+		m_eqEnabled = *newEnabled;
+    }
+
+    if( newParam ) {
+		m_eqParam = *newParam;
+		if( m_streamA ) {
+			m_streamA->m_userdata->m_equalizer.SetParam(m_eqParam);
+		}
+    }
 }
 
 

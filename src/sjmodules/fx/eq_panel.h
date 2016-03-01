@@ -30,6 +30,9 @@
 #define __SJ_EQ_PANEL_H__
 
 
+#include "equalizer.h"
+
+
 class SjEqPanel : public wxPanel
 {
 public:
@@ -38,8 +41,16 @@ public:
 private:
 	wxCheckBox*     m_onOffSwitch;
 	wxChoice*       m_presetChoice;
-	void            OnMenu              (wxCommandEvent&);
+
+	SjEqParam       m_currParam;
+
+	wxString        FormatParam         (float db);
+	void            Param2Dlg           (int paramIndex);
+	void            Param2Dlg           ();
+
 	void            OnSwitchOnOff       (wxCommandEvent&);
+	void            OnSlider            (wxScrollEvent&);
+	void            OnMenu              (wxCommandEvent&);
 	void            OnSaveAsRename      (wxCommandEvent&);
 	void            OnDelete            (wxCommandEvent&);
 	void            OnImport            (wxCommandEvent&);

@@ -622,7 +622,7 @@ public:
 	static bool     ParseNumber         (const wxString& str, long* retNumber=NULL);
 
 	static wxString FormatStdFloat      (float f); // returns an non-localized string, ready to save to INI etc.
-	static float    ParseFloat          (const wxString& str);
+	static float    ParseFloat          (const wxString& str, float defValue=1.0F); // the default value is 1.0; do not change this, users may rely on this!
 
 	static wxString FormatRect          (const wxRect&);
 	static wxRect   ParseRect           (const wxString&);

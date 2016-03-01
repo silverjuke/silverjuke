@@ -1247,7 +1247,7 @@ wxString SjTools::FormatStdFloat(float f)
 }
 
 
-float SjTools::ParseFloat(const wxString& sOrg)
+float SjTools::ParseFloat(const wxString& sOrg, float defValue)
 {
 	double f;
 	if( !sOrg.ToDouble(&f) )
@@ -1256,7 +1256,7 @@ float SjTools::ParseFloat(const wxString& sOrg)
 		sTemp.Replace(wxT("."), wxT(","));  // internally, we use "." as a decimal point, however, the loaded localed
 		if( !sTemp.ToDouble(&f) )   // may expect a ","
 		{
-			f = 1.0;
+			f = defValue;
 		}
 	}
 	return (float)f;

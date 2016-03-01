@@ -451,18 +451,6 @@ private:
 };
 
 
-#define EVT_COMMAND_SCROLL_RANGE(id1, id2, func) \
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_TOP, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),\
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_BOTTOM, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),\
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_LINEUP, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),\
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_LINEDOWN, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),\
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_PAGEUP, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),\
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_PAGEDOWN, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),\
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_THUMBTRACK, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),\
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_THUMBRELEASE, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ), \
-  DECLARE_EVENT_TABLE_ENTRY( wxEVT_SCROLL_CHANGED, id1, id2, (wxObjectEventFunction) (wxEventFunction) (wxScrollEventFunction) & func, (wxObject *) NULL ),
-
-
 BEGIN_EVENT_TABLE(SjCrossfadeDlg, SjEffectDlg)
 	// crossfade
 	EVT_COMMAND_SCROLL      (IDC_MAN_CROSSFADE_SLIDER,      SjCrossfadeDlg::OnManCrossfadeMsSlider      )

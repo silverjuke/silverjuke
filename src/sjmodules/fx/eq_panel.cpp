@@ -28,6 +28,7 @@
 
 #include <sjbase/base.h>
 #include <sjmodules/fx/eq_panel.h>
+#include <sjmodules/fx/equalizer.h>
 
 
 #define SLIDER_RES	1000
@@ -47,34 +48,20 @@
 #define IDM_LABEL_FIRST				(IDM_FIRSTPRIVATE+170)
 
 
-struct SjFxParamDef
-{
-	const char* descr;
-};
-
-
-static const SjFxParamDef s_graphicEqParam[] =
-{
-	#define SJ_EQ_BANDS 18
-	{    "55", },
-	{    "77", },
-	{   "110", },
-	{   "156", },
-	{   "220", },
-	{   "311", },
-	{   "440", },
-	{   "622", },
-	{   "880", },
-	{  "1.2", },
-	{  "1.8", },
-	{  "2.5", },
-	{  "3.5", },
-	{  "5",   },
-	{  "7",   },
-	{ "10",   },
-	{ "14",   },
-	{ "20",   }
-};
+BEGIN_EVENT_TABLE(SjEqPanel, wxPanel)
+	EVT_BUTTON   (IDC_BUTTONBARMENU,     SjEqPanel::OnMenu            )
+	EVT_CHECKBOX (IDM_SWITCH_ON_OFF,     SjEqPanel::OnSwitchOnOff     )
+	EVT_MENU     (IDM_SAVE_AS,           SjEqPanel::OnSaveAsRename    )
+	EVT_MENU     (IDM_RENAME,            SjEqPanel::OnSaveAsRename    )
+	EVT_MENU     (IDM_DELETE,            SjEqPanel::OnDelete          )
+	EVT_MENU     (IDM_IMPORT,            SjEqPanel::OnImport          )
+	EVT_MENU     (IDM_EXPORT,            SjEqPanel::OnExport          )
+	EVT_MENU     (IDM_RESET_STD_PRESETS, SjEqPanel::OnResetStdPresets )
+	EVT_MENU     (IDM_SHIFT_UP,          SjEqPanel::OnShift           )
+	EVT_MENU     (IDM_SHIFT_DOWN,        SjEqPanel::OnShift           )
+	EVT_MENU     (IDM_SHIFT_AUTO_LEVEL,  SjEqPanel::OnShift           )
+	EVT_COMMAND_SCROLL_RANGE(IDM_PARAMSLIDER000, IDM_PARAMSLIDER000+SJ_EQ_BANDS, SjEqPanel::OnSlider)
+END_EVENT_TABLE()
 
 
 SjEqPanel::SjEqPanel(wxWindow* parent)
@@ -83,43 +70,34 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 	wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
 	SetSizer(sizer1);
 
+	bool eqEnabled;
+	g_mainFrame->m_player.EqGetParam(&eqEnabled, &m_currParam);
+
 	// on/off
 	sizer1->Add(1, SJ_DLG_SPACE*2); // some space
 
 	m_onOffSwitch = new wxCheckBox(this, IDM_SWITCH_ON_OFF, _("Use Equalizer"));
+	m_onOffSwitch->SetValue(eqEnabled);
 	sizer1->Add(m_onOffSwitch, 0, wxLEFT, SJ_DLG_SPACE);
 
 	// create the sliders
 	wxBoxSizer* allSliderSizer = new wxBoxSizer(wxHORIZONTAL);
 	sizer1->Add(allSliderSizer, 1, wxGROW|wxLEFT|wxRIGHT|wxTOP, SJ_DLG_SPACE);
 
-	// units
-	/*
-	wxSizer* paramSizer = new wxBoxSizer(wxVERTICAL);
-	allSliderSizer->Add(paramSizer, 0, wxGROW);
-
-	paramSizer->Add(new wxStaticText(this, wxID_ANY, " "), 0, wxALIGN_LEFT, SJ_DLG_SPACE);
-	paramSizer->Add(new wxStaticText(this, wxID_ANY, "Hz"), 0, wxALIGN_LEFT, SJ_DLG_SPACE);
-	paramSizer->Add(SJ_DLG_SPACE, SJ_DLG_SPACE, 1, wxGROW);
-	paramSizer->Add(new wxStaticText(this, wxID_ANY, "db"), 0, wxALIGN_LEFT);
-	paramSizer->Add(new wxStaticText(this, wxID_ANY, " "), 0, wxALIGN_LEFT, SJ_DLG_SPACE);
-	*/
-
 	wxStaticText* staticText;
 	for( int p = 0; p < SJ_EQ_BANDS; p++ )
 	{
-		const SjFxParamDef* param = &s_graphicEqParam[p];
-
 		// create the parameter's sizer
 		wxSizer* paramSizer = new wxBoxSizer(wxVERTICAL);
 		allSliderSizer->Add(paramSizer, 1, wxGROW, SJ_DLG_SPACE);
 
-		// create the label
-		paramSizer->Add(new wxStaticText(this, wxID_ANY, p==0? "Hz" : (p==9?"KHz" : " ") , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER);
+		// create the label (wxALIGN_CENTRE_HORIZONTAL does not work on wxGTK 3.0.2, wxMSW is fine)
+		staticText = new wxStaticText(this, wxID_ANY, p==0? "Hz" : (p==9?"KHz" : " ") , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
+		paramSizer->Add(staticText, 0, wxGROW);
 
-		wxString label = param->descr;
-		staticText = new wxStaticText(this, wxID_ANY, label, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTER);
-		paramSizer->Add(staticText, 0, wxALIGN_CENTER);
+		wxString label = SjEqParam::s_bandNames[p];
+		staticText = new wxStaticText(this, wxID_ANY, label, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
+		paramSizer->Add(staticText, 0, wxGROW);
 
 		// create the slider
 		wxSlider* slider = new wxSlider(this,
@@ -131,11 +109,14 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 		paramSizer->Add(slider, 1, wxALIGN_CENTER);
 
 		// create the current value field
-		staticText = new wxStaticText(this, IDM_LABEL_FIRST+p, "\u00B10" /*set to widest string*/, wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE);
-		paramSizer->Add(staticText, 0, wxALIGN_CENTER);
+		staticText = new wxStaticText(this, IDM_LABEL_FIRST+p, "", wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
+		paramSizer->Add(staticText, 0, wxGROW);
 
-		paramSizer->Add(new wxStaticText(this, wxID_ANY, p==0?"dB":" " , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE), 0, wxALIGN_CENTER);
+		staticText = new wxStaticText(this, wxID_ANY, p==0?"dB":" " , wxDefaultPosition, wxDefaultSize, wxST_NO_AUTORESIZE|wxALIGN_CENTRE_HORIZONTAL);
+		paramSizer->Add(staticText, 0, wxGROW);
 	}
+
+	Param2Dlg();
 
 	// controls below the sliders
 	wxBoxSizer* slider2 = new wxBoxSizer(wxHORIZONTAL);
@@ -150,29 +131,87 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 
 	wxButton* b = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
 	slider2->Add(b, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
-
 }
 
 
-BEGIN_EVENT_TABLE(SjEqPanel, wxPanel)
-	EVT_BUTTON   (IDC_BUTTONBARMENU,     SjEqPanel::OnMenu            )
-	EVT_CHECKBOX (IDM_SWITCH_ON_OFF,     SjEqPanel::OnSwitchOnOff     )
-	EVT_MENU     (IDM_SAVE_AS,           SjEqPanel::OnSaveAsRename    )
-	EVT_MENU     (IDM_RENAME,            SjEqPanel::OnSaveAsRename    )
-	EVT_MENU     (IDM_DELETE,            SjEqPanel::OnDelete          )
-	EVT_MENU     (IDM_IMPORT,            SjEqPanel::OnImport          )
-	EVT_MENU     (IDM_EXPORT,            SjEqPanel::OnExport          )
-	EVT_MENU     (IDM_RESET_STD_PRESETS, SjEqPanel::OnResetStdPresets )
-	EVT_MENU     (IDM_SHIFT_UP,          SjEqPanel::OnShift           )
-	EVT_MENU     (IDM_SHIFT_DOWN,        SjEqPanel::OnShift           )
-	EVT_MENU     (IDM_SHIFT_AUTO_LEVEL,  SjEqPanel::OnShift           )
-END_EVENT_TABLE()
+wxString SjEqPanel::FormatParam(float db)
+{
+	// we do not have much space for each value; so use a comma only for small values that to longen the string
+	#define PLUS_MINUS_CHAR "\u00B1"
+	wxString ret;
+	     if( db>-0.1 && db<0.1   ) { ret = "0";          }
+	else                           { ret = wxString::Format("%.0f", db); }
+
+	if( db > 0.0 ) { ret = "+" + ret; }
+
+	return ret;
+}
+
+
+void SjEqPanel::Param2Dlg(int paramIndex)
+{
+	wxSlider*			slider = (wxSlider*)FindWindowById(IDM_PARAMSLIDER000+paramIndex, this);
+	wxStaticText*		label = (wxStaticText*)FindWindowById(IDM_LABEL_FIRST+paramIndex, this);
+
+	// convert the parameter floating point range to our
+	// slider range of 0..1000
+	float range = SJ_EQ_BAND_MAX - SJ_EQ_BAND_MIN;
+	float zeroBasedValue = m_currParam.m_bandDb[paramIndex] - SJ_EQ_BAND_MIN;
+	int value = (int) (zeroBasedValue / range * (float)SLIDER_RES);
+	wxASSERT( value >= 0 && value <= 1000 );
+
+	// update the slider and the label
+	slider->SetValue(value);
+	label->SetLabel(FormatParam(m_currParam.m_bandDb[paramIndex]));
+}
+
+
+void SjEqPanel::Param2Dlg()
+{
+	for( int i = 0; i < SJ_EQ_BANDS; i++ ) {
+		Param2Dlg(i);
+	}
+}
 
 
 void SjEqPanel::OnSwitchOnOff(wxCommandEvent&)
 {
 	wxLogError("TODO: On/Off");
 	m_onOffSwitch->SetValue(false);
+}
+
+
+void SjEqPanel::OnSlider(wxScrollEvent& event)
+{
+	int i_ = event.GetId();
+	wxSlider* slider = (wxSlider*)FindWindowById(i_, this);
+	wxStaticText* label = (wxStaticText*)FindWindowById(i_+(IDM_LABEL_FIRST-IDM_PARAMSLIDER000), this);
+	if( slider && label )
+	{
+		// which effect and which parameter was modified?
+		int paramIndex = (i_-IDM_PARAMSLIDER000);
+
+		wxASSERT( paramIndex >= 0 && paramIndex < SJ_EQ_BANDS );
+
+		// convert the 0..1000 value of the slider to the
+		// ranged value of the parameter
+		int value = slider->GetValue();
+		float range = SJ_EQ_BAND_MAX - SJ_EQ_BAND_MIN;
+		float newValue = SJ_EQ_BAND_MIN + ((float)value * range / SLIDER_RES);
+
+		if( value>490 && value<510 )
+		{
+			newValue = 0.0; // snap to zero
+		}
+
+		if( newValue != m_currParam.m_bandDb[paramIndex] )
+		{
+			m_currParam.m_bandDb[paramIndex] = newValue;
+			label->SetLabel(FormatParam(newValue));
+
+			g_mainFrame->m_player.EqSetParam(NULL, &m_currParam);
+		}
+	}
 }
 
 

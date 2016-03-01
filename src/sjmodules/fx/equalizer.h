@@ -30,14 +30,26 @@
 #define __SJ_EQUALIZER_H__
 
 
-/*
-class supereq_base;
-class paramlist;
-*/
+class SjEqParam
+{
+public:
+	#define         SJ_EQ_BANDS         18  // must not be modified!
 
+	#define         SJ_EQ_BAND_MIN      -20.0F
+	#define         SJ_EQ_BAND_NULL       0.0F
+	#define         SJ_EQ_BAND_MAX       20.0F
 
-#define SJ_EQ_BANDS        18 // must not be modified!
-#define SJ_EQ_MAX_CHANNELS 64
+	                SjEqParam           () { for(int i=0; i<SJ_EQ_BANDS; i++) { m_bandDb[i] = SJ_EQ_BAND_NULL; } }
+	                SjEqParam           (const SjEqParam& o) { CopyFrom(o); }
+	void            CopyFrom            (const SjEqParam& o) { for(int i=0; i<SJ_EQ_BANDS; i++) { m_bandDb[i] = o.m_bandDb[i]; } }
+	SjEqParam&      operator =          (const SjEqParam& o) { CopyFrom(o); return *this; }
+
+	float           m_bandDb[SJ_EQ_BANDS]; // -20..0..20 dB
+	static const char* s_bandNames[SJ_EQ_BANDS];
+
+	wxString        ToString            (const wxString& sep=";") const;
+	void            FromString          (const wxString&);
+};
 
 
 class SjEqualizer
@@ -45,20 +57,20 @@ class SjEqualizer
 public:
 				    SjEqualizer         ();
 				    ~SjEqualizer        ();
+	void            SetParam            (const SjEqParam&);
 	void            AdjustBuffer        (float* data, long bytes, int samplerate, int channels);
 
 private:
-	//supereq_base*   m_eqs[SJ_EQ_MAX_CHANNELS];
-	int             m_eqsCount;
-
-	//paramlist*      m_paramroot;
-
-	double          m_bands[SJ_EQ_BANDS];
-
+	#define         SJ_EQ_MAX_CHANNELS  64 // we define a maximum just for easier allocation, only wastes 4-8 Byte per unsued channel ...
+	SjEqParam       m_currParam;
+	bool            m_currParamChanged;
 	int             m_currSamplerate;
+	int             m_currChannels;
 
 	float*          m_deinterlaceBuf;
 	int             m_deinterlaceBufBytes;
+
+	wxCriticalSection m_paramCritical;
 
 	void            delete_all          ();
 };
