@@ -47,7 +47,7 @@ SjEqPresetFactory::~SjEqPresetFactory()
 }
 
 
-void SjEqPresetFactory::AddPreset(const wxString& name__, const SjEqParam& param)
+void SjEqPresetFactory::hash_preset(const wxString& name__, const SjEqParam& param)
 {
 	// if a preset with the given name exists, it is overwritten. Private function, does not save anything
 
@@ -71,7 +71,7 @@ void SjEqPresetFactory::AddPreset(const wxString& name__, const SjEqParam& param
 }
 
 
-void SjEqPresetFactory::DeletePreset(const wxString& name)
+void SjEqPresetFactory::unhash_preset(const wxString& name)
 {
 	// Private functions, does not save anything
     SjEqPreset* preset = (SjEqPreset*)m_hash.Remove(name);
@@ -81,14 +81,14 @@ void SjEqPresetFactory::DeletePreset(const wxString& name)
 }
 
 
-void SjEqPresetFactory::AddDefaultPresets()
+void SjEqPresetFactory::hash_default_presets()
 {
-	AddPreset("Null", SjEqParam("0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0"));
-	AddPreset("Soft Bass", SjEqParam("3;5;4;0;-13;-7;-5;-5;-1;2;5;1;-1;-1;-2;-7;-9;-14"));
+	hash_preset("Null", SjEqParam("0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0"));
+	hash_preset("Soft Bass", SjEqParam("3;5;4;0;-13;-7;-5;-5;-1;2;5;1;-1;-1;-2;-7;-9;-14"));
 }
 
 
-void SjEqPresetFactory::LoadAllPresets()
+void SjEqPresetFactory::load_all_presets()
 {
 	// make sure, we do this only once - NB: we do not call SaveAllPresets() from here - this is not needed as we can always recreate the defaults here
 	if( m_allPresetsLoaded ) { return; }
@@ -102,19 +102,19 @@ void SjEqPresetFactory::LoadAllPresets()
 		for( size_t i = 0; i < expl.GetCount()-1; i += 2 ) {
 			name = expl[i]; name.Trim(true); name.Trim(false);
 			if( !name.IsEmpty() ) {
-				AddPreset(name, SjEqParam(expl[i+1]));
+				hash_preset(name, SjEqParam(expl[i+1]));
 			}
 		}
 	}
 
 	// no presets loaded - add defaults
 	if( m_hash.GetCount() == 0 ) {
-		AddDefaultPresets();
+		hash_default_presets();
 	}
 }
 
 
-void SjEqPresetFactory::SaveAllPresets()
+void SjEqPresetFactory::save_all_presets()
 {
 	if( !m_allPresetsLoaded ) { return; } // error - if the presets are not loaded, we cannot save them
 
@@ -134,7 +134,7 @@ void SjEqPresetFactory::SaveAllPresets()
 
 wxArrayString SjEqPresetFactory::GetNames()
 {
-	LoadAllPresets();
+	load_all_presets();
 
 	wxArrayString  ret;
 	wxString       key;
@@ -151,7 +151,7 @@ wxArrayString SjEqPresetFactory::GetNames()
 
 SjEqPreset SjEqPresetFactory::GetPresetByName(const wxString& nameAndOptParam)
 {
-	LoadAllPresets();
+	load_all_presets();
 
 	wxString  name = nameAndOptParam.BeforeFirst('|'); // whole string, if there is no '|'
 	SjEqParam wantedParam(nameAndOptParam.AfterFirst('|'));  // empty, if there is no '|'
@@ -172,7 +172,7 @@ SjEqPreset SjEqPresetFactory::GetPresetByName(const wxString& nameAndOptParam)
 
 SjEqPreset SjEqPresetFactory::GetPresetByParam(const SjEqParam& wantedParam)
 {
-	LoadAllPresets();
+	load_all_presets();
 
 	// convert eq-parameters to preset name
 	wxString       key;

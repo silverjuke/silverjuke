@@ -49,19 +49,19 @@ class SjEqPresetFactory
 public:
 	                SjEqPresetFactory   ();
 	                ~SjEqPresetFactory  ();
-	void            AddNSaveDefaultPresets() { AddDefaultPresets(); SaveAllPresets(); }
+	void            AddDefaultPresets   () { hash_default_presets(); save_all_presets(); }
 	wxArrayString   GetNames            ();
 	SjEqPreset      GetPresetByName     (const wxString&);
 	SjEqPreset      GetPresetByParam    (const SjEqParam&);
-	void            AddNSavePreset      (const wxString& name, const SjEqParam& param) { AddPreset(name, param), SaveAllPresets(); }
-	void            DeleteNSavePreset   (const wxString& name) { DeletePreset(name); SaveAllPresets(); }
+	void            AddPreset           (const wxString& name, const SjEqParam& param) { hash_preset(name, param), save_all_presets(); }
+	void            DeletePreset        (const wxString& name) { unhash_preset(name); save_all_presets(); }
 
 private:
-	void            LoadAllPresets      ();
-	void            SaveAllPresets      ();
-	void            AddDefaultPresets   ();
-	void            AddPreset           (const wxString& name, const SjEqParam& param);
-	void            DeletePreset        (const wxString& name);
+	void            load_all_presets    ();
+	void            save_all_presets    ();
+	void            hash_default_presets();
+	void            hash_preset         (const wxString& name, const SjEqParam& param);
+	void            unhash_preset       (const wxString& name);
 	bool            m_allPresetsLoaded;
 	SjSPHash        m_hash;
 };

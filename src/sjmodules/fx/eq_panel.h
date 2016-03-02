@@ -41,17 +41,26 @@ private:
 
 	SjEqParam       m_currParam;
 
+	SjEqParam       m_backupParam;
+	wxString        m_backupPresetName;
+
 	wxString        FormatParam         (float db);
-	void            Param2Dlg           (int paramIndex);
-	void            Param2Dlg           ();
+	wxString        GetPresetNameFromChoice();
+
+	void            UpdateSlider        (int paramIndex);
+	void            UpdateSliders       ();
+	void            UpdatePresetChoice  (bool createItems=false);
+	void            UpdatePlayer        ();
 
 	void            OnSwitchOnOff       (wxCommandEvent&);
 	void            OnSlider            (wxScrollEvent&);
+	void            OnPresetChoice      (wxCommandEvent&);
 	void            OnMenu              (wxCommandEvent&);
-	void            OnSaveAsRename      (wxCommandEvent&);
+	void            OnSaveAs            (wxCommandEvent&);
 	void            OnDelete            (wxCommandEvent&);
 	void            OnImport            (wxCommandEvent&);
 	void            OnExport            (wxCommandEvent&);
+	void            OnUndo              (wxCommandEvent&);
 	void            OnResetStdPresets   (wxCommandEvent&);
 	void            OnShift             (wxCommandEvent&);
 	                DECLARE_EVENT_TABLE ();

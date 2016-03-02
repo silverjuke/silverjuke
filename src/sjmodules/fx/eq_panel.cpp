@@ -27,6 +27,7 @@
 
 
 #include <sjbase/base.h>
+#include <sjtools/msgbox.h>
 #include <sjmodules/fx/eq_panel.h>
 
 
@@ -35,14 +36,14 @@
 #define IDM_SWITCH_ON_OFF           (IDM_FIRSTPRIVATE+100)
 #define IDM_PRESET_CHOICE           (IDM_FIRSTPRIVATE+101)
 #define IDM_SAVE_AS                 (IDM_FIRSTPRIVATE+102)
-#define IDM_RENAME                  (IDM_FIRSTPRIVATE+103)
-#define IDM_DELETE                  (IDM_FIRSTPRIVATE+104)
-#define IDM_IMPORT                  (IDM_FIRSTPRIVATE+105)
-#define IDM_EXPORT                  (IDM_FIRSTPRIVATE+106)
-#define IDM_RESET_STD_PRESETS       (IDM_FIRSTPRIVATE+107)
-#define IDM_SHIFT_UP                (IDM_FIRSTPRIVATE+108)
-#define IDM_SHIFT_DOWN              (IDM_FIRSTPRIVATE+109)
-#define IDM_SHIFT_AUTO_LEVEL        (IDM_FIRSTPRIVATE+110)
+#define IDM_DELETE                  (IDM_FIRSTPRIVATE+103)
+#define IDM_IMPORT                  (IDM_FIRSTPRIVATE+104)
+#define IDM_EXPORT                  (IDM_FIRSTPRIVATE+105)
+#define IDM_RESET_STD_PRESETS       (IDM_FIRSTPRIVATE+106)
+#define IDM_SHIFT_UP                (IDM_FIRSTPRIVATE+107)
+#define IDM_SHIFT_DOWN              (IDM_FIRSTPRIVATE+108)
+#define IDM_SHIFT_AUTO_LEVEL        (IDM_FIRSTPRIVATE+109)
+#define IDM_UNDO                    (IDM_FIRSTPRIVATE+110)
 #define IDM_PARAMSLIDER000			(IDM_FIRSTPRIVATE+130)
 #define IDM_LABEL_FIRST				(IDM_FIRSTPRIVATE+170)
 
@@ -50,8 +51,8 @@
 BEGIN_EVENT_TABLE(SjEqPanel, wxPanel)
 	EVT_BUTTON   (IDC_BUTTONBARMENU,     SjEqPanel::OnMenu            )
 	EVT_CHECKBOX (IDM_SWITCH_ON_OFF,     SjEqPanel::OnSwitchOnOff     )
-	EVT_MENU     (IDM_SAVE_AS,           SjEqPanel::OnSaveAsRename    )
-	EVT_MENU     (IDM_RENAME,            SjEqPanel::OnSaveAsRename    )
+	EVT_CHOICE   (IDM_PRESET_CHOICE,     SjEqPanel::OnPresetChoice    )
+	EVT_MENU     (IDM_SAVE_AS,           SjEqPanel::OnSaveAs          )
 	EVT_MENU     (IDM_DELETE,            SjEqPanel::OnDelete          )
 	EVT_MENU     (IDM_IMPORT,            SjEqPanel::OnImport          )
 	EVT_MENU     (IDM_EXPORT,            SjEqPanel::OnExport          )
@@ -59,6 +60,7 @@ BEGIN_EVENT_TABLE(SjEqPanel, wxPanel)
 	EVT_MENU     (IDM_SHIFT_UP,          SjEqPanel::OnShift           )
 	EVT_MENU     (IDM_SHIFT_DOWN,        SjEqPanel::OnShift           )
 	EVT_MENU     (IDM_SHIFT_AUTO_LEVEL,  SjEqPanel::OnShift           )
+	EVT_MENU     (IDM_UNDO,              SjEqPanel::OnUndo            )
 	EVT_COMMAND_SCROLL_RANGE(IDM_PARAMSLIDER000, IDM_PARAMSLIDER000+SJ_EQ_BANDS, SjEqPanel::OnSlider)
 END_EVENT_TABLE()
 
@@ -71,6 +73,7 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 
 	bool eqEnabled;
 	g_mainFrame->m_player.EqGetParam(&eqEnabled, &m_currParam);
+	m_backupParam = m_currParam;
 
 	// on/off
 	sizer1->Add(1, SJ_DLG_SPACE*2); // some space
@@ -115,7 +118,7 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 		paramSizer->Add(staticText, 0, wxGROW);
 	}
 
-	Param2Dlg();
+	UpdateSliders();
 
 	// controls below the sliders
 	wxBoxSizer* slider2 = new wxBoxSizer(wxHORIZONTAL);
@@ -123,17 +126,11 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 
 	slider2->Add(new wxStaticText(this, wxID_ANY, _("Preset:")), 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
 
-	SjEqPreset currPreset = g_mainFrame->m_player.m_eqPresetFactory.GetPresetByParam(m_currParam);
-	wxArrayString presetNames = g_mainFrame->m_player.m_eqPresetFactory.GetNames();
-
 	m_presetChoice = new wxChoice(this, IDM_PRESET_CHOICE);
-	for( size_t i = 0; i < presetNames.GetCount(); i++ ) {
-		m_presetChoice->Append(presetNames[i]);
-		if( presetNames[i] == currPreset.m_name ) {
-			m_presetChoice->SetSelection(i);
-		}
-	}
 	slider2->Add(m_presetChoice, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
+	UpdatePresetChoice(true /*create list*/);
+
+	m_backupPresetName = GetPresetNameFromChoice();
 
 	wxButton* b = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
 	slider2->Add(b, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
@@ -154,7 +151,17 @@ wxString SjEqPanel::FormatParam(float db)
 }
 
 
-void SjEqPanel::Param2Dlg(int paramIndex)
+wxString SjEqPanel::GetPresetNameFromChoice()
+{
+	wxString ret;
+	int selectedIndex = m_presetChoice->GetSelection();
+	if( selectedIndex != wxNOT_FOUND ) {
+		ret = m_presetChoice->GetString(selectedIndex);
+	}
+	return ret;
+}
+
+void SjEqPanel::UpdateSlider(int paramIndex)
 {
 	wxSlider*			slider = (wxSlider*)FindWindowById(IDM_PARAMSLIDER000+paramIndex, this);
 	wxStaticText*		label = (wxStaticText*)FindWindowById(IDM_LABEL_FIRST+paramIndex, this);
@@ -172,18 +179,46 @@ void SjEqPanel::Param2Dlg(int paramIndex)
 }
 
 
-void SjEqPanel::Param2Dlg()
+void SjEqPanel::UpdateSliders()
 {
 	for( int i = 0; i < SJ_EQ_BANDS; i++ ) {
-		Param2Dlg(i);
+		UpdateSlider(i);
 	}
+}
+
+
+void SjEqPanel::UpdatePresetChoice(bool createItems)
+{
+	// create items
+	if( createItems ) {
+		m_presetChoice->Clear();
+		wxArrayString presetNames = g_mainFrame->m_player.m_eqPresetFactory.GetNames();
+		for( size_t i = 0; i < presetNames.GetCount(); i++ ) {
+			m_presetChoice->Append(presetNames[i]);
+		}
+	}
+
+	// select item by eq-parameters
+	SjEqPreset currPreset = g_mainFrame->m_player.m_eqPresetFactory.GetPresetByParam(m_currParam);
+	if( currPreset.m_name.IsEmpty() ) {
+		m_presetChoice->SetSelection(wxNOT_FOUND);
+	}
+	else {
+		m_presetChoice->SetSelection(m_presetChoice->FindString(currPreset.m_name)); // FindString() may return wxNOT_FOUND which is accepted by SetSelection()
+	}
+}
+
+
+void SjEqPanel::UpdatePlayer()
+{
+	g_mainFrame->m_player.EqSetParam(NULL, &m_currParam);
 }
 
 
 void SjEqPanel::OnSwitchOnOff(wxCommandEvent&)
 {
-	wxLogError("TODO: On/Off");
-	m_onOffSwitch->SetValue(false);
+	bool newState = m_onOffSwitch->GetValue();
+	g_mainFrame->m_player.EqSetParam(&newState, NULL);
 }
 
 
@@ -215,9 +250,26 @@ void SjEqPanel::OnSlider(wxScrollEvent& event)
 			m_currParam.m_bandDb[paramIndex] = newValue;
 			label->SetLabel(FormatParam(newValue));
 
-			g_mainFrame->m_player.EqSetParam(NULL, &m_currParam);
+			UpdatePresetChoice();
+			UpdatePlayer();
 		}
 	}
+}
+
+
+void SjEqPanel::OnPresetChoice(wxCommandEvent& e)
+{
+    int selectedIndex   = m_presetChoice->GetSelection(); if( selectedIndex == wxNOT_FOUND ) { return; } // nothing selected
+    wxString presetName = m_presetChoice->GetString(selectedIndex); if( presetName == "" ) { return; } // error
+
+    SjEqPreset preset = g_mainFrame->m_player.m_eqPresetFactory.GetPresetByName(presetName);
+    if( preset.m_name.IsEmpty() ) { return; } // not found
+
+    // realize the new preset
+    m_backupPresetName = presetName;
+    m_currParam = preset.m_param;
+    UpdateSliders();
+    UpdatePlayer();
 }
 
 
@@ -227,11 +279,11 @@ void SjEqPanel::OnMenu(wxCommandEvent& event)
 	if( wnd )
 	{
 		SjMenu menu(SJ_SHORTCUTS_LOCAL);
+		bool   isPreset = !GetPresetNameFromChoice().IsEmpty();
 
-		menu.Append(IDM_SAVE_AS, _("Save as..."));
-		menu.Append(IDM_RENAME, _("Rename"));
-		menu.Append(IDM_DELETE, _("Delete"));
-
+		menu.Append(IDM_SAVE_AS, _("Save as...")); // we do not provide a "Rename" here - the name is used as the key
+		menu.Append(IDM_DELETE, _("Delete"));      // and should not be changed.  If _really_ required, you can use "Save as..." and delete the old preset
+		menu.Enable(IDM_DELETE, isPreset);
 		SjMenu* submenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
 			submenu->Append(IDM_IMPORT, _("Import preset..."));
 			submenu->Append(IDM_EXPORT, _("Export preset..."));
@@ -242,21 +294,37 @@ void SjEqPanel::OnMenu(wxCommandEvent& event)
 		menu.Append(IDM_SHIFT_UP, _("Shift up"));
 		menu.Append(IDM_SHIFT_DOWN, _("Shift down"));
 		menu.Append(IDM_SHIFT_AUTO_LEVEL, _("Auto Level"));
+		menu.Enable(IDM_SHIFT_AUTO_LEVEL, (m_currParam.GetAutoLevelShift()!=0.0F)? true : false);
+		menu.Append(IDM_UNDO, _("Undo"));
 
 		wnd->PopupMenu(&menu, 0, 0);
 	}
 }
 
 
-void SjEqPanel::OnSaveAsRename(wxCommandEvent&)
+void SjEqPanel::OnSaveAs(wxCommandEvent&)
 {
-	wxLogError("TODO: SaveAs/Rename");
+	wxTextEntryDialog textEntry(this, _("Enter a preset name:"), _("Equalizer"), m_backupPresetName);
+	if( textEntry.ShowModal() != wxID_OK ) { return; } // cancelled
+	wxString presetName = textEntry.GetValue();
+	m_backupPresetName = presetName;
+
+	g_mainFrame->m_player.m_eqPresetFactory.AddPreset(presetName, m_currParam);
+
+	UpdatePresetChoice(true /*recreate list*/);
 }
 
 
 void SjEqPanel::OnDelete(wxCommandEvent&)
 {
-	wxLogError("TODO: Delete");
+    int selectedIndex   = m_presetChoice->GetSelection(); if( selectedIndex == wxNOT_FOUND ) { return; } // nothing selected
+    wxString presetName = m_presetChoice->GetString(selectedIndex); if( presetName == "" ) { return; } // error
+
+	if( SjMessageBox(wxString::Format(_("Delete preset \"%s\"?"), presetName.c_str()), _("Equalizer"), wxYES_NO, this)!=wxYES ) { return; } // aborted
+
+	g_mainFrame->m_player.m_eqPresetFactory.DeletePreset(presetName);
+
+	UpdatePresetChoice(true /*recreate list*/);
 }
 
 
@@ -274,13 +342,36 @@ void SjEqPanel::OnExport(wxCommandEvent&)
 
 void SjEqPanel::OnResetStdPresets(wxCommandEvent&)
 {
-	wxLogError("TODO: Rest");
+	g_mainFrame->m_player.m_eqPresetFactory.AddDefaultPresets();
+
+	UpdatePresetChoice(true /*recreate list*/);
 }
 
 
-void SjEqPanel::OnShift(wxCommandEvent&)
+void SjEqPanel::OnShift(wxCommandEvent& e)
 {
-	wxLogError("TODO: Shift");
+	m_backupParam = m_currParam;
+
+	switch( e.GetId() )
+	{
+		case IDM_SHIFT_DOWN:       m_currParam.Shift(-1.0F); break;
+		case IDM_SHIFT_UP:         m_currParam.Shift( 1.0F); break;
+		case IDM_SHIFT_AUTO_LEVEL: m_currParam.Shift(m_currParam.GetAutoLevelShift()); break;
+	}
+
+	UpdateSliders();
+	UpdatePresetChoice();
+	UpdatePlayer();
 }
 
 
+void SjEqPanel::OnUndo(wxCommandEvent&)
+{
+	SjEqParam temp = m_currParam;
+	m_currParam = m_backupParam;
+	m_backupParam = temp;
+
+	UpdateSliders();
+	UpdatePresetChoice();
+	UpdatePlayer();
+}

@@ -53,6 +53,9 @@ public:
 
 	wxString        ToString            (const wxString& sep=";") const;
 	void            FromString          (const wxString&);
+
+	void            Shift               (float add);
+	float           GetAutoLevelShift   ();
 };
 
 
