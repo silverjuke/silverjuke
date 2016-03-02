@@ -117,8 +117,6 @@ static SjSettingsDlg*    g_settingsDlg = NULL;
 SjSettingsDlg::SjSettingsDlg(SjSettingsModule* settingsModule, wxWindow* parent)
 	: SjDialog(parent, settingsModule->m_name, SJ_MODELESS, SJ_RESIZEABLE_IF_POSSIBLE)
 {
-	wxBusyCursor busyCursor;
-
 	g_settingsDlg       = this;
 	m_settingsModule    = settingsModule;
 
@@ -316,8 +314,6 @@ long SjSettingsDlg::GetNotebookPage()
 void SjSettingsDlg::SetSelToDialog(const wxString& selFile, int selIndex, int selPage)
 {
 	m_trackSelectionChanges = FALSE;
-
-	//wxBusyCursor busy;
 
 	bool anythingSelected = false;
 	for( int i = 0; i < (int)m_toolBar->GetToolsCount(); i++ )

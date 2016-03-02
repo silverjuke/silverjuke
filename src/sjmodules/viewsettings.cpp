@@ -149,8 +149,6 @@ END_EVENT_TABLE()
 SjViewSettingsPage::SjViewSettingsPage(wxWindow* parent, int selectedPage)
 	: wxPanel(parent)
 {
-	wxBusyCursor busy;
-
 	// reset the list of facenames, this allows the user to install fonts without exit Silverjuke
 	g_tools->UpdateFacenames();
 

@@ -743,8 +743,6 @@ static SjBasicSettingsConfigPage* g_configPage = NULL;
 SjBasicSettingsConfigPage::SjBasicSettingsConfigPage(SjBasicSettingsModule* basicSettingsModule, wxWindow* parent, int selectedPage)
 	: wxPanel(parent) // wxCLIP_CHILDREN has problems with wxListCtrl
 {
-	wxBusyCursor busy;
-
 	// save given objects
 	m_basicSettingsModule   = basicSettingsModule;
 	m_constructorDone       = FALSE;

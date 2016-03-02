@@ -294,7 +294,6 @@ static SjKioskConfigPage* g_kioskConfigPage = NULL;
 SjKioskConfigPage::SjKioskConfigPage(wxWindow* parent, int selectedPage)
 	: wxPanel(parent)
 {
-	wxBusyCursor    busy;
 	m_constructorDone = false,
 
 	// save given objects
@@ -885,8 +884,6 @@ void SjKioskConfigPage::InitMonitorPage()
 {
 	if( m_monitorInitialization.IsEmpty() )
 	{
-		wxBusyCursor busy;
-
 		Freeze();
 
 		UpdateMonitorPage();

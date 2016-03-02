@@ -921,8 +921,6 @@ static SjPlaybackSettingsConfigPage* g_playbackConfigPage = NULL;
 SjPlaybackSettingsConfigPage::SjPlaybackSettingsConfigPage(SjPlaybackSettingsModule* module, wxWindow* parent, int selectedPage)
 	: wxPanel(parent)
 {
-	wxBusyCursor busy;
-
 	// save given objects
 	m_playbackSettingsModule= module;
 
