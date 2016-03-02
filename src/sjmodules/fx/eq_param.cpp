@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -31,7 +31,19 @@
 
 const char* SjEqParam::s_bandNames[SJ_EQ_BANDS] =
 	{ "55", "77", "110", "156", "220", "311", "440", "622", "880", "1.2", "1.8", "2.5", "3.5", "5", "7", "10", "14", "20" };
+	// to save horizontal space, we use "Hz" for the lower bands and "KHz" starting with "1.2"; in the dialog we show a legend for this
 
+
+bool SjEqParam::IsEqualTo(const SjEqParam& o) const
+{
+	for(int i=0; i<SJ_EQ_BANDS; i++) {
+		if(m_bandDb[i]!=o.m_bandDb[i]) {
+			return false; // at least on band is different
+		}
+	}
+
+	return true; // all bands are equal
+}
 
 
 wxString SjEqParam::ToString(const wxString& sep) const

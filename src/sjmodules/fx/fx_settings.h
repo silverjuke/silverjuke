@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -37,7 +37,7 @@ public:
 
 	SjEmbedTo       EmbedTo              () { return SJ_EMBED_TO_MAIN; }
 	wxWindow*       GetConfigPage        (wxWindow* parent, int selectedPage);
-	void            DoneConfigPage       (wxWindow* configPage, int action) { }
+	void            DoneConfigPage       (wxWindow* configPage, int action);
 };
 
 

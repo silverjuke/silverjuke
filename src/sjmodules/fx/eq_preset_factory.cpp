@@ -27,38 +27,162 @@
 
 
 #include <sjbase/base.h>
+#include <sjmodules/fx/eq_preset_factory.h>
 
 
-const char* SjEqParam::s_bandNames[SJ_EQ_BANDS] =
-	{ "55", "77", "110", "156", "220", "311", "440", "622", "880", "1.2", "1.8", "2.5", "3.5", "5", "7", "10", "14", "20" };
-
-
-
-wxString SjEqParam::ToString(const wxString& sep) const
+SjEqPresetFactory::SjEqPresetFactory()
 {
-	wxString ret;
-	for( int i = 0; i < SJ_EQ_BANDS; i++ ) {
-		ret += wxString::Format("%.1f"+sep, m_bandDb[i]);
+	m_allPresetsLoaded = false;
+}
+
+
+SjEqPresetFactory::~SjEqPresetFactory()
+{
+	wxString       key;
+	SjEqPreset*    preset;
+	SjHashIterator iterator;
+	while( (preset=(SjEqPreset*)m_hash.Iterate(iterator, key)) ) {
+		delete preset;
 	}
-	ret.Replace(",", ".");      // force using the point instead of the comma as decimal separator
-	ret.Replace(".0"+sep, sep); // shorten values with a single zero after the comma
+}
+
+
+void SjEqPresetFactory::AddPreset(const wxString& name__, const SjEqParam& param)
+{
+	// if a preset with the given name exists, it is overwritten. Private function, does not save anything
+
+	wxString name(name__);
+	name.Trim(true);
+	name.Trim(false); // needed as we add a spave eg. in SaveAllPresets()
+
+	SjEqPreset* preset = (SjEqPreset*)m_hash.Lookup(name);
+	if( preset )
+	{
+		// modify existing preset
+		preset->m_param = param;
+	}
+	else
+	{
+		// add new preset
+		preset = new SjEqPreset(name, param);
+		if( preset == NULL ) { return; } // error
+		m_hash.Insert(name, preset);
+	}
+}
+
+
+void SjEqPresetFactory::DeletePreset(const wxString& name)
+{
+	// Private functions, does not save anything
+    SjEqPreset* preset = (SjEqPreset*)m_hash.Remove(name);
+    if( preset ) {
+		delete preset;
+    }
+}
+
+
+void SjEqPresetFactory::AddDefaultPresets()
+{
+	AddPreset("Null", SjEqParam("0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0"));
+	AddPreset("Soft Bass", SjEqParam("3;5;4;0;-13;-7;-5;-5;-1;2;5;1;-1;-1;-2;-7;-9;-14"));
+}
+
+
+void SjEqPresetFactory::LoadAllPresets()
+{
+	// make sure, we do this only once - NB: we do not call SaveAllPresets() from here - this is not needed as we can always recreate the defaults here
+	if( m_allPresetsLoaded ) { return; }
+	m_allPresetsLoaded = true;
+
+	// load presets from the database (we treat the eq presets to be (more) part of the music library)
+	wxSqlt   sql;
+	wxString allPresets = sql.ConfigRead("library/eqPresets", ""), name;
+	if( allPresets != "" ) {
+		wxArrayString expl = SjTools::Explode(allPresets, '|', 0);
+		for( size_t i = 0; i < expl.GetCount()-1; i += 2 ) {
+			name = expl[i]; name.Trim(true); name.Trim(false);
+			if( !name.IsEmpty() ) {
+				AddPreset(name, SjEqParam(expl[i+1]));
+			}
+		}
+	}
+
+	// no presets loaded - add defaults
+	if( m_hash.GetCount() == 0 ) {
+		AddDefaultPresets();
+	}
+}
+
+
+void SjEqPresetFactory::SaveAllPresets()
+{
+	if( !m_allPresetsLoaded ) { return; } // error - if the presets are not loaded, we cannot save them
+
+	wxString       allPresets;
+
+	wxSqlt         sql;
+	wxString       key;
+	SjEqPreset*    preset;
+	SjHashIterator iterator;
+	while( (preset=(SjEqPreset*)m_hash.Iterate(iterator, key)) ) {
+		allPresets += key + "|" + preset->m_param.ToString() + "| "; // add a finaly space to avoid strings that cannot word break
+	}
+
+	sql.ConfigWrite("library/eqPresets", allPresets);
+}
+
+
+wxArrayString SjEqPresetFactory::GetNames()
+{
+	LoadAllPresets();
+
+	wxArrayString  ret;
+	wxString       key;
+	SjEqPreset*    preset;
+	SjHashIterator iterator;
+	while( (preset=(SjEqPreset*)m_hash.Iterate(iterator, key)) ) {
+		ret.Add(key);
+	}
+
+	ret.Sort();
 	return ret;
 }
 
 
-void SjEqParam::FromString(const wxString& str__)
+SjEqPreset SjEqPresetFactory::GetPresetByName(const wxString& nameAndOptParam)
 {
-	wxString str(str__);
-	str.Replace(" ", "");
-	str.Replace("\r", "");
-	str.Replace("\n", ";"); // the bands may be separated by a semicolon (used in the INI) for by a new-line (used in *.feq-files)
+	LoadAllPresets();
 
-	wxArrayString bands = SjTools::Explode(str, ';', SJ_EQ_BANDS, SJ_EQ_BANDS);
-	for( int i = 0; i < SJ_EQ_BANDS; i++ ) {
-		m_bandDb[i] = SjTools::ParseFloat(bands[i], 0.0F);
-		if( m_bandDb[i] < SJ_EQ_BAND_MIN ) { m_bandDb[i] = SJ_EQ_BAND_MIN; }
-		if( m_bandDb[i] > SJ_EQ_BAND_MAX ) { m_bandDb[i] = SJ_EQ_BAND_MAX; }
+	wxString  name = nameAndOptParam.BeforeFirst('|'); // whole string, if there is no '|'
+	SjEqParam wantedParam(nameAndOptParam.AfterFirst('|'));  // empty, if there is no '|'
+
+	// try to find out the preset by the name
+	name.Trim(true);
+	name.Trim(false);
+	SjEqPreset* preset = (SjEqPreset*)m_hash.Lookup(name);
+	if( preset ) {
+		return *preset;
 	}
+
+	// try to find out the preset by the parameters
+	return GetPresetByParam(wantedParam);
 }
 
 
+
+SjEqPreset SjEqPresetFactory::GetPresetByParam(const SjEqParam& wantedParam)
+{
+	LoadAllPresets();
+
+	// convert eq-parameters to preset name
+	wxString       key;
+	SjEqPreset*    preset;
+	SjHashIterator iterator;
+	while( (preset=(SjEqPreset*)m_hash.Iterate(iterator, key)) ) {
+		if( preset->m_param == wantedParam ) {
+			return *preset;
+		}
+	}
+
+	return SjEqPreset("" /*no preset*/, wantedParam);
+}

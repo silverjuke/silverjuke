@@ -30,25 +30,40 @@
 #define __SJ_EQ_PRESET_FACTORY_H__
 
 
-class SjEqParam
+class SjEqPreset
 {
 public:
-	#define         SJ_EQ_BANDS         18  // must not be modified!
+	                SjEqPreset          () { }
+	                SjEqPreset          (const wxString& n, const SjEqParam& p) { m_name=n; m_param=p; }
+	                SjEqPreset          (const SjEqPreset& o) { CopyFrom(o); }
+	void            CopyFrom            (const SjEqPreset& o) { m_name=o.m_name; m_param=o.m_param; }
+	SjEqPreset&     operator =          (const SjEqPreset& o) { CopyFrom(o); return *this; }
 
-	#define         SJ_EQ_BAND_MIN      -20.0F
-	#define         SJ_EQ_BAND_NULL       0.0F
-	#define         SJ_EQ_BAND_MAX       20.0F
+	wxString        m_name;
+	SjEqParam       m_param;
+};
 
-	                SjEqParam           () { for(int i=0; i<SJ_EQ_BANDS; i++) { m_bandDb[i] = SJ_EQ_BAND_NULL; } }
-	                SjEqParam           (const SjEqParam& o) { CopyFrom(o); }
-	void            CopyFrom            (const SjEqParam& o) { for(int i=0; i<SJ_EQ_BANDS; i++) { m_bandDb[i] = o.m_bandDb[i]; } }
-	SjEqParam&      operator =          (const SjEqParam& o) { CopyFrom(o); return *this; }
 
-	float           m_bandDb[SJ_EQ_BANDS]; // -20..0..20 dB
-	static const char* s_bandNames[SJ_EQ_BANDS];
+class SjEqPresetFactory
+{
+public:
+	                SjEqPresetFactory   ();
+	                ~SjEqPresetFactory  ();
+	void            AddNSaveDefaultPresets() { AddDefaultPresets(); SaveAllPresets(); }
+	wxArrayString   GetNames            ();
+	SjEqPreset      GetPresetByName     (const wxString&);
+	SjEqPreset      GetPresetByParam    (const SjEqParam&);
+	void            AddNSavePreset      (const wxString& name, const SjEqParam& param) { AddPreset(name, param), SaveAllPresets(); }
+	void            DeleteNSavePreset   (const wxString& name) { DeletePreset(name); SaveAllPresets(); }
 
-	wxString        ToString            (const wxString& sep=";") const;
-	void            FromString          (const wxString&);
+private:
+	void            LoadAllPresets      ();
+	void            SaveAllPresets      ();
+	void            AddDefaultPresets   ();
+	void            AddPreset           (const wxString& name, const SjEqParam& param);
+	void            DeletePreset        (const wxString& name);
+	bool            m_allPresetsLoaded;
+	SjSPHash        m_hash;
 };
 
 

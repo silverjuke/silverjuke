@@ -93,6 +93,8 @@
 #include <sjbase/skin.h>
 #include <sjtools/littleoption.h>
 #include <sjmodules/modulebase.h>
+#include <sjmodules/fx/eq_param.h>
+#include <sjmodules/fx/eq_preset_factory.h>
 #include <sjbase/queue.h>
 #include <sjbase/player.h>
 #include <sjbase/mainapp.h>

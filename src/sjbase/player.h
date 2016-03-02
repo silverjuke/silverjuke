@@ -30,9 +30,6 @@
 #define __SJ_PLAYER_H__
 
 
-#include <sjmodules/fx/equalizer.h>
-
-
 class SjPlayerModule : public SjCommonModule
 {
 public:
@@ -135,6 +132,7 @@ public:
 	// Equalizer
 	void            EqSetParam          (const bool* enabled, const SjEqParam*);
 	void            EqGetParam          (bool* e, SjEqParam* p) const { if(e){*e=m_eqEnabled;} if(p){*p=m_eqParam;} }
+	SjEqPresetFactory m_eqPresetFactory;
 
 	// Crossfade & Other fadings
 	void            SetAutoCrossfade    (bool e) { m_autoCrossfade=e; }
@@ -211,6 +209,7 @@ private:
 	#define         SJ_EQ_DEF_ENABLED     false
 	bool            m_eqEnabled;
 	SjEqParam       m_eqParam;
+	wxString        m_eqPrelistenPreset;
 
 	// crossfading etc.
 	#define         SJ_DEF_AUTO_CROSSFADE_ENABLED   true

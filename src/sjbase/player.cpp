@@ -44,7 +44,7 @@
 #include <sjtools/volumecalc.h>
 #include <sjtools/volumefade.h>
 #include <sjmodules/vis/vis_module.h>
-#include <sjmodules/fx/equalizer.h>
+#include <sjmodules/fx/eq_equalizer.h>
 #include <see_dom/sj_see.h>
 
 #if SJ_USE_GSTREAMER

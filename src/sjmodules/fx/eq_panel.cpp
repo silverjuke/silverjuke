@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -28,7 +28,6 @@
 
 #include <sjbase/base.h>
 #include <sjmodules/fx/eq_panel.h>
-#include <sjmodules/fx/equalizer.h>
 
 
 #define SLIDER_RES	1000
@@ -124,9 +123,16 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 
 	slider2->Add(new wxStaticText(this, wxID_ANY, _("Preset:")), 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
 
+	SjEqPreset currPreset = g_mainFrame->m_player.m_eqPresetFactory.GetPresetByParam(m_currParam);
+	wxArrayString presetNames = g_mainFrame->m_player.m_eqPresetFactory.GetNames();
+
 	m_presetChoice = new wxChoice(this, IDM_PRESET_CHOICE);
-	m_presetChoice->Append("Null");
-	m_presetChoice->SetSelection(0);
+	for( size_t i = 0; i < presetNames.GetCount(); i++ ) {
+		m_presetChoice->Append(presetNames[i]);
+		if( presetNames[i] == currPreset.m_name ) {
+			m_presetChoice->SetSelection(i);
+		}
+	}
 	slider2->Add(m_presetChoice, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
 
 	wxButton* b = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));

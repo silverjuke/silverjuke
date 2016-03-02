@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -101,3 +101,7 @@ wxWindow* SjFxSettingsModule::GetConfigPage(wxWindow* parent, int selectedPage)
 
 
 
+void SjFxSettingsModule::DoneConfigPage(wxWindow* configPage, int action)
+{
+	g_mainFrame->m_player.SaveSettings();
+}

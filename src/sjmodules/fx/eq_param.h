@@ -1,7 +1,7 @@
 /*******************************************************************************
  *
  *                                 Silverjuke
- *     Copyright (C) 2015 Björn Petersen Software Design and Development
+ *     Copyright (C) 2016 Björn Petersen Software Design and Development
  *                   Contact: r10s@b44t.com, http://b44t.com
  *
  * This program is free software: you can redistribute it and/or modify it under
@@ -40,9 +40,13 @@ public:
 	#define         SJ_EQ_BAND_MAX       20.0F
 
 	                SjEqParam           () { for(int i=0; i<SJ_EQ_BANDS; i++) { m_bandDb[i] = SJ_EQ_BAND_NULL; } }
+	                SjEqParam           (const wxString& s) { FromString(s); }
 	                SjEqParam           (const SjEqParam& o) { CopyFrom(o); }
 	void            CopyFrom            (const SjEqParam& o) { for(int i=0; i<SJ_EQ_BANDS; i++) { m_bandDb[i] = o.m_bandDb[i]; } }
 	SjEqParam&      operator =          (const SjEqParam& o) { CopyFrom(o); return *this; }
+	bool            operator ==         (const SjEqParam& o) const { return  IsEqualTo(o); }
+	bool            operator !=         (const SjEqParam& o) const { return !IsEqualTo(o); }
+	bool            IsEqualTo           (const SjEqParam& o) const;
 
 	float           m_bandDb[SJ_EQ_BANDS]; // -20..0..20 dB
 	static const char* s_bandNames[SJ_EQ_BANDS];
