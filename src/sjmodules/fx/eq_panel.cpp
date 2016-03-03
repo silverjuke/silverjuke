@@ -285,8 +285,8 @@ void SjEqPanel::OnMenu(wxCommandEvent& event)
 		menu.Append(IDM_DELETE, _("Delete"));      // and should not be changed.  If _really_ required, you can use "Save as..." and delete the old preset
 		menu.Enable(IDM_DELETE, isPreset);
 		SjMenu* submenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-			submenu->Append(IDM_IMPORT, _("Import preset..."));
-			submenu->Append(IDM_EXPORT, _("Export preset..."));
+			submenu->Append(IDM_IMPORT, _("Import preset")+"...");
+			submenu->Append(IDM_EXPORT, _("Export preset")+"...");
 			submenu->Append(IDM_RESET_STD_PRESETS, _("Reset standard presets"));
 		menu.Append(0, _("Import/Export"), submenu);
 
@@ -304,9 +304,12 @@ void SjEqPanel::OnMenu(wxCommandEvent& event)
 
 void SjEqPanel::OnSaveAs(wxCommandEvent&)
 {
-	wxTextEntryDialog textEntry(this, _("Enter a preset name:"), _("Equalizer"), m_backupPresetName);
+	wxString presetName = GetPresetNameFromChoice();
+	if( presetName.IsEmpty() ) { presetName = m_backupPresetName; }
+
+	wxTextEntryDialog textEntry(this, _("Enter a preset name:"), _("Equalizer"), presetName);
 	if( textEntry.ShowModal() != wxID_OK ) { return; } // cancelled
-	wxString presetName = textEntry.GetValue();
+	presetName = textEntry.GetValue();
 	m_backupPresetName = presetName;
 
 	g_mainFrame->m_player.m_eqPresetFactory.AddPreset(presetName, m_currParam);
@@ -330,13 +333,57 @@ void SjEqPanel::OnDelete(wxCommandEvent&)
 
 void SjEqPanel::OnImport(wxCommandEvent&)
 {
-	wxLogError("TODO: Import");
+	// let user select a file
+	SjExtList extList("feq");
+	wxFileDialog dlg(this, _("Import preset"), "", "", extList.GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
+	if( dlg.ShowModal() != wxID_OK ) { return; }
+	wxString selPath = dlg.GetPath();
+	wxString selExt = SjTools::GetExt(selPath);
+
+    // read file
+	wxFileSystem fileSystem;
+	wxFSFile* fsFile = fileSystem.OpenFile(selPath, wxFS_READ|wxFS_SEEKABLE);
+		if( fsFile == NULL ) { wxLogError(_("Cannot read \"%s\"."), selPath.c_str()); return; }
+		wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1 /*file is a windows file, however, we only use ASCII*/);
+	delete fsFile;
+
+	// set silders to imported data
+    m_currParam.FromString(content);
+
+	// also add a preset
+	g_mainFrame->m_player.m_eqPresetFactory.AddPreset(wxFileName(selPath).GetName(), m_currParam);
+
+	// update controls
+	UpdateSliders();
+	UpdatePresetChoice(true);
+	UpdatePlayer();
 }
 
 
 void SjEqPanel::OnExport(wxCommandEvent&)
 {
-	wxLogError("TODO: Export");
+	// suggested file name
+	wxString suggestedFileName = GetPresetNameFromChoice();
+	if( suggestedFileName.IsEmpty() ) { suggestedFileName = m_backupPresetName; }
+	suggestedFileName =  SjTools::EnsureValidFileNameChars(suggestedFileName);
+
+	// let user select a file
+	SjExtList extList("feq");
+	wxFileDialog dlg(this, _("Export preset"), "", suggestedFileName+".feq", extList.GetFileDlgStr(wxFD_SAVE), wxFD_SAVE|wxFD_OVERWRITE_PROMPT|wxFD_CHANGE_DIR);
+	dlg.SetFilterIndex(extList.GetFileDlgIndex("feq"));
+	if( dlg.ShowModal() != wxID_OK ) { return; }
+	wxString selPath, selExt;
+	extList.GetFileDlgPath(dlg, selPath, selExt);
+
+	// save the file
+	wxString fileContent = m_currParam.ToString("\r\n") /*.feq files come from windows and have a DOS line ends*/;
+
+	wxFile file(selPath, wxFile::write);
+	if( !file.Write(fileContent, wxConvISO8859_1/*file is a windows file, however, we only use ASCII*/) )
+	{
+		wxLogError(_("Cannot write \"%s\"."), selPath.c_str());
+		return;
+	}
 }
 
 
