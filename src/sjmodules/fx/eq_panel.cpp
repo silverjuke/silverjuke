@@ -259,6 +259,8 @@ void SjEqPanel::OnSlider(wxScrollEvent& event)
 
 void SjEqPanel::OnPresetChoice(wxCommandEvent& e)
 {
+	m_backupParam = m_currParam;
+
     int selectedIndex   = m_presetChoice->GetSelection(); if( selectedIndex == wxNOT_FOUND ) { return; } // nothing selected
     wxString presetName = m_presetChoice->GetString(selectedIndex); if( presetName == "" ) { return; } // error
 
@@ -333,6 +335,8 @@ void SjEqPanel::OnDelete(wxCommandEvent&)
 
 void SjEqPanel::OnImport(wxCommandEvent&)
 {
+	m_backupParam = m_currParam;
+
 	// let user select a file
 	SjExtList extList("feq");
 	wxFileDialog dlg(this, _("Import preset"), "", "", extList.GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
