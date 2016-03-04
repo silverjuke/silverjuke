@@ -88,11 +88,11 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 	lo.Add(new SjLittleEnumLong(_("Prelisten"), options, &g_mainFrame->m_player.m_prelistenDest, SJ_PL_DEFAULT, "player/prelistenDest", SJ_ICON_MODULE));
 
 	wxArrayString presets = g_mainFrame->m_player.m_eqPresetFactory.GetNames();
-	options = "|"+_("Off");
+	options = "|"+_("Default");
 	for( size_t i=0; i < presets.GetCount(); i++ ) {
 		options += "|"+presets[i]+"|"+presets[i];
 	}
-	lo.Add(new SjLittleEnumStr(_("Prelisten")+": "+_("Explicit output")+": "+_("Equalizer"), options, &g_mainFrame->m_player.m_prelistenEqPreset, "", "player/prelistenEqPreset", SJ_ICON_MODULE));
+	lo.Add(new SjLittleEnumStr(_("Prelisten")+": "+_("Equalizer"), options, &g_mainFrame->m_player.m_prelistenEqPreset, "", "player/prelistenEqPreset", SJ_ICON_MODULE));
 
 	// backend settings
 	if( g_mainFrame->m_player.m_backend )
@@ -105,7 +105,7 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 
 	if( g_mainFrame->m_player.m_prelistenBackend )
 	{
-		SjLittleOption::SetSection(_("Prelisten"));
+		SjLittleOption::SetSection(_("Prelisten")+": "+_("Explicit output"));
 		wxString sysVolOptions = wxString::Format("%s|%s", _("No") /*=0*/, _("Initialize") /*=1*/); // for prelistening, we rely on m_prelistenGain - this is much easier for the different destinations; and _if_ we really use an explicit output, its volume is normally not editable by the normal system controls, so an init+Gain should work well
 		lo.Add(new SjLittleBit(	_("Use system volume"), sysVolOptions, &g_mainFrame->m_player.m_prelistenUseSysVol, SJ_SYSVOL_DEFAULT, 0, "player/prelistenUseSysVol", SJ_ICON_MODULE));
 		g_mainFrame->m_player.m_prelistenBackend->GetLittleOptions(lo);
@@ -610,11 +610,14 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			g_mainFrame->m_libraryModule->GetAutoVol(stream->GetUrl(), player->AvGetUseAlbumVol())
 		);
 
-		if( userdata->m_isPrelistenStream && player->m_prelistenDest == SJ_PL_OWNOUTPUT )
+		if( userdata->m_isPrelistenStream )
 		{
-			if( player->m_prelistenEqPreset.IsEmpty() ) {
+			if( !player->m_prelistenEqPreset.IsEmpty() ) {
 				SjEqPreset preset = player->m_eqPresetFactory.GetPresetByName(player->m_prelistenEqPreset);
 				userdata->m_equalizer.SetParam(true, preset.m_param);
+			}
+			else if( player->m_prelistenDest == SJ_PL_MIX && player->m_eqEnabled ) {
+				userdata->m_equalizer.SetParam(true, player->m_eqParam);
 			}
 		}
 		else if( player->m_eqEnabled )
