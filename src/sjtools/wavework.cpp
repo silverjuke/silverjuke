@@ -116,4 +116,37 @@ void SjMixdownChannels(float* buffer, long bytes, int channels, int destCh)
 }
 
 
+void SjFloatToPcm16(const float* fBuf, signed short* sBuf, long numBytes)
+{
+	// copy forward to allow using the same buffers
+	long numSamples = numBytes / sizeof(float);
+	const float* fBufEnd = &fBuf[numSamples];
+	float sample;
+	while( fBuf < fBufEnd )
+	{
+		sample = *fBuf * 32767.0F;
+		if( sample < -32768.0F ) sample = -32768.0F;
+		if( sample >  32767.0F ) sample =  32767.0F;
+		*sBuf = (signed short)sample;
+
+		fBuf++;
+		sBuf++;
+	}
+}
+
+
+void SjPcm16ToFloat(const signed short* sBufStart, float* fBufStart, long numBytes)
+{
+	// copy backward to allow using the same buffers
+	// note, that fBuf needs to be two times larger than sBuf
+	long numSamples = numBytes / sizeof(signed short);
+	const signed short* s = &sBufStart[numSamples-1];
+	float* f = &fBufStart[numSamples-1];
+	while( s >= sBufStart )
+	{
+		*f = (float)(*s) / 32767.0F;
+		f--;
+		s--;
+	}
+}
 

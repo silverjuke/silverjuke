@@ -39,7 +39,8 @@ long    SjGain2Long         (double gain);
 double  SjLong2Gain         (long lng);
 void    SjApplyVolume       (float* buffer, long bytes, float gain);
 void    SjMixdownChannels   (float* buffer, long bytes, int channels, int destCh);
-
+void    SjFloatToPcm16      (const float*, signed short*, long numBytes); // the buffers may be the same pointers
+void    SjPcm16ToFloat      (const signed short*, float*, long numBytes); // the buffers may be the same pointers, however, the size must be at least numBytes*2
 
 #endif // __SJ_WAVEWORK_H__
 
