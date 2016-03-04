@@ -182,6 +182,7 @@ private:
 	float            m_prelistenGain;
 	#define          SJ_DEF_PL_MIX_QUIET 0.25
 	float            m_prelistenMixQuiet; // in mix mode, the normal channel is quieted by this gain
+	wxString         m_prelistenEqPreset;
 
 	// the trash
 	wxArrayPtrVoid   m_trashedStreams;
@@ -209,7 +210,6 @@ private:
 	#define         SJ_EQ_DEF_ENABLED     false
 	bool            m_eqEnabled;
 	SjEqParam       m_eqParam;
-	wxString        m_eqPrelistenPreset;
 
 	// crossfading etc.
 	#define         SJ_DEF_AUTO_CROSSFADE_ENABLED   true

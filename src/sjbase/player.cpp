@@ -87,6 +87,13 @@ void SjPlayerModule::GetLittleOptions (SjArrayLittleOption& lo)
 					+  wxString::Format("|%i|", SJ_PL_OWNOUTPUT) + _("Explicit output");
 	lo.Add(new SjLittleEnumLong(_("Prelisten"), options, &g_mainFrame->m_player.m_prelistenDest, SJ_PL_DEFAULT, "player/prelistenDest", SJ_ICON_MODULE));
 
+	wxArrayString presets = g_mainFrame->m_player.m_eqPresetFactory.GetNames();
+	options = "|"+_("Off");
+	for( size_t i=0; i < presets.GetCount(); i++ ) {
+		options += "|"+presets[i]+"|"+presets[i];
+	}
+	lo.Add(new SjLittleEnumStr(_("Prelisten")+": "+_("Explicit output")+": "+_("Equalizer"), options, &g_mainFrame->m_player.m_prelistenEqPreset, "", "player/prelistenEqPreset", SJ_ICON_MODULE));
+
 	// backend settings
 	if( g_mainFrame->m_player.m_backend )
 	{
@@ -192,6 +199,7 @@ void SjPlayer::Init()
 	m_prelistenDest             =c->Read("player/prelistenDest",       SJ_PL_DEFAULT);
 	m_prelistenUseSysVol        =c->Read("player/prelistenUseSysVol",  SJ_SYSVOL_DEFAULT);
 	m_prelistenMixQuiet         = (float)c->Read("player/prelistenMixQuiet", (long)(SJ_DEF_PL_MIX_QUIET*1000.0F)) / 1000.0F;
+	m_prelistenEqPreset         = c->Read("player/prelistenEqPreset",  "");
 }
 
 
@@ -543,10 +551,8 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			}
 
 			// equalizer - after volumeCalc, otherwise, volumeCalc would calculate the volume depending on the eq settings
-			if( player->m_eqEnabled )
-			{
-				userdata->m_equalizer.AdjustBuffer(buffer, bytes, samplerate, channels);
-			}
+			// do not check for m_eqEnabled here, this state is forwarded to the corresponsing equalizer object, if needed
+			userdata->m_equalizer.AdjustBuffer(buffer, bytes, samplerate, channels);
 
 			// forward the data to the visualisation -
 			// we do this after autovol, equalizers etc. so that these changes become visible eg. in the spectrum analyzer
@@ -604,9 +610,20 @@ void SjPlayer_BackendCallback(SjBackendCallbackParam* cbp)
 			g_mainFrame->m_libraryModule->GetAutoVol(stream->GetUrl(), player->AvGetUseAlbumVol())
 		);
 
-		userdata->m_equalizer.SetParam(player->m_eqParam);
+		if( userdata->m_isPrelistenStream && player->m_prelistenDest == SJ_PL_OWNOUTPUT )
+		{
+			if( player->m_prelistenEqPreset.IsEmpty() ) {
+				SjEqPreset preset = player->m_eqPresetFactory.GetPresetByName(player->m_prelistenEqPreset);
+				userdata->m_equalizer.SetParam(true, preset.m_param);
+			}
+		}
+		else if( player->m_eqEnabled )
+		{
+			userdata->m_equalizer.SetParam(true, player->m_eqParam);
+		}
 
-		if( userdata->m_onCreateFadeMs ) {
+		if( userdata->m_onCreateFadeMs )
+		{
 			userdata->m_volumeFade.SetVolume(0.0);
 			userdata->m_volumeFade.SlideVolume(userdata->m_onCreateFadeDestGain, userdata->m_onCreateFadeMs);
 		}
@@ -1058,16 +1075,22 @@ void SjPlayer::AvSetUseAlbumVol(bool useAlbumVol)
 
 void SjPlayer::EqSetParam(const bool* newEnabled, const SjEqParam* newParam)
 {
-    if( newEnabled ) {
+    if( newEnabled )
+    {
 		m_eqEnabled = *newEnabled;
     }
 
-    if( newParam ) {
+    if( newParam )
+    {
 		m_eqParam = *newParam;
-		if( m_streamA ) {
-			m_streamA->m_userdata->m_equalizer.SetParam(m_eqParam);
-		}
-    }
+	}
+
+	if( m_streamA )
+	{
+		wxASSERT( !m_streamA->m_userdata->m_isPrelistenStream );
+
+		m_streamA->m_userdata->m_equalizer.SetParam(m_eqEnabled, m_eqParam);
+	}
 }
 
 

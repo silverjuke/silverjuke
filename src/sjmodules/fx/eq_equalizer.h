@@ -35,11 +35,12 @@ class SjEqualizer
 public:
 				    SjEqualizer         ();
 				    ~SjEqualizer        ();
-	void            SetParam            (const SjEqParam&);
+	void            SetParam            (const bool enable, const SjEqParam&);
 	void            AdjustBuffer        (float* data, long bytes, int samplerate, int channels);
 
 private:
 	#define         SJ_EQ_MAX_CHANNELS  64 // we define a maximum just for easier allocation, only wastes 4-8 Byte per unsued channel ...
+	bool            m_enabled;
 	SjEqParam       m_currParam;
 	bool            m_currParamChanged;
 	int             m_currSamplerate;

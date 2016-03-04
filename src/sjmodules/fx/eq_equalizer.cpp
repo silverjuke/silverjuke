@@ -33,7 +33,8 @@
 
 SjEqualizer::SjEqualizer()
 {
-	m_currParamChanged    = true;
+	m_enabled             = false;
+	m_currParamChanged    = true; // force init
 	m_currChannels        = 0;
 	m_currSamplerate      = 0;
 	m_deinterlaceBuf      = NULL;
@@ -63,18 +64,21 @@ void SjEqualizer::delete_all()
 }
 
 
-void SjEqualizer::SetParam(const SjEqParam& newParam)
+void SjEqualizer::SetParam(bool newEnabled, const SjEqParam& newParam)
 {
 	m_paramCritical.Enter();
-		m_currParam        = newParam;
-		m_currParamChanged = true;
+		m_enabled          = newEnabled;
+		if( m_currParam != newParam ) {
+			m_currParam        = newParam;
+			m_currParamChanged = true;
+		}
 	m_paramCritical.Leave();
 }
 
 
 void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int channels)
 {
-	if( buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // error
+	if( !m_enabled || buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // nothing to do/error
 
 	m_paramCritical.Enter();
 		if( m_currParamChanged )

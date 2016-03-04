@@ -156,14 +156,12 @@ wxArrayString SjEqPresetFactory::GetNames()
 }
 
 
-SjEqPreset SjEqPresetFactory::GetPresetByName(const wxString& nameAndOptParam)
+SjEqPreset SjEqPresetFactory::GetPresetByName(const wxString& name__)
 {
 	load_all_presets();
 
-	wxString  name = nameAndOptParam.BeforeFirst('|'); // whole string, if there is no '|'
-	SjEqParam wantedParam(nameAndOptParam.AfterFirst('|'));  // empty, if there is no '|'
-
 	// try to find out the preset by the name
+	wxString name(name__);
 	name.Trim(true);
 	name.Trim(false);
 	SjEqPreset* preset = (SjEqPreset*)m_hash.Lookup(name);
@@ -171,8 +169,8 @@ SjEqPreset SjEqPresetFactory::GetPresetByName(const wxString& nameAndOptParam)
 		return *preset;
 	}
 
-	// try to find out the preset by the parameters
-	return GetPresetByParam(wantedParam);
+	// nothing found, return empty preset
+	return SjEqPreset("", SjEqParam());
 }
 
 
