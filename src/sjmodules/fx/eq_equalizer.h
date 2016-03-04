@@ -40,6 +40,7 @@ public:
 
 private:
 	#define         SJ_EQ_MAX_CHANNELS  64 // we define a maximum just for easier allocation, only wastes 4-8 Byte per unsued channel ...
+	bool            m_ok;
 	bool            m_enabled;
 	SjEqParam       m_currParam;
 	bool            m_currParamChanged;
@@ -50,8 +51,6 @@ private:
 	int             m_deinterlaceBufBytes;
 
 	wxCriticalSection m_paramCritical;
-
-	void            delete_all          ();
 };
 
 

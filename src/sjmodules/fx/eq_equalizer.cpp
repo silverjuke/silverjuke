@@ -173,14 +173,14 @@ void rfft(int n,int isign,REAL x[]);
 static REAL fact[M+1];
 static REAL aa = 96;
 static REAL iza;
-static REAL *lires,*lires1,*lires2,*rires,*rires1,*rires2,*irest;
-static REAL *fsamples;
-static REAL *ditherbuf;
+static REAL *lires=NULL,*lires1=NULL,*lires2=NULL,*rires=NULL,*rires1=NULL,*rires2=NULL,*irest=NULL;
+static REAL *fsamples=NULL;
+static REAL *ditherbuf=NULL;
 static int ditherptr = 0;
 static volatile int chg_ires,cur_ires;
 static int winlen,winlenbit,tabsize,nbufsamples;
-static short *inbuf;
-static REAL *outbuf;
+static short *inbuf=NULL;
+static REAL *outbuf=NULL;
 static int enable = 1, dither = 0;
 
 #define NCH 2
@@ -727,6 +727,7 @@ int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, 
 
 SjEqualizer::SjEqualizer()
 {
+	m_ok                  = false;
 	m_enabled             = false;
 	m_currParamChanged    = true; // force init
 	m_currChannels        = 0;
@@ -734,7 +735,11 @@ SjEqualizer::SjEqualizer()
 	m_deinterlaceBuf      = NULL;
 	m_deinterlaceBufBytes = 0;
 
-	//equ_init();
+	if( lires1 == NULL ) {
+		equ_init(14);
+		// load_from(autoloadfile,1); // TODO, see dsp_superequ.cpp
+		m_ok = true;
+	}
 
 	for( int b = 0; b < SJ_EQ_BANDS; b++ )
 	{
@@ -746,17 +751,11 @@ SjEqualizer::SjEqualizer()
 
 SjEqualizer::~SjEqualizer()
 {
-	delete_all();
-	if( m_deinterlaceBuf ) free(m_deinterlaceBuf);
-}
-
-
-void SjEqualizer::delete_all()
-{
-	for( int c = 0; c < m_currChannels; c++ ) {
-		//delete m_eqs[c];
+	if( m_ok ) {
+		equ_quit();
 	}
-	m_currChannels = 0;
+
+	if( m_deinterlaceBuf ) free(m_deinterlaceBuf);
 }
 
 
@@ -774,7 +773,7 @@ void SjEqualizer::SetParam(bool newEnabled, const SjEqParam& newParam)
 
 void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int channels)
 {
-	if( !m_enabled || buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // nothing to do/error
+	if( !m_enabled || !m_ok || buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // nothing to do/error
 
 	m_paramCritical.Enter();
 		if( m_currParamChanged )
@@ -791,7 +790,7 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 	bytes /= 2;
 
 	// TEMP: DPS
-	//modify_samples(NULL, (signed short*)buffer, bytes/2, 16, channels, samplerate);
+	//modify_samples(NULL, (signed short*)buffer, bytes/2, 16, channels, samplerate); //TODO - should work if load_from() is done
 
 	// TEMP: Convert pcm16 back to float
 	SjPcm16ToFloat((const signed short*)buffer, buffer, bytes);
