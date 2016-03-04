@@ -140,14 +140,13 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 wxString SjEqPanel::FormatParam(float db)
 {
 	// we do not have much space for each value; so use a comma only for small values that to longen the string
-	#define PLUS_MINUS_CHAR "\u00B1"
-	wxString ret;
-	     if( db>-0.1 && db<0.1   ) { ret = "0";          }
-	else                           { ret = wxString::Format("%.0f", db); }
-
-	if( db > 0.0 ) { ret = "+" + ret; }
-
-	return ret;
+	int rounded = (int)(db+0.5F);
+	if( rounded <= 0 ) {
+		return wxString::Format("%i", rounded);
+	}
+	else {
+		return wxString::Format("+%i", rounded);
+	}
 }
 
 
