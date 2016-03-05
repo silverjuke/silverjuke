@@ -234,6 +234,11 @@ wxString SjHelpDialog::GetCreditsTopic() const
 			"</li>"
 
 			"<li>"
+				"The equalizer is based upon SuperEQ by Naoki Shibata; the FFT part was written by Mr. Ooura. "
+				"<br />"
+			"</li>"
+
+			"<li>"
 				"For the visualizations, projectM, a Milkdrop-esque visualization SDK, is used; "
 				"Copyright (c) 2003 - 2007 projectM Team"
 				"<br />"

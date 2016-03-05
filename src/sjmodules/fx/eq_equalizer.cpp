@@ -157,9 +157,6 @@ public:
  ******************************************************************************/
 
 
-typedef float REAL;
-void rfft(int n,int isign,REAL x[]);
-
 #define M 15
 
 #define PI 3.1415926535897932384626433832795
@@ -302,7 +299,7 @@ static REAL hn(int n,paramlist &param2,REAL fs)
   return ret;
 }
 
-void process_param(REAL *bc,paramlist *param,paramlist &param2,REAL fs,int ch)
+void process_param(const REAL *bc,paramlist *param,paramlist &param2,REAL fs,int ch)
 {
   paramlistelm **pp,*p,*e,*e2;
   int i;
@@ -383,7 +380,7 @@ void process_param(REAL *bc,paramlist *param,paramlist &param2,REAL fs,int ch)
   }
 }
 
-void equ_makeTable(REAL *lbc,REAL *rbc,paramlist *param,REAL fs)
+void equ_makeTable(const REAL *lbc,const REAL *rbc,paramlist *param,REAL fs)
 {
   int i,cires = cur_ires;
   REAL *nires;
@@ -694,8 +691,8 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 
 static float last_srate = 0;
 static int last_nch = 0, last_bps = 0;
-static float lbands[18] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
-static float rbands[18] = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0};
+static float lbands[18] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+static float rbands[18] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
 paramlist paramroot;
 
 int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, int nch, int srate)
@@ -789,8 +786,8 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 	SjFloatToPcm16(buffer, (signed short*)buffer, bytes);
 	bytes /= 2;
 
-	// TEMP: DPS
-	//modify_samples(NULL, (signed short*)buffer, bytes/2, 16, channels, samplerate); //TODO - should work if load_from() is done
+	// TEMP: DSP
+	modify_samples(NULL, (signed short*)buffer, bytes/4, 16, channels, samplerate);
 
 	// TEMP: Convert pcm16 back to float
 	SjPcm16ToFloat((const signed short*)buffer, buffer, bytes);
