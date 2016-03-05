@@ -368,6 +368,7 @@ void SjEqPanel::OnExport(wxCommandEvent&)
 	// suggested file name
 	wxString suggestedFileName = GetPresetNameFromChoice();
 	if( suggestedFileName.IsEmpty() ) { suggestedFileName = m_backupPresetName; }
+	if( suggestedFileName.IsEmpty() ) { suggestedFileName = _("Equalizer"); }
 	suggestedFileName =  SjTools::EnsureValidFileNameChars(suggestedFileName);
 
 	// let user select a file
