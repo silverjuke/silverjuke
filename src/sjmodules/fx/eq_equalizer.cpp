@@ -140,6 +140,7 @@ SjSuperEQ(int wb)
   last_nch = 0;
   last_bps = 0;
   for( i = 0; i < 18; i++ ) { lbands[i]=1.0; rbands[i]=1.0; }
+  bands_changed = false;
   equ_modifySamples_hm1 = 0;
   rfft_ipsize = 0;
   rfft_wsize=0;
@@ -606,14 +607,16 @@ float last_srate;
 int last_nch, last_bps;
 float lbands[18];
 float rbands[18];
+bool bands_changed;
 paramlist paramroot;
 
 int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, int nch, int srate)
 {
 	if ((nch != 1 && nch != 2) || (bps != 8 && bps != 16 && bps != 24)) return numsamples;
 
-	if (last_srate != srate) {
+	if (last_srate != srate || bands_changed) {
 		equ_makeTable(lbands,rbands,&paramroot,srate);
+		bands_changed = false;
 		last_srate = srate;
 		last_nch = nch;
 		last_bps = bps;
@@ -646,12 +649,6 @@ SjEqualizer::SjEqualizer()
 	m_currSamplerate      = 0;
 	m_deinterlaceBuf      = NULL;
 	m_deinterlaceBufBytes = 0;
-
-	for( int b = 0; b < SJ_EQ_BANDS; b++ )
-	{
-		//int db = 0; // -20..0..20
-		//m_bands[b] = SjDecibel2Gain(db);
-	}
 }
 
 
@@ -681,17 +678,25 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 {
 	if( !m_enabled || buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // nothing to do/error
 
+	if( m_superEq == NULL ) {
+		m_superEq = new SjSuperEQ(14);
+		if( m_superEq == NULL ) { return; } // error
+	}
+
 	m_paramCritical.Enter();
 		if( m_currParamChanged )
 		{
 			// realize the new parameters
+			for( int b = 0; b < SJ_EQ_BANDS; b++ )
+			{
+				float gain = (float)SjDecibel2Gain(m_currParam.m_bandDb[b]);
+				m_superEq->lbands[b] = gain;
+				m_superEq->rbands[b] = gain;
+				m_superEq->bands_changed = true;
+			}
 			m_currParamChanged = false;
 		}
 	m_paramCritical.Leave();
-
-	if( m_superEq == NULL ) {
-		m_superEq = new SjSuperEQ(14);
-	}
 
 	// TEMP: Convert float to pcm16
 	if( channels != 2 ) return; // error
