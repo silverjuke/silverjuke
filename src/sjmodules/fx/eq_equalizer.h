@@ -30,6 +30,9 @@
 #define __SJ_EQUALIZER_H__
 
 
+class SjSuperEQ;
+
+
 class SjEqualizer
 {
 public:
@@ -40,7 +43,7 @@ public:
 
 private:
 	#define         SJ_EQ_MAX_CHANNELS  64 // we define a maximum just for easier allocation, only wastes 4-8 Byte per unsued channel ...
-	bool            m_ok;
+	SjSuperEQ*      m_superEq;
 	bool            m_enabled;
 	SjEqParam       m_currParam;
 	bool            m_currParamChanged;

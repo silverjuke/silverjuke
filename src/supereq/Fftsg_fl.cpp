@@ -45,23 +45,23 @@ function prototypes
                         n >= 1, n = power of 2
         a[0...2*n-1]   :input/output data (REAL *)
                         input data
-                            a[2*j] = Re(x[j]), 
+                            a[2*j] = Re(x[j]),
                             a[2*j+1] = Im(x[j]), 0<=j<n
                         output data
-                            a[2*k] = Re(X[k]), 
+                            a[2*k] = Re(X[k]),
                             a[2*k+1] = Im(X[k]), 0<=k<n
         ip[0...*]      :work area for bit reversal (int *)
                         length of ip >= 2+sqrt(n)
-                        strictly, 
-                        length of ip >= 
+                        strictly,
+                        length of ip >=
                             2+(1<<(int)(log(n+0.5)/log(2))/2).
                         ip[0],ip[1] are pointers of the cos/sin table.
         w[0...n/2-1]   :cos/sin table (REAL *)
                         w[],ip[] are initialized if ip[0] == 0.
     [remark]
-        Inverse of 
+        Inverse of
             cdft(2*n, -1, a, ip, w);
-        is 
+        is
             cdft(2*n, 1, a, ip, w);
             for (j = 0; j <= 2 * n - 1; j++) {
                 a[j] *= 1.0 / n;
@@ -75,8 +75,8 @@ function prototypes
             R[k] = sum_j=0^n-1 a[j]*cos(2*pi*j*k/n), 0<=k<=n/2
             I[k] = sum_j=0^n-1 a[j]*sin(2*pi*j*k/n), 0<k<n/2
         <case2> IRDFT (excluding scale)
-            a[k] = (R[0] + R[n/2]*cos(pi*k))/2 + 
-                   sum_j=1^n/2-1 R[j]*cos(2*pi*j*k/n) + 
+            a[k] = (R[0] + R[n/2]*cos(pi*k))/2 +
+                   sum_j=1^n/2-1 R[j]*cos(2*pi*j*k/n) +
                    sum_j=1^n/2-1 I[j]*sin(2*pi*j*k/n), 0<=k<n
     [usage]
         <case1>
@@ -101,16 +101,16 @@ function prototypes
                                 a[1] = R[n/2]
         ip[0...*]      :work area for bit reversal (int *)
                         length of ip >= 2+sqrt(n/2)
-                        strictly, 
-                        length of ip >= 
+                        strictly,
+                        length of ip >=
                             2+(1<<(int)(log(n/2+0.5)/log(2))/2).
                         ip[0],ip[1] are pointers of the cos/sin table.
         w[0...n/2-1]   :cos/sin table (REAL *)
                         w[],ip[] are initialized if ip[0] == 0.
     [remark]
-        Inverse of 
+        Inverse of
             rdft(n, 1, a, ip, w);
-        is 
+        is
             rdft(n, -1, a, ip, w);
             for (j = 0; j <= n - 1; j++) {
                 a[j] *= 2.0 / n;
@@ -139,16 +139,16 @@ function prototypes
                             a[k] = C[k], 0<=k<n
         ip[0...*]      :work area for bit reversal (int *)
                         length of ip >= 2+sqrt(n/2)
-                        strictly, 
-                        length of ip >= 
+                        strictly,
+                        length of ip >=
                             2+(1<<(int)(log(n/2+0.5)/log(2))/2).
                         ip[0],ip[1] are pointers of the cos/sin table.
         w[0...n*5/4-1] :cos/sin table (REAL *)
                         w[],ip[] are initialized if ip[0] == 0.
     [remark]
-        Inverse of 
+        Inverse of
             ddct(n, -1, a, ip, w);
-        is 
+        is
             a[0] *= 0.5;
             ddct(n, 1, a, ip, w);
             for (j = 0; j <= n - 1; j++) {
@@ -186,16 +186,16 @@ function prototypes
                                 a[0] = S[n]
         ip[0...*]      :work area for bit reversal (int *)
                         length of ip >= 2+sqrt(n/2)
-                        strictly, 
-                        length of ip >= 
+                        strictly,
+                        length of ip >=
                             2+(1<<(int)(log(n/2+0.5)/log(2))/2).
                         ip[0],ip[1] are pointers of the cos/sin table.
         w[0...n*5/4-1] :cos/sin table (REAL *)
                         w[],ip[] are initialized if ip[0] == 0.
     [remark]
-        Inverse of 
+        Inverse of
             ddst(n, -1, a, ip, w);
-        is 
+        is
             a[0] *= 0.5;
             ddst(n, 1, a, ip, w);
             for (j = 0; j <= n - 1; j++) {
@@ -219,18 +219,18 @@ function prototypes
         t[0...n/2]     :work area (REAL *)
         ip[0...*]      :work area for bit reversal (int *)
                         length of ip >= 2+sqrt(n/4)
-                        strictly, 
-                        length of ip >= 
+                        strictly,
+                        length of ip >=
                             2+(1<<(int)(log(n/4+0.5)/log(2))/2).
                         ip[0],ip[1] are pointers of the cos/sin table.
         w[0...n*5/8-1] :cos/sin table (REAL *)
                         w[],ip[] are initialized if ip[0] == 0.
     [remark]
-        Inverse of 
+        Inverse of
             a[0] *= 0.5;
             a[n] *= 0.5;
             dfct(n, a, t, ip, w);
-        is 
+        is
             a[0] *= 0.5;
             a[n] *= 0.5;
             dfct(n, a, t, ip, w);
@@ -256,16 +256,16 @@ function prototypes
         t[0...n/2-1]   :work area (REAL *)
         ip[0...*]      :work area for bit reversal (int *)
                         length of ip >= 2+sqrt(n/4)
-                        strictly, 
-                        length of ip >= 
+                        strictly,
+                        length of ip >=
                             2+(1<<(int)(log(n/4+0.5)/log(2))/2).
                         ip[0],ip[1] are pointers of the cos/sin table.
         w[0...n*5/8-1] :cos/sin table (REAL *)
                         w[],ip[] are initialized if ip[0] == 0.
     [remark]
-        Inverse of 
+        Inverse of
             dfst(n, a, t, ip, w);
-        is 
+        is
             dfst(n, a, t, ip, w);
             for (j = 1; j <= n - 1; j++) {
                 a[j] *= 2.0 / n;
@@ -285,7 +285,7 @@ void cdft(int n, int isgn, REAL *a, int *ip, REAL *w)
     void cftfsub(int n, REAL *a, int *ip, int nw, REAL *w);
     void cftbsub(int n, REAL *a, int *ip, int nw, REAL *w);
     int nw;
-    
+
     nw = ip[0];
     if (n > (nw << 2)) {
         nw = n >> 2;
@@ -309,7 +309,7 @@ void rdft(int n, int isgn, REAL *a, int *ip, REAL *w)
     void rftbsub(int n, REAL *a, int nc, REAL *c);
     int nw, nc;
     REAL xi;
-    
+
     nw = ip[0];
     if (n > (nw << 2)) {
         nw = n >> 2;
@@ -354,7 +354,7 @@ void ddct(int n, int isgn, REAL *a, int *ip, REAL *w)
     void dctsub(int n, REAL *a, int nc, REAL *c);
     int j, nw, nc;
     REAL xr;
-    
+
     nw = ip[0];
     if (n > (nw << 2)) {
         nw = n >> 2;
@@ -410,7 +410,7 @@ void ddst(int n, int isgn, REAL *a, int *ip, REAL *w)
     void dstsub(int n, REAL *a, int nc, REAL *c);
     int j, nw, nc;
     REAL xr;
-    
+
     nw = ip[0];
     if (n > (nw << 2)) {
         nw = n >> 2;
@@ -464,7 +464,7 @@ void dfct(int n, REAL *a, REAL *t, int *ip, REAL *w)
     void dctsub(int n, REAL *a, int nc, REAL *c);
     int j, k, l, m, mh, nw, nc;
     REAL xr, xi, yr, yi;
-    
+
     nw = ip[0];
     if (n > (nw << 3)) {
         nw = n >> 3;
@@ -557,7 +557,7 @@ void dfst(int n, REAL *a, REAL *t, int *ip, REAL *w)
     void dstsub(int n, REAL *a, int nc, REAL *c);
     int j, k, l, m, mh, nw, nc;
     REAL xr, xi, yr, yi;
-    
+
     nw = ip[0];
     if (n > (nw << 3)) {
         nw = n >> 3;
@@ -641,7 +641,7 @@ void makewt(int nw, int *ip, REAL *w)
 {
     int j, nwh, nw0, nw1;
     REAL delta, wn4r, wk1r, wk1i, wk3r, wk3i;
-    
+
     ip[0] = nw;
     ip[1] = 1;
     if (nw > 2) {
@@ -692,7 +692,7 @@ void makect(int nc, int *ip, REAL *c)
 {
     int j, nch;
     REAL delta;
-    
+
     ip[1] = nc;
     if (nc > 1) {
         nch = nc >> 1;
@@ -730,7 +730,7 @@ void cftfsub(int n, REAL *a, int *ip, int nw, REAL *w)
     void cftf040(REAL *a);
     void cftx020(REAL *a);
     int m;
-    
+
     if (n > 32) {
         m = n >> 2;
         cftf1st(n, a, &w[nw - m]);
@@ -776,7 +776,7 @@ void cftbsub(int n, REAL *a, int *ip, int nw, REAL *w)
     void cftb040(REAL *a);
     void cftx020(REAL *a);
     int m;
-    
+
     if (n > 32) {
         m = n >> 2;
         cftb1st(n, a, &w[nw - m]);
@@ -811,7 +811,7 @@ void bitrv2(int n, int *ip, REAL *a)
 {
     int j, j1, k, k1, l, m, m2;
     REAL xr, xi, yr, yi;
-    
+
     ip[0] = 0;
     l = n;
     m = 1;
@@ -911,7 +911,7 @@ void bitrv2conj(int n, int *ip, REAL *a)
 {
     int j, j1, k, k1, l, m, m2;
     REAL xr, xi, yr, yi;
-    
+
     ip[0] = 0;
     l = n;
     m = 1;
@@ -1018,10 +1018,10 @@ void bitrv2conj(int n, int *ip, REAL *a)
 
 void bitrv216(REAL *a)
 {
-    REAL x1r, x1i, x2r, x2i, x3r, x3i, x4r, x4i, 
-        x5r, x5i, x7r, x7i, x8r, x8i, x10r, x10i, 
+    REAL x1r, x1i, x2r, x2i, x3r, x3i, x4r, x4i,
+        x5r, x5i, x7r, x7i, x8r, x8i, x10r, x10i,
         x11r, x11i, x12r, x12i, x13r, x13i, x14r, x14i;
-    
+
     x1r = a[2];
     x1i = a[3];
     x2r = a[4];
@@ -1075,11 +1075,11 @@ void bitrv216(REAL *a)
 
 void bitrv216neg(REAL *a)
 {
-    REAL x1r, x1i, x2r, x2i, x3r, x3i, x4r, x4i, 
-        x5r, x5i, x6r, x6i, x7r, x7i, x8r, x8i, 
-        x9r, x9i, x10r, x10i, x11r, x11i, x12r, x12i, 
+    REAL x1r, x1i, x2r, x2i, x3r, x3i, x4r, x4i,
+        x5r, x5i, x6r, x6i, x7r, x7i, x8r, x8i,
+        x9r, x9i, x10r, x10i, x11r, x11i, x12r, x12i,
         x13r, x13i, x14r, x14i, x15r, x15i;
-    
+
     x1r = a[2];
     x1i = a[3];
     x2r = a[4];
@@ -1146,7 +1146,7 @@ void bitrv216neg(REAL *a)
 void bitrv208(REAL *a)
 {
     REAL x1r, x1i, x3r, x3i, x4r, x4i, x6r, x6i;
-    
+
     x1r = a[2];
     x1i = a[3];
     x3r = a[6];
@@ -1168,9 +1168,9 @@ void bitrv208(REAL *a)
 
 void bitrv208neg(REAL *a)
 {
-    REAL x1r, x1i, x2r, x2i, x3r, x3i, x4r, x4i, 
+    REAL x1r, x1i, x2r, x2i, x3r, x3i, x4r, x4i,
         x5r, x5i, x6r, x6i, x7r, x7i;
-    
+
     x1r = a[2];
     x1i = a[3];
     x2r = a[4];
@@ -1205,11 +1205,11 @@ void bitrv208neg(REAL *a)
 void cftf1st(int n, REAL *a, REAL *w)
 {
     int j, j0, j1, j2, j3, k, m, mh;
-    REAL wn4r, csc1, csc3, wk1r, wk1i, wk3r, wk3i, 
+    REAL wn4r, csc1, csc3, wk1r, wk1i, wk3r, wk3i,
         wd1r, wd1i, wd3r, wd3i;
-    REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i, 
+    REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i,
         y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i;
-    
+
     mh = n >> 3;
     m = 2 * mh;
     j1 = m;
@@ -1411,11 +1411,11 @@ void cftf1st(int n, REAL *a, REAL *w)
 void cftb1st(int n, REAL *a, REAL *w)
 {
     int j, j0, j1, j2, j3, k, m, mh;
-    REAL wn4r, csc1, csc3, wk1r, wk1i, wk3r, wk3i, 
+    REAL wn4r, csc1, csc3, wk1r, wk1i, wk3r, wk3i,
         wd1r, wd1i, wd3r, wd3i;
-    REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i, 
+    REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i,
         y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i;
-    
+
     mh = n >> 3;
     m = 2 * mh;
     j1 = m;
@@ -1621,7 +1621,7 @@ void cftrec1(int n, REAL *a, int nw, REAL *w)
     void cftmdl1(int n, REAL *a, REAL *w);
     void cftexp1(int n, REAL *a, int nw, REAL *w);
     int m;
-    
+
     m = n >> 2;
     cftmdl1(n, a, &w[nw - 2 * m]);
     if (n > CDFT_RECURSIVE_N) {
@@ -1642,7 +1642,7 @@ void cftrec2(int n, REAL *a, int nw, REAL *w)
     void cftmdl2(int n, REAL *a, REAL *w);
     void cftexp2(int n, REAL *a, int nw, REAL *w);
     int m;
-    
+
     m = n >> 2;
     cftmdl2(n, a, &w[nw - n]);
     if (n > CDFT_RECURSIVE_N) {
@@ -1663,7 +1663,7 @@ void cftexp1(int n, REAL *a, int nw, REAL *w)
     void cftfx41(int n, REAL *a, int nw, REAL *w);
     void cftfx42(int n, REAL *a, int nw, REAL *w);
     int j, k, l;
-    
+
     l = n >> 2;
     while (l > 128) {
         for (k = l; k < n; k <<= 2) {
@@ -1698,7 +1698,7 @@ void cftexp2(int n, REAL *a, int nw, REAL *w)
     void cftfx41(int n, REAL *a, int nw, REAL *w);
     void cftfx42(int n, REAL *a, int nw, REAL *w);
     int j, k, l, m;
-    
+
     m = n >> 1;
     l = n >> 2;
     while (l > 128) {
@@ -1736,7 +1736,7 @@ void cftmdl1(int n, REAL *a, REAL *w)
     int j, j0, j1, j2, j3, k, m, mh;
     REAL wn4r, wk1r, wk1i, wk3r, wk3i;
     REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i;
-    
+
     mh = n >> 3;
     m = 2 * mh;
     j1 = m;
@@ -1846,7 +1846,7 @@ void cftmdl2(int n, REAL *a, REAL *w)
     int j, j0, j1, j2, j3, k, kr, m, mh;
     REAL wn4r, wk1r, wk1i, wk3r, wk3i, wd1r, wd1i, wd3r, wd3i;
     REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i, y0r, y0i, y2r, y2i;
-    
+
     mh = n >> 3;
     m = 2 * mh;
     wn4r = w[1];
@@ -1981,7 +1981,7 @@ void cftfx41(int n, REAL *a, int nw, REAL *w)
     void cftf162(REAL *a, REAL *w);
     void cftf081(REAL *a, REAL *w);
     void cftf082(REAL *a, REAL *w);
-    
+
     if (n == 128) {
         cftf161(a, &w[nw - 8]);
         cftf162(&a[32], &w[nw - 32]);
@@ -2002,7 +2002,7 @@ void cftfx42(int n, REAL *a, int nw, REAL *w)
     void cftf162(REAL *a, REAL *w);
     void cftf081(REAL *a, REAL *w);
     void cftf082(REAL *a, REAL *w);
-    
+
     if (n == 128) {
         cftf161(a, &w[nw - 8]);
         cftf162(&a[32], &w[nw - 32]);
@@ -2019,13 +2019,13 @@ void cftfx42(int n, REAL *a, int nw, REAL *w)
 
 void cftf161(REAL *a, REAL *w)
 {
-    REAL wn4r, wk1r, wk1i, 
-        x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i, 
-        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i, 
-        y4r, y4i, y5r, y5i, y6r, y6i, y7r, y7i, 
-        y8r, y8i, y9r, y9i, y10r, y10i, y11r, y11i, 
+    REAL wn4r, wk1r, wk1i,
+        x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i,
+        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i,
+        y4r, y4i, y5r, y5i, y6r, y6i, y7r, y7i,
+        y8r, y8i, y9r, y9i, y10r, y10i, y11r, y11i,
         y12r, y12i, y13r, y13i, y14r, y14i, y15r, y15i;
-    
+
     wn4r = w[1];
     wk1i = wn4r * w[2];
     wk1r = wk1i + w[2];
@@ -2178,13 +2178,13 @@ void cftf161(REAL *a, REAL *w)
 
 void cftf162(REAL *a, REAL *w)
 {
-    REAL wn4r, wk1r, wk1i, wk2r, wk2i, wk3r, wk3i, 
-        x0r, x0i, x1r, x1i, x2r, x2i, 
-        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i, 
-        y4r, y4i, y5r, y5i, y6r, y6i, y7r, y7i, 
-        y8r, y8i, y9r, y9i, y10r, y10i, y11r, y11i, 
+    REAL wn4r, wk1r, wk1i, wk2r, wk2i, wk3r, wk3i,
+        x0r, x0i, x1r, x1i, x2r, x2i,
+        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i,
+        y4r, y4i, y5r, y5i, y6r, y6i, y7r, y7i,
+        y8r, y8i, y9r, y9i, y10r, y10i, y11r, y11i,
         y12r, y12i, y13r, y13i, y14r, y14i, y15r, y15i;
-    
+
     wn4r = w[1];
     wk1r = w[4];
     wk1i = w[5];
@@ -2361,10 +2361,10 @@ void cftf162(REAL *a, REAL *w)
 
 void cftf081(REAL *a, REAL *w)
 {
-    REAL wn4r, x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i, 
-        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i, 
+    REAL wn4r, x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i,
+        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i,
         y4r, y4i, y5r, y5i, y6r, y6i, y7r, y7i;
-    
+
     wn4r = w[1];
     x0r = a[0] + a[8];
     x0i = a[1] + a[9];
@@ -2423,10 +2423,10 @@ void cftf081(REAL *a, REAL *w)
 
 void cftf082(REAL *a, REAL *w)
 {
-    REAL wn4r, wk1r, wk1i, x0r, x0i, x1r, x1i, 
-        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i, 
+    REAL wn4r, wk1r, wk1i, x0r, x0i, x1r, x1i,
+        y0r, y0i, y1r, y1i, y2r, y2i, y3r, y3i,
         y4r, y4i, y5r, y5i, y6r, y6i, y7r, y7i;
-    
+
     wn4r = w[1];
     wk1r = w[4];
     wk1i = w[5];
@@ -2496,7 +2496,7 @@ void cftf082(REAL *a, REAL *w)
 void cftf040(REAL *a)
 {
     REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i;
-    
+
     x0r = a[0] + a[4];
     x0i = a[1] + a[5];
     x1r = a[0] - a[4];
@@ -2519,7 +2519,7 @@ void cftf040(REAL *a)
 void cftb040(REAL *a)
 {
     REAL x0r, x0i, x1r, x1i, x2r, x2i, x3r, x3i;
-    
+
     x0r = a[0] + a[4];
     x0i = a[1] + a[5];
     x1r = a[0] - a[4];
@@ -2542,7 +2542,7 @@ void cftb040(REAL *a)
 void cftx020(REAL *a)
 {
     REAL x0r, x0i;
-    
+
     x0r = a[0] - a[2];
     x0i = a[1] - a[3];
     a[0] += a[2];
@@ -2556,7 +2556,7 @@ void rftfsub(int n, REAL *a, int nc, REAL *c)
 {
     int j, k, kk, ks, m;
     REAL wkr, wki, xr, xi, yr, yi;
-    
+
     m = n >> 1;
     ks = 2 * nc / m;
     kk = 0;
@@ -2581,7 +2581,7 @@ void rftbsub(int n, REAL *a, int nc, REAL *c)
 {
     int j, k, kk, ks, m;
     REAL wkr, wki, xr, xi, yr, yi;
-    
+
     m = n >> 1;
     ks = 2 * nc / m;
     kk = 0;
@@ -2606,7 +2606,7 @@ void dctsub(int n, REAL *a, int nc, REAL *c)
 {
     int j, k, kk, ks, m;
     REAL wkr, wki, xr;
-    
+
     m = n >> 1;
     ks = nc / n;
     kk = 0;
@@ -2627,7 +2627,7 @@ void dstsub(int n, REAL *a, int nc, REAL *c)
 {
     int j, k, kk, ks, m;
     REAL wkr, wki, xr;
-    
+
     m = n >> 1;
     ks = nc / n;
     kk = 0;
@@ -2643,6 +2643,7 @@ void dstsub(int n, REAL *a, int nc, REAL *c)
     a[m] *= c[0];
 }
 
+/* EDIT BY SJ - moved to SjSuperEQ class
 void rfft(int n,int isign,REAL x[])
 {
   static int ipsize = 0,wsize=0;
@@ -2671,3 +2672,4 @@ void rfft(int n,int isign,REAL x[])
 
   rdft(n,isign,x,ip,w);
 }
+*/

@@ -37,6 +37,17 @@
  ******************************************************************************/
 
 
+static const REAL bands[] = {
+  65.406392,92.498606,130.81278,184.99721,261.62557,369.99442,523.25113,
+  739.9884 ,1046.5023,1479.9768,2093.0045,2959.9536,4186.0091,5919.9072,
+  8372.0181,11839.814,16744.036
+};
+
+
+class SjSuperEQ
+{
+public:
+
 #define M 15
 
 #define PI 3.1415926535897932384626433832795
@@ -47,36 +58,31 @@
 
 // play -c 2 -r 44100 -fs -sw
 
-static REAL fact[M+1];
-static REAL aa = 96;
-static REAL iza;
-static REAL *lires=NULL,*lires1=NULL,*lires2=NULL,*rires=NULL,*rires1=NULL,*rires2=NULL,*irest=NULL;
-static REAL *fsamples=NULL;
-static REAL *ditherbuf=NULL;
-static int ditherptr = 0;
-static volatile int chg_ires,cur_ires;
-static int winlen,winlenbit,tabsize,nbufsamples;
-static short *inbuf=NULL;
-static REAL *outbuf=NULL;
-static int enable = 1, dither = 0;
+REAL fact[M+1];
+REAL aa;
+REAL iza;
+REAL *lires,*lires1,*lires2,*rires,*rires1,*rires2,*irest;
+REAL *fsamples;
+REAL *ditherbuf;
+int ditherptr;
+volatile int chg_ires,cur_ires;
+int winlen,winlenbit,tabsize,nbufsamples;
+short *inbuf;
+REAL *outbuf;
+int enable, dither;
 
 #define NCH 2
 
 #define NBANDS 17
-static REAL bands[] = {
-  65.406392,92.498606,130.81278,184.99721,261.62557,369.99442,523.25113,
-  739.9884 ,1046.5023,1479.9768,2093.0045,2959.9536,4186.0091,5919.9072,
-  8372.0181,11839.814,16744.036
-};
 
-static REAL alpha(REAL a)
+REAL alpha(REAL a)
 {
   if (a <= 21) return 0;
   if (a <= 50) return 0.5842*pow(a-21,0.4)+0.07886*(a-21);
   return 0.1102*(a-8.7);
 }
 
-static REAL izero(REAL x)
+REAL izero(REAL x)
 {
   REAL ret = 1;
   int m;
@@ -91,19 +97,14 @@ static REAL izero(REAL x)
   return ret;
 }
 
-void equ_init(int wb)
+SjSuperEQ(int wb)
 {
   int i,j;
 
-  if (lires1 != NULL)   free(lires1);
-  if (lires2 != NULL)   free(lires2);
-  if (rires1 != NULL)   free(rires1);
-  if (rires2 != NULL)   free(rires2);
-  if (irest != NULL)    free(irest);
-  if (fsamples != NULL) free(fsamples);
-  if (inbuf != NULL)    free(inbuf);
-  if (outbuf != NULL)   free(outbuf);
-  if (ditherbuf != NULL) free(ditherbuf);
+  aa = 96;
+  ditherptr = 0;
+  enable = 1;
+  dither = 0;
 
   winlen = (1 << (wb-1))-1;
   winlenbit = wb;
@@ -134,32 +135,72 @@ void equ_init(int wb)
     }
 
   iza = izero(alpha(aa));
+
+  last_srate = 0;
+  last_nch = 0;
+  last_bps = 0;
+  for( i = 0; i < 18; i++ ) { lbands[i]=1.0; rbands[i]=1.0; }
+  equ_modifySamples_hm1 = 0;
+  rfft_ipsize = 0;
+  rfft_wsize=0;
+  rfft_ip = NULL;
+  rfft_w = NULL;
+}
+
+int rfft_ipsize, rfft_wsize;
+int *rfft_ip;
+REAL *rfft_w;
+
+void rfft(int n,int isign,REAL x[])
+{
+  int newipsize,newwsize;
+
+  if (n == 0) {
+    free(rfft_ip); rfft_ip = NULL; rfft_ipsize = 0;
+    free(rfft_w);  rfft_w  = NULL; rfft_wsize  = 0;
+    return;
+  }
+
+  newipsize = 2+sqrt(n/2);
+  if (newipsize > rfft_ipsize) {
+    rfft_ipsize = newipsize;
+    rfft_ip = (int *)realloc(rfft_ip,sizeof(int)*rfft_ipsize);
+    rfft_ip[0] = 0;
+  }
+
+  newwsize = n/2;
+  if (newwsize > rfft_wsize) {
+    rfft_wsize = newwsize;
+    rfft_w = (REAL *)realloc(rfft_w,sizeof(REAL)*rfft_wsize);
+  }
+
+  rdft(n,isign,x,rfft_ip,rfft_w);
 }
 
 // -(N-1)/2 <= n <= (N-1)/2
-static REAL win(REAL n,int N)
+REAL win(REAL n,int N)
 {
   return izero(alpha(aa)*sqrt(1-4*n*n/((N-1)*(N-1))))/iza;
 }
 
-static REAL sinc(REAL x)
+REAL sinc(REAL x)
 {
   return x == 0 ? 1 : sin(x)/x;
 }
 
-static REAL hn_lpf(int n,REAL f,REAL fs)
+REAL hn_lpf(int n,REAL f,REAL fs)
 {
   REAL t = 1/fs;
   REAL omega = 2*PI*f;
   return 2*f*t*sinc(n*omega*t);
 }
 
-static REAL hn_imp(int n)
+REAL hn_imp(int n)
 {
   return n == 0 ? 1.0 : 0.0;
 }
 
-static REAL hn(int n,paramlist &param2,REAL fs)
+REAL hn(int n,paramlist &param2,REAL fs)
 {
   paramlistelm *e;
   REAL ret,lhn;
@@ -308,7 +349,7 @@ void equ_makeTable(const REAL *lbc,const REAL *rbc,paramlist *param,REAL fs)
   chg_ires = cires == 1 ? 2 : 1;
 }
 
-void equ_quit(void)
+~SjSuperEQ()
 {
   free(lires1);
   free(lires2);
@@ -318,15 +359,6 @@ void equ_quit(void)
   free(fsamples);
   free(inbuf);
   free(outbuf);
-
-  lires1   = NULL;
-  lires2   = NULL;
-  rires1   = NULL;
-  rires2   = NULL;
-  irest    = NULL;
-  fsamples = NULL;
-  inbuf    = NULL;
-  outbuf   = NULL;
 
   rfft(0,0,NULL);
 }
@@ -339,13 +371,14 @@ void equ_clearbuf(int bps,int srate)
 	for(i=0;i<tabsize*NCH;i++) outbuf[i] = 0;
 }
 
+float equ_modifySamples_hm1;
+
 int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 {
   int i,p,ch;
   REAL *ires;
   int amax =  (1 << (bps-1))-1;
   int amin = -(1 << (bps-1));
-  static float hm1 = 0;
 
   if (chg_ires) {
 	  cur_ires = chg_ires;
@@ -367,13 +400,13 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 				float s = outbuf[nbufsamples*nch+i];
 				if (dither) {
 					float u;
-					s -= hm1;
+					s -= equ_modifySamples_hm1;
 					u = s;
 					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
 					if (s < amin) s = amin;
 					if (amax < s) s = amax;
 					s = RINT(s);
-					hm1 = s - u;
+					equ_modifySamples_hm1 = s - u;
 					((unsigned char *)buf)[i+p*nch] = s + 0x80;
 				} else {
 					if (s < amin) s = amin;
@@ -393,13 +426,13 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 				float s = outbuf[nbufsamples*nch+i];
 				if (dither) {
 					float u;
-					s -= hm1;
+					s -= equ_modifySamples_hm1;
 					u = s;
 					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
 					if (s < amin) s = amin;
 					if (amax < s) s = amax;
 					s = RINT(s);
-					hm1 = s - u;
+					equ_modifySamples_hm1 = s - u;
 					((short *)buf)[i+p*nch] = s;
 				} else {
 					if (s < amin) s = amin;
@@ -495,13 +528,13 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 				float s = outbuf[nbufsamples*nch+i];
 				if (dither) {
 					float u;
-					s -= hm1;
+					s -= equ_modifySamples_hm1;
 					u = s;
 					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
 					if (s < amin) s = amin;
 					if (amax < s) s = amax;
 					s = RINT(s);
-					hm1 = s - u;
+					equ_modifySamples_hm1 = s - u;
 					((unsigned char *)buf)[i+p*nch] = s + 0x80;
 				} else {
 					if (s < amin) s = amin;
@@ -518,13 +551,13 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 				float s = outbuf[nbufsamples*nch+i];
 				if (dither) {
 					float u;
-					s -= hm1;
+					s -= equ_modifySamples_hm1;
 					u = s;
 					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
 					if (s < amin) s = amin;
 					if (amax < s) s = amax;
 					s = RINT(s);
-					hm1 = s - u;
+					equ_modifySamples_hm1 = s - u;
 					((short *)buf)[i+p*nch] = s;
 				} else {
 					if (s < amin) s = amin;
@@ -569,10 +602,10 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
  ******************************************************************************/
 
 
-static float last_srate = 0;
-static int last_nch = 0, last_bps = 0;
-static float lbands[18] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-static float rbands[18] = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
+float last_srate;
+int last_nch, last_bps;
+float lbands[18];
+float rbands[18];
 paramlist paramroot;
 
 int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, int nch, int srate)
@@ -596,6 +629,8 @@ int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, 
 	return numsamples;
 }
 
+}; // class SjSuperEQ
+
 
 /*******************************************************************************
  * SjEqualizer
@@ -604,19 +639,13 @@ int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, 
 
 SjEqualizer::SjEqualizer()
 {
-	m_ok                  = false;
+	m_superEq             = NULL;
 	m_enabled             = false;
 	m_currParamChanged    = true; // force init
 	m_currChannels        = 0;
 	m_currSamplerate      = 0;
 	m_deinterlaceBuf      = NULL;
 	m_deinterlaceBufBytes = 0;
-
-	if( lires1 == NULL ) {
-		equ_init(14);
-		// load_from(autoloadfile,1); // TODO, see dsp_superequ.cpp
-		m_ok = true;
-	}
 
 	for( int b = 0; b < SJ_EQ_BANDS; b++ )
 	{
@@ -628,8 +657,8 @@ SjEqualizer::SjEqualizer()
 
 SjEqualizer::~SjEqualizer()
 {
-	if( m_ok ) {
-		equ_quit();
+	if( m_superEq ) {
+		delete m_superEq;
 	}
 
 	if( m_deinterlaceBuf ) free(m_deinterlaceBuf);
@@ -650,7 +679,7 @@ void SjEqualizer::SetParam(bool newEnabled, const SjEqParam& newParam)
 
 void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int channels)
 {
-	if( !m_enabled || !m_ok || buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // nothing to do/error
+	if( !m_enabled || buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // nothing to do/error
 
 	m_paramCritical.Enter();
 		if( m_currParamChanged )
@@ -660,6 +689,9 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 		}
 	m_paramCritical.Leave();
 
+	if( m_superEq == NULL ) {
+		m_superEq = new SjSuperEQ(14);
+	}
 
 	// TEMP: Convert float to pcm16
 	if( channels != 2 ) return; // error
@@ -667,7 +699,7 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 	bytes /= 2;
 
 	// TEMP: DSP
-	modify_samples(NULL, (signed short*)buffer, bytes/4, 16, channels, samplerate);
+	m_superEq->modify_samples(NULL, (signed short*)buffer, bytes/4, 16, channels, samplerate);
 
 	// TEMP: Convert pcm16 back to float
 	SjPcm16ToFloat((const signed short*)buffer, buffer, bytes);
