@@ -212,8 +212,6 @@ void SjListBrowser::SaveConfig()
 
 void SjListBrowser::SetOrder(long sortField, bool desc)
 {
-	wxBusyCursor busy;
-
 	if( !isPossibleCol(sortField) )
 		return;
 
@@ -354,8 +352,6 @@ void SjListBrowser::Realize(bool reloadColumnMixer, bool keepColIndex)
 	{
 		// for the moment, we have only one list view; for future versions,
 		// this may change (current CD-ROM, Radio Stations etc.)
-
-		wxBusyCursor busy; //-- I think, this is normally not needed :-) we're fast enough eg. for 30.000 tracks on my machine (always less than 200 ms to create a view)
 
 		if( m_listView )
 			delete m_listView;
@@ -755,7 +751,6 @@ void SjListBrowser::OnMouseLeftUp(wxMouseEvent& event)
 	bool inSizer;
 	if( MouseInHeader(event.GetX(), event.GetY(), index, inSizer) && !inSizer )
 	{
-		wxBusyCursor busy;
 		if( m_columns[index] == m_sortField )
 		{
 			m_sortDesc = !m_sortDesc;

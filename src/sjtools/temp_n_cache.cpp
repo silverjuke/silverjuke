@@ -221,7 +221,6 @@ wxString SjTempNCache::GetTempDir()
 
 void SjTempNCache::SetTempDir(const wxString& newTempDir__)
 {
-	wxBusyCursor busy;
 	wxString newTempDir = SjLittleDirSel::NormalizeDir(newTempDir__);
 
 	if( !InitDb() || newTempDir == GetTempDir() )

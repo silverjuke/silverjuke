@@ -259,8 +259,6 @@ void SjImgThread::RequireStart(wxEvtHandler* evtHandler)
 		{
 			m_triedCreation = TRUE;
 
-			wxBusyCursor wait;
-
 			if( (m_condition = new wxCondition(m_mutex)) != NULL
 			 &&  m_condition->IsOk() != FALSE )
 			{

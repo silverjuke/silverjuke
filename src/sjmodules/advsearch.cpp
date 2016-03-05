@@ -2411,8 +2411,6 @@ void SjAdvSearchModule::ReceiveMsg(int msg)
 void SjAdvSearchModule::OpenDialog(long preselectId)
 {
 	{
-		wxBusyCursor busy;
-
 		if( IsDialogOpen() )
 		{
 			// raise existing dialog - the preselect id is ignored
