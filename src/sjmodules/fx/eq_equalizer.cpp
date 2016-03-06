@@ -54,7 +54,7 @@ public:
 
 #define RINT(x) ((x) >= 0 ? ((int)((x) + 0.5)) : ((int)((x) - 0.5)))
 
-#define DITHERLEN 65536
+//#define DITHERLEN 65536
 
 // play -c 2 -r 44100 -fs -sw
 
@@ -63,13 +63,13 @@ REAL aa;
 REAL iza;
 REAL *lires,*lires1,*lires2,*rires,*rires1,*rires2,*irest;
 REAL *fsamples;
-REAL *ditherbuf;
-int ditherptr;
+//REAL *ditherbuf;
+//int ditherptr;
 volatile int chg_ires,cur_ires;
 int winlen,winlenbit,tabsize,nbufsamples;
 short *inbuf;
 REAL *outbuf;
-int enable, dither;
+//int enable, dither;
 
 #define NCH 2
 
@@ -102,9 +102,9 @@ SjSuperEQ(int wb)
   int i,j;
 
   aa = 96;
-  ditherptr = 0;
-  enable = 1;
-  dither = 0;
+  //ditherptr = 0;
+  //enable = 1;
+  //dither = 0;
 
   winlen = (1 << (wb-1))-1;
   winlenbit = wb;
@@ -118,15 +118,15 @@ SjSuperEQ(int wb)
   fsamples = (REAL *)malloc(sizeof(REAL)*tabsize);
   inbuf    = (short *)calloc(winlen*NCH,sizeof(int));
   outbuf   = (REAL *)calloc(tabsize*NCH,sizeof(REAL));
-  ditherbuf = (REAL *)malloc(sizeof(REAL)*DITHERLEN);
+  //ditherbuf = (REAL *)malloc(sizeof(REAL)*DITHERLEN);
 
   lires = lires1;
   rires = rires1;
   cur_ires = 1;
   chg_ires = 1;
 
-  for(i=0;i<DITHERLEN;i++)
-	ditherbuf[i] = (float(rand())/RAND_MAX-0.5);
+  //for(i=0;i<DITHERLEN;i++)
+  //	ditherbuf[i] = (float(rand())/RAND_MAX-0.5);
 
   for(i=0;i<=M;i++)
     {
@@ -138,10 +138,10 @@ SjSuperEQ(int wb)
 
   last_srate = 0;
   last_nch = 0;
-  last_bps = 0;
+  //last_bps = 0;
   for( i = 0; i < 18; i++ ) { lbands[i]=1.0; rbands[i]=1.0; }
   bands_changed = false;
-  equ_modifySamples_hm1 = 0;
+  //equ_modifySamples_hm1 = 0;
   rfft_ipsize = 0;
   rfft_wsize=0;
   rfft_ip = NULL;
@@ -364,7 +364,7 @@ void equ_makeTable(const REAL *lbc,const REAL *rbc,paramlist *param,REAL fs)
   rfft(0,0,NULL);
 }
 
-void equ_clearbuf(int bps,int srate)
+void equ_clearbuf(/*int bps,int srate*/)
 {
 	int i;
 
@@ -372,9 +372,9 @@ void equ_clearbuf(int bps,int srate)
 	for(i=0;i<tabsize*NCH;i++) outbuf[i] = 0;
 }
 
-float equ_modifySamples_hm1;
+//float equ_modifySamples_hm1;
 
-int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
+void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 {
   int i,p,ch;
   REAL *ires;
@@ -390,9 +390,9 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 
   p = 0;
 
-  while(nbufsamples+nsamples >= winlen)
+  while(nbufsamples+nsamples >= winlen) // enough samples collected for EQ-processing?
     {
-	  switch(bps)
+	  /*switch(bps)
 	  {
 	  case 8:
 		for(i=0;i<(winlen-nbufsamples)*nch;i++)
@@ -420,12 +420,12 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 
 		break;
 
-	  case 16:
+	  case 16:*/
 		for(i=0;i<(winlen-nbufsamples)*nch;i++)
 			{
 				inbuf[nbufsamples*nch+i] = ((short *)buf)[i+p*nch];
 				float s = outbuf[nbufsamples*nch+i];
-				if (dither) {
+				/*if (dither) {
 					float u;
 					s -= equ_modifySamples_hm1;
 					u = s;
@@ -435,16 +435,15 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 					s = RINT(s);
 					equ_modifySamples_hm1 = s - u;
 					((short *)buf)[i+p*nch] = s;
-				} else {
+				} else {*/
 					if (s < amin) s = amin;
 					if (amax < s) s = amax;
 					((short *)buf)[i+p*nch] = RINT(s);
-				}
+				/*}*/
 			}
 		for(i=winlen*nch;i<tabsize*nch;i++)
 			outbuf[i-winlen*nch] = outbuf[i];
-
-		break;
+		/*break;
 
 	  case 24:
 		for(i=0;i<(winlen-nbufsamples)*nch;i++)
@@ -470,7 +469,7 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 
 	  default:
 		assert(0);
-	  }
+	  }*/
 
       p += winlen-nbufsamples;
       nsamples -= winlen-nbufsamples;
@@ -491,7 +490,7 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			for(i=winlen;i<tabsize;i++)
 				fsamples[i] = 0;
 
-			if (enable) {
+			/*if (enable) {*/
 				rfft(tabsize,1,fsamples);
 
 				fsamples[0] = ires[0]*fsamples[0];
@@ -509,18 +508,19 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 					}
 
 				rfft(tabsize,-1,fsamples);
-			} else {
+			/*} else {
 				for(i=winlen-1+winlen/2;i>=winlen/2;i--) fsamples[i] = fsamples[i-winlen/2]*tabsize/2;
 				for(;i>=0;i--) fsamples[i] = 0;
-			}
+			}*/
 
 			for(i=0;i<winlen;i++) outbuf[i*nch+ch] += fsamples[i]/tabsize*2;
 
 			for(i=winlen;i<tabsize;i++) outbuf[i*nch+ch] = fsamples[i]/tabsize*2;
 		}
-    }
 
-	switch(bps)
+    } // while(nbufsamples+nsamples >= winlen) // enough samples collected for EQ-processing?
+
+	/*switch(bps)
 	  {
 	  case 8:
 		for(i=0;i<nsamples*nch;i++)
@@ -545,12 +545,13 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			}
 		break;
 
-	  case 16:
+	  case 16:*/
+		// collect rest samples
 		for(i=0;i<nsamples*nch;i++)
 			{
 				inbuf[nbufsamples*nch+i] = ((short *)buf)[i+p*nch];
 				float s = outbuf[nbufsamples*nch+i];
-				if (dither) {
+				/*if (dither) {
 					float u;
 					s -= equ_modifySamples_hm1;
 					u = s;
@@ -560,13 +561,13 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 					s = RINT(s);
 					equ_modifySamples_hm1 = s - u;
 					((short *)buf)[i+p*nch] = s;
-				} else {
+				} else {*/
 					if (s < amin) s = amin;
 					if (amax < s) s = amax;
 					((short *)buf)[i+p*nch] = RINT(s);
-				}
+				/*}*/
 			}
-		break;
+		/*break;
 
 	  case 24:
 		for(i=0;i<nsamples*nch;i++)
@@ -589,12 +590,12 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 
 	  default:
 		assert(0);
-	}
+	}*/
 
-  p += nsamples;
+  //p += nsamples__;
   nbufsamples += nsamples;
 
-  return p;
+  //return p;
 }
 
 
@@ -604,7 +605,7 @@ int equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 
 
 float last_srate;
-int last_nch, last_bps;
+int last_nch /*, last_bps*/;
 float lbands[18];
 float rbands[18];
 bool bands_changed;
@@ -619,12 +620,12 @@ int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, 
 		bands_changed = false;
 		last_srate = srate;
 		last_nch = nch;
-		last_bps = bps;
-		equ_clearbuf(bps,srate);
-	} else if (last_nch != nch || last_bps != bps) {
+		//last_bps = bps;
+		equ_clearbuf(/*bps,srate*/);
+	} else if (last_nch != nch /*|| last_bps != bps*/) {
 		last_nch = nch;
-		last_bps = bps;
-		equ_clearbuf(bps,srate);
+		//last_bps = bps;
+		equ_clearbuf(/*bps,srate*/);
 	}
 
 	equ_modifySamples((char *)samples,numsamples,nch,bps);
