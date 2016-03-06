@@ -687,9 +687,15 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 		if( m_currParamChanged )
 		{
 			// realize the new parameters
+			float gain;
 			for( int b = 0; b < SJ_EQ_BANDS; b++ )
 			{
-				float gain = (float)SjDecibel2Gain(m_currParam.m_bandDb[b]);
+				if( m_currParam.m_bandDb[b] <= -20.0F ) {
+					gain = 0.0F;
+				}
+				else {
+					gain = (float)SjDecibel2Gain(m_currParam.m_bandDb[b]);
+				}
 				m_superEq->lbands[b] = gain;
 				m_superEq->rbands[b] = gain;
 				m_superEq->bands_changed = true;

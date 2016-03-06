@@ -140,11 +140,15 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 wxString SjEqPanel::FormatParam(float db)
 {
 	// we do not have much space for each value; so use a comma only for small values that to longen the string
-	int rounded = (int)(db+0.5F);
-	if( rounded <= 0 ) {
+	if( db <= -20.0F ) {
+		return "-\u221E"; // -oo
+	}
+	else if( db <= 0.0F ) {
+		int rounded = (int)(db-0.5F);
 		return wxString::Format("%i", rounded);
 	}
 	else {
+		int rounded = (int)(db+0.5F);
 		return wxString::Format("+%i", rounded);
 	}
 }
