@@ -52,7 +52,7 @@ public:
 
 #define PI 3.1415926535897932384626433832795
 
-#define RINT(x) ((x) >= 0 ? ((int)((x) + 0.5)) : ((int)((x) - 0.5)))
+//#define RINT(x) ((x) >= 0 ? ((int)((x) + 0.5)) : ((int)((x) - 0.5)))
 
 REAL fact[M+1];
 REAL aa;
@@ -61,7 +61,7 @@ REAL *lires,*lires1,*lires2,*rires,*rires1,*rires2,*irest;
 REAL *fsamples;
 volatile int chg_ires,cur_ires;
 int winlen,winlenbit,tabsize,nbufsamples;
-short *inbuf;
+REAL *inbuf;
 REAL *outbuf;
 
 #define NCH 2
@@ -106,7 +106,7 @@ SjSuperEQ(int wb)
   rires2   = (REAL *)malloc(sizeof(REAL)*tabsize);
   irest    = (REAL *)malloc(sizeof(REAL)*tabsize);
   fsamples = (REAL *)malloc(sizeof(REAL)*tabsize);
-  inbuf    = (short *)calloc(winlen*NCH,sizeof(int));
+  inbuf    = (REAL *)calloc(winlen*NCH,sizeof(REAL));
   outbuf   = (REAL *)calloc(tabsize*NCH,sizeof(REAL));
 
   lires = lires1;
@@ -146,7 +146,7 @@ void rfft(int n,int isign,REAL x[])
     return;
   }
 
-  newipsize = 2+sqrt(n/2);
+  newipsize = 2+sqrt((float)(n/2));
   if (newipsize > rfft_ipsize) {
     rfft_ipsize = newipsize;
     rfft_ip = (int *)realloc(rfft_ip,sizeof(int)*rfft_ipsize);
@@ -356,12 +356,10 @@ void equ_clearbuf()
 	for(i=0;i<tabsize*NCH;i++) outbuf[i] = 0;
 }
 
-void equ_modifySamples(char *buf,int nsamples,int nch)
+void equ_modifySamples(REAL *buf,int nsamples,int nch)
 {
   int i,p,ch;
   REAL *ires;
-  int amax =  (1 << (16-1))-1;
-  int amin = -(1 << (16-1));
 
   if (chg_ires) {
 	  cur_ires = chg_ires;
@@ -374,38 +372,13 @@ void equ_modifySamples(char *buf,int nsamples,int nch)
 
   while(nbufsamples+nsamples >= winlen) // enough samples collected for EQ-processing?
     {
-	  /*switch(bps)
-	  {
-	  case 8:
 		for(i=0;i<(winlen-nbufsamples)*nch;i++)
 			{
-				inbuf[nbufsamples*nch+i] = ((unsigned char *)buf)[i+p*nch] - 0x80;
-				float s = outbuf[nbufsamples*nch+i];
-				if (s < amin) s = amin;
-				if (amax < s) s = amax;
-				((unsigned char *)buf)[i+p*nch] = RINT(s) + 0x80;
+				inbuf[nbufsamples*nch+i] = buf[i+p*nch];
+				buf[i+p*nch] = outbuf[nbufsamples*nch+i];
 			}
 		for(i=winlen*nch;i<tabsize*nch;i++)
 			outbuf[i-winlen*nch] = outbuf[i];
-
-		break;
-
-	  case 16:*/
-		for(i=0;i<(winlen-nbufsamples)*nch;i++)
-			{
-				inbuf[nbufsamples*nch+i] = ((short *)buf)[i+p*nch];
-				float s = outbuf[nbufsamples*nch+i];
-				if (s < amin) s = amin;
-				if (amax < s) s = amax;
-				((short *)buf)[i+p*nch] = RINT(s);
-			}
-		for(i=winlen*nch;i<tabsize*nch;i++)
-			outbuf[i-winlen*nch] = outbuf[i];
-		/*break;
-
-	  default:
-		assert(0);
-	  }*/
 
       p += winlen-nbufsamples;
       nsamples -= winlen-nbufsamples;
@@ -421,7 +394,6 @@ void equ_modifySamples(char *buf,int nsamples,int nch)
 			for(i=winlen;i<tabsize;i++)
 				fsamples[i] = 0;
 
-			/*if (enable) {*/
 				rfft(tabsize,1,fsamples);
 
 				fsamples[0] = ires[0]*fsamples[0];
@@ -439,10 +411,6 @@ void equ_modifySamples(char *buf,int nsamples,int nch)
 					}
 
 				rfft(tabsize,-1,fsamples);
-			/*} else {
-				for(i=winlen-1+winlen/2;i>=winlen/2;i--) fsamples[i] = fsamples[i-winlen/2]*tabsize/2;
-				for(;i>=0;i--) fsamples[i] = 0;
-			}*/
 
 			for(i=0;i<winlen;i++) outbuf[i*nch+ch] += fsamples[i]/tabsize*2;
 
@@ -451,34 +419,12 @@ void equ_modifySamples(char *buf,int nsamples,int nch)
 
     }
 
-	/*switch(bps)
-	  {
-	  case 8:
-		for(i=0;i<nsamples*nch;i++)
-			{
-				inbuf[nbufsamples*nch+i] = ((unsigned char *)buf)[i+p*nch] - 0x80;
-				float s = outbuf[nbufsamples*nch+i];
-				if (s < amin) s = amin;
-				if (amax < s) s = amax;
-				((unsigned char *)buf)[i+p*nch] = RINT(s) + 0x80;
-			}
-		break;
-
-	  case 16:*/
 		// collect rest samples
 		for(i=0;i<nsamples*nch;i++)
 			{
-				inbuf[nbufsamples*nch+i] = ((short *)buf)[i+p*nch];
-				float s = outbuf[nbufsamples*nch+i];
-				if (s < amin) s = amin;
-				if (amax < s) s = amax;
-				((short *)buf)[i+p*nch] = RINT(s);
+				inbuf[nbufsamples*nch+i] = buf[i+p*nch];
+				buf[i+p*nch] = outbuf[nbufsamples*nch+i];
 			}
-		/*break;
-
-	  default:
-		assert(0);
-	}*/
 
   nbufsamples += nsamples;
 }
@@ -496,7 +442,7 @@ float rbands[18];
 bool bands_changed;
 paramlist paramroot;
 
-int modify_samples(void *this_mod, short int *samples, int numsamples, int nch, int srate)
+int modify_samples(void *this_mod, REAL *samples, int numsamples, int nch, int srate)
 {
 	if ((nch != 1 && nch != 2) ) return numsamples;
 
@@ -511,7 +457,7 @@ int modify_samples(void *this_mod, short int *samples, int numsamples, int nch, 
 		equ_clearbuf();
 	}
 
-	equ_modifySamples((char *)samples,numsamples,nch);
+	equ_modifySamples(samples,numsamples,nch);
 
 	return numsamples;
 }
@@ -588,15 +534,8 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 		}
 	m_paramCritical.Leave();
 
-	// TEMP: Convert float to pcm16
+	// eq processing
 	if( channels != 2 ) return; // error
-	SjFloatToPcm16(buffer, (signed short*)buffer, bytes);
-	bytes /= 2;
-
-	// TEMP: DSP
-	m_superEq->modify_samples(NULL, (signed short*)buffer, bytes/4, channels, samplerate);
-
-	// TEMP: Convert pcm16 back to float
-	SjPcm16ToFloat((const signed short*)buffer, buffer, bytes);
+	m_superEq->modify_samples(NULL, buffer, bytes/8, channels, samplerate);
 }
 
