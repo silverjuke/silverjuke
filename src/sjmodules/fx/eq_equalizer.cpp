@@ -54,22 +54,15 @@ public:
 
 #define RINT(x) ((x) >= 0 ? ((int)((x) + 0.5)) : ((int)((x) - 0.5)))
 
-//#define DITHERLEN 65536
-
-// play -c 2 -r 44100 -fs -sw
-
 REAL fact[M+1];
 REAL aa;
 REAL iza;
 REAL *lires,*lires1,*lires2,*rires,*rires1,*rires2,*irest;
 REAL *fsamples;
-//REAL *ditherbuf;
-//int ditherptr;
 volatile int chg_ires,cur_ires;
 int winlen,winlenbit,tabsize,nbufsamples;
 short *inbuf;
 REAL *outbuf;
-//int enable, dither;
 
 #define NCH 2
 
@@ -102,9 +95,6 @@ SjSuperEQ(int wb)
   int i,j;
 
   aa = 96;
-  //ditherptr = 0;
-  //enable = 1;
-  //dither = 0;
 
   winlen = (1 << (wb-1))-1;
   winlenbit = wb;
@@ -118,15 +108,11 @@ SjSuperEQ(int wb)
   fsamples = (REAL *)malloc(sizeof(REAL)*tabsize);
   inbuf    = (short *)calloc(winlen*NCH,sizeof(int));
   outbuf   = (REAL *)calloc(tabsize*NCH,sizeof(REAL));
-  //ditherbuf = (REAL *)malloc(sizeof(REAL)*DITHERLEN);
 
   lires = lires1;
   rires = rires1;
   cur_ires = 1;
   chg_ires = 1;
-
-  //for(i=0;i<DITHERLEN;i++)
-  //	ditherbuf[i] = (float(rand())/RAND_MAX-0.5);
 
   for(i=0;i<=M;i++)
     {
@@ -138,10 +124,8 @@ SjSuperEQ(int wb)
 
   last_srate = 0;
   last_nch = 0;
-  //last_bps = 0;
   for( i = 0; i < 18; i++ ) { lbands[i]=1.0; rbands[i]=1.0; }
   bands_changed = false;
-  //equ_modifySamples_hm1 = 0;
   rfft_ipsize = 0;
   rfft_wsize=0;
   rfft_ip = NULL;
@@ -364,7 +348,7 @@ void equ_makeTable(const REAL *lbc,const REAL *rbc,paramlist *param,REAL fs)
   rfft(0,0,NULL);
 }
 
-void equ_clearbuf(/*int bps,int srate*/)
+void equ_clearbuf()
 {
 	int i;
 
@@ -372,14 +356,12 @@ void equ_clearbuf(/*int bps,int srate*/)
 	for(i=0;i<tabsize*NCH;i++) outbuf[i] = 0;
 }
 
-//float equ_modifySamples_hm1;
-
-void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
+void equ_modifySamples(char *buf,int nsamples,int nch)
 {
   int i,p,ch;
   REAL *ires;
-  int amax =  (1 << (bps-1))-1;
-  int amin = -(1 << (bps-1));
+  int amax =  (1 << (16-1))-1;
+  int amin = -(1 << (16-1));
 
   if (chg_ires) {
 	  cur_ires = chg_ires;
@@ -399,21 +381,9 @@ void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			{
 				inbuf[nbufsamples*nch+i] = ((unsigned char *)buf)[i+p*nch] - 0x80;
 				float s = outbuf[nbufsamples*nch+i];
-				if (dither) {
-					float u;
-					s -= equ_modifySamples_hm1;
-					u = s;
-					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					s = RINT(s);
-					equ_modifySamples_hm1 = s - u;
-					((unsigned char *)buf)[i+p*nch] = s + 0x80;
-				} else {
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					((unsigned char *)buf)[i+p*nch] = RINT(s) + 0x80;
-				}
+				if (s < amin) s = amin;
+				if (amax < s) s = amax;
+				((unsigned char *)buf)[i+p*nch] = RINT(s) + 0x80;
 			}
 		for(i=winlen*nch;i<tabsize*nch;i++)
 			outbuf[i-winlen*nch] = outbuf[i];
@@ -425,47 +395,13 @@ void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			{
 				inbuf[nbufsamples*nch+i] = ((short *)buf)[i+p*nch];
 				float s = outbuf[nbufsamples*nch+i];
-				/*if (dither) {
-					float u;
-					s -= equ_modifySamples_hm1;
-					u = s;
-					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					s = RINT(s);
-					equ_modifySamples_hm1 = s - u;
-					((short *)buf)[i+p*nch] = s;
-				} else {*/
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					((short *)buf)[i+p*nch] = RINT(s);
-				/*}*/
+				if (s < amin) s = amin;
+				if (amax < s) s = amax;
+				((short *)buf)[i+p*nch] = RINT(s);
 			}
 		for(i=winlen*nch;i<tabsize*nch;i++)
 			outbuf[i-winlen*nch] = outbuf[i];
 		/*break;
-
-	  case 24:
-		for(i=0;i<(winlen-nbufsamples)*nch;i++)
-			{
-				((int *)inbuf)[nbufsamples*nch+i] =
-					(((unsigned char *)buf)[(i+p*nch)*3  ]      ) +
-					(((unsigned char *)buf)[(i+p*nch)*3+1] <<  8) +
-					(((  signed char *)buf)[(i+p*nch)*3+2] << 16) ;
-
-				float s = outbuf[nbufsamples*nch+i];
-				//if (dither) s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
-				if (s < amin) s = amin;
-				if (amax < s) s = amax;
-				int s2 = RINT(s);
-				((signed char *)buf)[(i+p*nch)*3  ] = s2 & 255; s2 >>= 8;
-				((signed char *)buf)[(i+p*nch)*3+1] = s2 & 255; s2 >>= 8;
-				((signed char *)buf)[(i+p*nch)*3+2] = s2 & 255;
-			}
-		for(i=winlen*nch;i<tabsize*nch;i++)
-			outbuf[i-winlen*nch] = outbuf[i];
-
-		break;
 
 	  default:
 		assert(0);
@@ -479,13 +415,8 @@ void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 		{
 			ires = ch == 0 ? lires : rires;
 
-			if (bps == 24) {
-				for(i=0;i<winlen;i++)
-					fsamples[i] = ((int *)inbuf)[nch*i+ch];
-			} else {
-				for(i=0;i<winlen;i++)
-					fsamples[i] = inbuf[nch*i+ch];
-			}
+			for(i=0;i<winlen;i++)
+				fsamples[i] = inbuf[nch*i+ch];
 
 			for(i=winlen;i<tabsize;i++)
 				fsamples[i] = 0;
@@ -518,7 +449,7 @@ void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			for(i=winlen;i<tabsize;i++) outbuf[i*nch+ch] = fsamples[i]/tabsize*2;
 		}
 
-    } // while(nbufsamples+nsamples >= winlen) // enough samples collected for EQ-processing?
+    }
 
 	/*switch(bps)
 	  {
@@ -527,21 +458,9 @@ void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			{
 				inbuf[nbufsamples*nch+i] = ((unsigned char *)buf)[i+p*nch] - 0x80;
 				float s = outbuf[nbufsamples*nch+i];
-				if (dither) {
-					float u;
-					s -= equ_modifySamples_hm1;
-					u = s;
-					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					s = RINT(s);
-					equ_modifySamples_hm1 = s - u;
-					((unsigned char *)buf)[i+p*nch] = s + 0x80;
-				} else {
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					((unsigned char *)buf)[i+p*nch] = RINT(s) + 0x80;
-				}
+				if (s < amin) s = amin;
+				if (amax < s) s = amax;
+				((unsigned char *)buf)[i+p*nch] = RINT(s) + 0x80;
 			}
 		break;
 
@@ -551,51 +470,17 @@ void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 			{
 				inbuf[nbufsamples*nch+i] = ((short *)buf)[i+p*nch];
 				float s = outbuf[nbufsamples*nch+i];
-				/*if (dither) {
-					float u;
-					s -= equ_modifySamples_hm1;
-					u = s;
-					s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					s = RINT(s);
-					equ_modifySamples_hm1 = s - u;
-					((short *)buf)[i+p*nch] = s;
-				} else {*/
-					if (s < amin) s = amin;
-					if (amax < s) s = amax;
-					((short *)buf)[i+p*nch] = RINT(s);
-				/*}*/
-			}
-		/*break;
-
-	  case 24:
-		for(i=0;i<nsamples*nch;i++)
-			{
-				((int *)inbuf)[nbufsamples*nch+i] =
-					(((unsigned char *)buf)[(i+p*nch)*3  ]      ) +
-					(((unsigned char *)buf)[(i+p*nch)*3+1] <<  8) +
-					(((  signed char *)buf)[(i+p*nch)*3+2] << 16) ;
-
-				float s = outbuf[nbufsamples*nch+i];
-				//if (dither) s += ditherbuf[(ditherptr++) & (DITHERLEN-1)];
 				if (s < amin) s = amin;
 				if (amax < s) s = amax;
-				int s2 = RINT(s);
-				((signed char *)buf)[(i+p*nch)*3  ] = s2 & 255; s2 >>= 8;
-				((signed char *)buf)[(i+p*nch)*3+1] = s2 & 255; s2 >>= 8;
-				((signed char *)buf)[(i+p*nch)*3+2] = s2 & 255;
+				((short *)buf)[i+p*nch] = RINT(s);
 			}
-		break;
+		/*break;
 
 	  default:
 		assert(0);
 	}*/
 
-  //p += nsamples__;
   nbufsamples += nsamples;
-
-  //return p;
 }
 
 
@@ -605,30 +490,28 @@ void equ_modifySamples(char *buf,int nsamples,int nch,int bps)
 
 
 float last_srate;
-int last_nch /*, last_bps*/;
+int last_nch;
 float lbands[18];
 float rbands[18];
 bool bands_changed;
 paramlist paramroot;
 
-int modify_samples(void *this_mod, short int *samples, int numsamples, int bps, int nch, int srate)
+int modify_samples(void *this_mod, short int *samples, int numsamples, int nch, int srate)
 {
-	if ((nch != 1 && nch != 2) || (bps != 8 && bps != 16 && bps != 24)) return numsamples;
+	if ((nch != 1 && nch != 2) ) return numsamples;
 
 	if (last_srate != srate || bands_changed) {
 		equ_makeTable(lbands,rbands,&paramroot,srate);
 		bands_changed = false;
 		last_srate = srate;
 		last_nch = nch;
-		//last_bps = bps;
-		equ_clearbuf(/*bps,srate*/);
-	} else if (last_nch != nch /*|| last_bps != bps*/) {
+		equ_clearbuf();
+	} else if (last_nch != nch ) {
 		last_nch = nch;
-		//last_bps = bps;
-		equ_clearbuf(/*bps,srate*/);
+		equ_clearbuf();
 	}
 
-	equ_modifySamples((char *)samples,numsamples,nch,bps);
+	equ_modifySamples((char *)samples,numsamples,nch);
 
 	return numsamples;
 }
@@ -711,7 +594,7 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 	bytes /= 2;
 
 	// TEMP: DSP
-	m_superEq->modify_samples(NULL, (signed short*)buffer, bytes/4, 16, channels, samplerate);
+	m_superEq->modify_samples(NULL, (signed short*)buffer, bytes/4, channels, samplerate);
 
 	// TEMP: Convert pcm16 back to float
 	SjPcm16ToFloat((const signed short*)buffer, buffer, bytes);
