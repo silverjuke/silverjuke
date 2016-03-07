@@ -37,6 +37,7 @@ public:
 
 private:
 	wxCheckBox*     m_onOffSwitch;
+	wxStaticText*   m_presetLabel;
 	wxChoice*       m_presetChoice;
 
 	SjEqParam       m_currParam;
@@ -47,6 +48,7 @@ private:
 	wxString        FormatParam         (float db);
 	wxString        GetPresetNameFromChoice();
 
+	void            UpdateLabel         (wxSlider*, wxStaticText*, float db);
 	void            UpdateSlider        (int paramIndex);
 	void            UpdateSliders       ();
 	void            UpdatePresetChoice  (bool createItems=false);

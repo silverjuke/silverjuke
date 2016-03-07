@@ -118,19 +118,20 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 		paramSizer->Add(staticText, 0, wxGROW);
 	}
 
-	UpdateSliders();
-
 	// controls below the sliders
 	wxBoxSizer* slider2 = new wxBoxSizer(wxHORIZONTAL);
 	sizer1->Add(slider2, 0, wxGROW|wxALL, SJ_DLG_SPACE);
 
-	slider2->Add(new wxStaticText(this, wxID_ANY, _("Preset:")), 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
+	m_presetLabel = new wxStaticText(this, wxID_ANY, _("Preset:")); // we use this object to find out the "black" foreground color
+	slider2->Add(m_presetLabel, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
 
 	m_presetChoice = new wxChoice(this, IDM_PRESET_CHOICE);
 	slider2->Add(m_presetChoice, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
 	UpdatePresetChoice(true /*create list*/);
 
 	m_backupPresetName = GetPresetNameFromChoice();
+
+	UpdateSliders(); // should be done after allocating m_presetLabel which is used to find out the normal foreground color
 
 	wxButton* b = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
 	slider2->Add(b, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
@@ -150,6 +151,25 @@ wxString SjEqPanel::FormatParam(float db)
 	else {
 		int rounded = (int)(db+0.5F);
 		return wxString::Format("+%i", rounded);
+	}
+}
+
+
+void SjEqPanel::UpdateLabel(wxSlider* slider, wxStaticText* label, float db)
+{
+	label->SetLabel(FormatParam(db));
+
+	if( db > 0.0F ) {
+		label->SetForegroundColour(wxColour(0xEE, 0x1A, 0x24));
+
+		wxString warning = _("Values above +0 dB may cause sound distortion!");
+		label->SetToolTip(warning);
+		slider->SetToolTip(warning);
+	}
+	else {
+		label->SetForegroundColour(m_presetLabel->GetForegroundColour());
+		label->UnsetToolTip();
+		slider->UnsetToolTip();
 	}
 }
 
@@ -178,7 +198,7 @@ void SjEqPanel::UpdateSlider(int paramIndex)
 
 	// update the slider and the label
 	slider->SetValue(value);
-	label->SetLabel(FormatParam(m_currParam.m_bandDb[paramIndex]));
+	UpdateLabel(slider, label, m_currParam.m_bandDb[paramIndex]);
 }
 
 
@@ -251,7 +271,7 @@ void SjEqPanel::OnSlider(wxScrollEvent& event)
 		if( newValue != m_currParam.m_bandDb[paramIndex] )
 		{
 			m_currParam.m_bandDb[paramIndex] = newValue;
-			label->SetLabel(FormatParam(newValue));
+			UpdateLabel(slider, label, newValue);
 
 			UpdatePresetChoice();
 			UpdatePlayer();
