@@ -118,7 +118,7 @@ SjSuperEQ(int wb)
   iza = izero(alpha(aa));
 
   last_srate = 0;
-  for( i = 0; i < 18; i++ ) { lbands[i]=1.0; rbands[i]=1.0; }
+  for( i = 0; i < 18; i++ ) { lbands[i]=1.0; }
   bands_changed = false;
   rfft_ipsize = 0;
   rfft_wsize=0;
@@ -280,7 +280,7 @@ void process_param(const REAL *bc,paramlist *param,paramlist &param2,REAL fs,int
   }
 }
 
-void equ_makeTable(const REAL *lbc,const REAL *rbc,paramlist *param,REAL fs)
+void equ_makeTable(const REAL *lbc,paramlist *param,REAL fs)
 {
   int i,cires = cur_ires;
   REAL *nires;
@@ -408,14 +408,13 @@ void equ_modifySamples(REAL *buf,int nsamples)
 
 float last_srate;
 float lbands[18];
-float rbands[18];
 bool bands_changed;
 paramlist paramroot;
 
 void modify_samples(REAL *samples, int numsamples, int srate)
 {
 	if (last_srate != srate || bands_changed) {
-		equ_makeTable(lbands,rbands,&paramroot,srate);
+		equ_makeTable(lbands,&paramroot,srate);
 		bands_changed = false;
 		last_srate = srate;
 		equ_clearbuf();
@@ -497,7 +496,6 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 				for( int c = 0; c < channels; c++ )
 				{
 					m_superEq[c]->lbands[b] = gain;
-					m_superEq[c]->rbands[b] = gain;
 					m_superEq[c]->bands_changed = true;
 				}
 			}
