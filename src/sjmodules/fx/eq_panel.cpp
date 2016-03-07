@@ -371,12 +371,14 @@ void SjEqPanel::OnImport(wxCommandEvent&)
     m_currParam.FromFile(selPath);
 
 	// also add a preset
-	g_mainFrame->m_player.m_eqPresetFactory.AddPreset(wxFileName(selPath).GetName(), m_currParam);
+	wxString presetName = wxFileName(selPath).GetName();
+	g_mainFrame->m_player.m_eqPresetFactory.AddPreset(presetName, m_currParam);
 
 	// update controls
 	UpdateSliders();
 	UpdatePresetChoice(true);
 	UpdatePlayer();
+	m_backupPresetName = presetName;
 }
 
 
