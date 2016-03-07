@@ -77,6 +77,59 @@ void SjEqParam::FromString(const wxString& str__)
 }
 
 
+void SjEqParam::FromFile(const wxString& fileName)
+{
+	wxFileSystem fileSystem;
+	wxFSFile* fsFile = fileSystem.OpenFile(fileName, wxFS_READ|wxFS_SEEKABLE);
+		if( fsFile == NULL ) { wxLogError(_("Cannot read \"%s\"."), fileName.c_str()); return; }
+		wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1 /*file is a windows file, however, we only use ASCII*/);
+	delete fsFile;
+
+	wxString ext = SjTools::GetExt(fileName);
+	if( ext == "fx-eq" )
+	{
+		// set from old silverjuke ini-format, AutoLevel() as this equalizer works completely different
+		float bands[10];
+		SjCfgTokenizer cfg;
+		cfg.AddFromString(content);
+		for( int b = 0; b < 10; b++ ) {
+			wxString value = cfg.Lookup(wxString::Format("eq.gain%i", b), "0.0");
+			bands[b] = SjTools::ParseFloat(value, 0.0F);
+		}
+		FromTypical10Band(bands);
+		AutoLevel();
+	}
+	else
+	{
+		// set from our own format, no AutoLevel() as this configuration comes from the same 18-band-FIR-equaizer and distortions may be avoided by the user
+		FromString(content);
+	}
+}
+
+
+void SjEqParam::FromTypical10Band(const float* i10bandsDb)
+{
+	/*
+	  # 0     1      2         3           4             5             6        7          8          9
+	 Hz 31    62     125       250         500           1K            2K       4K         8K         16K
+	      \    \      |      /  |  \        | \         / |           / |      /   \      /   \      /   \
+	 Hz    55  77   110   156  220  311   440  622   880  1.2K   1.8K  2.5K   3.5K  5K   7K   10K  14K   20K
+	  #    0   1    2     3    4    5     6    7     8    9      10    11     12    13   14   15   16    17
+	*/
+
+	m_bandDb[0]                         = i10bandsDb[0];
+	m_bandDb[1]                         = i10bandsDb[1];
+	m_bandDb[2]                         = i10bandsDb[2];
+	m_bandDb[3]=m_bandDb[4]=m_bandDb[5] = i10bandsDb[3];
+	m_bandDb[6]=m_bandDb[7]             = i10bandsDb[4];
+	m_bandDb[8]=m_bandDb[9]             = i10bandsDb[5];
+	m_bandDb[10]=m_bandDb[11]           = i10bandsDb[6];
+	m_bandDb[12]=m_bandDb[13]           = i10bandsDb[7];
+	m_bandDb[14]=m_bandDb[15]           = i10bandsDb[8];
+	m_bandDb[16]=m_bandDb[17]           = i10bandsDb[9];
+}
+
+
 void SjEqParam::Shift(float add)
 {
 	for( int i = 0; i < SJ_EQ_BANDS; i++ )

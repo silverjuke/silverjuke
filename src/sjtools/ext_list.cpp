@@ -190,7 +190,7 @@ void SjExtList::RepositoryInit()
 		RepositoryAdd("feq",                           "Foobar Equalizer Preset");
 		RepositoryAdd("fla flac",                      wxString::Format(_("%s-audio"), "FLAC"));
 		RepositoryAdd("flv f4a f4v f4p",               wxString::Format(_("%s-video"), "Flash"));
-		RepositoryAdd("fx-eq",                         "Sj2 Equalizer Preset"); // 10 band, not supported
+		RepositoryAdd("fx-eq",                         "Sj2 Equalizer Preset");
 		RepositoryAdd("gif",                           wxString::Format(_("%s-images"),"GIF"));
 		RepositoryAdd("ham ham6 ham8",                 wxString::Format(_("%s-images"),"HAM"));
 		RepositoryAdd("iff",                           wxString::Format(_("%s-images"),"IFF"));

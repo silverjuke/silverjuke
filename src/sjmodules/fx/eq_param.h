@@ -53,9 +53,12 @@ public:
 
 	wxString        ToString            (const wxString& sep=";") const;
 	void            FromString          (const wxString&);
+	void            FromFile            (const wxString& fileName);
+	void            FromTypical10Band   (const float* bandsDb);
 
 	void            Shift               (float add);
 	float           GetAutoLevelShift   ();
+	void            AutoLevel           () { Shift(GetAutoLevelShift()); }
 };
 
 

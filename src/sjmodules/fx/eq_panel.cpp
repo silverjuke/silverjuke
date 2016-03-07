@@ -361,21 +361,14 @@ void SjEqPanel::OnImport(wxCommandEvent&)
 	m_backupParam = m_currParam;
 
 	// let user select a file
-	SjExtList extList("feq");
+	SjExtList extList("feq fx-eq");
 	wxFileDialog dlg(this, _("Import preset"), "", "", extList.GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
 	if( dlg.ShowModal() != wxID_OK ) { return; }
 	wxString selPath = dlg.GetPath();
 	wxString selExt = SjTools::GetExt(selPath);
 
     // read file
-	wxFileSystem fileSystem;
-	wxFSFile* fsFile = fileSystem.OpenFile(selPath, wxFS_READ|wxFS_SEEKABLE);
-		if( fsFile == NULL ) { wxLogError(_("Cannot read \"%s\"."), selPath.c_str()); return; }
-		wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1 /*file is a windows file, however, we only use ASCII*/);
-	delete fsFile;
-
-	// set silders to imported data
-    m_currParam.FromString(content);
+    m_currParam.FromFile(selPath);
 
 	// also add a preset
 	g_mainFrame->m_player.m_eqPresetFactory.AddPreset(wxFileName(selPath).GetName(), m_currParam);
@@ -431,7 +424,7 @@ void SjEqPanel::OnShift(wxCommandEvent& e)
 	{
 		case IDM_SHIFT_DOWN:       m_currParam.Shift(-1.0F); break;
 		case IDM_SHIFT_UP:         m_currParam.Shift( 1.0F); break;
-		case IDM_SHIFT_AUTO_LEVEL: m_currParam.Shift(m_currParam.GetAutoLevelShift()); break;
+		case IDM_SHIFT_AUTO_LEVEL: m_currParam.AutoLevel();  break;
 	}
 
 	UpdateSliders();
