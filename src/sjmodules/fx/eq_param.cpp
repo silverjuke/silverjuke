@@ -105,13 +105,10 @@ void SjEqParam::FromFile(const wxString& fileName)
 		signed char content[299];
 		wxInputStream* is = fsFile->GetStream();
 		is->Read(content, 299);
-		wxString dbg;
 		if( content[0]=='W' && content[1]=='i' ) { // rough check for "Winamp EQ library file v1.1" header
 			for( int b = 0; b < 10; b++ ) {
 				bands[b] = (content[288+b]-31)*-0.375F;            // 0=+12 dB .. 31=0 dB 63=-12 dB
-				dbg += wxString::Format("%f ", bands[b]);
 			}
-			wxLogWarning("%s", dbg.c_str());
 		}
 		FromTypical10Band(bands, SJ_TYPICAL_EQ_SJ2);
 	}
@@ -133,10 +130,6 @@ void SjEqParam::FromFile(const wxString& fileName)
 
 	// close file
 	delete fsFile;
-
-	if( GetAutoLevelShift() ) {
-		//wxLogWarning(_("Values above +0 dB may cause sound distortion! Use \"Auto Level\" to fix this issue."));
-	}
 }
 
 
