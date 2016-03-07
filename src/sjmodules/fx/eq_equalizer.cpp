@@ -57,14 +57,12 @@ public:
 REAL fact[M+1];
 REAL aa;
 REAL iza;
-REAL *lires,*lires1,*lires2,*rires,*rires1,*rires2,*irest;
+REAL *lires,*lires1,*lires2,*irest;
 REAL *fsamples;
 volatile int chg_ires,cur_ires;
 int winlen,winlenbit,tabsize,nbufsamples;
 REAL *inbuf;
 REAL *outbuf;
-
-#define NCH 2
 
 #define NBANDS 17
 
@@ -102,15 +100,12 @@ SjSuperEQ(int wb)
 
   lires1   = (REAL *)malloc(sizeof(REAL)*tabsize);
   lires2   = (REAL *)malloc(sizeof(REAL)*tabsize);
-  rires1   = (REAL *)malloc(sizeof(REAL)*tabsize);
-  rires2   = (REAL *)malloc(sizeof(REAL)*tabsize);
   irest    = (REAL *)malloc(sizeof(REAL)*tabsize);
   fsamples = (REAL *)malloc(sizeof(REAL)*tabsize);
-  inbuf    = (REAL *)calloc(winlen*NCH,sizeof(REAL));
-  outbuf   = (REAL *)calloc(tabsize*NCH,sizeof(REAL));
+  inbuf    = (REAL *)calloc(winlen,sizeof(REAL));
+  outbuf   = (REAL *)calloc(tabsize,sizeof(REAL));
 
   lires = lires1;
-  rires = rires1;
   cur_ires = 1;
   chg_ires = 1;
 
@@ -123,7 +118,6 @@ SjSuperEQ(int wb)
   iza = izero(alpha(aa));
 
   last_srate = 0;
-  last_nch = 0;
   for( i = 0; i < 18; i++ ) { lbands[i]=1.0; rbands[i]=1.0; }
   bands_changed = false;
   rfft_ipsize = 0;
@@ -312,23 +306,6 @@ void equ_makeTable(const REAL *lbc,const REAL *rbc,paramlist *param,REAL fs)
   for(i=0;i<tabsize;i++)
     nires[i] = irest[i];
 
-  process_param(rbc,param,param2,fs,1);
-
-  // R
-
-  for(i=0;i<winlen;i++)
-    irest[i] = hn(i-winlen/2,param2,fs)*win(i-winlen/2,winlen);
-
-  for(;i<tabsize;i++)
-    irest[i] = 0;
-
-  rfft(tabsize,1,irest);
-
-  nires = cires == 1 ? rires2 : rires1;
-
-  for(i=0;i<tabsize;i++)
-    nires[i] = irest[i];
-
   //
 
   chg_ires = cires == 1 ? 2 : 1;
@@ -338,8 +315,6 @@ void equ_makeTable(const REAL *lbc,const REAL *rbc,paramlist *param,REAL fs)
 {
   free(lires1);
   free(lires2);
-  free(rires1);
-  free(rires2);
   free(irest);
   free(fsamples);
   free(inbuf);
@@ -353,18 +328,17 @@ void equ_clearbuf()
 	int i;
 
 	nbufsamples = 0;
-	for(i=0;i<tabsize*NCH;i++) outbuf[i] = 0;
+	for(i=0;i<tabsize;i++) outbuf[i] = 0;
 }
 
-void equ_modifySamples(REAL *buf,int nsamples,int nch)
+void equ_modifySamples(REAL *buf,int nsamples)
 {
-  int i,p,ch;
+  int i, p;
   REAL *ires;
 
   if (chg_ires) {
 	  cur_ires = chg_ires;
 	  lires = cur_ires == 1 ? lires1 : lires2;
-	  rires = cur_ires == 1 ? rires1 : rires2;
 	  chg_ires = 0;
   }
 
@@ -372,24 +346,22 @@ void equ_modifySamples(REAL *buf,int nsamples,int nch)
 
   while(nbufsamples+nsamples >= winlen) // enough samples collected for EQ-processing?
     {
-		for(i=0;i<(winlen-nbufsamples)*nch;i++)
+		for(i=0;i<(winlen-nbufsamples);i++)
 			{
-				inbuf[nbufsamples*nch+i] = buf[i+p*nch];
-				buf[i+p*nch] = outbuf[nbufsamples*nch+i];
+				inbuf[nbufsamples+i] = buf[i+p];
+				buf[i+p] = outbuf[nbufsamples+i];
 			}
-		for(i=winlen*nch;i<tabsize*nch;i++)
-			outbuf[i-winlen*nch] = outbuf[i];
+		for(i=winlen;i<tabsize;i++)
+			outbuf[i-winlen] = outbuf[i];
 
       p += winlen-nbufsamples;
       nsamples -= winlen-nbufsamples;
       nbufsamples = 0;
 
-      for(ch=0;ch<nch;ch++)
-		{
-			ires = ch == 0 ? lires : rires;
+			ires = lires;
 
 			for(i=0;i<winlen;i++)
-				fsamples[i] = inbuf[nch*i+ch];
+				fsamples[i] = inbuf[i];
 
 			for(i=winlen;i<tabsize;i++)
 				fsamples[i] = 0;
@@ -412,18 +384,17 @@ void equ_modifySamples(REAL *buf,int nsamples,int nch)
 
 				rfft(tabsize,-1,fsamples);
 
-			for(i=0;i<winlen;i++) outbuf[i*nch+ch] += fsamples[i]/tabsize*2;
+			for(i=0;i<winlen;i++) outbuf[i] += fsamples[i]/tabsize*2;
 
-			for(i=winlen;i<tabsize;i++) outbuf[i*nch+ch] = fsamples[i]/tabsize*2;
-		}
+			for(i=winlen;i<tabsize;i++) outbuf[i] = fsamples[i]/tabsize*2;
 
     }
 
 		// collect rest samples
-		for(i=0;i<nsamples*nch;i++)
+		for(i=0;i<nsamples;i++)
 			{
-				inbuf[nbufsamples*nch+i] = buf[i+p*nch];
-				buf[i+p*nch] = outbuf[nbufsamples*nch+i];
+				inbuf[nbufsamples+i] = buf[i+p];
+				buf[i+p] = outbuf[nbufsamples+i];
 			}
 
   nbufsamples += nsamples;
@@ -436,30 +407,21 @@ void equ_modifySamples(REAL *buf,int nsamples,int nch)
 
 
 float last_srate;
-int last_nch;
 float lbands[18];
 float rbands[18];
 bool bands_changed;
 paramlist paramroot;
 
-int modify_samples(void *this_mod, REAL *samples, int numsamples, int nch, int srate)
+void modify_samples(REAL *samples, int numsamples, int srate)
 {
-	if ((nch != 1 && nch != 2) ) return numsamples;
-
 	if (last_srate != srate || bands_changed) {
 		equ_makeTable(lbands,rbands,&paramroot,srate);
 		bands_changed = false;
 		last_srate = srate;
-		last_nch = nch;
-		equ_clearbuf();
-	} else if (last_nch != nch ) {
-		last_nch = nch;
 		equ_clearbuf();
 	}
 
-	equ_modifySamples(samples,numsamples,nch);
-
-	return numsamples;
+	equ_modifySamples(samples, numsamples);
 }
 
 }; // class SjSuperEQ
@@ -565,7 +527,7 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 		}
 
 		// call equalizer
-		m_superEq[c]->modify_samples(NULL, m_deinterlaceBuf, bytes/channels/sizeof(float), 1, samplerate);
+		m_superEq[c]->modify_samples(m_deinterlaceBuf, bytes/channels/sizeof(float), samplerate);
 
 		// interlace equalized data from `m_deinterlaceBuf` back to buffer
 		srcPtr = m_deinterlaceBuf;
