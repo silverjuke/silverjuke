@@ -162,7 +162,7 @@ void SjEqPanel::UpdateLabel(wxSlider* slider, wxStaticText* label, float db)
 	if( db > 0.0F ) {
 		label->SetForegroundColour(wxColour(0xEE, 0x1A, 0x24));
 
-		wxString warning = _("Values above +0 dB may cause sound distortion!");
+		wxString warning = _("Values above +0 dB may cause sound distortion! Use \"Auto Level\" to fix this issue.");
 		label->SetToolTip(warning);
 		slider->SetToolTip(warning);
 	}
@@ -306,14 +306,14 @@ void SjEqPanel::OnMenu(wxCommandEvent& event)
 		SjMenu menu(SJ_SHORTCUTS_LOCAL);
 		bool   isPreset = !GetPresetNameFromChoice().IsEmpty();
 
+		menu.Append(IDM_IMPORT, _("Open preset")+"...");
 		menu.Append(IDM_SAVE_AS, _("Save as...")); // we do not provide a "Rename" here - the name is used as the key
 		menu.Append(IDM_DELETE, _("Delete"));      // and should not be changed.  If _really_ required, you can use "Save as..." and delete the old preset
 		menu.Enable(IDM_DELETE, isPreset);
 		SjMenu* submenu = new SjMenu(SJ_SHORTCUTS_LOCAL);
-			submenu->Append(IDM_IMPORT, _("Import preset")+"...");
 			submenu->Append(IDM_EXPORT, _("Export preset")+"...");
 			submenu->Append(IDM_RESET_STD_PRESETS, _("Reset standard presets"));
-		menu.Append(0, _("Import/Export"), submenu);
+		menu.Append(0, _("Further options"), submenu);
 
 		menu.AppendSeparator();
 		menu.Append(IDM_SHIFT_UP, _("Shift up"));
@@ -361,8 +361,8 @@ void SjEqPanel::OnImport(wxCommandEvent&)
 	m_backupParam = m_currParam;
 
 	// let user select a file
-	SjExtList extList("feq fx-eq");
-	wxFileDialog dlg(this, _("Import preset"), "", "", extList.GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
+	SjExtList extList("eq eqf feq fx-eq q2");
+	wxFileDialog dlg(this, _("Open preset"), "", "", extList.GetFileDlgStr(), wxFD_OPEN|wxFD_CHANGE_DIR);
 	if( dlg.ShowModal() != wxID_OK ) { return; }
 	wxString selPath = dlg.GetPath();
 	wxString selExt = SjTools::GetExt(selPath);

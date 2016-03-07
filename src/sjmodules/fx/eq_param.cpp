@@ -79,16 +79,16 @@ void SjEqParam::FromString(const wxString& str__)
 
 void SjEqParam::FromFile(const wxString& fileName)
 {
+	// open file
 	wxFileSystem fileSystem;
 	wxFSFile* fsFile = fileSystem.OpenFile(fileName, wxFS_READ|wxFS_SEEKABLE);
-		if( fsFile == NULL ) { wxLogError(_("Cannot read \"%s\"."), fileName.c_str()); return; }
-		wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1 /*file is a windows file, however, we only use ASCII*/);
-	delete fsFile;
+	if( fsFile == NULL ) { wxLogError(_("Cannot read \"%s\"."), fileName.c_str()); return; }
 
 	wxString ext = SjTools::GetExt(fileName);
 	if( ext == "fx-eq" )
 	{
 		// set from old silverjuke ini-format, AutoLevel() as this equalizer works completely different
+		wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1 /*file is a windows file, however, we only use ASCII*/);
 		float bands[10];
 		SjCfgTokenizer cfg;
 		cfg.AddFromString(content);
@@ -96,37 +96,92 @@ void SjEqParam::FromFile(const wxString& fileName)
 			wxString value = cfg.Lookup(wxString::Format("eq.gain%i", b), "0.0");
 			bands[b] = SjTools::ParseFloat(value, 0.0F);
 		}
-		FromTypical10Band(bands);
-		AutoLevel();
+		FromTypical10Band(bands, SJ_TYPICAL_EQ_SJ2);
+	}
+	else if( ext == "eqf" )
+	{
+		// set from Winamp, see http://forums.winamp.com/archive/index.php/t-37207.html
+		float bands[10] = {0.0F,0.0F,0.0F,0.0F,0.0F,0.0F,0.0F,0.0F,0.0F,0.0F};
+		signed char content[299];
+		wxInputStream* is = fsFile->GetStream();
+		is->Read(content, 299);
+		wxString dbg;
+		if( content[0]=='W' && content[1]=='i' ) { // rough check for "Winamp EQ library file v1.1" header
+			for( int b = 0; b < 10; b++ ) {
+				bands[b] = (content[288+b]-31)*-0.375F;            // 0=+12 dB .. 31=0 dB 63=-12 dB
+				dbg += wxString::Format("%f ", bands[b]);
+			}
+			wxLogWarning("%s", dbg.c_str());
+		}
+		FromTypical10Band(bands, SJ_TYPICAL_EQ_SJ2);
+	}
+	else if( ext == "eq" )
+	{
+        // set from Shibatch SuperEQ Preset (space separated integers as: "lpreamp lband1 lband2 ... lband18 rpreamp rband1 rband2 ... rband18" all values are negative, however, the sign is skipped
+		wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1 /*file is a windows file, however, we only use ASCII*/);
+		content = content.AfterFirst(' '); // skip preamp
+		content.Replace(" ", ";");
+		FromString(content); // this will just discard the additional values
+		for( int b = 0; b < SJ_EQ_BANDS; b++ ) { m_bandDb[b] *= -1; }
 	}
 	else
 	{
-		// set from our own format, no AutoLevel() as this configuration comes from the same 18-band-FIR-equaizer and distortions may be avoided by the user
+		// set from our own format
+		wxString content = SjTools::GetFileContent(fsFile->GetStream(), &wxConvISO8859_1 /*file is a windows file, however, we only use ASCII*/);
 		FromString(content);
+	}
+
+	// close file
+	delete fsFile;
+
+	if( GetAutoLevelShift() ) {
+		//wxLogWarning(_("Values above +0 dB may cause sound distortion! Use \"Auto Level\" to fix this issue."));
 	}
 }
 
 
-void SjEqParam::FromTypical10Band(const float* i10bandsDb)
+void SjEqParam::FromTypical10Band(const float* i10bandsDb, int typical10band)
 {
-	/*
-	  # 0     1      2         3           4             5             6        7          8          9
-	 Hz 31    62     125       250         500           1K            2K       4K         8K         16K
-	      \    \      |      /  |  \        | \         / |           / |      /   \      /   \      /   \
-	 Hz    55  77   110   156  220  311   440  622   880  1.2K   1.8K  2.5K   3.5K  5K   7K   10K  14K   20K
-	  #    0   1    2     3    4    5     6    7     8    9      10    11     12    13   14   15   16    17
-	*/
-
-	m_bandDb[0]                         = i10bandsDb[0];
-	m_bandDb[1]                         = i10bandsDb[1];
-	m_bandDb[2]                         = i10bandsDb[2];
-	m_bandDb[3]=m_bandDb[4]=m_bandDb[5] = i10bandsDb[3];
-	m_bandDb[6]=m_bandDb[7]             = i10bandsDb[4];
-	m_bandDb[8]=m_bandDb[9]             = i10bandsDb[5];
-	m_bandDb[10]=m_bandDb[11]           = i10bandsDb[6];
-	m_bandDb[12]=m_bandDb[13]           = i10bandsDb[7];
-	m_bandDb[14]=m_bandDb[15]           = i10bandsDb[8];
-	m_bandDb[16]=m_bandDb[17]           = i10bandsDb[9];
+	if( typical10band == SJ_TYPICAL_EQ_WINAMP2 )
+	{
+		/*
+		  #       0              1       2          3         4               5           6        7   8   9      [Winamp2]
+		 Hz       60            170     310        600       1K               3K          6K      12K 14K 16K
+				/  \        /  /  \     |    \     |   \      |   \          |  \        /  \     |   |    \
+		 Hz    55  77   110   156  220  311   440  622   880  1.2K   1.8K  2.5K   3.5K  5K   7K   10K  14K   20K
+		  #    0   1    2     3    4    5     6    7     8    9      10    11     12    13   14   15   16    17
+		*/
+		m_bandDb[0]=m_bandDb[1]             = i10bandsDb[0];
+		m_bandDb[2]=m_bandDb[3]=m_bandDb[4] = i10bandsDb[1];
+		m_bandDb[5]=m_bandDb[6]             = i10bandsDb[2];
+		m_bandDb[7]=m_bandDb[8]             = i10bandsDb[3];
+		m_bandDb[9]=m_bandDb[10]            = i10bandsDb[4];
+		m_bandDb[11]=m_bandDb[12]           = i10bandsDb[5];
+		m_bandDb[13]=m_bandDb[14]           = i10bandsDb[6];
+		m_bandDb[15]                        = i10bandsDb[7];
+		m_bandDb[16]                        = i10bandsDb[8];
+		m_bandDb[17]                        = i10bandsDb[9];
+	}
+	else
+	{
+		/*
+		  # 0     1      2         3           4             5             6        7          8          9       [Sj2/iTunes]
+		 Hz 31    62     125       250         500           1K            2K       4K         8K         16K
+			  \    \      |      /  |  \        | \         / |           / |      /   \      /   \      /   \
+		 Hz    55  77   110   156  220  311   440  622   880  1.2K   1.8K  2.5K   3.5K  5K   7K   10K  14K   20K
+		  #    0   1    2     3    4    5     6    7     8    9      10    11     12    13   14   15   16    17
+		*/
+		m_bandDb[0]                         = i10bandsDb[0];
+		m_bandDb[1]                         = i10bandsDb[1];
+		m_bandDb[2]                         = i10bandsDb[2];
+		m_bandDb[3]=m_bandDb[4]=m_bandDb[5] = i10bandsDb[3];
+		m_bandDb[6]=m_bandDb[7]             = i10bandsDb[4];
+		m_bandDb[8]=m_bandDb[9]             = i10bandsDb[5];
+		m_bandDb[10]=m_bandDb[11]           = i10bandsDb[6];
+		m_bandDb[12]=m_bandDb[13]           = i10bandsDb[7];
+		m_bandDb[14]=m_bandDb[15]           = i10bandsDb[8];
+		m_bandDb[16]=m_bandDb[17]           = i10bandsDb[9];
+	}
 }
 
 

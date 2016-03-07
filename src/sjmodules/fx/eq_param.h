@@ -54,7 +54,10 @@ public:
 	wxString        ToString            (const wxString& sep=";") const;
 	void            FromString          (const wxString&);
 	void            FromFile            (const wxString& fileName);
-	void            FromTypical10Band   (const float* bandsDb);
+
+	#define         SJ_TYPICAL_EQ_WINAMP2	1
+	#define         SJ_TYPICAL_EQ_SJ2	    2
+	void            FromTypical10Band   (const float* bandsDb, int typical10band);
 
 	void            Shift               (float add);
 	float           GetAutoLevelShift   ();

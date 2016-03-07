@@ -185,8 +185,8 @@ void SjExtList::RepositoryInit()
 		RepositoryAdd("cue",                           "Cue Sheets");
 		RepositoryAdd("dts",                           wxString::Format(_("%s-audio"), "DTS"));
 		RepositoryAdd("dv",                            "Digital Video");
-		RepositoryAdd("eq",                            "Shibatch SuperEQ Preset"); // 18 band, not supported
-		RepositoryAdd("eqf",                           "Winamp Equalizer Preset"); // 10 Band, binary, not supported
+		RepositoryAdd("eq",                            "Shibatch SuperEQ Preset");
+		RepositoryAdd("eqf q2",                        "Winamp Equalizer Preset");
 		RepositoryAdd("feq",                           "Foobar Equalizer Preset");
 		RepositoryAdd("fla flac",                      wxString::Format(_("%s-audio"), "FLAC"));
 		RepositoryAdd("flv f4a f4v f4p",               wxString::Format(_("%s-video"), "Flash"));
