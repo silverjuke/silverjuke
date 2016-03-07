@@ -42,16 +42,20 @@ public:
 	void            AdjustBuffer        (float* data, long bytes, int samplerate, int channels);
 
 private:
-	#define         SJ_EQ_MAX_CHANNELS  64 // we define a maximum just for easier allocation, only wastes 4-8 Byte per unsued channel ...
-	SjSuperEQ*      m_superEq;
 	bool            m_enabled;
+
+	#define         SJ_EQ_MAX_CHANNELS  64 // we define a maximum just for easier allocation, only wastes 4-8 Byte per unsued channel ...
+	SjSuperEQ*      m_superEq[SJ_EQ_MAX_CHANNELS];
+	int             m_superEqCnt;
+
 	SjEqParam       m_currParam;
 	bool            m_currParamChanged;
 	int             m_currSamplerate;
-	int             m_currChannels;
 
 	float*          m_deinterlaceBuf;
 	int             m_deinterlaceBufBytes;
+
+	void            delete_eqs();
 
 	wxCriticalSection m_paramCritical;
 };

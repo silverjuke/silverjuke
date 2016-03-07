@@ -472,10 +472,9 @@ int modify_samples(void *this_mod, REAL *samples, int numsamples, int nch, int s
 
 SjEqualizer::SjEqualizer()
 {
-	m_superEq             = NULL;
 	m_enabled             = false;
+	m_superEqCnt          = 0;
 	m_currParamChanged    = true; // force init
-	m_currChannels        = 0;
 	m_currSamplerate      = 0;
 	m_deinterlaceBuf      = NULL;
 	m_deinterlaceBufBytes = 0;
@@ -484,11 +483,18 @@ SjEqualizer::SjEqualizer()
 
 SjEqualizer::~SjEqualizer()
 {
-	if( m_superEq ) {
-		delete m_superEq;
-	}
+	delete_eqs();
 
-	if( m_deinterlaceBuf ) free(m_deinterlaceBuf);
+	if( m_deinterlaceBuf ) { free(m_deinterlaceBuf); }
+}
+
+
+void SjEqualizer::delete_eqs()
+{
+	for( int c = 0; c < m_superEqCnt; c++ ) {
+		delete m_superEq[c];
+	}
+	m_superEqCnt = 0;
 }
 
 
@@ -508,34 +514,66 @@ void SjEqualizer::AdjustBuffer(float* buffer, long bytes, int samplerate, int ch
 {
 	if( !m_enabled || buffer == NULL || bytes <= 0 || samplerate <= 0 || channels <= 0 || channels > SJ_EQ_MAX_CHANNELS ) return; // nothing to do/error
 
-	if( m_superEq == NULL ) {
-		m_superEq = new SjSuperEQ(14);
-		if( m_superEq == NULL ) { return; } // error
+	// (re-)allocate equalizer objects, one per channel
+	if( m_superEqCnt != channels )
+	{
+		delete_eqs();
+		for( int c = 0; c < channels; c++ ) {
+			m_superEq[c] = new SjSuperEQ(14);
+			if( m_superEq[c] == NULL ) { return; } // error
+		}
+		m_superEqCnt = channels;
 	}
 
+	// realize new parameters, if any
 	m_paramCritical.Enter();
 		if( m_currParamChanged )
 		{
-			// realize the new parameters
-			float gain;
 			for( int b = 0; b < SJ_EQ_BANDS; b++ )
 			{
-				if( m_currParam.m_bandDb[b] <= -20.0F ) {
-					gain = 0.0F;
+				float gain = m_currParam.m_bandDb[b] <= -20.0F? 0.0F : (float)SjDecibel2Gain(m_currParam.m_bandDb[b]);
+				for( int c = 0; c < channels; c++ )
+				{
+					m_superEq[c]->lbands[b] = gain;
+					m_superEq[c]->rbands[b] = gain;
+					m_superEq[c]->bands_changed = true;
 				}
-				else {
-					gain = (float)SjDecibel2Gain(m_currParam.m_bandDb[b]);
-				}
-				m_superEq->lbands[b] = gain;
-				m_superEq->rbands[b] = gain;
-				m_superEq->bands_changed = true;
 			}
 			m_currParamChanged = false;
 		}
 	m_paramCritical.Leave();
 
+	// (re-)allocate help buffer for deinterlacing
+	if( bytes > m_deinterlaceBufBytes )
+	{
+		if( m_deinterlaceBuf ) { free(m_deinterlaceBuf); m_deinterlaceBuf = NULL; }
+		m_deinterlaceBuf = (float*)malloc(bytes);
+		if( m_deinterlaceBuf == NULL ) { return; } // error;
+		m_deinterlaceBufBytes = bytes;
+	}
+
 	// eq processing
-	if( channels != 2 ) return; // error
-	m_superEq->modify_samples(NULL, buffer, bytes/8, channels, samplerate);
+	const float *bufferEnd = buffer + (bytes/sizeof(float));
+	for( int c = 0; c < channels; c++ )
+	{
+		// deinterlace from `buffer` to `m_deinterlaceBuf`
+		const float *srcPtr = buffer + c;
+		float *destPtr =  m_deinterlaceBuf;
+		while( srcPtr < bufferEnd )  {
+			*destPtr++ = *srcPtr;
+			srcPtr += channels;
+		}
+
+		// call equalizer
+		m_superEq[c]->modify_samples(NULL, m_deinterlaceBuf, bytes/channels/sizeof(float), 1, samplerate);
+
+		// interlace equalized data from `m_deinterlaceBuf` back to buffer
+		srcPtr = m_deinterlaceBuf;
+		destPtr = buffer + c;
+		while( destPtr < bufferEnd )  {
+			*destPtr = *srcPtr++;
+			destPtr += channels;
+		}
+	}
 }
 
