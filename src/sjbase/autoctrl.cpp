@@ -905,8 +905,9 @@ bool SjAutoCtrl::LastTrackWasAutoPlay()
 }
 
 
-int SjAutoCtrl::IsCurrTrackCloseToEnd() // returns 0, 1 or -1 for unknown
+int SjAutoCtrl::IsCurrTrackCloseToEnd(long headroomMs) // returns 0, 1 or -1 for unknown
 {
+	// headroomMs defaults to 10 seconds: before anythings starts; the player itself prepares a new stream 5 seconds before the end of the previous one
 	long remainingMs = g_mainFrame->GetRemainingTime();
 	wxASSERT( remainingMs >= -1 );
 	if( remainingMs < 0 )
@@ -917,7 +918,6 @@ int SjAutoCtrl::IsCurrTrackCloseToEnd() // returns 0, 1 or -1 for unknown
 	long crossfadeMs = g_mainFrame->m_player.GetAutoCrossfade()? g_mainFrame->m_player.m_autoCrossfadeMs : 0;
 	wxASSERT( remainingMs >= 0 );
 	wxASSERT( crossfadeMs >= 0 );
-	#define headroomMs 10000L // 10 seconds before anythings starts; the player itself prepares a new stream 5 seconds before the end of the previous one
 	if( remainingMs < (crossfadeMs+headroomMs) )
 	{
 		return 1; // we're close to end

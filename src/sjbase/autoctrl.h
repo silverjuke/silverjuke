@@ -167,6 +167,8 @@ public:
 	unsigned long   m_stateStopVisTimestamp;
 	unsigned long   m_stateGotoCurrClickedTimestamp;
 
+	int             IsCurrTrackCloseToEnd(long headroomMs=10000L); // returns 0, 1 or -1 for unknown
+
 private:
 	// switch to default kiosk layout, if need
 	void            SwitchToDefLayout   ();
@@ -188,7 +190,6 @@ private:
 	bool            EnqueueAutoPlayUrl  ();
 	wxString        GetAutoPlayUrl      ();
 	bool            LastTrackWasAutoPlay();
-	int             IsCurrTrackCloseToEnd(); // returns 0, 1 or -1 for unknown
 
 	// auto play is only performed if m_haltAutoPlay == 0
 	int             m_haltAutoPlay;

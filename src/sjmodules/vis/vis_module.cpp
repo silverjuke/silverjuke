@@ -29,6 +29,7 @@
 #include <sjbase/base.h>
 #include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_window.h>
+#include <sjmodules/vis/vis_overlay.h>
 #include <sjmodules/vis/vis_frame.h>
 #include <sjmodules/vis/vis_karaoke_module.h>
 #include <sjmodules/vis/vis_vidout_module.h>
@@ -64,6 +65,7 @@ SjVisModule::SjVisModule(SjInterfaceBase* interf)
 	m_visWindow                 = NULL;
 	m_visWindowVisible          = false;
 	m_visIsStarted              = false;
+	m_overlay                   = NULL;
 	m_modal                     = 0;
 }
 
@@ -83,7 +85,8 @@ void SjVisModule::MoveVisAway()
 bool SjVisModule::FirstLoad()
 {
 	g_visModule = this;
-	m_visFlags = g_tools->m_config->Read("player/visflags", SJ_VIS_FLAGS_DEFAULT);
+	m_visFlags          = g_tools->m_config->Read("main/visflags", SJ_VIS_FLAGS_DEFAULT);
+	m_visOverlaySeconds = g_tools->m_config->Read("main/visoverlaysec", SJ_VIS_OVERLAY_SECONDS_DEFAULT);
 
 	// create the vis. window - the window is always needed as it is eg. a parent for videos;
 	// if it is not visible, it is moved aside.
@@ -109,6 +112,8 @@ bool SjVisModule::FirstLoad()
 
 	m_visWindow = new SjVisWindow(m_visOwnFrame? (wxWindow*)m_visOwnFrame : (wxWindow*)g_mainFrame);
 	if( !m_visWindow ) { return false; }
+
+	m_overlay = new SjVisOverlay();
 
 	MoveVisAway();
 	m_visWindow->Show(); // sic! we hide the window by moving it out of view
@@ -137,12 +142,16 @@ void SjVisModule::LastUnload()
 	}
 
 	g_visModule = NULL;
+
+	delete m_overlay;
+	m_overlay = NULL;
 }
 
 
 void SjVisModule::WriteVisFlags()
 {
-	g_tools->m_config->Write("player/visflags", m_visFlags);
+	g_tools->m_config->Write("main/visflags", m_visFlags);
+	g_tools->m_config->Write("main/visoverlaysec", m_visOverlaySeconds);
 }
 
 
@@ -387,6 +396,11 @@ void SjVisModule::ReceiveMsg(int msg)
 					}
 				}
 			}
+
+			SjVisRendererModule* currRenderer = GetCurrRenderer();
+			if( currRenderer ) {
+				m_overlay->TrackOnAirChanged(currRenderer->GetSuitableParentForOverlay());
+			}
 		}
 		else if( !m_visIsStarted )
 		{
@@ -451,6 +465,24 @@ void SjVisModule::SetCurrRenderer(SjVisRendererModule* m /*may be NULL for disab
 }
 
 
+static const int s_durations[] = { 10, 20, 30, 45, 60, 90, 120, 180, 666666, 0/*mark end*/ };
+static wxString s_duration_text(int i)
+{
+	wxString text;
+	if( s_durations[i] == 666666 ) {
+		text = ">3 " + _("minutes");
+	}
+	else if( s_durations[i] >= 120 ) {
+		text = wxString::Format("%i ", s_durations[i]/60) + _("minutes");
+	}
+	else {
+		text = wxString::Format("%i ", s_durations[i]) + _("seconds");
+	}
+	if( s_durations[i] == SJ_VIS_OVERLAY_SECONDS_DEFAULT ) { text += " (" + _("Default") + ")"; }
+	return text;
+}
+
+
 void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 {
 	// function creates the video screen menu; the menu starts with a group of possible
@@ -498,14 +530,33 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 	}
 
 	SjMenu* submenu = new SjMenu(0);
+		bool overlayEnabled = (m_visFlags&SJ_VIS_FLAGS_OVERLAY)!=0;
+		submenu->AppendCheckItem(IDO_VIS_OVERLAY, _("On"));
+		submenu->Check(IDO_VIS_OVERLAY, overlayEnabled);
 
-	submenu->AppendCheckItem(IDO_VIS_AUTOSWITCHOVER, _("If appropriate, switch over automatically"));
-	submenu->Check(IDO_VIS_AUTOSWITCHOVER, (m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY)!=0);
+		submenu->AppendCheckItem(IDO_VIS_OVERLAY_COVER, _("Show covers"));
+		submenu->Check(IDO_VIS_OVERLAY_COVER, (m_visFlags&SJ_VIS_FLAGS_OVERLAY_COVER)!=0);
+		submenu->Enable(IDO_VIS_OVERLAY_COVER, overlayEnabled);
 
-	submenu->AppendCheckItem(IDO_VIS_HALFSIZE, _("Half size"));
-	submenu->Check(IDO_VIS_HALFSIZE, (m_visFlags & SJ_VIS_FLAGS_HALF_SIZE)!=0);
-	submenu->Enable(IDO_VIS_HALFSIZE, (currRenderer!=NULL));
+		submenu->AppendCheckItem(IDO_VIS_OVERLAY_ARTIST, _("Artist"));
+		submenu->Check(IDO_VIS_OVERLAY_ARTIST, (m_visFlags&SJ_VIS_FLAGS_OVERLAY_ARTIST)!=0);
+		submenu->Enable(IDO_VIS_OVERLAY_ARTIST, overlayEnabled);
 
+		submenu->AppendSeparator();
+		for( int i = 0; s_durations[i]; i++ ) {
+			submenu->AppendCheckItem(IDO_VIS_OVERLAY_TIME0+i, s_duration_text(i));
+			if( s_durations[i] == m_visOverlaySeconds ) { submenu->Check(IDO_VIS_OVERLAY_TIME0+i, true); }
+			submenu->Enable(IDO_VIS_OVERLAY_TIME0+i, overlayEnabled);
+		}
+	visMenu->Append(-1, _("Title overlay"), submenu);
+
+	submenu = new SjMenu(0);
+		submenu->AppendCheckItem(IDO_VIS_AUTOSWITCHOVER, _("If appropriate, switch over automatically"));
+		submenu->Check(IDO_VIS_AUTOSWITCHOVER, (m_visFlags&SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY)!=0);
+
+		submenu->AppendCheckItem(IDO_VIS_HALFSIZE, _("Half size"));
+		submenu->Check(IDO_VIS_HALFSIZE, (m_visFlags & SJ_VIS_FLAGS_HALF_SIZE)!=0);
+		submenu->Enable(IDO_VIS_HALFSIZE, (currRenderer!=NULL));
 	visMenu->Append(-1, _("Further options"), submenu);
 }
 
@@ -514,6 +565,7 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 void SjVisModule::OnVisMenu(int id)
 {
 	if( m_visWindow == NULL ) return;
+	bool updateOverlay = false;
 
 	// start an explicit video screen
 	if( id>=IDO_VIS_STARTFIRST && id<=IDO_VIS_STARTLAST )
@@ -572,8 +624,44 @@ void SjVisModule::OnVisMenu(int id)
 			UpdateVisMenu(g_mainFrame->m_visMenu); // recreate the menu, this vis. module may add different entries/change selections etc.
 		}
 	}
+	else if( id >= IDO_VIS_OVERLAY_TIME0 && id <= IDO_VIS_OVERLAY_TIME10 )
+	{
+		if( g_mainFrame->IsAllAvailable() ) {
+			m_visOverlaySeconds = s_durations[id-IDO_VIS_OVERLAY_TIME0];
+			WriteVisFlags();
+			UpdateVisMenu(g_mainFrame->m_visMenu);
+			updateOverlay = true;
+		}
+	}
 	else switch( id )
 	{
+		case IDO_VIS_OVERLAY:
+			if( g_mainFrame->IsAllAvailable() ) {
+				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_OVERLAY);
+				WriteVisFlags();
+				UpdateVisMenu(g_mainFrame->m_visMenu);
+				updateOverlay = true;
+			}
+			break;
+
+		case IDO_VIS_OVERLAY_COVER:
+			if( g_mainFrame->IsAllAvailable() ) {
+				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_OVERLAY_COVER);
+				WriteVisFlags();
+				UpdateVisMenu(g_mainFrame->m_visMenu);
+				updateOverlay = true;
+			}
+			break;
+
+		case IDO_VIS_OVERLAY_ARTIST:
+			if( g_mainFrame->IsAllAvailable() ) {
+				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_OVERLAY_ARTIST);
+				WriteVisFlags();
+				UpdateVisMenu(g_mainFrame->m_visMenu);
+				updateOverlay = true;
+			}
+			break;
+
 		case IDT_VIS_TOGGLE:
 			if(  g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)
 			 || (IsOverWorkspace() && IsVisStarted()) )
@@ -588,7 +676,7 @@ void SjVisModule::OnVisMenu(int id)
 				}
 				// the menu bar is updated through IDMODMSG_VIS_STATE_CHANGED
 			}
-			return;
+			break;
 
 		case IDO_VIS_STOP:
 			if(  g_mainFrame->IsOpAvailable(SJ_OP_STARTVIS)
@@ -603,7 +691,7 @@ void SjVisModule::OnVisMenu(int id)
 					UpdateVisMenu(g_mainFrame->m_visMenu); // needed as otherwise items get deselected
 				}
 			}
-			return;
+			break;
 
 		case IDO_VIS_HALFSIZE:
 			if( g_mainFrame->IsAllAvailable() && m_visWindowVisible )
@@ -613,7 +701,7 @@ void SjVisModule::OnVisMenu(int id)
 				m_visWindow->CalcPositions();
 				m_visWindow->Refresh();
 			}
-			return;
+			break;
 
 		case IDO_VIS_AUTOSWITCHOVER:
 			if( g_mainFrame->IsAllAvailable() )
@@ -621,7 +709,15 @@ void SjVisModule::OnVisMenu(int id)
 				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY);
 				WriteVisFlags();
 			}
-			return;
+			break;
+	}
+
+	if( updateOverlay ) {
+		m_overlay->CloseOverlay();
+		SjVisRendererModule* r = GetCurrRenderer(); // may be NULL
+		if( r ) {
+			m_overlay->TrackOnAirChanged(r->GetSuitableParentForOverlay(), 100);
+		}
 	}
 }
 

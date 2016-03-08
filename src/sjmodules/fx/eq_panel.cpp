@@ -152,7 +152,7 @@ wxString SjEqPanel::FormatParam(float db)
 {
 	// we do not have much space for each value; so use a comma only for small values that to longen the string
 	if( db <= -20.0F ) {
-		return "-\u221E"; // -oo
+		return "-oo"; // -oo
 	}
 	else if( db <= 0.0F ) {
 		int rounded = (int)(db-0.5F);

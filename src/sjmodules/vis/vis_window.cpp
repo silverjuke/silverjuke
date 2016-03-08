@@ -29,6 +29,7 @@
 #include <sjbase/base.h>
 #include <sjmodules/vis/vis_module.h>
 #include <sjmodules/vis/vis_window.h>
+#include <sjmodules/vis/vis_overlay.h>
 #include <sjmodules/vis/vis_bg.h>
 
 
@@ -93,6 +94,8 @@ void SjVisWindow::CalcPositions()
 
 	if( m_renderer )
 		m_renderer->PleaseUpdateSize(this);
+
+	g_visModule->GetVisOverlay()->UpdatePositions();
 }
 
 
@@ -171,6 +174,10 @@ void SjVisWindow::SetRenderer(SjVisRendererModule* rendererModule)
 		{
 			m_renderer = rendererModule;
 			rendererModule->Start(this);
+
+			// show overlay, if not yet there
+			g_visModule->GetVisOverlay()->CloseOverlay();
+			g_visModule->GetVisOverlay()->TrackOnAirChanged(rendererModule->GetSuitableParentForOverlay());
 		}
 	}
 	else
@@ -178,6 +185,8 @@ void SjVisWindow::SetRenderer(SjVisRendererModule* rendererModule)
 		// remove an exiting renderer
 		RemoveRenderer();
 		wxASSERT( m_renderer == NULL );
+
+		g_visModule->GetVisOverlay()->CloseOverlay();
 	}
 }
 

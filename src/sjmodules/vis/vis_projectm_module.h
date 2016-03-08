@@ -50,6 +50,7 @@ public:
 	void            OnMenuOption        (int);
 	void            PleaseUpdateSize    (SjVisWindow*);
 	void            AddVisData          (const float* buffer, long bytes);
+	wxWindow*       GetSuitableParentForOverlay() { return (wxWindow*)m_glCanvas; }
 
 private:
 	#define         SJ_PRJMFLAGS_SHUFFLE    0x00000001L

@@ -234,6 +234,11 @@
 #define IDO_VIS_OPTIONLAST      4899    /* range end */
 #define IDO_VIS_HALFSIZE        4901
 #define IDO_VIS_AUTOSWITCHOVER  4902
+#define IDO_VIS_OVERLAY         4903
+#define IDO_VIS_OVERLAY_COVER   4904
+#define IDO_VIS_OVERLAY_ARTIST  4905
+#define IDO_VIS_OVERLAY_TIME0   4906
+#define IDO_VIS_OVERLAY_TIME10  4916
 #define IDO_VIS_LAST__          4920 /* range end */
 #define IDO_wxID_LOWEST         4999 /* range start, used by wx */
 #define IDO_wxID_HIGHEST        5999 /* range end, used by wx */
@@ -258,6 +263,9 @@
 #define IDO_SETTINGS_SKINS      8015
 #define IDO_SETTINGS_FONTNCOVER 8016
 #define IDO_SETTINGS_EQUALIZER  8017
+#define IDW_OVERLAY_COVER       8018 /* window ID */
+#define IDW_OVERLAY_ARTIST_NAME 8019 /* window ID */
+#define IDW_OVERLAY_TRACK_NAME  8020 /* window ID */
 #define IDO_SMOOTH              8109
 #define IDO_SEARCHINPUT         8110
 #define IDO_TAB                 8111

@@ -1355,6 +1355,7 @@ void SjOscTitle::CalcCurrTitleSize(wxDC& dc)
 	{
 		m_scroll = SCROLL_OFF;
 	}
+
 }
 
 
@@ -1436,7 +1437,7 @@ END_EVENT_TABLE()
 SjOscWindow::SjOscWindow(SjOscModule* oscModule, wxWindow* parent)
 	: wxWindow( parent, -1, /*oscModule->m_name,*/
 	            wxPoint(-1000,-1000), wxSize(100,100),
-	            (wxNO_BORDER /*| wxFRAME_NO_TASKBAR | wxFRAME_FLOAT_ON_PARENT*/) ),
+	            wxNO_BORDER | wxCLIP_CHILDREN ),
 	m_offscreenBitmap(16,16)
 {
 	m_oscModule = oscModule;

@@ -340,7 +340,7 @@ END_EVENT_TABLE()
 SjKaraokeWindow::SjKaraokeWindow(SjKaraokeModule* karaokeModule, wxWindow* parent)
 	: wxWindow( parent, -1,
 	            wxPoint(-1000,-1000), wxSize(100,100),
-	            (wxNO_BORDER | wxFULL_REPAINT_ON_RESIZE ))
+	            (wxNO_BORDER | wxCLIP_CHILDREN | wxFULL_REPAINT_ON_RESIZE ))
 {
 	m_karaokeModule     = karaokeModule;
 

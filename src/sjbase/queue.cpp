@@ -35,7 +35,7 @@
 
 
 SjQueue::SjQueue()
-	: m_dummyPlaylistInfo(&m_playlist, SJ_PROGRAM_NAME /*used. eg. by the vis.*/, TRUE, 0)
+	: m_dummyPlaylistInfo(&m_playlist, "" /*up to 16.2, this defaults to SJ_PROGRAM_NAME - WTW? - no chance to check for errors ...*/, TRUE, 0)
 {
 	// This function may only be called from the main thread.
 	wxASSERT( wxThread::IsMain() );

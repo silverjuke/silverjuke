@@ -50,6 +50,8 @@ public:
 	void            OnMenuOption        (int);
 	void            PleaseUpdateSize    (SjVisWindow*);
 	void            AddVisData          (const float* buffer, long bytes);
+	wxWindow*       GetSuitableParentForOverlay() { return (wxWindow*)m_oscWindow; }
+
 private:
 	SjOscWindow*    m_oscWindow;
 	SjVisWindow*    m_impl;

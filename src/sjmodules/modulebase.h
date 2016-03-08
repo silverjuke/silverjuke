@@ -607,6 +607,9 @@ public:
 	// AddVisData() function is called from without the audio DSP output, so please be fast and do not do
 	// weird things here!
 	virtual void    AddVisData          (const float* buffer, long bytes) {}
+
+	// Used to find out a window that can be used as a parent for the overlay.
+	virtual wxWindow* GetSuitableParentForOverlay() = 0;
 };
 
 

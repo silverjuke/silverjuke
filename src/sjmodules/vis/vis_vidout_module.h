@@ -49,6 +49,7 @@ public:
 	void            AddMenuOptions      (SjMenu&);
 	void            OnMenuOption        (int);
 	void            PleaseUpdateSize    (SjVisWindow*);
+	wxWindow*       GetSuitableParentForOverlay() { return (wxWindow*)m_theWindow; }
 
 	void*           m_os_window_handle;
 

@@ -31,6 +31,7 @@
 
 
 class SjVisWindow;
+class SjVisOverlay;
 class SjVisFrame;
 
 
@@ -73,9 +74,14 @@ public:
 
 	// some settings - real by all, write please only for SjVisWindow
 	#define         SJ_VIS_FLAGS_SWITCH_OVER_AUTOMATICALLY  0x00000008L
+	#define         SJ_VIS_FLAGS_OVERLAY                    0x00000010L
+	#define         SJ_VIS_FLAGS_OVERLAY_COVER              0x00000020L
+	#define         SJ_VIS_FLAGS_OVERLAY_ARTIST             0x00000040L
 	#define         SJ_VIS_FLAGS_HALF_SIZE                  0x00010000L
 	#define         SJ_VIS_FLAGS_DEFAULT                    0x0000FFFFL
 	long            m_visFlags;
+	#define         SJ_VIS_OVERLAY_SECONDS_DEFAULT          30
+	long            m_visOverlaySeconds;
 	void            WriteVisFlags       ();
 
 	// normally not needed beside for SjVisWindow
@@ -95,6 +101,9 @@ public:
 	// may be NULL if the video screen is not opened.
 	SjVisWindow*    GetVisWindow        () const { return m_visWindow; }
 
+	// if the module is loaded, GetVisOverlay() is never NULL.
+	SjVisOverlay*   GetVisOverlay       () const { return m_overlay; }
+
 protected:
 	// protected stuff
 	bool            FirstLoad           ();
@@ -110,6 +119,7 @@ private:
 	bool            m_visWindowVisible;
 	bool            m_visIsOverWorkspace;
 	SjVisFrame*     m_visOwnFrame; // NULL = vis. embedded
+	SjVisOverlay*   m_overlay;
 
 	void            MoveVisAway         ();
 

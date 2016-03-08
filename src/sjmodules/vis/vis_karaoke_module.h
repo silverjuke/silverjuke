@@ -99,6 +99,8 @@ public:
 	void                AddMenuOptions      (SjMenu& m);
 	void                OnMenuOption        (int i);
 
+	wxWindow*           GetSuitableParentForOverlay() { return (wxWindow*)m_karaokeWindow; }
+
 protected:
 	bool                FirstLoad           ();
 	void                LastUnload          ();

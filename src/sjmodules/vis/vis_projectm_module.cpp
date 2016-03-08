@@ -93,7 +93,7 @@ END_EVENT_TABLE()
 
 
 SjProjectmGlCanvas::SjProjectmGlCanvas(wxWindow* parent)
-	: wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize)
+	: wxGLCanvas(parent, wxID_ANY, NULL, wxDefaultPosition, wxDefaultSize, wxCLIP_CHILDREN)
 {
 	m_triedCreation = false;
 }
