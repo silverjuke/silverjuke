@@ -74,6 +74,7 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 	bool eqEnabled;
 	g_mainFrame->m_player.EqGetParam(&eqEnabled, &m_currParam);
 	m_backupParam = m_currParam;
+	m_iniPresetName = g_tools->m_config->Read("player/eqPreset", "");
 
 	// on/off
 	sizer1->Add(1, SJ_DLG_SPACE*2); // some space
@@ -135,6 +136,15 @@ SjEqPanel::SjEqPanel(wxWindow* parent)
 
 	wxButton* b = new wxButton(this, IDC_BUTTONBARMENU, _("Menu") + wxString(SJ_BUTTON_MENU_ARROW));
 	slider2->Add(b, 0, wxALIGN_CENTER|wxRIGHT, SJ_DLG_SPACE);
+}
+
+
+SjEqPanel::~SjEqPanel()
+{
+	// CAVE: Child windows may already be destroyed!
+	if( g_tools && g_tools->m_config ) {
+		g_tools->m_config->Write("player/eqPreset", m_iniPresetName);
+	}
 }
 
 
@@ -222,7 +232,7 @@ void SjEqPanel::UpdatePresetChoice(bool createItems)
 	}
 
 	// select item by eq-parameters
-	SjEqPreset currPreset = g_mainFrame->m_player.m_eqPresetFactory.GetPresetByParam(m_currParam);
+	SjEqPreset currPreset = g_mainFrame->m_player.m_eqPresetFactory.GetPresetByParam(m_currParam, m_iniPresetName);
 	if( currPreset.m_name.IsEmpty() ) {
 		m_presetChoice->SetSelection(wxNOT_FOUND);
 	}
@@ -284,14 +294,14 @@ void SjEqPanel::OnPresetChoice(wxCommandEvent& e)
 {
 	m_backupParam = m_currParam;
 
-    int selectedIndex   = m_presetChoice->GetSelection(); if( selectedIndex == wxNOT_FOUND ) { return; } // nothing selected
-    wxString presetName = m_presetChoice->GetString(selectedIndex); if( presetName == "" ) { return; } // error
+    wxString presetName = GetPresetNameFromChoice(); if( presetName == "" ) { return; } // error
 
     SjEqPreset preset = g_mainFrame->m_player.m_eqPresetFactory.GetPresetByName(presetName);
     if( preset.m_name.IsEmpty() ) { return; } // not found
 
     // realize the new preset
     m_backupPresetName = presetName;
+    m_iniPresetName = presetName;
     m_currParam = preset.m_param;
     UpdateSliders();
     UpdatePlayer();
@@ -336,6 +346,7 @@ void SjEqPanel::OnSaveAs(wxCommandEvent&)
 	if( textEntry.ShowModal() != wxID_OK ) { return; } // cancelled
 	presetName = textEntry.GetValue();
 	m_backupPresetName = presetName;
+	m_iniPresetName = presetName;
 
 	g_mainFrame->m_player.m_eqPresetFactory.AddPreset(presetName, m_currParam);
 
@@ -345,8 +356,7 @@ void SjEqPanel::OnSaveAs(wxCommandEvent&)
 
 void SjEqPanel::OnDelete(wxCommandEvent&)
 {
-    int selectedIndex   = m_presetChoice->GetSelection(); if( selectedIndex == wxNOT_FOUND ) { return; } // nothing selected
-    wxString presetName = m_presetChoice->GetString(selectedIndex); if( presetName == "" ) { return; } // error
+    wxString presetName = GetPresetNameFromChoice(); if( presetName == "" ) { return; } // error
 
 	if( SjMessageBox(wxString::Format(_("Delete preset \"%s\"?"), presetName.c_str()), _("Equalizer"), wxYES_NO, this)!=wxYES ) { return; } // aborted
 
@@ -379,6 +389,7 @@ void SjEqPanel::OnImport(wxCommandEvent&)
 	UpdatePresetChoice(true);
 	UpdatePlayer();
 	m_backupPresetName = presetName;
+	m_iniPresetName = presetName;
 }
 
 

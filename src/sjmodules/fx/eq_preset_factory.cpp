@@ -192,19 +192,27 @@ SjEqPreset SjEqPresetFactory::GetPresetByName(const wxString& name__)
 
 
 
-SjEqPreset SjEqPresetFactory::GetPresetByParam(const SjEqParam& wantedParam)
+SjEqPreset SjEqPresetFactory::GetPresetByParam(const SjEqParam& wantedParam, const wxString& nameHint)
 {
+	// the name is _only_ used, if the there are several presets with the same parameters.
+	// If there are no matching parameters, the function returns an unamed preset with the given parameters - even if there is a preset with the name!
 	load_all_presets();
 
 	// convert eq-parameters to preset name
 	wxString       key;
 	SjEqPreset*    preset;
 	SjHashIterator iterator;
+	SjEqPreset     possiblePreset("" /*no preset*/, wantedParam);
 	while( (preset=(SjEqPreset*)m_hash.Iterate(iterator, key)) ) {
 		if( preset->m_param == wantedParam ) {
-			return *preset;
+			if( preset->m_name == nameHint ) {
+				return *preset; // perfect match
+			}
+			else {
+				possiblePreset = *preset; // match, however, continue search - maybe we'll find even a matching name
+			}
 		}
 	}
 
-	return SjEqPreset("" /*no preset*/, wantedParam);
+	return possiblePreset;
 }

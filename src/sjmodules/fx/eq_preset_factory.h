@@ -52,7 +52,7 @@ public:
 	void            AddDefaultPresets   () { hash_default_presets(); save_all_presets(); }
 	wxArrayString   GetNames            ();
 	SjEqPreset      GetPresetByName     (const wxString&);
-	SjEqPreset      GetPresetByParam    (const SjEqParam&);
+	SjEqPreset      GetPresetByParam    (const SjEqParam&, const wxString& name=""); // the name is _only_ used, if the there are several presets with the same parameters.
 	void            AddPreset           (const wxString& name, const SjEqParam& param) { hash_preset(name, param), save_all_presets(); }
 	void            DeletePreset        (const wxString& name) { unhash_preset(name); save_all_presets(); }
 

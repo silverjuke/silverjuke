@@ -34,6 +34,7 @@ class SjEqPanel : public wxPanel
 {
 public:
 	                SjEqPanel           (wxWindow* parent);
+	                ~SjEqPanel          ();
 
 private:
 	wxCheckBox*     m_onOffSwitch;
@@ -44,6 +45,7 @@ private:
 
 	SjEqParam       m_backupParam;
 	wxString        m_backupPresetName;
+	wxString        m_iniPresetName; // this is a little hack to allow several presets with the same parameters (SjPlayer is only interesting in the parameters)
 
 	wxString        FormatParam         (float db);
 	wxString        GetPresetNameFromChoice();
