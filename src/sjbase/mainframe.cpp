@@ -358,7 +358,14 @@ bool SjMainFrame::QueryEndSession(bool onShutdown)
 
 		if( !onShutdown
 		 &&  IsPlaying() )
-		{
+		{	
+			#ifdef __WXMSW__
+				// THIS IS A HACK: If an OpenGL visualisation is active, the program-quit seems not to reach
+				// the main queue until the OpenGL wndow ist closed. So a click on "Exit" does nothing - but if the  OpenGL visualisation
+				// is closed (minutes) later, the program terminates. 
+				// we fix this by simply closing the OpenGL visualisation before terminating the program.
+				g_visModule->StopVis();
+			#endif
 			if( g_accelModule->YesNo(
 			            wxString::Format(_("%s is currently playing. Do you want to stop the playing track and exit %s?"),
 			                             SJ_PROGRAM_NAME, SJ_PROGRAM_NAME
