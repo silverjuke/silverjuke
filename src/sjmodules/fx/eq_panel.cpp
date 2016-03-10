@@ -181,6 +181,8 @@ void SjEqPanel::UpdateLabel(wxSlider* slider, wxStaticText* label, float db)
 		label->UnsetToolTip();
 		slider->UnsetToolTip();
 	}
+
+	label->Refresh(); // needed at least on MSW
 }
 
 
