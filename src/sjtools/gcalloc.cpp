@@ -342,7 +342,10 @@ static void SjGcSweep(GcBlock* block)
 
 static int compareAdr(const void *arg1, const void *arg2)
 {
-	return *((GcADR*)arg1) - *((GcADR*)arg2);
+	// CAVE: do not use arg1-arg2 as the pointer may be 64bit and the return value may be 32bit only...
+	if( *((GcADR*)arg1) < *((GcADR*)arg2) ) return -1;
+	if( *((GcADR*)arg1) > *((GcADR*)arg2) ) return  1;
+	return 0;
 }
 
 
