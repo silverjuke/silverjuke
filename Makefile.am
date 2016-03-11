@@ -218,6 +218,7 @@ silverjuke_SOURCES = \
 	src/sjmodules/vis/vis_karaoke_module.cpp \
 	src/sjmodules/vis/vis_module.cpp \
 	src/sjmodules/vis/vis_oscilloscope.cpp \
+	src/sjmodules/vis/vis_overlay.cpp \
 	src/sjmodules/vis/vis_projectm_module.cpp \
 	src/sjmodules/vis/vis_synctxt_raw.cpp \
 	src/sjmodules/vis/vis_synctxt_reader.cpp \
