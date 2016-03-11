@@ -144,6 +144,7 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 		}
 
 		// init projectM itself
+		float beatSensitivity = (float)g_tools->m_config->Read("main/prjmbeatsense", 20);
 		projectM::Settings s = {
 			32,    // int meshX           -- Defaults from projectM::readConfig().
 			24,    // int meshY           -- Defining the values this way will force
@@ -156,7 +157,7 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 			"",    // std::string menuFontURL;
 			10,    // int smoothPresetDuration;
 			s_theProjectmModule->m_prjmDuration,    // int presetDuration;
-			10.0,  // float beatSensitivity;
+			beatSensitivity,  // float beatSensitivity;
 			true,  // bool aspectCorrection;
 			0.0,   // float easterEgg;
 			(s_theProjectmModule->m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE)!=0,  // bool shuffleEnabled;
