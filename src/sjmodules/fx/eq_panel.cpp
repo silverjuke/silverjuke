@@ -328,8 +328,8 @@ void SjEqPanel::OnMenu(wxCommandEvent& event)
 		menu.Append(0, _("Further options"), submenu);
 
 		menu.AppendSeparator();
-		menu.Append(IDM_SHIFT_UP, _("Shift up"));
-		menu.Append(IDM_SHIFT_DOWN, _("Shift down"));
+		menu.Append(IDM_SHIFT_UP, _("Volume up"));
+		menu.Append(IDM_SHIFT_DOWN, _("Volume down"));
 		menu.Append(IDM_SHIFT_AUTO_LEVEL, _("Auto Level"));
 		menu.Enable(IDM_SHIFT_AUTO_LEVEL, (m_currParam.GetAutoLevelShift()!=0.0F)? true : false);
 		menu.Append(IDM_UNDO, _("Undo"));
