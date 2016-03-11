@@ -35,6 +35,10 @@
 #include <sjtools/gcalloc.h>
 #if SJ_USE_SCRIPTS
 
+
+#define PRINT_CLEANUP_INFO 0
+
+
 #define GcADR uintptr_t
 
 
@@ -122,7 +126,7 @@ void* SjGcAlloc(unsigned long size, long flags,
 }
 
 
-#ifdef __WXDEBUG__ // currently not needed
+#if 0 // currently not needed
 void SjGcRef(void* ptr)
 {
 	wxASSERT( wxThread::IsMain() );
@@ -172,7 +176,6 @@ void SjGcUnref(void* ptr)
 }
 
 
-#ifdef __WXDEBUG__
 bool SjGcIsValidPtr(void* ptr)
 {
 	wxASSERT( wxThread::IsMain() );
@@ -183,10 +186,9 @@ bool SjGcIsValidPtr(void* ptr)
 	CHECK_BLOCK( block );
 	return true;
 }
-#endif
 
 
-#ifdef __WXDEBUG__
+#if 0
 bool SjGcHasStaticRef(void* ptr)
 {
 	wxASSERT( wxThread::IsMain() );
@@ -240,7 +242,7 @@ void SjGcShutdown()
 
 
 static GcADR s_gc_minAdr, s_gc_maxAdr, s_gc_noPtrMask, *s_gc_allAdr = NULL, s_gc_allAdrCount;
-#ifdef __WXDEBUG__
+#if PRINT_CLEANUP_INFO
 static long s_infoAssumedPointers, s_infoPointersFollowed;
 #endif
 
@@ -273,7 +275,7 @@ static void SjGcSweep(GcBlock* block)
 		        &&  adr <= s_gc_maxAdr
 		        && (adr & s_gc_noPtrMask) == 0 )
 		{
-			#ifdef __WXDEBUG__
+			#if PRINT_CLEANUP_INFO
 				s_infoAssumedPointers ++;
 			#endif
 
@@ -298,7 +300,7 @@ static void SjGcSweep(GcBlock* block)
 					        /*&& cur2->references -- no needed, only blocks with referenced are added to s_gc_allAdr[]*/ )
 					{
 						// pointer found!
-						#ifdef __WXDEBUG__
+						#if PRINT_CLEANUP_INFO
 							s_infoPointersFollowed ++;
 						#endif
 						SjGcSweep(cur2);
@@ -320,7 +322,7 @@ static void SjGcSweep(GcBlock* block)
 								&&  cur2->references/*in contras to the binary search above, this comparison is needed here!*/ )
 						{
 							// pointer found!
-							#ifdef __WXDEBUG__
+							#if PRINT_CLEANUP_INFO
 								s_infoPointersFollowed ++;
 							#endif
 							SjGcSweep(cur2);
@@ -365,7 +367,9 @@ void SjGcDoCleanup()
 
 	// collect information of all blocks, mark all blocks as unused
 	GcBlock* curBlock;
-	long infoCleanupStartTimestamp = SjTools::GetMsTicks();
+	#if PRINT_CLEANUP_INFO
+		long infoCleanupStartTimestamp = SjTools::GetMsTicks();
+	#endif
 	{
 		GcADR adr;
 
@@ -388,13 +392,12 @@ void SjGcDoCleanup()
 			{
 				adr = ((GcADR)curBlock) + sizeof(GcBlock);
 
-				#ifdef __WXDEBUG__
-					if( s_gc_minAdr == 0 || adr < s_gc_minAdr )
-						s_gc_minAdr = adr;
-
-					if( s_gc_maxAdr == 0 || adr > s_gc_maxAdr )
-						s_gc_maxAdr = adr;
-				#endif
+				if( g_debug )
+				{
+					// only set for an additional check at (X), always set after qsort()
+					if( s_gc_minAdr == 0 || adr < s_gc_minAdr ) { s_gc_minAdr = adr; }
+					if( s_gc_maxAdr == 0 || adr > s_gc_maxAdr ) { s_gc_maxAdr = adr; }
+				}
 
 				s_gc_noPtrMask |= adr;
 
@@ -412,10 +415,11 @@ void SjGcDoCleanup()
 	{
 		qsort(s_gc_allAdr, s_gc_allAdrCount, sizeof(GcADR), compareAdr);
 
-		#ifdef __WXDEBUG__
-			wxASSERT( s_gc_minAdr == s_gc_allAdr[0] );
+		if( g_debug )
+		{
+			wxASSERT( s_gc_minAdr == s_gc_allAdr[0] ); // (X) see comment above
 			wxASSERT( s_gc_maxAdr == s_gc_allAdr[s_gc_allAdrCount-1] );
-		#endif
+		}
 
 		s_gc_minAdr = s_gc_allAdr[0];
 		s_gc_maxAdr = s_gc_allAdr[s_gc_allAdrCount-1];
@@ -423,7 +427,7 @@ void SjGcDoCleanup()
 
 	// start scanning with the only blocks used directly
 	// (there may be zero used blocks, however, continue anyway as some blocks may be freed)
-	#ifdef __WXDEBUG__
+	#if PRINT_CLEANUP_INFO
 		s_infoAssumedPointers = 0;
 		s_infoPointersFollowed = 0;
 	#endif
@@ -433,7 +437,7 @@ void SjGcDoCleanup()
 		CHECK_BLOCK( curBlock );
 
 		if(  curBlock->references >= 2 /* static? */
-		        && !curBlock->oneRefValidated /* the flag may change for any block in SjGcSweep() */)
+		 && !curBlock->oneRefValidated /* the flag may change for any block in SjGcSweep() */)
 		{
 			SjGcSweep(curBlock);
 		}
@@ -449,7 +453,9 @@ void SjGcDoCleanup()
 	unsigned long   infoBlocksFreed = 0;
 	unsigned long   infoBytesFreed = 0;
 	unsigned long   infoOldSize = g_gc_system.curSize;
-	unsigned long   infoOldBlockCount = g_gc_system.curBlockCount;
+	#if PRINT_CLEANUP_INFO
+		unsigned long infoOldBlockCount = g_gc_system.curBlockCount;
+	#endif
 	{
 		GcBlock *toDel, *prevBlock = NULL;
 
@@ -496,8 +502,8 @@ void SjGcDoCleanup()
 	}
 
 	// integry check
-	#ifdef __WXDEBUG__
-		{
+	if( g_debug )
+	{
 			unsigned long cnt = 0, cntBytes = 0;
 			GcBlock* iter = s_gc_firstBlock;
 			while( iter )
@@ -508,8 +514,7 @@ void SjGcDoCleanup()
 			}
 			wxASSERT( cnt == g_gc_system.curBlockCount );
 			wxASSERT( cntBytes == g_gc_system.curSize );
-		}
-	#endif
+	}
 
 	// done
 	wxASSERT( infoOldSize-g_gc_system.curSize == infoBytesFreed );
@@ -517,17 +522,14 @@ void SjGcDoCleanup()
 	g_gc_system.sizeChangeSinceLastCleanup = 0;
 	g_gc_system.lastCleanupTimestamp = SjTools::GetMsTicks();
 
-	#ifdef __WXDEBUG__
-		wxLogDebug( wxT("%i/%i/%i possible/assumed/followed pointers [gc]"),
-					(int)(infoOldSize/sizeof(GcADR)), (int)s_infoAssumedPointers, (int)s_infoPointersFollowed
-				  );
-
-		wxLogDebug( wxT("%i ms needed to free %iK of %iK (%i of %i blocks) [gc]"),
+	#if PRINT_CLEANUP_INFO
+		wxLogDebug( "%i ms needed to free %iK of %iK (%i of %i blocks, %i/%i/%i possible/assumed/followed pointers) [gc]",
 					(int)(g_gc_system.lastCleanupTimestamp-infoCleanupStartTimestamp),
 					(int)(infoBytesFreed/1024),
 					(int)(infoOldSize/1024),
 					(int)infoBlocksFreed,
-					(int)infoOldBlockCount
+					(int)infoOldBlockCount,
+					(int)(infoOldSize/sizeof(GcADR)), (int)s_infoAssumedPointers, (int)s_infoPointersFollowed
 				  );
 	#endif
 }

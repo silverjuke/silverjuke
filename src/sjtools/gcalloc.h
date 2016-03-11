@@ -126,10 +126,8 @@ extern SjGcSystem g_gc_system;
 
 
 // some stuff for debugging checks
-#ifdef __WXDEBUG__
 bool    SjGcIsValidPtr      (void* ptr);
 bool    SjGcHasStaticRef    (void* ptr);
-#endif
 
 
 // helper class to lock the garbage collection.
