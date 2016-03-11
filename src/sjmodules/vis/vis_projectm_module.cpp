@@ -444,6 +444,10 @@ void SjProjectmModule::PleaseUpdateSize(SjVisWindow* impl)
 {
 	if( m_glCanvas )
 	{
+		// This currently disturbs the content on OS X, see issue #66.
+		// I tried several things to fix it - no success.
+		// However, as there are no crashes or sth. like that, the other OS are fine
+		// and a simple re-opening fixes the problem, I won't spend more time on this at the moment.
 		wxRect visRect = impl->GetRendererClientRect();
 		m_glCanvas->SetSize(visRect);
 
