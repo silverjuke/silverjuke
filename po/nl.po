@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-02-14 12:51+0100\n"
+"POT-Creation-Date: 2016-03-12 14:44+0100\n"
 "PO-Revision-Date: 2010-10-04 14:49+0100\n"
 "Last-Translator: Bjoern Petersen <drsilver@silverjuke.net>\n"
 "Language-Team: Dutch\n"
@@ -109,6 +109,12 @@ msgstr "Samplerate"
 #. TRANSLATORS: Abbreviation of "Hertz"
 msgid "Hz"
 msgstr "Hz"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "Prelisten"
+msgstr "Voorluisteren"
 
 msgid "AutoPlay"
 msgstr "Automatisch afspelen"
@@ -248,9 +254,6 @@ msgstr "Zoeken stoppen"
 msgid "click right for options"
 msgstr "Klik rechtermuisknop voor opties"
 
-msgid "Volume"
-msgstr "Volume"
-
 msgid "Double-click to enlarge the cover"
 msgstr "Dubbelklikken om cover te vergroten"
 
@@ -376,9 +379,6 @@ msgstr "Verdere Opties"
 msgid "Queue"
 msgstr ""
 
-msgid "Automatic control"
-msgstr "Automatisch uitvoeren"
-
 msgid "Current view"
 msgstr "Huidige weergave"
 
@@ -418,8 +418,11 @@ msgstr ""
 msgid "Explicit output"
 msgstr ""
 
-msgid "Prelisten"
-msgstr "Voorluisteren"
+msgid "Equalizer"
+msgstr ""
+
+msgid "Output"
+msgstr ""
 
 msgid "No"
 msgstr "Nee"
@@ -427,13 +430,11 @@ msgstr "Nee"
 msgid "Yes"
 msgstr "Ja"
 
+# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
 #, fuzzy
-#| msgid "Only initalize system volume"
-msgid "Only initialize system volume"
-msgstr "Alleen het systeem volume instellen"
-
-msgid "Output"
-msgstr ""
+#| msgid "Initializing %s..."
+msgid "Initialize"
+msgstr "Initialiseren %s..."
 
 msgid "Use system volume"
 msgstr "Gebruik systeem volume"
@@ -664,6 +665,9 @@ msgstr "Muziekselectie"
 
 msgid "Settings"
 msgstr "Instellingen"
+
+msgid "Automatic control"
+msgstr "Automatisch uitvoeren"
 
 msgid "Update music library"
 msgstr "Muziekarchief bijwerken"
@@ -1390,9 +1394,6 @@ msgstr "Alle alternatieve afbeeldingen resetten naar de standaard instelling?"
 msgid "Search paths"
 msgstr "Zoekpad"
 
-msgid "The search paths are used for skins, language files and modules."
-msgstr "De zoekpaden worden voor skins, talen, en modules gebruikt:"
-
 msgid "Add..."
 msgstr "Toevoegen..."
 
@@ -1574,6 +1575,10 @@ msgstr ""
 msgid "Exit by hitting %s"
 msgstr "Verlaten door %s"
 
+# Eg. the title of the popup for "shutdown", "reboot" etc.
+msgid "Action:"
+msgstr "Aktie:"
+
 msgid "Exit by clicking into two different corners"
 msgstr "Verlaten door in twee verschillende hoeken te klikken"
 
@@ -1587,10 +1592,6 @@ msgstr "Bij beeindigen om password vragen:"
 #, fuzzy
 msgid "Change password..."
 msgstr "Password verifiëren"
-
-# Eg. the title of the popup for "shutdown", "reboot" etc.
-msgid "Exit action:"
-msgstr "Actie beeindigen"
 
 msgid "Start the kiosk mode with the following functionality:"
 msgstr "Kiosk mode starten met de volgende functionaliteit:"
@@ -1772,10 +1773,6 @@ msgstr "Ongeldig password, probeer nogmaals."
 
 msgid "Invalid track number"
 msgstr "Ongeldig tracknummer"
-
-# Eg. the title of the popup for "shutdown", "reboot" etc.
-msgid "Action:"
-msgstr "Aktie:"
 
 msgid "Shutdown computer"
 msgstr "Computer afsluiten"
@@ -2053,11 +2050,6 @@ msgid "Options"
 msgstr "Opties"
 
 #, fuzzy
-#| msgid "Supported file-types"
-msgid "Supported file types"
-msgstr "Ondersteunde bestandstypen"
-
-#, fuzzy
 #| msgid "My music library"
 msgid "Music library"
 msgstr "Mijn Muziekarchief"
@@ -2282,13 +2274,16 @@ msgstr "Mappen doorzoeken:"
 msgid "Read file:"
 msgstr "Bestand lezen:"
 
-msgid "Ignore music-files and images with the following extensions:"
-msgstr "Muziek- en afbeeldingsbestanden met de volgende extensies negeren:"
+msgid "Read (ID3)-tags"
+msgstr "Lees (ID3)-tags"
 
-msgid "(separate the extensions using the comma, case is ignored)"
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
 msgstr ""
-"(extenties scheiden door een komma, hoofd of kleine letters is niet "
-"belangrijk)"
+"Pad en bestandpatroon voor bestandinformatie, wanneer (ID3-)Tags ontbreken:"
+
+# This string is used as a headline before a list of placeholders, see eg. "Settings/My music library/Options for <source>". The placeholders may then be used by the user in the corresponding text field and Silverjuke will replace them by something else afterwards.
+msgid "Placeholders:"
+msgstr "Plaatshouders:"
 
 msgid "Include folder to the update process"
 msgstr "Map doorzoeken tijdens het bijwerken van het muziekarchef"
@@ -2305,16 +2300,20 @@ msgstr "Lees verborgen bestanden"
 msgid "Read inside ZIP-/TAR-archives"
 msgstr "Binnen ZIP-bestanden zoeken"
 
-msgid "Read (ID3)-tags"
-msgstr "Lees (ID3)-tags"
+#, fuzzy
+#| msgid "File extension"
+msgid "Additional file extensions:"
+msgstr "Bestandstype"
 
-msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+#, fuzzy
+#| msgid "File extension"
+msgid "Ignore file extensions:"
+msgstr "Bestandstype"
+
+msgid "(separate the extensions using the comma, case is ignored)"
 msgstr ""
-"Pad en bestandpatroon voor bestandinformatie, wanneer (ID3-)Tags ontbreken:"
-
-# This string is used as a headline before a list of placeholders, see eg. "Settings/My music library/Options for <source>". The placeholders may then be used by the user in the corresponding text field and Silverjuke will replace them by something else afterwards.
-msgid "Placeholders:"
-msgstr "Plaatshouders:"
+"(extenties scheiden door een komma, hoofd of kleine letters is niet "
+"belangrijk)"
 
 msgid "Read files and folders"
 msgstr "Bestanden en mappen lezen"
@@ -2670,6 +2669,9 @@ msgstr ""
 msgid "Please select a directory with images"
 msgstr "Selecteer een map met afbeeldingen"
 
+msgid "Title overlay"
+msgstr ""
+
 msgid "If appropriate, switch over automatically"
 msgstr "Schakel automatisch over indien mogelijk"
 
@@ -2696,6 +2698,37 @@ msgstr "Toon sterrenhemel"
 #, fuzzy
 msgid "Visualization"
 msgstr "Visualisering starten"
+
+msgid "Preset info"
+msgstr ""
+
+#, fuzzy
+#| msgid "Go to previous letter"
+msgid "Go to previous preset"
+msgstr "Ga naar de vorige brief"
+
+#, fuzzy
+#| msgid "Go to next letter"
+msgid "Go to next preset"
+msgstr "Ga naar de volgende brief"
+
+#, fuzzy
+#| msgid "Go to random album"
+msgid "Go to random preset"
+msgstr "Ga naar willekeurig album"
+
+msgid "Preset shuffle"
+msgstr ""
+
+#, fuzzy
+#| msgid "lowest rating"
+msgid "Preset duration"
+msgstr "laagste waardering"
+
+#, fuzzy
+#| msgid "No lyrics found."
+msgid "No presets found."
+msgstr "Geen songteksten gevonden"
 
 #, fuzzy
 msgid "Video output"
@@ -2769,10 +2802,9 @@ msgstr "Voeg toe"
 msgid "State"
 msgstr "Status"
 
-# %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
-msgid "%s-files"
-msgstr "%s-bestanden"
+msgid "%s-video"
+msgstr ""
 
 # %s will be replaced by the file type, eg. "MP3"
 #, c-format
@@ -2784,14 +2816,15 @@ msgstr "%s-audio"
 msgid "%s-images"
 msgstr "%s-afbeeldingen"
 
-#, c-format
-msgid "%s-video"
-msgstr ""
-
 # %s will be replaced by the file type, eg. "M3U"  or "CUE"
 #, c-format
 msgid "%s-playlists"
 msgstr "%s-afspeellijsten"
+
+# %s will be replaced by the file type, eg. "MP3" or "JPG"
+#, c-format
+msgid "%s-files"
+msgstr "%s-bestanden"
 
 #, fuzzy
 #| msgid "Archive-files"
@@ -2809,7 +2842,9 @@ msgstr "Silverjuke Skin-bestanden"
 msgid "Archive-files"
 msgstr "Archief bestanden"
 
-msgid "Supported file-types"
+#, fuzzy
+#| msgid "Supported file-types"
+msgid "Known file-types"
 msgstr "Ondersteunde bestandstypen"
 
 msgid "Test..."
@@ -3046,6 +3081,26 @@ msgstr "Kan \"%s\" niet uitvoeren."
 msgid "Please use the operating system to set Silverjuke to an exclusive mode."
 msgstr ""
 
+#, fuzzy
+#~| msgid "Only initalize system volume"
+#~ msgid "Only initialize system volume"
+#~ msgstr "Alleen het systeem volume instellen"
+
+#~ msgid "The search paths are used for skins, language files and modules."
+#~ msgstr "De zoekpaden worden voor skins, talen, en modules gebruikt:"
+
+# Eg. the title of the popup for "shutdown", "reboot" etc.
+#~ msgid "Exit action:"
+#~ msgstr "Actie beeindigen"
+
+#, fuzzy
+#~| msgid "Supported file-types"
+#~ msgid "Supported file types"
+#~ msgstr "Ondersteunde bestandstypen"
+
+#~ msgid "Ignore music-files and images with the following extensions:"
+#~ msgstr "Muziek- en afbeeldingsbestanden met de volgende extensies negeren:"
+
 #~ msgid "Scroll vertically"
 #~ msgstr "Vertikaal scrollen"
 
@@ -3174,10 +3229,6 @@ msgstr ""
 #~| msgid "Monitor for"
 #~ msgid "Monitor for main window"
 #~ msgstr "Monitor voor"
-
-# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
-#~ msgid "Initializing %s..."
-#~ msgstr "Initialiseren %s..."
 
 #~ msgid "Microphone"
 #~ msgstr "Microfoon"

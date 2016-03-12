@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-02-14 12:51+0100\n"
-"PO-Revision-Date: 2016-02-17 22:03+0100\n"
+"POT-Creation-Date: 2016-03-12 14:44+0100\n"
+"PO-Revision-Date: 2016-03-12 14:49+0100\n"
 "Last-Translator: Björn Petersen <r10s@b44t.com>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -105,6 +105,12 @@ msgstr "Samplerate"
 #. TRANSLATORS: Abbreviation of "Hertz"
 msgid "Hz"
 msgstr "Hz"
+
+msgid "Volume"
+msgstr "Lautstärke"
+
+msgid "Prelisten"
+msgstr "Vorhören"
 
 msgid "AutoPlay"
 msgstr "AutoPlay"
@@ -241,9 +247,6 @@ msgstr "Suche beenden"
 msgid "click right for options"
 msgstr "klicken Sie rechts für Optionen"
 
-msgid "Volume"
-msgstr "Lautstärke"
-
 msgid "Double-click to enlarge the cover"
 msgstr "Doppelklick: Cover vergrößern"
 
@@ -358,9 +361,6 @@ msgstr "Weitere Optionen"
 msgid "Queue"
 msgstr "Warteschlange"
 
-msgid "Automatic control"
-msgstr "Automatische Steuerung"
-
 msgid "Current view"
 msgstr "Aktuelle Ansicht"
 
@@ -398,8 +398,11 @@ msgstr "Rechter Kanal"
 msgid "Explicit output"
 msgstr "Separater Ausgang"
 
-msgid "Prelisten"
-msgstr "Vorhören"
+msgid "Equalizer"
+msgstr "Equalizer"
+
+msgid "Output"
+msgstr "Ausgang"
 
 msgid "No"
 msgstr "Nein"
@@ -407,13 +410,9 @@ msgstr "Nein"
 msgid "Yes"
 msgstr "Ja"
 
-msgid "Only initialize system volume"
-msgstr "Systemlautstärke nur initialisieren"
+msgid "Initialize"
+msgstr "Initialisieren"
 
-msgid "Output"
-msgstr "Ausgang"
-
-#| msgid "Desired volume:"
 msgid "Use system volume"
 msgstr "Systemlautstärke verwenden"
 
@@ -639,6 +638,9 @@ msgstr "Musikauswahl ..."
 
 msgid "Settings"
 msgstr "Einstellungen"
+
+msgid "Automatic control"
+msgstr "Automatische Steuerung"
 
 msgid "Update music library"
 msgstr "Musikarchiv aktualisieren"
@@ -1339,10 +1341,6 @@ msgstr ""
 msgid "Search paths"
 msgstr "Suchpfade"
 
-msgid "The search paths are used for skins, language files and modules."
-msgstr ""
-"Die Suchpfade werden für Skins, Sprachdateien und für Module verwendet."
-
 msgid "Add..."
 msgstr "Hinzufügen..."
 
@@ -1516,6 +1514,10 @@ msgstr ""
 msgid "Exit by hitting %s"
 msgstr "Beenden mit %s"
 
+# Eg. the title of the popup for "shutdown", "reboot" etc.
+msgid "Action:"
+msgstr "Aktion:"
+
 msgid "Exit by clicking into two different corners"
 msgstr "Beenden durch Klick in zwei verschiedene Ecken"
 
@@ -1527,10 +1529,6 @@ msgstr "Beim Beenden nach einem Passwort fragen"
 
 msgid "Change password..."
 msgstr "Password ändern..."
-
-# Eg. the title of the popup for "shutdown", "reboot" etc.
-msgid "Exit action:"
-msgstr "Aktion beim Beenden:"
 
 msgid "Start the kiosk mode with the following functionality:"
 msgstr "Kiosk-Modus mit der folgenden Funktionalität starten:"
@@ -1712,10 +1710,6 @@ msgstr "Das Passwort ist ungültig, bitte versuchen Sie es erneut."
 
 msgid "Invalid track number"
 msgstr "Ungültige Titelnummer"
-
-# Eg. the title of the popup for "shutdown", "reboot" etc.
-msgid "Action:"
-msgstr "Aktion:"
 
 msgid "Shutdown computer"
 msgstr "Computer herunterfahren"
@@ -1981,9 +1975,6 @@ msgstr "Quelle entfernen"
 msgid "Options"
 msgstr "Optionen"
 
-msgid "Supported file types"
-msgstr "Unterstützte Dateitypen"
-
 msgid "Music library"
 msgstr "Musikarchiv"
 
@@ -2204,14 +2195,15 @@ msgstr "Ordner durchsuchen:"
 msgid "Read file:"
 msgstr "Datei lesen:"
 
-msgid "Ignore music-files and images with the following extensions:"
-msgstr ""
-"Musik- und Bilddateien mit den folgenden Dateierweiterungen ignorieren:"
+msgid "Read (ID3)-tags"
+msgstr "(ID3-)Tags lesen"
 
-msgid "(separate the extensions using the comma, case is ignored)"
-msgstr ""
-"(trennen Sie die Erweiterungen durch Kommata, Groß-/Kleinschreibung ist "
-"nicht relevant)"
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgstr "Pfad und Dateimuster für Titelinformationen, falls (ID3-)Tags fehlen:"
+
+# This string is used as a headline before a list of placeholders, see eg. "Settings/My music library/Options for <source>". The placeholders may then be used by the user in the corresponding text field and Silverjuke will replace them by something else afterwards.
+msgid "Placeholders:"
+msgstr "Platzhalter:"
 
 msgid "Include folder to the update process"
 msgstr "Ordner in den Aktualisierungsprozess einbeziehen"
@@ -2225,15 +2217,16 @@ msgstr "Versteckte Ordner lesen"
 msgid "Read inside ZIP-/TAR-archives"
 msgstr "Innerhalb von ZIP-/TAR-Archiven suchen"
 
-msgid "Read (ID3)-tags"
-msgstr "(ID3-)Tags lesen"
+msgid "Additional file extensions:"
+msgstr "Zusätzliche Dateierweiterungen:"
 
-msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
-msgstr "Pfad und Dateimuster für Titelinformationen, falls (ID3-)Tags fehlen:"
+msgid "Ignore file extensions:"
+msgstr "Dateierweiterung ignorieren:"
 
-# This string is used as a headline before a list of placeholders, see eg. "Settings/My music library/Options for <source>". The placeholders may then be used by the user in the corresponding text field and Silverjuke will replace them by something else afterwards.
-msgid "Placeholders:"
-msgstr "Platzhalter:"
+msgid "(separate the extensions using the comma, case is ignored)"
+msgstr ""
+"(trennen Sie die Erweiterungen durch Kommata, Groß-/Kleinschreibung ist "
+"nicht relevant)"
 
 msgid "Read files and folders"
 msgstr "Dateien und Ordner lesen"
@@ -2567,6 +2560,9 @@ msgstr "%s-Dateien verwenden"
 msgid "Please select a directory with images"
 msgstr "Bitte wählen Sie einen Ordner mit Bildern aus"
 
+msgid "Title overlay"
+msgstr "Titel einblenden"
+
 msgid "If appropriate, switch over automatically"
 msgstr "Bei Bedarf automatisch umschalten"
 
@@ -2590,6 +2586,27 @@ msgstr "Andere Figuren anzeigen"
 
 msgid "Visualization"
 msgstr "Visualisierung"
+
+msgid "Preset info"
+msgstr "Preset Info"
+
+msgid "Go to previous preset"
+msgstr "Gehe zum vorherigen Preset"
+
+msgid "Go to next preset"
+msgstr "Gehe zum nächsten Preset"
+
+msgid "Go to random preset"
+msgstr "Gehe zu zufälligem Preset"
+
+msgid "Preset shuffle"
+msgstr "Zufällige Presetreihenfolge"
+
+msgid "Preset duration"
+msgstr "Presetdauer"
+
+msgid "No presets found."
+msgstr "Keine Presets gefunden."
 
 msgid "Video output"
 msgstr "Videoausgabe"
@@ -2664,8 +2681,8 @@ msgstr "Status"
 
 # %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
-msgid "%s-files"
-msgstr "%s-Dateien"
+msgid "%s-video"
+msgstr "%s-Video"
 
 # %s will be replaced by the file type, eg. "MP3"
 #, c-format
@@ -2677,15 +2694,15 @@ msgstr "%s-Audio"
 msgid "%s-images"
 msgstr "%s-Bilder"
 
-# %s will be replaced by the file type, eg. "MP3" or "JPG"
-#, c-format
-msgid "%s-video"
-msgstr "%s-Video"
-
 # %s will be replaced by the file type, eg. "M3U"  or "CUE"
 #, c-format
 msgid "%s-playlists"
 msgstr "%s-Wiedergabelisten"
+
+# %s will be replaced by the file type, eg. "MP3" or "JPG"
+#, c-format
+msgid "%s-files"
+msgstr "%s-Dateien"
 
 msgid "Script-files"
 msgstr "Skript-Dateien"
@@ -2699,8 +2716,8 @@ msgstr "Silverjuke Jukebox-Dateien"
 msgid "Archive-files"
 msgstr "Archivdateien"
 
-msgid "Supported file-types"
-msgstr "Unterstützte Dateitypen"
+msgid "Known file-types"
+msgstr "Bekannte Dateitypen"
 
 msgid "Test..."
 msgstr "Test..."
@@ -2930,3 +2947,10 @@ msgid "Please use the operating system to set Silverjuke to an exclusive mode."
 msgstr ""
 "Bitte verwenden Sie die Einstellungen des Betriebssystems, um Silverjuke in "
 "einen Exklusiv-Modus zu versetzen."
+
+#~ msgid "Only initialize system volume"
+#~ msgstr "Systemlautstärke nur initialisieren"
+
+#~ msgid "The search paths are used for skins, language files and modules."
+#~ msgstr ""
+#~ "Die Suchpfade werden für Skins, Sprachdateien und für Module verwendet."

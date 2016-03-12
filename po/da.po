@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-02-14 12:51+0100\n"
+"POT-Creation-Date: 2016-03-12 14:44+0100\n"
 "PO-Revision-Date: 2010-11-14 10:21+0100\n"
 "Last-Translator: Dan Larsen <dvl@privat.dk>\n"
 "Language-Team: Danish\n"
@@ -109,6 +109,12 @@ msgstr "Samplerate"
 #. TRANSLATORS: Abbreviation of "Hertz"
 msgid "Hz"
 msgstr "Hz"
+
+msgid "Volume"
+msgstr "Lydstyrke"
+
+msgid "Prelisten"
+msgstr "Prelisten"
 
 msgid "AutoPlay"
 msgstr "Automatisk Afspilling"
@@ -242,9 +248,6 @@ msgstr "Stop Søgningen"
 msgid "click right for options"
 msgstr "Højreklik for valg"
 
-msgid "Volume"
-msgstr "Lydstyrke"
-
 msgid "Double-click to enlarge the cover"
 msgstr "Dobbelt klik for maksimere omslag"
 
@@ -368,9 +371,6 @@ msgstr "Yderligere optioner"
 msgid "Queue"
 msgstr "Kø"
 
-msgid "Automatic control"
-msgstr "Automatisk kontrol"
-
 msgid "Current view"
 msgstr "Aktuel visning"
 
@@ -410,8 +410,11 @@ msgstr ""
 msgid "Explicit output"
 msgstr ""
 
-msgid "Prelisten"
-msgstr "Prelisten"
+msgid "Equalizer"
+msgstr ""
+
+msgid "Output"
+msgstr ""
 
 msgid "No"
 msgstr "Nej"
@@ -419,13 +422,11 @@ msgstr "Nej"
 msgid "Yes"
 msgstr "Ja"
 
+# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
 #, fuzzy
-#| msgid "Only initalize system volume"
-msgid "Only initialize system volume"
-msgstr "Kun initalize systemets lydstyrke"
-
-msgid "Output"
-msgstr ""
+#| msgid "Initializing %s..."
+msgid "Initialize"
+msgstr "Starter %s..."
 
 msgid "Use system volume"
 msgstr "Brug systemets lydstyrke"
@@ -654,6 +655,9 @@ msgstr "Musik valg"
 
 msgid "Settings"
 msgstr "Indstillinger"
+
+msgid "Automatic control"
+msgstr "Automatisk kontrol"
 
 msgid "Update music library"
 msgstr "Opdater musik bibliotek"
@@ -1376,9 +1380,6 @@ msgstr "Nulstil alle valgte alternativ billeder til deres standard værdi?"
 msgid "Search paths"
 msgstr "Søgestier"
 
-msgid "The search paths are used for skins, language files and modules."
-msgstr "Søgningen stier anvendes til skind, sprog filer og moduler."
-
 msgid "Add..."
 msgstr "Tilføj..."
 
@@ -1557,6 +1558,9 @@ msgstr ""
 msgid "Exit by hitting %s"
 msgstr "Afslut ved at trykke %s"
 
+msgid "Action:"
+msgstr "Handling:"
+
 msgid "Exit by clicking into two different corners"
 msgstr "Afslut ved at klikke i to forskellige hjørner"
 
@@ -1568,9 +1572,6 @@ msgstr "Bed om en adgangskode ved afslutning:"
 
 msgid "Change password..."
 msgstr "Ændre password..."
-
-msgid "Exit action:"
-msgstr "Luk:"
 
 msgid "Start the kiosk mode with the following functionality:"
 msgstr "Start kiosk med følgende funktionalitet:"
@@ -1745,9 +1746,6 @@ msgstr "Ugyldigt password. Prøv igjen"
 
 msgid "Invalid track number"
 msgstr "Ugyldig sang nummer"
-
-msgid "Action:"
-msgstr "Handling:"
 
 msgid "Shutdown computer"
 msgstr "Sluk for computeren"
@@ -2018,11 +2016,6 @@ msgid "Options"
 msgstr "Optioner"
 
 #, fuzzy
-#| msgid "Supported file-types"
-msgid "Supported file types"
-msgstr "Understøttet filtyper"
-
-#, fuzzy
 #| msgid "My music library"
 msgid "Music library"
 msgstr "Mit musikbibliotek"
@@ -2251,11 +2244,14 @@ msgstr "Læs mapper:"
 msgid "Read file:"
 msgstr "Læs fil:"
 
-msgid "Ignore music-files and images with the following extensions:"
-msgstr "Ignorer musik-filer og billeder med følgende extensions:"
+msgid "Read (ID3)-tags"
+msgstr "Læs (ID3)-tags"
 
-msgid "(separate the extensions using the comma, case is ignored)"
-msgstr "(separarer typerne ved hjælp af komma, )"
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgstr "Sti og fil mønster for nummer-oplysninger, hvis (ID3-) tags mangler:"
+
+msgid "Placeholders:"
+msgstr "Pladsholdere:"
 
 msgid "Include folder to the update process"
 msgstr "Medtag mappe til opdateringen"
@@ -2271,14 +2267,18 @@ msgstr "Læs skjulte filer"
 msgid "Read inside ZIP-/TAR-archives"
 msgstr "Læs inde i ZIP/TAR arkiver"
 
-msgid "Read (ID3)-tags"
-msgstr "Læs (ID3)-tags"
+#, fuzzy
+#| msgid "File extension"
+msgid "Additional file extensions:"
+msgstr "Filendelse"
 
-msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
-msgstr "Sti og fil mønster for nummer-oplysninger, hvis (ID3-) tags mangler:"
+#, fuzzy
+#| msgid "File extension"
+msgid "Ignore file extensions:"
+msgstr "Filendelse"
 
-msgid "Placeholders:"
-msgstr "Pladsholdere:"
+msgid "(separate the extensions using the comma, case is ignored)"
+msgstr "(separarer typerne ved hjælp af komma, )"
 
 msgid "Read files and folders"
 msgstr "Læs filer og kataloger"
@@ -2633,6 +2633,9 @@ msgstr "Brug %s-filer"
 msgid "Please select a directory with images"
 msgstr "Vælg en mappe med billeder"
 
+msgid "Title overlay"
+msgstr ""
+
 msgid "If appropriate, switch over automatically"
 msgstr "Hvis det er relevant, skift automatisk"
 
@@ -2658,6 +2661,37 @@ msgstr "Vis stjerneregn"
 
 msgid "Visualization"
 msgstr "Start Visualisering"
+
+msgid "Preset info"
+msgstr ""
+
+#, fuzzy
+#| msgid "Go to previous letter"
+msgid "Go to previous preset"
+msgstr "Gå til forrige bogstav"
+
+#, fuzzy
+#| msgid "Go to next letter"
+msgid "Go to next preset"
+msgstr "Gå til næste bogstav"
+
+#, fuzzy
+#| msgid "Go to random album"
+msgid "Go to random preset"
+msgstr "Gå til tilfældigt album"
+
+msgid "Preset shuffle"
+msgstr ""
+
+#, fuzzy
+#| msgid "lowest rating"
+msgid "Preset duration"
+msgstr "laveste bedømmelse"
+
+#, fuzzy
+#| msgid "No lyrics found."
+msgid "No presets found."
+msgstr "Tekster ikke fundet"
 
 msgid "Video output"
 msgstr "Video udgang"
@@ -2730,10 +2764,9 @@ msgstr "Tilføj"
 msgid "State"
 msgstr "Tillstand"
 
-# %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
-msgid "%s-files"
-msgstr "%s-filer"
+msgid "%s-video"
+msgstr ""
 
 # %s will be replaced by the file type, eg. "MP3"
 #, c-format
@@ -2745,14 +2778,15 @@ msgstr "%s-lyd"
 msgid "%s-images"
 msgstr "%s-bilder"
 
-#, c-format
-msgid "%s-video"
-msgstr ""
-
 # %s will be replaced by the file type, eg. "M3U"  or "CUE"
 #, c-format
 msgid "%s-playlists"
 msgstr "%s-afsplinings lister"
+
+# %s will be replaced by the file type, eg. "MP3" or "JPG"
+#, c-format
+msgid "%s-files"
+msgstr "%s-filer"
 
 #, fuzzy
 #| msgid "Archive-files"
@@ -2770,7 +2804,9 @@ msgstr "Silverjuke skin-filer"
 msgid "Archive-files"
 msgstr "Arkiv filer"
 
-msgid "Supported file-types"
+#, fuzzy
+#| msgid "Supported file-types"
+msgid "Known file-types"
 msgstr "Understøttet filtyper"
 
 msgid "Test..."
@@ -2993,6 +3029,25 @@ msgstr "Kan ikke starte \"%s\"."
 msgid "Please use the operating system to set Silverjuke to an exclusive mode."
 msgstr ""
 
+#, fuzzy
+#~| msgid "Only initalize system volume"
+#~ msgid "Only initialize system volume"
+#~ msgstr "Kun initalize systemets lydstyrke"
+
+#~ msgid "The search paths are used for skins, language files and modules."
+#~ msgstr "Søgningen stier anvendes til skind, sprog filer og moduler."
+
+#~ msgid "Exit action:"
+#~ msgstr "Luk:"
+
+#, fuzzy
+#~| msgid "Supported file-types"
+#~ msgid "Supported file types"
+#~ msgstr "Understøttet filtyper"
+
+#~ msgid "Ignore music-files and images with the following extensions:"
+#~ msgstr "Ignorer musik-filer og billeder med følgende extensions:"
+
 #~ msgid "Scroll vertically"
 #~ msgstr "Rul vandret"
 
@@ -3129,10 +3184,6 @@ msgstr ""
 #~| msgid "Monitor for"
 #~ msgid "Monitor for main window"
 #~ msgstr "Monitor for"
-
-# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
-#~ msgid "Initializing %s..."
-#~ msgstr "Starter %s..."
 
 #~ msgid "Microphone"
 #~ msgstr "Mikrofon"

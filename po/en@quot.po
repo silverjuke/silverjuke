@@ -27,10 +27,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: silverjuke 16.2.3\n"
+"Project-Id-Version: silverjuke 16.3.1\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-02-14 12:51+0100\n"
-"PO-Revision-Date: 2016-02-14 12:51+0100\n"
+"POT-Creation-Date: 2016-03-12 14:44+0100\n"
+"PO-Revision-Date: 2016-03-12 14:44+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
@@ -128,6 +128,12 @@ msgstr "Samplerate"
 #. TRANSLATORS: Abbreviation of "Hertz"
 msgid "Hz"
 msgstr "Hz"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "Prelisten"
+msgstr "Prelisten"
 
 msgid "AutoPlay"
 msgstr "AutoPlay"
@@ -257,9 +263,6 @@ msgstr "End search"
 msgid "click right for options"
 msgstr "click right for options"
 
-msgid "Volume"
-msgstr "Volume"
-
 msgid "Double-click to enlarge the cover"
 msgstr "Double-click to enlarge the cover"
 
@@ -369,9 +372,6 @@ msgstr "Further options"
 msgid "Queue"
 msgstr "Queue"
 
-msgid "Automatic control"
-msgstr "Automatic control"
-
 msgid "Current view"
 msgstr "Current view"
 
@@ -409,8 +409,11 @@ msgstr "Right channel"
 msgid "Explicit output"
 msgstr "Explicit output"
 
-msgid "Prelisten"
-msgstr "Prelisten"
+msgid "Equalizer"
+msgstr "Equalizer"
+
+msgid "Output"
+msgstr "Output"
 
 msgid "No"
 msgstr "No"
@@ -418,11 +421,8 @@ msgstr "No"
 msgid "Yes"
 msgstr "Yes"
 
-msgid "Only initialize system volume"
-msgstr "Only initialize system volume"
-
-msgid "Output"
-msgstr "Output"
+msgid "Initialize"
+msgstr "Initialize"
 
 msgid "Use system volume"
 msgstr "Use system volume"
@@ -640,6 +640,9 @@ msgstr "Music selection..."
 
 msgid "Settings"
 msgstr "Settings"
+
+msgid "Automatic control"
+msgstr "Automatic control"
 
 msgid "Update music library"
 msgstr "Update music library"
@@ -1300,9 +1303,6 @@ msgstr "Reset all selected alternative images to their default value?"
 msgid "Search paths"
 msgstr "Search paths"
 
-msgid "The search paths are used for skins, language files and modules."
-msgstr "The search paths are used for skins, language files and modules."
-
 msgid "Add..."
 msgstr "Add..."
 
@@ -1467,6 +1467,9 @@ msgstr ""
 msgid "Exit by hitting %s"
 msgstr "Exit by hitting %s"
 
+msgid "Action:"
+msgstr "Action:"
+
 msgid "Exit by clicking into two different corners"
 msgstr "Exit by clicking into two different corners"
 
@@ -1478,9 +1481,6 @@ msgstr "Ask for a password on exit"
 
 msgid "Change password..."
 msgstr "Change password..."
-
-msgid "Exit action:"
-msgstr "Exit action:"
 
 msgid "Start the kiosk mode with the following functionality:"
 msgstr "Start the kiosk mode with the following functionality:"
@@ -1654,9 +1654,6 @@ msgstr "Invalid password. Please try again."
 
 msgid "Invalid track number"
 msgstr "Invalid track number"
-
-msgid "Action:"
-msgstr "Action:"
 
 msgid "Shutdown computer"
 msgstr "Shutdown computer"
@@ -1897,9 +1894,6 @@ msgstr "Remove source"
 msgid "Options"
 msgstr "Options"
 
-msgid "Supported file types"
-msgstr "Supported file types"
-
 msgid "Music library"
 msgstr "Music library"
 
@@ -2108,11 +2102,14 @@ msgstr "Read folders:"
 msgid "Read file:"
 msgstr "Read file:"
 
-msgid "Ignore music-files and images with the following extensions:"
-msgstr "Ignore music-files and images with the following extensions:"
+msgid "Read (ID3)-tags"
+msgstr "Read (ID3)-tags"
 
-msgid "(separate the extensions using the comma, case is ignored)"
-msgstr "(separate the extensions using the comma, case is ignored)"
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgstr "Path and file pattern for track-information if (ID3-)tags are missing:"
+
+msgid "Placeholders:"
+msgstr "Placeholders:"
 
 msgid "Include folder to the update process"
 msgstr "Include folder to the update process"
@@ -2126,14 +2123,14 @@ msgstr "Read hidden folders"
 msgid "Read inside ZIP-/TAR-archives"
 msgstr "Read inside ZIP-/TAR-archives"
 
-msgid "Read (ID3)-tags"
-msgstr "Read (ID3)-tags"
+msgid "Additional file extensions:"
+msgstr "Additional file extensions:"
 
-msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
-msgstr "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgid "Ignore file extensions:"
+msgstr "Ignore file extensions:"
 
-msgid "Placeholders:"
-msgstr "Placeholders:"
+msgid "(separate the extensions using the comma, case is ignored)"
+msgstr "(separate the extensions using the comma, case is ignored)"
 
 msgid "Read files and folders"
 msgstr "Read files and folders"
@@ -2453,6 +2450,9 @@ msgstr "Use %s-files"
 msgid "Please select a directory with images"
 msgstr "Please select a directory with images"
 
+msgid "Title overlay"
+msgstr "Title overlay"
+
 msgid "If appropriate, switch over automatically"
 msgstr "If appropriate, switch over automatically"
 
@@ -2476,6 +2476,27 @@ msgstr "Show other figures"
 
 msgid "Visualization"
 msgstr "Visualization"
+
+msgid "Preset info"
+msgstr "Preset info"
+
+msgid "Go to previous preset"
+msgstr "Go to previous preset"
+
+msgid "Go to next preset"
+msgstr "Go to next preset"
+
+msgid "Go to random preset"
+msgstr "Go to random preset"
+
+msgid "Preset shuffle"
+msgstr "Preset shuffle"
+
+msgid "Preset duration"
+msgstr "Preset duration"
+
+msgid "No presets found."
+msgstr "No presets found."
 
 msgid "Video output"
 msgstr "Video output"
@@ -2543,8 +2564,8 @@ msgid "State"
 msgstr "State"
 
 #, c-format
-msgid "%s-files"
-msgstr "%s-files"
+msgid "%s-video"
+msgstr "%s-video"
 
 #, c-format
 msgid "%s-audio"
@@ -2555,12 +2576,12 @@ msgid "%s-images"
 msgstr "%s-images"
 
 #, c-format
-msgid "%s-video"
-msgstr "%s-video"
-
-#, c-format
 msgid "%s-playlists"
 msgstr "%s-playlists"
+
+#, c-format
+msgid "%s-files"
+msgstr "%s-files"
 
 msgid "Script-files"
 msgstr "Script-files"
@@ -2574,8 +2595,8 @@ msgstr "Silverjuke jukebox-files"
 msgid "Archive-files"
 msgstr "Archive-files"
 
-msgid "Supported file-types"
-msgstr "Supported file-types"
+msgid "Known file-types"
+msgstr "Known file-types"
 
 msgid "Test..."
 msgstr "Test..."

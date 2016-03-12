@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Silverjuke\n"
 "Report-Msgid-Bugs-To: r10s@b44t.com\n"
-"POT-Creation-Date: 2016-02-14 12:51+0100\n"
+"POT-Creation-Date: 2016-03-12 14:44+0100\n"
 "PO-Revision-Date: 2015-08-28 14:22+0200\n"
 "Last-Translator: antonivich <antonivicente@yahoo.es>\n"
 "Language-Team: antonivich <antonivicente@yahoo.es>\n"
@@ -106,6 +106,12 @@ msgstr "Ratio de muestreo"
 #. TRANSLATORS: Abbreviation of "Hertz"
 msgid "Hz"
 msgstr "Hz"
+
+msgid "Volume"
+msgstr "Volumen"
+
+msgid "Prelisten"
+msgstr "Preaudición"
 
 msgid "AutoPlay"
 msgstr "Reproducción automática"
@@ -234,9 +240,6 @@ msgstr "Fin de búsqueda"
 msgid "click right for options"
 msgstr "botón derecho para opciones"
 
-msgid "Volume"
-msgstr "Volumen"
-
 msgid "Double-click to enlarge the cover"
 msgstr "Doble clic para ampliar portada"
 
@@ -353,9 +356,6 @@ msgstr "Opciones adicionales"
 msgid "Queue"
 msgstr "Lista de reproducción"
 
-msgid "Automatic control"
-msgstr "Control automático"
-
 msgid "Current view"
 msgstr "Vista actual"
 
@@ -395,8 +395,11 @@ msgstr ""
 msgid "Explicit output"
 msgstr ""
 
-msgid "Prelisten"
-msgstr "Preaudición"
+msgid "Equalizer"
+msgstr ""
+
+msgid "Output"
+msgstr ""
 
 msgid "No"
 msgstr "No"
@@ -404,13 +407,11 @@ msgstr "No"
 msgid "Yes"
 msgstr "Sí"
 
+# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
 #, fuzzy
-#| msgid "Only initalize system volume"
-msgid "Only initialize system volume"
-msgstr "Solo iniciar volumen de sistema"
-
-msgid "Output"
-msgstr ""
+#| msgid "Initializing %s..."
+msgid "Initialize"
+msgstr "Iniciando %s..."
 
 msgid "Use system volume"
 msgstr "Usar volumen de sistema"
@@ -634,6 +635,9 @@ msgstr "Selección musical..."
 
 msgid "Settings"
 msgstr "Preferencias"
+
+msgid "Automatic control"
+msgstr "Control automático"
 
 msgid "Update music library"
 msgstr "Actualizar colección musical"
@@ -1334,11 +1338,6 @@ msgstr ""
 msgid "Search paths"
 msgstr "Buscar rutas"
 
-msgid "The search paths are used for skins, language files and modules."
-msgstr ""
-"Las rutas de búsqueda son usadas por las pieles, archivos de idioma y "
-"módulos."
-
 msgid "Add..."
 msgstr "Añadir..."
 
@@ -1518,6 +1517,9 @@ msgstr ""
 msgid "Exit by hitting %s"
 msgstr "Salir presionando %s"
 
+msgid "Action:"
+msgstr "Acción:"
+
 msgid "Exit by clicking into two different corners"
 msgstr "Salir clicando en dos diferentes esquinas"
 
@@ -1529,9 +1531,6 @@ msgstr "Al salir preguntar por la clave"
 
 msgid "Change password..."
 msgstr "Cambiar clave..."
-
-msgid "Exit action:"
-msgstr "Acción al salir:"
 
 msgid "Start the kiosk mode with the following functionality:"
 msgstr "Iniciar el modo \"Quiosco\" con las siguientes funcionalidades:"
@@ -1709,9 +1708,6 @@ msgstr "Clave no válida. Inténtelo de nuevo."
 
 msgid "Invalid track number"
 msgstr "Número de pista no válido"
-
-msgid "Action:"
-msgstr "Acción:"
 
 msgid "Shutdown computer"
 msgstr "Apagar ordenador"
@@ -1980,9 +1976,6 @@ msgstr "Quitar fuente"
 msgid "Options"
 msgstr "Opciones"
 
-msgid "Supported file types"
-msgstr "Tipos de archivo soportados"
-
 msgid "Music library"
 msgstr "Mi música"
 
@@ -2211,11 +2204,16 @@ msgstr "Leer carpetas:"
 msgid "Read file:"
 msgstr "Leer archivo:"
 
-msgid "Ignore music-files and images with the following extensions:"
-msgstr "Ignorar archivos de música e imágenes con las siguientes extensiones:"
+msgid "Read (ID3)-tags"
+msgstr "Leer etiquetas ID3"
 
-msgid "(separate the extensions using the comma, case is ignored)"
-msgstr "(separar las extensiones con comas; mayúsculas son indiferentes)"
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgstr ""
+"Ruta y formato de archivo para información de la pista si no hay etiquetas "
+"ID3:"
+
+msgid "Placeholders:"
+msgstr "Casillas"
 
 msgid "Include folder to the update process"
 msgstr "Incluir carpeta en la actualización"
@@ -2229,16 +2227,18 @@ msgstr "Leer carpetas ocultas"
 msgid "Read inside ZIP-/TAR-archives"
 msgstr "Leer dentro de archivos comprimidos ZIP/TAR"
 
-msgid "Read (ID3)-tags"
-msgstr "Leer etiquetas ID3"
+#, fuzzy
+#| msgid "File extension"
+msgid "Additional file extensions:"
+msgstr "Extensión de archivo"
 
-msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
-msgstr ""
-"Ruta y formato de archivo para información de la pista si no hay etiquetas "
-"ID3:"
+#, fuzzy
+#| msgid "File extension"
+msgid "Ignore file extensions:"
+msgstr "Extensión de archivo"
 
-msgid "Placeholders:"
-msgstr "Casillas"
+msgid "(separate the extensions using the comma, case is ignored)"
+msgstr "(separar las extensiones con comas; mayúsculas son indiferentes)"
 
 msgid "Read files and folders"
 msgstr "Leer archivos y carpetas"
@@ -2591,6 +2591,9 @@ msgstr "Usar archivos %s"
 msgid "Please select a directory with images"
 msgstr "Por favor, seleccione un directorio con imágenes"
 
+msgid "Title overlay"
+msgstr ""
+
 msgid "If appropriate, switch over automatically"
 msgstr "Si conviene, saltar automático"
 
@@ -2615,6 +2618,37 @@ msgstr "Mostar otras formas"
 #, fuzzy
 msgid "Visualization"
 msgstr "Iniciar visualización"
+
+msgid "Preset info"
+msgstr ""
+
+#, fuzzy
+#| msgid "Go to previous letter"
+msgid "Go to previous preset"
+msgstr "Ir a la letra anterior"
+
+#, fuzzy
+#| msgid "Go to next letter"
+msgid "Go to next preset"
+msgstr "Ir a la letra siguiente"
+
+#, fuzzy
+#| msgid "Go to random album"
+msgid "Go to random preset"
+msgstr "Ir aleatoriamente a álbum"
+
+msgid "Preset shuffle"
+msgstr ""
+
+#, fuzzy
+#| msgid "lowest rating"
+msgid "Preset duration"
+msgstr "baja valoración"
+
+#, fuzzy
+#| msgid "No lyrics found."
+msgid "No presets found."
+msgstr "Letra no encontrada"
 
 msgid "Video output"
 msgstr "Salida de vídeo"
@@ -2686,10 +2720,9 @@ msgstr "Anexar"
 msgid "State"
 msgstr "Estado"
 
-# %s will be replaced by the file type, eg. "MP3" or "JPG"
 #, c-format
-msgid "%s-files"
-msgstr "archivos %s"
+msgid "%s-video"
+msgstr "video %s"
 
 # %s will be replaced by the file type, eg. "MP3"
 #, c-format
@@ -2701,14 +2734,15 @@ msgstr "audio %s"
 msgid "%s-images"
 msgstr "imágenes %s"
 
-#, c-format
-msgid "%s-video"
-msgstr "video %s"
-
 # %s will be replaced by the file type, eg. "M3U"  or "CUE"
 #, c-format
 msgid "%s-playlists"
 msgstr "listas de reproducción %s"
+
+# %s will be replaced by the file type, eg. "MP3" or "JPG"
+#, c-format
+msgid "%s-files"
+msgstr "archivos %s"
 
 msgid "Script-files"
 msgstr "Scrips"
@@ -2722,7 +2756,9 @@ msgstr "Archivos de jukebox de Silverjuke"
 msgid "Archive-files"
 msgstr "Archivos de almacenamiento"
 
-msgid "Supported file-types"
+#, fuzzy
+#| msgid "Supported file-types"
+msgid "Known file-types"
 msgstr "Tipos de archivo soportados"
 
 msgid "Test..."
@@ -2943,6 +2979,26 @@ msgstr "No se puede ejecutar \"%s\"."
 msgid "Please use the operating system to set Silverjuke to an exclusive mode."
 msgstr ""
 
+#, fuzzy
+#~| msgid "Only initalize system volume"
+#~ msgid "Only initialize system volume"
+#~ msgstr "Solo iniciar volumen de sistema"
+
+#~ msgid "The search paths are used for skins, language files and modules."
+#~ msgstr ""
+#~ "Las rutas de búsqueda son usadas por las pieles, archivos de idioma y "
+#~ "módulos."
+
+#~ msgid "Exit action:"
+#~ msgstr "Acción al salir:"
+
+#~ msgid "Supported file types"
+#~ msgstr "Tipos de archivo soportados"
+
+#~ msgid "Ignore music-files and images with the following extensions:"
+#~ msgstr ""
+#~ "Ignorar archivos de música e imágenes con las siguientes extensiones:"
+
 #~ msgid "Scroll vertically"
 #~ msgstr "Desplegable vertical"
 
@@ -3074,10 +3130,6 @@ msgstr ""
 #~| msgid "Monitor for"
 #~ msgid "Monitor for main window"
 #~ msgstr "Monitor para"
-
-# %s will be replaced by the stuff that's currently loaded; i.e. this is a filename
-#~ msgid "Initializing %s..."
-#~ msgstr "Iniciando %s..."
 
 #~ msgid "Microphone"
 #~ msgstr "Microfono"
