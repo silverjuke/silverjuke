@@ -745,7 +745,7 @@ void SjMainFrame::UpdateDisplay()
 		{
 			if( visLine==visLineCount/2 )
 			{
-				value.string = wxString::Format(wxT("%s %i.%i"), SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR);
+				value.string = wxString::Format(wxT("%s %i.%i.%i"), SJ_PROGRAM_NAME, SJ_VERSION_MAJOR, SJ_VERSION_MINOR, SJ_VERSION_REVISION);
 			}
 			else
 			{
