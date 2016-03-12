@@ -1087,7 +1087,7 @@ possible and wanted in the (ID3-)tags of the file.
 
 If you edit more than one track, a detailed confirmation dialog is displayed
 before the changes will take effect. In this dialog, you can also edit the
-changes in a "final" step by double-clicking on am item.
+changes in a "final" step by double-clicking on an item.
 
 Writing (ID3)-tags can be disabled using the corresponding option in the
 confirmation dialog or with the "menu" button.
@@ -1356,12 +1356,12 @@ The options in detail:
 globals.ini
 --------------------------------------------------------------------------------
 
-Experienced users can set some other options can be set in the `[main]` section
-of the globals.ini file:
+Experienced users can set some other options in the `[main]` section of the
+globals.ini file:
 
 - `debug =` Debugging flags: 1=Enable debugging, 2=Invoke test assert, 4=Do
-  scripting tests.  You can use more than one flag by adding them.  Needed for
-  debugging purposes only, defaults to 0.
+  scripting tests and show garbage collection info.  You can use more than one
+  flag by adding them.  Needed for debugging purposes only, defaults to 0.
 
 Options for the `[tageditor]` section of the globals.ini file:
 

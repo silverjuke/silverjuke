@@ -36,9 +36,6 @@
 #if SJ_USE_SCRIPTS
 
 
-#define PRINT_CLEANUP_INFO 0
-
-
 #define GcADR uintptr_t
 
 
@@ -242,9 +239,7 @@ void SjGcShutdown()
 
 
 static GcADR s_gc_minAdr, s_gc_maxAdr, *s_gc_allAdr = NULL, s_gc_allAdrCount;
-#if PRINT_CLEANUP_INFO
 static long s_infoAssumedPointers, s_infoPointersFollowed;
-#endif
 
 
 static void SjGcSweep(GcBlock* block)
@@ -274,9 +269,7 @@ static void SjGcSweep(GcBlock* block)
 		if(  adr >= s_gc_minAdr
 		 &&  adr <= s_gc_maxAdr )
 		{
-			#if PRINT_CLEANUP_INFO
-				s_infoAssumedPointers ++;
-			#endif
+			s_infoAssumedPointers ++;
 
 			// binary search for adr in s_gc_allAdr
 			left = 0; right = s_gc_allAdrCount - 1;
@@ -299,9 +292,7 @@ static void SjGcSweep(GcBlock* block)
 					        /*&& cur2->references -- no needed, only blocks with referenced are added to s_gc_allAdr[]*/ )
 					{
 						// pointer found!
-						#if PRINT_CLEANUP_INFO
-							s_infoPointersFollowed ++;
-						#endif
+						s_infoPointersFollowed ++;
 						SjGcSweep(cur2);
 					}
 					break;
@@ -321,9 +312,7 @@ static void SjGcSweep(GcBlock* block)
 								&&  cur2->references/*in contras to the binary search above, this comparison is needed here!*/ )
 						{
 							// pointer found!
-							#if PRINT_CLEANUP_INFO
-								s_infoPointersFollowed ++;
-							#endif
+							s_infoPointersFollowed ++;
 							SjGcSweep(cur2);
 						}
 						break;
@@ -369,9 +358,7 @@ void SjGcDoCleanup()
 
 	// collect information of all blocks, mark all blocks as unused
 	GcBlock* curBlock;
-	#if PRINT_CLEANUP_INFO
-		long infoCleanupStartTimestamp = SjTools::GetMsTicks();
-	#endif
+	long infoCleanupStartTimestamp = SjTools::GetMsTicks();
 	{
 		GcADR adr;
 
@@ -393,13 +380,6 @@ void SjGcDoCleanup()
 			{
 				adr = ((GcADR)curBlock) + sizeof(GcBlock);
 
-				if( g_debug )
-				{
-					// only set for an additional check at (X), always set after qsort()
-					if( s_gc_minAdr == 0 || adr < s_gc_minAdr ) { s_gc_minAdr = adr; }
-					if( s_gc_maxAdr == 0 || adr > s_gc_maxAdr ) { s_gc_maxAdr = adr; }
-				}
-
 				s_gc_allAdr[s_gc_allAdrCount++] = adr;
 			}
 
@@ -412,22 +392,14 @@ void SjGcDoCleanup()
 	{
 		qsort(s_gc_allAdr, s_gc_allAdrCount, sizeof(GcADR), compareAdr);
 
-		if( g_debug )
-		{
-			wxASSERT( s_gc_minAdr == s_gc_allAdr[0] ); // (X) see comment above
-			wxASSERT( s_gc_maxAdr == s_gc_allAdr[s_gc_allAdrCount-1] );
-		}
-
 		s_gc_minAdr = s_gc_allAdr[0];
 		s_gc_maxAdr = s_gc_allAdr[s_gc_allAdrCount-1];
 	}
 
 	// start scanning with the only blocks used directly
 	// (there may be zero used blocks, however, continue anyway as some blocks may be freed)
-	#if PRINT_CLEANUP_INFO
-		s_infoAssumedPointers = 0;
-		s_infoPointersFollowed = 0;
-	#endif
+	s_infoAssumedPointers = 0;
+	s_infoPointersFollowed = 0;
 	curBlock = s_gc_firstBlock;
 	while( curBlock )
 	{
@@ -450,9 +422,7 @@ void SjGcDoCleanup()
 	unsigned long   infoBlocksFreed = 0;
 	unsigned long   infoBytesFreed = 0;
 	unsigned long   infoOldSize = g_gc_system.curSize;
-	#if PRINT_CLEANUP_INFO
-		unsigned long infoOldBlockCount = g_gc_system.curBlockCount;
-	#endif
+	unsigned long   infoOldBlockCount = g_gc_system.curBlockCount;
 	{
 		GcBlock *toDel, *prevBlock = NULL;
 
@@ -519,8 +489,9 @@ void SjGcDoCleanup()
 	g_gc_system.sizeChangeSinceLastCleanup = 0;
 	g_gc_system.lastCleanupTimestamp = SjTools::GetMsTicks();
 
-	#if PRINT_CLEANUP_INFO
-		wxLogDebug( "%i ms needed to free %iK of %iK (%i of %i blocks, %i/%i/%i possible/assumed/followed pointers) [gc]",
+	if( g_debug&0x04 /*4=additional script debugging, see user-guide*/ )
+	{
+		wxLogInfo ( "%i ms needed to free %iK of %iK (%i of %i blocks, %i/%i/%i possible/assumed/followed pointers) [gc]",
 					(int)(g_gc_system.lastCleanupTimestamp-infoCleanupStartTimestamp),
 					(int)(infoBytesFreed/1024),
 					(int)(infoOldSize/1024),
@@ -528,7 +499,7 @@ void SjGcDoCleanup()
 					(int)infoOldBlockCount,
 					(int)(infoOldSize/sizeof(GcADR)), (int)s_infoAssumedPointers, (int)s_infoPointersFollowed
 				  );
-	#endif
+	}
 }
 
 
