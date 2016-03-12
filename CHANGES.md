@@ -1,11 +1,13 @@
 Silverjuke Changes
 ================================================================================
 
-V16.3 (19.02.2016)
+V16.3 (12.03.2016)
 ================================================================================
 
+- New Equalizer
 - New prelistening options: Mix, Left/Right channel, Explicit output
 - New prelistening overlay
+- New video screen overlay showing the covers and the title
 - New: Include/Exclude extensions in the source settings
 - Bug fixes
 
