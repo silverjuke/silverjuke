@@ -127,8 +127,10 @@ void SjBrowserWindow::OnMouseLeftDClick(wxMouseEvent& event)
 	 */
 	if( !m_currView->OnMouseLeftDClick(event) )
 	{
-		// click not used -> toggle view
-		g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_TOGGLE_VIEW));
+		// click not used -> toggle view (deprecated, however. this confuses users eg. on unprecise clicks)
+		if( g_accelModule->m_flags&SJ_ACCEL_DCLICK_TOGGLE_VIEW ) {
+			g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, IDT_WORKSPACE_TOGGLE_VIEW));
+		}
 	}
 }
 

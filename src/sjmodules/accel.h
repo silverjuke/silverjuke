@@ -133,6 +133,7 @@ public:
 	#define         SJ_ACCEL_WHEEL_MODIFIER_AXIS_TOGGLE 0x00400000L
 	#define         SJ_ACCEL_WHEEL_RMOUSE_AXIS_TOGGLE   0x00800000L
 	#define         SJ_ACCEL_WHEEL_VALUE_INPUT          0x01000000L
+	#define         SJ_ACCEL_DCLICK_TOGGLE_VIEW         0x02000000L // deprecated
 	#define         SJ_ACCEL_DEFAULT                    0x0000FFFFL
 	long            m_flags;
 	long            m_selDragNDrop; // 0=off, 1=first click, 2=second click
