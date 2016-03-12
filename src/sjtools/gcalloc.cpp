@@ -471,16 +471,40 @@ void SjGcDoCleanup()
 	// integry check
 	if( g_debug )
 	{
-			unsigned long cnt = 0, cntBytes = 0;
-			GcBlock* iter = s_gc_firstBlock;
-			while( iter )
-			{
-				cnt++;
-				cntBytes += iter->size;
-				iter = iter->next;
-			}
-			wxASSERT( cnt == g_gc_system.curBlockCount );
-			wxASSERT( cntBytes == g_gc_system.curSize );
+		// compile time assumptions, see remark (*) in gcalloc.h
+		// (in SjGcSweep() we only check for pointers on multiple of sizeof(void*))
+		struct just_a_test {
+			void* ptr0;
+			char  force_unaligned1;
+			void* ptr2;
+			short force_unaligned3;
+			void* ptr4;
+			int   force_unaligned5;
+			void* ptr6;
+			long  force_unaligned7;
+			void* ptr8;
+		};
+
+		just_a_test* test = (just_a_test*)malloc(sizeof(just_a_test));
+			wxASSERT( sizeof(just_a_test) == 9*sizeof(void*) );
+			wxASSERT( &test->ptr0 == (void*)(((char*)test)+sizeof(void*)*0) );
+			wxASSERT( &test->ptr2 == (void*)(((char*)test)+sizeof(void*)*2) );
+			wxASSERT( &test->ptr4 == (void*)(((char*)test)+sizeof(void*)*4) );
+			wxASSERT( &test->ptr6 == (void*)(((char*)test)+sizeof(void*)*6) );
+			wxASSERT( &test->ptr8 == (void*)(((char*)test)+sizeof(void*)*8) );
+		free(test);
+
+		// runtime checks
+		unsigned long cnt = 0, cntBytes = 0;
+		GcBlock* iter = s_gc_firstBlock;
+		while( iter )
+		{
+			cnt++;
+			cntBytes += iter->size;
+			iter = iter->next;
+		}
+		wxASSERT( cnt == g_gc_system.curBlockCount );
+		wxASSERT( cntBytes == g_gc_system.curSize );
 	}
 
 	// done

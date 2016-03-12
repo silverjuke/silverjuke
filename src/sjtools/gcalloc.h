@@ -44,8 +44,13 @@
  * SJ_GC_ALLOC_STATIC - call SjGcUnref().  Do _not_ use free() for delete for
  * this purpose!
  *
- * Note that this framework is not thread safe! If you need this, you have to
- * enclose the functions yourself eg. using critical sections.
+ * Some restrictions:
+ * - The framework is not thread safe!
+ * - Pointers are searched only on multiples of sizeof(void*) - so, this won't
+ *   work with packed structures! (see (*) in gcalloc.cpp)
+ * - No searching for pointers pointing _inside_ another block - there must be
+ *   _always_ a pointer to the start of the block, otherwise the block gets
+ *   freed sooner or later!
  *
  ******************************************************************************/
 
