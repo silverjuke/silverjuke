@@ -241,7 +241,7 @@ void SjGcShutdown()
  ******************************************************************************/
 
 
-static GcADR s_gc_minAdr, s_gc_maxAdr, s_gc_noPtrMask, *s_gc_allAdr = NULL, s_gc_allAdrCount;
+static GcADR s_gc_minAdr, s_gc_maxAdr, *s_gc_allAdr = NULL, s_gc_allAdrCount;
 #if PRINT_CLEANUP_INFO
 static long s_infoAssumedPointers, s_infoPointersFollowed;
 #endif
@@ -272,8 +272,7 @@ static void SjGcSweep(GcBlock* block)
 		adr = *dataPtr;
 
 		if(  adr >= s_gc_minAdr
-		        &&  adr <= s_gc_maxAdr
-		        && (adr & s_gc_noPtrMask) == 0 )
+		 &&  adr <= s_gc_maxAdr )
 		{
 			#if PRINT_CLEANUP_INFO
 				s_infoAssumedPointers ++;
@@ -378,7 +377,6 @@ void SjGcDoCleanup()
 
 		s_gc_minAdr         = 0; // initialize, we may get a s_gc_allAdrCount==0 after this part and the initialization with s_gc_allAdr[0] below will not be done
 		s_gc_maxAdr         = 0; //     - " -
-		s_gc_noPtrMask      = 0;
 
 		wxASSERT( s_gc_allAdr == NULL );
 		s_gc_allAdr         = (GcADR*)malloc(g_gc_system.curBlockCount*sizeof(GcADR));
@@ -402,16 +400,12 @@ void SjGcDoCleanup()
 					if( s_gc_maxAdr == 0 || adr > s_gc_maxAdr ) { s_gc_maxAdr = adr; }
 				}
 
-				s_gc_noPtrMask |= adr;
-
 				s_gc_allAdr[s_gc_allAdrCount++] = adr;
 			}
 
 			// next block
 			curBlock = curBlock->next;
 		}
-
-		s_gc_noPtrMask &= ~0xFFFFFFFFL;
 	}
 
 	if( s_gc_allAdrCount )
