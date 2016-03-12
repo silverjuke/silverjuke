@@ -439,7 +439,7 @@ void SjVisOverlay::RequireCover()
 	g_mainFrame->m_imgThread->RequireEnd(coverWindow);
 
 	// set a fine font height
-	wxPaintDC dc(artistNameWindow); // use _any_ dc
+	wxClientDC dc(artistNameWindow); // use _any_ dc
 	for( int i = 0; i <= 1; i++ ) {
 		SjVoWindow* window = i==0?  artistNameWindow :  trackNameWindow;
 		wxRect*     rect   = i==0? &artistNameRect   : &trackNameRect;
