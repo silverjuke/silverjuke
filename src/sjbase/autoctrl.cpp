@@ -915,7 +915,8 @@ int SjAutoCtrl::IsCurrTrackCloseToEnd(long headroomMs) // returns 0, 1 or -1 for
 		return -1; // dont'know
 	}
 
-	long crossfadeMs = g_mainFrame->m_player.GetAutoCrossfade()? g_mainFrame->m_player.m_autoCrossfadeMs : 0;
+	long crossfadeMs = g_mainFrame->m_player.GetAutoCrossfade()?
+		(g_mainFrame->m_player.m_crossfadeOffsetEndMs+g_mainFrame->m_player.m_autoCrossfadeMs) : 0;
 	wxASSERT( remainingMs >= 0 );
 	wxASSERT( crossfadeMs >= 0 );
 	if( remainingMs < (crossfadeMs+headroomMs) )
