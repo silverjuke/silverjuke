@@ -417,7 +417,9 @@ void modify_samples(REAL *samples, int numsamples, int srate)
 		equ_makeTable(lbands,&paramroot,srate);
 		bands_changed = false;
 		last_srate = srate;
-		equ_clearbuf();
+		if( last_srate != srate ) {
+			equ_clearbuf();
+		}
 	}
 
 	equ_modifySamples(samples, numsamples);
