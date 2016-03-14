@@ -10,10 +10,13 @@ Silverjuke User Guide
     - Update Music Library
 - Using Covers
     - Search Covers on the Web
-- Playback
+- Playback and FX
     - Queue
+    - Resume
     - Automatic Control and Fading
-    - Karaoke
+    - Jingles and Further options
+    - Prelisten
+    - Equalizer
 - Skins, fonts, covers and view
 - Kiosk Mode
     - Functionality
@@ -21,7 +24,7 @@ Silverjuke User Guide
     - Virtual Keyboard
     - Numpad
     - Credit System
-- Music Selection
+- Music selection
     - SQL Expressions
     - Playlists
 - Edit Tracks
@@ -29,8 +32,15 @@ Silverjuke User Guide
    - Split Fields
    - Rename Files
    - Query freedb
-- Visualizations
-- Advanced and further options
+- Video screen
+   - Visualization
+   - Video output
+   - Karaoke
+   - Spectrum monitor
+   - Title overlay
+- Advanced
+   - Shortcuts
+   - Further options
    - globals.ini
 
 
@@ -41,7 +51,7 @@ After you have downloaded Silverjuke from http://www.silverjuke.net/ and started
 the program, you have to add your music files to your music library. For this
 purpose, just drag the folders with music files to the main window.
 
-Alternativly, select the page "Music library" in the "Jukebox Settings" dialog.
+Alternativly, select the page "Music library" in the "Settings" dialog.
 The (empty) list shows all sources used to build your music library from. Click
 on the button "Add source" and select a folder with your music files. Music 
 files are read recursively. If your music files are in different folders, you 
@@ -76,7 +86,7 @@ at once.
 If you want to stop a search and view all albums, empty the search field, click
 one of the letters "A" to "Z" or just hit "Esc".
 
-See the chapter "Music Selection" for further searching options.
+See the chapter "Music selection" for further searching options.
 
 
 **Sorting**
@@ -120,7 +130,7 @@ Music Library
 In the "Music Library", you have to tell Silverjuke all sources (folders, files,
 (compressed) archives, servers and so on) to read music-files from.
 
-To open the dialog, select "Jukebox settings" from the menu and the the page 
+To open the dialog, select "Settings" from the menu and the the page 
 "Music Library".
 
 Using the corresponding buttons, you can easily add or remove sources. Moreover,
@@ -138,8 +148,8 @@ Combine tracks to Albums
 --------------------------------------------------------------------------------
 
 To combine difference tracks from different sources to albums, Silverjuke uses
-its own algorithm which can be configured at "Jukebox Settings / Combine tracks
-to Albums":
+its own algorithm which can be configured at "Settings / Jukebox / Combine
+tracks to Albums":
 
 - Tracks belong together if the artist name and/or album name of different
   tracks is identical [1]. If this is true for a given number of tracks,
@@ -193,7 +203,7 @@ to analyze all music files. You should not abort the process without reasons -
 otherwise the Silverjuke database is out of sync with the music files.
 
 If you abort the process anyway or if you change music files outside from
-Silverjuke you can start the update process manually using "Jukebox Settings /
+Silverjuke you can start the update process manually using "Settings / Jukebox /
 Music Library / Update Music Library" or by just hitting the key "F5".
 
 With the option "recreate music library" the music library will be recreated
@@ -211,7 +221,7 @@ useful as a cover.
 
 Currently the file formats BMP, GIF, ICO, IFF, JIF, JPE, JPEG, JPG, PXX, PNG,
 PNM, TIF, TIFF, XPM are supported. If several images are found, the correct
-cover is identified by one of the keyword defined in "Jukebox Settings / Music
+cover is identified by one of the keyword defined in "Settings / Jukebox / Music
 Library / Combine tracks to Albums":
 
 - With the keywords you can define which words should appear in the file name of
@@ -345,11 +355,14 @@ possibilities to embed the cover to Silverjuke:
 
 
 
-Playback
+Playback and FX
 ================================================================================
 
-In the dialog "Jukebox Settings / Playback" you can configure different hardware
-and software options affecting the playback in Silverjuke.
+On the dialog pages "Settings / Playback" and "Settings / FX" you can configure
+different hardware and software options affecting the playback in Silverjuke.
+
+Moreover, some advanced options, as the output hardware, can be modified at
+"Settings / Advanced".
 
 
 Queue
@@ -374,11 +387,21 @@ With the button "Reset to default values" you can init all options _only_ on
 this page to their default values.
 
 
+Resume
+--------------------------------------------------------------------------------
+
+With the options at "Settings / Playback / Resume" you can let Silverjuke save
+the current queue on exit and reload it on the next start.
+
+Moreover, if the jukebox was playing on exit, you can continue from exactly
+this position on the next start.
+
+
 Automatic control and Fading
 --------------------------------------------------------------------------------
 
-With the options at "Jukebox Settings / Automatic control" you can define which
-actions should be done automatically after given timeouts or at certain
+With the options at "Settings / Playback / Automatic control" you can define 
+which actions should be done automatically after given timeouts or at certain
 conditions.
 
 
@@ -393,10 +416,10 @@ and play tracks automatically:
 - After the given number of minutes, Silverjuke plays the number of tracks
   defined in the second input field.
 
-- The tracks to play are chosen randomly from the selected Music Selection in
-  the last popup. You may also define your own Music Selections and use them 
-  here, more details are found the chapter Music Selections (btw. you can open 
-  the "Music Selection"-Dialog directly for here by pressing the button "...").
+- The tracks to play are chosen randomly from the selected music selection in
+  the last popup. You may also define your own music selections and use them 
+  here, more details are found the chapter music selections (btw. you can open 
+  the "Music selection"-Dialog directly for here by pressing the button "...").
 
 Finally, some hints to the option "If the playlist is empty":
 
@@ -481,25 +504,34 @@ When a new track starts, the volume will be adapted again. However, during the
 first playback of a track, the calculated volume may be corrected.
 
 
-**Further options**
+Jingles and Further options
+--------------------------------------------------------------------------------
 
-- "Go to current track after ... minutes of inactivity": If there is no user
+- With the **Jingle** options you can play tracks under certain circumstances
+  automatically - every some monutes or hours or always at a given time.
+  The tracks themselves are defined by normal music selections, see chapter
+  "Music selections" for details.
+
+- **Go to current track after ... minutes of inactivity** - If there is no user
   input [1] in the given number of minutes, Silverjuke will scroll the album 
   view to the playing album/track. Hint: you may override this timeout by 
   pressing the button "Go to current track" in the main window (usually this 
   button is a "*" beside the "A-Z" bar).
 
-- "Reset view after ... minutes of inactivitiy to ...": Use this option to force
-  the given view after the given timeout 
+- **Reset view after ... minutes of inactivitiy to ...** - Use this option to 
+  force the given view after the given timeout 
 
-- "Start Visualization after ... minutes of inactivity": If there is no user
-  input [2] in the given number of minutes, Silverjuke will start the selected 
-  Visualization.
+- **Open video screen after ... minutes of inactivity** - If there is no user
+  input [2] in the given number of minutes, Silverjuke will open the video 
+  screen.
 
-- With the option "Stop Visualization after ... minutes" you can stop a running
-  Visualization after the given number of minutes. It does not matter whether 
-  the Visualization was started automatically or manually before.
+- With the option **Close video screen after ... minutes** you can close 
+  the opened video screen after the given number of minutes.  It does not matter
+  whether the video screen was started automatically or manually before.
+  If the video screen is not opened at the given timeout, nothing happens.
 
+- **Limit play time to ... seconds** - if the playing track plays longer than
+  this amount, it is stopped and the next track in queue is started.
 
 Footnotes:
 
@@ -512,27 +544,77 @@ visualization is not started if the Silverjuke main window is not the active
 window.
 
 
-Karaoke
+Prelisten
 --------------------------------------------------------------------------------
 
-Silverjuke supports playback of Karaoke files in the formats CDG and LRC:
+"Prelisten" means to hear into a different song while the normal playback is 
+not interrupted and will play other titles.
 
-If you have such files, just make sure they are placed in the same directory
-under the same name as the belonging *.mp3 files: Eg. if you have a file
-c:\music\Karaoke.mp3, the CDG file must be named c:\music\Karaoke.cdg.
+To start prelisting, select the title you want to prelisten to and choose
+"Playback / Prelisten" from the menu or hit CTRL-L.
 
-That all! To start the Karaoke screen, first start a normal playback of the
-file and then click on the little icon in the lower left corner of the display.
+In the standard configuration, Silverjuke will make the normal output much 
+**quieter** - but continue its playback - and **mix** in the song to prelisten.
 
-On the first start you may have to select "Karaoke prompt" from the menu atop
-of the Visualization. You can also place the Karaoke prompt on a secondary
-monitor; please see the chapter Monitors for details.
+However, prelistening can also be done by using **headphones**; this way, the
+normal output is not altered at all.
+
+The easiest way to prelisten with headphones, is to use a separate audio output.
+If your computer has two outputs, go to "Settings / Advanced" and select
+**Prelisten: Explicit output** and then different outputs for "Output:" and
+"Prelisten:" (the concrete names of these options depend on the used operating
+system).
+
+If you have only one output, you can also use your headphones for prelistening,
+however, this requires a **special audio cable** that splits the L/R channels
+into two different outputs.
+
+With this cable, connect the loudspeakers to the one channel and the headphones
+to the other one and select **Prelisten: Left channel** or 
+**Prelisten: right channel** from "Settings / Advanced".
+
+
+Equalizer
+--------------------------------------------------------------------------------
+
+Silverjuke comes with a very high quality graphical equalizer using FIR-filters
+which do not degrade audio quality.  You will really notice a difference.
+
+The equalizer is available at "Settings / FX".
+
+- To switch it **on/off**, use the corresponding checkbox above the sliders
+
+- The equalizer has **18 bands** corresponding to different frequencies 
+  (shown above the bands).
+
+- With the **sliders** you can adjust a gain for each band separately. If the
+  equalizer is switched on, every change will be hearable at once.
+  Depending on the main volume and on the audio hardware, gains above 0 dB _may_
+  lead to overdrive and distortions.  These gains are shown in red.  
+  **To avoid overdrive, just do not use gains above 0 dB!**  
+  You have been warned.
+
+- A simple way to adjust all sliders so that there is no overdrive possible,
+  ist to use **Auto Level** from the menu button.  With **Volume up** and
+  **Volume down** you can also move all bands together up or down.  These 
+  commands also replace a _PreAmp-Slider_ - with the advantage that you always
+  can see the bands that may cause overdrive at any time.
+
+There are several **presets** available from the box left of the menu button -
+chosing one is equal to bring all sliders to the given positions.  Again, if
+you do not hear a difference, make sure, you have switched the equalizer on.
+
+Beside using the predefined presets, you can also **define your own** - just use 
+the corresponding commands from the menu button.
+
+Finally, you can **import** several presets from other players - from Winamp, 
+foobar, Silverjuke 2.x and others.
 
 
 Skins, fonts, covers and view
 ================================================================================
 
-With the options placed at "Jukebox Settings / Skins" you can change the 
+With the options placed at "Settings / Skins" you can change the 
 appearance and some Functionality of Silverjuke.
 
 
@@ -590,10 +672,10 @@ Before you start the Kiosk Mode, you should set some options in the dialog
 
 First, on dialog page "Start kiosk mode", make sure, you know how to end the
 Kiosk mode after you have started it. By default, the Kiosk mode can be ended
-using the key F11. Moreover, you can protect the Kiosk Mode by a password and
-disable special system keys. If you enter a new password, Silverjuke asks you
-to confirm the new password before you start the Kiosk Mode. This is needed to
-avoid typing errors.
+using the key F11. Moreover, you can protect the Kiosk Mode by a password [1]
+and disable special system keys. If you enter a new password, Silverjuke asks 
+you to confirm the new password before you start the Kiosk Mode. This is needed 
+to avoid typing errors.
 
 If everything is set correctly in your opinion, click onto the button Start to
 start the Kiosk Mode... we wish you many fun with Silverjuke!
@@ -604,6 +686,12 @@ configure the Kiosk Mode to fit your needs.
 
 Moreover, you may like to use the options for the "Automatic Control" in
 combination with the Kiosk Mode.
+
+
+[1] If you use a password and choose an exit action that does not return to the
+"normal" Silverjuke program (eg. "Shutdown"), you can define a second 
+"Maintenance password" at "Advanced / Further options" that always returns to
+the normal Silverjuke program.
 
 
 Functionality
@@ -617,10 +705,10 @@ the behaviour or limit the Functionality of the Kiosk Mode.
   corrensponding buttons will be hidden. If a button is not shown even if the 
   function is enabled, you can use the function by a shortcut or by the display.
 
-- The option "Limit tracks to the Music Selection ..." let the Kiosk Mode
-  display only the tracks from this Music Selection. You may also define your 
-  own Music Selections and use them here, more details are found the chapter 
-  "Music Selections" (btw. you can open the "Music Selection"-Dialog directly 
+- The option "Limit tracks to the music selection ..." let the Kiosk Mode
+  display only the tracks from this music selection. You may also define your 
+  own music selections and use them here, more details are found the chapter 
+  "Music Selections" (btw. you can open the "Music selection"-Dialog directly 
   for here by pressing the button "...").
 
 
@@ -632,9 +720,6 @@ Visualization or for the Karaoke screen and the other for the main window.
 
 Just open "Kiosk Mode / Monitors" and define which monitor to use for which 
 purpose.
-
-Finally, you can switch the display resolution while the Kiosk Mode is runnning.
-This is useful eg. if you find the view too small.
 
 
 Virtual Keyboard
@@ -822,62 +907,62 @@ hardware, Silverjuke supports eg. any type or coin or or bill acceptors this
 way.
 
 
-Music Selection
+Music selection
 ================================================================================
 
 Beside the search options described in the First Steps, Silverjuke offers a more
 powerful possibility to search for tracks and albums, the so called "Music
-Selection". With the Music Selection you can combine different search criteria,
+Selection". With the music selection you can combine different search criteria,
 eg. you can search for all titles of a defined genre in a defined period.
 
-You open the dialog for the Music Selection using the right mouse button and by
-selecting the menu entry "Music Selection" then.
+You open the dialog for the music selection using the right mouse button and by
+selecting the menu entry "Music selection" then.
 
 
-**Saved Music Selections**
+**Saved Music selections**
 
-At the dialog's left side you see a list with the saved Music Selections
+At the dialog's left side you see a list with the saved music selections
 (starting the program for the first time you will find some predefined
 selections by default). With the button menu below this list you can create new
-Music Selections, rename existing ones, save a copy of a Music Selection under
-a new name and finally you have the option to delete Music Selections.
+music selections, rename existing ones, save a copy of a music selection under
+a new name and finally you have the option to delete music selections.
 
-Hint: If you delete all Music Selections, the predefined selections will be
+Hint: If you delete all music selections, the predefined selections will be
 added again.
 
 
 **Start and end search**
 
-To search for titles in a Music Selection, select the Music Selection and then
-click search. Only titles matching the Music Selection will be shown in the main
+To search for titles in a music selection, select the music selection and then
+click search. Only titles matching the music selection will be shown in the main
 window, so that you can verify the result at once. As long as the Music 
 Selection is activated each action in the main window will only affect the found
 titles, eg. a search using the search field in the main window will search in
-the result of the Music Selection only.
+the result of the music selection only.
 
-Hint: the "Music Selection" dialog is not modal - you can switch between the
+Hint: the "Music selection" dialog is not modal - you can switch between the
 dialog and the main window without closing the dialog. Btw. this is true for
 most dialogs in Silverjuke.
 
-To cancel a Music Selection click onto the button end search. Alternatively,
+To cancel a music selection click onto the button end search. Alternatively,
 you can also cancel the search from within the main window by clicking onto the
 "X" aright of the search field (if you have entered any text in the search
 field, the first click removes the text and the second click ends the Music
 Selection).
 
-Closing the Music Selection dialog does not end the search, so you can use an
-Music Selection as a permanent filter without having the search dialog opened
+Closing the music selection dialog does not end the search, so you can use an
+music selection as a permanent filter without having the search dialog opened
 all the time.
 
 Moreover, by the query history, which you access by the little arrow aright of
 the search field in the main window, you have the possibility to access prior
-Music Selections without opening the Music Selection dialog.
+music selections without opening the music selection dialog.
 
 
-**Edit Music Selections**
+**Edit Music selections**
 
-To edit a Music Selection, select the Music Selection to edit in the list aleft.
-After this, the details about the Music Selection are show aright in the dialog.
+To edit a music selection, select the music selection to edit in the list aleft.
+After this, the details about the music selection are show aright in the dialog.
 
 Atop of the details, you have the choice whether to select single tracks or full
 albums and how to combine the search criteria below. Search criteria always
@@ -901,7 +986,7 @@ Hint: depending on the selected files and the selected operator, the operator/
 the value controls may change. Eg. the operator "is in range" requires two
 values while the operator "is equal to" requires only one.
 
-To get an idea about the possibilities of the Music Selection, the best is to
+To get an idea about the possibilities of the music selection, the best is to
 try it out for yourself. However, there are still some important points:
 
 - If you select the operator "is equal to" or "is unequal to" for a textfield
@@ -923,7 +1008,7 @@ try it out for yourself. However, there are still some important points:
   window and then pressing the keys "Ins" or "Del".
 
 Finally, more experienced users have the possibility to use the field "SQL
-Expression" which allows to defined more complex Music Selections in the query
+Expression" which allows to defined more complex music selections in the query
 language "SQL".
 
 
@@ -931,7 +1016,7 @@ SQL Expressions
 --------------------------------------------------------------------------------
 
 If you choose the option "SQL Expression" for a field in a criterion of a
-Music Selection, the operator popup disappears to make place for a larger text
+music selection, the operator popup disappears to make place for a larger text
 field.
 
 In this text field you can input any valid SQL Expressions as
@@ -1067,7 +1152,7 @@ whereas most of them can also be edited as follows:
   disk (mostly true), enter "1 of 1" here. Feel free to leave this field blank.
 
 - The genre of the track. If you fill out this field for a significant number of
-  tracks, you can use it as an criterion for Music Selections (btw, this is true 
+  tracks, you can use it as an criterion for music selections (btw, this is true 
   for all information).
 
 - The group can be used for additional criterions specific for you music
@@ -1233,66 +1318,240 @@ dialog is shown where you can also edit the suggested information.
 
 The default server used to query the freedb database is http://www.freedb.org ,
 however, you can also define a mirror that is closer to you at "Advanced /
-Further options / Online database: Server name".
+Further options / Freedb: Server name".
 
 
-Visualizations
+Video screen
 ================================================================================
 
-So called "Visualizations" are graphical output plugins which render their
-graphics - more or less - in synchronity with the playing music.
+The video screen shows visual information belonging - more or less - to the 
+currently playing tracks.  These visual information may be a video (currently 
+Linux only), a karaoke file or a visualisation that renders graphics synchronous
+with the music.
 
-If playback is started you can start a visualizations using the key F2 or the
-symbol (eg. a wave) in the main window.
+You can open a video screen by selecting the corresponding option from the
+"Video screen" menu.
 
-Usually, visualizations can be stopped using the "escape" key.
+Alternatively, you can open the "last" video screen by the menu command "Video 
+screen / Toggle video screen" or by hitting the F2 key.
 
-You can select the visualization to use by the menu atop of the visualization.
-However, only one visualization can be started at the same time.
+By default, the opened video screen switches over from visualisations to video
+or karaoke files automatically.  You can change this behaviour by the menu 
+option "Video screen / Further options / Switch over automatically".  (If the 
+video screen is open, you can also define a smaller size there, which however, 
+is only useful if you are using _very_ slow hardware).
+
+**Position of the video screen**
+
+By default, the video screen is positioned over the workspaces; skins may define
+other places (see the "VisRect"-target in the "skinning.md" or "skinning.txt") 
+and with the "monitor options" you can move the video screen completely to 
+another window or even another monitor or display (see chapter "Monitors").
 
 
-Advanced and Further options
+**Automatically open and close the video screen**
+
+You can let Silverjuke automatically open and/or close the video screen, see
+"Playback / Further options".
+
+
+Visualization
+--------------------------------------------------------------------------------
+
+"Visualizations" are graphics rendered in sync with the currently playing music.
+Silverjuke comes with one of the best visualizations available, "projectM".
+
+"projectM" uses so called "Presets" that define how the visualization looks like
+at a given time.  Presets are shown for a given time and then the visualization
+automatically fades over to another preset.
+
+To open the visualizations video screen, choose the menu command "Video screen /
+Visualization".
+
+While the visualization is running, the "Video screen" menu offers some 
+additional commands and options:
+
+- With the **Go to** options you can switch to the next/previous or or a random
+  "preset. Instead of the menu options you can also use the cursor keys for 
+  switching: Left=Previous preset, Right=Next preset, Down=Random preset,
+  Up=Show preset name.
+
+- With the **Preset duration** you can define how long a preset is shown;
+  after this time, Silverjuke chooses another preset. _How_ this preset is 
+  choosen is defined by **Preset shuffle** - either just the next index or
+  a random index. By default, "Shuffle" is on and the duration is about 20 
+  seconds.
+
+Silverjuke comes with some hundred presets that are tested and work well.
+
+An inofficial and currently not recommended feature is to use other presets -
+either just to the normal preset directory (shown in the console window) or by a
+completely different preset folder defined on in globals.ini as "main/prjmdir".
+For carefully selected presets, this may work well, however, esp. on windows,
+I have also seen presets that make problems.  You have been warned.
+
+
+Video output
+--------------------------------------------------------------------------------
+
+If the currently playing title contains a video stream, this video stream 
+can be shown by the "Video output" video screen.
+
+_Which_ video format are supported depend on the operating system.  Currently
+video at all is only supported on Linux; there we support all codecs that are
+supported by the GStreamer backend - for some video codecs it may be needed to
+install additional plugins as "plugins-ugly" for "plugins-bad" to GStreamer.
+
+You open this video screen in the menu at "Video screen / Video output".
+
+
+Spectrum monitor
+--------------------------------------------------------------------------------
+
+This video screen shows a simple spectrum and an oscilloscope.
+
+You open this video screen in the menu at "Video screen / Spectrum monitor".
+
+
+Karaoke
+--------------------------------------------------------------------------------
+
+Silverjuke supports playback of Karaoke files in the formats CDG and LRC.
+
+If you have such files, just make sure they are placed in the same directory
+under the same name as the belonging *.mp3 files: Eg. if you have a file
+c:\music\Karaoke.mp3, the CDG file must be named c:\music\Karaoke.cdg.
+
+That all! To start the Karaoke screen, first start a normal playback of the
+file and then click on the little icon in the lower left corner of the display
+or select "Video screen / Karaoke prompt" from the menu.
+
+You can also place the Karaoke prompt on a secondary monitor; please see the
+chapter "Monitors" for details.
+
+
+Title overlay
+--------------------------------------------------------------------------------
+
+Independently of the selected video screen, by default, Silverjuke shows an
+overlay with cover, artist and track name of the currenly playing tracks.
+
+This overlay is shown at the beginning and at the end of a track for some 
+seconds.
+
+With the menu options **Video screen / Title overlay** you can change the 
+duration.  Moreover, you can switch the overlay or parts of it off there.
+
+
+Advanced
 ================================================================================
 
-With the options found at "Settings / Advanced / Further options" you can define
-some less common settings for Silverjuke. Moreover, you can change all shortcuts
-here.
+In the settings dialog at "Settings / Advanced" you can define some less common
+settings.
 
-To change an option, select it and click onto the button "Customize".
+
+Shortcuts
+--------------------------------------------------------------------------------
+
+At "Settings / Advanced / Shortcuts" you can change the key bindings of 
+Silverjuke.
+
+To **add** a shortcut, just double-click on an option and then hitting the new 
+shortcut keys.  You may define several shortcuts for a command. 
+
+To **remove** a shortcut, use the right mouse  button and then
+"Remove shortcut...". 
+
+Special shortcuts:
+
+- **Shortcuts: Numpad:** These options are available if you enable the numpad
+  control for the Kiosk Mode. In this case, you can customize the keys to use 
+  for the numpad control as described above.
+  
+
+Further options
+--------------------------------------------------------------------------------
+
+"Settings / Advanced / Further options" let you define define
+some less common settings for Silverjuke. 
+
+To **change** an option, select it and click onto the button "Customize".
 Alternatively you may use the right mouse button.
 
-Changed options are shown in a highlighted font in the list. To reset options to
-their default values, select them (you may select several options using the
-"shift" and the "ctrl" keys) and click onto "Customize / Reset selection".
+Changed options are shown **highlighted** in the list. To **reset**
+options to their default values, select them (you may select several options 
+using the "shift" and the "ctrl" keys) and click onto "Customize / Reset 
+selection".
 
 The options in detail:
 
-- **Playback:** These options let you select the playback device; depending on 
+- **Output** - These options let you select the playback device; depending on 
   the hardware and the operating system, there may be some more options 
   affecting it
 
-- **Language:** By default, Silverjuke just uses the system language. Here you 
-  can define another language to use. Further details about the localization 
-  can be found in the file "localization.md" (or "localization.txt").
+- **Prelisten** - See chapter "Prelisten".
 
-- **Image cache:** With the option RAM cache you can set the amount of memory to
-  use to cache covers; by default 2 MB are used here which is enough for about 3 
-  pages of covers in the standard size. With the option Use temporary directory
-  you can use your harddisk to cache images. When using this option your 
-  harddisk should be "large" enough to cache all possible covers; however, for 
-  actual hardware this should be no problem. You can use the temporary directory 
-  cache in two ways: _asynchony_ or _directly_. Asynchony means, the images to
-  display are rendered in a second thread and displayed when ready; in between,
-  Silverjuke shows an empty square at the place of the cover. Directly means,
-  the program display is halted until the image is ready and therefore no empty
-  squares are shown and the output is a little "smarter" but may halt the user
-  input for a moment. If you are unsure, use the asynchony method or disable the
-  use of the temporary directory completly.
+- **Ask on close if playing** - When the program is about to be closed by a user
+  request and there is still some music playing, Silverjuke can ask you whether
+  really to quit. This option has no effect if the program is closed by other
+  reasons, eg. by a shutdown of windows.
+  
+- **Ask ...** - Other options to enable/disable questions asked by Silverjuke.
+  
+- **Freedb** - See chapter "Query freedb".
+
+- **Image cache** - With the option RAM cache you can set the amount of memory
+  to use to cache covers; by default 2 MB are used here which is enough for 
+  about 3 pages of covers in the standard size. With the option Use temporary
+  directory you can use your harddisk to cache images. When using this option 
+  your harddisk should be "large" enough to cache all possible covers; however,
+  for actual hardware this should be no problem. You can use the temporary 
+  directory cache in two ways: _asynchony_ or _directly_. Asynchony means, the
+  images to display are rendered in a second thread and displayed when ready; 
+  in between, Silverjuke shows an empty square at the place of the cover. 
+  Directly means, the program display is halted until the image is ready and 
+  therefore no empty squares are shown and the output is a little "smarter" but
+  may halt the user input for a moment. If you are unsure, use the asynchony 
+  method or disable the use of the temporary directory completly.
 
 - **Index file:** This option displays the index file location (the index file
   contains the database for your music library). If you want to use another 
   index file, you have to add the parameter --jukebox=FILE to the command line
   when starting Silverjuke.
+
+- **Kiosk mode** - See chapter "Kiosk mode".
+
+- **Language** - By default, Silverjuke just uses the system language. Here you 
+  can define another language to use. Further details about the localization 
+  can be found in the file "localization.md" (or "localization.txt").
+
+- **Mouse** - Several options affecting the mouse handling.
+
+- **Search: Lookup genre on simple search** - If this option is set to "yes", 
+  you can type in a genre into the simple search field in the main window. If 
+  the genre is found, Silverjuke displays all tracks of this genre then.
+
+- **Search: Max. history size** - With this option you define the number of
+  previous searches that should be saved in the history. You can access the
+  history by clicking onto the little arrow beside the search field.
+
+- **Search: Save modified music selections** - By default, Silverjuke asks you
+  whether to save a modified music selection eg. if you close the dialog.
+  However, Silverjuke can also save (select "always") or cancel (select
+  "never") all modified music selections automatically without asking. If you 
+  select "never", do not forget to save the music selection manually eg. by 
+  pressing "Ctrl-S".
+
+- **Search: Search single words** - If this option is enabled, each word 
+  entered is searched independently - "stones black" will find "The Rolling 
+  Stones - Paint it Black".  Defaults to "on".
+
+- **Search: Search while typing** - If you enter a search text into the simple
+  search field in the main window, Silverjuke can start the search while you are 
+  still typing (incremental search) or wait until you hit "enter".
+
+- **Search paths** - A double click openes a dialog where the search paths 
+  can be modified.  The standard paths cannot be deleted.
 
 - **Show files with:** By default when selecting the menu entry "Explore...",
   files are shown eg. with the Explorer under Windows or with the Finder on 
@@ -1301,56 +1560,10 @@ The options in detail:
   you may want to change the command line given to the selected program by
   right-clicking onto the entry and choosing "Edit...".
 
-- **Temporary directory:** This option displays the temporary directory in use.
+- **Temporary directory** - This option displays the temporary directory in use.
   The temporary directory is used eg. for the cover cache (see above). If you 
   want to use a different temporary directory, you have to start Silverjuke with
   the option -temp=DIR in the command line.
-
-- **Ask on close if playing:** When the program is about to be closed by a user
-  request and there is still some music playing, Silverjuke can ask you whether
-  really to quit. This option has no effect if the program is closed by other
-  reasons, eg. by a shutdown of windows.
-
-- **Search: Lookup genre on simple search:** If this option is set to "yes", you
-  can type in a genre into the simple search field in the main window. If the 
-  genre is found, Silverjuke displays all tracks of this genre then.
-
-- **Search: Max. history size:** With this option you define the number of
-  previous searches that should be saved in the history. You can access the
-  history by clicking onto the little arrow beside the search field.
-
-- **Search: Save modified Music Selections:** By default, Silverjuke asks you
-  whether to save a modified Music Selection eg. if you close the dialog.
-  However, Silverjuke can also save (select "always") or cancel (select
-  "never") all modified Music Selections automatically without asking. If you 
-  select "never", do not forget to save the Music Selection manually eg. by 
-  pressing "Ctrl-S".
-
-- **Search: Search while typing:** If you enter a search text into the simple
-  search field in the main window, Silverjuke can start the search while you are 
-  still typing (incremental search) or wait until you hit "enter".
-
-- **Mouse wheel:** With this option you can define if the mouse wheel should
-  scroll the album view horizontally or vertically. Btw: holding the
-  "shift"-key or pressing the right mouse button while using the mouse
-  wheel toggles the direction.
-
-- **Mouse wheel: Context sensitive:** If this option is enabled and the mouse is
-  over the display, the mouse wheel scrolls the display content (the queue)
-  instead of the album view.
-
-- **Shortcuts:** Lots of options refer to shortcuts which may be customized by
-  double-clicking on an option and then hitting the new shortcut. You may define 
-  several shortcuts for a command. To remove a shortcut, use the right mouse 
-  button and then "Remove shortcut...". You can even define system-wide 
-  shortcuts. System-wide shortcuts may be used even if Silverjuke is not the
-  active program, eg. you can use the "pause" key to start/stop playback from 
-  within any running application. To define a system-wide shortcut, press the 
-  right mouse button and choose "Add system-wide shortcut...".
-
-- **Shortcuts: Numpad:** These options are available if you enable the numpad
-  control for the Kiosk Mode. In this case, you can customize the keys to use 
-  for the numpad control as described above.
 
 
 globals.ini

@@ -976,8 +976,6 @@ The following list shows possible targets for the div-tag.
   in. If you do not define a div-area with this target, the workspace-tag is
   used as the area to display the visualization in. Also note the
   button-target StartVis.
-  The image shows the workspace (green) and the VisRect (red) used in the
-  default skin.
 
 - Layout:yourLayoutName
 
