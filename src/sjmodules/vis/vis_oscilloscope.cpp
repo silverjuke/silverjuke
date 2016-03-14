@@ -1169,197 +1169,6 @@ SjOscSpectrum::~SjOscSpectrum()
 
 
 /*******************************************************************************
- * SjOscTitle
- ******************************************************************************/
-
-
-class SjOscTitle
-{
-public:
-	SjOscTitle          ();
-	void            Draw                (wxDC& dc, const wxSize& clientSize, bool titleChanged, const wxString& newTitle);
-
-private:
-	wxSize          m_clientSize;
-	wxFont          m_font;
-	wxString        m_currTitle;
-	wxCoord         m_currTitleX,
-	                m_currTitleY,
-	                m_currTitleW,
-	                m_currTitleH;
-	void            CalcCurrTitleSize   (wxDC& dc);
-	wxString        m_nextTitle;
-
-	#define         SCROLL_OFF      0
-	#define         SCROLL_WAIT     1
-	#define         SCROLL_LEFT     2
-	#define         SCROLL_RIGHT    3
-	long            m_scroll;
-	long            m_scrollCnt;
-
-	#define         TITLEOP_NOP     0
-	#define         TITLEOP_WIPEIN  1
-	#define         TITLEOP_WIPEOUT 2
-	int             m_titleOp;
-	double          m_titleWipe;
-
-};
-
-
-SjOscTitle::SjOscTitle()
-{
-	m_font = wxFont(10, wxSWISS, wxITALIC, wxNORMAL, FALSE, g_mainFrame->GetBaseFontFace());
-}
-
-
-void SjOscTitle::Draw(wxDC& dc, const wxSize& clientSize, bool titleChanged, const wxString& newTitle)
-{
-	// client size changed?
-	if( m_clientSize != clientSize )
-	{
-		m_clientSize = clientSize;
-
-		// create new font
-		int pt = clientSize.y / 20; if( pt < 7 ) pt = 7;
-		m_font.SetPointSize(pt);
-
-		// calculate new size
-		CalcCurrTitleSize(dc);
-	}
-
-	// title changed?
-	if( titleChanged )
-	{
-		if( m_currTitle.IsEmpty() )
-		{
-			m_currTitle = newTitle;
-			CalcCurrTitleSize(dc);
-			m_titleOp = TITLEOP_WIPEIN;
-			m_titleWipe = 0.0F;
-		}
-		else if( m_titleOp == TITLEOP_WIPEIN )
-		{
-			m_nextTitle = newTitle; // fast switch - however, this only happens for very short tracks
-			CalcCurrTitleSize(dc);
-		}
-		else if( newTitle != m_currTitle )
-		{
-			m_nextTitle = newTitle;
-			CalcCurrTitleSize(dc);
-			if( m_titleOp == TITLEOP_NOP )
-			{
-				m_titleOp = TITLEOP_WIPEOUT;
-				m_titleWipe = 0.0F;
-			}
-		}
-	}
-
-	// draw the title
-	dc.SetFont(m_font);
-
-	// scroll?
-	#define SCROLL_PIX 8
-	#define SCROLL_INITIAL_WAIT_MS 2000
-	#define SCROLL_LEFT_END_WAIT_MS 2000
-	#define SCROLL_RIGHT_END_WAIT_MS 12000
-	if( m_scroll == SCROLL_WAIT )
-	{
-		m_scrollCnt--;
-		if( m_scrollCnt <= 0 )
-		{
-			m_scroll = m_currTitleX<0? SCROLL_RIGHT : SCROLL_LEFT;
-		}
-	}
-	else if( m_scroll == SCROLL_LEFT )
-	{
-		m_currTitleX -= SCROLL_PIX;
-		if( m_currTitleX+m_currTitleW <= m_clientSize.x )
-		{
-			m_scroll = SCROLL_WAIT;
-			m_scrollCnt = (SCROLL_LEFT_END_WAIT_MS / SLEEP_MS);
-		}
-	}
-	else if( m_scroll == SCROLL_RIGHT )
-	{
-		m_currTitleX += SCROLL_PIX;
-		if( m_currTitleX >= 0 )
-		{
-			m_scroll = SCROLL_WAIT;
-			m_scrollCnt = (SCROLL_RIGHT_END_WAIT_MS / SLEEP_MS);
-		}
-	}
-
-	// apply our wipe effect
-	if( m_titleOp )
-	{
-		m_titleWipe += 1.0L/(double)SLEEP_MS;
-
-		wxRect wipeRect(0, m_currTitleY, m_clientSize.x, m_currTitleH);
-
-		if( m_titleOp == TITLEOP_WIPEIN )
-		{
-			wipeRect.width = (int) ( wipeRect.width * m_titleWipe );
-		}
-		else
-		{
-			wipeRect.x = (int) ( wipeRect.width * m_titleWipe );
-		}
-
-		// clip out the wipe rectangle and draw the text
-		//dc.DrawRectangle(wipeRect);
-		dc.SetClippingRegion(wipeRect);
-		dc.DrawText(m_currTitle, m_currTitleX, m_currTitleY);
-		dc.DestroyClippingRegion();
-
-		// this wipe done?
-		if( m_titleWipe >= 1.0 )
-		{
-			if( m_titleOp == TITLEOP_WIPEOUT )
-			{
-				m_currTitle = m_nextTitle;
-				CalcCurrTitleSize(dc);
-				m_titleOp = TITLEOP_WIPEIN;
-				m_titleWipe = 0.0F;
-			}
-			else
-			{
-				m_titleOp = TITLEOP_NOP;
-			}
-		}
-	}
-	else
-	{
-		// just draw the text, no wiping currently needed
-		dc.DrawText(m_currTitle, m_currTitleX, m_currTitleY);
-	}
-}
-
-
-void SjOscTitle::CalcCurrTitleSize(wxDC& dc)
-{
-	dc.SetFont(m_font);
-	dc.GetTextExtent(m_currTitle, &m_currTitleW, &m_currTitleH);
-
-	m_currTitleX = m_clientSize.x/2-m_currTitleW/2;
-	if( m_currTitleX < 0 )
-		m_currTitleX = 0;
-
-	m_currTitleY = m_clientSize.y/2-m_currTitleH/2;
-
-	if( m_currTitleW > m_clientSize.x )
-	{
-		m_scroll = SCROLL_WAIT;
-		m_scrollCnt = (SCROLL_INITIAL_WAIT_MS / SLEEP_MS);
-	}
-	else
-	{
-		m_scroll = SCROLL_OFF;
-	}
-
-}
-
-
-/*******************************************************************************
  *  SjOscWindow
  ******************************************************************************/
 
@@ -1388,7 +1197,6 @@ private:
 	wxBrush             m_bgBrush;
 	SjOscSpectrum*      m_spectrum;
 	SjOscOscilloscope*  m_oscilloscope;
-	SjOscTitle*         m_title;
 	SjOscRotor*         m_rotor;
 	SjOscHands*         m_hands;
 	SjOscFirework*      m_firework;
@@ -1459,7 +1267,6 @@ SjOscWindow::SjOscWindow(SjOscModule* oscModule, wxWindow* parent)
 	// create the drawing objects
 	m_spectrum = new SjOscSpectrum();
 	m_oscilloscope = new SjOscOscilloscope(BUFFER_MIN_BYTES/sizeof(float));
-	m_title = new SjOscTitle();
 	m_rotor = new SjOscRotor();
 	m_hands = new SjOscHands();
 	m_firework = new SjOscFirework();
@@ -1476,7 +1283,6 @@ SjOscWindow::~SjOscWindow()
 	m_timer.Stop();
 	if( m_spectrum )     { delete m_spectrum; }
 	if( m_oscilloscope ) { delete m_oscilloscope; }
-	if( m_title )        { delete m_title; }
 	if( m_rotor )        { delete m_rotor; }
 	if( m_hands )        { delete m_hands; }
 	if( m_firework )     { delete m_firework; }
@@ -1575,13 +1381,6 @@ void SjOscWindow::OnTimer(wxTimerEvent&)
 				m_offscreenDc.SetBrush(m_bgBrush);
 				m_offscreenDc.DrawRectangle(0, i*rowH, clientSize.x, rowH);
 			}
-		}
-
-		// draw text (very background)
-		{
-			m_offscreenDc.SetBackgroundMode(wxTRANSPARENT);
-			m_offscreenDc.SetTextForeground(m_textColour);
-			m_title->Draw(m_offscreenDc, clientSize, titleChanged, newTitle);
 		}
 
 		// draw figures (they lay in backgroud)
