@@ -206,6 +206,8 @@ bool SjVisModule::OpenWindow__()
 	if( m_visWindowVisible || g_mainFrame == NULL || g_visModule == NULL )
 		return false;
 
+	m_overlay->m_freshOpened = true;
+
 	if( !m_visOwnFrame )
 	{
 		wxRect r;

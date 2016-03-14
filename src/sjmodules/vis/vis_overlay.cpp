@@ -38,6 +38,9 @@
  ******************************************************************************/
 
 
+#define STD_OVERLAY_DELAY_MS 2000 // 1 second: wait for the window being realized + 1 second: wait for the cover being loaded
+
+
 #define TIMER_ACTION_REQUIRE_COVER  1
 #define TIMER_ACTION_SHOW           2
 #define TIMER_ACTION_CLOSE          3
@@ -83,13 +86,13 @@ public:
 		}
 		else if( m_action == TIMER_ACTION_POLL_FOR_EOS )
 		{
-			long headroomMs = (long)((float)g_visModule->m_visOverlaySeconds*1000*0.66);
-			if( g_mainFrame->m_autoCtrl.IsCurrTrackCloseToEnd(headroomMs+SJ_VIS_OVERLAY_DELAY_MS) == 1 ) {
+			long headroomMs = (long)((float)g_visModule->m_visOverlaySeconds*1000*0.5);
+			if( g_mainFrame->m_autoCtrl.IsCurrTrackCloseToEnd(headroomMs+STD_OVERLAY_DELAY_MS) == 1 ) {
 				Stop();
 				if( !m_vo->GetCoverWindow() ) {
 					SjVisRendererModule* r = g_visModule->GetCurrRenderer();
 					if( r ) {
-						m_vo->TrackOnAirChanged(r->GetSuitableParentForOverlay());
+						m_vo->TrackOnAirChanged(r->GetSuitableParentForOverlay(), STD_OVERLAY_DELAY_MS);
 					}
 				}
 			}
@@ -286,6 +289,7 @@ END_EVENT_TABLE()
 
 SjVisOverlay::SjVisOverlay()
 {
+	m_freshOpened = true;
 	m_actionTimer = new SjVoActionTimer(this);
 
 	#if SJ_OVERLAY_BASE==2
@@ -401,7 +405,28 @@ void SjVisOverlay::TrackOnAirChanged(wxWindow* parent, long delayMs)
 			m_trackName = newTrackName;
 			m_leadArtistName = newLeadArtistName;
 			m_coverUrl = g_mainFrame->m_columnMixer.GetTrackCoverUrl(urlInfo.GetUrl());
-			m_delayMs = delayMs;
+
+			if( delayMs == -1 )
+			{
+				// by default, we show the overlay a little delayed _after_ the song really starts (this is eg. after crossfade)
+				m_delayMs = 0;
+				if( !m_freshOpened && g_mainFrame->m_player.GetAutoCrossfade() ) {
+					m_delayMs = g_mainFrame->m_player.m_autoCrossfadeMs;
+					if( g_mainFrame->m_player.GetOnlyFadeOut() ) {
+						m_delayMs /= 3; // on "only fade out", the song is earlier "active"
+					}
+				}
+				if( m_delayMs < 2000 ) {
+					m_delayMs = 2000;
+				}
+			}
+			else
+			{
+				m_delayMs = delayMs;
+			}
+
+			m_freshOpened = false;
+
 			AllocateOverlay(parent);
 
 			// We need a delay in first initialisation as we have to wait until the parent is really realized (shown on screen with valid position).

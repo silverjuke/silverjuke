@@ -65,10 +65,11 @@ public:
 	                 SjVisOverlay         ();
 	                 ~SjVisOverlay        ();
 
-	#define          SJ_VIS_OVERLAY_DELAY_MS 2000 // 1 second: wait for the window being realized + 1 second: wait for the cover being loaded
-	void             TrackOnAirChanged    (wxWindow* parentForOverlay, long delayMs=SJ_VIS_OVERLAY_DELAY_MS);
+	void             TrackOnAirChanged    (wxWindow* parentForOverlay, long delayMs=-1);
 	void			 UpdatePositions      ();
 	void             CloseOverlay         ();
+
+	bool             m_freshOpened;
 
 private:
 	void			 CalcPositions        (wxRect& coverRect, wxRect& artistNameRect, wxRect& trackNameRect);
