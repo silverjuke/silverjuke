@@ -237,8 +237,9 @@
 #define IDO_VIS_OVERLAY         4903
 #define IDO_VIS_OVERLAY_COVER   4904
 #define IDO_VIS_OVERLAY_ARTIST  4905
-#define IDO_VIS_OVERLAY_TIME0   4906
-#define IDO_VIS_OVERLAY_TIME10  4916
+#define IDO_VIS_OVERLAY_SCROLL  4906
+#define IDO_VIS_OVERLAY_TIME0   4907
+#define IDO_VIS_OVERLAY_TIME10  4917
 #define IDO_VIS_LAST__          4920 /* range end */
 #define IDO_wxID_LOWEST         4999 /* range start, used by wx */
 #define IDO_wxID_HIGHEST        5999 /* range end, used by wx */

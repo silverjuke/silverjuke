@@ -544,6 +544,10 @@ void SjVisModule::UpdateVisMenu(SjMenu* visMenu)
 		submenu->Check(IDO_VIS_OVERLAY_ARTIST, (m_visFlags&SJ_VIS_FLAGS_OVERLAY_ARTIST)!=0);
 		submenu->Enable(IDO_VIS_OVERLAY_ARTIST, overlayEnabled);
 
+		submenu->AppendCheckItem(IDO_VIS_OVERLAY_SCROLL, _("Scroll"));
+		submenu->Check(IDO_VIS_OVERLAY_SCROLL, (m_visFlags&SJ_VIS_FLAGS_OVERLAY_SCROLL)!=0);
+		submenu->Enable(IDO_VIS_OVERLAY_SCROLL, overlayEnabled);
+
 		submenu->AppendSeparator();
 		for( int i = 0; s_durations[i]; i++ ) {
 			submenu->AppendCheckItem(IDO_VIS_OVERLAY_TIME0+i, s_duration_text(i));
@@ -658,6 +662,15 @@ void SjVisModule::OnVisMenu(int id)
 		case IDO_VIS_OVERLAY_ARTIST:
 			if( g_mainFrame->IsAllAvailable() ) {
 				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_OVERLAY_ARTIST);
+				WriteVisFlags();
+				UpdateVisMenu(g_mainFrame->m_visMenu);
+				updateOverlay = true;
+			}
+			break;
+
+		case IDO_VIS_OVERLAY_SCROLL:
+			if( g_mainFrame->IsAllAvailable() ) {
+				SjTools::ToggleFlag(m_visFlags, SJ_VIS_FLAGS_OVERLAY_SCROLL);
 				WriteVisFlags();
 				UpdateVisMenu(g_mainFrame->m_visMenu);
 				updateOverlay = true;

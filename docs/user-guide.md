@@ -1433,14 +1433,15 @@ chapter "Monitors" for details.
 Title overlay
 --------------------------------------------------------------------------------
 
-Independently of the selected video screen, by default, Silverjuke shows an
-overlay with cover, artist and track name of the currenly playing tracks.
+Independently of the selected video screen, Silverjuke shows an overlay with
+cover, artist and track name of the currently playing track.
 
 This overlay is shown at the beginning and at the end of a track for some 
 seconds.
 
 With the menu options **Video screen / Title overlay** you can change the 
-duration.  Moreover, you can switch the overlay or parts of it off there.
+duration.  Moreover, you can switch the overlay or parts of it off there and
+disable title scrolling.
 
 
 Advanced

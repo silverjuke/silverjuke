@@ -162,6 +162,9 @@ private:
 #endif
 
 
+#define IDM_SCROLLTIMER (IDM_FIRSTPRIVATE+1)
+
+
 class SjVoWindow : public PARENT_WINDOW_CLASS
 {
 public:
@@ -189,6 +192,12 @@ public:
 		m_font = wxFont(10, wxSWISS, wxNORMAL, wxBOLD, FALSE, g_mainFrame->GetBaseFontFace());
 		m_textYoff = 0;
 		m_textCalculatedWidth = 0;
+
+		m_scroll = 	(g_visModule->m_visFlags&SJ_VIS_FLAGS_OVERLAY_SCROLL)? -1/*don't know*/ : 0/*no scrolling*/;
+		m_scrollX = 0;
+		m_scrollViewportWidth = 0;
+		m_scrollVirtualWidth = 0;
+		m_scrollTimer.SetOwner(this, IDM_SCROLLTIMER);
 
 		#define COVER_BORDER 4
 	}
@@ -265,8 +274,58 @@ public:
 			dc.SetFont(m_font);
 			dc.SetTextBackground(m_bgColour);
 			dc.SetTextForeground(m_fgColour);
-			dc.DrawText(m_text, 0, 0-m_textYoff);
+
+			wxString textToDraw = m_text;
+
+			if( m_scroll == -1 /*don't know*/ )
+			{
+				wxSize dcSize = dc.GetSize();
+				wxCoord orgTextWidth, modTextWidth, height;
+				dc.GetTextExtent(m_text, &orgTextWidth, &height);
+				if( orgTextWidth > dcSize.x )
+				{
+					#define SCROLL_BEFORE_REPEAT " - "
+					textToDraw = m_text+SCROLL_BEFORE_REPEAT;
+					dc.GetTextExtent(textToDraw, &modTextWidth, &height);
+					textToDraw = textToDraw+textToDraw; // make sure, the initial drawing is complete
+
+					#define SCROLL_TIMER_MS  75
+					#define SCROLL_MOVE_PX    5
+					m_scroll             = 1; /*use scrolling*/
+					m_scrollVirtualWidth = modTextWidth;
+					m_scrollViewportWidth= dcSize.x;
+					m_scrollX            = -orgTextWidth;
+					m_scrollTimer.Start(SCROLL_TIMER_MS, false/*continuous*/);
+				}
+				else
+				{
+					m_scroll = 0; /*no scrolling required*/
+				}
+			}
+
+			dc.DrawText(textToDraw, m_scrollX, 0-m_textYoff);
 		}
+	}
+
+	int     m_scroll;
+	long    m_scrollX, m_scrollViewportWidth, m_scrollVirtualWidth;
+	wxTimer m_scrollTimer;
+
+	void OnScrollTimer(wxTimerEvent& e)
+	{
+		wxClientDC dc(this);
+
+		m_scrollX -= SCROLL_MOVE_PX;
+		if( m_scrollX < -m_scrollVirtualWidth ) {
+			m_scrollX += m_scrollVirtualWidth;
+		}
+
+		dc.SetBackgroundMode(wxPENSTYLE_SOLID);
+		dc.SetFont(m_font);
+		dc.SetTextBackground(m_bgColour);
+		dc.SetTextForeground(m_fgColour);
+
+		dc.DrawText(m_text+SCROLL_BEFORE_REPEAT+m_text+SCROLL_BEFORE_REPEAT, m_scrollX, 0-m_textYoff);
 	}
 
 	DECLARE_EVENT_TABLE();
@@ -279,6 +338,7 @@ BEGIN_EVENT_TABLE(SjVoWindow, PARENT_WINDOW_CLASS)
 	EVT_PAINT               (SjVoWindow::OnPaint            )
 	EVT_LEFT_DOWN           (SjVoWindow::OnMouseLeftDown    )
 	EVT_LEFT_UP             (SjVoWindow::OnMouseLeftUp      )
+	EVT_TIMER               (IDM_SCROLLTIMER, SjVoWindow::OnScrollTimer)
 END_EVENT_TABLE()
 
 

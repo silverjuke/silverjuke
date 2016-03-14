@@ -77,6 +77,7 @@ public:
 	#define         SJ_VIS_FLAGS_OVERLAY                    0x00000010L
 	#define         SJ_VIS_FLAGS_OVERLAY_COVER              0x00000020L
 	#define         SJ_VIS_FLAGS_OVERLAY_ARTIST             0x00000040L
+	#define         SJ_VIS_FLAGS_OVERLAY_SCROLL             0x00000080L
 	#define         SJ_VIS_FLAGS_HALF_SIZE                  0x00010000L
 	#define         SJ_VIS_FLAGS_DEFAULT                    0x0000FFFFL
 	long            m_visFlags;
