@@ -349,6 +349,15 @@ bool SjSee::Execute(const wxString& script__)
 {
 	wxASSERT( !m_executionScope.IsEmpty() );
 
+	// log the first execution, which also inits the See object, to the command line.
+	// (for debugging purposes, it is useful to know about whether any script is executed or not).
+	static bool s_scriptUsageLogged = false;
+	if( !s_scriptUsageLogged )
+	{
+		wxLogInfo("Loading %s", "scripting engine");
+		s_scriptUsageLogged = true;
+	}
+
 	// very first, do some garbarge collection (if needed)
 	// this must be done _before_ we create SjGcLocker
 	/*if( SjGcNeedsCleanup() )

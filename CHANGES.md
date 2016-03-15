@@ -9,6 +9,7 @@ V16.3.x (15.03.2016)
 - New prelistening overlay
 - New video screen overlay showing the covers and the title
 - New: Include/Exclude extensions in the source settings
+- The first usage of the scripting engine is logged to the console window
 - Bug fixes
 
 
