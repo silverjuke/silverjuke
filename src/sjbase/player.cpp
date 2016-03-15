@@ -768,10 +768,22 @@ void SjPlayer::Play(long seekMs)
 			return; // error;
 		}
 
+		bool deviceOpenedBefore = m_backend->IsDeviceOpened();
 		m_streamA = CreateStream(url, false, seekMs, 0);
-		if( !m_streamA ) {
+		if( !m_streamA )
+		{
 			return; // error;
 		}
+		else if( !deviceOpenedBefore )
+		{
+			if( m_useSysVol==SJ_SYSVOL_USE ) {
+				m_backend->SetDeviceVol(m_mainGain);
+			}
+			else if( m_useSysVol==SJ_SYSVOL_ONLYINIT ) {
+				m_backend->SetDeviceVol(1.0);
+			}
+		}
+
 	}
 	else
 	{
@@ -851,7 +863,7 @@ void SjPlayer::Stop(bool stopVisIfPlaying, bool keepPrelisten)
 }
 
 
-void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only function, that _starts_ playback!
+void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos)
 {
 	// This function may only be called from the main thread.
 	wxASSERT( wxThread::IsMain() );
@@ -893,19 +905,7 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only fun
 				wxString url = m_queue.GetUrlByPos(queuePos);
 				if( !url.IsEmpty() )
 				{
-					bool deviceOpenedBefore = m_backend->IsDeviceOpened();
 					m_streamA = CreateStream(url, false, 0, (fadeToPos && !m_onlyFadeOut)? m_manCrossfadeMs : 0); // may be NULL, we send the signal anyway!
-					if( m_streamA )
-					{
-						if( !deviceOpenedBefore ) {
-							if( m_useSysVol==SJ_SYSVOL_USE ) {
-								m_backend->SetDeviceVol(m_mainGain);
-							}
-							else if( m_useSysVol==SJ_SYSVOL_ONLYINIT ) {
-								m_backend->SetDeviceVol(1.0);
-							}
-						}
-					}
 				}
 			}
 		}
