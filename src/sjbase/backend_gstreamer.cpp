@@ -357,7 +357,7 @@ SjBackendStream* SjGstreamerBackend::CreateStream(const wxString& uri, long seek
 		 g_object_set(G_OBJECT(capsfilter), "caps", caps, NULL);
 	gst_caps_unref(caps);
 
-	GstPad* pad = gst_element_get_static_pad(volume, "src");
+	GstPad* pad = gst_element_get_static_pad(volume, "sink"); // sink/src is defined from the view of within the element: elements receive data on their sink pads and generate data on their source pads.
 		gulong probeid = gst_pad_add_probe(pad,
 			(GstPadProbeType)(GST_PAD_PROBE_TYPE_BUFFER),
 			on_pad_data, (gpointer)stream/*userdata*/, NULL);
