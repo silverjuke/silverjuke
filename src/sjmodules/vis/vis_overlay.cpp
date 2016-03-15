@@ -197,6 +197,7 @@ public:
 		m_scrollX = 0;
 		m_scrollViewportWidth = 0;
 		m_scrollVirtualWidth = 0;
+		m_scrollPxPerTimer = 0;
 		m_scrollTimer.SetOwner(this, IDM_SCROLLTIMER);
 
 		#define COVER_BORDER 4
@@ -289,12 +290,14 @@ public:
 					dc.GetTextExtent(textToDraw, &modTextWidth, &height);
 					textToDraw = textToDraw+textToDraw; // make sure, the initial drawing is complete
 
-					#define SCROLL_TIMER_MS  75
-					#define SCROLL_MOVE_PX    5
+					#define SCROLL_TIMER_MS        75
+					#define SCROLL_MOVE_PX_ARTIST   3
+					#define SCROLL_MOVE_PX_TITLE    5
 					m_scroll             = 1; /*use scrolling*/
 					m_scrollVirtualWidth = modTextWidth;
 					m_scrollViewportWidth= dcSize.x;
 					m_scrollX            = -orgTextWidth;
+					m_scrollPxPerTimer   = (GetId()==IDW_OVERLAY_ARTIST_NAME)? SCROLL_MOVE_PX_ARTIST : SCROLL_MOVE_PX_TITLE;
 					m_scrollTimer.Start(SCROLL_TIMER_MS, false/*continuous*/);
 				}
 				else
@@ -308,14 +311,14 @@ public:
 	}
 
 	int     m_scroll;
-	long    m_scrollX, m_scrollViewportWidth, m_scrollVirtualWidth;
+	long    m_scrollX, m_scrollViewportWidth, m_scrollVirtualWidth, m_scrollPxPerTimer;
 	wxTimer m_scrollTimer;
 
 	void OnScrollTimer(wxTimerEvent& e)
 	{
 		wxClientDC dc(this);
 
-		m_scrollX -= SCROLL_MOVE_PX;
+		m_scrollX -= m_scrollPxPerTimer;
 		if( m_scrollX < -m_scrollVirtualWidth ) {
 			m_scrollX += m_scrollVirtualWidth;
 		}
