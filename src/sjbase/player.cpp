@@ -893,11 +893,11 @@ void SjPlayer::GotoAbsPos(long queuePos, bool fadeToPos) // this is the only fun
 				wxString url = m_queue.GetUrlByPos(queuePos);
 				if( !url.IsEmpty() )
 				{
-					bool deviceOpendedBefore = m_backend->IsDeviceOpened();
+					bool deviceOpenedBefore = m_backend->IsDeviceOpened();
 					m_streamA = CreateStream(url, false, 0, (fadeToPos && !m_onlyFadeOut)? m_manCrossfadeMs : 0); // may be NULL, we send the signal anyway!
 					if( m_streamA )
 					{
-						if( !deviceOpendedBefore ) {
+						if( !deviceOpenedBefore ) {
 							if( m_useSysVol==SJ_SYSVOL_USE ) {
 								m_backend->SetDeviceVol(m_mainGain);
 							}
@@ -1110,14 +1110,14 @@ void SjPlayer::TogglePrelisten(const wxArrayString& urls)
 	else if( urls.GetCount() >= 1 )
 	{
 		// start prelisten
-		bool deviceOpendedBefore = m_prelistenBackend->IsDeviceOpened();
+		bool deviceOpenedBefore = m_prelistenBackend->IsDeviceOpened();
 
 		m_prelistenStream = CreateStream(urls[0], true, 0, 0);
 		if( m_prelistenStream && m_streamA && m_prelistenDest == SJ_PL_MIX ) {
 			m_streamA->m_userdata->m_volumeFade.SlideVolume(m_prelistenMixQuiet, 1000);
 		}
 
-		if( !deviceOpendedBefore && m_prelistenDest==SJ_PL_OWNOUTPUT && m_prelistenUseSysVol ) {
+		if( !deviceOpenedBefore && m_prelistenDest==SJ_PL_OWNOUTPUT && m_prelistenUseSysVol ) {
 			m_prelistenBackend->SetDeviceVol(1.0);
 		}
 	}
