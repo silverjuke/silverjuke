@@ -105,6 +105,7 @@ SjSuperEQ(int wb)
   inbuf    = (REAL *)calloc(winlen,sizeof(REAL));
   outbuf   = (REAL *)calloc(tabsize,sizeof(REAL));
 
+  nbufsamples = 0;
   lires = lires1;
   cur_ires = 1;
   chg_ires = 1;
@@ -406,7 +407,7 @@ void equ_modifySamples(REAL *buf,int nsamples)
  ******************************************************************************/
 
 
-float last_srate;
+int last_srate;
 float lbands[18];
 bool bands_changed;
 paramlist paramroot;
@@ -416,8 +417,8 @@ void modify_samples(REAL *samples, int numsamples, int srate)
 	if (last_srate != srate || bands_changed) {
 		equ_makeTable(lbands,&paramroot,srate);
 		bands_changed = false;
-		last_srate = srate;
 		if( last_srate != srate ) {
+			last_srate = srate;
 			equ_clearbuf();
 		}
 	}
