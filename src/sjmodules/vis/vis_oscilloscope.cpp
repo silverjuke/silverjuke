@@ -1224,6 +1224,7 @@ private:
 #define IDC_SHOWOSCILLOSCOPE    (IDO_VIS_OPTIONFIRST+2)
 #define IDC_SHOWSTARFIELD       (IDO_VIS_OPTIONFIRST+3)
 #define IDC_SHOWFIGURES         (IDO_VIS_OPTIONFIRST+4)
+#define IDC_MONOCHANNEL         (IDO_VIS_OPTIONFIRST+5)
 #define IDC_TIMER               (IDO_VIS_OPTIONFIRST+7)
 
 
@@ -1333,10 +1334,16 @@ void SjOscWindow::OnTimer(wxTimerEvent&)
 		}
 
 		// calculate the points for the lines, collect volume
-		m_oscilloscope->Calc(clientSize, m_bufferTemp, volume);
-		if( m_oscModule->m_showFlags&SJ_OSC_SHOW_SPECTRUM )
 		{
-			m_spectrum->Calc(clientSize, m_bufferTemp);
+			wxSize drawSize(clientSize);
+			if( m_oscModule->m_showFlags&SJ_OSC_MONO_CHANNEL ) {
+				drawSize.y *= 2; // this is a little hack: to make a single channel display as easy as possible, we simply move the other channel out of view. The main disadvantage is, that the remaining channel is the left one, not a mono mix.
+			}
+			m_oscilloscope->Calc(drawSize, m_bufferTemp, volume);
+			if( m_oscModule->m_showFlags&SJ_OSC_SHOW_SPECTRUM )
+			{
+				m_spectrum->Calc(drawSize, m_bufferTemp);
+			}
 		}
 
 		// get data that are shared between the threads
@@ -1510,6 +1517,9 @@ void SjOscModule::AddMenuOptions(SjMenu& m)
 	m.AppendCheckItem(IDC_SHOWOSCILLOSCOPE, _("Show oscilloscope"));
 	m.Check(IDC_SHOWOSCILLOSCOPE, (m_showFlags&SJ_OSC_SHOW_OSC)!=0);
 
+	m.AppendCheckItem(IDC_MONOCHANNEL, _("Mono"));
+	m.Check(IDC_MONOCHANNEL, (m_showFlags&SJ_OSC_MONO_CHANNEL)!=0);
+
 	m.AppendCheckItem(IDC_SHOWSTARFIELD, _("Show starfield"));
 	m.Check(IDC_SHOWSTARFIELD, (m_showFlags&SJ_OSC_SHOW_STARFIELD)!=0);
 
@@ -1530,6 +1540,11 @@ void SjOscModule::OnMenuOption(int i)
 		case IDC_SHOWOSCILLOSCOPE:
 			SjTools::ToggleFlag(m_showFlags, SJ_OSC_SHOW_OSC);
 			if( m_showFlags&SJ_OSC_SHOW_OSC ) m_forceOscAnim = TRUE;
+			break;
+
+		case IDC_MONOCHANNEL:
+			SjTools::ToggleFlag(m_showFlags, SJ_OSC_MONO_CHANNEL);
+			m_forceOscAnim = TRUE; m_forceSpectrAnim = TRUE;
 			break;
 
 		case IDC_SHOWSTARFIELD:
