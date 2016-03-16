@@ -29,6 +29,7 @@
 #include <sjbase/base.h>
 #if SJ_USE_PROJECTM
 #include <wx/glcanvas.h>
+#include <sjtools/msgbox.h>
 #include <sjmodules/vis/vis_window.h>
 #include <sjmodules/vis/vis_projectm_module.h>
 #include <prjm/src/projectM.hpp>
@@ -421,6 +422,24 @@ void SjProjectmModule::OnMenuOption(int id)
 
 		case IDT_WORKSPACE_KEY_DOWN:
 		case IDC_GO_TO_RANDOM_PRESET:
+			#if 0
+			if( SjMessageBox("Delete preset file?", SJ_PROGRAM_NAME, wxYES_NO, g_mainFrame)==wxYES )
+			{
+				// hidden function to delete a preset file
+				try {
+					unsigned int i;
+					m_projectMobj->selectedPresetIndex(i);
+					wxString presetUrl = m_projectMobj->getPresetURL(i);
+					g_mainFrame->SetDisplayMsg(wxString::Format("DELETE %s ...", presetUrl.c_str()));
+					wxRemoveFile(presetUrl);
+				}
+				catch(...) {
+					g_mainFrame->SetDisplayMsg("DELETE error");
+				}
+				break;
+			}
+			#endif
+
 			try {
 				m_projectMobj->selectRandom(true /*hard cut*/);
 				showNewPresetName = true;
