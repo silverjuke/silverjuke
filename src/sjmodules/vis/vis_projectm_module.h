@@ -66,6 +66,7 @@ private:
 	SjProjectmGlCanvas* m_glCanvas;
 	wxGLContext*    m_glContext;
 	projectM*       m_projectMobj;
+	wxString        m_lastPresetPath;
 	SjVisWindow*    m_impl;
 
 	friend class    SjProjectmGlCanvas;

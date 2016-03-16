@@ -138,8 +138,9 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 		}
 		presetPath = SjTools::EnsureTrailingSlash(presetPath);
 
-		if( g_debug )
+		if( s_theProjectmModule->m_lastPresetPath != presetPath )
 		{
+			s_theProjectmModule->m_lastPresetPath = presetPath;
 			wxLogInfo("Loading %s", presetPath.c_str());
 		}
 
