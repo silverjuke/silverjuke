@@ -209,7 +209,12 @@ void SjProjectmGlCanvas::OnTimer(wxTimerEvent&)
 
 		//SetCurrent(*s_theProjectmModule->m_glContext); -- this is only needed if we use several GL contexts at the same in the same thread
 
-		s_theProjectmModule->m_projectMobj->renderFrame();
+		try {
+			s_theProjectmModule->m_projectMobj->renderFrame();
+		}
+		catch(...) {
+		}
+
 		s_theProjectmModule->m_glCanvas->SwapBuffers();
 
 		#ifdef __WXMSW__
@@ -260,7 +265,14 @@ void SjProjectmModule::WritePrjmConfig()
 	g_tools->m_config->Write("main/prjmseconds", m_prjmDuration);
 
 	unsigned int currIndex = -1;
-	if( !m_projectMobj || !m_projectMobj->selectedPresetIndex(currIndex) ) { currIndex = -1; }
+	try {
+		if( !m_projectMobj || !m_projectMobj->selectedPresetIndex(currIndex) ) {
+			currIndex = -1;
+		}
+	}
+	catch(...) {
+	}
+
 	g_tools->m_config->Write("main/prjmindex", (long)currIndex);
 }
 
@@ -375,7 +387,11 @@ void SjProjectmModule::OnMenuOption(int id)
 			if( i==(id-IDC_DURATIONS_FIRST) ) {
 				m_prjmDuration = s_durations[i];
 				WritePrjmConfig();
-				m_projectMobj->changePresetDuration(m_prjmDuration);
+				try {
+					m_projectMobj->changePresetDuration(m_prjmDuration);
+				}
+				catch(...) {
+				}
 				g_mainFrame->SetDisplayMsg(_("Preset duration") + ": " + s_duration_text(i), SDM_STATE_CHANGE_MS);
 			}
 		}
@@ -384,20 +400,32 @@ void SjProjectmModule::OnMenuOption(int id)
 	{
 		case IDT_WORKSPACE_KEY_LEFT:
 		case IDC_GO_TO_PREV_PRESET:
-			m_projectMobj->selectPrevious(true /*hard cut*/);
-			showNewPresetName = true;
+			try {
+				m_projectMobj->selectPrevious(true /*hard cut*/);
+				showNewPresetName = true;
+			}
+			catch (...) {
+			}
 			break;
 
 		case IDT_WORKSPACE_KEY_RIGHT:
 		case IDC_GO_TO_NEXT_PRESET:
-			m_projectMobj->selectNext(true /*hard cut*/);
-			showNewPresetName = true;
+			try {
+				m_projectMobj->selectNext(true /*hard cut*/);
+				showNewPresetName = true;
+			}
+			catch (...) {
+			}
 			break;
 
 		case IDT_WORKSPACE_KEY_DOWN:
 		case IDC_GO_TO_RANDOM_PRESET:
-			m_projectMobj->selectRandom(true /*hard cut*/);
-			showNewPresetName = true;
+			try {
+				m_projectMobj->selectRandom(true /*hard cut*/);
+				showNewPresetName = true;
+			}
+			catch (...) {
+			}
 			break;
 
 		case IDT_WORKSPACE_KEY_UP:
@@ -408,10 +436,18 @@ void SjProjectmModule::OnMenuOption(int id)
 		case IDC_DO_SHUFFLE:
 			SjTools::ToggleFlag(m_prjmFlags, SJ_PRJMFLAGS_SHUFFLE);
 			WritePrjmConfig();
-			m_projectMobj->setShuffleEnabled((m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE)!=0);
+			try {
+				m_projectMobj->setShuffleEnabled((m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE)!=0);
+			}
+			catch(...) {
+			}
 			// do a change right now to reflect the new state
 			if( m_prjmFlags&SJ_PRJMFLAGS_SHUFFLE ) {
-				m_projectMobj->selectRandom(true /*hard cut*/);
+				try {
+					m_projectMobj->selectRandom(true /*hard cut*/);
+				}
+				catch(...) {
+				}
 				g_mainFrame->SetDisplayMsg(_("Preset shuffle") + ": " + _("On"), SDM_STATE_CHANGE_MS);
 			}
 			else {
@@ -422,19 +458,20 @@ void SjProjectmModule::OnMenuOption(int id)
 
 	if( showNewPresetName )
 	{
-		wxString msg;
-		unsigned int newIndex, presetCount = m_projectMobj->getPlaylistSize();
-		if( presetCount > 0 && m_projectMobj->selectedPresetIndex(newIndex) )
-		{
-            msg = wxString::Format("%i/%i: ", (int)(newIndex+1), (int)presetCount);
-            std::string name = m_projectMobj->getPresetName(newIndex);
-            msg += name;
-            msg.Replace(".milk", "");
+		wxString msg("0/0: " + _("No presets found."));
+		try {
+			unsigned int newIndex, presetCount = m_projectMobj->getPlaylistSize();
+			if( presetCount > 0 && m_projectMobj->selectedPresetIndex(newIndex) )
+			{
+				msg = wxString::Format("%i/%i: ", (int)(newIndex+1), (int)presetCount);
+				std::string name = m_projectMobj->getPresetName(newIndex);
+				msg += name;
+				msg.Replace(".milk", "");
+			}
 		}
-		else
-		{
-			msg = "0/0: " + _("No presets found.");
+		catch(...) {
 		}
+
 		g_mainFrame->SetDisplayMsg(msg);
 	}
 }
@@ -456,7 +493,11 @@ void SjProjectmModule::PleaseUpdateSize(SjVisWindow* impl)
 			int width = visRect.GetWidth();
 			int height = visRect.GetHeight();
 
-			m_projectMobj->projectM_resetGL(width, height);
+			try {
+				m_projectMobj->projectM_resetGL(width, height);
+			}
+			catch(...) {
+			}
 		}
 	}
 }
@@ -466,7 +507,11 @@ void SjProjectmModule::AddVisData(const float* buffer, long bytes)
 {
 	if( m_projectMobj )
 	{
-		m_projectMobj->pcm()->addPCMfloat(buffer, bytes/sizeof(float));
+		try {
+			m_projectMobj->pcm()->addPCMfloat(buffer, bytes/sizeof(float));
+		}
+		catch(...) {
+		}
 	}
 }
 
