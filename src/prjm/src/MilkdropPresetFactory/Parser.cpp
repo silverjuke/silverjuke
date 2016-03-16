@@ -199,7 +199,7 @@ sj_token_t Parser::parseToken(std::istream &  fs, char * string)
 			if (fs)
 				fs.unget();
 			else
-				abort();
+				return tEOL;//abort(); - EDIT BY SJ - everything, but not program abort!
 		}
 		return tEOL;
 	}
@@ -1735,7 +1735,7 @@ void Parser::readStringUntil(std::istream & fs, std::string * out_buffer, bool w
 							if (fs)
 								fs.unget();
 							else
-								abort();
+								return; // abort(); -- EDIT BY SJ -- everything but no program abort!
 						}
 						return;
 					}
