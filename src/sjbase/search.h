@@ -83,6 +83,16 @@ enum SjField
     ,SJ_FIELD_COUNT
 
     ,SJ_FIELDFLAG_DESC = 0x10000000L
+
+    // NB: We do not have fields to detect videos or karaoke files for the following reasons:
+    // (1) This would only make sense if the information is written to the database on update.
+    // (2) However, We cannot safely find out if a container-file contains a video without playing it -
+    //     this is no acceptable regarding the performance.  Extensions may help but are not always 100% save
+    // (3) Added karaoke file would only appear after an music-library update
+    // (4) Point (3) could be solved, however, this would immediately raise the question why karaoke is searchable
+    //     while videos are not.
+    //  => so, there are no criterions for these parts.  However the user can easily get around this issue by
+    //     using the path or the file extensions as criterions (the user will know better about these as Silverjuke).
 };
 
 
