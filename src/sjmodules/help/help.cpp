@@ -245,6 +245,14 @@ wxString SjHelpDialog::GetCreditsTopic() const
 			"</li>"
 
 			"<li>"
+				"Milkdrop presets created by Adam Fx, Aderrasi, Baked, Bdrv, Benski, Beta106i, Bmelgren, CatalystTheElder, "
+				"Che, CrystalHigh, DemonLD, EMPR, Eo.S., EvilJim, fiShbRaiN, Flexi, Fvese, Geiss, Goody, Hexcollie, Idiot, "
+				"Illusion, Krash, LuxXx, Mstress, Nil, ORB, Phat, Rovastar, Rozzor, Shifter, Stahlregen, StudioMusic, Suksma, "
+				"Telek, Unchained, Yin, Zylot and others."
+				"<br />"
+			"</li>"
+
+			"<li>"
 				"The tagging code is based upon the work of Scott Wheeler's taglib, "
 				"Copyright (c) 2002 - 2008 by Scott Wheeler"
 				"<br />"
