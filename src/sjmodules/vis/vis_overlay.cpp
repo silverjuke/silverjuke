@@ -535,7 +535,7 @@ void SjVisOverlay::RequireCover()
 			window->m_textYoff = rect->height/10;
 			window->m_text = i==0? m_leadArtistName : m_trackName;
 			window->m_text.MakeUpper();
-			int fontPtSize = 64;
+			int fontPtSize = 128;
 			while( 1 ) {
 				wxCoord w, h;
 				window->m_font.SetPointSize(fontPtSize);
