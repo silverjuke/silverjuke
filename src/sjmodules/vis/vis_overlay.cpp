@@ -526,7 +526,7 @@ void SjVisOverlay::RequireCover()
 		}
 	g_mainFrame->m_imgThread->RequireEnd(coverWindow);
 
-	// set a fine font height
+	// set a fine font height (this brute-force-method takes about 20 ms on my ubuntu system and 40 ms in a virtual machine)
 	wxClientDC dc(artistNameWindow); // use _any_ dc
 	for( int i = 0; i <= 1; i++ ) {
 		SjVoWindow* window = i==0?  artistNameWindow :  trackNameWindow;
