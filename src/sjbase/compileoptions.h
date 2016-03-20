@@ -53,6 +53,10 @@
 #define SJ_USE_PROJECTM 1
 #endif
 
+#ifndef SJ_USE_UPNP                 // Use UPNP stuff (requires libupnp)
+#define SJ_USE_UPNP 1
+#endif
+
 #ifndef SJ_CAN_USE_MM_KEYBD
 #define SJ_CAN_USE_MM_KEYBD 0       // Can the multimedia keyboards keys be used?
 #endif

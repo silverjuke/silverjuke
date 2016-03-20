@@ -53,7 +53,7 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	m_isNew = FALSE;
 	if( source.m_serverName.IsEmpty() )
 	{
-		SetTitle(_("Add a server containing music-files"));
+		SetTitle(_("HTTP server"));
 		m_isNew = TRUE;
 	}
 	else

@@ -31,6 +31,7 @@
 #include <sjmodules/basicsettings.h>
 #include <sjmodules/scanner/folder_scanner.h>
 #include <sjmodules/scanner/server_scanner.h>
+#include <sjmodules/scanner/upnp_scanner.h>
 #include <sjmodules/library.h>
 #include <sjmodules/help/help.h>
 #include <sjmodules/settings.h>
@@ -82,6 +83,9 @@ void SjInternalInterface::LoadModules(SjModuleList& list)
 	// add MLR modules
 	list.Append   (new SjFolderScannerModule      (this));
 	list.Append   (new SjServerScannerModule      (this));
+	#if SJ_USE_UPNP
+	list.Append   (new SjUpnpScannerModule        (this));
+	#endif
 
 	// add COL modules
 	list.Append   (new SjLibraryModule            (this));
