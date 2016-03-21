@@ -32,12 +32,14 @@
 
 
 class SjUpnpSource;
+class SjUpnpScannerModuleInternal;
 
 
 class SjUpnpScannerModule : public SjScannerModule
 {
 public:
 					SjUpnpScannerModule (SjInterfaceBase*);
+					~SjUpnpScannerModule();
 
 	long            GetSourceCount      () { return m_sources.GetCount(); }
 	wxString        GetSourceUrl        (long index) { return ""; }
@@ -51,15 +53,16 @@ public:
 	bool            SetTrackInfo        (const wxString& url, SjTrackInfo&) { return false; }
 	bool            IsMyUrl             (const wxString& url) { return false; }
 
+//private: - however, needed in friend callbacks with enum parameters which cannot use forward declararions
+	SjUpnpScannerModuleInternal* m_i;
+
 private:
-	bool            m_libupnp_ok;
 	bool            init_libupnp        ();
 	void            exit_libupnp        ();
-
 	void            LastUnload          ();
-
 	wxArrayPtrVoid  m_sources;
 	SjUpnpSource*   get_source          (long index) { return (SjUpnpSource*)m_sources.Item(index); }
+
 };
 
 

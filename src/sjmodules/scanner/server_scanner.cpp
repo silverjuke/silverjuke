@@ -58,7 +58,7 @@ SjServerScannerModule::SjServerScannerModule(SjInterfaceBase* interf)
 	m_sort                  = 10; // start of list
 	m_name                  = wxT("Server Scanner")/*n/t*/;
 
-	m_addSourceTypes_.Add(_("HTTP server"));
+	m_addSourceTypes_.Add(_("Add an HTTP server"));
 	m_addSourceIcons_.Add(SJ_ICON_INTERNET_SERVER);
 }
 

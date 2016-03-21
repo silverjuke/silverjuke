@@ -23,19 +23,206 @@
  * Authors: Björn Petersen
  * Purpose: Using UPNP/DLNA devices
  *
+ *******************************************************************************
+ *
+ * See http://gejengel.googlecode.com/svn/trunk/src/UPnP/upnpcontrolpoint.cpp
+ * for a basic example.
+ *
  ******************************************************************************/
 
 
 #include <sjbase/base.h>
 #if SJ_USE_UPNP
 #include <sjmodules/scanner/upnp_scanner.h>
-#include <sjmodules/scanner/upnp_source.h>
 #include <upnp/upnp.h>
 #include <upnp/ixml.h>
 
 
-static UpnpClient_Handle s_ctrlpt_handle = -1;
+class SjUpnpDialog;
+
+
+class SjUpnpScannerModuleInternal
+{
+public:
+	SjUpnpScannerModuleInternal()
+	{
+		m_libupnp_initialized = false;
+		m_ctrlpt_handle = -1;
+		m_dlg = NULL;
+	}
+
+	~SjUpnpScannerModuleInternal()
+	{
+		ClearDeviceList();
+	}
+
+	bool              m_libupnp_initialized;
+	UpnpClient_Handle m_ctrlpt_handle;
+
+	// pointer is only valid if the dialog is presets, the pointer is needed only to send events from the UPnP thread to the dialog
+	SjUpnpDialog*     m_dlg;
+
+	// the list of devices, if it changes, the MSG_UPDATEDEVICELIST is sent
+	SjSPHash          m_deviceList;
+	wxCriticalSection m_deviceListCritical;
+	void              ClearDeviceList     ();
+};
+
+
+class SjUpnpDevice
+{
+public:
+	wxString m_location;
+	wxString m_udn;
+	wxString m_deviceType;
+	wxString m_friendlyName;
+	wxString m_urlBase;
+	wxString m_presentationUrl;
+};
+
+
+/*******************************************************************************
+ * Tools
+ ******************************************************************************/
+
+
 static const char* MediaServerType = "urn:schemas-upnp-org:device:MediaServer:1";
+
+
+static wxString getFirstDocumentItem(IXML_Document* pDoc, const wxString& item)
+{
+    wxString result;
+
+    IXML_NodeList* pNodeList = ixmlDocument_getElementsByTagName(pDoc, item.c_str());
+    if (pNodeList)
+    {
+        IXML_Node* pTmpNode = ixmlNodeList_item(pNodeList, 0);
+        if (pTmpNode)
+        {
+            IXML_Node* pTextNode = ixmlNode_getFirstChild(pTmpNode);
+            const char* pValue = ixmlNode_getNodeValue(pTextNode);
+            if (pValue)
+            {
+                result = pValue;
+            }
+        }
+
+        ixmlNodeList_free(pNodeList);
+    }
+
+    return result;
+}
+
+
+/*******************************************************************************
+ * SjUpnpSource - a source as used in Silverjuke's music library
+ ******************************************************************************/
+
+
+class SjUpnpSource
+{
+public:
+	wxString GetDisplayUrl () { return ""; }
+private:
+};
+
+
+/*******************************************************************************
+ * SjUpnpDialog
+ ******************************************************************************/
+
+
+#define IDC_ENABLECHECK             (IDM_FIRSTPRIVATE+0)
+#define IDC_DEVICELISTBOX           (IDM_FIRSTPRIVATE+2)
+#define MSG_UPDATEDEVICELIST (IDM_FIRSTPRIVATE+50)
+
+
+class SjUpnpDialog : public SjDialog
+{
+public:
+	SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource)
+		: SjDialog(parent, "", SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE)
+	{
+		m_upnpModule = upnpModule;
+		m_upnpSource = upnpSource; // may be NULL!
+		m_isNew      = (upnpSource==NULL);
+
+		if( m_isNew ) {
+			SetTitle(_("Add an UPnP/DLNA server"));
+		}
+		else {
+			wxString::Format(_("Options for \"%s\""), upnpSource->GetDisplayUrl().c_str());
+		}
+
+
+		// create dialog
+		wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
+		SetSizer(sizer1);
+
+			wxStaticText* staticText = new wxStaticText(this, -1, "Server (still loading):");
+			sizer1->Add(staticText, 0, wxALL|wxGROW, SJ_DLG_SPACE);
+
+			m_deviceListbox = new wxListBox(this, IDC_DEVICELISTBOX, wxDefaultPosition, wxSize(380, 120));
+			sizer1->Add(m_deviceListbox, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+
+		// buttons
+		sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+
+		// init done, center dialog
+		UpdateDeviceList();
+		EnableDisable();
+		sizer1->SetSizeHints(this);
+		CentreOnParent();
+	}
+
+private:
+	void EnableDisable()
+	{
+	}
+
+	void UpdateDeviceList()
+	{
+		wxCriticalSectionLocker locker(m_upnpModule->m_i->m_deviceListCritical);
+		m_deviceListbox->Clear();
+
+		SjHashIterator iterator;
+		wxString       location;
+		SjUpnpDevice*  device;
+		while( (device=(SjUpnpDevice*)m_upnpModule->m_i->m_deviceList.Iterate(iterator, location))!=NULL ) {
+			m_deviceListbox->Append(device->m_friendlyName, (void*)device /*CAVE: this is only safe if we do not remove servers while the dialog is opened!*/);
+		}
+	}
+
+	void OnEnableCheck(wxCommandEvent&)
+	{
+		EnableDisable();
+	}
+
+	void OnUpdateDeviceList(wxCommandEvent&)
+	{
+		UpdateDeviceList();
+		EnableDisable();
+	}
+
+	bool                 m_isNew;
+	SjUpnpScannerModule* m_upnpModule;
+	SjUpnpSource*        m_upnpSource;
+
+	wxListBox*           m_deviceListbox;
+
+	                     DECLARE_EVENT_TABLE ()
+};
+
+
+BEGIN_EVENT_TABLE(SjUpnpDialog, SjDialog)
+	EVT_CHECKBOX (IDC_ENABLECHECK,      SjUpnpDialog::OnEnableCheck     )
+	EVT_MENU     (MSG_UPDATEDEVICELIST, SjUpnpDialog::OnUpdateDeviceList)
+END_EVENT_TABLE()
+
+
+/*******************************************************************************
+ * SjUpnpScannerModule
+ ******************************************************************************/
 
 
 SjUpnpScannerModule::SjUpnpScannerModule(SjInterfaceBase* interf)
@@ -45,10 +232,16 @@ SjUpnpScannerModule::SjUpnpScannerModule(SjInterfaceBase* interf)
 	m_sort                  = 2; // second in list
 	m_name                  = _("Read UPNP/DLNA servers");
 
-	m_addSourceTypes_.Add(_("UPnP/DLNA server"));
+	m_addSourceTypes_.Add(_("Add an UPnP/DLNA server"));
 	m_addSourceIcons_.Add(SJ_ICON_INTERNET_SERVER);
 
-	m_libupnp_ok = false;
+	m_i = new SjUpnpScannerModuleInternal(); // pointer checked in init_libupnp(), however, this should normally not fail
+}
+
+
+SjUpnpScannerModule::~SjUpnpScannerModule()
+{
+	delete m_i;
 }
 
 
@@ -58,38 +251,57 @@ void SjUpnpScannerModule::LastUnload()
 }
 
 
-int ctrl_point_event_handler(Upnp_EventType eventType, void* pEvent, void* cookie)
+int ctrl_point_event_handler(Upnp_EventType eventType, void* eventPtr, void* user_data)
 {
+	// CAVE: We may be in _any_ thread here!
+
+	SjUpnpScannerModule* this_ = (SjUpnpScannerModule*)user_data;
+	if( this_->m_i == NULL ) { return 0; } // already in destruction?
+
     switch( eventType )
     {
-		//case UPNP_DISCOVERY_ADVERTISEMENT_ALIVE: // received on new devices
-		case UPNP_DISCOVERY_SEARCH_RESULT:
+		case UPNP_DISCOVERY_ADVERTISEMENT_ALIVE: // a new devices
+		case UPNP_DISCOVERY_SEARCH_RESULT:       // normal search result, we may be more of htis
 			{
-				struct Upnp_Discovery* pDiscEvent = (struct Upnp_Discovery*) pEvent;
-				IXML_Document* pDoc = NULL;
+				// get pointe to discovery event
+				struct Upnp_Discovery* discoverEvent = (struct Upnp_Discovery*)eventPtr;
+				if (discoverEvent->ErrCode != UPNP_E_SUCCESS) { wxLogError("UPnP Error %i in discovery callback", (int)discoverEvent->ErrCode); return 0; }
 
-				if (pDiscEvent->ErrCode != UPNP_E_SUCCESS)
+				// load XML for the new discovered device and set up a new device structure
+				SjUpnpDevice* device = new SjUpnpDevice();
 				{
-					wxLogError("UPnP: Error %i in discovery callback.", (int)pDiscEvent->ErrCode);
+					IXML_Document* xml = NULL;
+					int ret = UpnpDownloadXmlDoc(discoverEvent->Location, &xml);
+					if( ret != UPNP_E_SUCCESS ) { wxLogError("UPnP Error %i when reading device description from %s", (int)ret, discoverEvent->Location); delete device; return 0; }
+
+						device->m_location        = discoverEvent->Location;
+						device->m_udn             = getFirstDocumentItem(xml, "UDN");
+						device->m_deviceType      = getFirstDocumentItem(xml, "deviceType");
+						device->m_friendlyName    = getFirstDocumentItem(xml, "friendlyName");
+						device->m_urlBase         = getFirstDocumentItem(xml, "URLBase");
+						device->m_presentationUrl = getFirstDocumentItem(xml, "presentationURL");
+
+					ixmlDocument_free(xml);
 				}
 
-				int ret = UpnpDownloadXmlDoc(pDiscEvent->Location, &pDoc);
-				if (ret != UPNP_E_SUCCESS)
+				if (device->m_udn.empty() || device->m_deviceType != MediaServerType ) { delete device; return 0; } // just not the requested type - this may happen by definition
+
+				// add the new device to the list of device, avoid doubles (we clear the list before opening, so double events are not updates)
 				{
-					wxLogError("UPnP: Error %i when reading device description from %s", (int)ret, pDiscEvent->Location);
-				}
-				else
-				{
-					wxLogWarning("UPnP: Discovered location %s", pDiscEvent->Location);
-					// see http://gejengel.googlecode.com/svn/trunk/src/UPnP/upnpcontrolpoint.cpp for details about parsing
-					//pUPnP->onDevice(pDoc, pDiscEvent->Location, pDiscEvent->Expires);
+					wxCriticalSectionLocker locker(this_->m_i->m_deviceListCritical);
+					if( this_->m_i->m_deviceList.Lookup(discoverEvent->Location) == NULL ) {
+						this_->m_i->m_deviceList.Insert(discoverEvent->Location, device);
+					}
+					else {
+						delete device;
+						return 0;
+					}
 				}
 
-				if( pDoc )
-				{
-					ixmlDocument_free(pDoc);
+				// update the dialog
+				if( this_->m_i->m_dlg ) {
+					this_->m_i->m_dlg->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, MSG_UPDATEDEVICELIST));
 				}
-
 				break;
 			}
 
@@ -105,13 +317,14 @@ bool SjUpnpScannerModule::init_libupnp()
 {
 	// as initialisation may take a second, we init at late as possible
 
-	if( m_libupnp_ok ) {
-		return true; // already initalized
-	}
+	if( m_i == NULL ) { return false; } // error
+	if( m_i->m_libupnp_initialized ) { return true; } // already initalized
 
 	// init library
 	int error = UpnpInit(NULL, 0);
 	if( error != UPNP_E_SUCCESS ) {
+		wxLogError("UPnP Error: Cannot init libupnp.");
+		exit_libupnp();
 		return false; // error
 	}
 
@@ -120,31 +333,47 @@ bool SjUpnpScannerModule::init_libupnp()
 	wxLogInfo("Loading libupnp on %s:%i", ip_address, (int)port);
 
 	// create our control point
-	error = UpnpRegisterClient(ctrl_point_event_handler, this/*user data*/, &s_ctrlpt_handle);
+	error = UpnpRegisterClient(ctrl_point_event_handler, this/*user data*/, &m_i->m_ctrlpt_handle);
 	if( error != UPNP_E_SUCCESS ) {
-		wxLogError("Cannot register UPnP client.");
-		s_ctrlpt_handle = -1;
+		wxLogError("UPnP Error: Cannot register client.");
+		m_i->m_ctrlpt_handle = -1;
 		exit_libupnp();
 		return false; // error
 	}
 
 	// done
-	m_libupnp_ok = true;
+	m_i->m_libupnp_initialized = true;
 	return true;
 }
 
 
 void SjUpnpScannerModule::exit_libupnp()
 {
-	if( s_ctrlpt_handle != -1 ) {
-		UpnpUnRegisterClient(s_ctrlpt_handle);
-		s_ctrlpt_handle = -1;
-	}
+	if( m_i->m_libupnp_initialized )
+	{
+		if( m_i->m_ctrlpt_handle != -1 ) {
+			UpnpUnRegisterClient(m_i->m_ctrlpt_handle);
+			m_i->m_ctrlpt_handle = -1;
+		}
 
-	if( m_libupnp_ok ) {
 		UpnpFinish();
-		m_libupnp_ok = false;
+
+		m_i->m_libupnp_initialized = false;
 	}
+}
+
+
+void SjUpnpScannerModuleInternal::ClearDeviceList()
+{
+	wxCriticalSectionLocker locker(m_deviceListCritical);
+
+	SjHashIterator iterator;
+	wxString       location;
+	SjUpnpDevice*  device;
+	while( (device=(SjUpnpDevice*)m_deviceList.Iterate(iterator, location))!=NULL ) {
+		delete device;
+	}
+	m_deviceList.Clear();
 }
 
 
@@ -152,8 +381,18 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 {
 	if( !init_libupnp() ) { return -1; } // error
 
-	UpnpSearchAsync(s_ctrlpt_handle, 60 /*seconds to wait*/, MediaServerType, this/*user data*/);
+	m_i->ClearDeviceList();
 
+	m_i->m_dlg = new SjUpnpDialog(parent, this, NULL);
+
+	UpnpSearchAsync(m_i->m_ctrlpt_handle, 60 /*seconds to wait*/, MediaServerType, this/*user data*/);
+
+	if( m_i->m_dlg->ShowModal() == wxID_OK )
+	{
+	}
+
+	delete m_i->m_dlg;
+	m_i->m_dlg = NULL;
 	return -1; // nothing added
 }
 

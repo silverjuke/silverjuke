@@ -53,7 +53,7 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	m_isNew = FALSE;
 	if( source.m_serverName.IsEmpty() )
 	{
-		SetTitle(_("HTTP server"));
+		SetTitle(_("Add an HTTP server"));
 		m_isNew = TRUE;
 	}
 	else
