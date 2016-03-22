@@ -28,6 +28,9 @@
  * See http://gejengel.googlecode.com/svn/trunk/src/UPnP/upnpcontrolpoint.cpp
  * for a basic example.
  *
+ * Common information about UPnP in german:
+ * http://www.heise.de/netze/artikel/Netzwerke-mit-UPnP-einrichten-und-steuern-221520.html
+ *
  ******************************************************************************/
 
 
@@ -39,6 +42,8 @@
 
 
 class SjUpnpDialog;
+static const char* MEDIA_SERVER_DEVICE_TYPE = "urn:schemas-upnp-org:device:MediaServer:1";
+//static const char* CONTENT_DIRECTORY_SERVICE_TYPE = "urn:schemas-upnp-org:service:ContentDirectory:1";
 
 
 class SjUpnpScannerModuleInternal
@@ -69,26 +74,6 @@ public:
 };
 
 
-class SjUpnpDevice
-{
-public:
-	wxString m_location;
-	wxString m_udn;
-	wxString m_deviceType;
-	wxString m_friendlyName;
-	wxString m_urlBase;
-	wxString m_presentationUrl;
-};
-
-
-/*******************************************************************************
- * Tools
- ******************************************************************************/
-
-
-static const char* MediaServerType = "urn:schemas-upnp-org:device:MediaServer:1";
-
-
 static wxString getFirstDocumentItem(IXML_Document* pDoc, const wxString& item)
 {
     wxString result;
@@ -114,6 +99,29 @@ static wxString getFirstDocumentItem(IXML_Document* pDoc, const wxString& item)
 }
 
 
+class SjUpnpDevice
+{
+public:
+	SjUpnpDevice(IXML_Document* xml, const wxString& location)
+	{
+		// TODO: ein server kann mehrere Devices haben, wir sollten hier vernünftig parsen, s. /home/bpetersen/temp/upnp/vlc-2.2.1/modules/services_discovery
+		m_location        = location;
+		m_udn             = getFirstDocumentItem(xml, "UDN");
+		m_deviceType      = getFirstDocumentItem(xml, "deviceType");
+		m_friendlyName    = getFirstDocumentItem(xml, "friendlyName");
+		m_urlBase         = getFirstDocumentItem(xml, "URLBase");
+		m_presentationUrl = getFirstDocumentItem(xml, "presentationURL");
+	}
+
+	wxString m_location;
+	wxString m_udn;
+	wxString m_deviceType;
+	wxString m_friendlyName;
+	wxString m_urlBase;
+	wxString m_presentationUrl;
+};
+
+
 /*******************************************************************************
  * SjUpnpSource - a source as used in Silverjuke's music library
  ******************************************************************************/
@@ -132,9 +140,11 @@ private:
  ******************************************************************************/
 
 
-#define IDC_ENABLECHECK             (IDM_FIRSTPRIVATE+0)
-#define IDC_DEVICELISTBOX           (IDM_FIRSTPRIVATE+2)
+#define IDC_ENABLECHECK      (IDM_FIRSTPRIVATE+0)
+#define IDC_DEVICELISTBOX    (IDM_FIRSTPRIVATE+2)
+#define IDC_DIRLISTBOX       (IDM_FIRSTPRIVATE+3)
 #define MSG_UPDATEDEVICELIST (IDM_FIRSTPRIVATE+50)
+#define MSG_SCANDONE         (IDM_FIRSTPRIVATE+51)
 
 
 class SjUpnpDialog : public SjDialog
@@ -143,9 +153,10 @@ public:
 	SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource)
 		: SjDialog(parent, "", SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE)
 	{
-		m_upnpModule = upnpModule;
-		m_upnpSource = upnpSource; // may be NULL!
-		m_isNew      = (upnpSource==NULL);
+		m_upnpModule   = upnpModule;
+		m_upnpSource   = upnpSource; // may be NULL!
+		m_isNew        = (upnpSource==NULL);
+		m_stillLoading = true;
 
 		if( m_isNew ) {
 			SetTitle(_("Add an UPnP/DLNA server"));
@@ -159,11 +170,23 @@ public:
 		wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
 		SetSizer(sizer1);
 
-			wxStaticText* staticText = new wxStaticText(this, -1, "Server (still loading):");
-			sizer1->Add(staticText, 0, wxALL|wxGROW, SJ_DLG_SPACE);
+			wxBoxSizer* sizer2 = new wxBoxSizer(wxHORIZONTAL);
+			sizer1->Add(sizer2, 0, wxALL|wxGROW, SJ_DLG_SPACE);
 
-			m_deviceListbox = new wxListBox(this, IDC_DEVICELISTBOX, wxDefaultPosition, wxSize(380, 120));
-			sizer1->Add(m_deviceListbox, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+				wxStaticText* staticText = new wxStaticText(this, -1, "1. "+_("Select server:"));
+				sizer2->Add(staticText, 1, 0, SJ_DLG_SPACE);
+
+				m_stillScanningText = new wxStaticText(this, -1, _("(still scanning)"));
+				sizer2->Add(m_stillScanningText, 0, 0, SJ_DLG_SPACE);
+
+			m_deviceListbox = new wxListBox(this, IDC_DEVICELISTBOX, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20));
+			sizer1->Add(m_deviceListbox, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+
+			staticText = new wxStaticText(this, -1, "2. "+_("Select directory:"));
+			sizer1->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+
+			m_dirListbox = new wxListBox(this, IDC_DIRLISTBOX, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20));
+			sizer1->Add(m_dirListbox, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
 		// buttons
 		sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
@@ -183,13 +206,21 @@ private:
 	void UpdateDeviceList()
 	{
 		wxCriticalSectionLocker locker(m_upnpModule->m_i->m_deviceListCritical);
+
+		SjUpnpDevice* selDevice = NULL;
+		long selIndex = m_deviceListbox->GetSelection();
+		if( selIndex >= 0 ) { selDevice = (SjUpnpDevice*)m_deviceListbox->GetClientData(selIndex); }
+
 		m_deviceListbox->Clear();
 
 		SjHashIterator iterator;
 		wxString       location;
 		SjUpnpDevice*  device;
 		while( (device=(SjUpnpDevice*)m_upnpModule->m_i->m_deviceList.Iterate(iterator, location))!=NULL ) {
-			m_deviceListbox->Append(device->m_friendlyName, (void*)device /*CAVE: this is only safe if we do not remove servers while the dialog is opened!*/);
+			m_deviceListbox->Append(device->m_friendlyName, (void*)device /*CAVE: this is only safe if we do not remove servers while the dialog is opened! (*) */);
+			if( device == selDevice ) {
+				m_deviceListbox->SetSelection(m_deviceListbox->GetCount()-1);
+			}
 		}
 	}
 
@@ -204,11 +235,19 @@ private:
 		EnableDisable();
 	}
 
+	void OnScanDone(wxCommandEvent&)
+	{
+		m_stillScanningText->Hide();
+	}
+
 	bool                 m_isNew;
+	bool                 m_stillLoading;
 	SjUpnpScannerModule* m_upnpModule;
 	SjUpnpSource*        m_upnpSource;
 
 	wxListBox*           m_deviceListbox;
+	wxStaticText*        m_stillScanningText;
+	wxListBox*           m_dirListbox;
 
 	                     DECLARE_EVENT_TABLE ()
 };
@@ -217,6 +256,7 @@ private:
 BEGIN_EVENT_TABLE(SjUpnpDialog, SjDialog)
 	EVT_CHECKBOX (IDC_ENABLECHECK,      SjUpnpDialog::OnEnableCheck     )
 	EVT_MENU     (MSG_UPDATEDEVICELIST, SjUpnpDialog::OnUpdateDeviceList)
+	EVT_MENU     (MSG_SCANDONE,         SjUpnpDialog::OnScanDone        )
 END_EVENT_TABLE()
 
 
@@ -263,30 +303,23 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* eventPtr, void* use
 		case UPNP_DISCOVERY_ADVERTISEMENT_ALIVE: // a new devices
 		case UPNP_DISCOVERY_SEARCH_RESULT:       // normal search result, we may be more of htis
 			{
-				// get pointe to discovery event
+				// get device structure
 				struct Upnp_Discovery* discoverEvent = (struct Upnp_Discovery*)eventPtr;
-				if (discoverEvent->ErrCode != UPNP_E_SUCCESS) { wxLogError("UPnP Error %i in discovery callback", (int)discoverEvent->ErrCode); return 0; }
 
-				// load XML for the new discovered device and set up a new device structure
-				SjUpnpDevice* device = new SjUpnpDevice();
-				{
-					IXML_Document* xml = NULL;
-					int ret = UpnpDownloadXmlDoc(discoverEvent->Location, &xml);
-					if( ret != UPNP_E_SUCCESS ) { wxLogError("UPnP Error %i when reading device description from %s", (int)ret, discoverEvent->Location); delete device; return 0; }
+				IXML_Document* xml = NULL;
+				int result = UpnpDownloadXmlDoc(discoverEvent->Location, &xml);
+				if( result != UPNP_E_SUCCESS ) { wxLogError("UPnP Error: Fetching data from %s failed with error %i", discoverEvent->Location, (int)result); return result; } // error
 
-						device->m_location        = discoverEvent->Location;
-						device->m_udn             = getFirstDocumentItem(xml, "UDN");
-						device->m_deviceType      = getFirstDocumentItem(xml, "deviceType");
-						device->m_friendlyName    = getFirstDocumentItem(xml, "friendlyName");
-						device->m_urlBase         = getFirstDocumentItem(xml, "URLBase");
-						device->m_presentationUrl = getFirstDocumentItem(xml, "presentationURL");
+					SjUpnpDevice* device = new SjUpnpDevice(xml, discoverEvent->Location);
 
-					ixmlDocument_free(xml);
+				ixmlDocument_free(xml);
+
+				if (device->m_udn.empty() || device->m_deviceType != MEDIA_SERVER_DEVICE_TYPE ) {
+					delete device;
+					return 0; // just not the requested type - this may happen by definition
 				}
 
-				if (device->m_udn.empty() || device->m_deviceType != MediaServerType ) { delete device; return 0; } // just not the requested type - this may happen by definition
-
-				// add the new device to the list of device, avoid doubles (we clear the list before opening, so double events are not updates)
+				// add device to list, update the dialog (if any)
 				{
 					wxCriticalSectionLocker locker(this_->m_i->m_deviceListCritical);
 					if( this_->m_i->m_deviceList.Lookup(discoverEvent->Location) == NULL ) {
@@ -298,18 +331,29 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* eventPtr, void* use
 					}
 				}
 
-				// update the dialog
 				if( this_->m_i->m_dlg ) {
 					this_->m_i->m_dlg->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, MSG_UPDATEDEVICELIST));
 				}
-				break;
 			}
+			break;
+
+		case UPNP_DISCOVERY_ADVERTISEMENT_BYEBYE:
+			// struct Upnp_Discovery* discoverEvent = (struct Upnp_Discovery*)eventPtr;
+			// send if a device is no longer available, however, as we keep the pointers in (*), we simply ignore this message.
+			// (the device list is created from scratch everytime the dialog is opened, so it is no big deal to ignore this message)
+			break;
+
+		case UPNP_DISCOVERY_SEARCH_TIMEOUT:
+			if( this_->m_i->m_dlg ) {
+				this_->m_i->m_dlg->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, MSG_SCANDONE));
+			}
+			break;
 
 		default:
 			break;
     }
 
-	return 0;
+	return UPNP_E_SUCCESS;
 }
 
 
@@ -385,7 +429,9 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 
 	m_i->m_dlg = new SjUpnpDialog(parent, this, NULL);
 
-	UpnpSearchAsync(m_i->m_ctrlpt_handle, 60 /*seconds to wait*/, MediaServerType, this/*user data*/);
+	UpnpSearchAsync(m_i->m_ctrlpt_handle,
+		120 /*wait 2 minutes (my diskstation may take 30 seconds to appear (br))*/,
+		MEDIA_SERVER_DEVICE_TYPE, this/*user data*/);
 
 	if( m_i->m_dlg->ShowModal() == wxID_OK )
 	{
