@@ -37,6 +37,7 @@
 #include <sjbase/base.h>
 #if SJ_USE_UPNP
 #include <sjmodules/scanner/upnp_scanner.h>
+#include <sjtools/msgbox.h>
 #include <upnp/upnp.h>
 #include <upnp/ixml.h>
 
@@ -102,10 +103,9 @@ static wxString getFirstDocumentItem(IXML_Document* pDoc, const wxString& item)
 class SjUpnpDevice
 {
 public:
-	SjUpnpDevice(IXML_Document* xml, const wxString& location)
+	SjUpnpDevice(IXML_Document* xml)
 	{
 		// TODO: ein server kann mehrere Devices haben, wir sollten hier vernünftig parsen, s. /home/bpetersen/temp/upnp/vlc-2.2.1/modules/services_discovery
-		m_location        = location;
 		m_udn             = getFirstDocumentItem(xml, "UDN");
 		m_deviceType      = getFirstDocumentItem(xml, "deviceType");
 		m_friendlyName    = getFirstDocumentItem(xml, "friendlyName");
@@ -113,8 +113,7 @@ public:
 		m_presentationUrl = getFirstDocumentItem(xml, "presentationURL");
 	}
 
-	wxString m_location;
-	wxString m_udn;
+	wxString m_udn; // always unique
 	wxString m_deviceType;
 	wxString m_friendlyName;
 	wxString m_urlBase;
@@ -141,8 +140,9 @@ private:
 
 
 #define IDC_ENABLECHECK      (IDM_FIRSTPRIVATE+0)
-#define IDC_DEVICELISTBOX    (IDM_FIRSTPRIVATE+2)
-#define IDC_DIRLISTBOX       (IDM_FIRSTPRIVATE+3)
+#define IDC_DEVICELISTCTRL   (IDM_FIRSTPRIVATE+2)
+#define IDC_DEVICEINFO       (IDM_FIRSTPRIVATE+3)
+#define IDC_DIRLISTCTRL      (IDM_FIRSTPRIVATE+10)
 #define MSG_UPDATEDEVICELIST (IDM_FIRSTPRIVATE+50)
 #define MSG_SCANDONE         (IDM_FIRSTPRIVATE+51)
 
@@ -179,84 +179,137 @@ public:
 				m_stillScanningText = new wxStaticText(this, -1, _("(still scanning)"));
 				sizer2->Add(m_stillScanningText, 0, 0, SJ_DLG_SPACE);
 
-			m_deviceListbox = new wxListBox(this, IDC_DEVICELISTBOX, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20));
-			sizer1->Add(m_deviceListbox, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+			m_deviceListCtrl = new wxListCtrl(this, IDC_DEVICELISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
+			m_deviceListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
+			m_deviceListCtrl->InsertColumn(0, _("Name"));
+			sizer1->Add(m_deviceListCtrl, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
 			staticText = new wxStaticText(this, -1, "2. "+_("Select directory:"));
 			sizer1->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
-			m_dirListbox = new wxListBox(this, IDC_DIRLISTBOX, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20));
-			sizer1->Add(m_dirListbox, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+			m_dirListCtrl = new wxListCtrl(this, IDC_DIRLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
+			m_dirListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
+			m_dirListCtrl->InsertColumn(0, _("Directory"));
+			sizer1->Add(m_dirListCtrl, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
 		// buttons
 		sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 		// init done, center dialog
 		UpdateDeviceList();
-		EnableDisable();
 		sizer1->SetSizeHints(this);
 		CentreOnParent();
 	}
 
+
 private:
-	void EnableDisable()
+	SjUpnpDevice* GetSelectedDevice()
 	{
+		SjUpnpDevice* selDevice = NULL;
+		long selIndex = GetSelListCtrlItem(m_deviceListCtrl);
+		if( selIndex >= 0 ) { selDevice = (SjUpnpDevice*)m_deviceListCtrl->GetItemData(selIndex); }
+		return selDevice;
 	}
 
 	void UpdateDeviceList()
 	{
 		wxCriticalSectionLocker locker(m_upnpModule->m_i->m_deviceListCritical);
 
-		SjUpnpDevice* selDevice = NULL;
-		long selIndex = m_deviceListbox->GetSelection();
-		if( selIndex >= 0 ) { selDevice = (SjUpnpDevice*)m_deviceListbox->GetClientData(selIndex); }
+		SjUpnpDevice* selDevice = GetSelectedDevice();
 
-		m_deviceListbox->Clear();
+		m_deviceListCtrl->DeleteAllItems();
 
 		SjHashIterator iterator;
-		wxString       location;
+		wxString       udn;
 		SjUpnpDevice*  device;
-		while( (device=(SjUpnpDevice*)m_upnpModule->m_i->m_deviceList.Iterate(iterator, location))!=NULL ) {
-			m_deviceListbox->Append(device->m_friendlyName, (void*)device /*CAVE: this is only safe if we do not remove servers while the dialog is opened! (*) */);
+		int i = 0;
+		while( (device=(SjUpnpDevice*)m_upnpModule->m_i->m_deviceList.Iterate(iterator, udn))!=NULL ) {
+			wxListItem li;
+			li.SetId(i++);
+			li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
+			li.SetText(device->m_friendlyName);
+			li.SetImage(SJ_ICON_INTERNET_SERVER);
+			li.SetData((void*)device);
+			int new_i = m_deviceListCtrl->InsertItem(li);
 			if( device == selDevice ) {
-				m_deviceListbox->SetSelection(m_deviceListbox->GetCount()-1);
+				m_deviceListCtrl->SetItemState(new_i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
 			}
 		}
 	}
 
+
 	void OnEnableCheck(wxCommandEvent&)
 	{
-		EnableDisable();
 	}
+
 
 	void OnUpdateDeviceList(wxCommandEvent&)
 	{
 		UpdateDeviceList();
-		EnableDisable();
 	}
+
 
 	void OnScanDone(wxCommandEvent&)
 	{
 		m_stillScanningText->Hide();
 	}
 
+
+	void OnSize(wxSizeEvent& e)
+	{
+		wxSize size = m_deviceListCtrl->GetClientSize();
+		m_deviceListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
+		e.Skip();
+	}
+
+
+	void OnDeviceContextMenu(wxListEvent&)
+	{
+        wxPoint pt = ScreenToClient(::wxGetMousePosition());
+        bool hasSelectedDevice = GetSelectedDevice()!=NULL;
+
+        SjMenu m(0);
+        m.Append(IDC_DEVICEINFO, _("Info..."));
+        m.Enable(IDC_DEVICEINFO, hasSelectedDevice);
+
+        PopupMenu(&m, pt);
+	}
+
+
+	void OnDeviceInfo(wxCommandEvent&)
+	{
+		SjUpnpDevice* device = GetSelectedDevice();
+		if( device ) {
+			wxMessageBox(	"friendlyName: " + device->m_friendlyName
+						+	"\ndeviceType: " + device->m_deviceType
+						+	"\nUDN: " + device->m_udn
+						+	"\nURLBase: " + device->m_urlBase
+						+	"\npresentationURL: " + device->m_presentationUrl
+				, device->m_friendlyName, wxOK, this);
+		}
+	}
+
+
 	bool                 m_isNew;
 	bool                 m_stillLoading;
 	SjUpnpScannerModule* m_upnpModule;
 	SjUpnpSource*        m_upnpSource;
 
-	wxListBox*           m_deviceListbox;
+	wxListCtrl*          m_deviceListCtrl;
 	wxStaticText*        m_stillScanningText;
-	wxListBox*           m_dirListbox;
+	wxListCtrl*          m_dirListCtrl;
 
 	                     DECLARE_EVENT_TABLE ()
 };
 
 
 BEGIN_EVENT_TABLE(SjUpnpDialog, SjDialog)
-	EVT_CHECKBOX (IDC_ENABLECHECK,      SjUpnpDialog::OnEnableCheck     )
-	EVT_MENU     (MSG_UPDATEDEVICELIST, SjUpnpDialog::OnUpdateDeviceList)
-	EVT_MENU     (MSG_SCANDONE,         SjUpnpDialog::OnScanDone        )
+	EVT_CHECKBOX              (IDC_ENABLECHECK,      SjUpnpDialog::OnEnableCheck           )
+	EVT_LIST_ITEM_RIGHT_CLICK (IDC_DEVICELISTCTRL,   SjUpnpDialog::OnDeviceContextMenu     )
+	EVT_MENU                  (IDC_DEVICEINFO,       SjUpnpDialog::OnDeviceInfo            )
+	EVT_SIZE                  (                      SjUpnpDialog::OnSize                  )
+	EVT_MENU                  (MSG_UPDATEDEVICELIST, SjUpnpDialog::OnUpdateDeviceList      )
+	EVT_MENU                  (MSG_SCANDONE,         SjUpnpDialog::OnScanDone              )
 END_EVENT_TABLE()
 
 
@@ -301,7 +354,7 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* eventPtr, void* use
     switch( eventType )
     {
 		case UPNP_DISCOVERY_ADVERTISEMENT_ALIVE: // a new devices
-		case UPNP_DISCOVERY_SEARCH_RESULT:       // normal search result, we may be more of htis
+		case UPNP_DISCOVERY_SEARCH_RESULT:       // normal search result, we may be more of this
 			{
 				// get device structure
 				struct Upnp_Discovery* discoverEvent = (struct Upnp_Discovery*)eventPtr;
@@ -310,7 +363,7 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* eventPtr, void* use
 				int result = UpnpDownloadXmlDoc(discoverEvent->Location, &xml);
 				if( result != UPNP_E_SUCCESS ) { wxLogError("UPnP Error: Fetching data from %s failed with error %i", discoverEvent->Location, (int)result); return result; } // error
 
-					SjUpnpDevice* device = new SjUpnpDevice(xml, discoverEvent->Location);
+					SjUpnpDevice* device = new SjUpnpDevice(xml);
 
 				ixmlDocument_free(xml);
 
@@ -322,8 +375,8 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* eventPtr, void* use
 				// add device to list, update the dialog (if any)
 				{
 					wxCriticalSectionLocker locker(this_->m_i->m_deviceListCritical);
-					if( this_->m_i->m_deviceList.Lookup(discoverEvent->Location) == NULL ) {
-						this_->m_i->m_deviceList.Insert(discoverEvent->Location, device);
+					if( this_->m_i->m_deviceList.Lookup(device->m_udn) == NULL ) {
+						this_->m_i->m_deviceList.Insert(device->m_udn, device);
 					}
 					else {
 						delete device;
@@ -412,9 +465,9 @@ void SjUpnpScannerModuleInternal::ClearDeviceList()
 	wxCriticalSectionLocker locker(m_deviceListCritical);
 
 	SjHashIterator iterator;
-	wxString       location;
+	wxString       udn;
 	SjUpnpDevice*  device;
-	while( (device=(SjUpnpDevice*)m_deviceList.Iterate(iterator, location))!=NULL ) {
+	while( (device=(SjUpnpDevice*)m_deviceList.Iterate(iterator, udn))!=NULL ) {
 		delete device;
 	}
 	m_deviceList.Clear();
