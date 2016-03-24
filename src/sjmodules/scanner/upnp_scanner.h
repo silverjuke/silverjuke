@@ -81,6 +81,27 @@ private:
 };
 
 
+class SjUpnpDirEntry
+{
+public:
+	bool       m_isDir;
+	wxString   m_title;
+};
+
+
+class SjUpnpDir
+{
+public:
+                    ~SjUpnpDir() { int i, cnt=GetCount(); for( i=0; i<cnt; i++ ) { delete Item(i); } }
+	void            Add       (SjUpnpDirEntry*); // SjUpnpDir takes ownership of the item
+	int             GetCount  () { return m_items.GetCount(); }
+	SjUpnpDirEntry* Item      (int i) { return (SjUpnpDirEntry*)m_items.Item(i); }
+
+private:
+	wxArrayPtrVoid  m_items;
+};
+
+
 class SjUpnpScannerModule : public SjScannerModule
 {
 public:
