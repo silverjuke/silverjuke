@@ -31,8 +31,11 @@
 #if SJ_USE_UPNP
 
 
-typedef int UpnpClient_Handle;
+#include <upnp/upnp.h>
+
+
 class SjUpnpDialog;
+class SjUpnpScannerModule;
 
 
 class SjUpnpSource
@@ -45,12 +48,36 @@ public:
 class SjUpnpMediaServer
 {
 public:
+	SjUpnpMediaServer(SjUpnpScannerModule*);
+
 	wxString _UDN; // always unique
 	wxString m_deviceType;
 	wxString _friendly_name;
+	wxString m_manufacturer;
+	wxString m_modelDescription;
 	wxString _content_directory_event_url;
 	wxString _content_directory_control_url;
 	int    _i_content_directory_service_version;
+	int _i_subscription_timeout;
+
+	Upnp_SID _subscription_id;
+
+	wxArrayString _p_contents;
+    void fetchContents();
+
+// private
+    void subscribeToContentDirectory();
+	bool compareSID( const char* psz_sid );
+
+private:
+	IXML_Document* _browseAction( const char* psz_object_id_,
+                                           const char* psz_browser_flag_,
+                                           const char* psz_filter_,
+                                           int psz_starting_index_,
+                                           const char* psz_requested_count_,
+                                           const char* psz_sort_criteria_ );
+	SjUpnpScannerModule* m_module;
+	bool _fetchContents();
 };
 
 
@@ -77,9 +104,10 @@ public:
 	UpnpClient_Handle m_ctrlpt_handle;
 
 	// the list of devices, if it changes, the MSG_UPDATEDEVICELIST is sent
-	SjSPHash          m_deviceList;
-	wxCriticalSection m_deviceListCritical;
-	void              clear_device_list   ();
+	SjSPHash           m_mediaServerList;
+	wxCriticalSection  m_mediaServerCritical;
+	void               clear_media_server_list();
+	SjUpnpMediaServer* get_media_server_by_sid(const char* psz_sid);
 
 	// opened dialog, NULL if none
 	SjUpnpDialog*     m_dlg;

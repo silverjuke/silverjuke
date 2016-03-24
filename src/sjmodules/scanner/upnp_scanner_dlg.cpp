@@ -40,6 +40,7 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 	m_upnpSource   = upnpSource; // may be NULL!
 	m_isNew        = (upnpSource==NULL);
 	m_stillLoading = true;
+	m_dirListFor   = NULL;
 
 	if( m_isNew ) {
 		SetTitle(_("Add an UPnP/DLNA server"));
@@ -62,10 +63,10 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 			m_stillScanningText = new wxStaticText(this, -1, _("(still scanning)"));
 			sizer2->Add(m_stillScanningText, 0, 0, SJ_DLG_SPACE);
 
-		m_deviceListCtrl = new wxListCtrl(this, IDC_DEVICELISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
-		m_deviceListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
-		m_deviceListCtrl->InsertColumn(0, _("Name"));
-		sizer1->Add(m_deviceListCtrl, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+		m_mediaServerListCtrl = new wxListCtrl(this, IDC_MEDIASERVERLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
+		m_mediaServerListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
+		m_mediaServerListCtrl->InsertColumn(0, _("Name"));
+		sizer1->Add(m_mediaServerListCtrl, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
 		staticText = new wxStaticText(this, -1, "2. "+_("Select directory:"));
 		sizer1->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
@@ -79,50 +80,51 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	// init done, center dialog
-	UpdateDeviceList();
+	UpdateMediaServerList();
 	sizer1->SetSizeHints(this);
 	CentreOnParent();
 }
 
 
-SjUpnpMediaServer* SjUpnpDialog::GetSelectedDevice()
+SjUpnpMediaServer* SjUpnpDialog::GetSelectedMediaServer()
 {
-	SjUpnpMediaServer* selDevice = NULL;
-	long selIndex = GetSelListCtrlItem(m_deviceListCtrl);
-	if( selIndex >= 0 ) { selDevice = (SjUpnpMediaServer*)m_deviceListCtrl->GetItemData(selIndex); }
-	return selDevice;
+	SjUpnpMediaServer* selMediaServer = NULL;
+	long selIndex = GetSelListCtrlItem(m_mediaServerListCtrl);
+	if( selIndex >= 0 ) { selMediaServer = (SjUpnpMediaServer*)m_mediaServerListCtrl->GetItemData(selIndex); }
+	return selMediaServer;
 }
 
-void SjUpnpDialog::UpdateDeviceList()
+
+void SjUpnpDialog::UpdateMediaServerList()
 {
-	wxCriticalSectionLocker locker(m_upnpModule->m_deviceListCritical);
+	wxCriticalSectionLocker locker(m_upnpModule->m_mediaServerCritical);
 
-	SjUpnpMediaServer* selDevice = GetSelectedDevice();
+	SjUpnpMediaServer* selMediaServer = GetSelectedMediaServer();
 
-	m_deviceListCtrl->DeleteAllItems();
+	m_mediaServerListCtrl->DeleteAllItems();
 
-	SjHashIterator iterator;
-	wxString       udn;
-	SjUpnpMediaServer*  device;
+	SjHashIterator     iterator;
+	wxString           udn;
+	SjUpnpMediaServer* mediaServer;
 	int i = 0;
-	while( (device=(SjUpnpMediaServer*)m_upnpModule->m_deviceList.Iterate(iterator, udn))!=NULL ) {
+	while( (mediaServer=(SjUpnpMediaServer*)m_upnpModule->m_mediaServerList.Iterate(iterator, udn))!=NULL ) {
 		wxListItem li;
 		li.SetId(i++);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
-		li.SetText(device->_friendly_name);
+		li.SetText(mediaServer->_friendly_name);
 		li.SetImage(SJ_ICON_INTERNET_SERVER);
-		li.SetData((void*)device);
-		int new_i = m_deviceListCtrl->InsertItem(li);
-		if( device == selDevice ) {
-			m_deviceListCtrl->SetItemState(new_i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+		li.SetData((void*)mediaServer);
+		int new_i = m_mediaServerListCtrl->InsertItem(li);
+		if( mediaServer == selMediaServer ) {
+			m_mediaServerListCtrl->SetItemState(new_i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
 		}
 	}
 }
 
 
-void SjUpnpDialog::OnUpdateDeviceList(wxCommandEvent&)
+void SjUpnpDialog::OnUpdateMediaServerList(wxCommandEvent&)
 {
-	UpdateDeviceList();
+	UpdateMediaServerList();
 }
 
 
@@ -134,54 +136,69 @@ void SjUpnpDialog::OnScanDone(wxCommandEvent&)
 
 void SjUpnpDialog::OnSize(wxSizeEvent& e)
 {
-	wxSize size = m_deviceListCtrl->GetClientSize();
-	m_deviceListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
+	wxSize size = m_mediaServerListCtrl->GetClientSize();
+	m_mediaServerListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
 	e.Skip();
 }
 
-void SjUpnpDialog::OnDeviceClick(wxListEvent&)
+
+void SjUpnpDialog::OnMediaServerClick(wxListEvent&)
 {
-    SjUpnpMediaServer* device = GetSelectedDevice();
-    if( device == NULL ) { return; } // nothing selected
+    SjUpnpMediaServer* mediaServer = GetSelectedMediaServer();
+    if( mediaServer == NULL ) { return; } // nothing selected
+    if( mediaServer == m_dirListFor ) { return; } // already selected
+
+    mediaServer->fetchContents();
+
+    m_dirListFor = mediaServer;
 }
 
-void SjUpnpDialog::OnDeviceContextMenu(wxListEvent&)
+
+void SjUpnpDialog::OnMediaServerContextMenu(wxListEvent&)
 {
     wxPoint pt = ScreenToClient(::wxGetMousePosition());
-    bool hasSelectedDevice = GetSelectedDevice()!=NULL;
+    bool sthSelected = GetSelectedMediaServer()!=NULL;
 
     SjMenu m(0);
-    m.Append(IDC_DEVICEINFO, _("Info..."));
-    m.Enable(IDC_DEVICEINFO, hasSelectedDevice);
+    m.Append(IDC_MEDIASERVERINFO, _("Info..."));
+    m.Enable(IDC_MEDIASERVERINFO, sthSelected);
 
     PopupMenu(&m, pt);
 }
 
 
-void SjUpnpDialog::OnDeviceInfo(wxCommandEvent&)
+void SjUpnpDialog::OnMediaServerInfo(wxCommandEvent&)
 {
-	SjUpnpMediaServer* device = GetSelectedDevice();
-	if( device == NULL ) { return; } // nothing selected
+	SjUpnpMediaServer* mediaServer = GetSelectedMediaServer();
+	if( mediaServer == NULL ) { return; } // nothing selected
 
+	wxString subscriptionId(mediaServer->_subscription_id, sizeof(Upnp_SID));
 	wxMessageBox(
-		wxString::Format("UDN: %s\n\nfriendlyName: %s\n\ndeviceType: %s\n\nContentDirectory.eventSubURL: %s\n\nContentDirectory.controlURL: %s\n\nContentDirectory.serviceType: %i",
-			device->_UDN.c_str(),
-			device->_friendly_name.c_str(),
-			device->m_deviceType.c_str(),
-			device->_content_directory_event_url.c_str(),
-			device->_content_directory_control_url.c_str(),
-			(int)device->_i_content_directory_service_version)
-		, device->_friendly_name, wxOK, this);
+		wxString::Format(
+			"UDN: %s\n\nfriendlyName: %s\n\nmodelDescription: %s\n\nmanufacturer: %s\n\ndeviceType: %s\n\n"
+			"ContentDirectory.eventSubURL: %s\n\nContentDirectory.controlURL: %s\n\nContentDirectory.serviceType: %i\n\n"
+			"Subscription-ID: %s\n\nSubscription-Timeout: %i seconds",
+			mediaServer->_UDN.c_str(),
+			mediaServer->_friendly_name.c_str(),
+			mediaServer->m_modelDescription.c_str(),
+			mediaServer->m_manufacturer.c_str(),
+			mediaServer->m_deviceType.c_str(),
+			mediaServer->_content_directory_event_url.c_str(),
+			mediaServer->_content_directory_control_url.c_str(),
+			(int)mediaServer->_i_content_directory_service_version,
+			subscriptionId.c_str(),
+			(int)mediaServer->_i_subscription_timeout)
+		, mediaServer->_friendly_name, wxOK, this);
 }
 
 
 BEGIN_EVENT_TABLE(SjUpnpDialog, SjDialog)
-	EVT_LIST_ITEM_SELECTED    (IDC_DEVICELISTCTRL,   SjUpnpDialog::OnDeviceClick           )
-	EVT_LIST_ITEM_RIGHT_CLICK (IDC_DEVICELISTCTRL,   SjUpnpDialog::OnDeviceContextMenu     )
-	EVT_MENU                  (IDC_DEVICEINFO,       SjUpnpDialog::OnDeviceInfo            )
-	EVT_SIZE                  (                      SjUpnpDialog::OnSize                  )
-	EVT_MENU                  (MSG_UPDATEDEVICELIST, SjUpnpDialog::OnUpdateDeviceList      )
-	EVT_MENU                  (MSG_SCANDONE,         SjUpnpDialog::OnScanDone              )
+	EVT_LIST_ITEM_SELECTED    (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerClick       )
+	EVT_LIST_ITEM_RIGHT_CLICK (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerContextMenu )
+	EVT_MENU                  (IDC_MEDIASERVERINFO,      SjUpnpDialog::OnMediaServerInfo        )
+	EVT_SIZE                  (                          SjUpnpDialog::OnSize                   )
+	EVT_MENU                  (MSG_UPDATEMEDIASERVERLIST,SjUpnpDialog::OnUpdateMediaServerList  )
+	EVT_MENU                  (MSG_SCANDONE,             SjUpnpDialog::OnScanDone               )
 END_EVENT_TABLE()
 
 

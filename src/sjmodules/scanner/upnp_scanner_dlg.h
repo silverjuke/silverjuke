@@ -36,11 +36,11 @@ class SjUpnpMediaServer;
 class SjUpnpSource;
 
 
-#define IDC_DEVICELISTCTRL   (IDM_FIRSTPRIVATE+2)
-#define IDC_DEVICEINFO       (IDM_FIRSTPRIVATE+3)
-#define IDC_DIRLISTCTRL      (IDM_FIRSTPRIVATE+10)
-#define MSG_UPDATEDEVICELIST (IDM_FIRSTPRIVATE+50)
-#define MSG_SCANDONE         (IDM_FIRSTPRIVATE+51)
+#define IDC_MEDIASERVERLISTCTRL   (IDM_FIRSTPRIVATE+2)
+#define IDC_MEDIASERVERINFO       (IDM_FIRSTPRIVATE+3)
+#define IDC_DIRLISTCTRL           (IDM_FIRSTPRIVATE+10)
+#define MSG_UPDATEMEDIASERVERLIST (IDM_FIRSTPRIVATE+50)
+#define MSG_SCANDONE              (IDM_FIRSTPRIVATE+51)
 
 
 class SjUpnpDialog : public SjDialog
@@ -49,15 +49,15 @@ public:
 	                     SjUpnpDialog        (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource);
 
 private:
-	SjUpnpMediaServer*   GetSelectedDevice   ();
-	void                 UpdateDeviceList    ();
+	SjUpnpMediaServer*   GetSelectedMediaServer();
+	void                 UpdateMediaServerList ();
 
-	void                 OnUpdateDeviceList  (wxCommandEvent&);
+	void                 OnUpdateMediaServerList(wxCommandEvent&);
 	void                 OnScanDone          (wxCommandEvent&);
 	void                 OnSize              (wxSizeEvent& e);
-	void                 OnDeviceClick       (wxListEvent&);
-	void                 OnDeviceContextMenu (wxListEvent&);
-	void                 OnDeviceInfo        (wxCommandEvent&);
+	void                 OnMediaServerClick  (wxListEvent&);
+	void                 OnMediaServerContextMenu (wxListEvent&);
+	void                 OnMediaServerInfo   (wxCommandEvent&);
 
 
 	bool                 m_isNew;
@@ -65,8 +65,10 @@ private:
 	SjUpnpScannerModule* m_upnpModule;
 	SjUpnpSource*        m_upnpSource;
 
-	wxListCtrl*          m_deviceListCtrl;
+	wxListCtrl*          m_mediaServerListCtrl;
 	wxStaticText*        m_stillScanningText;
+
+	SjUpnpMediaServer*   m_dirListFor;
 	wxListCtrl*          m_dirListCtrl;
 
 	                     DECLARE_EVENT_TABLE ()
