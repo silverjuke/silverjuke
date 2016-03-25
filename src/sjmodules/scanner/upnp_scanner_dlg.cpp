@@ -122,6 +122,26 @@ void SjUpnpDialog::UpdateMediaServerList()
 }
 
 
+void SjUpnpDialog::UpdateDirList()
+{
+	m_dirListCtrl->DeleteAllItems();
+
+	int i, cnt = m_currDir.GetCount();
+	for( i = 0; i < cnt; i++ )
+	{
+		SjUpnpDirEntry* entry = m_currDir.Item(i);
+
+		wxListItem li;
+		li.SetId(i);
+		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
+		li.SetText(entry->m_title);
+		li.SetImage(entry->m_isDir? SJ_ICON_MUSIC_FOLDER : SJ_ICON_EMPTY);
+		li.SetData(i);
+		m_dirListCtrl->InsertItem(li);
+	}
+}
+
+
 void SjUpnpDialog::OnUpdateMediaServerList(wxCommandEvent&)
 {
 	UpdateMediaServerList();
@@ -138,6 +158,9 @@ void SjUpnpDialog::OnSize(wxSizeEvent& e)
 {
 	wxSize size = m_mediaServerListCtrl->GetClientSize();
 	m_mediaServerListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
+
+	size = m_dirListCtrl->GetClientSize();
+	m_dirListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
 	e.Skip();
 }
 
@@ -147,10 +170,12 @@ void SjUpnpDialog::OnMediaServerClick(wxListEvent&)
     SjUpnpMediaServer* mediaServer = GetSelectedMediaServer();
     if( mediaServer == NULL ) { return; } // nothing selected
     if( mediaServer == m_dirListFor ) { return; } // already selected
+	m_dirListFor = mediaServer;
 
-    mediaServer->fetchContents();
+	wxBusyCursor busy;
+    mediaServer->fetchContents(m_currDir);
 
-    m_dirListFor = mediaServer;
+    UpdateDirList();
 }
 
 

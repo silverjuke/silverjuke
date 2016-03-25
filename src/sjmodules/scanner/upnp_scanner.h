@@ -45,6 +45,28 @@ public:
 };
 
 
+class SjUpnpDirEntry
+{
+public:
+	bool       m_isDir;
+	wxString   m_title;
+};
+
+
+class SjUpnpDir
+{
+public:
+                    ~SjUpnpDir() { Clear(); }
+	void            Add       (SjUpnpDirEntry* i) { m_items.Add((void*)i); } // SjUpnpDir takes ownership of the item
+	int             GetCount  () { return m_items.GetCount(); }
+	SjUpnpDirEntry* Item      (int i) { return (SjUpnpDirEntry*)m_items.Item(i); }
+	void            Clear     () { int i, cnt=GetCount(); for( i=0; i<cnt; i++ ) { delete Item(i); } m_items.Empty(); }
+
+private:
+	wxArrayPtrVoid  m_items;
+};
+
+
 class SjUpnpMediaServer
 {
 public:
@@ -62,8 +84,7 @@ public:
 
 	Upnp_SID _subscription_id;
 
-	wxArrayString _p_contents;
-    void fetchContents();
+    bool fetchContents(SjUpnpDir&); // it's up to the caller to delete the returned object
 
 // private
     void subscribeToContentDirectory();
@@ -77,28 +98,6 @@ private:
                                            const char* psz_requested_count_,
                                            const char* psz_sort_criteria_ );
 	SjUpnpScannerModule* m_module;
-	bool _fetchContents();
-};
-
-
-class SjUpnpDirEntry
-{
-public:
-	bool       m_isDir;
-	wxString   m_title;
-};
-
-
-class SjUpnpDir
-{
-public:
-                    ~SjUpnpDir() { int i, cnt=GetCount(); for( i=0; i<cnt; i++ ) { delete Item(i); } }
-	void            Add       (SjUpnpDirEntry*); // SjUpnpDir takes ownership of the item
-	int             GetCount  () { return m_items.GetCount(); }
-	SjUpnpDirEntry* Item      (int i) { return (SjUpnpDirEntry*)m_items.Item(i); }
-
-private:
-	wxArrayPtrVoid  m_items;
 };
 
 

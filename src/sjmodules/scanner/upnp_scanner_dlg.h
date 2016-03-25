@@ -31,9 +31,7 @@
 #if SJ_USE_UPNP
 
 
-class SjUpnpScannerModule;
-class SjUpnpMediaServer;
-class SjUpnpSource;
+#include <sjmodules/scanner/upnp_scanner.h>
 
 
 #define IDC_MEDIASERVERLISTCTRL   (IDM_FIRSTPRIVATE+2)
@@ -51,6 +49,7 @@ public:
 private:
 	SjUpnpMediaServer*   GetSelectedMediaServer();
 	void                 UpdateMediaServerList ();
+	void                 UpdateDirList         ();
 
 	void                 OnUpdateMediaServerList(wxCommandEvent&);
 	void                 OnScanDone          (wxCommandEvent&);
@@ -68,6 +67,7 @@ private:
 	wxListCtrl*          m_mediaServerListCtrl;
 	wxStaticText*        m_stillScanningText;
 
+	SjUpnpDir            m_currDir;
 	SjUpnpMediaServer*   m_dirListFor;
 	wxListCtrl*          m_dirListCtrl;
 

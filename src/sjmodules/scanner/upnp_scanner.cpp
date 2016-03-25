@@ -383,8 +383,10 @@ browseActionCleanup:
 }
 
 
-bool SjUpnpMediaServer::_fetchContents()
+bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 {
+	dir.Clear();
+
     IXML_Document* p_response = _browseAction( "0", //p_parent->getObjectID() - root is "0" here
                                       "BrowseDirectChildren",
                                       "id,dc:title,res," /* Filter */
@@ -437,7 +439,10 @@ bool SjUpnpMediaServer::_fetchContents()
             _fetchContents( container, 0 );
             */
 
-            wxLogWarning("container: %s", wxString(title).c_str());
+            SjUpnpDirEntry* entry = new SjUpnpDirEntry();
+            entry->m_isDir = true;
+            entry->m_title = title;
+            dir.Add(entry); // entry is now owned by SjUpnpDir
         }
         ixmlNodeList_free( containerNodeList );
     }
@@ -473,8 +478,6 @@ bool SjUpnpMediaServer::_fetchContents()
                 psz_subtitles = xml_getChildElementValue( itemElement,
                         "pv:subtitlefile" );
 
-			wxLogWarning("item: %s", wxString(title).c_str());
-
             /* Try to extract all resources in DIDL */
             IXML_NodeList* p_resource_list = ixmlDocument_getElementsByTagName( (IXML_Document*) itemElement, "res" );
             if ( p_resource_list )
@@ -508,7 +511,12 @@ bool SjUpnpMediaServer::_fetchContents()
                 }
                 ixmlNodeList_free( p_resource_list );
             }
-            else continue;
+
+            SjUpnpDirEntry* entry = new SjUpnpDirEntry();
+            entry->m_isDir = false;
+            entry->m_title = title;
+            dir.Add(entry); // entry is now owned by SjUpnpDir
+
         }
         ixmlNodeList_free( itemNodeList );
     }
@@ -521,15 +529,6 @@ bool SjUpnpMediaServer::_fetchContents()
 	*/
 
     return true;
-}
-
-
-void SjUpnpMediaServer::fetchContents()
-{
-	// delete old contents
-	_p_contents.Clear();
-
-	_fetchContents();
 }
 
 
@@ -655,8 +654,14 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* p_event, void* user
 				struct Upnp_Discovery* discoverEvent = (struct Upnp_Discovery*)p_event;
 
 				IXML_Document* p_description_doc = NULL;
-				int result = UpnpDownloadXmlDoc(discoverEvent->Location, &p_description_doc);
-				if( result != UPNP_E_SUCCESS ) { wxLogError("UPnP Error: Fetching data from %s failed with error %i", discoverEvent->Location, (int)result); return result; } // error
+				int error = UpnpDownloadXmlDoc(discoverEvent->Location, &p_description_doc);
+				if( error != UPNP_E_SUCCESS ) {
+					if( g_debug ) {
+						// happens eg. with DroidUPnP, error -207, TIMEOUT
+						wxLogError("UPnP Error %i: %s (url=%s)", (int)error, wxString(UpnpGetErrorMessage(error)).c_str(), wxString(discoverEvent->Location).c_str());
+					}
+					return error;
+				}
 
 				{
 					wxCriticalSectionLocker locker(this_->m_mediaServerCritical);
