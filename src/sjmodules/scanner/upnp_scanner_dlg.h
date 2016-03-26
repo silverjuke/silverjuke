@@ -37,6 +37,7 @@
 #define IDC_MEDIASERVERLISTCTRL   (IDM_FIRSTPRIVATE+2)
 #define IDC_MEDIASERVERINFO       (IDM_FIRSTPRIVATE+3)
 #define IDC_DIRLISTCTRL           (IDM_FIRSTPRIVATE+10)
+#define IDC_DIRENTRYINFO          (IDM_FIRSTPRIVATE+11)
 #define MSG_UPDATEMEDIASERVERLIST (IDM_FIRSTPRIVATE+50)
 #define MSG_SCANDONE              (IDM_FIRSTPRIVATE+51)
 
@@ -48,6 +49,7 @@ public:
 
 private:
 	SjUpnpMediaServer*   GetSelectedMediaServer();
+	SjUpnpDirEntry*      GetSelectedDirEntry   ();
 	void                 UpdateMediaServerList ();
 	void                 UpdateDirList         ();
 
@@ -57,7 +59,8 @@ private:
 	void                 OnMediaServerClick  (wxListEvent&);
 	void                 OnMediaServerContextMenu (wxListEvent&);
 	void                 OnMediaServerInfo   (wxCommandEvent&);
-
+	void                 OnDirContextMenu    (wxListEvent&);
+	void                 OnDirEntryInfo      (wxCommandEvent&);
 
 	bool                 m_isNew;
 	bool                 m_stillLoading;

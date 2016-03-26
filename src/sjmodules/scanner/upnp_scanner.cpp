@@ -441,7 +441,8 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 
             SjUpnpDirEntry* entry = new SjUpnpDirEntry();
             entry->m_isDir = true;
-            entry->m_title = title;
+            entry->m_name = title;
+            entry->m_id = objectID;
             dir.Add(entry); // entry is now owned by SjUpnpDir
         }
         ixmlNodeList_free( containerNodeList );
@@ -513,8 +514,9 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
             }
 
             SjUpnpDirEntry* entry = new SjUpnpDirEntry();
+            entry->m_name = title;
             entry->m_isDir = false;
-            entry->m_title = title;
+            entry->m_id = objectID;
             dir.Add(entry); // entry is now owned by SjUpnpDir
 
         }

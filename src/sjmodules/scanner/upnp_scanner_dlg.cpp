@@ -95,6 +95,15 @@ SjUpnpMediaServer* SjUpnpDialog::GetSelectedMediaServer()
 }
 
 
+SjUpnpDirEntry* SjUpnpDialog::GetSelectedDirEntry()
+{
+	SjUpnpDirEntry* selDirEntry = NULL;
+	long selIndex = GetSelListCtrlItem(m_dirListCtrl);
+	if( selIndex >= 0 && selIndex < m_currDir.GetCount() ) { selDirEntry = m_currDir.Item(selIndex); }
+	return selDirEntry;
+}
+
+
 void SjUpnpDialog::UpdateMediaServerList()
 {
 	wxCriticalSectionLocker locker(m_upnpModule->m_mediaServerCritical);
@@ -134,7 +143,7 @@ void SjUpnpDialog::UpdateDirList()
 		wxListItem li;
 		li.SetId(i);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
-		li.SetText(entry->m_title);
+		li.SetText(entry->m_name);
 		li.SetImage(entry->m_isDir? SJ_ICON_MUSIC_FOLDER : SJ_ICON_EMPTY);
 		li.SetData(i);
 		m_dirListCtrl->InsertItem(li);
@@ -217,10 +226,40 @@ void SjUpnpDialog::OnMediaServerInfo(wxCommandEvent&)
 }
 
 
+void SjUpnpDialog::OnDirContextMenu(wxListEvent&)
+{
+    wxPoint pt = ScreenToClient(::wxGetMousePosition());
+    bool sthSelected = GetSelectedDirEntry()!=NULL;
+
+    SjMenu m(0);
+    m.Append(IDC_DIRENTRYINFO, _("Info..."));
+    m.Enable(IDC_DIRENTRYINFO, sthSelected);
+
+    PopupMenu(&m, pt);
+}
+
+
+void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
+{
+	SjUpnpDirEntry* dirEntry = GetSelectedDirEntry();
+	if( dirEntry == NULL ) { return; } // nothing selected
+
+	wxMessageBox(
+		wxString::Format(
+			"Name: %s\n\nDirectory: %i\n\nID: %s",
+			dirEntry->m_name.c_str(),
+			(int)dirEntry->m_isDir,
+			dirEntry->m_id.c_str())
+		, dirEntry->m_name, wxOK, this);
+}
+
+
 BEGIN_EVENT_TABLE(SjUpnpDialog, SjDialog)
 	EVT_LIST_ITEM_SELECTED    (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerClick       )
 	EVT_LIST_ITEM_RIGHT_CLICK (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerContextMenu )
 	EVT_MENU                  (IDC_MEDIASERVERINFO,      SjUpnpDialog::OnMediaServerInfo        )
+	EVT_LIST_ITEM_RIGHT_CLICK (IDC_DIRLISTCTRL,          SjUpnpDialog::OnDirContextMenu         )
+	EVT_MENU                  (IDC_DIRENTRYINFO,         SjUpnpDialog::OnDirEntryInfo           )
 	EVT_SIZE                  (                          SjUpnpDialog::OnSize                   )
 	EVT_MENU                  (MSG_UPDATEMEDIASERVERLIST,SjUpnpDialog::OnUpdateMediaServerList  )
 	EVT_MENU                  (MSG_SCANDONE,             SjUpnpDialog::OnScanDone               )

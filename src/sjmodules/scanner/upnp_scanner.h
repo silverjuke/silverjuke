@@ -48,8 +48,9 @@ public:
 class SjUpnpDirEntry
 {
 public:
+	wxString   m_name;
 	bool       m_isDir;
-	wxString   m_title;
+	wxString   m_id;
 };
 
 
