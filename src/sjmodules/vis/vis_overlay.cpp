@@ -519,8 +519,10 @@ void SjVisOverlay::RequireCover()
 		if( obj )
 		{
 			wxBitmap* bitmap = obj->CreateBitmap();
-			coverWindow->m_bitmap = *bitmap;
-			delete bitmap;
+			if( bitmap ) {
+				coverWindow->m_bitmap = *bitmap;
+				delete bitmap;
+			}
 
 			g_mainFrame->m_imgThread->ReleaseImage(coverWindow, obj);
 		}
