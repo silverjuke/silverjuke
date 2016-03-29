@@ -97,10 +97,22 @@ SjUpnpMediaServer* SjUpnpDialog::GetSelectedMediaServer()
 
 SjUpnpDirEntry* SjUpnpDialog::GetSelectedDirEntry()
 {
-	SjUpnpDirEntry* selDirEntry = NULL;
 	long selIndex = GetSelListCtrlItem(m_dirListCtrl);
-	if( selIndex >= 0 && selIndex < m_currDir.GetCount() ) { selDirEntry = m_currDir.Item(selIndex); }
-	return selDirEntry;
+	if( selIndex >= 0 && selIndex < m_dirListCtrl->GetItemCount() )
+	{
+		selIndex = m_dirListCtrl->GetItemData(selIndex);
+		if( selIndex == -1 ) {
+			if( m_parents.GetCount() <= 0 ) { return NULL; } // error
+			m_parentDirEntry.m_id = m_parents.Last();
+			m_parents.RemoveAt(m_parents.GetCount()-1);
+			return &m_parentDirEntry;
+		}
+		else if( selIndex >= 0 && selIndex < m_currDir.GetCount() ) {
+			return m_currDir.Item(selIndex);
+		}
+	}
+
+	return NULL;
 }
 
 
@@ -135,13 +147,24 @@ void SjUpnpDialog::UpdateDirList()
 {
 	m_dirListCtrl->DeleteAllItems();
 
+	long zero_based_pos = 0;
+	if( m_currDir.getObjectID()!="0" ) {
+		wxListItem li;
+		li.SetId(zero_based_pos++);
+		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
+		li.SetText("..");
+		li.SetImage(SJ_ICON_EMPTY);
+		li.SetData(-1);
+		m_dirListCtrl->InsertItem(li);
+	}
+
 	int i, cnt = m_currDir.GetCount();
 	for( i = 0; i < cnt; i++ )
 	{
 		SjUpnpDirEntry* entry = m_currDir.Item(i);
 
 		wxListItem li;
-		li.SetId(i);
+		li.SetId(zero_based_pos++);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
 		li.SetText(entry->m_name);
 		li.SetImage(entry->m_isDir? SJ_ICON_MUSIC_FOLDER : SJ_ICON_EMPTY);
@@ -182,6 +205,8 @@ void SjUpnpDialog::OnMediaServerClick(wxListEvent&)
 	m_dirListFor = mediaServer;
 
 	wxBusyCursor busy;
+
+	m_currDir.setObjectID("0");
     mediaServer->fetchContents(m_currDir);
 
     UpdateDirList();
@@ -226,6 +251,35 @@ void SjUpnpDialog::OnMediaServerInfo(wxCommandEvent&)
 }
 
 
+void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
+{
+	wxBusyCursor busy;
+
+    SjUpnpMediaServer* mediaServer = GetSelectedMediaServer();
+    if( mediaServer == NULL ) { return; } // nothing selected
+    if( mediaServer != m_dirListFor ) { return; } // sth. went wrong
+
+	// find out the clicked folder, clear directory entries
+	wxString clickedId;
+	{
+		SjUpnpDirEntry* dirEntry = GetSelectedDirEntry();
+		if( dirEntry == NULL ) { return; } // nothing selected
+		clickedId = dirEntry->m_id;
+		if( dirEntry != &m_parentDirEntry ) {
+			m_parents.Add(m_currDir.getObjectID());
+		}
+		m_dirListCtrl->DeleteAllItems();
+		m_currDir.Clear();
+	}
+
+	// load new directory entries
+	m_currDir.setObjectID(clickedId);
+    mediaServer->fetchContents(m_currDir);
+
+    UpdateDirList();
+}
+
+
 void SjUpnpDialog::OnDirContextMenu(wxListEvent&)
 {
     wxPoint pt = ScreenToClient(::wxGetMousePosition());
@@ -244,13 +298,22 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 	SjUpnpDirEntry* dirEntry = GetSelectedDirEntry();
 	if( dirEntry == NULL ) { return; } // nothing selected
 
+	wxString playtimeStr = "?";
+	if( dirEntry->m_playtimeMs >= 0 ) {
+		playtimeStr = SjTools::FormatMs(dirEntry->m_playtimeMs);
+	}
+
 	wxMessageBox(
 		wxString::Format(
-			"Name: %s\n\nDirectory: %i\n\nID: %s",
-			dirEntry->m_name.c_str(),
-			(int)dirEntry->m_isDir,
-			dirEntry->m_id.c_str())
-		, dirEntry->m_name, wxOK, this);
+				"Name: %s\n\nDirectory: %i\n\nID: %s\n\nURL: %s\n\nPlaytime: %s",
+				dirEntry->m_name.c_str(),
+				(int)dirEntry->m_isDir,
+				dirEntry->m_id.c_str(),
+				dirEntry->m_url.c_str(),
+				playtimeStr.c_str()
+			)
+			, dirEntry->m_name,
+			wxOK, this);
 }
 
 
@@ -258,6 +321,7 @@ BEGIN_EVENT_TABLE(SjUpnpDialog, SjDialog)
 	EVT_LIST_ITEM_SELECTED    (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerClick       )
 	EVT_LIST_ITEM_RIGHT_CLICK (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerContextMenu )
 	EVT_MENU                  (IDC_MEDIASERVERINFO,      SjUpnpDialog::OnMediaServerInfo        )
+	EVT_LIST_ITEM_ACTIVATED   (IDC_DIRLISTCTRL,          SjUpnpDialog::OnDirDoubleClick         )
 	EVT_LIST_ITEM_RIGHT_CLICK (IDC_DIRLISTCTRL,          SjUpnpDialog::OnDirContextMenu         )
 	EVT_MENU                  (IDC_DIRENTRYINFO,         SjUpnpDialog::OnDirEntryInfo           )
 	EVT_SIZE                  (                          SjUpnpDialog::OnSize                   )

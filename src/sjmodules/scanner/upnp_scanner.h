@@ -48,9 +48,12 @@ public:
 class SjUpnpDirEntry
 {
 public:
+	           SjUpnpDirEntry() { m_isDir = false; m_playtimeMs = -1; }
 	wxString   m_name;
 	bool       m_isDir;
 	wxString   m_id;
+	wxString   m_url;
+	long       m_playtimeMs;
 };
 
 
@@ -63,7 +66,11 @@ public:
 	SjUpnpDirEntry* Item      (int i) { return (SjUpnpDirEntry*)m_items.Item(i); }
 	void            Clear     () { int i, cnt=GetCount(); for( i=0; i<cnt; i++ ) { delete Item(i); } m_items.Empty(); }
 
+	void            setObjectID(const wxString& objId) { _objectID = objId; }
+	wxString        getObjectID() const { return _objectID; }
+
 private:
+	wxString        _objectID;
 	wxArrayPtrVoid  m_items;
 };
 

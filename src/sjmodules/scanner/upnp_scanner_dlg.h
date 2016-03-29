@@ -59,6 +59,7 @@ private:
 	void                 OnMediaServerClick  (wxListEvent&);
 	void                 OnMediaServerContextMenu (wxListEvent&);
 	void                 OnMediaServerInfo   (wxCommandEvent&);
+	void                 OnDirDoubleClick    (wxListEvent&);
 	void                 OnDirContextMenu    (wxListEvent&);
 	void                 OnDirEntryInfo      (wxCommandEvent&);
 
@@ -71,6 +72,8 @@ private:
 	wxStaticText*        m_stillScanningText;
 
 	SjUpnpDir            m_currDir;
+	wxArrayString        m_parents;
+	SjUpnpDirEntry       m_parentDirEntry;
 	SjUpnpMediaServer*   m_dirListFor;
 	wxListCtrl*          m_dirListCtrl;
 

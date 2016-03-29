@@ -387,7 +387,7 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 {
 	dir.Clear();
 
-    IXML_Document* p_response = _browseAction( "0", //p_parent->getObjectID() - root is "0" here
+    IXML_Document* p_response = _browseAction( dir.getObjectID(), // root is "0"
                                       "BrowseDirectChildren",
                                       "id,dc:title,res," /* Filter */
                                       "sec:CaptionInfo,sec:CaptionInfoEx,"
@@ -486,38 +486,39 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
                 int i_length = ixmlNodeList_length( p_resource_list );
                 for ( int i = 0; i < i_length; i++ )
                 {
-                    //mtime_t i_duration = -1;
-                    //int i_hours, i_minutes, i_seconds;
                     IXML_Element* p_resource = ( IXML_Element* ) ixmlNodeList_item( p_resource_list, i );
                     const char* psz_resource_url = xml_getChildElementValue( p_resource, "res" );
                     if( !psz_resource_url )
                         continue;
                     const char* psz_duration = ixmlElement_getAttribute( p_resource, "duration" );
-
-					/*
+					long playtimeMs = -1;
                     if ( psz_duration )
                     {
-                        if( sscanf( psz_duration, "%d:%02d:%02d",
-                            &i_hours, &i_minutes, &i_seconds ) )
-                            i_duration = INT64_C(1000000) * ( i_hours*3600 +
-                                                              i_minutes*60 +
-                                                              i_seconds );
+						int i_hours, i_minutes, i_seconds;
+                        if( sscanf( psz_duration, "%d:%02d:%02d", &i_hours, &i_minutes, &i_seconds ) ) {
+                            playtimeMs = (i_hours*3600 + i_minutes*60 + i_seconds) * 1000;
+						}
                     }
-                    */
+
 
 					/*
                     Item* item = new Item( p_parent, objectID, title, psz_resource_url, psz_subtitles, i_duration );
                     p_parent->addItem( item );
                     */
+
+					SjUpnpDirEntry* entry = new SjUpnpDirEntry();
+					entry->m_name = title;
+					entry->m_isDir = false;
+					entry->m_id = objectID;
+					entry->m_url = psz_resource_url;
+					entry->m_playtimeMs = playtimeMs;
+					dir.Add(entry); // entry is now owned by SjUpnpDir
+					break; // only one resource per ID
                 }
                 ixmlNodeList_free( p_resource_list );
             }
 
-            SjUpnpDirEntry* entry = new SjUpnpDirEntry();
-            entry->m_name = title;
-            entry->m_isDir = false;
-            entry->m_id = objectID;
-            dir.Add(entry); // entry is now owned by SjUpnpDir
+
 
         }
         ixmlNodeList_free( itemNodeList );
@@ -658,10 +659,8 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* p_event, void* user
 				IXML_Document* p_description_doc = NULL;
 				int error = UpnpDownloadXmlDoc(discoverEvent->Location, &p_description_doc);
 				if( error != UPNP_E_SUCCESS ) {
-					if( g_debug ) {
-						// happens eg. with DroidUPnP, error -207, TIMEOUT
-						wxLogError("UPnP Error %i: %s (url=%s)", (int)error, wxString(UpnpGetErrorMessage(error)).c_str(), wxString(discoverEvent->Location).c_str());
-					}
+					// happens eg. with DroidUPnP, error -207, TIMEOUT
+					wxLogError("UPnP Error %i: %s (url=%s)", (int)error, wxString(UpnpGetErrorMessage(error)).c_str(), wxString(discoverEvent->Location).c_str());
 					return error;
 				}
 
