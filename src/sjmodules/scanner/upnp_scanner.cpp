@@ -206,12 +206,12 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
                         continue;
                     }
 
-                    int k = strlen( CONTENT_DIRECTORY_SERVICE_TYPE ) - 1;
+                    int k = strlen( CONTENT_DIRECTORY_SERVICE_TYPE ) - 1; // compare string ignoring the last character
                     if ( strncmp( CONTENT_DIRECTORY_SERVICE_TYPE, psz_service_type, k ) != 0 ) {
                         continue;
 					}
 
-					p_server->_i_content_directory_service_version = psz_service_type[k];
+					p_server->m_serviceType = psz_service_type;
 
                     const char* psz_event_sub_url = xml_getChildElementValue( p_service_element, "eventSubURL" );
                     if ( !psz_event_sub_url ) {
@@ -310,58 +310,24 @@ static IXML_Document* parseBrowseResult( IXML_Document* p_doc )
 
 
 IXML_Document* SjUpnpMediaServer::_browseAction( const char* psz_object_id_,
-                                           const char* psz_browser_flag_,
-                                           const char* psz_filter_,
-                                           int i_starting_index_,
-                                           const char* psz_requested_count_,
-                                           const char* psz_sort_criteria_ )
+                                                 const char* psz_browser_flag_,
+                                                 const char* psz_filter_,
+                                                 int i_starting_index_,
+                                                 const char* psz_requested_count_,
+                                                 const char* psz_sort_criteria_ )
 {
-	wxString psz_starting_index_ = wxString::Format("%i", (int)i_starting_index_);
-    IXML_Document* p_action = 0;
-    IXML_Document* p_response = 0;
+    IXML_Document* p_action = NULL;
+    UpnpAddToAction( &p_action, "Browse", m_serviceType, "ObjectID", psz_object_id_ );
+    UpnpAddToAction( &p_action, "Browse", m_serviceType, "BrowseFlag", psz_browser_flag_ );
+    UpnpAddToAction( &p_action, "Browse", m_serviceType, "Filter", psz_filter_ );
+    UpnpAddToAction( &p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_starting_index_) );
+    UpnpAddToAction( &p_action, "Browse", m_serviceType, "RequestedCount", psz_requested_count_ );
+    UpnpAddToAction( &p_action, "Browse", m_serviceType, "SortCriteria", psz_sort_criteria_ );
 
-    char* psz_service_type = strdup( CONTENT_DIRECTORY_SERVICE_TYPE );
-    psz_service_type[strlen( psz_service_type ) - 1] = _i_content_directory_service_version;
-
-    int i_res = UpnpAddToAction( &p_action, "Browse", psz_service_type, "ObjectID", psz_object_id_ );
-    if ( i_res != UPNP_E_SUCCESS ) {
-        wxLogWarning("UPnP: AddToAction/ObjectID failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
-        goto browseActionCleanup;
-    }
-
-    i_res = UpnpAddToAction( &p_action, "Browse", psz_service_type, "BrowseFlag", psz_browser_flag_ );
-    if ( i_res != UPNP_E_SUCCESS ) {
-        wxLogWarning("UPnP: AddToAction/BrowseFlag failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
-        goto browseActionCleanup;
-    }
-
-    i_res = UpnpAddToAction( &p_action, "Browse", psz_service_type, "Filter", psz_filter_ );
-    if ( i_res != UPNP_E_SUCCESS ) {
-        wxLogWarning("UPnP: AddToAction/Filter failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
-        goto browseActionCleanup;
-    }
-
-    i_res = UpnpAddToAction( &p_action, "Browse", psz_service_type, "StartingIndex", psz_starting_index_ );
-    if ( i_res != UPNP_E_SUCCESS ) {
-        wxLogWarning("UPnP: AddToAction/StartingIndex failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
-        goto browseActionCleanup;
-    }
-
-    i_res = UpnpAddToAction( &p_action, "Browse", psz_service_type, "RequestedCount", psz_requested_count_ );
-    if ( i_res != UPNP_E_SUCCESS ) {
-        wxLogWarning("UPnP: AddToAction/RequestedCount failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
-        goto browseActionCleanup;
-    }
-
-    i_res = UpnpAddToAction( &p_action, "Browse", psz_service_type, "SortCriteria", psz_sort_criteria_ );
-    if ( i_res != UPNP_E_SUCCESS ) {
-        wxLogWarning("UPnP: AddToAction/SortCriteria failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
-        goto browseActionCleanup;
-    }
-
-    i_res = UpnpSendAction( m_module->m_ctrlpt_handle,
+    IXML_Document* p_response = NULL;
+    int i_res = UpnpSendAction( m_module->m_ctrlpt_handle,
               _content_directory_control_url,
-              psz_service_type,
+              m_serviceType,
               0, /* ignored in SDK, must be NULL */
               p_action,
               &p_response );
@@ -374,10 +340,6 @@ IXML_Document* SjUpnpMediaServer::_browseAction( const char* psz_object_id_,
 		}
     }
 
-browseActionCleanup:
-
-    free( psz_service_type );
-
     ixmlDocument_free( p_action );
     return p_response;
 }
@@ -386,150 +348,124 @@ browseActionCleanup:
 bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 {
 	dir.Clear();
+	int i_offset = 0;
 
-    IXML_Document* p_response = _browseAction( dir.getObjectID(), // root is "0"
-                                      "BrowseDirectChildren",
-                                      "id,dc:title,res," /* Filter */
-                                      "sec:CaptionInfo,sec:CaptionInfoEx,"
-                                      "pv:subtitlefile",
-                                      0, /* StartingIndex */
-                                      "0", /* RequestedCount */
-                                      "" /* SortCriteria */
-                                      );
+	while( 1 ) // exit by break at end of loop
+	{
+		IXML_Document* p_response = _browseAction( dir.getObjectID(), // root is "0"
+										  "BrowseDirectChildren",
+										  "id,dc:title,res", /* Filter */
+										  i_offset, /* StartingIndex */
+										  "0", /* RequestedCount */
+										  "" /* SortCriteria */
+										  );
 
-    if ( !p_response )
-    {
-        wxLogWarning("UPnP: No response from browse() action" );
-        return false;
-    }
+		if ( !p_response ) {
+			wxLogWarning("UPnP: No response from browse() action" );
+			return false;
+		}
 
-    IXML_Document* p_result = parseBrowseResult( p_response );
-    int i_number_returned = xml_getNumber( p_response, "NumberReturned" );
-    int i_total_matches   = xml_getNumber( p_response , "TotalMatches" );
+		IXML_Document* p_result = parseBrowseResult( p_response );
+		int i_number_returned = xml_getNumber( p_response, "NumberReturned" );
+		int i_total_matches   = xml_getNumber( p_response , "TotalMatches" );
 
-    ixmlDocument_free( p_response );
+		ixmlDocument_free( p_response );
 
-    if ( !p_result )
-    {
-        wxLogError("UPnP Error: browse() response parsing failed" );
-        return false;
-    }
+		if( i_number_returned <= 0 || i_total_matches <= 0 ) {
+			return true; // no error, may be an empty dir
+		}
 
-    IXML_NodeList* containerNodeList = ixmlDocument_getElementsByTagName( p_result, "container" );
-    if ( containerNodeList )
-    {
-        for ( unsigned int i = 0; i < ixmlNodeList_length( containerNodeList ); i++ )
-        {
-            IXML_Element* containerElement = ( IXML_Element* )ixmlNodeList_item( containerNodeList, i );
+		if ( !p_result ) {
+			wxLogError("UPnP Error: browse() response parsing failed");
+			return false;
+		}
 
-            const char* objectID = ixmlElement_getAttribute( containerElement,
-                                                             "id" );
-            if ( !objectID )
-                continue;
+		IXML_NodeList* containerNodeList = ixmlDocument_getElementsByTagName(p_result, "container");
+		if ( containerNodeList )
+		{
+			for ( unsigned int i = 0; i < ixmlNodeList_length( containerNodeList ); i++ )
+			{
+				IXML_Element* containerElement = ( IXML_Element* )ixmlNodeList_item( containerNodeList, i );
 
-            const char* title = xml_getChildElementValue( containerElement,
-                                                          "dc:title" );
+				const char* objectID = ixmlElement_getAttribute(containerElement, "id");
+				const char* title = xml_getChildElementValue(containerElement, "dc:title");
+				if ( !objectID || !title  ) {
+					continue;
+				}
 
-            if ( !title )
-                continue;
+				SjUpnpDirEntry* entry = new SjUpnpDirEntry();
+				entry->m_isDir = true;
+				entry->m_name = title;
+				entry->m_id = objectID;
+				dir.Add(entry); // entry is now owned by SjUpnpDir
+			}
+			ixmlNodeList_free( containerNodeList );
+		}
 
-			/* TODO: iterate?
-            Container* container = new Container( p_parent, objectID, title );
-            p_parent->addContainer( container );
-            _fetchContents( container, 0 );
-            */
+		IXML_NodeList* itemNodeList = ixmlDocument_getElementsByTagName( p_result, "item" );
+		if ( itemNodeList )
+		{
+			for ( unsigned int i = 0; i < ixmlNodeList_length( itemNodeList ); i++ )
+			{
+				IXML_Element* itemElement = ( IXML_Element* )ixmlNodeList_item( itemNodeList, i );
 
-            SjUpnpDirEntry* entry = new SjUpnpDirEntry();
-            entry->m_isDir = true;
-            entry->m_name = title;
-            entry->m_id = objectID;
-            dir.Add(entry); // entry is now owned by SjUpnpDir
-        }
-        ixmlNodeList_free( containerNodeList );
-    }
+				const char* objectID = ixmlElement_getAttribute( itemElement, "id" );
+				const char* title = xml_getChildElementValue( itemElement, "dc:title" );
 
-    IXML_NodeList* itemNodeList = ixmlDocument_getElementsByTagName( p_result, "item" );
-    if ( itemNodeList )
-    {
-        for ( unsigned int i = 0; i < ixmlNodeList_length( itemNodeList ); i++ )
-        {
-            IXML_Element* itemElement =
-                        ( IXML_Element* )ixmlNodeList_item( itemNodeList, i );
+				if ( !objectID || !title ) {
+					continue;
+				}
 
-            const char* objectID =
-                        ixmlElement_getAttribute( itemElement, "id" );
-
-            if ( !objectID )
-                continue;
-
-            const char* title =
-                        xml_getChildElementValue( itemElement, "dc:title" );
-
-            if ( !title )
-                continue;
-
-            const char* psz_subtitles = xml_getChildElementValue( itemElement,
-                    "sec:CaptionInfo" );
-
-            if ( !psz_subtitles )
-                psz_subtitles = xml_getChildElementValue( itemElement,
-                        "sec:CaptionInfoEx" );
-
-            if ( !psz_subtitles )
-                psz_subtitles = xml_getChildElementValue( itemElement,
-                        "pv:subtitlefile" );
-
-            /* Try to extract all resources in DIDL */
-            IXML_NodeList* p_resource_list = ixmlDocument_getElementsByTagName( (IXML_Document*) itemElement, "res" );
-            if ( p_resource_list )
-            {
-                int i_length = ixmlNodeList_length( p_resource_list );
-                for ( int i = 0; i < i_length; i++ )
-                {
-                    IXML_Element* p_resource = ( IXML_Element* ) ixmlNodeList_item( p_resource_list, i );
-                    const char* psz_resource_url = xml_getChildElementValue( p_resource, "res" );
-                    if( !psz_resource_url )
-                        continue;
-                    const char* psz_duration = ixmlElement_getAttribute( p_resource, "duration" );
-					long playtimeMs = -1;
-                    if ( psz_duration )
-                    {
-						int i_hours, i_minutes, i_seconds;
-                        if( sscanf( psz_duration, "%d:%02d:%02d", &i_hours, &i_minutes, &i_seconds ) ) {
-                            playtimeMs = (i_hours*3600 + i_minutes*60 + i_seconds) * 1000;
+				// Try to extract all resources in DIDL
+				// (the loop is required as we go through all resources and use the first fine one)
+				IXML_NodeList* p_resource_list = ixmlDocument_getElementsByTagName( (IXML_Document*) itemElement, "res" );
+				if ( p_resource_list )
+				{
+					int i_length = ixmlNodeList_length(p_resource_list);
+					for(int i = 0; i < i_length; i++)
+					{
+						IXML_Element* p_resource = (IXML_Element*) ixmlNodeList_item(p_resource_list, i);
+						const char* psz_resource_url = xml_getChildElementValue(p_resource, "res");
+						if( !psz_resource_url ) {
+							continue; // this is the reason, we need the loop
 						}
-                    }
+						const char* psz_duration = ixmlElement_getAttribute(p_resource, "duration");
+						long playtimeMs = -1;
+						if ( psz_duration )
+						{
+							int i_hours, i_minutes, i_seconds;
+							if( sscanf( psz_duration, "%d:%02d:%02d", &i_hours, &i_minutes, &i_seconds ) ) {
+								playtimeMs = (i_hours*3600 + i_minutes*60 + i_seconds) * 1000;
+							}
+						}
+
+						SjUpnpDirEntry* entry = new SjUpnpDirEntry();
+						entry->m_name = title;
+						entry->m_isDir = false;
+						entry->m_id = objectID;
+						entry->m_url = psz_resource_url;
+						entry->m_playtimeMs = playtimeMs;
+						dir.Add(entry); // entry is now owned by SjUpnpDir
+						break; // only one resource per ID
+					}
+					ixmlNodeList_free(p_resource_list);
+				}
 
 
-					/*
-                    Item* item = new Item( p_parent, objectID, title, psz_resource_url, psz_subtitles, i_duration );
-                    p_parent->addItem( item );
-                    */
 
-					SjUpnpDirEntry* entry = new SjUpnpDirEntry();
-					entry->m_name = title;
-					entry->m_isDir = false;
-					entry->m_id = objectID;
-					entry->m_url = psz_resource_url;
-					entry->m_playtimeMs = playtimeMs;
-					dir.Add(entry); // entry is now owned by SjUpnpDir
-					break; // only one resource per ID
-                }
-                ixmlNodeList_free( p_resource_list );
-            }
+			}
+			ixmlNodeList_free( itemNodeList );
+		}
 
+		ixmlDocument_free( p_result );
 
-
-        }
-        ixmlNodeList_free( itemNodeList );
-    }
-
-    ixmlDocument_free( p_result );
-
-	/* TODO: was das?
-    if( i_offset + i_number_returned < i_total_matches )
-        return _fetchContents( p_parent, i_offset + i_number_returned );
-	*/
+		if( i_offset + i_number_returned < i_total_matches ) {
+			i_offset += i_number_returned;
+		}
+		else {
+			break; // done, exit loop
+		}
+	}
 
     return true;
 }
@@ -539,7 +475,6 @@ SjUpnpMediaServer::SjUpnpMediaServer(SjUpnpScannerModule* module)
 {
 	m_module = module;
 	_i_subscription_timeout = 0;
-	_i_content_directory_service_version = 0;
 	memset( _subscription_id, 0, sizeof( Upnp_SID ) );
 }
 
@@ -691,10 +626,10 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* p_event, void* user
 
 		case UPNP_EVENT_RECEIVED:
 			{
-				wxCriticalSectionLocker locker(this_->m_mediaServerCritical);
-				Upnp_Event* p_e = ( Upnp_Event* )p_event;
+				//wxCriticalSectionLocker locker(this_->m_mediaServerCritical);
+				//Upnp_Event* p_e = ( Upnp_Event* )p_event;
 
-				SjUpnpMediaServer* p_server = this_->get_media_server_by_sid( p_e->Sid );
+				//SjUpnpMediaServer* p_server = this_->get_media_server_by_sid( p_e->Sid );
 				//if ( p_server ) p_server->fetchContents();
 			}
 			break;

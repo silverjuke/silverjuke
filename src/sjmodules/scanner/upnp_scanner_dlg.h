@@ -51,7 +51,7 @@ private:
 	SjUpnpMediaServer*   GetSelectedMediaServer();
 	SjUpnpDirEntry*      GetSelectedDirEntry   ();
 	void                 UpdateMediaServerList ();
-	void                 UpdateDirList         ();
+	void                 UpdateDirList         (const wxString& selId="");
 
 	void                 OnUpdateMediaServerList(wxCommandEvent&);
 	void                 OnScanDone          (wxCommandEvent&);
@@ -72,7 +72,7 @@ private:
 	wxStaticText*        m_stillScanningText;
 
 	SjUpnpDir            m_currDir;
-	wxArrayString        m_parents;
+	wxArrayString        m_parentIds, m_parentSelIds;
 	SjUpnpDirEntry       m_parentDirEntry;
 	SjUpnpMediaServer*   m_dirListFor;
 	wxListCtrl*          m_dirListCtrl;

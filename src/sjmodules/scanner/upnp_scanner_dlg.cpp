@@ -63,7 +63,7 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 			m_stillScanningText = new wxStaticText(this, -1, _("(still scanning)"));
 			sizer2->Add(m_stillScanningText, 0, 0, SJ_DLG_SPACE);
 
-		m_mediaServerListCtrl = new wxListCtrl(this, IDC_MEDIASERVERLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
+		m_mediaServerListCtrl = new wxListCtrl(this, IDC_MEDIASERVERLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*15), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
 		m_mediaServerListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
 		m_mediaServerListCtrl->InsertColumn(0, _("Name"));
 		sizer1->Add(m_mediaServerListCtrl, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
@@ -71,7 +71,7 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 		staticText = new wxStaticText(this, -1, "2. "+_("Select directory:"));
 		sizer1->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
-		m_dirListCtrl = new wxListCtrl(this, IDC_DIRLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*20), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
+		m_dirListCtrl = new wxListCtrl(this, IDC_DIRLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*30), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
 		m_dirListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
 		m_dirListCtrl->InsertColumn(0, _("Directory"));
 		sizer1->Add(m_dirListCtrl, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
@@ -102,9 +102,7 @@ SjUpnpDirEntry* SjUpnpDialog::GetSelectedDirEntry()
 	{
 		selIndex = m_dirListCtrl->GetItemData(selIndex);
 		if( selIndex == -1 ) {
-			if( m_parents.GetCount() <= 0 ) { return NULL; } // error
-			m_parentDirEntry.m_id = m_parents.Last();
-			m_parents.RemoveAt(m_parents.GetCount()-1);
+			if( m_parentIds.GetCount() <= 0 ) { return NULL; } // error
 			return &m_parentDirEntry;
 		}
 		else if( selIndex >= 0 && selIndex < m_currDir.GetCount() ) {
@@ -143,19 +141,21 @@ void SjUpnpDialog::UpdateMediaServerList()
 }
 
 
-void SjUpnpDialog::UpdateDirList()
+void SjUpnpDialog::UpdateDirList(const wxString& selId)
 {
 	m_dirListCtrl->DeleteAllItems();
 
 	long zero_based_pos = 0;
 	if( m_currDir.getObjectID()!="0" ) {
 		wxListItem li;
-		li.SetId(zero_based_pos++);
+		li.SetId(zero_based_pos);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
 		li.SetText("..");
 		li.SetImage(SJ_ICON_EMPTY);
 		li.SetData(-1);
 		m_dirListCtrl->InsertItem(li);
+
+		zero_based_pos++;
 	}
 
 	int i, cnt = m_currDir.GetCount();
@@ -164,13 +164,21 @@ void SjUpnpDialog::UpdateDirList()
 		SjUpnpDirEntry* entry = m_currDir.Item(i);
 
 		wxListItem li;
-		li.SetId(zero_based_pos++);
+		li.SetId(zero_based_pos);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
 		li.SetText(entry->m_name);
 		li.SetImage(entry->m_isDir? SJ_ICON_MUSIC_FOLDER : SJ_ICON_EMPTY);
 		li.SetData(i);
 		m_dirListCtrl->InsertItem(li);
+
+		if( entry->m_id == selId ) {
+			m_dirListCtrl->SetItemState(zero_based_pos, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+		}
+
+		zero_based_pos++;
 	}
+
+	EnsureSelListCtrlItemVisible(m_dirListCtrl);
 }
 
 
@@ -234,17 +242,17 @@ void SjUpnpDialog::OnMediaServerInfo(wxCommandEvent&)
 	wxString subscriptionId(mediaServer->_subscription_id, sizeof(Upnp_SID));
 	wxMessageBox(
 		wxString::Format(
-			"UDN: %s\n\nfriendlyName: %s\n\nmodelDescription: %s\n\nmanufacturer: %s\n\ndeviceType: %s\n\n"
-			"ContentDirectory.eventSubURL: %s\n\nContentDirectory.controlURL: %s\n\nContentDirectory.serviceType: %i\n\n"
+			"UDN: %s\n\nfriendlyName: %s\n\nmodelDescription: %s\n\nmanufacturer: %s\n\ndeviceType: %s\n\nserviceType: %s\n\n"
+			"ContentDirectory.eventSubURL: %s\n\nContentDirectory.controlURL: %s\n\n"
 			"Subscription-ID: %s\n\nSubscription-Timeout: %i seconds",
 			mediaServer->_UDN.c_str(),
 			mediaServer->_friendly_name.c_str(),
 			mediaServer->m_modelDescription.c_str(),
 			mediaServer->m_manufacturer.c_str(),
 			mediaServer->m_deviceType.c_str(),
+			mediaServer->m_serviceType.c_str(),
 			mediaServer->_content_directory_event_url.c_str(),
 			mediaServer->_content_directory_control_url.c_str(),
-			(int)mediaServer->_i_content_directory_service_version,
 			subscriptionId.c_str(),
 			(int)mediaServer->_i_subscription_timeout)
 		, mediaServer->_friendly_name, wxOK, this);
@@ -260,13 +268,21 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
     if( mediaServer != m_dirListFor ) { return; } // sth. went wrong
 
 	// find out the clicked folder, clear directory entries
-	wxString clickedId;
+	wxString clickedId, selId;
 	{
 		SjUpnpDirEntry* dirEntry = GetSelectedDirEntry();
 		if( dirEntry == NULL ) { return; } // nothing selected
-		clickedId = dirEntry->m_id;
-		if( dirEntry != &m_parentDirEntry ) {
-			m_parents.Add(m_currDir.getObjectID());
+
+		if( dirEntry == &m_parentDirEntry ) {
+			clickedId = m_parentIds.Last();
+			m_parentIds.RemoveAt(m_parentIds.GetCount()-1);
+			selId = m_parentSelIds.Last();
+			m_parentSelIds.RemoveAt(m_parentSelIds.GetCount()-1);
+		}
+		else {
+			clickedId = dirEntry->m_id;
+			m_parentIds.Add(m_currDir.getObjectID());
+			m_parentSelIds.Add(dirEntry->m_id);
 		}
 		m_dirListCtrl->DeleteAllItems();
 		m_currDir.Clear();
@@ -276,7 +292,7 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 	m_currDir.setObjectID(clickedId);
     mediaServer->fetchContents(m_currDir);
 
-    UpdateDirList();
+    UpdateDirList(selId);
 }
 
 

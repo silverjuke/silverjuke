@@ -87,7 +87,7 @@ public:
 	wxString m_modelDescription;
 	wxString _content_directory_event_url;
 	wxString _content_directory_control_url;
-	int    _i_content_directory_service_version;
+	wxString m_serviceType;
 	int _i_subscription_timeout;
 
 	Upnp_SID _subscription_id;

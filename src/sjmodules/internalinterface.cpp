@@ -29,6 +29,7 @@
 #include <sjbase/base.h>
 #include <sjmodules/internalinterface.h>
 #include <sjmodules/basicsettings.h>
+#include <sjmodules/upnp.h>
 #include <sjmodules/scanner/folder_scanner.h>
 #include <sjmodules/scanner/server_scanner.h>
 #include <sjmodules/scanner/upnp_scanner.h>
@@ -79,6 +80,9 @@ void SjInternalInterface::LoadModules(SjModuleList& list)
 	list.Append   (new SjKioskModule              (this));
 	list.Append   (new SjAdvSearchModule          (this));
 	list.Append   (new SjVirtKeybdModule          (this));
+	#if SJ_USE_UPNP
+	list.Append   (new SjUpnpModule               (this));
+	#endif
 
 	// add MLR modules
 	list.Append   (new SjFolderScannerModule      (this));
