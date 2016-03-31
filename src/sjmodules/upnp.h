@@ -40,6 +40,9 @@ public:
 	                SjUpnpModule        (SjInterfaceBase*);
 
 private:
+	bool            m_libupnp_initialized;
+	bool            init_libupnp        ();
+	void            exit_libupnp        ();
 	void            LastUnload          ();
 };
 

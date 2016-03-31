@@ -56,6 +56,7 @@ SjUpnpModule::SjUpnpModule(SjInterfaceBase* interf)
 	g_upnpModule          = this;
 	m_file                = "memory:upnp.lib";
 	m_name                = "UPnP module" /*n/t*/;
+	m_libupnp_initialized = false;
 }
 
 

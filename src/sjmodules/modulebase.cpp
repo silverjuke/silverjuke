@@ -217,9 +217,10 @@ void SjModuleSystem::Exit()
 	m_sees.Empty();
 	#endif
 
-	// unload all modules -- we do this in two steps: first the plugins, then the internal modules
+	// unload all modules -- we do this in three steps: external plugins, internal non-common-modules, internal common-modules
+	// (needed as eg. SjUpnpScannerModule relies on SjUpnpModule)
 	SjModuleList::Node* moduleNode;
-	for( i = 0; i < 2; i++ )
+	for( i = 0; i < 3; i++ )
 	{
 		moduleNode = m_listOfModules.GetFirst();
 		while( moduleNode )
@@ -228,7 +229,8 @@ void SjModuleSystem::Exit()
 			wxASSERT(module);
 
 			if( (i==0 && module->m_interface != g_internalInterface)
-			        || (i==1 && module->m_interface == g_internalInterface) )
+			 || (i==1 && module->m_interface == g_internalInterface && module->m_type!=SJ_MODULETYPE_COMMON)
+			 || (i==2 && module->m_interface == g_internalInterface && module->m_type==SJ_MODULETYPE_COMMON)  )
 			{
 				long iteration = 0;
 				while( module->IsLoaded() && iteration < 100 )

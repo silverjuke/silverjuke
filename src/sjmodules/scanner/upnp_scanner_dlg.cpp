@@ -280,6 +280,7 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 			m_parentSelIds.RemoveAt(m_parentSelIds.GetCount()-1);
 		}
 		else {
+			if( !dirEntry->m_isDir ) { return; } // double click on a file -> nothing to do
 			clickedId = dirEntry->m_id;
 			m_parentIds.Add(m_currDir.getObjectID());
 			m_parentSelIds.Add(dirEntry->m_id);
