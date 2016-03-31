@@ -47,6 +47,79 @@
 #include <sjmodules/upnp.h>
 
 
+/*******************************************************************************
+ * XML tools
+ ******************************************************************************/
+
+
+// Returns the value of a child element, or NULL on error
+const char* xml_getChildElementValue(IXML_Element* p_parent, const char* psz_tag_name)
+{
+    wxASSERT( p_parent );
+    wxASSERT( psz_tag_name );
+
+    IXML_NodeList* p_node_list;
+    p_node_list = ixmlElement_getElementsByTagName( p_parent, psz_tag_name );
+    if ( !p_node_list ) return NULL;
+
+    IXML_Node* p_element = ixmlNodeList_item( p_node_list, 0 );
+    ixmlNodeList_free( p_node_list );
+    if ( !p_element )   return NULL;
+
+    IXML_Node* p_text_node = ixmlNode_getFirstChild( p_element );
+    if ( !p_text_node ) return NULL;
+
+    return ixmlNode_getNodeValue( p_text_node );
+}
+
+
+// Returns the value of a child element, or NULL on error
+const char* xml_getChildElementValue(IXML_Document* p_doc, const char* psz_tag_name)
+{
+    assert( p_doc );
+    assert( psz_tag_name );
+
+    IXML_NodeList* p_node_list;
+    p_node_list = ixmlDocument_getElementsByTagName( p_doc, psz_tag_name );
+    if ( !p_node_list )  return NULL;
+
+    IXML_Node* p_element = ixmlNodeList_item( p_node_list, 0 );
+    ixmlNodeList_free( p_node_list );
+    if ( !p_element )    return NULL;
+
+    IXML_Node* p_text_node = ixmlNode_getFirstChild( p_element );
+    if ( !p_text_node )  return NULL;
+
+    return ixmlNode_getNodeValue( p_text_node );
+}
+
+
+// Get the number value from a SOAP response
+int xml_getNumber(IXML_Document* p_doc, const char* psz_tag_name)
+{
+    assert( p_doc );
+    assert( psz_tag_name );
+
+    const char* psz = xml_getChildElementValue( p_doc, psz_tag_name );
+
+    if( !psz )
+        return 0;
+
+    char *psz_end;
+    long l = strtol( psz, &psz_end, 10 );
+
+    if( *psz_end || l < 0 || l > INT_MAX )
+        return 0;
+
+    return (int)l;
+}
+
+
+/*******************************************************************************
+ * Init/Exit UPnP
+ ******************************************************************************/
+
+
 SjUpnpModule* g_upnpModule = NULL;
 
 
@@ -63,6 +136,38 @@ SjUpnpModule::SjUpnpModule(SjInterfaceBase* interf)
 void SjUpnpModule::LastUnload()
 {
 	g_upnpModule = NULL;
+	ExitLibupnp();
+}
+
+
+bool SjUpnpModule::InitLibupnp()
+{
+	if( m_libupnp_initialized ) { return true; } // already initalized
+
+	// init library
+	int error = UpnpInit(NULL, 0);
+	if( error != UPNP_E_SUCCESS ) {
+		wxLogError("UPnP Error: Cannot init libupnp.");
+		ExitLibupnp();
+		return false; // error
+	}
+
+	char* ip_address = UpnpGetServerIpAddress(); // z.B. 192.168.178.38
+	unsigned short port = UpnpGetServerPort();   // z.B. 49152
+	wxLogInfo("Loading libupnp on %s:%i", ip_address, (int)port);
+
+	m_libupnp_initialized = true;
+	return true;
+}
+
+
+void SjUpnpModule::ExitLibupnp()
+{
+	if( m_libupnp_initialized )
+	{
+		UpnpFinish();
+		m_libupnp_initialized = false;
+	}
 }
 
 

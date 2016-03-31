@@ -32,20 +32,33 @@
 
 
 #include <upnp/upnp.h>
+#include <upnp/upnptools.h>
+#include <upnp/ixml.h>
 
 
+// UPnP types
+#define MEDIA_SERVER_DEVICE_TYPE       "urn:schemas-upnp-org:device:MediaServer:1"
+#define CONTENT_DIRECTORY_SERVICE_TYPE "urn:schemas-upnp-org:service:ContentDirectory:1"
+
+
+// XML tools
+const char* xml_getChildElementValue (IXML_Element*, const char* psz_tag_name);
+const char* xml_getChildElementValue (IXML_Document*, const char* psz_tag_name);
+int         xml_getNumber            (IXML_Document*, const char* psz_tag_name);
+
+
+// the UPnP Module
 class SjUpnpModule : public SjCommonModule
 {
 public:
 	                SjUpnpModule        (SjInterfaceBase*);
+	bool            InitLibupnp         ();
 
 private:
 	bool            m_libupnp_initialized;
-	bool            init_libupnp        ();
-	void            exit_libupnp        ();
+	void            ExitLibupnp         ();
 	void            LastUnload          ();
 };
-
 
 extern SjUpnpModule* g_upnpModule;
 

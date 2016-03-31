@@ -44,87 +44,11 @@
 
 #include <sjbase/base.h>
 #if SJ_USE_UPNP
+#include <sjmodules/upnp.h>
 #include <sjmodules/scanner/upnp_scanner.h>
 #include <sjmodules/scanner/upnp_scanner_dlg.h>
 #include <sjtools/msgbox.h>
-#include <upnp/upnp.h>
-#include <upnp/upnptools.h>
-#include <upnp/ixml.h>
 
-
-static const char* MEDIA_SERVER_DEVICE_TYPE = "urn:schemas-upnp-org:device:MediaServer:1";
-static const char* CONTENT_DIRECTORY_SERVICE_TYPE = "urn:schemas-upnp-org:service:ContentDirectory:1";
-
-
-/*******************************************************************************
- * XML tools
- ******************************************************************************/
-
-
-// Returns the value of a child element, or NULL on error
-static const char* xml_getChildElementValue( IXML_Element* p_parent,
-                                             const char*   psz_tag_name )
-{
-    wxASSERT( p_parent );
-    wxASSERT( psz_tag_name );
-
-    IXML_NodeList* p_node_list;
-    p_node_list = ixmlElement_getElementsByTagName( p_parent, psz_tag_name );
-    if ( !p_node_list ) return NULL;
-
-    IXML_Node* p_element = ixmlNodeList_item( p_node_list, 0 );
-    ixmlNodeList_free( p_node_list );
-    if ( !p_element )   return NULL;
-
-    IXML_Node* p_text_node = ixmlNode_getFirstChild( p_element );
-    if ( !p_text_node ) return NULL;
-
-    return ixmlNode_getNodeValue( p_text_node );
-}
-
-
-// Returns the value of a child element, or NULL on error
-static const char* xml_getChildElementValue( IXML_Document*  p_doc,
-                                      const char*     psz_tag_name )
-{
-    assert( p_doc );
-    assert( psz_tag_name );
-
-    IXML_NodeList* p_node_list;
-    p_node_list = ixmlDocument_getElementsByTagName( p_doc, psz_tag_name );
-    if ( !p_node_list )  return NULL;
-
-    IXML_Node* p_element = ixmlNodeList_item( p_node_list, 0 );
-    ixmlNodeList_free( p_node_list );
-    if ( !p_element )    return NULL;
-
-    IXML_Node* p_text_node = ixmlNode_getFirstChild( p_element );
-    if ( !p_text_node )  return NULL;
-
-    return ixmlNode_getNodeValue( p_text_node );
-}
-
-
-// Get the number value from a SOAP response
-static int xml_getNumber( IXML_Document* p_doc,
-                   const char* psz_tag_name )
-{
-    assert( p_doc );
-    assert( psz_tag_name );
-
-    const char* psz = xml_getChildElementValue( p_doc, psz_tag_name );
-
-    if( !psz )
-        return 0;
-
-    char *psz_end;
-    long l = strtol( psz, &psz_end, 10 );
-
-    if( *psz_end || l < 0 || l > INT_MAX )
-        return 0;
-
-    return (int)l;
-}
 
 
 /*******************************************************************************
@@ -554,8 +478,7 @@ SjUpnpScannerModule::SjUpnpScannerModule(SjInterfaceBase* interf)
 	m_sort                  = 2; // second in list
 	m_name                  = _("Read UPNP/DLNA servers");
 	m_dlg                   = NULL;
-	m_libupnp_initialized = false;
-	m_ctrlpt_handle = -1;
+	m_ctrlpt_handle         = -1;
 
 	m_addSourceTypes_.Add(_("Add an UPnP/DLNA server"));
 	m_addSourceIcons_.Add(SJ_ICON_INTERNET_SERVER);
@@ -564,16 +487,14 @@ SjUpnpScannerModule::SjUpnpScannerModule(SjInterfaceBase* interf)
 
 SjUpnpScannerModule::~SjUpnpScannerModule()
 {
-	{
-		wxCriticalSectionLocker locker(m_mediaServerCritical);
-		clear_media_server_list();
-	}
+	wxCriticalSectionLocker locker(m_mediaServerCritical);
+	clear_media_server_list();
 }
 
 
 void SjUpnpScannerModule::LastUnload()
 {
-	exit_libupnp();
+	exit_client();
 }
 
 
@@ -658,58 +579,42 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* p_event, void* user
 }
 
 
-bool SjUpnpScannerModule::init_libupnp()
+bool SjUpnpScannerModule::init_client()
 {
 	// as initialisation may take a second, we init at late as possible
 
-	if( m_libupnp_initialized ) { return true; } // already initalized
+	if( m_ctrlpt_handle != -1 ) { return true; } // already initalized
 
-	// init library
-	int error = UpnpInit(NULL, 0);
-	if( error != UPNP_E_SUCCESS ) {
-		wxLogError("UPnP Error: Cannot init libupnp.");
-		exit_libupnp();
-		return false; // error
+	if( !g_upnpModule->InitLibupnp() ) {
+		return false; // error already logged
 	}
 
-	char* ip_address = UpnpGetServerIpAddress(); // z.B. 192.168.178.38
-	unsigned short port = UpnpGetServerPort();   // z.B. 49152
-	wxLogInfo("Loading libupnp on %s:%i", ip_address, (int)port);
-
 	// create our control point
-	error = UpnpRegisterClient(ctrl_point_event_handler, this/*user data*/, &m_ctrlpt_handle);
+	int error = UpnpRegisterClient(ctrl_point_event_handler, this/*user data*/, &m_ctrlpt_handle);
 	if( error != UPNP_E_SUCCESS ) {
 		wxLogError("UPnP Error: Cannot register client.");
 		m_ctrlpt_handle = -1;
-		exit_libupnp();
+		exit_client();
 		return false; // error
 	}
 
-	// done
-	m_libupnp_initialized = true;
+	// done, m_ctrlpt_handle is != -1 now
 	return true;
 }
 
 
-void SjUpnpScannerModule::exit_libupnp()
+void SjUpnpScannerModule::exit_client()
 {
-	if( m_libupnp_initialized )
-	{
-		if( m_ctrlpt_handle != -1 ) {
-			UpnpUnRegisterClient(m_ctrlpt_handle);
-			m_ctrlpt_handle = -1;
-		}
-
-		UpnpFinish();
-
-		m_libupnp_initialized = false;
+	if( m_ctrlpt_handle != -1 ) {
+		UpnpUnRegisterClient(m_ctrlpt_handle);
+		m_ctrlpt_handle = -1;
 	}
 }
 
 
 long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 {
-	if( !init_libupnp() ) { return -1; } // error
+	if( !init_client() ) { return -1; } // error
 
 	{
 		wxCriticalSectionLocker locker(m_mediaServerCritical);

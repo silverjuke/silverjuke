@@ -128,7 +128,6 @@ public:
 	bool              IsMyUrl             (const wxString& url) { return false; }
 
 //private: - however, needed in friend callbacks with enum parameters which cannot use forward declararions
-	bool              m_libupnp_initialized;
 	UpnpClient_Handle m_ctrlpt_handle;
 
 	// the list of devices, if it changes, the MSG_UPDATEDEVICELIST is sent
@@ -141,8 +140,8 @@ public:
 	SjUpnpDialog*     m_dlg;
 
 private:
-	bool              init_libupnp        ();
-	void              exit_libupnp        ();
+	bool              init_client         ();
+	void              exit_client         ();
 	void              LastUnload          ();
 
 	wxArrayPtrVoid    m_sources;
