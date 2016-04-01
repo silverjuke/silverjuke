@@ -102,11 +102,11 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 			}
 
 			SjUpnpMediaServer* p_server = new SjUpnpMediaServer(module);
-			p_server->_UDN          = psz_udn;
+			p_server->m_udn          = psz_udn;
 			p_server->m_deviceType   = psz_device_type;
 
 			const char* psz_temp = xml_getChildElementValue( p_device_element, "friendlyName" );
-			p_server->_friendly_name = psz_temp? psz_temp : psz_udn;
+			p_server->m_friendlyName = psz_temp? psz_temp : psz_udn;
 
 			psz_temp = xml_getChildElementValue( p_device_element, "manufacturer" );
 			if( psz_temp ) { p_server->m_manufacturer = psz_temp; }
@@ -114,7 +114,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 			psz_temp = xml_getChildElementValue( p_device_element, "modelDescription" );
 			if( psz_temp ) { p_server->m_modelDescription = psz_temp; }
 
-			addToList->Insert(p_server->_UDN, p_server);
+			addToList->Insert(p_server->m_udn, p_server);
 
 			/* Check for ContentDirectory service. */
 			IXML_NodeList* p_service_list = ixmlElement_getElementsByTagName( p_device_element, "service" );
@@ -156,7 +156,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
                     {
                         if ( UpnpResolveURL( psz_base_url, psz_event_sub_url, psz_url ) == UPNP_E_SUCCESS )
                         {
-                            p_server->_content_directory_event_url = psz_url;
+                            p_server->m_absEventSubUrl = psz_url;
                             p_server->subscribeToContentDirectory();
                         }
 
@@ -170,7 +170,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
                     {
                         if ( UpnpResolveURL( psz_base_url, psz_control_url, psz_url ) == UPNP_E_SUCCESS )
                         {
-                            p_server->_content_directory_control_url = psz_url;
+                            p_server->m_absControlUrl = psz_url;
                             //p_server->fetchContents(); // done when the user selects the media server
                         }
 
@@ -254,7 +254,7 @@ IXML_Document* SjUpnpMediaServer::_browseAction( const char* psz_object_id_,
 
     IXML_Document* p_response = NULL;
     int i_res = UpnpSendAction( m_module->m_ctrlpt_handle,
-              _content_directory_control_url,
+              m_absControlUrl,
               m_serviceType,
               0, /* ignored in SDK, must be NULL */
               p_action,
@@ -281,7 +281,7 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 
 	while( 1 ) // exit by break at end of loop
 	{
-		IXML_Document* p_response = _browseAction( dir.getObjectID(), // root is "0"
+		IXML_Document* p_response = _browseAction( dir.m_objectId, // root is "0"
 										  "BrowseDirectChildren",
 										  "id,dc:title,res", /* Filter */
 										  i_offset, /* StartingIndex */
@@ -401,8 +401,8 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 SjUpnpMediaServer::SjUpnpMediaServer(SjUpnpScannerModule* module)
 {
 	m_module = module;
-	_i_subscription_timeout = 0;
-	memset( _subscription_id, 0, sizeof( Upnp_SID ) );
+	m_subscriptionTimeout = 0;
+	memset(m_subscriptionId, 0, sizeof(Upnp_SID));
 }
 
 
@@ -413,26 +413,26 @@ void SjUpnpMediaServer::subscribeToContentDirectory()
 
 	// currently, we do not use UpnpUnSubscribe() - instead, if Media servers are no longer used by us, they're not renewed
 
-    int i_timeout = 1810; // corrected to 1800 seconds on my systrem
-    Upnp_SID sid;
+	int i_timeout = 1810; // corrected to 1800 seconds on my system
+	Upnp_SID sid;
 
-    int i_res = UpnpSubscribe( m_module->m_ctrlpt_handle, _content_directory_event_url, &i_timeout, sid );
-    if ( i_res == UPNP_E_SUCCESS )
-    {
-        _i_subscription_timeout = i_timeout;
-        memcpy( _subscription_id, sid, sizeof( Upnp_SID ) );
-    }
-    else
-    {
-		memset( _subscription_id, 0, sizeof( Upnp_SID ) );
-        g_upnpModule->LogUpnpError("Subscription failed", i_res, _friendly_name.c_str());
-    }
+	int i_res = UpnpSubscribe(m_module->m_ctrlpt_handle, m_absEventSubUrl, &i_timeout, sid);
+	if ( i_res == UPNP_E_SUCCESS )
+	{
+		m_subscriptionTimeout = i_timeout;
+		memcpy(m_subscriptionId, sid, sizeof(Upnp_SID));
+	}
+	else
+	{
+		memset(m_subscriptionId, 0, sizeof( Upnp_SID ));
+		g_upnpModule->LogUpnpError("Subscription failed", i_res, m_friendlyName);
+	}
 }
 
 
 bool SjUpnpMediaServer::compareSID( const char* psz_sid )
 {
-    return ( strncmp( _subscription_id, psz_sid, sizeof( Upnp_SID ) ) == 0 );
+    return (strncmp(m_subscriptionId, psz_sid, sizeof(Upnp_SID)) == 0 );
 }
 
 
@@ -648,6 +648,16 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 }
 
 
+bool SjUpnpScannerModule::DeleteSource(long index, wxWindow* parent)
+{
+	return true;
+}
+
+
+bool SjUpnpScannerModule::ConfigSource(long index, wxWindow* parent)
+{
+	return true;
+}
+
+
 #endif // SJ_USE_UPNP
-
-

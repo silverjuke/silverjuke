@@ -133,7 +133,7 @@ void SjUpnpDialog::UpdateMediaServerList()
 		wxListItem li;
 		li.SetId(i++);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
-		li.SetText(mediaServer->_friendly_name);
+		li.SetText(mediaServer->m_friendlyName);
 		li.SetImage(SJ_ICON_INTERNET_SERVER);
 		li.SetData((void*)mediaServer);
 		int new_i = m_mediaServerListCtrl->InsertItem(li);
@@ -149,7 +149,7 @@ void SjUpnpDialog::UpdateDirList(const wxString& selId)
 	m_dirListCtrl->DeleteAllItems();
 
 	long zero_based_pos = 0;
-	if( m_currDir.getObjectID()!="0" ) {
+	if( m_currDir.m_objectId!="0" ) {
 		wxListItem li;
 		li.SetId(zero_based_pos);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
@@ -217,7 +217,7 @@ void SjUpnpDialog::OnMediaServerClick(wxListEvent&)
 
 	wxBusyCursor busy;
 
-	m_currDir.setObjectID("0");
+	m_currDir.m_objectId = "0";
     mediaServer->fetchContents(m_currDir);
 
     UpdateDirList();
@@ -242,23 +242,18 @@ void SjUpnpDialog::OnMediaServerInfo(wxCommandEvent&)
 	SjUpnpMediaServer* mediaServer = GetSelectedMediaServer();
 	if( mediaServer == NULL ) { return; } // nothing selected
 
-	wxString subscriptionId(mediaServer->_subscription_id, sizeof(Upnp_SID));
 	wxMessageBox(
-		wxString::Format(
-			"UDN: %s\n\nfriendlyName: %s\n\nmodelDescription: %s\n\nmanufacturer: %s\n\ndeviceType: %s\n\nserviceType: %s\n\n"
-			"ContentDirectory.eventSubURL: %s\n\nContentDirectory.controlURL: %s\n\n"
-			"Subscription-ID: %s\n\nSubscription-Timeout: %i seconds",
-			mediaServer->_UDN.c_str(),
-			mediaServer->_friendly_name.c_str(),
-			mediaServer->m_modelDescription.c_str(),
-			mediaServer->m_manufacturer.c_str(),
-			mediaServer->m_deviceType.c_str(),
-			mediaServer->m_serviceType.c_str(),
-			mediaServer->_content_directory_event_url.c_str(),
-			mediaServer->_content_directory_control_url.c_str(),
-			subscriptionId.c_str(),
-			(int)mediaServer->_i_subscription_timeout)
-		, mediaServer->_friendly_name, wxOK, this);
+			  "UDN: "                          + mediaServer->m_udn                                              + "\n\n"
+			+ "friendlyName: "                 + mediaServer->m_friendlyName                                     + "\n\n"
+			+ "modelDescription: "             + mediaServer->m_modelDescription                                 + "\n\n"
+			+ "manufacturer: "                 + mediaServer->m_manufacturer                                     + "\n\n"
+			+ "deviceType: "                   + mediaServer->m_deviceType                                       + "\n\n"
+			+ "serviceType: "                  + mediaServer->m_serviceType                                      + "\n\n"
+			+ "ContentDirectory.eventSubURL: " + mediaServer->m_absEventSubUrl                                   + "\n\n"
+			+ "ContentDirectory.controlURL: "  + mediaServer->m_absControlUrl                                    + "\n\n"
+			+ "Subscription-ID: "              + wxString(mediaServer->m_subscriptionId, sizeof(Upnp_SID))       + "\n\n"
+			+ "Subscription-Timeout: "         + wxString::Format("%i", (int)mediaServer->m_subscriptionTimeout) + "\n\n"
+			, mediaServer->m_friendlyName, wxOK, this);
 }
 
 
@@ -285,7 +280,7 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 		else {
 			if( !dirEntry->m_isDir ) { return; } // double click on a file -> nothing to do
 			clickedId = dirEntry->m_id;
-			m_parentIds.Add(m_currDir.getObjectID());
+			m_parentIds.Add(m_currDir.m_objectId);
 			m_parentSelIds.Add(dirEntry->m_id);
 		}
 		m_dirListCtrl->DeleteAllItems();
@@ -293,7 +288,7 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 	}
 
 	// load new directory entries
-	m_currDir.setObjectID(clickedId);
+	m_currDir.m_objectId = clickedId;
     mediaServer->fetchContents(m_currDir);
 
     UpdateDirList(selId);
@@ -324,16 +319,12 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 	}
 
 	wxMessageBox(
-		wxString::Format(
-				"Name: %s\n\nDirectory: %i\n\nID: %s\n\nURL: %s\n\nPlaytime: %s",
-				dirEntry->m_name.c_str(),
-				(int)dirEntry->m_isDir,
-				dirEntry->m_id.c_str(),
-				dirEntry->m_url.c_str(),
-				playtimeStr.c_str()
-			)
-			, dirEntry->m_name,
-			wxOK, this);
+			  "Name: "      + dirEntry->m_name                  + "\n\n"
+			+ "Directory: " + (dirEntry->m_isDir? "yes" : "no") + "\n\n"
+			+ "ID: "        + dirEntry->m_id                    + "\n\n"
+			+ "URL: "       + dirEntry->m_url                   + "\n\n"
+			+ "Playtime: "  + playtimeStr                       + "\n\n"
+			, dirEntry->m_name, wxOK, this);
 }
 
 

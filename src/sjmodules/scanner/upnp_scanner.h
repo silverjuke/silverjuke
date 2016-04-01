@@ -41,7 +41,8 @@ class SjUpnpScannerModule;
 class SjUpnpSource
 {
 public:
-	wxString GetDisplayUrl () { return ""; }
+	wxString GetDisplayUrl () { return m_url; }
+	wxString m_url;
 };
 
 
@@ -65,12 +66,9 @@ public:
 	int             GetCount  () { return m_items.GetCount(); }
 	SjUpnpDirEntry* Item      (int i) { return (SjUpnpDirEntry*)m_items.Item(i); }
 	void            Clear     () { int i, cnt=GetCount(); for( i=0; i<cnt; i++ ) { delete Item(i); } m_items.Empty(); }
-
-	void            setObjectID(const wxString& objId) { _objectID = objId; }
-	wxString        getObjectID() const { return _objectID; }
+	wxString        m_objectId;
 
 private:
-	wxString        _objectID;
 	wxArrayPtrVoid  m_items;
 };
 
@@ -78,19 +76,18 @@ private:
 class SjUpnpMediaServer
 {
 public:
-	SjUpnpMediaServer(SjUpnpScannerModule*);
+	         SjUpnpMediaServer(SjUpnpScannerModule*);
 
-	wxString _UDN; // always unique
+	wxString m_udn; // always unique
 	wxString m_deviceType;
-	wxString _friendly_name;
+	wxString m_friendlyName;
 	wxString m_manufacturer;
 	wxString m_modelDescription;
-	wxString _content_directory_event_url;
-	wxString _content_directory_control_url;
+	wxString m_absEventSubUrl;
+	wxString m_absControlUrl;
 	wxString m_serviceType;
-	int _i_subscription_timeout;
-
-	Upnp_SID _subscription_id;
+	int      m_subscriptionTimeout;
+	Upnp_SID m_subscriptionId;
 
     bool fetchContents(SjUpnpDir&); // it's up to the caller to delete the returned object
 
@@ -116,12 +113,12 @@ public:
 					  ~SjUpnpScannerModule();
 
 	long              GetSourceCount      () { return m_sources.GetCount(); }
-	wxString          GetSourceUrl        (long index) { return ""; }
+	wxString          GetSourceUrl        (long index) { SjUpnpSource* s=get_source(index); if(s==NULL) { return ""; } return s->GetDisplayUrl(); }
 	wxString          GetSourceNotes      (long index) { return ""; }
 	SjIcon            GetSourceIcon       (long index) { return SJ_ICON_INTERNET_SERVER; }
 	long              AddSources          (int sourceType, wxWindow* parent);
-	bool              DeleteSource        (long index, wxWindow* parent) { return false; }
-	bool              ConfigSource        (long index, wxWindow* parent) { return false; }
+	bool              DeleteSource        (long index, wxWindow* parent);
+	bool              ConfigSource        (long index, wxWindow* parent);
 
 	bool              IterateTrackInfo    (SjColModule* receiver) { return true; }
 	bool              SetTrackInfo        (const wxString& url, SjTrackInfo&) { return false; }
