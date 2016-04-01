@@ -140,11 +140,25 @@ void SjUpnpModule::LastUnload()
 }
 
 
-wxString SjUpnpModule::GetErrMsg(int err)
+wxString SjUpnpModule::FormatUpnpError(const wxString& descr, int errCode, const wxString& object)
 {
-	wxString msg(UpnpGetErrorMessage(err));
-	msg += wxString::Format(" (Error %i)", (int)err);
-	return msg;
+	wxString ret = "UPnP Errror: " + descr;
+
+	ret += ": ";
+	ret += wxString(UpnpGetErrorMessage(errCode));
+	ret += wxString::Format(" (Error %i)", (int)errCode);
+
+	if( object != "" ) {
+		ret += " ("+object+")";
+	}
+
+	return ret;
+}
+
+
+void SjUpnpModule::LogUpnpError(const wxString& descr, int errCode, const wxString& object)
+{
+	wxLogError("%s", FormatUpnpError(descr, errCode, object).c_str());
 }
 
 
@@ -155,7 +169,7 @@ bool SjUpnpModule::InitLibupnp()
 	// init library
 	int error;
 	if( (error=UpnpInit(NULL, 0)) != UPNP_E_SUCCESS ) {
-		wxLogError("UPnP Error: Cannot init libupnp: %s", GetErrMsg(error).c_str());
+		LogUpnpError("Cannot init", error);
 		ExitLibupnp();
 		return false; // error
 	}
@@ -170,7 +184,7 @@ bool SjUpnpModule::InitLibupnp()
     // until 64dedf (~ pupnp v1.6.7) and provides no sane way to discriminate between versions)
     if( (error=UpnpSetMaxContentLength(INT_MAX)) != UPNP_E_SUCCESS )
     {
-        wxLogError("UPnP Error: Cannot set maximum content length: %s", GetErrMsg(error).c_str());
+        LogUpnpError("Cannot set maximum content length", error, wxString::Format("INT_MAX=%i", (int)INT_MAX));
         // continue, anyway
     }
 

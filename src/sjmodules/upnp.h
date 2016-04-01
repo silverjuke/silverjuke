@@ -53,7 +53,8 @@ class SjUpnpModule : public SjCommonModule
 public:
 	                SjUpnpModule        (SjInterfaceBase*);
 	bool            InitLibupnp         ();
-	wxString        GetErrMsg           (int err);
+	wxString        FormatUpnpError     (const wxString& descr, int errCode, const wxString& object="");
+	void            LogUpnpError        (const wxString& descr, int errCode, const wxString& object="");
 
 private:
 	bool            m_libupnp_initialized;

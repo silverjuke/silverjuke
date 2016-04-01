@@ -92,7 +92,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 
 			const char* psz_udn = xml_getChildElementValue( p_device_element, "UDN" );
 			if ( !psz_udn ) {
-				wxLogWarning("UPnP Error: No UDN!");
+				g_upnpModule->LogUpnpError("UDN missing", UPNP_E_INVALID_PARAM);
 				continue;
 			}
 
@@ -126,7 +126,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 
                     const char* psz_service_type = xml_getChildElementValue( p_service_element, "serviceType" );
                     if ( !psz_service_type ) {
-						wxLogWarning( "No service type found." );
+						g_upnpModule->LogUpnpError("No service type found", UPNP_E_INVALID_PARAM);
                         continue;
                     }
 
@@ -139,13 +139,13 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 
                     const char* psz_event_sub_url = xml_getChildElementValue( p_service_element, "eventSubURL" );
                     if ( !psz_event_sub_url ) {
-                        wxLogWarning("No event subscription url found.");
+                        g_upnpModule->LogUpnpError("No event subscription url found", UPNP_E_INVALID_PARAM);
                         continue;
                     }
 
                     const char* psz_control_url = xml_getChildElementValue( p_service_element, "controlURL" );
                     if ( !psz_control_url ) {
-                        wxLogWarning("No control url found." );
+                        g_upnpModule->LogUpnpError("No control url found", UPNP_E_INVALID_PARAM);
                         continue;
                     }
 
@@ -207,21 +207,25 @@ static IXML_Document* parseBrowseResult( IXML_Document* p_doc )
 
     char* psz_xml_result_string = NULL;
     const char* psz_raw_didl = xml_getChildElementValue( p_doc, "Result" );
-
-    if( !psz_raw_didl )
+    if( !psz_raw_didl ) {
+		g_upnpModule->LogUpnpError("Result missing in response", UPNP_E_INVALID_PARAM);
         return NULL;
+	}
 
     if( -1 == asprintf( &psz_xml_result_string,
                          psz_xml_result_fmt,
-                         psz_raw_didl) )
+                         psz_raw_didl) ) {
+        g_upnpModule->LogUpnpError("asprintf failed", UPNP_E_INVALID_PARAM);
         return NULL;
-
+	}
 
     IXML_Document* p_result_doc = ixmlParseBuffer( psz_xml_result_string );
     free( psz_xml_result_string );
 
-    if( !p_result_doc )
+    if( !p_result_doc ) {
+		g_upnpModule->LogUpnpError("Parse buffere failed", UPNP_E_INVALID_PARAM);
         return NULL;
+	}
 
     IXML_NodeList *p_elems = ixmlDocument_getElementsByTagName( p_result_doc,
                                                                 "DIDL-Lite" );
@@ -258,7 +262,7 @@ IXML_Document* SjUpnpMediaServer::_browseAction( const char* psz_object_id_,
 
     if ( i_res != UPNP_E_SUCCESS ) {
 		// may be UPNP_E_OUTOF_BOUNDS if we do not call UpnpSetMaxContentLength() before
-        wxLogWarning("UPnP: SendAction failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
+        g_upnpModule->LogUpnpError("SendAction failed", i_res);
         if( p_response ) {
 			ixmlDocument_free( p_response );
 			p_response = 0;
@@ -286,8 +290,7 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 										  );
 
 		if ( !p_response ) {
-			wxLogWarning("UPnP: No response from browse() action" );
-			return false;
+			return false; // error already logged
 		}
 
 		IXML_Document* p_result = parseBrowseResult( p_response );
@@ -301,8 +304,7 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 		}
 
 		if ( !p_result ) {
-			wxLogError("UPnP Error: browse() response parsing failed");
-			return false;
+			return false; // error already logged
 		}
 
 		IXML_NodeList* containerNodeList = ixmlDocument_getElementsByTagName(p_result, "container");
@@ -423,7 +425,7 @@ void SjUpnpMediaServer::subscribeToContentDirectory()
     else
     {
 		memset( _subscription_id, 0, sizeof( Upnp_SID ) );
-        wxLogWarning("UPnP: Subscribe to %s failed: %s (%i)", _friendly_name.c_str(), wxString(UpnpGetErrorMessage(i_res)).c_str(), i_res);
+        g_upnpModule->LogUpnpError("Subscription failed", i_res, _friendly_name.c_str());
     }
 }
 
@@ -517,7 +519,7 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* p_event, void* user
 				int error = UpnpDownloadXmlDoc(discoverEvent->Location, &p_description_doc);
 				if( error != UPNP_E_SUCCESS ) {
 					// happens eg. with DroidUPnP, error -207, TIMEOUT
-					wxLogError("UPnP Error %i: %s (url=%s)", (int)error, wxString(UpnpGetErrorMessage(error)).c_str(), wxString(discoverEvent->Location).c_str());
+					g_upnpModule->LogUpnpError("Cannot download device description", error, discoverEvent->Location);
 					return error;
 				}
 
@@ -593,7 +595,7 @@ bool SjUpnpScannerModule::init_client()
 	// create our control point
 	int error = UpnpRegisterClient(ctrl_point_event_handler, this/*user data*/, &m_ctrlpt_handle);
 	if( error != UPNP_E_SUCCESS ) {
-		wxLogError("UPnP Error: Cannot register client.");
+		g_upnpModule->LogUpnpError("Cannot register client", error);
 		m_ctrlpt_handle = -1;
 		exit_client();
 		return false; // error
