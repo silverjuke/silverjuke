@@ -50,16 +50,19 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	m_enabledCheckBox = NULL;
 
 	// set title
+	wxString title;
 	m_isNew = FALSE;
 	if( source.m_serverName.IsEmpty() )
 	{
-		SetTitle(_("Add an HTTP server"));
+		title = _("Add an HTTP server");
 		m_isNew = TRUE;
 	}
 	else
 	{
-		SetTitle(wxString::Format(_("Options for \"%s\""), source.m_serverName.c_str()));
+		title = wxString::Format(_("Options for \"%s\""), source.m_serverName.c_str());
 	}
+	title += " (beta)";
+	SetTitle(title);
 
 	// create dialog
 	#define CTRL_W 260
@@ -102,7 +105,7 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	sizer3f->Add(new wxStaticText(this, -1, _("Type")+wxString(wxT(":"))), 0, wxALIGN_CENTER_VERTICAL);
 
 	m_serverTypeChoice = new wxChoice(this, IDC_SERVER_TYPE);
-	m_serverTypeChoice->Append(wxT("CSV over HTTP (beta)")/*n/t*/, (void*)SJ_SERVERSCANNER_TYPE_HTTP);
+	m_serverTypeChoice->Append("CSV over HTTP"/*n/t*/, (void*)SJ_SERVERSCANNER_TYPE_HTTP);
 	SjDialog::SetCbSelection(m_serverTypeChoice, (long)source.m_serverType);
 	sizer3f->Add(m_serverTypeChoice, 0, wxALIGN_CENTER_VERTICAL);
 

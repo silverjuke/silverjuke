@@ -140,14 +140,22 @@ void SjUpnpModule::LastUnload()
 }
 
 
+wxString SjUpnpModule::GetErrMsg(int err)
+{
+	wxString msg(UpnpGetErrorMessage(err));
+	msg += wxString::Format(" (Error %i)", (int)err);
+	return msg;
+}
+
+
 bool SjUpnpModule::InitLibupnp()
 {
 	if( m_libupnp_initialized ) { return true; } // already initalized
 
 	// init library
-	int error = UpnpInit(NULL, 0);
-	if( error != UPNP_E_SUCCESS ) {
-		wxLogError("UPnP Error: Cannot init libupnp.");
+	int error;
+	if( (error=UpnpInit(NULL, 0)) != UPNP_E_SUCCESS ) {
+		wxLogError("UPnP Error: Cannot init libupnp: %s", GetErrMsg(error).c_str());
 		ExitLibupnp();
 		return false; // error
 	}
@@ -155,6 +163,16 @@ bool SjUpnpModule::InitLibupnp()
 	char* ip_address = UpnpGetServerIpAddress(); // z.B. 192.168.178.38
 	unsigned short port = UpnpGetServerPort();   // z.B. 49152
 	wxLogInfo("Loading libupnp on %s:%i", ip_address, (int)port);
+
+    // Increase max. content length to maximum; without this call, the default is DEFAULT_SOAP_CONTENT_LENGTH (=16K) which is far too
+    // small for even simple dirs (eg. "video" or "Bibi Blocksberg" on my diskstation) and will result in UPNP_E_OUTOF_BOUNDS errors.
+    // (libupnp does not treat a maximum content length of 0 as unlimited
+    // until 64dedf (~ pupnp v1.6.7) and provides no sane way to discriminate between versions)
+    if( (error=UpnpSetMaxContentLength(INT_MAX)) != UPNP_E_SUCCESS )
+    {
+        wxLogError("UPnP Error: Cannot set maximum content length: %s", GetErrMsg(error).c_str());
+        // continue, anyway
+    }
 
 	m_libupnp_initialized = true;
 	return true;

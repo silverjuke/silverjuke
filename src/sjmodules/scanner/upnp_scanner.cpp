@@ -257,6 +257,7 @@ IXML_Document* SjUpnpMediaServer::_browseAction( const char* psz_object_id_,
               &p_response );
 
     if ( i_res != UPNP_E_SUCCESS ) {
+		// may be UPNP_E_OUTOF_BOUNDS if we do not call UpnpSetMaxContentLength() before
         wxLogWarning("UPnP: SendAction failed: %s", wxString(UpnpGetErrorMessage(i_res)).c_str() );
         if( p_response ) {
 			ixmlDocument_free( p_response );

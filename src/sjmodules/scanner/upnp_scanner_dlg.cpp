@@ -42,12 +42,15 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 	m_stillLoading = true;
 	m_dirListFor   = NULL;
 
+	wxString title;
 	if( m_isNew ) {
-		SetTitle(_("Add an UPnP/DLNA server"));
+		title = _("Add an UPnP/DLNA server");
 	}
 	else {
-		wxString::Format(_("Options for \"%s\""), upnpSource->GetDisplayUrl().c_str());
+		title = wxString::Format(_("Options for \"%s\""), upnpSource->GetDisplayUrl().c_str());
 	}
+	title += " (beta)";
+	SetTitle(title);
 
 
 	// create dialog
