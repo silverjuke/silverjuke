@@ -114,7 +114,7 @@ public:
 	long              GetSourceCount      () { load_sources(); return m_sources.GetCount(); }
 	wxString          GetSourceUrl        (long index) { SjUpnpSource* s=get_source(index); if(s==NULL) { return ""; } return s->GetDisplayUrl(); }
 	wxString          GetSourceNotes      (long index) { return ""; }
-	SjIcon            GetSourceIcon       (long index) { return SJ_ICON_INTERNET_SERVER; }
+	SjIcon            GetSourceIcon       (long index) { return SJ_ICON_UPNP_SERVER; }
 	long              AddSources          (int sourceType, wxWindow* parent);
 	bool              DeleteSource        (long index, wxWindow* parent);
 	bool              ConfigSource        (long index, wxWindow* parent);

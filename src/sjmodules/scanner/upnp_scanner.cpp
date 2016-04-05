@@ -464,7 +464,7 @@ SjUpnpScannerModule::SjUpnpScannerModule(SjInterfaceBase* interf)
 	m_sourcesLoaded         = false;
 
 	m_addSourceTypes_.Add(_("Add an UPnP/DLNA server"));
-	m_addSourceIcons_.Add(SJ_ICON_INTERNET_SERVER);
+	m_addSourceIcons_.Add(SJ_ICON_UPNP_SERVER);
 }
 
 

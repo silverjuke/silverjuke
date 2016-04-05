@@ -149,7 +149,7 @@ void SjUpnpDialog::UpdateMediaServerList()
 		li.SetId(i++);
 		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
 		li.SetText(mediaServer->m_friendlyName);
-		li.SetImage(SJ_ICON_INTERNET_SERVER);
+		li.SetImage(SJ_ICON_UPNP_SERVER);
 		li.SetData((void*)mediaServer);
 		int new_i = m_mediaServerListCtrl->InsertItem(li);
 		if( mediaServer == selMediaServer ) {
