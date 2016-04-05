@@ -174,7 +174,7 @@ void SjUpnpDialog::UpdateDirList(const wxString& selId)
 		li.SetData(i);
 		m_dirListCtrl->InsertItem(li);
 
-		if( entry->m_id == selId ) {
+		if( entry->m_objectId == selId ) {
 			m_dirListCtrl->SetItemState(zero_based_pos, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
 		}
 
@@ -279,9 +279,9 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 		}
 		else {
 			if( !dirEntry->m_isDir ) { return; } // double click on a file -> nothing to do
-			clickedId = dirEntry->m_id;
+			clickedId = dirEntry->m_objectId;
 			m_parentIds.Add(m_currDir.m_objectId);
-			m_parentSelIds.Add(dirEntry->m_id);
+			m_parentSelIds.Add(dirEntry->m_objectId);
 		}
 		m_dirListCtrl->DeleteAllItems();
 		m_currDir.Clear();
@@ -321,7 +321,7 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 	wxMessageBox(
 			  "Name: "      + dirEntry->m_name                  + "\n\n"
 			+ "Directory: " + (dirEntry->m_isDir? "yes" : "no") + "\n\n"
-			+ "ID: "        + dirEntry->m_id                    + "\n\n"
+			+ "ID: "        + dirEntry->m_objectId              + "\n\n"
 			+ "URL: "       + dirEntry->m_url                   + "\n\n"
 			+ "Playtime: "  + playtimeStr                       + "\n\n"
 			, dirEntry->m_name, wxOK, this);

@@ -65,17 +65,17 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 	IXML_NodeList* p_url_list = ixmlDocument_getElementsByTagName( p_doc, "URLBase" );
 	if ( p_url_list )
 	{
-		if ( IXML_Node* p_url_node = ixmlNodeList_item( p_url_list, 0 ) )
+		if( IXML_Node* p_url_node = ixmlNodeList_item(p_url_list, 0) )
 		{
-			IXML_Node* p_text_node = ixmlNode_getFirstChild( p_url_node );
-			if ( p_text_node ) psz_base_url = ixmlNode_getNodeValue( p_text_node );
+			IXML_Node* p_text_node = ixmlNode_getFirstChild(p_url_node);
+			if ( p_text_node ) psz_base_url = ixmlNode_getNodeValue(p_text_node);
 		}
 
 		ixmlNodeList_free( p_url_list );
 	}
 
     /* Get devices */
-	IXML_NodeList* p_device_list = ixmlDocument_getElementsByTagName( p_doc, "device" );
+	IXML_NodeList* p_device_list = ixmlDocument_getElementsByTagName(p_doc, "device");
 	if ( p_device_list )
 	{
 		for ( unsigned int i = 0; i < ixmlNodeList_length( p_device_list ); i++ )
@@ -90,7 +90,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 				continue;
 			}
 
-			const char* psz_udn = xml_getChildElementValue( p_device_element, "UDN" );
+			const char* psz_udn = xml_getChildElementValue(p_device_element, "UDN");
 			if ( !psz_udn ) {
 				g_upnpModule->LogUpnpError("UDN missing", UPNP_E_INVALID_PARAM);
 				continue;
@@ -105,45 +105,45 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 			p_server->m_udn          = psz_udn;
 			p_server->m_deviceType   = psz_device_type;
 
-			const char* psz_temp = xml_getChildElementValue( p_device_element, "friendlyName" );
+			const char* psz_temp = xml_getChildElementValue(p_device_element, "friendlyName");
 			p_server->m_friendlyName = psz_temp? psz_temp : psz_udn;
 
-			psz_temp = xml_getChildElementValue( p_device_element, "manufacturer" );
+			psz_temp = xml_getChildElementValue(p_device_element, "manufacturer");
 			if( psz_temp ) { p_server->m_manufacturer = psz_temp; }
 
-			psz_temp = xml_getChildElementValue( p_device_element, "modelDescription" );
+			psz_temp = xml_getChildElementValue(p_device_element, "modelDescription");
 			if( psz_temp ) { p_server->m_modelDescription = psz_temp; }
 
 			addToList->Insert(p_server->m_udn, p_server);
 
 			/* Check for ContentDirectory service. */
-			IXML_NodeList* p_service_list = ixmlElement_getElementsByTagName( p_device_element, "service" );
+			IXML_NodeList* p_service_list = ixmlElement_getElementsByTagName(p_device_element, "service");
 			if ( p_service_list )
 			{
-				for ( unsigned int j = 0; j < ixmlNodeList_length( p_service_list ); j++ )
+				for ( unsigned int j = 0; j < ixmlNodeList_length(p_service_list); j++ )
 				{
-                    IXML_Element* p_service_element = ( IXML_Element* ) ixmlNodeList_item( p_service_list, j );
+                    IXML_Element* p_service_element = (IXML_Element*)ixmlNodeList_item(p_service_list, j);
 
-                    const char* psz_service_type = xml_getChildElementValue( p_service_element, "serviceType" );
+                    const char* psz_service_type = xml_getChildElementValue(p_service_element, "serviceType");
                     if ( !psz_service_type ) {
 						g_upnpModule->LogUpnpError("No service type found", UPNP_E_INVALID_PARAM);
                         continue;
                     }
 
-                    int k = strlen( CONTENT_DIRECTORY_SERVICE_TYPE ) - 1; // compare string ignoring the last character
-                    if ( strncmp( CONTENT_DIRECTORY_SERVICE_TYPE, psz_service_type, k ) != 0 ) {
+                    int k = strlen(CONTENT_DIRECTORY_SERVICE_TYPE) - 1; // compare string ignoring the last character
+                    if ( strncmp(CONTENT_DIRECTORY_SERVICE_TYPE, psz_service_type, k) != 0 ) {
                         continue;
 					}
 
 					p_server->m_serviceType = psz_service_type;
 
-                    const char* psz_event_sub_url = xml_getChildElementValue( p_service_element, "eventSubURL" );
+                    const char* psz_event_sub_url = xml_getChildElementValue(p_service_element, "eventSubURL");
                     if ( !psz_event_sub_url ) {
                         g_upnpModule->LogUpnpError("No event subscription url found", UPNP_E_INVALID_PARAM);
                         continue;
                     }
 
-                    const char* psz_control_url = xml_getChildElementValue( p_service_element, "controlURL" );
+                    const char* psz_control_url = xml_getChildElementValue(p_service_element, "controlURL");
                     if ( !psz_control_url ) {
                         g_upnpModule->LogUpnpError("No control url found", UPNP_E_INVALID_PARAM);
                         continue;
@@ -152,25 +152,25 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
                     /* Try to subscribe to ContentDirectory service */
 
 					/*
-                    char* psz_url = ( char* ) malloc( strlen( psz_base_url ) + strlen( psz_event_sub_url ) + 1 );
+                    char* psz_url = (char*) malloc(strlen(psz_base_url) + strlen(psz_event_sub_url) + 1 );
                     if ( psz_url )
                     {
-                        if ( UpnpResolveURL( psz_base_url, psz_event_sub_url, psz_url ) == UPNP_E_SUCCESS )
+                        if ( UpnpResolveURL(psz_base_url, psz_event_sub_url, psz_url) == UPNP_E_SUCCESS )
                         {
                             p_server->m_absEventSubUrl = psz_url;
                             p_server->subscribeToContentDirectory();
                         }
 
-                        free( psz_url );
+                        free(psz_url);
                     }
                     */
 
                     /* Try to browse content directory. */
 
-                    char* psz_url = ( char* ) malloc( strlen( psz_base_url ) + strlen( psz_control_url ) + 1 );
+                    char* psz_url = (char*) malloc(strlen(psz_base_url) + strlen(psz_control_url) + 1);
                     if ( psz_url )
                     {
-                        if ( UpnpResolveURL( psz_base_url, psz_control_url, psz_url ) == UPNP_E_SUCCESS )
+                        if ( UpnpResolveURL(psz_base_url, psz_control_url, psz_url) == UPNP_E_SUCCESS )
                         {
                             p_server->m_absControlUrl = psz_url;
                             //p_server->fetchContents(); // done when the user selects the media server
@@ -179,10 +179,10 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
                         free( psz_url );
                     }
 				}
-				ixmlNodeList_free( p_service_list );
+				ixmlNodeList_free(p_service_list);
 			}
 		}
-		ixmlNodeList_free( p_device_list );
+		ixmlNodeList_free(p_device_list);
 	}
 }
 
@@ -190,9 +190,9 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 /*
  * Extracts the result document from a SOAP response
  */
-static IXML_Document* parseBrowseResult( IXML_Document* p_doc )
+static IXML_Document* parseBrowseResult(IXML_Document* p_doc)
 {
-    wxASSERT( p_doc );
+    wxASSERT(p_doc);
 
     /* Missing namespaces confuse the ixml parser. This is a very ugly
      * hack but it is needeed until devices start sending valid XML.
@@ -285,40 +285,40 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 		{
 			for ( unsigned int i = 0; i < ixmlNodeList_length( containerNodeList ); i++ )
 			{
-				IXML_Element* containerElement = ( IXML_Element* )ixmlNodeList_item( containerNodeList, i );
+				IXML_Element* containerElement = (IXML_Element*)ixmlNodeList_item(containerNodeList, i);
 
-				const char* objectID = ixmlElement_getAttribute(containerElement, "id");
+				const char* id = ixmlElement_getAttribute(containerElement, "id");
 				const char* title = xml_getChildElementValue(containerElement, "dc:title");
-				if ( !objectID || !title  ) {
+				if ( !id || !title  ) {
 					continue;
 				}
 
 				SjUpnpDirEntry* entry = new SjUpnpDirEntry();
-				entry->m_isDir = true;
-				entry->m_name = title;
-				entry->m_id = objectID;
+				entry->m_isDir    = true;
+				entry->m_name     = title;
+				entry->m_objectId = id;
 				dir.Add(entry); // entry is now owned by SjUpnpDir
 			}
 			ixmlNodeList_free( containerNodeList );
 		}
 
-		IXML_NodeList* itemNodeList = ixmlDocument_getElementsByTagName( p_result, "item" );
+		IXML_NodeList* itemNodeList = ixmlDocument_getElementsByTagName(p_result, "item");
 		if ( itemNodeList )
 		{
 			for ( unsigned int i = 0; i < ixmlNodeList_length( itemNodeList ); i++ )
 			{
-				IXML_Element* itemElement = ( IXML_Element* )ixmlNodeList_item( itemNodeList, i );
+				IXML_Element* itemElement = (IXML_Element*)ixmlNodeList_item(itemNodeList, i);
 
-				const char* objectID = ixmlElement_getAttribute( itemElement, "id" );
-				const char* title = xml_getChildElementValue( itemElement, "dc:title" );
+				const char* id    = ixmlElement_getAttribute(itemElement, "id");
+				const char* title = xml_getChildElementValue(itemElement, "dc:title");
 
-				if ( !objectID || !title ) {
+				if ( !id || !title ) {
 					continue;
 				}
 
 				// Try to extract all resources in DIDL
 				// (the loop is required as we go through all resources and use the first fine one)
-				IXML_NodeList* p_resource_list = ixmlDocument_getElementsByTagName( (IXML_Document*) itemElement, "res" );
+				IXML_NodeList* p_resource_list = ixmlDocument_getElementsByTagName((IXML_Document*)itemElement, "res");
 				if ( p_resource_list )
 				{
 					int i_length = ixmlNodeList_length(p_resource_list);
@@ -334,7 +334,7 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 						if ( psz_duration )
 						{
 							int i_hours, i_minutes, i_seconds;
-							if( sscanf( psz_duration, "%d:%02d:%02d", &i_hours, &i_minutes, &i_seconds ) ) {
+							if( sscanf(psz_duration, "%d:%02d:%02d", &i_hours, &i_minutes, &i_seconds) ) {
 								playtimeMs = (i_hours*3600 + i_minutes*60 + i_seconds) * 1000;
 							}
 						}
@@ -342,7 +342,7 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 						SjUpnpDirEntry* entry = new SjUpnpDirEntry();
 						entry->m_name = title;
 						entry->m_isDir = false;
-						entry->m_id = objectID;
+						entry->m_objectId = id;
 						entry->m_url = psz_resource_url;
 						entry->m_playtimeMs = playtimeMs;
 						dir.Add(entry); // entry is now owned by SjUpnpDir
@@ -350,9 +350,6 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 					}
 					ixmlNodeList_free(p_resource_list);
 				}
-
-
-
 			}
 			ixmlNodeList_free( itemNodeList );
 		}

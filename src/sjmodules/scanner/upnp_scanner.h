@@ -41,8 +41,9 @@ class SjUpnpScannerModule;
 class SjUpnpSource
 {
 public:
-	wxString GetDisplayUrl () { return m_url; }
-	wxString m_url;
+	wxString GetDisplayUrl () { return m_udn+"/"+m_objectId; }
+	wxString m_udn;
+	wxString m_objectId; // = directoryId
 };
 
 
@@ -52,7 +53,7 @@ public:
 	           SjUpnpDirEntry() { m_isDir = false; m_playtimeMs = -1; }
 	wxString   m_name;
 	bool       m_isDir;
-	wxString   m_id;
+	wxString   m_objectId;
 	wxString   m_url;
 	long       m_playtimeMs;
 };
