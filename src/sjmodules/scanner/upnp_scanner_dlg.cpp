@@ -117,6 +117,21 @@ SjUpnpDirEntry* SjUpnpDialog::GetSelectedDirEntry()
 }
 
 
+SjUpnpDirEntry* SjUpnpDialog::GetSelectedDir()
+{
+	SjUpnpDirEntry* sel;
+	if( (sel = GetSelectedDirEntry())!=NULL ) {
+		return sel;
+	}
+
+	// no item is selected in the list control; return the parent directory
+	// (this allows to selected
+	m_parentDirEntry.m_objectId = m_currDir.m_objectId;
+	m_parentDirEntry.m_name     = m_currDir.m_name;
+    return &m_parentDirEntry;
+}
+
+
 void SjUpnpDialog::UpdateMediaServerList()
 {
 	wxCriticalSectionLocker locker(m_upnpModule->m_mediaServerCritical);
@@ -218,6 +233,7 @@ void SjUpnpDialog::OnMediaServerClick(wxListEvent&)
 	wxBusyCursor busy;
 
 	m_currDir.m_objectId = "0";
+	m_currDir.m_name     = "";
     mediaServer->FetchContents(m_currDir);
 
     UpdateDirList();
@@ -266,21 +282,20 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
     if( mediaServer != m_dirListFor ) { return; } // sth. went wrong
 
 	// find out the clicked folder, clear directory entries
-	wxString clickedId, selId;
+	wxString clickedId, clickedName, selId;
 	{
 		SjUpnpDirEntry* dirEntry = GetSelectedDirEntry();
 		if( dirEntry == NULL ) { return; } // nothing selected
 
 		if( dirEntry == &m_parentDirEntry ) {
-			clickedId = m_parentIds.Last();
-			m_parentIds.RemoveAt(m_parentIds.GetCount()-1);
-			selId = m_parentSelIds.Last();
-			m_parentSelIds.RemoveAt(m_parentSelIds.GetCount()-1);
+			clickedId   = m_parentIds.Last();    m_parentIds.RemoveAt(m_parentIds.GetCount()-1);
+			clickedName = m_parentNames.Last();  m_parentNames.RemoveAt(m_parentNames.GetCount()-1);
+			selId       = m_parentSelIds.Last(); m_parentSelIds.RemoveAt(m_parentSelIds.GetCount()-1);
 		}
 		else {
 			if( !dirEntry->m_isDir ) { return; } // double click on a file -> nothing to do
-			clickedId = dirEntry->m_objectId;
-			m_parentIds.Add(m_currDir.m_objectId);
+			clickedId = dirEntry->m_objectId; m_parentIds.Add(m_currDir.m_objectId);
+			clickedName = dirEntry->m_name;   m_parentNames.Add(m_currDir.m_name);
 			m_parentSelIds.Add(dirEntry->m_objectId);
 		}
 		m_dirListCtrl->DeleteAllItems();
@@ -289,6 +304,7 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 
 	// load new directory entries
 	m_currDir.m_objectId = clickedId;
+	m_currDir.m_name     = clickedName;
     mediaServer->FetchContents(m_currDir);
 
     UpdateDirList(selId);

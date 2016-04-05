@@ -461,6 +461,7 @@ SjUpnpScannerModule::SjUpnpScannerModule(SjInterfaceBase* interf)
 	m_name                  = _("Read UPNP/DLNA servers");
 	m_dlg                   = NULL;
 	m_clientHandle          = -1;
+	m_sourcesLoaded         = false;
 
 	m_addSourceTypes_.Add(_("Add an UPnP/DLNA server"));
 	m_addSourceIcons_.Add(SJ_ICON_INTERNET_SERVER);
@@ -471,6 +472,7 @@ SjUpnpScannerModule::~SjUpnpScannerModule()
 {
 	wxCriticalSectionLocker locker(m_mediaServerCritical);
 	clear_media_server_list();
+	clear_sources_list();
 }
 
 
@@ -596,9 +598,81 @@ void SjUpnpScannerModule::exit_client()
 }
 
 
+bool SjUpnpScannerModule::load_sources()
+{
+	if( m_sourcesLoaded ) { return true; } // sources already loaded, nothing to do
+
+	clear_sources_list();
+
+	wxSqlt         sql;
+	int            sourceCount = sql.ConfigRead("upnpscanner/sCount", 0L), i;
+	SjUpnpSource*  source;
+	for( i = 0; i < sourceCount; i++ )
+	{
+		source               = new SjUpnpSource();
+		source->m_udn        = sql.ConfigRead(wxString::Format("upnpscanner/s%iudn",       (int)i), wxT(""));
+		source->m_objectId   = sql.ConfigRead(wxString::Format("upnpscanner/s%iid",        (int)i), wxT(""));
+		source->m_controlUrl = sql.ConfigRead(wxString::Format("upnpscanner/s%icontrolUrl",(int)i), wxT(""));
+		source->m_descr      = sql.ConfigRead(wxString::Format("upnpscanner/s%idescr",     (int)i), wxT(""));
+		if( source->m_udn.IsEmpty() || source->m_objectId.IsEmpty() || source->m_controlUrl.IsEmpty() || source->m_descr.IsEmpty() )
+		{
+			delete source;
+		}
+		else
+		{
+			m_sources.Add(source);
+		}
+	}
+
+	m_sourcesLoaded = true;
+	return true; // done
+}
+
+
+void SjUpnpScannerModule::save_sources()
+{
+	if( !m_sourcesLoaded ) { return; } // without loaded sources, we cannot save them
+	wxSqltTransaction transaction; // for speed reasons
+
+	{
+		wxSqlt sql;
+
+		int sourceCount = m_sources.GetCount(), i;
+		sql.ConfigWrite("upnpscanner/sCount", sourceCount);
+		for( i = 0; i < sourceCount; i++ )
+		{
+			SjUpnpSource* source = get_source(i);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%iudn",       (int)i), source->m_udn);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%iid",        (int)i), source->m_objectId);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%icontrolUrl",(int)i), source->m_controlUrl);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%idescr",     (int)i), source->m_descr);
+		}
+	}
+
+	transaction.Commit();
+}
+
+
+
+long SjUpnpScannerModule::get_source_by_udn_and_id(const wxString& udn, const wxString& id)
+{
+	 int i, cnt=m_sources.GetCount();
+	 for( i=0; i<cnt; i++ )
+	 {
+		SjUpnpSource* source = get_source(i);
+		if( source->m_udn == udn && source->m_objectId == id ) {
+			return i;
+		}
+	 }
+	 return -1;
+}
+
+
 long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 {
-	if( !init_client() ) { return -1; } // error
+	long ret = -1; // nothing added
+
+	if( !init_client() || !load_sources() ) { return -1; } // error
 
 	{
 		wxCriticalSectionLocker locker(m_mediaServerCritical);
@@ -614,29 +688,57 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 
 	if( m_dlg->ShowModal() == wxID_OK )
 	{
+		wxCriticalSectionLocker locker(m_mediaServerCritical);
+		SjUpnpMediaServer* mediaServer = m_dlg->GetSelectedMediaServer();
+		SjUpnpDirEntry* dir = m_dlg->GetSelectedDir();
+		if( mediaServer )
+		{
+			SjUpnpSource* source = new SjUpnpSource();
+			source->m_udn        = mediaServer->m_udn;
+			source->m_objectId   = dir->m_objectId;
+			source->m_controlUrl = mediaServer->m_absControlUrl;
+			source->m_descr      = mediaServer->m_friendlyName + "/" + dir->m_name;
+
+			if( (ret=get_source_by_udn_and_id(source->m_udn, source->m_objectId))!=-1 ) {
+				delete source; // source is already existant, use existing index
+			}
+			else {
+				m_sources.Add(source);
+				ret = m_sources.GetCount()-1; // return the index of the new source
+			}
+		}
+
+		save_sources();
 	}
 
 	delete m_dlg;
 	m_dlg = NULL;
 
 	// clear the list to avoid renewing the event subscription forever.
+	/* -- not needed as we do not use UpnpSubscribe() at the moment; _if_ we do, however, this is probably the wrong method.
 	{
 		wxCriticalSectionLocker locker(m_mediaServerCritical);
 		clear_media_server_list();
 	}
+	*/
 
-	return -1; // nothing added
+	return ret; // nothing added
 }
 
 
 bool SjUpnpScannerModule::DeleteSource(long index, wxWindow* parent)
 {
+	delete get_source(index);
+	m_sources.RemoveAt(index);
+
+	save_sources();
 	return true;
 }
 
 
 bool SjUpnpScannerModule::ConfigSource(long index, wxWindow* parent)
 {
+	save_sources();
 	return true;
 }
 

@@ -41,9 +41,11 @@ class SjUpnpScannerModule;
 class SjUpnpSource
 {
 public:
-	wxString GetDisplayUrl () { return m_udn+"/"+m_objectId; }
+	wxString GetDisplayUrl () { return m_descr; }
 	wxString m_udn;
 	wxString m_objectId; // = directoryId
+	wxString m_controlUrl;
+	wxString m_descr; // any friendly name
 };
 
 
@@ -67,7 +69,9 @@ public:
 	int             GetCount  () { return m_items.GetCount(); }
 	SjUpnpDirEntry* Item      (int i) { return (SjUpnpDirEntry*)m_items.Item(i); }
 	void            Clear     () { int i, cnt=GetCount(); for( i=0; i<cnt; i++ ) { delete Item(i); } m_items.Empty(); }
+
 	wxString        m_objectId;
+	wxString        m_name;
 
 private:
 	wxArrayPtrVoid  m_items;
@@ -107,7 +111,7 @@ public:
 					  SjUpnpScannerModule (SjInterfaceBase*);
 					  ~SjUpnpScannerModule();
 
-	long              GetSourceCount      () { return m_sources.GetCount(); }
+	long              GetSourceCount      () { load_sources(); return m_sources.GetCount(); }
 	wxString          GetSourceUrl        (long index) { SjUpnpSource* s=get_source(index); if(s==NULL) { return ""; } return s->GetDisplayUrl(); }
 	wxString          GetSourceNotes      (long index) { return ""; }
 	SjIcon            GetSourceIcon       (long index) { return SJ_ICON_INTERNET_SERVER; }
@@ -136,8 +140,13 @@ private:
 	void              exit_client         ();
 	void              LastUnload          ();
 
+	bool              load_sources        ();
+	void              save_sources        ();
+	void              clear_sources_list  () { int i, cnt=m_sources.GetCount(); for( i=0; i<cnt; i++ ) { delete get_source(i); } m_sources.Empty(); m_sourcesLoaded=false; }
+	bool              m_sourcesLoaded;
 	wxArrayPtrVoid    m_sources;
 	SjUpnpSource*     get_source          (long index) { return (SjUpnpSource*)m_sources.Item(index); }
+	long              get_source_by_udn_and_id (const wxString& udn, const wxString& id);
 
 };
 

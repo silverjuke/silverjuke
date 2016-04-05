@@ -46,12 +46,13 @@ class SjUpnpDialog : public SjDialog
 {
 public:
 	                     SjUpnpDialog        (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource);
+	SjUpnpMediaServer*   GetSelectedMediaServer();
+	SjUpnpDirEntry*      GetSelectedDir        (); // parent directory if nothing is selected
 
 private:
-	SjUpnpMediaServer*   GetSelectedMediaServer();
-	SjUpnpDirEntry*      GetSelectedDirEntry   ();
 	void                 UpdateMediaServerList ();
 	void                 UpdateDirList         (const wxString& selId="");
+	SjUpnpDirEntry*      GetSelectedDirEntry   (); // null if nothing is selected
 
 	void                 OnUpdateMediaServerList(wxCommandEvent&);
 	void                 OnScanDone          (wxCommandEvent&);
@@ -72,7 +73,7 @@ private:
 	wxStaticText*        m_stillScanningText;
 
 	SjUpnpDir            m_currDir;
-	wxArrayString        m_parentIds, m_parentSelIds;
+	wxArrayString        m_parentIds, m_parentNames, m_parentSelIds;
 	SjUpnpDirEntry       m_parentDirEntry;
 	SjUpnpMediaServer*   m_dirListFor;
 	wxListCtrl*          m_dirListCtrl;
