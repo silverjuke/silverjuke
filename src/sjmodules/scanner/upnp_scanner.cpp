@@ -245,24 +245,25 @@ IXML_Document* SjUpnpMediaServer::_browseAction( const char* psz_object_id_,
                                                  const char* psz_sort_criteria_ )
 {
     IXML_Document* p_action = NULL;
-    UpnpAddToAction( &p_action, "Browse", m_serviceType, "ObjectID", psz_object_id_ );
-    UpnpAddToAction( &p_action, "Browse", m_serviceType, "BrowseFlag", psz_browser_flag_ );
-    UpnpAddToAction( &p_action, "Browse", m_serviceType, "Filter", psz_filter_ );
-    UpnpAddToAction( &p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_starting_index_) );
-    UpnpAddToAction( &p_action, "Browse", m_serviceType, "RequestedCount", psz_requested_count_ );
-    UpnpAddToAction( &p_action, "Browse", m_serviceType, "SortCriteria", psz_sort_criteria_ );
+    UpnpAddToAction(&p_action, "Browse", m_serviceType, "ObjectID",      psz_object_id_ );
+    UpnpAddToAction(&p_action, "Browse", m_serviceType, "BrowseFlag",    psz_browser_flag_ );
+    UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",        psz_filter_ );
+    UpnpAddToAction(&p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_starting_index_));
+    UpnpAddToAction(&p_action, "Browse", m_serviceType, "RequestedCount",psz_requested_count_);
+    UpnpAddToAction(&p_action, "Browse", m_serviceType, "SortCriteria",  psz_sort_criteria_);
 
     IXML_Document* p_response = NULL;
-    int i_res = UpnpSendAction( m_module->m_ctrlpt_handle,
+    int error = UpnpSendAction( m_module->m_ctrlpt_handle, // UpnpSendAction() sends a message to change a state variable in a service.
               m_absControlUrl,
               m_serviceType,
               0, /* ignored in SDK, must be NULL */
               p_action,
               &p_response );
 
-    if ( i_res != UPNP_E_SUCCESS ) {
-		// may be UPNP_E_OUTOF_BOUNDS if we do not call UpnpSetMaxContentLength() before
-        g_upnpModule->LogUpnpError("SendAction failed", i_res);
+    if ( error != UPNP_E_SUCCESS ) {
+		// may be UPNP_E_OUTOF_BOUNDS if we do not call UpnpSetMaxContentLength() before.
+		// may be 801 when trying to access Windows Media Player without authorisation.
+        g_upnpModule->LogUpnpError("Cannot send message", error);
         if( p_response ) {
 			ixmlDocument_free( p_response );
 			p_response = 0;
@@ -408,6 +409,10 @@ SjUpnpMediaServer::SjUpnpMediaServer(SjUpnpScannerModule* module)
 
 void SjUpnpMediaServer::subscribeToContentDirectory()
 {
+	// TODO: is this really needed?
+	// What if we use UpnpSendAction() without UpnpSubscribe()?
+	return;
+
 	// Subscribes current client handle to Content Directory Service.
 	// CDS exports the server shares to clients.
 

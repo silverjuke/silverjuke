@@ -142,9 +142,12 @@ void SjUpnpModule::LastUnload()
 
 wxString SjUpnpModule::FormatUpnpError(const wxString& descr, int errCode, const wxString& object)
 {
-	wxString ret = "UPnP Errror: " + descr;
+	wxString ret = "UPnP Errror: " + descr + ": ";
 
-	ret += ": ";
+	if( errCode == 801 ) {
+		ret += "Unauthorized access - "; // this error is send by WMP but does not exist in libupnp?!
+	}
+
 	ret += wxString(UpnpGetErrorMessage(errCode));
 	ret += wxString::Format(" (Error %i)", (int)errCode);
 
