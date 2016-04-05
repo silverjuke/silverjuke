@@ -83,25 +83,19 @@ public:
 	wxString m_friendlyName;
 	wxString m_manufacturer;
 	wxString m_modelDescription;
-	wxString m_absEventSubUrl;
+	//wxString m_absEventSubUrl;
 	wxString m_absControlUrl;
 	wxString m_serviceType;
-	int      m_subscriptionTimeout;
-	Upnp_SID m_subscriptionId;
+	//int      m_subscriptionTimeout;
+	//Upnp_SID m_subscriptionId;
 
-    bool fetchContents(SjUpnpDir&); // it's up to the caller to delete the returned object
+    bool FetchContents(SjUpnpDir&); // it's up to the caller to delete the returned object
 
 // private
-    void subscribeToContentDirectory();
-	bool compareSID( const char* psz_sid );
+    //void subscribeToContentDirectory();
+	//bool compareSID( const char* psz_sid );
 
 private:
-	IXML_Document* _browseAction( const char* psz_object_id_,
-                                           const char* psz_browser_flag_,
-                                           const char* psz_filter_,
-                                           int psz_starting_index_,
-                                           const char* psz_requested_count_,
-                                           const char* psz_sort_criteria_ );
 	SjUpnpScannerModule* m_module;
 };
 
@@ -125,13 +119,13 @@ public:
 	bool              IsMyUrl             (const wxString& url) { return false; }
 
 //private: - however, needed in friend callbacks with enum parameters which cannot use forward declararions
-	UpnpClient_Handle m_ctrlpt_handle;
+	UpnpClient_Handle m_clientHandle;
 
 	// the list of devices, if it changes, the MSG_UPDATEDEVICELIST is sent
 	SjSPHash           m_mediaServerList;
 	wxCriticalSection  m_mediaServerCritical;
 	void               clear_media_server_list();
-	SjUpnpMediaServer* get_media_server_by_sid(const char* psz_sid);
+	//SjUpnpMediaServer* get_media_server_by_sid(const char* psz_sid);
 
 	// opened dialog, NULL if none
 	SjUpnpDialog*     m_dlg;

@@ -218,7 +218,7 @@ void SjUpnpDialog::OnMediaServerClick(wxListEvent&)
 	wxBusyCursor busy;
 
 	m_currDir.m_objectId = "0";
-    mediaServer->fetchContents(m_currDir);
+    mediaServer->FetchContents(m_currDir);
 
     UpdateDirList();
 }
@@ -249,10 +249,10 @@ void SjUpnpDialog::OnMediaServerInfo(wxCommandEvent&)
 			+ "manufacturer: "                 + mediaServer->m_manufacturer                                     + "\n\n"
 			+ "deviceType: "                   + mediaServer->m_deviceType                                       + "\n\n"
 			+ "serviceType: "                  + mediaServer->m_serviceType                                      + "\n\n"
-			+ "ContentDirectory.eventSubURL: " + mediaServer->m_absEventSubUrl                                   + "\n\n"
 			+ "ContentDirectory.controlURL: "  + mediaServer->m_absControlUrl                                    + "\n\n"
-			+ "Subscription-ID: "              + wxString(mediaServer->m_subscriptionId, sizeof(Upnp_SID))       + "\n\n"
-			+ "Subscription-Timeout: "         + wxString::Format("%i", (int)mediaServer->m_subscriptionTimeout) + "\n\n"
+			//+ "ContentDirectory.eventSubURL: " + mediaServer->m_absEventSubUrl                                   + "\n\n"
+			//+ "Subscription-ID: "              + wxString(mediaServer->m_subscriptionId, sizeof(Upnp_SID))       + "\n\n"
+			//+ "Subscription-Timeout: "         + wxString::Format("%i", (int)mediaServer->m_subscriptionTimeout) + "\n\n"
 			, mediaServer->m_friendlyName, wxOK, this);
 }
 
@@ -289,7 +289,7 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 
 	// load new directory entries
 	m_currDir.m_objectId = clickedId;
-    mediaServer->fetchContents(m_currDir);
+    mediaServer->FetchContents(m_currDir);
 
     UpdateDirList(selId);
 }

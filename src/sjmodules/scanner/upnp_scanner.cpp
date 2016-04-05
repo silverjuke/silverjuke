@@ -151,6 +151,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 
                     /* Try to subscribe to ContentDirectory service */
 
+					/*
                     char* psz_url = ( char* ) malloc( strlen( psz_base_url ) + strlen( psz_event_sub_url ) + 1 );
                     if ( psz_url )
                     {
@@ -162,10 +163,11 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 
                         free( psz_url );
                     }
+                    */
 
                     /* Try to browse content directory. */
 
-                    psz_url = ( char* ) malloc( strlen( psz_base_url ) + strlen( psz_control_url ) + 1 );
+                    char* psz_url = ( char* ) malloc( strlen( psz_base_url ) + strlen( psz_control_url ) + 1 );
                     if ( psz_url )
                     {
                         if ( UpnpResolveURL( psz_base_url, psz_control_url, psz_url ) == UPNP_E_SUCCESS )
@@ -237,75 +239,45 @@ static IXML_Document* parseBrowseResult( IXML_Document* p_doc )
 }
 
 
-IXML_Document* SjUpnpMediaServer::_browseAction( const char* psz_object_id_,
-                                                 const char* psz_browser_flag_,
-                                                 const char* psz_filter_,
-                                                 int i_starting_index_,
-                                                 const char* psz_requested_count_,
-                                                 const char* psz_sort_criteria_ )
-{
-    IXML_Document* p_action = NULL;
-    UpnpAddToAction(&p_action, "Browse", m_serviceType, "ObjectID",      psz_object_id_ );
-    UpnpAddToAction(&p_action, "Browse", m_serviceType, "BrowseFlag",    psz_browser_flag_ );
-    UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",        psz_filter_ );
-    UpnpAddToAction(&p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_starting_index_));
-    UpnpAddToAction(&p_action, "Browse", m_serviceType, "RequestedCount",psz_requested_count_);
-    UpnpAddToAction(&p_action, "Browse", m_serviceType, "SortCriteria",  psz_sort_criteria_);
-
-    IXML_Document* p_response = NULL;
-    int error = UpnpSendAction( m_module->m_ctrlpt_handle, // UpnpSendAction() sends a message to change a state variable in a service.
-              m_absControlUrl,
-              m_serviceType,
-              0, /* ignored in SDK, must be NULL */
-              p_action,
-              &p_response );
-
-    if ( error != UPNP_E_SUCCESS ) {
-		// may be UPNP_E_OUTOF_BOUNDS if we do not call UpnpSetMaxContentLength() before.
-		// may be 801 when trying to access Windows Media Player without authorisation.
-        g_upnpModule->LogUpnpError("Cannot send message", error);
-        if( p_response ) {
-			ixmlDocument_free( p_response );
-			p_response = 0;
-		}
-    }
-
-    ixmlDocument_free( p_action );
-    return p_response;
-}
-
-
-bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
+bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 {
 	dir.Clear();
-	int i_offset = 0;
+	int i_offset = 0, i_number_returned, i_total_matches;
 
 	while( 1 ) // exit by break at end of loop
 	{
-		IXML_Document* p_response = _browseAction( dir.m_objectId, // root is "0"
-										  "BrowseDirectChildren",
-										  "id,dc:title,res", /* Filter */
-										  i_offset, /* StartingIndex */
-										  "0", /* RequestedCount */
-										  "" /* SortCriteria */
-										  );
+		IXML_Document* p_result = NULL;
+		{
+			IXML_Document* p_response = NULL;
+			{
+				IXML_Document* p_action = NULL;
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "ObjectID",      dir.m_objectId); // "0" = root
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "BrowseFlag",    "BrowseDirectChildren");
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",        "id,dc:title,res");
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_offset));
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "RequestedCount","0");
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "SortCriteria",  "");
+					int error = UpnpSendAction(m_module->m_clientHandle, m_absControlUrl, m_serviceType, 0, p_action, &p_response);
+				ixmlDocument_free(p_action);
+				if ( error != UPNP_E_SUCCESS || p_response==NULL ) {
+					g_upnpModule->LogUpnpError("Cannot send message", error);
+					if( p_response ) { ixmlDocument_free(p_response); }
+					return false; // error
+				}
+			}
 
-		if ( !p_response ) {
-			return false; // error already logged
+			p_result = parseBrowseResult(p_response);
+			i_number_returned = xml_getNumber(p_response, "NumberReturned");
+			i_total_matches   = xml_getNumber(p_response, "TotalMatches");
+			ixmlDocument_free(p_response);
 		}
-
-		IXML_Document* p_result = parseBrowseResult( p_response );
-		int i_number_returned = xml_getNumber( p_response, "NumberReturned" );
-		int i_total_matches   = xml_getNumber( p_response , "TotalMatches" );
-
-		ixmlDocument_free( p_response );
 
 		if( i_number_returned <= 0 || i_total_matches <= 0 ) {
 			return true; // no error, may be an empty dir
 		}
 
 		if ( !p_result ) {
-			return false; // error already logged
+			return false; // error
 		}
 
 		IXML_NodeList* containerNodeList = ixmlDocument_getElementsByTagName(p_result, "container");
@@ -402,16 +374,16 @@ bool SjUpnpMediaServer::fetchContents(SjUpnpDir& dir)
 SjUpnpMediaServer::SjUpnpMediaServer(SjUpnpScannerModule* module)
 {
 	m_module = module;
-	m_subscriptionTimeout = 0;
-	memset(m_subscriptionId, 0, sizeof(Upnp_SID));
+	//m_subscriptionTimeout = 0;
+	//memset(m_subscriptionId, 0, sizeof(Upnp_SID));
 }
 
 
+/*
 void SjUpnpMediaServer::subscribeToContentDirectory()
 {
 	// TODO: is this really needed?
 	// What if we use UpnpSendAction() without UpnpSubscribe()?
-	return;
 
 	// Subscribes current client handle to Content Directory Service.
 	// CDS exports the server shares to clients.
@@ -421,7 +393,7 @@ void SjUpnpMediaServer::subscribeToContentDirectory()
 	int i_timeout = 1810; // corrected to 1800 seconds on my system
 	Upnp_SID sid;
 
-	int i_res = UpnpSubscribe(m_module->m_ctrlpt_handle, m_absEventSubUrl, &i_timeout, sid);
+	int i_res = UpnpSubscribe(m_module->m_clientHandle, m_absEventSubUrl, &i_timeout, sid);
 	if ( i_res == UPNP_E_SUCCESS )
 	{
 		m_subscriptionTimeout = i_timeout;
@@ -433,12 +405,15 @@ void SjUpnpMediaServer::subscribeToContentDirectory()
 		g_upnpModule->LogUpnpError("Subscription failed", i_res, m_friendlyName);
 	}
 }
+*/
 
 
+/*
 bool SjUpnpMediaServer::compareSID( const char* psz_sid )
 {
     return (strncmp(m_subscriptionId, psz_sid, sizeof(Upnp_SID)) == 0 );
 }
+*/
 
 
 void SjUpnpScannerModule::clear_media_server_list()
@@ -456,6 +431,7 @@ void SjUpnpScannerModule::clear_media_server_list()
 }
 
 
+/*
 SjUpnpMediaServer* SjUpnpScannerModule::get_media_server_by_sid( const char* psz_sid )
 {
 	// CAVE: the caller is responsible for locking m_deviceListCritical!
@@ -472,6 +448,7 @@ SjUpnpMediaServer* SjUpnpScannerModule::get_media_server_by_sid( const char* psz
 
 	return NULL;
 }
+*/
 
 
 /*******************************************************************************
@@ -486,7 +463,7 @@ SjUpnpScannerModule::SjUpnpScannerModule(SjInterfaceBase* interf)
 	m_sort                  = 2; // second in list
 	m_name                  = _("Read UPNP/DLNA servers");
 	m_dlg                   = NULL;
-	m_ctrlpt_handle         = -1;
+	m_clientHandle          = -1;
 
 	m_addSourceTypes_.Add(_("Add an UPnP/DLNA server"));
 	m_addSourceIcons_.Add(SJ_ICON_INTERNET_SERVER);
@@ -506,7 +483,7 @@ void SjUpnpScannerModule::LastUnload()
 }
 
 
-int ctrl_point_event_handler(Upnp_EventType eventType, void* p_event, void* user_data)
+static int client_event_handler(Upnp_EventType eventType, void* p_event, void* user_data)
 {
 	// CAVE: We may be in _any_ thread here!
 
@@ -566,13 +543,15 @@ int ctrl_point_event_handler(Upnp_EventType eventType, void* p_event, void* user
 		case UPNP_EVENT_AUTORENEWAL_FAILED:
 		case UPNP_EVENT_SUBSCRIPTION_EXPIRED:
 			{
-				/* Re-subscribe. */
+				/*
+				// Re-subscribe.
 
 				wxCriticalSectionLocker locker(this_->m_mediaServerCritical);
 				Upnp_Event_Subscribe* p_s = ( Upnp_Event_Subscribe* )p_event;
 
 				SjUpnpMediaServer* p_server = this_->get_media_server_by_sid( p_s->Sid );
 				if ( p_server ) p_server->subscribeToContentDirectory();
+				*/
 			}
 			break;
 
@@ -591,31 +570,31 @@ bool SjUpnpScannerModule::init_client()
 {
 	// as initialisation may take a second, we init at late as possible
 
-	if( m_ctrlpt_handle != -1 ) { return true; } // already initalized
+	if( m_clientHandle != -1 ) { return true; } // already initalized
 
 	if( !g_upnpModule->InitLibupnp() ) {
 		return false; // error already logged
 	}
 
 	// create our control point
-	int error = UpnpRegisterClient(ctrl_point_event_handler, this/*user data*/, &m_ctrlpt_handle);
+	int error = UpnpRegisterClient(client_event_handler, this/*user data*/, &m_clientHandle);
 	if( error != UPNP_E_SUCCESS ) {
 		g_upnpModule->LogUpnpError("Cannot register client", error);
-		m_ctrlpt_handle = -1;
+		m_clientHandle = -1;
 		exit_client();
 		return false; // error
 	}
 
-	// done, m_ctrlpt_handle is != -1 now
+	// done, m_clientHandle is != -1 now
 	return true;
 }
 
 
 void SjUpnpScannerModule::exit_client()
 {
-	if( m_ctrlpt_handle != -1 ) {
-		UpnpUnRegisterClient(m_ctrlpt_handle);
-		m_ctrlpt_handle = -1;
+	if( m_clientHandle != -1 ) {
+		UpnpUnRegisterClient(m_clientHandle);
+		m_clientHandle = -1;
 	}
 }
 
@@ -632,7 +611,7 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 	wxASSERT( m_dlg == NULL );
 	m_dlg = new SjUpnpDialog(parent, this, NULL);
 
-	UpnpSearchAsync(m_ctrlpt_handle,
+	UpnpSearchAsync(m_clientHandle,
 		120 /*wait 2 minutes (my diskstation may take 30 seconds to appear (bp))*/,
 		MEDIA_SERVER_DEVICE_TYPE, this/*user data*/);
 
