@@ -45,24 +45,24 @@
 class SjUpnpDialog : public SjDialog
 {
 public:
-	                     SjUpnpDialog        (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource);
-	SjUpnpMediaServer*   GetSelectedMediaServer();
-	SjUpnpDirEntry*      GetSelectedDir        (); // parent directory if nothing is selected
+	                     SjUpnpDialog            (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource);
+	SjUpnpMediaServer*   GetSelectedMediaServer  ();
+	SjUpnpDirEntry*      GetSelectedDir          (); // parent directory if nothing is selected
 
 private:
-	void                 UpdateMediaServerList ();
-	void                 UpdateDirList         (const wxString& selId="");
-	SjUpnpDirEntry*      GetSelectedDirEntry   (); // null if nothing is selected
+	void                 UpdateMediaServerList   ();
+	void                 UpdateDirList           (const wxString& selId="");
+	SjUpnpDirEntry*      GetSelectedDirEntry     (); // null if nothing is selected
 
-	void                 OnUpdateMediaServerList(wxCommandEvent&);
-	void                 OnScanDone          (wxCommandEvent&);
-	void                 OnSize              (wxSizeEvent& e);
-	void                 OnMediaServerClick  (wxListEvent&);
-	void                 OnMediaServerContextMenu (wxListEvent&);
-	void                 OnMediaServerInfo   (wxCommandEvent&);
-	void                 OnDirDoubleClick    (wxListEvent&);
-	void                 OnDirContextMenu    (wxListEvent&);
-	void                 OnDirEntryInfo      (wxCommandEvent&);
+	void                 OnUpdateMediaServerList (wxCommandEvent&);
+	void                 OnScanDone              (wxCommandEvent&);
+	void                 OnSize                  (wxSizeEvent& e);
+	void                 OnMediaServerClick      (wxListEvent&);
+	void                 OnMediaServerContextMenu(wxListEvent&);
+	void                 OnMediaServerInfo       (wxCommandEvent&);
+	void                 OnDirDoubleClick        (wxListEvent&);
+	void                 OnDirContextMenu        (wxListEvent&);
+	void                 OnDirEntryInfo          (wxCommandEvent&);
 
 	bool                 m_isNew;
 	bool                 m_stillLoading;
