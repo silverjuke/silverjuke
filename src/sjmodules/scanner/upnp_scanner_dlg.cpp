@@ -120,11 +120,14 @@ SjUpnpDirEntry* SjUpnpDialog::GetSelectedDirEntry()
 SjUpnpDirEntry* SjUpnpDialog::GetSelectedDir()
 {
 	SjUpnpDirEntry* sel;
-	if( (sel = GetSelectedDirEntry())!=NULL ) {
-		return sel;
+	if( (sel = GetSelectedDirEntry())!=NULL )
+	{
+		if( sel->m_isDir ) {
+			return sel;
+		}
 	}
 
-	// no item is selected in the list control; return the parent directory
+	// no item or no directory is selected in the list control; return the parent directory
 	// (this allows to selected
 	m_parentDirEntry.m_objectId = m_currDir.m_objectId;
 	m_parentDirEntry.m_name     = m_currDir.m_name;
