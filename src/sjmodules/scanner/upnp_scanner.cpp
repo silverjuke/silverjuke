@@ -739,7 +739,7 @@ bool SjUpnpScannerModule::DeleteSource(long index, wxWindow* parent)
 bool SjUpnpScannerModule::ConfigSource(long index, wxWindow* parent)
 {
 	save_sources();
-	return true;
+	return false; // needs update?
 }
 
 

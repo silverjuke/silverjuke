@@ -137,7 +137,7 @@ BEGIN_EVENT_TABLE(SjMyMusicConfigPage, wxPanel)
 END_EVENT_TABLE()
 
 
-static int wxCALLBACK ListCtrlCompareFunction(long item1__, long item2__, long sortData)
+static int wxCALLBACK ListCtrlCompareFunction(wxIntPtr item1__, wxIntPtr item2__, wxIntPtr sortData)
 {
 	int                         ret = 0, toggleSort = sortData&0x00001000? 1 : 0;
 	SjSettingsSourceItem        *source1 = (SjSettingsSourceItem*)item1__,
@@ -347,8 +347,7 @@ void SjMyMusicConfigPage::InitPage(const wxString& selSourceUrl)
 	// go through all search directories
 	SjSettingsSourceItem*           item;
 	SjSettingsSourceItemList::Node* itemnode = m_listOfSources.GetFirst();
-	int                             i = 0, new_i;
-	bool                            anythingSelected = FALSE;
+	int                             i = 0;
 	wxString                        sourceNotes;
 	while( itemnode )
 	{
@@ -359,7 +358,7 @@ void SjMyMusicConfigPage::InitPage(const wxString& selSourceUrl)
 		listitem.m_mask     = wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT | wxLIST_MASK_DATA;
 		listitem.m_itemId   = i;
 		listitem.m_text     = item->GetUrl();
-		listitem.m_data     = (long)item;
+		listitem.SetData((void*)item);
 		listitem.m_image    = item->GetScannerModule()->GetSourceIcon(item->GetIndex());
 
 		sourceNotes = item->GetScannerModule()->GetSourceNotes(item->GetIndex());
@@ -370,27 +369,27 @@ void SjMyMusicConfigPage::InitPage(const wxString& selSourceUrl)
 			listitem.m_text.Append(')');
 		}
 
-		new_i = m_listCtrl->InsertItem(listitem);
-
-		if( item->GetUrl() == selSourceUrl )
-		{
-			m_listCtrl->SetItemState(new_i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
-			anythingSelected = TRUE;
-		}
+		m_listCtrl->InsertItem(listitem);
 
 		itemnode = itemnode->GetNext();
 		i++;
 	}
 
-	if( !anythingSelected && i > 0 )
-	{
-		m_listCtrl->SetItemState(0, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED,
-		                         wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
-	}
-
-	m_listCtrl->SortItems(ListCtrlCompareFunction, m_currSortCol); // this may unselect Items on GTK, however, this should be fixed in wxWidgets/GTK
+	m_listCtrl->SortItems(ListCtrlCompareFunction, m_currSortCol);
 
 	m_listCtrl->Thaw();
+
+	// select the correct item
+	// (should be done after SortItems() on GTK this may remove the selection ...)
+	int i_cnt = m_listCtrl->GetItemCount();
+	for( i = 0; i < i_cnt; i ++ )
+	{
+		item = (SjSettingsSourceItem*)m_listCtrl->GetItemData(i);
+		if( item->GetUrl() == selSourceUrl ) {
+			m_listCtrl->SetItemState(i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+			break;
+		}
+	}
 
 	UpdateButtons();
 }
