@@ -36,11 +36,14 @@
 SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource)
 	: SjDialog(parent, "", SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE)
 {
-	m_upnpModule   = upnpModule;
-	m_upnpSource   = upnpSource; // may be NULL!
-	m_isNew        = (upnpSource==NULL);
-	m_stillLoading = true;
-	m_dirListFor   = NULL;
+	m_upnpModule          = upnpModule;
+	m_upnpSource          = upnpSource; // may be NULL!
+	m_isNew               = (upnpSource==NULL);
+	m_stillLoading        = true;
+	m_dirListFor          = NULL;
+	m_stillScanningText   = NULL;
+	m_mediaServerListCtrl = NULL;
+	m_dirListCtrl         = NULL;
 
 	wxString title;
 	if( m_isNew ) {
@@ -57,27 +60,30 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 	wxBoxSizer* sizer1 = new wxBoxSizer(wxVERTICAL);
 	SetSizer(sizer1);
 
-		wxBoxSizer* sizer2 = new wxBoxSizer(wxHORIZONTAL);
-		sizer1->Add(sizer2, 0, wxALL|wxGROW, SJ_DLG_SPACE);
+		if( m_isNew )
+		{
+			wxBoxSizer* sizer2 = new wxBoxSizer(wxHORIZONTAL);
+			sizer1->Add(sizer2, 0, wxALL|wxGROW, SJ_DLG_SPACE);
 
-			wxStaticText* staticText = new wxStaticText(this, -1, "1. "+_("Select server:"));
-			sizer2->Add(staticText, 1, 0, SJ_DLG_SPACE);
+				wxStaticText* staticText = new wxStaticText(this, -1, "1. "+_("Select server:"));
+				sizer2->Add(staticText, 1, 0, SJ_DLG_SPACE);
 
-			m_stillScanningText = new wxStaticText(this, -1, _("(still scanning)"));
-			sizer2->Add(m_stillScanningText, 0, 0, SJ_DLG_SPACE);
+				m_stillScanningText = new wxStaticText(this, -1, _("(still scanning)"));
+				sizer2->Add(m_stillScanningText, 0, 0, SJ_DLG_SPACE);
 
-		m_mediaServerListCtrl = new wxListCtrl(this, IDC_MEDIASERVERLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*15), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
-		m_mediaServerListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
-		m_mediaServerListCtrl->InsertColumn(0, _("Name"));
-		sizer1->Add(m_mediaServerListCtrl, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+			m_mediaServerListCtrl = new wxListCtrl(this, IDC_MEDIASERVERLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*15), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
+			m_mediaServerListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
+			m_mediaServerListCtrl->InsertColumn(0, _("Name"));
+			sizer1->Add(m_mediaServerListCtrl, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
-		staticText = new wxStaticText(this, -1, "2. "+_("Select directory:"));
-		sizer1->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+			staticText = new wxStaticText(this, -1, "2. "+_("Select directory:"));
+			sizer1->Add(staticText, 0, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 
-		m_dirListCtrl = new wxListCtrl(this, IDC_DIRLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*30), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
-		m_dirListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
-		m_dirListCtrl->InsertColumn(0, _("Directory"));
-		sizer1->Add(m_dirListCtrl, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+			m_dirListCtrl = new wxListCtrl(this, IDC_DIRLISTCTRL, wxDefaultPosition, wxSize(380, SJ_DLG_SPACE*30), wxLC_REPORT | wxLC_SINGLE_SEL | wxSUNKEN_BORDER | wxLC_NO_HEADER);
+			m_dirListCtrl->SetImageList(g_tools->GetIconlist(FALSE), wxIMAGE_LIST_SMALL);
+			m_dirListCtrl->InsertColumn(0, _("Directory"));
+			sizer1->Add(m_dirListCtrl, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
+		}
 
 	// buttons
 	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
@@ -92,24 +98,34 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 SjUpnpMediaServer* SjUpnpDialog::GetSelectedMediaServer()
 {
 	SjUpnpMediaServer* selMediaServer = NULL;
-	long selIndex = GetSelListCtrlItem(m_mediaServerListCtrl);
-	if( selIndex >= 0 ) { selMediaServer = (SjUpnpMediaServer*)m_mediaServerListCtrl->GetItemData(selIndex); }
+	if( m_mediaServerListCtrl )
+	{
+		long selIndex = GetSelListCtrlItem(m_mediaServerListCtrl);
+		if( selIndex >= 0 )
+		{
+			selMediaServer = (SjUpnpMediaServer*)m_mediaServerListCtrl->GetItemData(selIndex);
+		}
+	}
+
 	return selMediaServer;
 }
 
 
 SjUpnpDirEntry* SjUpnpDialog::GetSelectedDirEntry()
 {
-	long selIndex = GetSelListCtrlItem(m_dirListCtrl);
-	if( selIndex >= 0 && selIndex < m_dirListCtrl->GetItemCount() )
+	if( m_dirListCtrl )
 	{
-		selIndex = m_dirListCtrl->GetItemData(selIndex);
-		if( selIndex == -1 ) {
-			if( m_parentIds.GetCount() <= 0 ) { return NULL; } // error
-			return &m_parentDirEntry;
-		}
-		else if( selIndex >= 0 && selIndex < m_currDir.GetCount() ) {
-			return m_currDir.Item(selIndex);
+		long selIndex = GetSelListCtrlItem(m_dirListCtrl);
+		if( selIndex >= 0 && selIndex < m_dirListCtrl->GetItemCount() )
+		{
+			selIndex = m_dirListCtrl->GetItemData(selIndex);
+			if( selIndex == -1 ) {
+				if( m_parentIds.GetCount() <= 0 ) { return NULL; } // error
+				return &m_parentDirEntry;
+			}
+			else if( selIndex >= 0 && selIndex < m_currDir.GetCount() ) {
+				return m_currDir.Item(selIndex);
+			}
 		}
 	}
 
@@ -137,26 +153,29 @@ SjUpnpDirEntry* SjUpnpDialog::GetSelectedDir()
 
 void SjUpnpDialog::UpdateMediaServerList()
 {
-	wxCriticalSectionLocker locker(m_upnpModule->m_mediaServerCritical);
+	if( m_mediaServerListCtrl )
+	{
+		wxCriticalSectionLocker locker(m_upnpModule->m_mediaServerCritical);
 
-	SjUpnpMediaServer* selMediaServer = GetSelectedMediaServer();
+		SjUpnpMediaServer* selMediaServer = GetSelectedMediaServer();
 
-	m_mediaServerListCtrl->DeleteAllItems();
+		m_mediaServerListCtrl->DeleteAllItems();
 
-	SjHashIterator     iterator;
-	wxString           udn;
-	SjUpnpMediaServer* mediaServer;
-	int i = 0;
-	while( (mediaServer=(SjUpnpMediaServer*)m_upnpModule->m_mediaServerList.Iterate(iterator, udn))!=NULL ) {
-		wxListItem li;
-		li.SetId(i++);
-		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
-		li.SetText(mediaServer->m_friendlyName);
-		li.SetImage(SJ_ICON_UPNP_SERVER);
-		li.SetData((void*)mediaServer);
-		int new_i = m_mediaServerListCtrl->InsertItem(li);
-		if( mediaServer == selMediaServer ) {
-			m_mediaServerListCtrl->SetItemState(new_i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+		SjHashIterator     iterator;
+		wxString           udn;
+		SjUpnpMediaServer* mediaServer;
+		int i = 0;
+		while( (mediaServer=(SjUpnpMediaServer*)m_upnpModule->m_mediaServerList.Iterate(iterator, udn))!=NULL ) {
+			wxListItem li;
+			li.SetId(i++);
+			li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
+			li.SetText(mediaServer->m_friendlyName);
+			li.SetImage(SJ_ICON_UPNP_SERVER);
+			li.SetData((void*)mediaServer);
+			int new_i = m_mediaServerListCtrl->InsertItem(li);
+			if( mediaServer == selMediaServer ) {
+				m_mediaServerListCtrl->SetItemState(new_i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+			}
 		}
 	}
 }
@@ -164,42 +183,45 @@ void SjUpnpDialog::UpdateMediaServerList()
 
 void SjUpnpDialog::UpdateDirList(const wxString& selId)
 {
-	m_dirListCtrl->DeleteAllItems();
-
-	long zero_based_pos = 0;
-	if( m_currDir.m_objectId!="0" ) {
-		wxListItem li;
-		li.SetId(zero_based_pos);
-		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
-		li.SetText("..");
-		li.SetImage(SJ_ICON_EMPTY);
-		li.SetData(-1);
-		m_dirListCtrl->InsertItem(li);
-
-		zero_based_pos++;
-	}
-
-	int i, cnt = m_currDir.GetCount();
-	for( i = 0; i < cnt; i++ )
+	if( m_dirListCtrl )
 	{
-		SjUpnpDirEntry* entry = m_currDir.Item(i);
+		m_dirListCtrl->DeleteAllItems();
 
-		wxListItem li;
-		li.SetId(zero_based_pos);
-		li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
-		li.SetText(entry->m_name);
-		li.SetImage(entry->m_isDir? SJ_ICON_MUSIC_FOLDER : SJ_ICON_EMPTY);
-		li.SetData(i);
-		m_dirListCtrl->InsertItem(li);
+		long zero_based_pos = 0;
+		if( m_currDir.m_objectId!="0" ) {
+			wxListItem li;
+			li.SetId(zero_based_pos);
+			li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
+			li.SetText("..");
+			li.SetImage(SJ_ICON_EMPTY);
+			li.SetData(-1);
+			m_dirListCtrl->InsertItem(li);
 
-		if( entry->m_objectId == selId ) {
-			m_dirListCtrl->SetItemState(zero_based_pos, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+			zero_based_pos++;
 		}
 
-		zero_based_pos++;
-	}
+		int i, cnt = m_currDir.GetCount();
+		for( i = 0; i < cnt; i++ )
+		{
+			SjUpnpDirEntry* entry = m_currDir.Item(i);
 
-	EnsureSelListCtrlItemVisible(m_dirListCtrl);
+			wxListItem li;
+			li.SetId(zero_based_pos);
+			li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
+			li.SetText(entry->m_name);
+			li.SetImage(entry->m_isDir? SJ_ICON_MUSIC_FOLDER : SJ_ICON_ANYFILE);
+			li.SetData(i);
+			m_dirListCtrl->InsertItem(li);
+
+			if( entry->m_objectId == selId ) {
+				m_dirListCtrl->SetItemState(zero_based_pos, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
+			}
+
+			zero_based_pos++;
+		}
+
+		EnsureSelListCtrlItemVisible(m_dirListCtrl);
+	}
 }
 
 
@@ -211,17 +233,27 @@ void SjUpnpDialog::OnUpdateMediaServerList(wxCommandEvent&)
 
 void SjUpnpDialog::OnScanDone(wxCommandEvent&)
 {
-	m_stillScanningText->Hide();
+	if( m_stillScanningText )
+	{
+		m_stillScanningText->Hide();
+	}
 }
 
 
 void SjUpnpDialog::OnSize(wxSizeEvent& e)
 {
-	wxSize size = m_mediaServerListCtrl->GetClientSize();
-	m_mediaServerListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
+	if( m_mediaServerListCtrl )
+	{
+		wxSize size = m_mediaServerListCtrl->GetClientSize();
+		m_mediaServerListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
+	}
 
-	size = m_dirListCtrl->GetClientSize();
-	m_dirListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
+	if( m_dirListCtrl )
+	{
+		wxSize size = m_dirListCtrl->GetClientSize();
+		m_dirListCtrl->SetColumnWidth(0, size.x-SJ_DLG_SPACE);
+	}
+
 	e.Skip();
 }
 
@@ -278,39 +310,42 @@ void SjUpnpDialog::OnMediaServerInfo(wxCommandEvent&)
 
 void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 {
-	wxBusyCursor busy;
-
-    SjUpnpMediaServer* mediaServer = GetSelectedMediaServer();
-    if( mediaServer == NULL ) { return; } // nothing selected
-    if( mediaServer != m_dirListFor ) { return; } // sth. went wrong
-
-	// find out the clicked folder, clear directory entries
-	wxString clickedId, clickedName, selId;
+	if( m_dirListCtrl )
 	{
-		SjUpnpDirEntry* dirEntry = GetSelectedDirEntry();
-		if( dirEntry == NULL ) { return; } // nothing selected
+		wxBusyCursor busy;
 
-		if( dirEntry == &m_parentDirEntry ) {
-			clickedId   = m_parentIds.Last();    m_parentIds.RemoveAt(m_parentIds.GetCount()-1);
-			clickedName = m_parentNames.Last();  m_parentNames.RemoveAt(m_parentNames.GetCount()-1);
-			selId       = m_parentSelIds.Last(); m_parentSelIds.RemoveAt(m_parentSelIds.GetCount()-1);
+		SjUpnpMediaServer* mediaServer = GetSelectedMediaServer();
+		if( mediaServer == NULL ) { return; } // nothing selected
+		if( mediaServer != m_dirListFor ) { return; } // sth. went wrong
+
+		// find out the clicked folder, clear directory entries
+		wxString clickedId, clickedName, selId;
+		{
+			SjUpnpDirEntry* dirEntry = GetSelectedDirEntry();
+			if( dirEntry == NULL ) { return; } // nothing selected
+
+			if( dirEntry == &m_parentDirEntry ) {
+				clickedId   = m_parentIds.Last();    m_parentIds.RemoveAt(m_parentIds.GetCount()-1);
+				clickedName = m_parentNames.Last();  m_parentNames.RemoveAt(m_parentNames.GetCount()-1);
+				selId       = m_parentSelIds.Last(); m_parentSelIds.RemoveAt(m_parentSelIds.GetCount()-1);
+			}
+			else {
+				if( !dirEntry->m_isDir ) { return; } // double click on a file -> nothing to do
+				clickedId = dirEntry->m_objectId; m_parentIds.Add(m_currDir.m_objectId);
+				clickedName = dirEntry->m_name;   m_parentNames.Add(m_currDir.m_name);
+				m_parentSelIds.Add(dirEntry->m_objectId);
+			}
+			m_dirListCtrl->DeleteAllItems();
+			m_currDir.Clear();
 		}
-		else {
-			if( !dirEntry->m_isDir ) { return; } // double click on a file -> nothing to do
-			clickedId = dirEntry->m_objectId; m_parentIds.Add(m_currDir.m_objectId);
-			clickedName = dirEntry->m_name;   m_parentNames.Add(m_currDir.m_name);
-			m_parentSelIds.Add(dirEntry->m_objectId);
-		}
-		m_dirListCtrl->DeleteAllItems();
-		m_currDir.Clear();
+
+		// load new directory entries
+		m_currDir.m_objectId = clickedId;
+		m_currDir.m_name     = clickedName;
+		mediaServer->FetchContents(m_currDir);
+
+		UpdateDirList(selId);
 	}
-
-	// load new directory entries
-	m_currDir.m_objectId = clickedId;
-	m_currDir.m_name     = clickedName;
-    mediaServer->FetchContents(m_currDir);
-
-    UpdateDirList(selId);
 }
 
 

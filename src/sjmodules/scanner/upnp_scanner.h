@@ -119,7 +119,7 @@ public:
 	bool              DeleteSource        (long index, wxWindow* parent);
 	bool              ConfigSource        (long index, wxWindow* parent);
 
-	bool              IterateTrackInfo    (SjColModule* receiver) { return true; }
+	bool              IterateTrackInfo    (SjColModule* receiver);
 	bool              SetTrackInfo        (const wxString& url, SjTrackInfo&) { return false; }
 	bool              IsMyUrl             (const wxString& url) { return false; }
 

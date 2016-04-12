@@ -670,9 +670,9 @@ long SjUpnpScannerModule::get_source_by_udn_and_id(const wxString& udn, const wx
 
 long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 {
-	long ret = -1; // nothing added
-
 	if( !init_client() || !load_sources() ) { return -1; } // error
+
+	long ret = -1; // nothing added
 
 	{
 		wxCriticalSectionLocker locker(m_mediaServerCritical);
@@ -726,6 +726,26 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 }
 
 
+bool SjUpnpScannerModule::ConfigSource(long index, wxWindow* parent)
+{
+	if( !init_client() || !load_sources() ) { return false; } // error
+	SjUpnpSource* source = get_source(index); if( source == NULL ) { return false; } // error
+
+	wxASSERT( m_dlg == NULL );
+	m_dlg = new SjUpnpDialog(parent, this, source);
+
+	if( m_dlg->ShowModal() == wxID_OK )
+	{
+	}
+
+	delete m_dlg;
+	m_dlg = NULL;
+
+	save_sources();
+	return false; // needs update?
+}
+
+
 bool SjUpnpScannerModule::DeleteSource(long index, wxWindow* parent)
 {
 	delete get_source(index);
@@ -736,10 +756,9 @@ bool SjUpnpScannerModule::DeleteSource(long index, wxWindow* parent)
 }
 
 
-bool SjUpnpScannerModule::ConfigSource(long index, wxWindow* parent)
+bool SjUpnpScannerModule::IterateTrackInfo(SjColModule* receiver)
 {
-	save_sources();
-	return false; // needs update?
+	return true;
 }
 
 
