@@ -253,7 +253,7 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 				IXML_Document* p_action = NULL;
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "ObjectID",      dir.m_objectId); // "0" = root
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "BrowseFlag",    "BrowseDirectChildren");
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",        "id,dc:title,res");
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",        "id,dc:title,dc:creator,upnp:album,upnp:genre,res"); // dc=Dublin Core
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_offset));
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "RequestedCount","0");
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "SortCriteria",  "");
@@ -288,14 +288,14 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 				IXML_Element* containerElement = (IXML_Element*)ixmlNodeList_item(containerNodeList, i);
 
 				const char* id = ixmlElement_getAttribute(containerElement, "id");
-				const char* title = xml_getChildElementValue(containerElement, "dc:title");
-				if ( !id || !title  ) {
+				const char* dc_title = xml_getChildElementValue(containerElement, "dc:title");
+				if ( !id || !dc_title  ) {
 					continue;
 				}
 
 				SjUpnpDirEntry* entry = new SjUpnpDirEntry();
 				entry->m_isDir    = true;
-				entry->m_name     = title;
+				entry->m_dc_title = dc_title;
 				entry->m_objectId = id;
 				dir.Add(entry); // entry is now owned by SjUpnpDir
 			}
@@ -309,10 +309,13 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 			{
 				IXML_Element* itemElement = (IXML_Element*)ixmlNodeList_item(itemNodeList, i);
 
-				const char* id    = ixmlElement_getAttribute(itemElement, "id");
-				const char* title = xml_getChildElementValue(itemElement, "dc:title");
+				const char* id         = ixmlElement_getAttribute(itemElement, "id");
+				const char* dc_title   = xml_getChildElementValue(itemElement, "dc:title"); // if you add lines here, do not forget them above at "Filter"
+				const char* dc_creator = xml_getChildElementValue(itemElement, "dc:creator");
+				const char* upnp_album = xml_getChildElementValue(itemElement, "upnp:album");
+				const char* upnp_genre = xml_getChildElementValue(itemElement, "upnp:genre"); // may be sth. like "(254)", seen on Fritzbox, however, I'm not sure, what this is about; it is _not_ ID3 (max. 192 genres)
 
-				if ( !id || !title ) {
+				if ( !id || !dc_title ) {
 					continue;
 				}
 
@@ -340,10 +343,13 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 						}
 
 						SjUpnpDirEntry* entry = new SjUpnpDirEntry();
-						entry->m_name = title;
-						entry->m_isDir = false;
-						entry->m_objectId = id;
-						entry->m_url = psz_resource_url;
+						entry->m_isDir      = false;
+						entry->m_dc_title   = dc_title;
+						entry->m_dc_creator = dc_creator? wxString(dc_creator) : wxString();
+						entry->m_upnp_album = upnp_album? wxString(upnp_album) : wxString();
+						entry->m_upnp_genre = upnp_genre? wxString(upnp_genre) : wxString();
+						entry->m_objectId   = id;
+						entry->m_url        = psz_resource_url;
 						entry->m_playtimeMs = playtimeMs;
 						dir.Add(entry); // entry is now owned by SjUpnpDir
 						break; // only one resource per ID
@@ -697,7 +703,7 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 			source->m_udn        = mediaServer->m_udn;
 			source->m_objectId   = dir->m_objectId;
 			source->m_controlUrl = mediaServer->m_absControlUrl;
-			source->m_descr      = mediaServer->m_friendlyName + "/" + dir->m_name;
+			source->m_descr      = mediaServer->m_friendlyName + "/" + dir->m_dc_title;
 
 			if( (ret=get_source_by_udn_and_id(source->m_udn, source->m_objectId))!=-1 ) {
 				delete source; // source is already existant, use existing index

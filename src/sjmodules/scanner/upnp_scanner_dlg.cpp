@@ -146,7 +146,7 @@ SjUpnpDirEntry* SjUpnpDialog::GetSelectedDir()
 	// no item or no directory is selected in the list control; return the parent directory
 	// (this allows to selected
 	m_parentDirEntry.m_objectId = m_currDir.m_objectId;
-	m_parentDirEntry.m_name     = m_currDir.m_name;
+	m_parentDirEntry.m_dc_title = m_currDir.m_dc_title;
     return &m_parentDirEntry;
 }
 
@@ -208,7 +208,7 @@ void SjUpnpDialog::UpdateDirList(const wxString& selId)
 			wxListItem li;
 			li.SetId(zero_based_pos);
 			li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
-			li.SetText(entry->m_name);
+			li.SetText(entry->m_dc_title);
 			li.SetImage(entry->m_isDir? SJ_ICON_MUSIC_FOLDER : SJ_ICON_ANYFILE);
 			li.SetData(i);
 			m_dirListCtrl->InsertItem(li);
@@ -268,7 +268,7 @@ void SjUpnpDialog::OnMediaServerClick(wxListEvent&)
 	wxBusyCursor busy;
 
 	m_currDir.m_objectId = "0";
-	m_currDir.m_name     = "";
+	m_currDir.m_dc_title = "";
     mediaServer->FetchContents(m_currDir);
 
     UpdateDirList();
@@ -331,8 +331,8 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 			}
 			else {
 				if( !dirEntry->m_isDir ) { return; } // double click on a file -> nothing to do
-				clickedId = dirEntry->m_objectId; m_parentIds.Add(m_currDir.m_objectId);
-				clickedName = dirEntry->m_name;   m_parentNames.Add(m_currDir.m_name);
+				clickedId = dirEntry->m_objectId;   m_parentIds.Add(m_currDir.m_objectId);
+				clickedName = dirEntry->m_dc_title; m_parentNames.Add(m_currDir.m_dc_title);
 				m_parentSelIds.Add(dirEntry->m_objectId);
 			}
 			m_dirListCtrl->DeleteAllItems();
@@ -341,7 +341,7 @@ void SjUpnpDialog::OnDirDoubleClick(wxListEvent&)
 
 		// load new directory entries
 		m_currDir.m_objectId = clickedId;
-		m_currDir.m_name     = clickedName;
+		m_currDir.m_dc_title = clickedName;
 		mediaServer->FetchContents(m_currDir);
 
 		UpdateDirList(selId);
@@ -373,12 +373,15 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 	}
 
 	wxMessageBox(
-			  "Name: "      + dirEntry->m_name                  + "\n\n"
-			+ "Directory: " + (dirEntry->m_isDir? "yes" : "no") + "\n\n"
-			+ "ID: "        + dirEntry->m_objectId              + "\n\n"
-			+ "URL: "       + dirEntry->m_url                   + "\n\n"
-			+ "Playtime: "  + playtimeStr                       + "\n\n"
-			, dirEntry->m_name, wxOK, this);
+			  "dc:title: "    + dirEntry->m_dc_title              + "\n\n"
+			+ "dc:creator: "  + dirEntry->m_dc_creator            + "\n\n"
+			+ "upnp:album: "  + dirEntry->m_upnp_album            + "\n\n"
+			+ "upnp:genre: "  + dirEntry->m_upnp_genre            + "\n\n"
+			+ "Directory: "   + (dirEntry->m_isDir? "yes" : "no") + "\n\n"
+			+ "ID: "          + dirEntry->m_objectId              + "\n\n"
+			+ "URL: "         + dirEntry->m_url                   + "\n\n"
+			+ "Playtime: "    + playtimeStr                       + "\n\n"
+			, dirEntry->m_dc_title, wxOK, this);
 }
 
 

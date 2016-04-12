@@ -53,7 +53,10 @@ class SjUpnpDirEntry
 {
 public:
 	           SjUpnpDirEntry() { m_isDir = false; m_playtimeMs = -1; }
-	wxString   m_name;
+	wxString   m_dc_title;   // = m_trackName
+	wxString   m_dc_creator; // = m_leadArtistName
+	wxString   m_upnp_album;
+	wxString   m_upnp_genre;
 	bool       m_isDir;
 	wxString   m_objectId;
 	wxString   m_url;
@@ -71,7 +74,7 @@ public:
 	void            Clear     () { int i, cnt=GetCount(); for( i=0; i<cnt; i++ ) { delete Item(i); } m_items.Empty(); }
 
 	wxString        m_objectId;
-	wxString        m_name;
+	wxString        m_dc_title;
 
 private:
 	wxArrayPtrVoid  m_items;
