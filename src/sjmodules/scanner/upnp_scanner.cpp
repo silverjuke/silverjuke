@@ -784,13 +784,21 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 		SjUpnpDirEntry* entry = dir.Item(i);
 		if( entry->m_isDir )
 		{
+			// iterate to subdirectory
 			if( !iterate_dir(receiver, mediaServer, entry->m_objectId, objectDescr + "/" + entry->m_dc_title) ) {
 				return false; // error
 			}
 		}
 		else
 		{
-            // TODO: interate file ...
+			// add a single file
+			SjTrackInfo* trackInfo = new SjTrackInfo;
+			trackInfo->m_url            = entry->m_url;
+			trackInfo->m_trackName      = entry->m_dc_title;
+			trackInfo->m_leadArtistName = entry->m_dc_creator;
+			trackInfo->m_albumName      = entry->m_upnp_album;
+			trackInfo->m_genreName      = entry->m_upnp_genre;
+			receiver->Callback_ReceiveTrackInfo(trackInfo);
 		}
 	}
 
