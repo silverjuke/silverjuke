@@ -615,12 +615,14 @@ bool SjUpnpScannerModule::load_sources()
 	SjUpnpSource*  source;
 	for( i = 0; i < sourceCount; i++ )
 	{
-		source               = new SjUpnpSource();
-		source->m_udn        = sql.ConfigRead(wxString::Format("upnpscanner/s%iudn",       (int)i), wxT(""));
-		source->m_objectId   = sql.ConfigRead(wxString::Format("upnpscanner/s%iid",        (int)i), wxT(""));
-		source->m_controlUrl = sql.ConfigRead(wxString::Format("upnpscanner/s%icontrolUrl",(int)i), wxT(""));
-		source->m_descr      = sql.ConfigRead(wxString::Format("upnpscanner/s%idescr",     (int)i), wxT(""));
-		if( source->m_udn.IsEmpty() || source->m_objectId.IsEmpty() || source->m_controlUrl.IsEmpty() || source->m_descr.IsEmpty() )
+		source                  = new SjUpnpSource();
+		source->m_udn           = sql.ConfigRead(wxString::Format("upnpscanner/s%iudn",        (int)i), wxT(""));
+		source->m_objectId      = sql.ConfigRead(wxString::Format("upnpscanner/s%iid",         (int)i), wxT(""));
+		source->m_absControlUrl = sql.ConfigRead(wxString::Format("upnpscanner/s%icontrolUrl", (int)i), wxT(""));
+		source->m_serviceType   = sql.ConfigRead(wxString::Format("upnpscanner/s%iserviceType",(int)i), wxT(""));
+		source->m_descr         = sql.ConfigRead(wxString::Format("upnpscanner/s%idescr",      (int)i), wxT(""));
+		if( source->m_udn.IsEmpty() || source->m_objectId.IsEmpty()
+		 || source->m_absControlUrl.IsEmpty() || source->m_serviceType.IsEmpty() || source->m_descr.IsEmpty() )
 		{
 			delete source;
 		}
@@ -648,16 +650,16 @@ void SjUpnpScannerModule::save_sources()
 		for( i = 0; i < sourceCount; i++ )
 		{
 			SjUpnpSource* source = get_source(i);
-			sql.ConfigWrite(wxString::Format("upnpscanner/s%iudn",       (int)i), source->m_udn);
-			sql.ConfigWrite(wxString::Format("upnpscanner/s%iid",        (int)i), source->m_objectId);
-			sql.ConfigWrite(wxString::Format("upnpscanner/s%icontrolUrl",(int)i), source->m_controlUrl);
-			sql.ConfigWrite(wxString::Format("upnpscanner/s%idescr",     (int)i), source->m_descr);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%iudn",        (int)i), source->m_udn);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%iid",         (int)i), source->m_objectId);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%icontrolUrl", (int)i), source->m_absControlUrl);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%iserviceType",(int)i), source->m_serviceType);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%idescr",      (int)i), source->m_descr);
 		}
 	}
 
 	transaction.Commit();
 }
-
 
 
 long SjUpnpScannerModule::get_source_by_udn_and_id(const wxString& udn, const wxString& id)
@@ -700,10 +702,11 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 		if( mediaServer )
 		{
 			SjUpnpSource* source = new SjUpnpSource();
-			source->m_udn        = mediaServer->m_udn;
-			source->m_objectId   = dir->m_objectId;
-			source->m_controlUrl = mediaServer->m_absControlUrl;
-			source->m_descr      = mediaServer->m_friendlyName + "/" + dir->m_dc_title;
+			source->m_udn           = mediaServer->m_udn;
+			source->m_objectId      = dir->m_objectId;
+			source->m_absControlUrl = mediaServer->m_absControlUrl;
+			source->m_serviceType   = mediaServer->m_serviceType;
+			source->m_descr         = mediaServer->m_friendlyName + "/" + dir->m_dc_title;
 
 			if( (ret=get_source_by_udn_and_id(source->m_udn, source->m_objectId))!=-1 ) {
 				delete source; // source is already existant, use existing index
@@ -762,8 +765,60 @@ bool SjUpnpScannerModule::DeleteSource(long index, wxWindow* parent)
 }
 
 
+bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* mediaServer, const wxString& objectId, const wxString& objectDescr)
+{
+	SjUpnpDir dir;
+
+	if( !SjBusyInfo::Set(objectDescr + " (" + objectId + ")", false) ) {
+		return false; // abort
+	}
+
+	dir.m_objectId = objectId;
+	if( !mediaServer->FetchContents(dir) ) {
+		return false; // error
+	}
+
+	int i, cnt = dir.GetCount();
+	for( i = 0; i < cnt; i++ )
+	{
+		SjUpnpDirEntry* entry = dir.Item(i);
+		if( entry->m_isDir )
+		{
+			if( !iterate_dir(receiver, mediaServer, entry->m_objectId, objectDescr + "/" + entry->m_dc_title) ) {
+				return false; // error
+			}
+		}
+		else
+		{
+            // TODO: interate file ...
+		}
+	}
+
+	// success/continue
+	return true;
+}
+
+
 bool SjUpnpScannerModule::IterateTrackInfo(SjColModule* receiver)
 {
+	if( !init_client() || !load_sources() ) { return false; } // error
+
+	SjUpnpMediaServer mediaServer(this);
+
+	int sourceIndex, sourceCnt = m_sources.GetCount();
+	for( sourceIndex = 0; sourceIndex < sourceCnt; sourceIndex++ )
+	{
+		SjUpnpSource* source = get_source(sourceIndex);
+		mediaServer.m_udn           = source->m_udn;
+		mediaServer.m_absControlUrl = source->m_absControlUrl;
+		mediaServer.m_serviceType   = source->m_serviceType;
+
+		if( !iterate_dir(receiver, &mediaServer, source->m_objectId, source->m_descr) )
+		{
+			return false;
+		}
+	}
+
 	return true;
 }
 

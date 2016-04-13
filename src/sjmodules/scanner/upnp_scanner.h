@@ -44,7 +44,8 @@ public:
 	wxString GetDisplayUrl () { return m_descr; }
 	wxString m_udn;
 	wxString m_objectId; // = directoryId
-	wxString m_controlUrl;
+	wxString m_absControlUrl;
+	wxString m_serviceType;
 	wxString m_descr; // any friendly name
 };
 
@@ -150,6 +151,8 @@ private:
 	wxArrayPtrVoid    m_sources;
 	SjUpnpSource*     get_source          (long index) { return (SjUpnpSource*)m_sources.Item(index); }
 	long              get_source_by_udn_and_id (const wxString& udn, const wxString& id);
+
+	bool              iterate_dir         (SjColModule*, SjUpnpMediaServer*, const wxString& objectId, const wxString& objectDescr);
 
 };
 
