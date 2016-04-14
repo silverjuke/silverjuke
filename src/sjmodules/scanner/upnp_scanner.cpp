@@ -525,8 +525,8 @@ static int client_event_handler(Upnp_EventType eventType, void* p_event, void* u
 
 		case UPNP_DISCOVERY_ADVERTISEMENT_BYEBYE:
 			// struct Upnp_Discovery* discoverEvent = (struct Upnp_Discovery*)eventPtr;
-			// send if a device is no longer available, however, as we keep the pointers in (*), we simply ignore this message.
-			// (the device list is created from scratch everytime the dialog is opened, so it is no big deal to ignore this message)
+			// send if a device is no longer available, however, as we keep the pointers in SjUpnpDialog::UpdateMediaServerList(), we simply ignore this message.
+			// (this may result in shutdown servers hanging around, however, this is no big deal IMHO)
 			break;
 
 		case UPNP_DISCOVERY_SEARCH_TIMEOUT:
@@ -682,14 +682,10 @@ long SjUpnpScannerModule::AddSources(int sourceType, wxWindow* parent)
 
 	long ret = -1; // nothing added
 
-	{
-		wxCriticalSectionLocker locker(m_mediaServerCritical);
-		clear_media_server_list();
-	}
-
 	wxASSERT( m_dlg == NULL );
 	m_dlg = new SjUpnpDialog(parent, this, NULL);
 
+	// start a new search, however, if the dialog was opened before, m_mediaServerList is already just fine
 	UpnpSearchAsync(m_clientHandle,
 		120 /*wait 2 minutes (my diskstation may take 30 seconds to appear (bp))*/,
 		MEDIA_SERVER_DEVICE_TYPE, this/*user data*/);
@@ -775,7 +771,8 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 
 	dir.m_objectId = objectId;
 	if( !mediaServer->FetchContents(dir) ) {
-		return false; // error
+		wxLogError(_("Cannot read \"%s\"."), objectDescr.c_str());
+		return true; // error, however, continue scanning
 	}
 
 	int i, cnt = dir.GetCount();
@@ -786,7 +783,7 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 		{
 			// iterate to subdirectory
 			if( !iterate_dir(receiver, mediaServer, entry->m_objectId, objectDescr + "/" + entry->m_dc_title) ) {
-				return false; // error
+				return false; // abort (for common scanning errors, true is returned, see above)
 			}
 		}
 		else
@@ -815,20 +812,23 @@ bool SjUpnpScannerModule::IterateTrackInfo(SjColModule* receiver)
 {
 	if( !init_client() || !load_sources() ) { return false; } // error
 
-	SjUpnpMediaServer mediaServer(this);
-
 	int sourceIndex, sourceCnt = m_sources.GetCount();
 	for( sourceIndex = 0; sourceIndex < sourceCnt; sourceIndex++ )
 	{
 		SjUpnpSource* source = get_source(sourceIndex);
-		mediaServer.m_udn           = source->m_udn;
-		mediaServer.m_absControlUrl = source->m_absControlUrl;
-		mediaServer.m_serviceType   = source->m_serviceType;
 
-		if( !iterate_dir(receiver, &mediaServer, source->m_objectId, source->m_descr) )
+		SjUpnpMediaServer* mediaServer = new SjUpnpMediaServer(this);
+		mediaServer->m_udn           = source->m_udn;
+		mediaServer->m_absControlUrl = source->m_absControlUrl;
+		mediaServer->m_serviceType   = source->m_serviceType;
+
+		if( !iterate_dir(receiver, mediaServer, source->m_objectId, source->m_descr) )
 		{
-			return false;
+			delete mediaServer;
+			return false; // error
 		}
+
+		delete mediaServer;
 	}
 
 	return true;

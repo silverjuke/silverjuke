@@ -171,7 +171,7 @@ void SjUpnpDialog::UpdateMediaServerList()
 			li.SetMask(wxLIST_MASK_IMAGE | wxLIST_MASK_TEXT);
 			li.SetText(mediaServer->m_friendlyName);
 			li.SetImage(SJ_ICON_UPNP_SERVER);
-			li.SetData((void*)mediaServer);
+			li.SetData((void*)mediaServer); // the pointers can be used savely, see comment in UPNP_DISCOVERY_ADVERTISEMENT_BYEBYE
 			int new_i = m_mediaServerListCtrl->InsertItem(li);
 			if( mediaServer == selMediaServer ) {
 				m_mediaServerListCtrl->SetItemState(new_i, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED, wxLIST_STATE_SELECTED|wxLIST_STATE_FOCUSED);
