@@ -769,7 +769,7 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 {
 	SjUpnpDir dir;
 
-	if( !SjBusyInfo::Set(objectDescr + " (" + objectId + ")", false) ) {
+	if( !SjBusyInfo::Set(objectDescr, false) ) {
 		return false; // abort
 	}
 
@@ -792,6 +792,10 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 		else
 		{
 			// add a single file
+			if( !SjBusyInfo::Set(objectDescr + "/" + entry->m_dc_title, false) ) {
+				return false; // abort
+			}
+
 			SjTrackInfo* trackInfo = new SjTrackInfo;
 			trackInfo->m_url            = entry->m_url;
 			trackInfo->m_trackName      = entry->m_dc_title;
