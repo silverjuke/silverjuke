@@ -68,6 +68,7 @@ public:
 class SjUpnpDir
 {
 public:
+					SjUpnpDir () { }
                     ~SjUpnpDir() { Clear(); }
 	void            Add       (SjUpnpDirEntry* i) { m_items.Add((void*)i); } // SjUpnpDir takes ownership of the item
 	int             GetCount  () { return m_items.GetCount(); }
@@ -76,6 +77,8 @@ public:
 
 	wxString        m_objectId;
 	wxString        m_dc_title;
+
+	wxString        m_raw;
 
 private:
 	wxArrayPtrVoid  m_items;

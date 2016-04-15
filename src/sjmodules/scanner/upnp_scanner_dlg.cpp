@@ -372,7 +372,7 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 		playtimeStr = SjTools::FormatMs(dirEntry->m_playtimeMs);
 	}
 
-	wxMessageBox(
+	wxString msg =
 			  "dc:title: "    + dirEntry->m_dc_title              + "\n\n"
 			+ "dc:creator: "  + dirEntry->m_dc_creator            + "\n\n"
 			+ "upnp:album: "  + dirEntry->m_upnp_album            + "\n\n"
@@ -380,8 +380,10 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 			+ "Directory: "   + (dirEntry->m_isDir? "yes" : "no") + "\n\n"
 			+ "ID: "          + dirEntry->m_objectId              + "\n\n"
 			+ "URL: "         + dirEntry->m_url                   + "\n\n"
-			+ "Playtime: "    + playtimeStr                       + "\n\n"
-			, dirEntry->m_dc_title, wxOK, this);
+			+ "Playtime: "    + playtimeStr                       + "\n\n";
+	msg += m_currDir.m_raw;
+
+	wxMessageBox(msg, dirEntry->m_dc_title, wxOK, this);
 }
 
 

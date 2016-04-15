@@ -280,6 +280,10 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 			return false; // error
 		}
 
+		// Debug output:
+		{ char* raw = ixmlPrintDocument(p_result); if( raw ) { dir.m_raw = raw; free(raw); } else { dir.m_raw.Empty(); } }
+
+		// go through result
 		IXML_NodeList* containerNodeList = ixmlDocument_getElementsByTagName(p_result, "container");
 		if ( containerNodeList )
 		{
@@ -825,7 +829,7 @@ bool SjUpnpScannerModule::IterateTrackInfo(SjColModule* receiver)
 		if( !iterate_dir(receiver, mediaServer, source->m_objectId, source->m_descr) )
 		{
 			delete mediaServer;
-			return false; // error
+			return false; // abort
 		}
 
 		delete mediaServer;
