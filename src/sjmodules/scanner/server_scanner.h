@@ -72,7 +72,7 @@ public:
 					SjServerScannerModule(SjInterfaceBase*);
 
 	long            GetSourceCount      () { return m_sources.GetCount(); }
-	wxString        GetSourceUrl        (long index) { return m_sources[index].m_serverName; }
+	wxString        GetSourceUrl        (long index) { return "http://"+m_sources[index].m_serverName; }
 	wxString        GetSourceNotes      (long index);
 	SjIcon          GetSourceIcon       (long index);
 	long            AddSources          (int sourceType, wxWindow* parent);

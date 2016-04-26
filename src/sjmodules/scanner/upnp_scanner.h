@@ -119,7 +119,7 @@ public:
 					  ~SjUpnpScannerModule();
 
 	long              GetSourceCount      () { load_sources(); return m_sources.GetCount(); }
-	wxString          GetSourceUrl        (long index) { SjUpnpSource* s=get_source(index); if(s==NULL) { return ""; } return s->GetDisplayUrl(); }
+	wxString          GetSourceUrl        (long index) { SjUpnpSource* s=get_source(index); if(s==NULL) { return ""; } return "upnp://"+s->GetDisplayUrl(); }
 	wxString          GetSourceNotes      (long index) { return ""; }
 	SjIcon            GetSourceIcon       (long index) { return SJ_ICON_UPNP_SERVER; }
 	long              AddSources          (int sourceType, wxWindow* parent);

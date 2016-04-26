@@ -547,7 +547,7 @@ public:
 
 	// get/set sources (eg. directories or servers)
 	virtual long        GetSourceCount      () = 0;
-	virtual wxString    GetSourceUrl        (long index) = 0;
+	virtual wxString    GetSourceUrl        (long index) = 0; // any URL, used for displaying and sorting, not saved; there is no need, the URL is valid, however, it should be unique
 	virtual wxString    GetSourceNotes      (long index) = 0;
 	virtual SjIcon      GetSourceIcon       (long index) = 0;
 	virtual long        AddSources          (int sourceType, wxWindow* parent) = 0; // the function returns the first new index or -1 for errors or abort
