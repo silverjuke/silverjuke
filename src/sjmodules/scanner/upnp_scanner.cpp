@@ -44,6 +44,9 @@
  * - a "Device" is any hard- or software in the UPnP-Network, a device may contain several services
  * - a "Media Server" is a service that may be provided on devices
  *
+ * For the field names, see `UPnP-av-ContentDirectory-v1-Service.pdf`
+ * NB: How to find out the disk number? What is `pv:numberOfThisDisc`?
+ *
  ******************************************************************************/
 
 
@@ -259,7 +262,9 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "ObjectID",      dir.m_objectId); // "0" = root
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "BrowseFlag",    "BrowseDirectChildren");
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",
-					    "id,dc:title,dc:creator,dc:date,upnp:class,upnp:album,upnp:albumArtURI,upnp:genre,res"); // dc=Dublin Core
+					    "id,dc:title,dc:creator,dc:date,"
+					    "upnp:class,upnp:album,upnp:genre,upnp:albumArtURI,upnp:originalTrackNumber,"
+					    "res,res@size,res@duration,res@bitrate,res@sampleFrequency,res@nrAudioChannels"); // dc=Dublin Core
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_offset));
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "RequestedCount","0");
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "SortCriteria",  "");
@@ -286,8 +291,10 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 			return false; // error
 		}
 
-		// Debug output:
+		// Debug output
+		#if SJ_SHOW_UPNP_RAW
 		{ char* raw = ixmlPrintDocument(p_result); if( raw ) { dir.m_raw = raw; free(raw); } else { dir.m_raw.Empty(); } }
+		#endif
 
 		// go through result: subdirectories
 		IXML_NodeList* containerNodeList = ixmlDocument_getElementsByTagName(p_result, "container");
@@ -320,15 +327,15 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 			{
 				IXML_Element* itemElement = (IXML_Element*)ixmlNodeList_item(itemNodeList, i);
 
-				const char* id         = ixmlElement_getAttribute(itemElement, "id");
-				const char* dc_title   = xml_getChildElementValue(itemElement, "dc:title"); // if you add lines here, do not forget them above at "Filter"
-				const char* dc_creator = xml_getChildElementValue(itemElement, "dc:creator");
-				const char* dc_date    = xml_getChildElementValue(itemElement, "dc:date");
-				const char* upnp_class = xml_getChildElementValue(itemElement, "upnp:class");
-				const char* upnp_album = xml_getChildElementValue(itemElement, "upnp:album");
-				const char* upnp_genre = xml_getChildElementValue(itemElement, "upnp:genre"); // may be sth. like "(254)", seen on Fritzbox, however, I'm not sure, what this is about; it is _not_ ID3 (max. 192 genres)
+				const char* id           = ixmlElement_getAttribute(itemElement, "id");
+				const char* dc_title     = xml_getChildElementValue(itemElement, "dc:title"); // if you add lines here, do not forget them above at "Filter"
+				const char* dc_creator   = xml_getChildElementValue(itemElement, "dc:creator");
+				const char* dc_date      = xml_getChildElementValue(itemElement, "dc:date");
+				const char* upnp_class   = xml_getChildElementValue(itemElement, "upnp:class");
+				const char* upnp_album   = xml_getChildElementValue(itemElement, "upnp:album");
+				const char* upnp_genre   = xml_getChildElementValue(itemElement, "upnp:genre"); // may be sth. like "(254)", seen on Fritzbox, however, I'm not sure, what this is about; it is _not_ ID3 (max. 192 genres)
 
-				if ( !id || !dc_title ) {
+				if ( !id || !dc_title || !upnp_class ) {
 					continue;
 				}
 
@@ -345,27 +352,76 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 						if( !psz_resource_url ) {
 							continue; // this is the reason, we need the loop
 						}
-						const char* psz_duration = ixmlElement_getAttribute(p_resource, "duration");
-						long playtimeMs = -1;
-						if ( psz_duration )
+
+						long res_duration_ms = 0;
+						const char* psz_temp = ixmlElement_getAttribute(p_resource, "duration");
+						if ( psz_temp )
 						{
 							int i_hours, i_minutes, i_seconds;
-							if( sscanf(psz_duration, "%d:%02d:%02d", &i_hours, &i_minutes, &i_seconds) ) {
-								playtimeMs = (i_hours*3600 + i_minutes*60 + i_seconds) * 1000;
+							if( sscanf(psz_temp, "%d:%02d:%02d", &i_hours, &i_minutes, &i_seconds) == 3 ) {
+								res_duration_ms = (i_hours*3600 + i_minutes*60 + i_seconds) * 1000;
 							}
 						}
 
+						long res_size = 0;
+						psz_temp = ixmlElement_getAttribute(p_resource, "size");
+						if( psz_temp )
+						{
+							res_size = atoi(psz_temp);
+							if( res_size < 0 ) { res_size  = 0; }
+						}
+
+						long res_bitrate = 0;
+						psz_temp = ixmlElement_getAttribute(p_resource, "bitrate");
+						if( psz_temp )
+						{
+							res_bitrate = atoi(psz_temp);
+							if( res_bitrate < 0 ) { res_bitrate  = 0; }
+						}
+
+						long res_sampleFrequency = 0;
+						psz_temp = ixmlElement_getAttribute(p_resource, "sampleFrequency");
+						if( psz_temp )
+						{
+							res_sampleFrequency = atoi(psz_temp);
+							if( res_sampleFrequency < 0 ) { res_sampleFrequency  = 0; }
+						}
+
+						long res_nrAudioChannels = 0;
+						psz_temp = ixmlElement_getAttribute(p_resource, "nrAudioChannels");
+						if( psz_temp )
+						{
+							res_nrAudioChannels = atoi(psz_temp);
+							if( res_nrAudioChannels < 0 ) { res_nrAudioChannels  = 0; }
+						}
+
+						long upnp_originalTrackNumber = 0;
+						psz_temp = xml_getChildElementValue(itemElement, "upnp:originalTrackNumber");
+						if( psz_temp )
+						{
+							upnp_originalTrackNumber = atoi(psz_temp);
+							if( upnp_originalTrackNumber < 0 ) upnp_originalTrackNumber = 0;
+						}
+
+						const char* upnp_albumArtURI   = xml_getChildElementValue(itemElement, "upnp:albumArtURI");
+
 						SjUpnpDirEntry* entry = new SjUpnpDirEntry();
-						entry->m_isDir      = false;
-						entry->m_dc_title   = dc_title;
-						entry->m_dc_creator = dc_creator? wxString(dc_creator) : wxString();
-						entry->m_dc_date    = dc_date? wxString(dc_date) : wxString();
-						entry->m_upnp_class = upnp_class? wxString(upnp_class) : wxString();
-						entry->m_upnp_album = upnp_album? wxString(upnp_album) : wxString();
-						entry->m_upnp_genre = upnp_genre? wxString(upnp_genre) : wxString();
-						entry->m_objectId   = id;
-						entry->m_url        = psz_resource_url;
-						entry->m_playtimeMs = playtimeMs;
+						entry->m_isDir                    = false;
+						entry->m_objectId                 = id; // not NULL, checked above
+						entry->m_dc_title                 = dc_title; // not NULL, checked above
+						entry->m_dc_creator               = dc_creator? wxString(dc_creator) : wxString();
+						entry->m_dc_date                  = dc_date? wxString(dc_date) : wxString();
+						entry->m_upnp_class               = wxString(upnp_class); // not NULL, checked above
+						entry->m_upnp_album               = upnp_album? wxString(upnp_album) : wxString();
+						entry->m_upnp_genre               = upnp_genre? wxString(upnp_genre) : wxString();
+						entry->m_upnp_originalTrackNumber = upnp_originalTrackNumber;
+						entry->m_upnp_albumArtURI         = upnp_albumArtURI? wxString(upnp_albumArtURI) : wxString();
+						entry->m_res                      = psz_resource_url; // not NULL, checked above
+						entry->m_res_size                 = res_size;
+						entry->m_res_duration_ms          = res_duration_ms;
+						entry->m_res_bitrate              = res_bitrate;
+						entry->m_res_sampleFrequency      = res_sampleFrequency;
+						entry->m_res_nrAudioChannels      = res_nrAudioChannels;
 						dir.Add(entry); // entry is now owned by SjUpnpDir
 						break; // only one resource per ID
 					}
@@ -809,12 +865,11 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 				return false; // abort
 			}
 
-			// check, if the file is a audio or video file (we allow eg. "object.item.audioItem.musicTrack" or "object.item.videoItem" or the empty string)
-			if( !entry->m_upnp_class.IsEmpty()
-			 && !entry->m_upnp_class.StartsWith("object.item.audio")
+			// check, if the file is a audio or video file (we allow eg. "object.item.audioItem.musicTrack" or "object.item.videoItem")
+			if( !entry->m_upnp_class.StartsWith("object.item.audio")
 			 && !entry->m_upnp_class.StartsWith("object.item.video") )
 			{
-				continue; // no audio or video file, take the next one
+				continue; // no audio or video file
 			}
 
 			// parse the date (m_dc_date is sth linke "yyyy-mm-dd ..." - we just take the first 4 characters
@@ -827,12 +882,24 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 
 			// set up new track info and give its ownership to the receiver
 			SjTrackInfo* trackInfo = new SjTrackInfo;
-			trackInfo->m_url            = entry->m_url;
+			if( !entry->m_upnp_albumArtURI.IsEmpty() ) {
+				//trackInfo->AddArt(entry->m_upnp_albumArtURI);
+				// TODO: This works, however, displaying covers from HTTP does not, see https://github.com/r10s/silverjuke/issues/54
+			}
+
+			trackInfo->m_url            = entry->m_res;
+			trackInfo->m_dataBytes      = entry->m_res_size;
 			trackInfo->m_trackName      = entry->m_dc_title;
 			trackInfo->m_leadArtistName = entry->m_dc_creator;
 			trackInfo->m_albumName      = entry->m_upnp_album;
 			trackInfo->m_genreName      = entry->m_upnp_genre;
+			trackInfo->m_trackNr        = entry->m_upnp_originalTrackNumber;
 			trackInfo->m_year           = year;
+			trackInfo->m_bitrate        = entry->m_res_bitrate * 8; // convert bytes/s to bits/s
+			trackInfo->m_samplerate     = entry->m_res_sampleFrequency;
+			trackInfo->m_channels       = entry->m_res_nrAudioChannels;
+			trackInfo->m_playtimeMs     = entry->m_res_duration_ms;
+
 			receiver->Callback_ReceiveTrackInfo(trackInfo);
 		}
 	}

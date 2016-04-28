@@ -368,22 +368,30 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 	if( dirEntry == NULL ) { return; } // nothing selected
 
 	wxString playtimeStr = "?";
-	if( dirEntry->m_playtimeMs >= 0 ) {
-		playtimeStr = SjTools::FormatMs(dirEntry->m_playtimeMs);
+	if( dirEntry->m_res_duration_ms >= 0 ) {
+		playtimeStr = SjTools::FormatMs(dirEntry->m_res_duration_ms);
 	}
 
 	wxString msg =
-			  "ID: "          + dirEntry->m_objectId              + "\n"
-			+ "URL: "         + dirEntry->m_url                   + "\n"
-			+ "dc:title: "    + dirEntry->m_dc_title              + "\n"
-			+ "dc:creator: "  + dirEntry->m_dc_creator            + "\n"
-			+ "dc:date: "     + dirEntry->m_dc_date               + "\n"
-			+ "upnp:class: "  + dirEntry->m_upnp_class            + "\n"
-			+ "upnp:album: "  + dirEntry->m_upnp_album            + "\n"
-			+ "upnp:genre: "  + dirEntry->m_upnp_genre            + "\n"
-			+ "Directory: "   + (dirEntry->m_isDir? "yes" : "no") + "\n"
-			+ "Playtime: "    + playtimeStr                       + "\n";
+			  "ID: "                       + dirEntry->m_objectId                                              + "\n"
+			+ "Directory: "                + (dirEntry->m_isDir? "yes" : "no")                                 + "\n"
+			+ "dc:title: "                 + dirEntry->m_dc_title                                              + "\n"
+			+ "dc:creator: "               + dirEntry->m_dc_creator                                            + "\n"
+			+ "dc:date: "                  + dirEntry->m_dc_date                                               + "\n"
+			+ "upnp:class: "               + dirEntry->m_upnp_class                                            + "\n"
+			+ "upnp:album: "               + dirEntry->m_upnp_album                                            + "\n"
+			+ "upnp:genre: "               + dirEntry->m_upnp_genre                                            + "\n"
+			+ "upnp:originalTrackNumber: " + wxString::Format("%i", (int)dirEntry->m_upnp_originalTrackNumber) + "\n"
+			+ "upnp:albumArtURI: "         + dirEntry->m_upnp_albumArtURI                                      + "\n"
+			+ "res: "                      + dirEntry->m_res                                                   + "\n"
+			+ "res@size: "                 + wxString::Format("%i", (int)dirEntry->m_res_size)                 + "\n"
+			+ "res@bitrate: "              + wxString::Format("%i", (int)dirEntry->m_res_bitrate)              + "\n"
+			+ "res@sampleFrequency: "      + wxString::Format("%i", (int)dirEntry->m_res_sampleFrequency)      + "\n"
+			+ "res@nrAudioChannels: "      + wxString::Format("%i", (int)dirEntry->m_res_nrAudioChannels)      + "\n"
+			+ "res@duration: "             + playtimeStr                                                       + "\n";
+	#if SJ_SHOW_UPNP_RAW
 	msg += m_currDir.m_raw;
+	#endif
 
 	wxMessageBox(msg, dirEntry->m_dc_title, wxOK, this);
 }

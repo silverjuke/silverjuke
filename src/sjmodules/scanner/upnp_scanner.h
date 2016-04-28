@@ -53,17 +53,24 @@ public:
 class SjUpnpDirEntry
 {
 public:
-	           SjUpnpDirEntry() { m_isDir = false; m_playtimeMs = -1; }
-	wxString   m_dc_title;   // goes to m_trackName
-	wxString   m_dc_creator; // goes to m_leadArtistName
-	wxString   m_dc_date;    // goes to m_year
+	           SjUpnpDirEntry() { m_isDir=false; m_upnp_originalTrackNumber=0; m_res_size=0; m_res_duration_ms=0; m_res_bitrate=0; m_res_sampleFrequency=0; m_res_nrAudioChannels=0; }
+	wxString   m_dc_title;        // goes to m_trackName
+	wxString   m_dc_creator;      // goes to m_leadArtistName
+	wxString   m_dc_date;         // goes to m_year
 	wxString   m_upnp_class;
 	wxString   m_upnp_album;
 	wxString   m_upnp_genre;
+	long       m_upnp_originalTrackNumber;
+	wxString   m_upnp_albumArtURI;
+	wxString   m_res;             // goes to m_url
+	long       m_res_size;
+	long       m_res_duration_ms;
+	long       m_res_bitrate;
+	long       m_res_sampleFrequency;
+	long       m_res_nrAudioChannels;
 	bool       m_isDir;
 	wxString   m_objectId;
-	wxString   m_url;
-	long       m_playtimeMs;
+
 };
 
 
@@ -80,7 +87,10 @@ public:
 	wxString        m_objectId;
 	wxString        m_dc_title;
 
+	#define SJ_SHOW_UPNP_RAW 0
+	#if SJ_SHOW_UPNP_RAW
 	wxString        m_raw;
+	#endif
 
 private:
 	wxArrayPtrVoid  m_items;
