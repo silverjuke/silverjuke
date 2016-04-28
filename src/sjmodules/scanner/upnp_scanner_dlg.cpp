@@ -373,14 +373,16 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 	}
 
 	wxString msg =
-			  "dc:title: "    + dirEntry->m_dc_title              + "\n\n"
-			+ "dc:creator: "  + dirEntry->m_dc_creator            + "\n\n"
-			+ "upnp:album: "  + dirEntry->m_upnp_album            + "\n\n"
-			+ "upnp:genre: "  + dirEntry->m_upnp_genre            + "\n\n"
-			+ "Directory: "   + (dirEntry->m_isDir? "yes" : "no") + "\n\n"
-			+ "ID: "          + dirEntry->m_objectId              + "\n\n"
-			+ "URL: "         + dirEntry->m_url                   + "\n\n"
-			+ "Playtime: "    + playtimeStr                       + "\n\n";
+			  "ID: "          + dirEntry->m_objectId              + "\n"
+			+ "URL: "         + dirEntry->m_url                   + "\n"
+			+ "dc:title: "    + dirEntry->m_dc_title              + "\n"
+			+ "dc:creator: "  + dirEntry->m_dc_creator            + "\n"
+			+ "dc:date: "     + dirEntry->m_dc_date               + "\n"
+			+ "upnp:class: "  + dirEntry->m_upnp_class            + "\n"
+			+ "upnp:album: "  + dirEntry->m_upnp_album            + "\n"
+			+ "upnp:genre: "  + dirEntry->m_upnp_genre            + "\n"
+			+ "Directory: "   + (dirEntry->m_isDir? "yes" : "no") + "\n"
+			+ "Playtime: "    + playtimeStr                       + "\n";
 	msg += m_currDir.m_raw;
 
 	wxMessageBox(msg, dirEntry->m_dc_title, wxOK, this);

@@ -54,8 +54,10 @@ class SjUpnpDirEntry
 {
 public:
 	           SjUpnpDirEntry() { m_isDir = false; m_playtimeMs = -1; }
-	wxString   m_dc_title;   // = m_trackName
-	wxString   m_dc_creator; // = m_leadArtistName
+	wxString   m_dc_title;   // goes to m_trackName
+	wxString   m_dc_creator; // goes to m_leadArtistName
+	wxString   m_dc_date;    // goes to m_year
+	wxString   m_upnp_class;
 	wxString   m_upnp_album;
 	wxString   m_upnp_genre;
 	bool       m_isDir;

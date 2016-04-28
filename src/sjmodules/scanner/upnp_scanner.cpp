@@ -25,6 +25,11 @@
  *
  *******************************************************************************
  *
+ * We prefix servers, files and paths with `upnp://`, however, this is just
+ * our internal convention to make eg. error descriptions more descriptive
+ *
+ *******************************************************************************
+ *
  * A rough overview:
  *
  * UpnpInit();
@@ -253,7 +258,8 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 				IXML_Document* p_action = NULL;
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "ObjectID",      dir.m_objectId); // "0" = root
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "BrowseFlag",    "BrowseDirectChildren");
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",        "id,dc:title,dc:creator,upnp:album,upnp:genre,res"); // dc=Dublin Core
+					UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",
+					    "id,dc:title,dc:creator,dc:date,upnp:class,upnp:album,upnp:albumArtURI,upnp:genre,res"); // dc=Dublin Core
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_offset));
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "RequestedCount","0");
 					UpnpAddToAction(&p_action, "Browse", m_serviceType, "SortCriteria",  "");
@@ -283,7 +289,7 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 		// Debug output:
 		{ char* raw = ixmlPrintDocument(p_result); if( raw ) { dir.m_raw = raw; free(raw); } else { dir.m_raw.Empty(); } }
 
-		// go through result
+		// go through result: subdirectories
 		IXML_NodeList* containerNodeList = ixmlDocument_getElementsByTagName(p_result, "container");
 		if ( containerNodeList )
 		{
@@ -306,6 +312,7 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 			ixmlNodeList_free( containerNodeList );
 		}
 
+		// go through result: files
 		IXML_NodeList* itemNodeList = ixmlDocument_getElementsByTagName(p_result, "item");
 		if ( itemNodeList )
 		{
@@ -316,6 +323,8 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 				const char* id         = ixmlElement_getAttribute(itemElement, "id");
 				const char* dc_title   = xml_getChildElementValue(itemElement, "dc:title"); // if you add lines here, do not forget them above at "Filter"
 				const char* dc_creator = xml_getChildElementValue(itemElement, "dc:creator");
+				const char* dc_date    = xml_getChildElementValue(itemElement, "dc:date");
+				const char* upnp_class = xml_getChildElementValue(itemElement, "upnp:class");
 				const char* upnp_album = xml_getChildElementValue(itemElement, "upnp:album");
 				const char* upnp_genre = xml_getChildElementValue(itemElement, "upnp:genre"); // may be sth. like "(254)", seen on Fritzbox, however, I'm not sure, what this is about; it is _not_ ID3 (max. 192 genres)
 
@@ -350,6 +359,8 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 						entry->m_isDir      = false;
 						entry->m_dc_title   = dc_title;
 						entry->m_dc_creator = dc_creator? wxString(dc_creator) : wxString();
+						entry->m_dc_date    = dc_date? wxString(dc_date) : wxString();
+						entry->m_upnp_class = upnp_class? wxString(upnp_class) : wxString();
 						entry->m_upnp_album = upnp_album? wxString(upnp_album) : wxString();
 						entry->m_upnp_genre = upnp_genre? wxString(upnp_genre) : wxString();
 						entry->m_objectId   = id;
@@ -769,13 +780,13 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 {
 	SjUpnpDir dir;
 
-	if( !SjBusyInfo::Set(objectDescr, false) ) {
+	if( !SjBusyInfo::Set("upnp://" + objectDescr, false) ) {
 		return false; // abort
 	}
 
 	dir.m_objectId = objectId;
 	if( !mediaServer->FetchContents(dir) ) {
-		wxLogError(_("Cannot read \"%s\"."), objectDescr.c_str());
+		wxLogError(_("Cannot read \"upnp://%s\"."), objectDescr.c_str());
 		return true; // error, however, continue scanning
 	}
 
@@ -793,16 +804,35 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 		else
 		{
 			// add a single file
-			if( !SjBusyInfo::Set(objectDescr + "/" + entry->m_dc_title, false) ) {
+			if( !SjBusyInfo::Set("upnp://" + objectDescr + "/" + entry->m_dc_title, false) )
+			{
 				return false; // abort
 			}
 
+			// check, if the file is a audio or video file (we allow eg. "object.item.audioItem.musicTrack" or "object.item.videoItem" or the empty string)
+			if( !entry->m_upnp_class.IsEmpty()
+			 && !entry->m_upnp_class.StartsWith("object.item.audio")
+			 && !entry->m_upnp_class.StartsWith("object.item.video") )
+			{
+				continue; // no audio or video file, take the next one
+			}
+
+			// parse the date (m_dc_date is sth linke "yyyy-mm-dd ..." - we just take the first 4 characters
+			long year = 0;
+			if( entry->m_dc_date.Len()>=4 )
+			{
+				if( !entry->m_dc_date.Left(4).ToLong(&year, 10) ) { year = 0; }
+				if( year <= 99  || year > 9999 ) { year = 0; }
+			}
+
+			// set up new track info and give its ownership to the receiver
 			SjTrackInfo* trackInfo = new SjTrackInfo;
 			trackInfo->m_url            = entry->m_url;
 			trackInfo->m_trackName      = entry->m_dc_title;
 			trackInfo->m_leadArtistName = entry->m_dc_creator;
 			trackInfo->m_albumName      = entry->m_upnp_album;
 			trackInfo->m_genreName      = entry->m_upnp_genre;
+			trackInfo->m_year           = year;
 			receiver->Callback_ReceiveTrackInfo(trackInfo);
 		}
 	}
