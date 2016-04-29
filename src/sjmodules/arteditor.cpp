@@ -861,7 +861,7 @@ void SjArtEditorModule::CreateArtMenu(
 				}
 				else
 				{
-					txt = SjTools::ShortenUrl(allUrls.Item(i));
+					txt = SjTools::ShortenUrl(allUrls.Item(i), 60 /*we're in a menu, do not show full URLs with some 100 characters*/);
 				}
 				if( allUrls.Item(i) == defaultUrl ) txt << wxT(" ") << _("(Default)");
 
