@@ -692,6 +692,7 @@ bool SjUpnpScannerModule::load_sources()
 		source->m_absControlUrl = sql.ConfigRead(wxString::Format("upnpscanner/s%icontrolUrl", (int)i), wxT(""));
 		source->m_serviceType   = sql.ConfigRead(wxString::Format("upnpscanner/s%iserviceType",(int)i), wxT(""));
 		source->m_descr         = sql.ConfigRead(wxString::Format("upnpscanner/s%idescr",      (int)i), wxT(""));
+		source->m_flags         = sql.ConfigRead(wxString::Format("upnpscanner/s%iflags",      (int)i), SJ_UPNPSCANNER_DEF_FLAGS);
 		if( source->m_udn.IsEmpty() || source->m_objectId.IsEmpty()
 		 || source->m_absControlUrl.IsEmpty() || source->m_serviceType.IsEmpty() || source->m_descr.IsEmpty() )
 		{
@@ -726,6 +727,7 @@ void SjUpnpScannerModule::save_sources()
 			sql.ConfigWrite(wxString::Format("upnpscanner/s%icontrolUrl", (int)i), source->m_absControlUrl);
 			sql.ConfigWrite(wxString::Format("upnpscanner/s%iserviceType",(int)i), source->m_serviceType);
 			sql.ConfigWrite(wxString::Format("upnpscanner/s%idescr",      (int)i), source->m_descr);
+			sql.ConfigWrite(wxString::Format("upnpscanner/s%iflags",      (int)i), (long)source->m_flags);
 		}
 	}
 
@@ -809,16 +811,19 @@ bool SjUpnpScannerModule::ConfigSource(long index, wxWindow* parent)
 
 	wxASSERT( m_dlg == NULL );
 	m_dlg = new SjUpnpDialog(parent, this, source);
+	bool needsUpdate = false;
 
 	if( m_dlg->ShowModal() == wxID_OK )
 	{
+		m_dlg->GetChanges(source);
+		save_sources();
+		needsUpdate = true;
 	}
 
 	delete m_dlg;
 	m_dlg = NULL;
 
-	save_sources();
-	return false; // needs update?
+	return needsUpdate;
 }
 
 
@@ -829,6 +834,31 @@ bool SjUpnpScannerModule::DeleteSource(long index, wxWindow* parent)
 
 	save_sources();
 	return true;
+}
+
+
+wxString SjUpnpScannerModule::GetSourceNotes(long index)
+{
+	SjUpnpSource* source = get_source(index); if( source == NULL ) { return ""; } // error
+
+	if( !(source->m_flags & SJ_UPNPSCANNER_ENABLED) )
+	{
+		return _("Disabled");
+	}
+
+	if( !(source->m_flags & SJ_UPNPSCANNER_DO_UPDATE) )
+	{
+		return _("No update");
+	}
+
+	return wxEmptyString;
+}
+
+
+SjIcon SjUpnpScannerModule::GetSourceIcon(long index)
+{
+	SjUpnpSource* source = get_source(index); if( source == NULL ) { return SJ_ICON_EMPTY; } // error
+	return (source->m_flags&SJ_UPNPSCANNER_ENABLED)? SJ_ICON_UPNP_SERVER : SJ_ICON_EMPTY;
 }
 
 
@@ -917,6 +947,13 @@ bool SjUpnpScannerModule::IterateTrackInfo(SjColModule* receiver)
 	{
 		SjUpnpSource* source = get_source(sourceIndex);
 
+		// source enabled?
+		if( !(source->m_flags & SJ_UPNPSCANNER_ENABLED) )
+		{
+			continue;
+		}
+
+		// setup sources server and start iteration
 		SjUpnpMediaServer* mediaServer = new SjUpnpMediaServer(this);
 		mediaServer->m_udn           = source->m_udn;
 		mediaServer->m_absControlUrl = source->m_absControlUrl;

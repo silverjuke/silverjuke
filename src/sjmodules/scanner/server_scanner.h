@@ -44,7 +44,7 @@ public:
 	{
 		#define SJ_SERVERSCANNER_DEF_FLAGS      0x0000FFFFL // for a possible future merging, try to be compatible with SJ_FOLDERSCANNER_FLAGS
 		#define SJ_SERVERSCANNER_ENABLED        0x00000004L
-		#define SJ_SERVERSCANNER_DO_UPDATE      0x00000010L
+		#define SJ_SERVERSCANNER_DO_UPDATE      0x00000010L // not implemented - is it really needed?
 		m_flags      = SJ_SERVERSCANNER_DEF_FLAGS;
 		m_serverType = SJ_SERVERSCANNER_TYPE_HTTP;
 	}

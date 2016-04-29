@@ -38,6 +38,7 @@
 #define IDC_MEDIASERVERINFO       (IDM_FIRSTPRIVATE+3)
 #define IDC_DIRLISTCTRL           (IDM_FIRSTPRIVATE+10)
 #define IDC_DIRENTRYINFO          (IDM_FIRSTPRIVATE+11)
+#define IDC_ENABLECHECK           (IDM_FIRSTPRIVATE+12)
 #define MSG_UPDATEMEDIASERVERLIST (IDM_FIRSTPRIVATE+50)
 #define MSG_SCANDONE              (IDM_FIRSTPRIVATE+51)
 
@@ -45,15 +46,18 @@
 class SjUpnpDialog : public SjDialog
 {
 public:
-	                     SjUpnpDialog            (wxWindow* parent, SjUpnpScannerModule* upnpModule, SjUpnpSource* upnpSource);
+	                     SjUpnpDialog            (wxWindow* parent, SjUpnpScannerModule*, SjUpnpSource*);
 	SjUpnpMediaServer*   GetSelectedMediaServer  ();
 	SjUpnpDirEntry*      GetSelectedDir          (); // parent directory if nothing is selected
+	void                 GetChanges              (SjUpnpSource*);
 
 private:
+	void                 EnableDisable           ();
 	void                 UpdateMediaServerList   ();
 	void                 UpdateDirList           (const wxString& selId="");
 	SjUpnpDirEntry*      GetSelectedDirEntry     (); // null if nothing is selected
 
+	void                 OnEnableCheck           (wxCommandEvent&) { EnableDisable(); }
 	void                 OnUpdateMediaServerList (wxCommandEvent&);
 	void                 OnScanDone              (wxCommandEvent&);
 	void                 OnSize                  (wxSizeEvent& e);
@@ -67,7 +71,6 @@ private:
 	bool                 m_isNew;
 	bool                 m_stillLoading;
 	SjUpnpScannerModule* m_upnpModule;
-	SjUpnpSource*        m_upnpSource;
 
 	wxListCtrl*          m_mediaServerListCtrl;
 	wxStaticText*        m_stillScanningText;
@@ -77,6 +80,8 @@ private:
 	SjUpnpDirEntry       m_parentDirEntry;
 	SjUpnpMediaServer*   m_dirListFor;
 	wxListCtrl*          m_dirListCtrl;
+	wxCheckBox*          m_enabledCheckBox;
+	wxCheckBox*          m_doUpdateCheckBox;
 
 	                     DECLARE_EVENT_TABLE ()
 };

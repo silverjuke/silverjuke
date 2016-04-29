@@ -48,6 +48,7 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	: SjDialog(parent, wxT(""), SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE)
 {
 	m_enabledCheckBox = NULL;
+	m_doUpdateCheckBox = NULL;
 
 	// set title
 	wxString title;
@@ -75,17 +76,13 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	sizer1->Add(sizer2, 1/*grow*/, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	// enable checkbox
-	wxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
-	sizer2->Add(sizer3, 0, wxALL, SJ_DLG_SPACE);
-
-	sizer3->Add(SJ_DLG_SPACE*4, 2); // some space
-
-	if( m_isNew )
+	if( !m_isNew )
 	{
-		sizer3->Add(new wxStaticText(this, -1, _("Use server:")), 0, wxALIGN_CENTER_VERTICAL);
-	}
-	else
-	{
+		wxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
+		sizer2->Add(sizer3, 0, wxALL, SJ_DLG_SPACE);
+
+		sizer3->Add(SJ_DLG_SPACE*4, 2); // some space
+
 		m_enabledCheckBox = new wxCheckBox(this, IDC_ENABLECHECK, _("Use server:"));
 		m_enabledCheckBox->SetValue((source.m_flags&SJ_SERVERSCANNER_ENABLED)!=0);
 		sizer3->Add(m_enabledCheckBox, 0, wxALIGN_CENTER_VERTICAL);
@@ -121,12 +118,15 @@ SjServerScannerConfigDialog::SjServerScannerConfigDialog(wxWindow* parent, const
 	m_loginPasswordTextCtrl = new wxTextCtrl(this, IDC_LOGIN_PASSWORD, source.m_loginPassword, wxDefaultPosition, wxSize(CTRL_W, -1), wxTE_PASSWORD);
 	sizer3f->Add(m_loginPasswordTextCtrl, 0, wxGROW|wxALIGN_CENTER_VERTICAL);
 
-	// options
-	sizer3f->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
+	// options (hidden in the "new" dialog to put focus on the connection itself and to be consistent eg. with folder selection)
+	if( !m_isNew )
+	{
+		sizer3f->Add(SJ_DLG_SPACE, SJ_DLG_SPACE);
 
-	m_doUpdateCheckBox = new wxCheckBox(this, -1, _("Include server to the update process"));
-	m_doUpdateCheckBox->SetValue(source.m_flags&SJ_SERVERSCANNER_DO_UPDATE? TRUE : FALSE);
-	sizer3f->Add(m_doUpdateCheckBox);
+		m_doUpdateCheckBox = new wxCheckBox(this, -1, _("Include server to the update process"));
+		m_doUpdateCheckBox->SetValue(source.m_flags&SJ_SERVERSCANNER_DO_UPDATE? TRUE : FALSE);
+		sizer3f->Add(m_doUpdateCheckBox);
+	}
 
 	// state stuff
 	if( !m_isNew )
@@ -202,7 +202,10 @@ bool SjServerScannerConfigDialog::GetChanges(SjServerScannerSource& source)
 		SjTools::SetFlag(newFlags, SJ_SERVERSCANNER_ENABLED, m_enabledCheckBox->IsChecked());
 	}
 
-	SjTools::SetFlag(newFlags, SJ_SERVERSCANNER_DO_UPDATE, m_doUpdateCheckBox->IsChecked());
+	if( m_doUpdateCheckBox )
+	{
+		SjTools::SetFlag(newFlags, SJ_SERVERSCANNER_DO_UPDATE, m_doUpdateCheckBox->IsChecked());
+	}
 
 	// correct the server name
 	newServerName.Trim(TRUE);

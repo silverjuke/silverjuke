@@ -41,12 +41,21 @@ class SjUpnpScannerModule;
 class SjUpnpSource
 {
 public:
+	SjUpnpSource()
+	{
+		#define SJ_UPNPSCANNER_DEF_FLAGS      0x0000FFFFL // for a possible future merging, try to be compatible with SJ_FOLDERSCANNER_FLAGS
+		#define SJ_UPNPSCANNER_ENABLED        0x00000004L
+		#define SJ_UPNPSCANNER_DO_UPDATE      0x00000010L // not implemented - is it really needed?
+		m_flags      = SJ_UPNPSCANNER_DEF_FLAGS;
+	}
+
 	wxString GetDisplayUrl () { return m_descr; }
 	wxString m_udn;
 	wxString m_objectId; // = directoryId
 	wxString m_absControlUrl;
 	wxString m_serviceType;
 	wxString m_descr; // any friendly name
+	long     m_flags;
 };
 
 
@@ -132,8 +141,8 @@ public:
 
 	long              GetSourceCount      () { load_sources(); return m_sources.GetCount(); }
 	wxString          GetSourceUrl        (long index) { SjUpnpSource* s=get_source(index); if(s==NULL) { return ""; } return "upnp://"+s->GetDisplayUrl(); }
-	wxString          GetSourceNotes      (long index) { return ""; }
-	SjIcon            GetSourceIcon       (long index) { return SJ_ICON_UPNP_SERVER; }
+	wxString          GetSourceNotes      (long index);
+	SjIcon            GetSourceIcon       (long index);
 	long              AddSources          (int sourceType, wxWindow* parent);
 	bool              DeleteSource        (long index, wxWindow* parent);
 	bool              ConfigSource        (long index, wxWindow* parent);

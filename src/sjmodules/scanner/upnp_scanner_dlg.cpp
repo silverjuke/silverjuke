@@ -37,13 +37,14 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 	: SjDialog(parent, "", SJ_MODAL, SJ_RESIZEABLE_IF_POSSIBLE)
 {
 	m_upnpModule          = upnpModule;
-	m_upnpSource          = upnpSource; // may be NULL!
 	m_isNew               = (upnpSource==NULL);
 	m_stillLoading        = true;
 	m_dirListFor          = NULL;
 	m_stillScanningText   = NULL;
 	m_mediaServerListCtrl = NULL;
 	m_dirListCtrl         = NULL;
+	m_enabledCheckBox     = NULL;
+	m_doUpdateCheckBox    = NULL;
 
 	wxString title;
 	if( m_isNew ) {
@@ -84,14 +85,62 @@ SjUpnpDialog::SjUpnpDialog (wxWindow* parent, SjUpnpScannerModule* upnpModule, S
 			m_dirListCtrl->InsertColumn(0, _("Directory"));
 			sizer1->Add(m_dirListCtrl, 1, wxLEFT|wxRIGHT|wxBOTTOM|wxGROW, SJ_DLG_SPACE);
 		}
+		else
+		{
+			wxBoxSizer* sizer2 = new wxStaticBoxSizer(new wxStaticBox(this, -1, wxEmptyString), wxVERTICAL);
+			sizer1->Add(sizer2, 1/*grow*/, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
+
+			wxSizer* sizer3 = new wxBoxSizer(wxHORIZONTAL);
+			sizer2->Add(sizer3, 0, wxALL, SJ_DLG_SPACE);
+
+				sizer3->Add(SJ_DLG_SPACE*4, 2); // some space
+
+				m_enabledCheckBox = new wxCheckBox(this, IDC_ENABLECHECK, _("Use server:"));
+				m_enabledCheckBox->SetValue((upnpSource->m_flags&SJ_UPNPSCANNER_ENABLED)!=0);
+				sizer3->Add(m_enabledCheckBox, 0, wxALIGN_CENTER_VERTICAL);
+
+			m_doUpdateCheckBox = new wxCheckBox(this, -1, _("Include server to the update process"));
+			m_doUpdateCheckBox->SetValue(upnpSource->m_flags&SJ_UPNPSCANNER_DO_UPDATE? TRUE : FALSE);
+			sizer2->Add(m_doUpdateCheckBox, 0, wxALL, SJ_DLG_SPACE);
+
+			sizer2->Add(SJ_DLG_SPACE*2, 2); // some space
+		}
 
 	// buttons
 	sizer1->Add(CreateButtons(SJ_DLG_OK_CANCEL), 0, wxGROW|wxLEFT|wxTOP|wxRIGHT|wxBOTTOM, SJ_DLG_SPACE);
 
 	// init done, center dialog
 	UpdateMediaServerList();
+	EnableDisable();
 	sizer1->SetSizeHints(this);
 	CentreOnParent();
+}
+
+
+void SjUpnpDialog::EnableDisable()
+{
+	if( m_enabledCheckBox )
+	{
+		bool                enable = m_enabledCheckBox->GetValue();
+
+		wxWindowList&       children = GetChildren();
+		wxWindowList::Node* childNode = children.GetFirst();
+		while( childNode )
+		{
+			wxWindow*   child = childNode->GetData();
+			int         childId = child->GetId();
+
+			if( childId != wxID_OK
+			 && childId != wxID_CANCEL
+			 && childId != IDC_ENABLECHECK
+			 && !wxString(child->GetClassInfo()->GetClassName()).StartsWith("wxStatic") )
+			{
+				child->Enable(enable);
+			}
+
+			childNode = childNode->GetNext();
+		}
+	}
 }
 
 
@@ -148,6 +197,21 @@ SjUpnpDirEntry* SjUpnpDialog::GetSelectedDir()
 	m_parentDirEntry.m_objectId = m_currDir.m_objectId;
 	m_parentDirEntry.m_dc_title = m_currDir.m_dc_title;
     return &m_parentDirEntry;
+}
+
+
+void SjUpnpDialog::GetChanges(SjUpnpSource* upnpSource)
+{
+	if( m_enabledCheckBox )
+	{
+		SjTools::SetFlag(upnpSource->m_flags, SJ_UPNPSCANNER_ENABLED, m_enabledCheckBox->IsChecked());
+	}
+
+	if( m_doUpdateCheckBox )
+	{
+		SjTools::SetFlag(upnpSource->m_flags, SJ_UPNPSCANNER_DO_UPDATE, m_doUpdateCheckBox->IsChecked());
+	}
+
 }
 
 
@@ -398,6 +462,7 @@ void SjUpnpDialog::OnDirEntryInfo(wxCommandEvent&)
 
 
 BEGIN_EVENT_TABLE(SjUpnpDialog, SjDialog)
+	EVT_CHECKBOX              (IDC_ENABLECHECK,          SjUpnpDialog::OnEnableCheck            )
 	EVT_LIST_ITEM_SELECTED    (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerClick       )
 	EVT_LIST_ITEM_RIGHT_CLICK (IDC_MEDIASERVERLISTCTRL,  SjUpnpDialog::OnMediaServerContextMenu )
 	EVT_MENU                  (IDC_MEDIASERVERINFO,      SjUpnpDialog::OnMediaServerInfo        )
