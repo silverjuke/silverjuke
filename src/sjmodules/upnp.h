@@ -56,6 +56,12 @@ public:
 	wxString        FormatUpnpError     (const wxString& descr, int errCode, const wxString& object="");
 	void            LogUpnpError        (const wxString& descr, int errCode, const wxString& object="");
 
+	// Download a url to a temporary file, the caller must not delete the file as it is cached.
+	// Due to the heavy caching, the function is only useful for downloading things that normally do not change (covers, tracks),
+	// not for other things (put status etc.)
+	// As the function bocks the thread, it may be better to use it from within a thread.
+	bool            DownloadFileCached  (const wxString& url, wxString& retFile);
+
 private:
 	bool            m_libupnp_initialized;
 	void            ExitLibupnp         ();

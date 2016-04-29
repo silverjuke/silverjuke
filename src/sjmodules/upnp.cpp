@@ -206,5 +206,97 @@ void SjUpnpModule::ExitLibupnp()
 }
 
 
+bool SjUpnpModule::DownloadFileCached(const wxString& url, wxString& retFileName)
+{
+	#define IN_DATA_LEN (128 * 1024)
+	void* http_handle = NULL;
+	char* content_type = NULL;
+	int content_len = 0, http_status = 0, http_ret;
+	wxFile destFile;
+	char buf[IN_DATA_LEN];
+	size_t data_len, bytes_read = 0;
+
+	// check cache
+	retFileName = g_tools->m_cache.LookupCache(url);
+	if( !retFileName.IsEmpty() )
+	{
+		// success - file read from cache
+		return true;
+	}
+
+	// Init libupnp
+	if( !InitLibupnp() )
+	{
+		goto DownloadFile_Error;
+	}
+
+	// open remote file
+	http_ret = UpnpOpenHttpGet(url, &http_handle, &content_type, &content_len, &http_status, 1);
+	if( http_ret != UPNP_E_SUCCESS )
+	{
+		// wait a moment and try a second time (I don't know why, but this fixed 99% of the errors)
+		::wxSleep(2);
+		http_ret = UpnpOpenHttpGet(url, &http_handle, &content_type, &content_len, &http_status, 1);
+		if( http_ret != UPNP_E_SUCCESS )
+		{
+			http_handle = NULL;
+			goto DownloadFile_Error;
+		}
+	}
+
+	// open local file
+	retFileName = g_tools->m_cache.AddToCache(url);
+	destFile.Create(retFileName, TRUE/*overwrite*/);
+	if( !destFile.IsOpened() )
+	{
+		goto DownloadFile_Error;
+	}
+
+	// copy file
+	while( 1 )
+	{
+		data_len = IN_DATA_LEN;
+		http_ret = UpnpReadHttpGet(http_handle, buf, &data_len, 10 /*timeout seconds*/);
+
+		if( http_ret == UPNP_E_SUCCESS && data_len > 0 )
+		{
+			destFile.Write(buf, data_len);
+			bytes_read += data_len;
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	if( bytes_read == 0 )
+	{
+		goto DownloadFile_Error;
+	}
+
+	// success
+	UpnpCloseHttpGet(http_handle);
+	return true;
+
+	// error
+DownloadFile_Error:
+
+	if( http_handle )
+	{
+		UpnpCloseHttpGet(http_handle);
+	}
+
+	if( destFile.IsOpened() )
+	{
+		destFile.Close();
+		wxRemoveFile(retFileName);
+	}
+
+	g_tools->m_cache.RemoveFromCache(url);
+
+	return false;
+}
+
+
 #endif // SJ_USE_UPNP
 

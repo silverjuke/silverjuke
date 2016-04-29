@@ -29,6 +29,7 @@
 #include <sjbase/base.h>
 #include <sjtools/imgthread.h>
 #include <sjtools/console.h>
+#include <sjmodules/upnp.h>
 
 #include <wx/listimpl.cpp> // sic!
 WX_DEFINE_LIST(SjImgThreadObjList);
@@ -803,6 +804,23 @@ bool SjImgThreadObj::LoadFromFile()
 	}
 	else
 	{
+		#if SJ_USE_UPNP
+		if( m_url.StartsWith("http:") || m_url.StartsWith("https:") )
+		{
+			// wxFileSystem uses wxHttp/wxSocket may crashe under GTK when using threads on wx2.8, 3.0 etc.,
+			// see https://github.com/r10s/silverjuke/issues/54 and the message
+			// "../src/unix/sockunix.cpp(143): assert "m_fd != INVALID_SOCKET" failed in OnReadWaiting(): invalid socket ready for reading?"
+			// so, if available, we just prefer the UPnP routines
+			wxString tempFile;
+			if( g_upnpModule->DownloadFileCached(m_url, tempFile) )
+			{
+				m_image.LoadFile(tempFile, wxBITMAP_TYPE_ANY);
+			}
+		}
+		else
+		{
+		#endif
+
 		wxFileSystem fileSystem;
 		wxFSFile* fsFile = fileSystem.OpenFile(m_url, wxFS_READ|wxFS_SEEKABLE); // i think, seeking is needed by at least one format ...
 		if( fsFile )
@@ -810,6 +828,10 @@ bool SjImgThreadObj::LoadFromFile()
 			m_image.LoadFile(*(fsFile->GetStream()), wxBITMAP_TYPE_ANY);
 			delete fsFile;
 		}
+
+		#if SJ_USE_UPNP
+		}
+		#endif
 	}
 
 	if( m_image.IsOk() )

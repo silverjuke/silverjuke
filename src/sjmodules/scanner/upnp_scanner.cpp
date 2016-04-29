@@ -883,8 +883,7 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 			// set up new track info and give its ownership to the receiver
 			SjTrackInfo* trackInfo = new SjTrackInfo;
 			if( !entry->m_upnp_albumArtURI.IsEmpty() ) {
-				//trackInfo->AddArt(entry->m_upnp_albumArtURI);
-				// TODO: This works, however, displaying covers from HTTP does not, see https://github.com/r10s/silverjuke/issues/54
+				trackInfo->AddArt(entry->m_upnp_albumArtURI);
 			}
 
 			trackInfo->m_url            = entry->m_res;
