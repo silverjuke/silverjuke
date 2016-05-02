@@ -887,7 +887,10 @@ bool SjUpnpScannerModule::iterate_dir(SjColModule* receiver, SjUpnpMediaServer* 
 
 			// check, if the file is a audio or video file (we allow eg. "object.item.audioItem.musicTrack" or "object.item.videoItem")
 			if( !entry->m_upnp_class.StartsWith("object.item.audio")
-			 && !entry->m_upnp_class.StartsWith("object.item.video") )
+			#if SJ_USE_VIDEO
+			 && !entry->m_upnp_class.StartsWith("object.item.video")
+			#endif
+			 )
 			{
 				continue; // no audio or video file
 			}
