@@ -58,7 +58,6 @@
 #include <sjtools/msgbox.h>
 
 
-
 /*******************************************************************************
  * SjUpnpMediaServer class
  ******************************************************************************/
@@ -212,25 +211,16 @@ static IXML_Document* parseBrowseResult(IXML_Document* p_doc)
      * definitions so the ixml parser understands it.
      *
      * If you know of a better workaround, please oh please fix it */
-    const char* psz_xml_result_fmt = "<?xml version=\"1.0\" ?>"
-        "<Result xmlns:sec=\"urn:samsung:metadata:2009\">%s</Result>";
-
-    char* psz_xml_result_string = NULL;
     const char* psz_raw_didl = xml_getChildElementValue( p_doc, "Result" );
     if( !psz_raw_didl ) {
 		g_upnpModule->LogUpnpError("Result missing in response", UPNP_E_INVALID_PARAM);
         return NULL;
 	}
 
-    if( -1 == asprintf( &psz_xml_result_string,
-                         psz_xml_result_fmt,
-                         psz_raw_didl) ) {
-        g_upnpModule->LogUpnpError("asprintf failed", UPNP_E_INVALID_PARAM);
-        return NULL;
-	}
+	wxString xml_result_string = "<?xml version=\"1.0\" ?>"
+        "<Result xmlns:sec=\"urn:samsung:metadata:2009\">" + wxString(psz_raw_didl) + "</Result>";
 
-    IXML_Document* p_result_doc = ixmlParseBuffer( psz_xml_result_string );
-    free( psz_xml_result_string );
+	IXML_Document* p_result_doc = ixmlParseBuffer( xml_result_string );
 
     if( !p_result_doc ) {
 		g_upnpModule->LogUpnpError("Parse buffere failed", UPNP_E_INVALID_PARAM);

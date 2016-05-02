@@ -169,7 +169,7 @@ bool SjUpnpModule::InitLibupnp()
 {
 	if( m_libupnp_initialized ) { return true; } // already initalized
 
-	// init library
+	// init library - NB: we may be in a working thread here (eg. ImgThread), however, this seems not to be a problem
 	int error;
 	if( (error=UpnpInit(NULL, 0)) != UPNP_E_SUCCESS ) {
 		LogUpnpError("Cannot init", error);
@@ -179,7 +179,7 @@ bool SjUpnpModule::InitLibupnp()
 
 	char* ip_address = UpnpGetServerIpAddress(); // z.B. 192.168.178.38
 	unsigned short port = UpnpGetServerPort();   // z.B. 49152
-	wxLogInfo("Loading libupnp on %s:%i", ip_address, (int)port);
+	wxLogInfo("Loading libupnp on %s:%i", ip_address, (int)port); // if we're in a working thread, the message may not appear in the console window
 
     // Increase max. content length to maximum; without this call, the default is DEFAULT_SOAP_CONTENT_LENGTH (=16K) which is far too
     // small for even simple dirs (eg. "video" or "Bibi Blocksberg" on my diskstation) and will result in UPNP_E_OUTOF_BOUNDS errors.
