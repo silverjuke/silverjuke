@@ -109,17 +109,17 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 			}
 
 			SjUpnpMediaServer* p_server = new SjUpnpMediaServer(module);
-			p_server->m_udn          = psz_udn;
-			p_server->m_deviceType   = psz_device_type;
+			p_server->m_udn          = wxString(psz_udn, wxConvUTF8);
+			p_server->m_deviceType   = wxString(psz_device_type, wxConvUTF8);
 
 			const char* psz_temp = xml_getChildElementValue(p_device_element, "friendlyName");
-			p_server->m_friendlyName = psz_temp? psz_temp : psz_udn;
+			p_server->m_friendlyName = wxString(psz_temp? psz_temp : psz_udn, wxConvUTF8);
 
 			psz_temp = xml_getChildElementValue(p_device_element, "manufacturer");
-			if( psz_temp ) { p_server->m_manufacturer = psz_temp; }
+			if( psz_temp ) { p_server->m_manufacturer = wxString(psz_temp, wxConvUTF8); }
 
 			psz_temp = xml_getChildElementValue(p_device_element, "modelDescription");
-			if( psz_temp ) { p_server->m_modelDescription = psz_temp; }
+			if( psz_temp ) { p_server->m_modelDescription = wxString(psz_temp, wxConvUTF8); }
 
 			addToList->Insert(p_server->m_udn, p_server);
 
@@ -142,7 +142,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
                         continue;
 					}
 
-					p_server->m_serviceType = psz_service_type;
+					p_server->m_serviceType = wxString(psz_service_type, wxConvUTF8);
 
                     const char* psz_event_sub_url = xml_getChildElementValue(p_service_element, "eventSubURL");
                     if ( !psz_event_sub_url ) {
@@ -179,7 +179,7 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
                     {
                         if ( UpnpResolveURL(psz_base_url, psz_control_url, psz_url) == UPNP_E_SUCCESS )
                         {
-                            p_server->m_absControlUrl = psz_url;
+                            p_server->m_absControlUrl = wxString(psz_url, wxConvUTF8);
                             //p_server->fetchContents(); // done when the user selects the media server
                         }
 
@@ -252,16 +252,16 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 			IXML_Document* p_response = NULL;
 			{
 				IXML_Document* p_action = NULL;
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "ObjectID",      dir.m_objectId); // "0" = root
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "BrowseFlag",    "BrowseDirectChildren");
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "Filter",
+					UpnpAddToAction(&p_action, "Browse", m_serviceType.mb_str(wxConvUTF8), "ObjectID",      dir.m_objectId.mb_str(wxConvUTF8)); // "0" = root
+					UpnpAddToAction(&p_action, "Browse", m_serviceType.mb_str(wxConvUTF8), "BrowseFlag",    "BrowseDirectChildren");
+					UpnpAddToAction(&p_action, "Browse", m_serviceType.mb_str(wxConvUTF8), "Filter",
 					    "id,dc:title,dc:creator,dc:date,"
 					    "upnp:class,upnp:album,upnp:genre,upnp:albumArtURI,upnp:originalTrackNumber,"
 					    "res,res@size,res@duration,res@bitrate,res@sampleFrequency,res@nrAudioChannels"); // dc=Dublin Core
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "StartingIndex", wxString::Format("%i", (int)i_offset));
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "RequestedCount","0");
-					UpnpAddToAction(&p_action, "Browse", m_serviceType, "SortCriteria",  "");
-					int error = UpnpSendAction(m_module->m_clientHandle, m_absControlUrl, m_serviceType, 0, p_action, &p_response);
+					UpnpAddToAction(&p_action, "Browse", m_serviceType.mb_str(wxConvUTF8), "StartingIndex", wxString::Format("%i", (int)i_offset));
+					UpnpAddToAction(&p_action, "Browse", m_serviceType.mb_str(wxConvUTF8), "RequestedCount","0");
+					UpnpAddToAction(&p_action, "Browse", m_serviceType.mb_str(wxConvUTF8), "SortCriteria",  "");
+					int error = UpnpSendAction(m_module->m_clientHandle, m_absControlUrl.mb_str(wxConvUTF8), m_serviceType.mb_str(wxConvUTF8), 0, p_action, &p_response);
 				ixmlDocument_free(p_action);
 				if ( error != UPNP_E_SUCCESS || p_response==NULL ) {
 					g_upnpModule->LogUpnpError("Cannot send message", error);
@@ -306,8 +306,8 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 
 				SjUpnpDirEntry* entry = new SjUpnpDirEntry();
 				entry->m_isDir    = true;
-				entry->m_dc_title = dc_title;
-				entry->m_objectId = id;
+				entry->m_dc_title = wxString(dc_title, wxConvUTF8);
+				entry->m_objectId = wxString(id, wxConvUTF8);
 				dir.Add(entry); // entry is now owned by SjUpnpDir
 			}
 			ixmlNodeList_free( containerNodeList );
@@ -401,16 +401,16 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 
 						SjUpnpDirEntry* entry = new SjUpnpDirEntry();
 						entry->m_isDir                    = false;
-						entry->m_objectId                 = id; // not NULL, checked above
-						entry->m_dc_title                 = dc_title; // not NULL, checked above
-						entry->m_dc_creator               = dc_creator? wxString(dc_creator) : wxString();
-						entry->m_dc_date                  = dc_date? wxString(dc_date) : wxString();
-						entry->m_upnp_class               = wxString(upnp_class); // not NULL, checked above
-						entry->m_upnp_album               = upnp_album? wxString(upnp_album) : wxString();
-						entry->m_upnp_genre               = upnp_genre? wxString(upnp_genre) : wxString();
+						entry->m_objectId                 = wxString(id, wxConvUTF8); // not NULL, checked above
+						entry->m_dc_title                 = wxString(dc_title, wxConvUTF8); // not NULL, checked above
+						entry->m_dc_creator               = dc_creator? wxString(dc_creator, wxConvUTF8) : wxString();
+						entry->m_dc_date                  = dc_date? wxString(dc_date, wxConvUTF8) : wxString();
+						entry->m_upnp_class               = wxString(upnp_class, wxConvUTF8); // not NULL, checked above
+						entry->m_upnp_album               = upnp_album? wxString(upnp_album, wxConvUTF8) : wxString();
+						entry->m_upnp_genre               = upnp_genre? wxString(upnp_genre, wxConvUTF8) : wxString();
 						entry->m_upnp_originalTrackNumber = upnp_originalTrackNumber;
-						entry->m_upnp_albumArtURI         = upnp_albumArtURI? wxString(upnp_albumArtURI) : wxString();
-						entry->m_res                      = psz_resource_url; // not NULL, checked above
+						entry->m_upnp_albumArtURI         = upnp_albumArtURI? wxString(upnp_albumArtURI, wxConvUTF8) : wxString();
+						entry->m_res                      = wxString(psz_resource_url, wxConvUTF8); // not NULL, checked above
 						entry->m_res_size                 = res_size;
 						entry->m_res_duration_ms          = res_duration_ms;
 						entry->m_res_bitrate              = res_bitrate;
@@ -461,7 +461,7 @@ void SjUpnpMediaServer::subscribeToContentDirectory()
 	int i_timeout = 1810; // corrected to 1800 seconds on my system
 	Upnp_SID sid;
 
-	int i_res = UpnpSubscribe(m_module->m_clientHandle, m_absEventSubUrl, &i_timeout, sid);
+	int i_res = UpnpSubscribe(m_module->m_clientHandle, m_absEventSubUrl.mb_str(wxConvUTF8), &i_timeout, sid);
 	if ( i_res == UPNP_E_SUCCESS )
 	{
 		m_subscriptionTimeout = i_timeout;
@@ -681,11 +681,11 @@ bool SjUpnpScannerModule::load_sources()
 	for( i = 0; i < sourceCount; i++ )
 	{
 		source                  = new SjUpnpSource();
-		source->m_udn           = sql.ConfigRead(wxString::Format("upnpscanner/s%iudn",        (int)i), wxT(""));
-		source->m_objectId      = sql.ConfigRead(wxString::Format("upnpscanner/s%iid",         (int)i), wxT(""));
-		source->m_absControlUrl = sql.ConfigRead(wxString::Format("upnpscanner/s%icontrolUrl", (int)i), wxT(""));
-		source->m_serviceType   = sql.ConfigRead(wxString::Format("upnpscanner/s%iserviceType",(int)i), wxT(""));
-		source->m_descr         = sql.ConfigRead(wxString::Format("upnpscanner/s%idescr",      (int)i), wxT(""));
+		source->m_udn           = sql.ConfigRead(wxString::Format("upnpscanner/s%iudn",        (int)i), "");
+		source->m_objectId      = sql.ConfigRead(wxString::Format("upnpscanner/s%iid",         (int)i), "");
+		source->m_absControlUrl = sql.ConfigRead(wxString::Format("upnpscanner/s%icontrolUrl", (int)i), "");
+		source->m_serviceType   = sql.ConfigRead(wxString::Format("upnpscanner/s%iserviceType",(int)i), "");
+		source->m_descr         = sql.ConfigRead(wxString::Format("upnpscanner/s%idescr",      (int)i), "");
 		source->m_flags         = sql.ConfigRead(wxString::Format("upnpscanner/s%iflags",      (int)i), SJ_UPNPSCANNER_DEF_FLAGS);
 		if( source->m_udn.IsEmpty() || source->m_objectId.IsEmpty()
 		 || source->m_absControlUrl.IsEmpty() || source->m_serviceType.IsEmpty() || source->m_descr.IsEmpty() )

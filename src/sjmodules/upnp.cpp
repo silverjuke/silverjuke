@@ -148,7 +148,7 @@ wxString SjUpnpModule::FormatUpnpError(const wxString& descr, int errCode, const
 		ret += "Unauthorized access - "; // this error is send by WMP but does not exist in libupnp?!
 	}
 
-	ret += wxString(UpnpGetErrorMessage(errCode));
+	ret += wxString(UpnpGetErrorMessage(errCode), wxConvUTF8);
 	ret += wxString::Format(" (Error %i)", (int)errCode);
 
 	if( object != "" ) {
@@ -231,12 +231,12 @@ bool SjUpnpModule::DownloadFileCached(const wxString& url, wxString& retFileName
 	}
 
 	// open remote file
-	http_ret = UpnpOpenHttpGet(url, &http_handle, &content_type, &content_len, &http_status, 1);
+	http_ret = UpnpOpenHttpGet(url.mb_str(wxConvUTF8), &http_handle, &content_type, &content_len, &http_status, 1);
 	if( http_ret != UPNP_E_SUCCESS )
 	{
 		// wait a moment and try a second time (I don't know why, but this fixed 99% of the errors)
 		::wxSleep(2);
-		http_ret = UpnpOpenHttpGet(url, &http_handle, &content_type, &content_len, &http_status, 1);
+		http_ret = UpnpOpenHttpGet(url.mb_str(wxConvUTF8), &http_handle, &content_type, &content_len, &http_status, 1);
 		if( http_ret != UPNP_E_SUCCESS )
 		{
 			http_handle = NULL;
