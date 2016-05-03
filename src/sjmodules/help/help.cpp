@@ -238,12 +238,12 @@ wxString SjHelpDialog::GetCreditsTopic() const
 				"<br />"
 			"</li>"
 
+			#if SJ_USE_PROJECTM
 			"<li>"
 				"For the visualizations, projectM, a Milkdrop-esque visualization SDK, is used; "
 				"Copyright (c) 2003 - 2007 projectM Team"
 				"<br />"
 			"</li>"
-
 			"<li>"
 				"Milkdrop presets created by Adam Fx, Aderrasi, Baked, Bdrv, Benski, Beta106i, Bmelgren, CatalystTheElder, "
 				"Che, CrystalHigh, DemonLD, EMPR, Eo.S., EvilJim, fiShbRaiN, Flexi, Fvese, Geiss, Goody, Hexcollie, Idiot, "
@@ -251,6 +251,7 @@ wxString SjHelpDialog::GetCreditsTopic() const
 				"Telek, Unchained, Yin, Zylot and others."
 				"<br />"
 			"</li>"
+			#endif
 
 			"<li>"
 				"The tagging code is based upon the work of Scott Wheeler's taglib, "
@@ -263,6 +264,7 @@ wxString SjHelpDialog::GetCreditsTopic() const
 				"<br />"
 			"</li>"
 
+			#if SJ_USE_SCRIPTS
 			"<li>"
 				"The used Simple ECMAScript Engine is covered by the following notice:<br />"
 				"<br />"
@@ -293,7 +295,6 @@ wxString SjHelpDialog::GetCreditsTopic() const
 				"SUCH DAMAGE.</i>"
 				"<br />"
 			"</li>"
-
 			"<li>"
 				"Number-to-string and string-to-number conversions are covered by the following notice:<br />"
 				"<br />"
@@ -311,6 +312,40 @@ wxString SjHelpDialog::GetCreditsTopic() const
 				"WARRANTY OF ANY KIND CONCERNING THE MERCHANTABILITY OF THIS SOFTWARE OR ITS FITNESS "
 				"FOR ANY PARTICULAR PURPOSE.</i><br />"
 			"</li>"
+			#endif // SJ_USE_SCRIPTS
+
+			#if SJ_USE_UPNP
+			"<li>" // needed at least if libupnp is linked statically
+				"Portable SDK for UPnP* Devices (libupnp) is covered by the following notice:<br />"
+				"<br />"
+				"<i>Copyright (c) 2000-2003 Intel Corporation<br />"
+				"All rights reserved.<br />"
+				"<br />"
+				"Redistribution and use in source and binary forms, with or without "
+				"modification, are permitted provided that the following conditions are met:<br />"
+				"<br />"
+				"* Redistributions of source code must retain the above copyright notice, "
+				"  this list of conditions and the following disclaimer.<br />"
+				"* Redistributions in binary form must reproduce the above copyright notice, "
+				"  this list of conditions and the following disclaimer in the documentation "
+				"  and/or other materials provided with the distribution.<br />"
+				"* Neither name of Intel Corporation nor the names of its contributors "
+				"  may be used to endorse or promote products derived from this software "
+				"  without specific prior written permission.<br />"
+				"<br />"
+				"THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "
+				"&quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT "
+				"LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR "
+				"A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL INTEL OR "
+				"CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, "
+				"EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, "
+				"PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR "
+				"PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY "
+				"OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING "
+				"NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS "
+				"SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</i><br />"
+			"</li>"
+			#endif // SJ_USE_UPNP
 
 			"<li>"
 				"Kiss FFT is covered by the following notice:<br />"
