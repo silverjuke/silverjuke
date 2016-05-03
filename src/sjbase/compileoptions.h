@@ -53,7 +53,7 @@
 #define SJ_USE_PROJECTM 1
 #endif
 
-#ifndef SJ_USE_UPNP                 // Use UPNP stuff (requires libupnp)
+#ifndef SJ_USE_UPNP                 // Use UPNP stuff (requires libupnp and pthreads)
 #define SJ_USE_UPNP 1
 #endif
 
