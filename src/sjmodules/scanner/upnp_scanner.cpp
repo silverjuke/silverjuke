@@ -197,9 +197,10 @@ static void parseDeviceDescription(IXML_Document* p_doc, const char* p_location,
 /*
  * Extracts the result document from a SOAP response
  */
-static IXML_Document* parseBrowseResult(IXML_Document* p_doc)
+static IXML_Document* parseBrowseResult(IXML_Document* p_doc, IXML_Document** helper)
 {
     wxASSERT(p_doc);
+	*helper = NULL;
 
     /* Missing namespaces confuse the ixml parser. This is a very ugly
      * hack but it is needeed until devices start sending valid XML.
@@ -233,6 +234,7 @@ static IXML_Document* parseBrowseResult(IXML_Document* p_doc)
     IXML_Node *p_node = ixmlNodeList_item( p_elems, 0 );
     ixmlNodeList_free( p_elems );
 
+	*helper = p_result_doc; // allow later deletion ("p_node" seems to be a pointer to inside "helper")
     return (IXML_Document*)p_node;
 }
 
@@ -245,6 +247,7 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 	while( 1 ) // exit by break at end of loop
 	{
 		IXML_Document* p_result = NULL;
+		IXML_Document* p_result_helper = NULL;
 		{
 			IXML_Document* p_response = NULL;
 			{
@@ -267,18 +270,19 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 				}
 			}
 
-			p_result = parseBrowseResult(p_response);
+			p_result = parseBrowseResult(p_response, &p_result_helper);
 			i_number_returned = xml_getNumber(p_response, "NumberReturned");
 			i_total_matches   = xml_getNumber(p_response, "TotalMatches");
 			ixmlDocument_free(p_response);
 		}
 
-		if( i_number_returned <= 0 || i_total_matches <= 0 ) {
-			return true; // no error, may be an empty dir
-		}
-
 		if ( !p_result ) {
 			return false; // error
+		}
+
+		if( i_number_returned <= 0 || i_total_matches <= 0 ) {
+			ixmlDocument_free( p_result_helper );
+			return true; // no error, may be an empty dir
 		}
 
 		// Debug output
@@ -421,7 +425,7 @@ bool SjUpnpMediaServer::FetchContents(SjUpnpDir& dir)
 			ixmlNodeList_free( itemNodeList );
 		}
 
-		ixmlDocument_free( p_result );
+		ixmlDocument_free( p_result_helper );
 
 		if( i_offset + i_number_returned < i_total_matches ) {
 			i_offset += i_number_returned;
