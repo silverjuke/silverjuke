@@ -27,6 +27,7 @@ need the following stuff:
 - libgstreamer1.0-dev
 - wxWidgets-wxcontainer-devel
 - libsqlite3-dev
+- libupnp-dev
 - python-docutils (for rst2man)
 - gawk (mawk may cause problems)
 

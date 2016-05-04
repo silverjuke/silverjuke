@@ -51,6 +51,7 @@ PKG_CHECK_MODULES([ZLIB], [zlib])
 PKG_CHECK_MODULES([SQLITE3], [sqlite3])
 PKG_CHECK_MODULES([GST], [gstreamer-1.0 gstreamer-plugins-base-1.0])
 PKG_CHECK_MODULES([GL], [gl])
+PKG_CHECK_MODULES([UPNP], [libupnp])
 
 # Check for endian.h to determine endianness for "src/see" library
 AC_CHECK_HEADERS([endian.h])

@@ -26,14 +26,14 @@ ACLOCAL_AMFLAGS = --install -I m4
 
 # Provide the pkgdatadir variable to cpp files in order to be able
 # to reliably locate the skins, keyboards and visualizations.
-silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS) $(GST_CFLAGS) $(GL_CFLAGS) -DPKGDATADIR=\"$(pkgdatadir)\" -DPKGDOCDIR=\"$(docdir)\"
+silverjuke_CPPFLAGS = -Isrc $(WX_CPPFLAGS) $(GST_CFLAGS) $(GL_CFLAGS) $(UPNP_FLAGS) -DPKGDATADIR=\"$(pkgdatadir)\" -DPKGDOCDIR=\"$(docdir)\"
 silverjuke_CXXFLAGS = \
 	-Isrc \
 	-Wall \
 	-Wno-unused-but-set-variable \
 	-g \
 	$(ZLIB_CFLAGS) $(LIBXINE_CFLAGS) $(SQLITE3_CFLAGS) $(WX_CXXFLAGS)
-silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(SQLITE3_LIBS) $(WX_LIBS) $(GST_LIBS) -lgstvideo-1.0 $(GL_LIBS)
+silverjuke_LDADD = $(ZLIB_LIBS) $(LIBXINE_LIBS) $(SQLITE3_LIBS) $(WX_LIBS) $(GST_LIBS) -lgstvideo-1.0 $(GL_LIBS) $(UPNP_LIBS)
 silverjuke_LDFLAGS = $(LDFLAGS)
 
 dist_doc_DATA = \
@@ -202,6 +202,8 @@ silverjuke_SOURCES = \
 	src/sjmodules/scanner/folder_scanner.cpp \
 	src/sjmodules/scanner/server_scanner_config.cpp \
 	src/sjmodules/scanner/server_scanner.cpp \
+	src/sjmodules/scanner/upnp_scanner.cpp \
+	src/sjmodules/scanner/upnp_scanner_dlg.cpp \
 	src/sjmodules/settings.cpp \
 	src/sjmodules/tageditor/freedb.cpp \
 	src/sjmodules/tageditor/tageditor.cpp \
@@ -210,6 +212,7 @@ silverjuke_SOURCES = \
 	src/sjmodules/tageditor/tageditorrename.cpp \
 	src/sjmodules/tageditor/tageditorreplace.cpp \
 	src/sjmodules/tageditor/tageditorsplit.cpp \
+	src/sjmodules/upnp.cpp \
 	src/sjmodules/viewsettings.cpp \
 	src/sjmodules/vis/vis_bg.cpp \
 	src/sjmodules/vis/vis_cdg_raw.cpp \
