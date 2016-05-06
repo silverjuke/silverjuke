@@ -151,6 +151,7 @@ public:
 	bool            GetRegardTimestamp  () const { return m_regardTimestamp; }
 
 	void            SetCacheSettings    (long bytes, int useDiskCache, bool regardTimestamp);
+	void            CleanupAllCaches    ();
 
 	/* Shutdown() waits for the rendering thread to terminate - this should be called _before_ the object is destroyed;
 	 * we provide an extra function for this purpose as this allows you to keep the pointer alive longer.

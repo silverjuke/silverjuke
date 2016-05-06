@@ -321,6 +321,14 @@ bool SjMainFrame::UpdateIndex(wxWindow* parent, bool deepUpdate)
 
 				moduleNode = moduleNode->GetNext();
 			}
+
+			if( ret )
+			{
+				// Cleanup the caches.
+				// (needed to remove cached HTTP-files, covers from RAM etc.)
+				SjBusyInfo::Set(_("Cleanup caches"), true);
+				m_imgThread->CleanupAllCaches(); // this also calls SjTempNCache::CleanupFiles();
+			}
 		}
 
 		if( ret )

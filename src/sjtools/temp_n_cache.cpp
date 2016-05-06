@@ -302,7 +302,7 @@ void SjTempNCache::SetMaxMB(long newMaxMb)
 
 		if( newMaxMb < oldMaxMb )
 		{
-			CleanupOldFiles(true);
+			CleanupFiles(SJ_CLEANUP_FORCE);
 		}
 	}
 }
@@ -829,12 +829,12 @@ static int SjTempDirEntry_Sort(SjTempDirEntry** i1__, SjTempDirEntry** i2__)
 }
 
 
-void SjTempNCache::CleanupOldFiles(bool force)
+void SjTempNCache::CleanupFiles(long action)
 {
 	// for idle cleanup, this function is called from SjAutoCtrl::OnOneSecondTimer()
 
 	// some files added since the last check?
-	if( !force )
+	if( !(action&SJ_CLEANUP_FORCE) )
 	{
 		wxCriticalSectionLocker locker(m_sqlDbCritical);
 
@@ -896,7 +896,7 @@ void SjTempNCache::CleanupOldFiles(bool force)
 
 
 		// too large?
-		if( usedBytes <= maxBytes || dirEntries.GetCount() <= 0 )
+		if( (usedBytes <= maxBytes && !(action&SJ_CLEANUP_ALL)) || dirEntries.GetCount() <= 0 )
 		{
 			// no ;-)
 			return;
@@ -936,7 +936,7 @@ void SjTempNCache::CleanupOldFiles(bool force)
 				idsToDel.Append(wxString::Format(wxT("%lu,")/*the last comma is removed below*/, currDirEntry->m_id));
 
 				usedBytes -= currDirEntry->m_bytes;
-				if( usedBytes <= maxBytes )
+				if( usedBytes <= maxBytes && !(action&SJ_CLEANUP_ALL) )
 				{
 					break; // enough deleted for now ;-)
 				}

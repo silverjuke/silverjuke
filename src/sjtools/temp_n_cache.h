@@ -141,7 +141,9 @@ public:
 
 	void            GetLittleOptions    (SjArrayLittleOption&);
 
-	void            CleanupOldFiles     (bool force=FALSE);
+	#define         SJ_CLEANUP_FORCE    0x01 // else, cleanup is only done if it seems necessary
+	#define         SJ_CLEANUP_ALL      0x02 // else, only old are deleted
+	void            CleanupFiles        (long action=0);
 
 	// GetAsLocalFile(): If the URL is no local file, the stream will be copied to
 	// a temporary file which is valid as long as the SjDecoderResponse is not destroyed.

@@ -493,6 +493,15 @@ bool SjImgThread::HasWaitingImages()
 }
 
 
+void SjImgThread::CleanupAllCaches()
+{
+	wxCriticalSectionLocker locker(m_critsect);
+
+	g_tools->m_cache.CleanupFiles(SJ_CLEANUP_ALL|SJ_CLEANUP_FORCE);
+	CleanupRamCache(0);
+}
+
+
 void SjImgThread::CleanupRamCache(long cacheLeaveBytes)
 {
 	/* this function must be called from within m_critsect allocated!

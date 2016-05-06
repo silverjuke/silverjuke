@@ -449,7 +449,7 @@ void SjAutoCtrl::OnOneSecondTimer()
 				 &&  g_mainFrame->IsEnabled()
 				 && !SjBusyInfo::InYield() )
 				{
-					g_tools->m_cache.CleanupOldFiles();
+					g_tools->m_cache.CleanupFiles();
 				}
 
 				m_lastCleanupTimestamp = thisTimestamp;
