@@ -115,6 +115,7 @@ public:
 	wxString        GetCmdNameById      (int id, bool shortName=FALSE) { int index=CmdId2CmdIndex(id); if(index) { return GetCmdNameByIndex(index, shortName); } else { return wxEmptyString; } }
 
 	// misc. settings, public read
+	#define         SJ_ACCEL_ASK_ON_INTERRUPTING        0x00000001L
 	#define         SJ_ACCEL_CONTENT_DRAG               0x00000004L
 	#define         SJ_ACCEL_ASK_ON_MULTI_ENQUEUE       0x00000008L
 	#define         SJ_ACCEL_ASK_ON_CLEAR_PLAYLIST      0x00000010L

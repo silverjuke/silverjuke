@@ -902,6 +902,9 @@ void SjAccelModule::GetLittleOptions(SjArrayLittleOption& lo)
 	lo.Add(new SjLittleBit(_("Ask before clearing the playlist"), wxT("yn"),
 	                       &m_flags, 1L, SJ_ACCEL_ASK_ON_CLEAR_PLAYLIST, wxT("main/accelFlags")));
 
+	lo.Add(new SjLittleBit(_("Ask before interrupting tracks"), wxT("yn"),
+	                       &m_flags, 1L, SJ_ACCEL_ASK_ON_INTERRUPTING, wxT("main/accelFlags")));
+
 	lo.Add(new SjLittleBit(_("Ask before changing the rating"), wxT("yn"),
 	                       &m_flags, 1L, SJ_ACCEL_ASK_ON_RATING_CHANGE, wxT("main/accelFlags")));
 }
@@ -1479,6 +1482,7 @@ int SjAccelModule::YesNo    (const wxString& message,
 		case SJ_ACCEL_ASK_ON_MULTI_ENQUEUE:    options.Add(_("Ask before enqueuing multiple tracks")); break;
 		case SJ_ACCEL_ASK_ON_CLEAR_PLAYLIST:   options.Add(_("Ask before clearing the playlist"));     break;
 		case SJ_ACCEL_ASK_ON_CLOSE_IF_PLAYING: options.Add(_("Ask on close if playing"));              break;
+		case SJ_ACCEL_ASK_ON_INTERRUPTING:     options.Add(_("Ask before interrupting tracks"));       break;
 		case SJ_ACCEL_ASK_ON_RATING_CHANGE:    options.Add(_("Ask before changing the rating"));       break;
 	}
 

@@ -4991,11 +4991,23 @@ void SjLibraryModule::GetSelectedUrls(wxArrayString& urls)
 }
 
 
-void SjLibraryModule::AskToAddSelection()
+void SjLibraryModule::AskToAddSelection() // always called in response to a double click
 {
 	long trackCount = m_selectedTrackIds.GetCount();
+	bool askHere = true;
 
-	if( trackCount > 1 )
+	int action = IDT_ENQUEUE_LAST;
+	if(  g_mainFrame->IsOpAvailable(SJ_OP_EDIT_QUEUE)
+	 && (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK) )
+	{
+		action = IDT_ENQUEUE_NOW;
+		if( g_mainFrame->IsPlaying() && g_accelModule->m_flags&SJ_ACCEL_ASK_ON_INTERRUPTING )
+		{
+			askHere = false; // we already ask for interrupting the playing track
+		}
+	}
+
+	if( trackCount > 1 && askHere )
 	{
 		if( g_accelModule->YesNo(
 		            wxString::Format(
@@ -5011,13 +5023,6 @@ void SjLibraryModule::AskToAddSelection()
 		{
 			return;
 		}
-	}
-
-	int action = IDT_ENQUEUE_LAST;
-	if(  g_mainFrame->IsOpAvailable(SJ_OP_EDIT_QUEUE)
-	        && (g_accelModule->m_flags&SJ_ACCEL_PLAY_NOW_ON_DBL_CLICK) )
-	{
-		action = IDT_ENQUEUE_NOW;
 	}
 
 	g_mainFrame->GetEventHandler()->QueueEvent(new wxCommandEvent(wxEVT_COMMAND_MENU_SELECTED, action));

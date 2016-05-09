@@ -366,11 +366,11 @@ bool SjMainFrame::QueryEndSession(bool onShutdown)
 
 		if( !onShutdown
 		 &&  IsPlaying() )
-		{	
+		{
 			#ifdef __WXMSW__
 				// THIS IS A HACK: If an OpenGL visualisation is active, the program-quit seems not to reach
 				// the main queue until the OpenGL wndow ist closed. So a click on "Exit" does nothing - but if the  OpenGL visualisation
-				// is closed (minutes) later, the program terminates. 
+				// is closed (minutes) later, the program terminates.
 				// we fix this by simply closing the OpenGL visualisation before terminating the program.
 				g_visModule->StopVis();
 			#endif
@@ -2023,6 +2023,14 @@ void SjMainFrame::OnSkinTargetEvent(int targetId, SjSkinValue& value, long accel
 					if( targetId == IDT_ENQUEUE_NOW && IsOpAvailable(SJ_OP_EDIT_QUEUE) )
 					{
 						enqueuePos = -3;
+						if( m_player.IsPlaying() )
+						{
+							if( g_accelModule->YesNo(_("Interrupt the playing track and continue with the new selection?"),
+							  _("Interrupt playing track"), this, SJ_ACCEL_ASK_ON_INTERRUPTING) != wxYES )
+							{
+								return;
+							}
+						}
 					}
 
 					Enqueue(urls, enqueuePos, TRUE/*verified*/);
