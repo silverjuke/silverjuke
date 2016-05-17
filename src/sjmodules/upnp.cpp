@@ -142,7 +142,7 @@ void SjUpnpModule::LastUnload()
 
 wxString SjUpnpModule::FormatUpnpError(const wxString& descr, int errCode, const wxString& object)
 {
-	wxString ret = "UPnP Errror: " + descr + ": ";
+	wxString ret = "UPnP Problem: " + descr + ": ";
 
 	if( errCode == 801 ) {
 		ret += "Unauthorized access - "; // this error is send by WMP but does not exist in libupnp?!
@@ -162,6 +162,13 @@ wxString SjUpnpModule::FormatUpnpError(const wxString& descr, int errCode, const
 void SjUpnpModule::LogUpnpError(const wxString& descr, int errCode, const wxString& object)
 {
 	wxLogError("%s", FormatUpnpError(descr, errCode, object).c_str());
+}
+
+
+void SjUpnpModule::LogMinorUpnpError(const wxString& descr, int errCode, const wxString& object)
+{
+	// we log minor UPnP errors (bad device descriptions of devices not in use etc.) as "Info" so that the error box does not pop up.
+	wxLogInfo("%s", FormatUpnpError(descr, errCode, object).c_str());
 }
 
 

@@ -571,7 +571,9 @@ static int client_event_handler(Upnp_EventType eventType, void* p_event, void* u
 				int error = UpnpDownloadXmlDoc(discoverEvent->Location, &p_description_doc);
 				if( error != UPNP_E_SUCCESS ) {
 					// happens eg. with DroidUPnP, error -207, TIMEOUT
-					g_upnpModule->LogUpnpError("Cannot download device description", error, discoverEvent->Location);
+					//         or with the Samsung Laser conntected via USB to Windows 10 - error -119, UPNP_E_BAD_HTTPMSG (malformed header received from remote host)
+					// we log these errors as minor errors (info) to avoid popping up an error box.
+					g_upnpModule->LogMinorUpnpError("Cannot download device description", error, discoverEvent->Location);
 					return error;
 				}
 
