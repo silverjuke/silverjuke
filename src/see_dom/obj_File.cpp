@@ -271,7 +271,7 @@ IMPLEMENT_PUT(file)
 	else if( VAL_PROPERTY( pos ) )
 	{
 		long l = VAL_LONG;
-		file_object* fo = toFile(interpr_, this_, 2/*init+create*/);
+		file_object* fo = toFile(interpr_, this_, 1/*init*/);
 		if( fo->byteFile == NULL )
 			SEE_error_throw(interpr_, interpr_->Error, "cannot seek");
 
@@ -457,6 +457,16 @@ static file_object* toFile(SEE_interpreter* interpr, SEE_object* o, int init)
 
 	file_object* fo = (file_object*)o;
 
+	if( init == 2 && fo->byteFile && !fo->byteFile->IsOpenedForWriting() )
+	{
+		// close the file and force re-opening for writing
+		fo->backupPos = fo->byteFile->Tell();
+		delete fo->byteFile;
+		fo->byteFile = NULL;
+		delete fo->fsFile;
+		fo->fsFile = NULL;
+	}
+
 	if( init && fo->byteFile == NULL )
 	{
 		// alloc fsFile, this may fail
@@ -475,7 +485,15 @@ static file_object* toFile(SEE_interpreter* interpr, SEE_object* o, int init)
 		if( fo->fsFile )
 		{
 			// create byteFile, seek to old position if flush() was called before
-			fo->byteFile = new SjByteFile("", fo->fsFile->GetStream());
+			if( init == 2 )
+			{
+				fo->byteFile = new SjByteFile(name, NULL);
+			}
+			else
+			{
+				fo->byteFile = new SjByteFile("", fo->fsFile->GetStream());
+			}
+
 			if( fo->backupPos )
 				fo->byteFile->Seek(fo->backupPos, SJ_SEEK_BEG);
 		}

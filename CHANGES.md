@@ -1,12 +1,13 @@
 Silverjuke Changes
 ================================================================================
 
-V16.5.x (11.05.2016)
+V16.5.x (27.05.2016)
 ================================================================================
 
 - New options to add UPnP/DLNA servers to the music library
 - Ask before interrupting tracks
 - Cleanup caches on music library updates
+- Allow writing files via scripts
 - Bug fixes
 
 

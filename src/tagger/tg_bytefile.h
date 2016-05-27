@@ -52,6 +52,9 @@ public:
 	// IsValid() Returns true if the file is open and readable and/or valid information were found
 	bool            IsValid             () const;
 
+	// Was the file opened for writing?
+	bool            IsOpenedForWriting  () const { return m_file__? true: false; }
+
 	// Reads a block of the given length at the current pointer.
 	SjByteVector    ReadBlock           (unsigned long length);
 
