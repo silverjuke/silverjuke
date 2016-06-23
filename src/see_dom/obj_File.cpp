@@ -271,7 +271,7 @@ IMPLEMENT_PUT(file)
 	else if( VAL_PROPERTY( pos ) )
 	{
 		long l = VAL_LONG;
-		file_object* fo = toFile(interpr_, this_, 1/*init*/);
+		file_object* fo = toFile(interpr_, this_, 2/*init+create - to set the length, we really need the file object, a simple "init" is not enough!*/);
 		if( fo->byteFile == NULL )
 			SEE_error_throw(interpr_, interpr_->Error, "cannot seek");
 
