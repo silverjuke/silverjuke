@@ -359,7 +359,6 @@ long wxSqltDb::GetSync()
 }
 
 
-
 long wxSqltDb::Bytes2Pages(long bytes)
 {
 	// each page needs about 1 KB on disk and 1.5 KB in memory,
@@ -371,12 +370,10 @@ long wxSqltDb::Bytes2Pages(long bytes)
 }
 
 
-
 long wxSqltDb::Pages2Bytes(long pages)
 {
 	return pages * 1536;
 }
-
 
 
 wxString wxSqltDb::GetLibVersion()
@@ -385,9 +382,8 @@ wxString wxSqltDb::GetLibVersion()
 }
 
 
-
 /*******************************************************************************
- *  wxSqlt - low level query interface
+ * wxSqlt - low level query interface
  ******************************************************************************/
 
 
