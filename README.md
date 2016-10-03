@@ -85,6 +85,7 @@ If you use the Silverjuke source code as a base of your projects, keep in mind
 that Silverjuke is released under the GPL and you have to open source your work
 as well.  See the file LICENSE that comes together with the source code.
 
+---
 
 Copyright (c) Bjoern Petersen Software Design and Development,
 http://b44t.com and contributors.
