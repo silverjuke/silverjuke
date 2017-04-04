@@ -44,7 +44,7 @@ enum SjSeePersistent
         SJ_PERSISTENT_OTHER
     ,   SJ_PERSISTENT_MENU_ENTRY
     ,   SJ_PERSISTENT_CONFIG_BUTTON
-    ,   SJ_PERSISTENT_EXIT_OPTION_deprecated
+    ,   SJ_PERSISTENT_EXIT_OPTION_deprecated // NO, this IS usefull, eg. to allow the staff to perform some actions without allowing *everything*
     ,   SJ_PERSISTENT_EXPORT
 };
 
