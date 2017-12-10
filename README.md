@@ -16,7 +16,7 @@ manager.  If it is not there, please contact your linux distributor - we cannot
 help on this point.
 
 Alternatively, more experienced users can build Silverjuke theirself.  The
-source code from https://github.com/r10s/silverjuke plus a simple
+source code from https://github.com/silverjuke/silverjuke plus a simple
 `./autogen.sh`, `make` and `make install` should do the job. If you want to run
 silverjuke from your build dir, run `./silverjuke` instead of `make install`.
 
@@ -47,7 +47,7 @@ binaries are not opened sourced.
 Issues
 ===============================================================================
 
-Any issues can be reported to https://github.com/r10s/silverjuke/issues
+Any issues can be reported to https://github.com/silverjuke/silverjuke/issues
 
 
 Coding
