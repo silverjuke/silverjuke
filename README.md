@@ -2,7 +2,7 @@ Silverjuke
 ================================================================================
 
 Silverjuke is the easy-to-use jukebox with more than ten yeas of experience, see
-http://silverjuke.net for further information.
+https://silverjuke.net for further information.
 
 The Silverjuke source code is available under the GPL license, see the file
 LICENSE for details.
@@ -23,11 +23,12 @@ silverjuke from your build dir, run `./silverjuke` instead of `make install`.
 Beyond the usual gcc and system development packages, chances are you'll also
 need the following stuff:
 
-- OpenGL libraries, eg. libgl1-mesa-dev
-- libgstreamer1.0-dev
-- wxWidgets-wxcontainer-devel
-- libsqlite3-dev
+- wx-dev
 - libupnp-dev
+- libgstreamer1.0-dev
+- libgstreamer-plugins-base1.0-dev (for video support)
+- OpenGL libraries, eg. libgl1-mesa-dev
+- libsqlite3-dev
 - python-docutils (for rst2man)
 - gawk (mawk may cause problems)
 
@@ -40,7 +41,7 @@ for this are missing codecs, install the corresponding packages in this case.
 
 
 **Windows, Mac:**  For Windows and Mac OS X, ready-to-use programs with the most
-recent version are available at http://silverjuke.net .  Note, that these 
+recent version are available at https://silverjuke.net .  Note, that these
 binaries are not opened sourced.
 
 
@@ -87,6 +88,5 @@ as well.  See the file LICENSE that comes together with the source code.
 
 ---
 
-Copyright (c) Bjoern Petersen Software Design and Development,
-http://b44t.com and contributors.
+Copyright (c) Silverjuke contributors.
 
