@@ -377,10 +377,6 @@ wxString SjHelpDialog::GetCreditsTopic() const
 			"</li>"
 	    "</ul>"
 
-	    "<p>"
-			"Björn Petersen Software Design and Development is grateful to the groups and individuals above for their contributions."
-	    "</p>"
-
 		"<p>"
 			"<a href=\"page:0\">Back</a>"
 		"</p>";
