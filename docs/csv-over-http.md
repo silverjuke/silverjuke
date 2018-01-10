@@ -136,6 +136,7 @@ defined by Silverjuke and completely editable.
 For further examples, please have a loot at the repository "Silverjuke SDK
 Examples" at https://github.com/r10s/silverjuke-sdk-examples
 
+---
 
-Copyright (c) Björn Petersen Software Design and Development and contributors
+Copyright (c) Silverjuke contributors
 

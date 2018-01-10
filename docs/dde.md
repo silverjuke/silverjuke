@@ -51,6 +51,7 @@ following additional DDE commands:
 These options only work if "Credits may be added by external programs" is
 enabled in the kiosk mode options.
 
+---
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+Copyright (c) Silverjuke contributors
 

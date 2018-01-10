@@ -1597,6 +1597,7 @@ Example:
     ratinguser = myname@domain.com
     tagflags = 3
     
+---
 
-Copyright (c) Björn Petersen Software Design and Development, http://b44t.com
+Copyright (c) Silverjuke contributors
 

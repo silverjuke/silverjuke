@@ -414,6 +414,7 @@ To make the things more clear, we use "plain C strings" for the example,
 however, you can easily use eg. CString objects instead (which are also more
 secure).
 
+---
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+Copyright (c) Silverjuke contributors
 

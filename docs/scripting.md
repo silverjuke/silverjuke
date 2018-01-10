@@ -3821,6 +3821,7 @@ Example:
 The example creates a little dialog (see "Dialog Object") where the user can
 enter a file name manually or select it using the "Open file" dialog.
 
+---
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+Copyright (c) Silverjuke contributors
 

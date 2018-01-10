@@ -985,6 +985,7 @@ The following list shows possible targets for the div-tag.
   Moreover, you can use the button-targets from above as doubleclick targets
   for the div-tags.
 
+---
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+Copyright (c) Silverjuke contributors
 

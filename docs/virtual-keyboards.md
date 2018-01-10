@@ -134,6 +134,7 @@ key-statement:
 This way, you can create "shift lock" or "caps lock" keys. Or you can add two
 completely different alphabets to one keyboard layout.
 
+---
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+Copyright (c) Silverjuke contributors
 

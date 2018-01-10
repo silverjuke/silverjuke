@@ -82,6 +82,7 @@ We would be very happy if you publish your work eg. on Github by a
 "Pull Request".  The language changes will come along with the next version of
 Silverjuke then.
 
+---
 
-Copyright (c) Bjoern Petersen Software Design and Development, http://b44t.com
+Copyright (c) Silverjuke contributors
 
