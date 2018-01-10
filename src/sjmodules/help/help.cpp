@@ -186,7 +186,7 @@ wxString SjHelpDialog::GetAboutTopic() const
 		ret += "<p>http://www.silverjuke.net</p>";
 	}
 
-	ret += "<p>Copyright &copy; 2016 Bj&ouml;rn Petersen Software Design and Development</p>"
+	ret += "<p>Copyright &copy; 2018 Silverjuke contributors</p>"
 	       "<p><a href=\"page:3\">Contributors and License notes...</a></p>"
 	       "</center>";
 
@@ -207,6 +207,7 @@ wxString SjHelpDialog::GetCreditsTopic() const
 			"<li>Dan Larsen</li>"
 			"<li>Chris La Mantia</li>"
 			"<li>David Minář</li>"
+			"<li>Björn Petersen</li>"
 			"<li>Dr. Tobias Quathamer</li>"
 			"<li>Claude Stürzel</li>"
 			"<li>Antoni Vicente</li>"
