@@ -553,7 +553,7 @@ void SjUpnpScannerModule::LastUnload()
 }
 
 
-static int client_event_handler(Upnp_EventType eventType, void* p_event, void* user_data)
+static int client_event_handler(Upnp_EventType eventType, const void* p_event, void* user_data)
 {
 	// CAVE: We may be in _any_ thread here!
 
@@ -565,21 +565,21 @@ static int client_event_handler(Upnp_EventType eventType, void* p_event, void* u
 		case UPNP_DISCOVERY_SEARCH_RESULT:       // normal search result, we may be more of this
 			{
 				// get device structure
-				struct Upnp_Discovery* discoverEvent = (struct Upnp_Discovery*)p_event;
+				UpnpDiscovery* discoverEvent = (UpnpDiscovery*)p_event;
 
 				IXML_Document* p_description_doc = NULL;
-				int error = UpnpDownloadXmlDoc(discoverEvent->Location, &p_description_doc);
+				int error = UpnpDownloadXmlDoc(UpnpDiscovery_get_Location_cstr(discoverEvent), &p_description_doc);
 				if( error != UPNP_E_SUCCESS ) {
 					// happens eg. with DroidUPnP, error -207, TIMEOUT
 					//         or with the Samsung Laser conntected via USB to Windows 10 - error -119, UPNP_E_BAD_HTTPMSG (malformed header received from remote host)
 					// we log these errors as minor errors (info) to avoid popping up an error box.
-					g_upnpModule->LogMinorUpnpError("Cannot download device description", error, discoverEvent->Location);
+					g_upnpModule->LogMinorUpnpError("Cannot download device description", error, UpnpDiscovery_get_Location_cstr(discoverEvent));
 					return error;
 				}
 
 				{
 					wxCriticalSectionLocker locker(this_->m_mediaServerCritical);
-					parseDeviceDescription(p_description_doc, discoverEvent->Location, this_, &this_->m_mediaServerList);
+					parseDeviceDescription(p_description_doc, UpnpDiscovery_get_Location_cstr(discoverEvent), this_, &this_->m_mediaServerList);
 				}
 
 				ixmlDocument_free(p_description_doc);
@@ -637,6 +637,13 @@ static int client_event_handler(Upnp_EventType eventType, void* p_event, void* u
 	return UPNP_E_SUCCESS;
 }
 
+#if UPNP_VERSION < 10800
+/* needed for compatibility with libupnp1.6 */
+static int client_event_handler(Upnp_EventType eventType, void* p_event, void* user_data)
+{
+	return client_event_handler(eventType, (const void *)p_event, user_data);
+}
+#endif
 
 bool SjUpnpScannerModule::init_client()
 {
