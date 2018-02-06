@@ -21,24 +21,27 @@ source code from https://github.com/silverjuke/silverjuke plus a simple
 silverjuke from your build dir, run `./silverjuke` instead of `make install`.
 
 Beyond the usual gcc and system development packages, chances are you'll also
-need the following stuff:
+need the following or similar stuff:
 
-- wx-dev
-- libupnp-dev
-- libgstreamer1.0-dev
-- libgstreamer-plugins-base1.0-dev (for video support)
-- OpenGL libraries, eg. libgl1-mesa-dev
-- libsqlite3-dev
-- python-docutils (for rst2man)
 - gawk (mawk may cause problems)
+- automake
+- python-docutils (for rst2man)
+- pkg-config
+- zlib1g-dev
+- libsqlite3-dev
+- libgstreamer1.0-dev
+- libgstreamer-plugins-base1.0-dev (to compile video support)
+- libupnp-dev
+- libgl1-mesa-dev (OpenGL libraries)
+- libwxbase3.0-dev and libwxgtk3.0-dev
 
 Note that your distro's default wxwidgets package might contain the stl version,
-which does _not_ work with silverjuke. Check for something with wxcontainer in
-the name.
+which may _not_ work with Silverjuke. Check for something with wxcontainer in
+the name then.
 
 Silverjuke does not accept any files after a successful compilation?  One reason 
-for this are missing codecs, install the corresponding packages in this case.
-
+for this are missing codecs, install the corresponding packages in this case,
+eg. gstreamer1.0-plugins-ugly for MP3.
 
 **Windows, Mac:**  For Windows and Mac OS X, ready-to-use programs with the most
 recent version are available at https://silverjuke.net .  Note, that these
