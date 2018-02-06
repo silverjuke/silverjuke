@@ -552,6 +552,10 @@ void SjUpnpScannerModule::LastUnload()
 	exit_client();
 }
 
+#if UPNP_VERSION < 10800
+#define UpnpDiscovery Upnp_Discovery
+#define UpnpDiscovery_get_Location_cstr(a) ((a)->Location)
+#endif
 
 static int client_event_handler(Upnp_EventType eventType, const void* p_event, void* user_data)
 {
