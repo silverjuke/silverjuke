@@ -687,7 +687,14 @@ void SjInterfaceBase::AddModulesFromDir(SjModuleList& list, const wxString& dirN
 	if( !s_searchedForScripts )
 	{
 		entryStrings.Clear();
-		entryStr = fs.FindFirst("*.js", wxFILE);
+
+		{
+			// Non-privileged users may not have access to the directory.
+			// Do not log errors in this case.
+			SjLogString logToString(suppressNoAccessErrors);
+			entryStr = fs.FindFirst("*.js", wxFILE);
+		}
+
 		while( !entryStr.IsEmpty() )
 		{
 			m_moduleSystem->m_scripts.Add(entryStr);
