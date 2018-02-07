@@ -552,10 +552,14 @@ void SjUpnpScannerModule::LastUnload()
 	exit_client();
 }
 
-#if UPNP_VERSION < 10800
-#define UpnpDiscovery Upnp_Discovery
-#define UpnpDiscovery_get_Location_cstr(a) ((a)->Location)
+
+#if UPNP_VERSION <= 10622
+/* compat code for libupnp-1.8 was _not_ present up to libupnp-1.6.22; for these versions, we duplicated the needed lines below
+(i've seen the compat code in libupnp-1.6.24, not sure for libupnp-1.6.23) */
+typedef struct Upnp_Discovery UpnpDiscovery;
+#define UpnpDiscovery_get_Location_cstr(x) ((x)->Location)
 #endif
+
 
 static int client_event_handler(Upnp_EventType eventType, const void* p_event, void* user_data)
 {
