@@ -610,7 +610,7 @@ wxString SjTools::GetUserAppDataDir()
 		wxFileName tempFileName;
 		if( wxGetenv(wxT("XDG_CONFIG_HOME")) ) // see http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html
 		{
-			tempFileName = wxGetenv(wxT("XDG_CONFIG_HOME"));
+			tempFileName.AssignDir(wxGetenv(wxT("XDG_CONFIG_HOME")));
 		}
 		else
 		{
