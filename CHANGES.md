@@ -106,6 +106,6 @@ V15.4.x (26.06.2015)
 ================================================================================
 
 - New Silverjuke version based upon the open source core,
-  see github.com/r10s/silverjuke
+  see https://github.com/silverjuke/silverjuke
 
 
