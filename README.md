@@ -1,7 +1,7 @@
 Silverjuke
 ================================================================================
 
-Silverjuke is the easy-to-use jukebox with more than ten yeas of experience, see
+Silverjuke is the easy-to-use jukebox with more than ten years of experience, see
 https://silverjuke.net for further information.
 
 The Silverjuke source code is available under the GPL license, see the file
@@ -15,7 +15,7 @@ Installation
 manager.  If it is not there, please contact your linux distributor - we cannot
 help on this point.
 
-Alternatively, more experienced users can build Silverjuke theirself.  The
+Alternatively, more experienced users can build Silverjuke themselves.  The
 source code from https://github.com/silverjuke/silverjuke plus a simple
 `./autogen.sh`, `make` and `make install` should do the job. If you want to run
 silverjuke from your build dir, run `./silverjuke` instead of `make install`.
@@ -45,7 +45,7 @@ eg. gstreamer1.0-plugins-ugly for MP3.
 
 **Windows, Mac:**  For Windows and Mac OS X, ready-to-use programs with the most
 recent version are available at https://silverjuke.net .  Note, that these
-binaries are not opened sourced.
+binaries are not open source.
 
 
 Issues
@@ -62,19 +62,19 @@ skins (or maybe scripts) that will be loaded and executed by Silverjuke.  For
 the possibilities on this, please refer to the `docs` folder.
 
 If you want to code on Silverjuke yourself here are some hints that may be
-usefull esp. if you want to give your work back to the core (pull requests).
+useful, especially if you want to give your work back to the core (pull requests).
 
 - For indentation we use tabs.  Alignments that are not placed at the beginning
   of a line should be done with spaces.
 
-- For padding between funktions, classes etc. we use 2 empty lines
+- For padding between functions, classes etc. we use 2 empty lines
 
 - Files are encoded as UTF-8 with Unix-Lineends (a simple `LF`, `0x0A` or `\n`)
 
 - `/sjbase` contains the main functions and the startup routines
 
 - `/sjmodules` does not contain loadable libraries but program parts that can
-  communicate with message without knowing each other
+  communicate with messages without knowing each other
 
 - `/sjtools` contains - more or less - self-contained and independent classes
   and functions; there should be no references to /sjbase or /sjmodules
