@@ -1,0 +1,2767 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Bjoern Petersen Software Design and Development
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: silverjuke 16.3.1\n"
+"Report-Msgid-Bugs-To: r10s@b44t.com\n"
+"POT-Creation-Date: 2020-05-17 16:32-0300\n"
+"PO-Revision-Date: 2020-05-19 13:27-0300\n"
+"Last-Translator: Fúlvio Alves <fga.fulvio@gmail.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.3\n"
+
+msgid "Sleep mode activated."
+msgstr "Modo de suspensão ativado."
+
+msgid "Sleep mode deactivated."
+msgstr "Modo de suspensão desativado."
+
+msgid "Play time exceeded"
+msgstr "Tempo de reprodução excedido"
+
+msgid "Default"
+msgstr "Padrão"
+
+msgid "Device"
+msgstr "Dispositivo"
+
+msgid "Show covers"
+msgstr "Mostrar capas"
+
+msgid "Duration"
+msgstr "Duração"
+
+msgid "Artist"
+msgstr "Artista"
+
+msgid "Original artist"
+msgstr "Artista original"
+
+msgid "Composer"
+msgstr "Compositor"
+
+msgid "Album"
+msgstr "Álbum"
+
+msgid "Track number"
+msgstr "Número da faixa"
+
+msgid "Automatic track number"
+msgstr "Número de faixa automático"
+
+msgid "Disk number"
+msgstr "Número do disco"
+
+msgid "Genre"
+msgstr "Gênero"
+
+msgid "Year"
+msgstr "Ano"
+
+msgid "Rating"
+msgstr "Classificação"
+
+msgid "Comment"
+msgstr "Comentário"
+
+msgid "Show double tracks"
+msgstr "Mostrar faixas duplas"
+
+msgid "Show different artist names"
+msgstr "Mostrar nomes de artistas diferentes"
+
+msgid "Show different album names"
+msgstr "Mostrar nomes de álbuns diferentes"
+
+msgid "Show cover titles"
+msgstr "Mostrar títulos de capa"
+
+#, c-format
+msgid "%s tracks"
+msgstr "%s faixa(s)"
+
+msgid "Drag folders with music here."
+msgstr "Arraste pastas com músicas para cá."
+
+msgid "Reset to default values"
+msgstr "Redefinir para os valores padrão"
+
+msgid "Nr."
+msgstr "Nr."
+
+#. TRANSLATORS: Abbreviation of "Bits per second"
+msgid "bit/s"
+msgstr "bit/s"
+
+msgid "Samplerate"
+msgstr "Taxa de amostragem"
+
+#. TRANSLATORS: Abbreviation of "Hertz"
+msgid "Hz"
+msgstr "Hz"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "Prelisten"
+msgstr "Pré-ouvir"
+
+msgid "AutoPlay"
+msgstr "Reprodução Automática"
+
+msgid "Shuffle"
+msgstr "Aleatório"
+
+msgid "Recreating music library"
+msgstr "Recriando biblioteca de músicas"
+
+msgid "Updating music library"
+msgstr "Atualizando biblioteca de músicas"
+
+msgid ""
+"If you cancel the update process, your music library may not be up to date.\n"
+"\n"
+"Cancel the update process?"
+msgstr ""
+"Se você cancelar o processo de atualização, sua biblioteca de músicas poderá "
+"não estar atualizada.\n"
+"\n"
+"Cancelar o processo de atualização?"
+
+#, c-format
+msgid ""
+"%s is currently playing. Do you want to stop the playing track and exit %s?"
+msgstr ""
+"%s está reproduzindo no momento. Deseja interromper a reprodução da faixa e "
+"sair do %s?"
+
+#, c-format
+msgid "Exit %s"
+msgstr "Sair do %s"
+
+#. TRANSLATORS: %s will be replaced by a filename
+#, c-format
+msgid "Cannot open \"%s\"."
+msgstr "Não foi possível abrir \"%s\"."
+
+#, c-format
+msgid "Also install the script to \"%s\" for permanent use"
+msgstr "Instala também o script em \"%s\" para uso permanente"
+
+#, c-format
+msgid "Execute the script \"%s\"?"
+msgstr "Executar o script \"%s\"?"
+
+msgid ""
+"CAUTION: Scripts may slow down Silverjuke or damage your data. Please use "
+"only scripts you trust."
+msgstr ""
+"CUIDADO: Os scripts podem deixar o Silverjuke lento ou danificar seus dados. "
+"Use apenas scripts nos quais você confia."
+
+msgid "Search"
+msgstr "Pesquisar"
+
+msgid "On"
+msgstr "Ligado"
+
+msgid "Off"
+msgstr "Desligado"
+
+msgid "Repeat playlist"
+msgstr "Repetir lista de reprodução"
+
+msgid "Repeat one"
+msgstr "Repetir uma"
+
+msgid "Repeat all"
+msgstr "Repetir todas"
+
+msgid "Select a track, then start playback."
+msgstr "Seleciona uma faixa e inicia a reprodução."
+
+msgid "Stop after this track"
+msgstr "Parar após esta faixa"
+
+msgid "Stop after each track"
+msgstr "Parar após cada faixa"
+
+msgid "Double click play tracks at once"
+msgstr "Clique duas vezes para reproduzir faixas de uma só vez"
+
+msgid "Start playback on first enqueue"
+msgstr "Iniciar reprodução no primeiro enfileiramento"
+
+msgid "Remove played tracks from queue"
+msgstr "Remover faixas reproduzidas da fila"
+
+msgid "More from current album"
+msgstr "Mais do álbum atual"
+
+msgid "More from current artist"
+msgstr "Mais do artista atual"
+
+msgid "No more tracks."
+msgstr "Não há mais faixas."
+
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#, c-format
+msgid "Remove %i track from the queue and stop playback?"
+msgid_plural "Remove %i tracks from the queue and stop playback?"
+msgstr[0] "Remover %i faixa da fila e parar a reprodução?"
+msgstr[1] "Remover %i faixas da fila e parar a reprodução?"
+
+msgid "Clear playlist"
+msgstr "Limpar lista de reprodução"
+
+msgid "Track played, click to reset"
+msgstr "Faixa reproduzida, clique para redefinir"
+
+msgid "Boredom avoided: Track moved down"
+msgstr "Tédio evitado: faixa movida para baixo"
+
+msgid "Remove this track"
+msgstr "Remover esta faixa"
+
+msgid "Toggle time mode"
+msgstr "Alternar modo de tempo"
+
+#, c-format
+msgid "Go to \"%s\""
+msgstr "Ir para \"%s\""
+
+msgid "End search"
+msgstr "Finalizar pesquisa"
+
+msgid "click right for options"
+msgstr "clique com o botão direito para opções"
+
+msgid "Double-click to enlarge the cover"
+msgstr "Clique duas vezes para ampliar a capa"
+
+#, c-format
+msgid "Close this window and exit %s"
+msgstr "Fechar esta janela e sair do %s"
+
+msgid "Open main menu"
+msgstr "Abrir menu principal"
+
+msgid "Toggle shuffle mode"
+msgstr "Alternar modo aleatório"
+
+msgid "Repeat all/repeat current"
+msgstr "Repetir todas/repetir atual"
+
+#, c-format
+msgid "Search in \"%s\""
+msgstr "Pesquisar em \"%s\""
+
+msgid "Help"
+msgstr "Ajuda"
+
+msgid "Add folders and files"
+msgstr "Adicionar pastas e arquivos"
+
+msgid "Extensions"
+msgstr "Extensões"
+
+msgid "Show remaining time"
+msgstr "Mostrar tempo restante"
+
+msgid "Show elapsed time"
+msgstr "Mostrar tempo decorrido"
+
+msgid "Show total time"
+msgstr "Mostrar tempo total"
+
+msgid "Show track number"
+msgstr "Mostrar número da faixa"
+
+msgid "Show artist name"
+msgstr "Mostrar nome do artista"
+
+msgid "Show AutoPlay"
+msgstr "Mostrar Reprodução Automática"
+
+msgid "Prefer album- to track-cover"
+msgstr "Preferir capa do álbum à capa da faixa"
+
+msgid "Display"
+msgstr "Exibição"
+
+msgid "Columns"
+msgstr "Colunas"
+
+msgid "Same zoom in all views"
+msgstr "Mesmo zoom em todas as visualizações"
+
+msgid "Fonts and covers"
+msgstr "Fontes e capas"
+
+msgid "Zoom"
+msgstr "Zoom"
+
+msgid "Skins"
+msgstr "Skins"
+
+msgid "Start kiosk mode..."
+msgstr "Iniciar o modo quiosque..."
+
+#, c-format
+msgid "%s on the web"
+msgstr "%s na web"
+
+msgid "All files"
+msgstr "Todos os arquivos"
+
+#, c-format
+msgid "About %s"
+msgstr "Sobre o %s"
+
+msgid "File"
+msgstr "Arquivo"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "View"
+msgstr "Visualizar"
+
+msgid "Playback"
+msgstr "Reprodução"
+
+msgid "Video screen"
+msgstr "Tela de vídeo"
+
+msgid "Kiosk mode"
+msgstr "Modo Quiosque"
+
+msgid "None"
+msgstr "Nenhum"
+
+msgid "Further options"
+msgstr "Mais opções"
+
+msgid "Queue"
+msgstr "Fila"
+
+msgid "Current view"
+msgstr "Visualização atual"
+
+#, c-format
+msgid "Next track from \"%s\""
+msgstr "Próxima faixa de \"%s\""
+
+msgid "Next track"
+msgstr "Próxima faixa"
+
+msgid "Search for genre"
+msgstr "Pesquisar por gênero"
+
+msgid "Search for music selection"
+msgstr "Pesquisar por seleção de música"
+
+msgid "Edit tracks/Get info"
+msgstr "Editar faixas/Obter informações"
+
+msgid "Show file"
+msgstr "Mostrar arquivo"
+
+msgid "Cover editor"
+msgstr "Editor de capa"
+
+msgid "Mix"
+msgstr "Misturar"
+
+msgid "Left channel"
+msgstr "Canal esquerdo"
+
+msgid "Right channel"
+msgstr "Canal direito"
+
+msgid "Explicit output"
+msgstr "Saída explícita"
+
+msgid "Equalizer"
+msgstr "Equalizador"
+
+msgid "Output"
+msgstr "Saída"
+
+msgid "No"
+msgstr "Não"
+
+msgid "Yes"
+msgstr "Sim"
+
+msgid "Initialize"
+msgstr "Inicializar"
+
+msgid "Use system volume"
+msgstr "Usar volume do sistema"
+
+msgid "Several artists"
+msgstr "Vários artistas"
+
+msgid "Unknown title"
+msgstr "Título desconhecido"
+
+msgid "Save playlist"
+msgstr "Salvar lista de reprodução"
+
+#. TRANSLATORS: %s will be replaced by a filename
+#, c-format
+msgid "Cannot write \"%s\"."
+msgstr "Não é possível gravar \"%s\"."
+
+msgid "Open playlist"
+msgstr "Abrir lista de reprodução"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Track count"
+msgstr "Contagem de faixas"
+
+msgid "Disk count"
+msgstr "Contagem de disco"
+
+msgid "Group"
+msgstr "Grupo"
+
+msgid "BPM"
+msgstr "BPM"
+
+msgid "Channels"
+msgstr "Canais"
+
+msgid "Bitrate"
+msgstr "Taxa de bits"
+
+msgid "File name"
+msgstr "Nome do arquivo"
+
+msgid "File size"
+msgstr "Tamanho do arquivo"
+
+msgid "Date added"
+msgstr "Data adicionada"
+
+msgid "Date modified"
+msgstr "Data modificada"
+
+msgid "Last played"
+msgstr "Última reprodução"
+
+msgid "Play count"
+msgstr "Contador de reproduções"
+
+msgid "SQL expression"
+msgstr "Expressão SQL"
+
+msgid "Limit result to"
+msgstr "Limitar o resultado a"
+
+msgid "Title/artist/album"
+msgstr "Título/artista/álbum"
+
+msgid "File type"
+msgstr "Tipo de arquivo"
+
+msgid "Queue position"
+msgstr "Posição na fila"
+
+msgid "Include tracks"
+msgstr "Incluir faixas"
+
+msgid "Exclude tracks"
+msgstr "Excluir faixas"
+
+msgid "Random"
+msgstr "Aleatório"
+
+#, c-format
+msgid "Press \"%s\" in the main window"
+msgstr "Pressione \"%s\" na janela principal"
+
+msgid "Insert"
+msgstr "Inserir"
+
+msgid "Del"
+msgstr "Del"
+
+msgid ""
+"Please enter the date as \"dd.mm.yyyy\", you can also add \"hh:mm\" for the "
+"time."
+msgstr ""
+"Digite a data como \"dd.mm.aaaa\"; você também pode adicionar \"hh:mm\" para "
+"a hora."
+
+msgid "Please enter the text."
+msgstr "Insira o texto."
+
+msgid "Please enter a value."
+msgstr "Insira um valor."
+
+msgid "Please enter a valid value."
+msgstr "Insira um valor válido."
+
+msgid "(second field)"
+msgstr "(segundo campo)"
+
+msgid "No valid criteria defined."
+msgstr "Nenhum critério válido definido."
+
+msgid "The search cannot be started; please check the following fields:"
+msgstr "A pesquisa não pode ser iniciada; verifique os seguintes campos:"
+
+msgid "Note: The operators \"equal\" and \"unequal\" are case-sensitive."
+msgstr ""
+"Nota: Os operadores \"equal\" e \"unequal\" diferenciam maiúsculas de "
+"minúsculas."
+
+#, c-format
+msgid "Do you want to execute the scripts embedded in the skin \"%s\"?"
+msgstr "Deseja executar os scripts incorporados na skin \"%s\"?"
+
+msgid "Esc"
+msgstr "Esc"
+
+msgid "Tab"
+msgstr "Tab"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Page left"
+msgstr "Página à esquerda"
+
+msgid "Page right"
+msgstr "Página à direita"
+
+msgid "Page up"
+msgstr "Página acima"
+
+msgid "Page down"
+msgstr "Página para baixo"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Cursor left"
+msgstr "Cursor esquerdo"
+
+msgid "Cursor right"
+msgstr "Cursor direito"
+
+msgid "Cursor up"
+msgstr "Cursor para cima"
+
+msgid "Cursor down"
+msgstr "Cursor para baixo"
+
+msgid "Line left"
+msgstr "Linha esquerda"
+
+msgid "Line right"
+msgstr "Linha direita"
+
+msgid "Line up"
+msgstr "Linha acima"
+
+msgid "Line down"
+msgstr "Linha abaixo"
+
+msgid "Home"
+msgstr "Início"
+
+msgid "End"
+msgstr "Fim"
+
+msgid "Enter"
+msgstr "Enter"
+
+msgid "Delete"
+msgstr "Excluir"
+
+msgid "Album view"
+msgstr "Visualização do álbum"
+
+msgid "Cover view"
+msgstr "Visualização da capa"
+
+msgid "List view"
+msgstr "Exibição de lista"
+
+msgid "Toggle view"
+msgstr "Alternar visualização"
+
+msgid "Open playlist..."
+msgstr "Abrir lista de reprodução..."
+
+msgid "Unqueue marked tracks"
+msgstr "Desenfileirar faixas marcadas"
+
+msgid "Unqueue all but marked tracks"
+msgstr "Desenfileirar todas as faixas, exceto as marcadas"
+
+msgid "Save playlist..."
+msgstr "Salvar lista de reprodução..."
+
+msgid "Paste"
+msgstr "Colar"
+
+msgid "Music selection..."
+msgstr "Seleção de músicas..."
+
+msgid "Settings"
+msgstr "Configurações"
+
+msgid "Automatic control"
+msgstr "Controle automático"
+
+msgid "Update music library"
+msgstr "Atualizar biblioteca de músicas"
+
+msgid "Recreate music library"
+msgstr "Recriar biblioteca de músicas"
+
+msgid "Enqueue tracks"
+msgstr "Enfileirar faixas"
+
+msgid "Play tracks next"
+msgstr "Reproduzir faixas em seguida"
+
+msgid "Play tracks now"
+msgstr "Reproduzir faixas agora"
+
+msgid "Volume up"
+msgstr "Aumentar volume"
+
+msgid "Volume down"
+msgstr "Diminuir volume"
+
+msgid "Unqueue tracks"
+msgstr "Desenfileirar faixas"
+
+msgid "Edit tracks/Get info..."
+msgstr "Editar faixas/Obter informações..."
+
+msgid "Play"
+msgstr "Reproduzir"
+
+msgid "Pause"
+msgstr "Pausar"
+
+msgid "Stop"
+msgstr "Parar"
+
+msgid "Previous track"
+msgstr "Faixa anterior"
+
+msgid "Seek backward"
+msgstr "Procurar para trás"
+
+msgid "Seek forward"
+msgstr "Procurar adiante"
+
+msgid "Fade to next"
+msgstr "Fade para a próxima"
+
+msgid "Mute"
+msgstr "Mudo"
+
+msgid "Reload skin"
+msgstr "Recarregar skin"
+
+msgid "Toggle video screen"
+msgstr "Alternar teja de vídeo"
+
+msgid "Smooth"
+msgstr "Suave"
+
+msgid "Select all"
+msgstr "Selecionar tudo"
+
+msgid "Zoom in"
+msgstr "Ampliar zoom"
+
+msgid "Zoom out"
+msgstr "Diminuir zoom"
+
+msgid "Normal zoom"
+msgstr "Zoom normal"
+
+msgid "Always on top"
+msgstr "Sempre no topo"
+
+msgid "Go to current track"
+msgstr "Ir para a faixa atual"
+
+msgid "Go to marked track"
+msgstr "Ir para a faixa marcada"
+
+msgid "Go to random album"
+msgstr "Ir para álbum aleatório"
+
+msgid "Go to previous letter"
+msgstr "Ir para a letra anterior"
+
+msgid "Go to next letter"
+msgstr "Ir para a próxima letra"
+
+msgid "Add credit"
+msgstr "Adicionar créditos"
+
+msgid "Console..."
+msgstr "Console..."
+
+msgid "Replace..."
+msgstr "Substituir..."
+
+msgid "Split field..."
+msgstr "Dividir campo..."
+
+msgid "Rename files..."
+msgstr "Renomear arquivos..."
+
+msgid "Query online database..."
+msgstr "Consultar banco de dados online..."
+
+msgid "New music selection..."
+msgstr "Nova seleção de músicas..."
+
+msgid "Save"
+msgstr "Salvar"
+
+msgid "Save as..."
+msgstr "Salvar como..."
+
+msgid "Rename..."
+msgstr "Renomear..."
+
+msgid "Revert to saved"
+msgstr "Reverter para salvo"
+
+msgid "Open file..."
+msgstr "Abrir arquivo..."
+
+msgid "Save cover..."
+msgstr "Salvar capa..."
+
+msgid "Rotate left"
+msgstr "Girar à esquerda"
+
+msgid "Rotate right"
+msgstr "Girar à direita"
+
+msgid "Flip horizontally"
+msgstr "Virar horizontalmente"
+
+msgid "Flip vertically"
+msgstr "Virar verticalmente"
+
+msgid "Grayscale"
+msgstr "Escala de cinza"
+
+msgid "Negative"
+msgstr "Negativo"
+
+msgid "Fit to screen"
+msgstr "Ajustar para a tela"
+
+msgid "Decrease brightness"
+msgstr "Diminuir brilho"
+
+msgid "Increase brightness"
+msgstr "Aumentar brilho"
+
+msgid "Decrease contrast"
+msgstr "Diminuir contraste"
+
+msgid "Increase contrast"
+msgstr "Aumentar contraste"
+
+msgid "Normal brightness/contrast"
+msgstr "Brilho/contraste normal"
+
+msgid "Crop"
+msgstr "Cortar"
+
+msgid "Please press the shortcut to add."
+msgstr "Pressione o atalho para adicionar."
+
+msgid "System-wide:"
+msgstr "No âmbito do sistema:"
+
+#, c-format
+msgid "Remove shortcut \"%s\""
+msgstr "Remover atalho \"%s\""
+
+msgid "Add system-wide shortcut..."
+msgstr "Adicionar atalho em todo o sistema..."
+
+#, c-format
+msgid "Add shortcut to \"%s\"..."
+msgstr "Adicionar atalho para \"%s\"..."
+
+#, c-format
+msgid ""
+"The shortcut \"%s\" is currently assigned to the command \"%s\".\n"
+"\n"
+"Do you want to assign it to the shortcut \"%s\" now?"
+msgstr ""
+"O atalho \"%s\" está atualmente atribuído ao comando \"%s\".\n"
+"\n"
+"Deseja atribuí-lo ao atalho \"%s\" agora?"
+
+msgid "Mouse"
+msgstr "Mouse"
+
+msgid "Drag window content"
+msgstr "Arraste o conteúdo da janela"
+
+msgid "Left mouse button"
+msgstr "Botão esquerdo do mouse"
+
+msgid "Drag selected tracks"
+msgstr "Arraste as faixas selecionadas"
+
+msgid "Second click with the left mouse button"
+msgstr "Segundo clique com o botão esquerdo do mouse"
+
+msgid "Show icons beside mouse cursor"
+msgstr "Mostrar ícones ao lado do cursor do mouse"
+
+msgid "Middle mouse button"
+msgstr "Botão do meio do mouse"
+
+msgid "Edit tracks"
+msgstr "Editar faixas"
+
+msgid "Tooltips"
+msgstr "Dicas de ferramentas"
+
+msgid "Mouse wheel"
+msgstr "Roda do mouse"
+
+msgid "Scroll horizontally in album view"
+msgstr "Rolar horizontalmente na visualização de álbum"
+
+msgid "Modifier key toggles axis"
+msgstr "Tecla modificadora alterna o eixo"
+
+msgid "Right mouse button toggles axis"
+msgstr "Botão direito do mouse alterna o eixo"
+
+msgid "Modify volume, scrollbars, letters etc."
+msgstr "Modifique o volume, barras de rolagem, letras, etc."
+
+msgid "Use multimedia keyboard keys"
+msgstr "Usar as teclas do teclado multimídia"
+
+msgid "Ask on close if playing"
+msgstr "Perguntar ao fechar se estiver reproduzindo"
+
+msgid "Ask before enqueuing multiple tracks"
+msgstr "Perguntar antes de enfileirar várias faixas"
+
+msgid "Ask before clearing the playlist"
+msgstr "Perguntar antes de limpar a lista de reprodução"
+
+msgid "Ask before changing the rating"
+msgstr "Perguntar antes de alterar a classificação"
+
+#, c-format
+msgid "Num%s"
+msgstr "Num%s"
+
+msgid "Backspace"
+msgstr "Backspace"
+
+msgid "Space"
+msgstr "Espaço"
+
+msgid "Up"
+msgstr "Acima"
+
+msgid "Left"
+msgstr "Esquerdo"
+
+msgid "Right"
+msgstr "Direito"
+
+msgid "Down"
+msgstr "Abaixo"
+
+msgid "Print"
+msgstr "Imprimir"
+
+msgid "Ins"
+msgstr "Ins"
+
+msgid "Music selection"
+msgstr "Seleção de músicas"
+
+msgid "Numpad"
+msgstr "Numpad"
+
+msgid "Select date and time"
+msgstr "Selecionar data e hora"
+
+msgid "Time"
+msgstr "Hora"
+
+msgid "contains"
+msgstr "contém"
+
+msgid "does not contain"
+msgstr "não contém"
+
+msgid "starts with"
+msgstr "iniciar com"
+
+msgid "does not start with"
+msgstr "não começa com"
+
+msgid "starts simelar to"
+msgstr "iniciar semelhantes a"
+
+msgid "ends with"
+msgstr "termina com"
+
+msgid "does not end with"
+msgstr "não termina com"
+
+msgid "on"
+msgstr "em"
+
+msgid "is equal to"
+msgstr "é igual a"
+
+msgid "not on"
+msgstr "não em"
+
+msgid "is unequal to"
+msgstr "é desigual a"
+
+msgid "is simelar to"
+msgstr "é similar a"
+
+msgid "is after"
+msgstr "é depois"
+
+msgid "is greater than"
+msgstr "é maior que"
+
+msgid "is on or after"
+msgstr "está no ou após"
+
+msgid "is greater or equal"
+msgstr "é maior ou igual"
+
+msgid "is before"
+msgstr "é antes"
+
+msgid "is less than"
+msgstr "é menor que"
+
+msgid "is on or before"
+msgstr "está no ou antes de"
+
+msgid "is less or equal"
+msgstr "é menor ou igual"
+
+msgid "is in the last"
+msgstr "está no último"
+
+msgid "is not in the last"
+msgstr "não está no último"
+
+msgid "is in the period"
+msgstr "está no período"
+
+msgid "is in range"
+msgstr "está dentro da faixa"
+
+msgid "is not in the period"
+msgstr "não está no período"
+
+msgid "is not in range"
+msgstr "não está dentro da faixa"
+
+msgid "is set"
+msgstr "está definido"
+
+msgid "is unset"
+msgstr "está desativado"
+
+msgid "tracks"
+msgstr "faixas"
+
+msgid "albums"
+msgstr "álbuns"
+
+msgid "minutes"
+msgstr "minutos"
+
+msgid "hours"
+msgstr "horas"
+
+msgid "seconds"
+msgstr "segundos"
+
+msgid "days"
+msgstr "dias"
+
+msgid "No rating"
+msgstr "Sem classificação"
+
+msgid "random"
+msgstr "aleatório"
+
+msgid "highest rating"
+msgstr "classificação mais alta"
+
+msgid "lowest rating"
+msgstr "classificação mais baixa"
+
+msgid "most often played"
+msgstr "mais reprod. com frequência"
+
+msgid "least often played"
+msgstr "menos reprod. com frequência"
+
+msgid "most recently played"
+msgstr "mais recent. reproduzidos"
+
+msgid "least recently played"
+msgstr "menos reprod. recentemente"
+
+msgid "most recently added"
+msgstr "mais recent. adicionados"
+
+msgid "least recently added"
+msgstr "menos recent. adicionado"
+
+msgid "most recently modified"
+msgstr "mais recent. modificados"
+
+msgid "least recently modified"
+msgstr "menos recent. modificado"
+
+msgid "most recently released"
+msgstr "mais recent. lançados"
+
+msgid "least recently released"
+msgstr "menos lançado recentemente"
+
+msgid "low queue position"
+msgstr "posição baixa na fila"
+
+msgid "high queue position"
+msgstr "posição alta na fila"
+
+msgid "Today"
+msgstr "Hoje"
+
+msgid "Yesterday"
+msgstr "Ontem"
+
+msgid "Select..."
+msgstr "Selecionar..."
+
+msgid "Show tracks..."
+msgstr "Mostrar faixas..."
+
+msgid "Add tracks from playlist"
+msgstr "Adicionar faixas da lista de reprodução"
+
+msgid "Current position"
+msgstr "Posição atual"
+
+msgid "by"
+msgstr "por"
+
+msgid "to"
+msgstr "para"
+
+msgid "Remove criterion"
+msgstr "Remover critério"
+
+msgid "Add criterion"
+msgstr "Adicionar critério"
+
+#, c-format
+msgid "Tracks included to \"%s\""
+msgstr "Faixas incluídas em \"%s\""
+
+#, c-format
+msgid "Tracks excluded from \"%s\""
+msgstr "Faixas excluídas de \"%s\""
+
+msgid "Saved selections"
+msgstr "Salvar seleções"
+
+#, c-format
+msgid "Search for %s matching %s of the following criteria:"
+msgstr "Pesquisar %s que correspondam a %s dos seguintes critérios:"
+
+msgid "tracks|albums"
+msgstr "faixas|álbuns"
+
+msgid "all|any|none"
+msgstr "todos|qualquer|nenhum"
+
+msgid "Close"
+msgstr "Fechar"
+
+#, c-format
+msgid "Do you want to save your modifications to the music selection \"%s\"?"
+msgstr "Deseja salvar suas modificações na seleção musical \"%s\"?"
+
+msgid "Music selection modified"
+msgstr "Seleção de músicas modificada"
+
+#, c-format
+msgid "Edit music selection \"%s\""
+msgstr "Editar seleção de música \"%s\""
+
+#, c-format
+msgid "Do you really want to delete the music selection \"%s\"?"
+msgstr "Deseja realmente excluir a seleção de músicas \"%s\"?"
+
+msgid "Delete music selection"
+msgstr "Excluir seleção de músicas"
+
+#, c-format
+msgid "Do you really want to delete the %i selected music selections?"
+msgstr "Deseja realmente excluir as %i seleções de música selecionadas?"
+
+msgid "Delete music selections"
+msgstr "Excluir seleções de músicas"
+
+#, c-format
+msgid "No matches found for \"%s\"."
+msgstr "Não foram encontradas correspondências para \"%s\"."
+
+#, c-format
+msgid ""
+"Do you want to remove the selected track(s) from the music selection \"%s\"?"
+msgstr ""
+"Deseja remover a(s) faixa(s) selecionada(s) da seleção de músicas \"%s\"?"
+
+#, c-format
+msgid "Do you want to add the selected track(s) to the music selection \"%s\"?"
+msgstr ""
+"Deseja adicionar a(s) faixa(s) selecionada(s) à seleção de músicas \"%s\"?"
+
+msgid "70's music"
+msgstr "Música anos 70"
+
+msgid "Worst rated"
+msgstr "Pior classificação"
+
+msgid "Top rated"
+msgstr "Melhor classificadas"
+
+msgid "Top 20"
+msgstr "Top 20"
+
+msgid "Recently played"
+msgstr "Reproduzidos recentemente"
+
+msgid "Played today"
+msgstr "Reproduzidos hoje"
+
+msgid "Random selection"
+msgstr "Seleção aleatória"
+
+msgid "Tracks in queue"
+msgstr "Faixas na fila"
+
+msgid "Untitled Music selection"
+msgstr "Seleção de música sem título"
+
+#, c-format
+msgid "No matches in \"%s\""
+msgstr "Nenhuma correspondência em \"%s\""
+
+#, c-format
+msgid "1 match in \"%s\""
+msgstr "1 correspondência em \"%s\""
+
+#, c-format
+msgid "%s matches in \"%s\""
+msgstr "%s correspondências em \"%s\""
+
+msgid "No matches"
+msgstr "Sem correspondências"
+
+msgid "1 match"
+msgstr "1 correspondência"
+
+#, c-format
+msgid "%s matches"
+msgstr "%s correspondências"
+
+msgid "Search single words"
+msgstr "Pesquisar palavras únicas"
+
+msgid "Lookup genre on simple search"
+msgstr "Ver gênero na pesquisa simples"
+
+msgid "Search while typing"
+msgstr "Pesquisar enquanto digita"
+
+msgid "Save modified music selections"
+msgstr "Salvar seleções de música modificadas"
+
+msgid "Ask"
+msgstr "Perguntar"
+
+msgid "Max. history size"
+msgstr "Tam. máx. do histórico"
+
+#, c-format
+msgid "Search for \"%s\" in \"%s\""
+msgstr "Pesquisar por \"%s\" em \"%s\""
+
+#, c-format
+msgid "Search for \"%s\""
+msgstr "Pesquisar por \"%s\""
+
+msgid ""
+"Please press and hold the left mouse button. Then, select the area to crop "
+"by moving the mouse."
+msgstr ""
+"Pressione e segure o botão esquerdo do mouse. Em seguida, selecione a área a "
+"ser cortada movendo o mouse."
+
+msgid "<Abstract>"
+msgstr "<Resumo>"
+
+msgid "(Default)"
+msgstr "(Padrão)"
+
+msgid "Paste image from clipboard"
+msgstr "Colar imagem da área de transferência"
+
+msgid "Browse"
+msgstr "Navegar"
+
+msgid "Select cover"
+msgstr "Selecionar capa"
+
+msgid "Search covers on the web"
+msgstr "Pesquisar capas na web"
+
+msgid "Don't rotate"
+msgstr "Não girar"
+
+msgid "Rotate/flip"
+msgstr "Girar/virar"
+
+msgid "Use default images..."
+msgstr "Usar imagens padrão..."
+
+msgid "Effects/options"
+msgstr "Efeitos/opções"
+
+msgid "Select image"
+msgstr "Selecionar imagem"
+
+msgid "Save cover"
+msgstr "Salvar capa"
+
+msgid "Reset all selected alternative images to their default value?"
+msgstr ""
+"Redefinir todas as imagens alternativas selecionadas para o valor padrão?"
+
+msgid "Search paths"
+msgstr "Pesquisar caminhos"
+
+msgid "Add..."
+msgstr "Adicionar..."
+
+msgid "Remove"
+msgstr "Remover"
+
+msgid "Please select the folder to add to the search paths."
+msgstr "Selecione a pasta para adicionar aos caminhos de pesquisa."
+
+msgid "Edit..."
+msgstr "Editar..."
+
+msgid "Command"
+msgstr "Comando"
+
+msgid "Shortcut"
+msgstr "Atalho"
+
+msgid "Option"
+msgstr "Opção"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "The following settings are for experienced users only."
+msgstr "As configurações a seguir são apenas para usuários experientes."
+
+msgid "Customize"
+msgstr "Personalizar"
+
+msgid "Reset selection"
+msgstr "Redefinir seleção"
+
+#, c-format
+msgid ""
+"Do you really want to reset all %i selected commands and options to their "
+"default values?"
+msgstr ""
+"Deseja realmente redefinir todos os %i comandos e opções selecionados para "
+"seus valores padrão?"
+
+msgid "Shortcuts"
+msgstr "Atalhos"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Show files with"
+msgstr "Mostrar arquivos com"
+
+msgid "Instance"
+msgstr "Instância"
+
+#, c-format
+msgid "Use the command-line option --%s=<file> to change this."
+msgstr "Use a opção da linha de comando --%s=<arquivo> para alterar isso."
+
+msgid "Index file"
+msgstr "Arquivo de índice"
+
+msgid "RAM cache"
+msgstr "Cache de RAM"
+
+#, c-format
+msgid "avg. query time: %s"
+msgstr "tempo de cons. médio: %s"
+
+msgid "ms"
+msgstr "ms"
+
+msgid "Synchronity"
+msgstr "Sincronicidade"
+
+msgid "Fast"
+msgstr "Rápido"
+
+msgid "Save but slower"
+msgstr "Salvar mas lento"
+
+msgid "Very save and slow"
+msgstr "Muito salvo e lento"
+
+msgid "Image cache"
+msgstr "Cache de imagem"
+
+msgid "Use temporary directory"
+msgstr "Usar diretório temporário"
+
+msgid "Yes, load images asynchrony"
+msgstr "Sim, carregar imagens assincrônicas"
+
+msgid "Yes, load images directly and avoid flickering"
+msgstr "Sim, carregar imagens diretamente e evitar tremulações"
+
+#, c-format
+msgid "%i%% used for %i images"
+msgstr "%i%% usado para %i imagens"
+
+msgid "Regard file changes"
+msgstr "Considerar alterações no arquivo"
+
+msgid "Advanced"
+msgstr "Avançado"
+
+#, c-format
+msgid "Please restart %s so that the changes can take effect."
+msgstr "Reinicie o %s para que as alterações tenham efeito."
+
+msgid "Info"
+msgstr "Informações"
+
+msgid "Help-system"
+msgstr "Ajuda do sistema"
+
+msgid "n/a"
+msgstr "n/a"
+
+msgid "Internal"
+msgstr "Interno"
+
+msgid "No credit."
+msgstr "Sem crédito."
+
+#, c-format
+msgid "Credit: %i"
+msgstr "Créditos: %i"
+
+msgid "Start"
+msgstr "Iniciar"
+
+msgid "Functions"
+msgstr "Funções"
+
+msgid "Monitors"
+msgstr "Monitores"
+
+msgid "Virtual keyboard"
+msgstr "Teclado virtual"
+
+msgid "Credit system"
+msgstr "Sistema de crédito"
+
+msgid ""
+"Silverjuke provides a so called \"kiosk mode\" which allows you to run the "
+"program\n"
+"full screen with a defined functionality."
+msgstr ""
+"O Silverjuke oferece o chamado \"modo quiosque\", que permite executar o "
+"programa\n"
+"em tela cheia com uma funcionalidade definida."
+
+msgid ""
+"Before you enter the kiosk mode by clicking on \"Start\", make sure, you "
+"know how\n"
+"to exit again:"
+msgstr ""
+"Antes de entrar no modo quiosque, ao clicar em \"Iniciar\", verifique se "
+"você sabe\n"
+"como sair novamente:"
+
+#, c-format
+msgid "Exit by hitting %s"
+msgstr "Sair ao pressionar %s"
+
+msgid "Action:"
+msgstr "Ação:"
+
+msgid "Exit by clicking into two different corners"
+msgstr "Sair ao clicar em dois cantos diferentes"
+
+msgid "Try to set exclusive"
+msgstr "Tente definir exclusividade"
+
+msgid "Ask for a password on exit"
+msgstr "Pedir uma senha ao sair"
+
+msgid "Change password..."
+msgstr "Alterar senha..."
+
+msgid "Start the kiosk mode with the following functionality:"
+msgstr "Iniciar o modo quiosque com a seguinte funcionalidade:"
+
+msgid "Play/pause"
+msgstr "Reproduzir/pausar"
+
+msgid "Edit queue"
+msgstr "Editar fila"
+
+msgid "Toggle elements"
+msgstr "Alternar elementos"
+
+msgid "Enqueue multiple tracks"
+msgstr "Enfileirar várias faixas"
+
+msgid "All functions"
+msgstr "Todas as funções"
+
+#, c-format
+msgid "Limit tracks to the music selection %s"
+msgstr "Limitar faixas à seleção de músicas %s"
+
+msgid "Please enter the password again for verification."
+msgstr "Digite a senha novamente para verificação."
+
+msgid "Overview:"
+msgstr "Visão geral:"
+
+msgid "Main window"
+msgstr "Janela principal"
+
+msgid "Monitor"
+msgstr "Monitor"
+
+msgid "Disable screensaver"
+msgstr "Desativar protetor de tela"
+
+msgid "Disable power management"
+msgstr "Desativar gerenciamento de energia"
+
+msgid "For more complex layouts, please refer to the command line options."
+msgstr "Para layouts mais complexos, consulte as opções da linha de comando."
+
+msgid ""
+"If no physical keyboard is present, you can use our virtual keyboard;\n"
+"the virtual keyboard then is shown whenever you click into a text control."
+msgstr ""
+"Se nenhum teclado físico estiver presente, você pode usar nosso teclado "
+"virtual;\n"
+"ele é mostrado sempre que você clica em um controle de texto."
+
+msgid "Use the virtual keyboard"
+msgstr "Usar teclado virtual"
+
+msgid "Also use the virtual keyboard outside the kiosk mode"
+msgstr "Usar também o teclado virtual fora do modo quiosque"
+
+msgid "Test:"
+msgstr "Testar:"
+
+msgid "(please click into the text control)"
+msgstr "(clique no controle de texto)"
+
+msgid "Virtual keyboard layout:"
+msgstr "Layout do teclado virtual:"
+
+msgid "Colour:"
+msgstr "Cor:"
+
+msgid "Black"
+msgstr "Preto"
+
+msgid "White"
+msgstr "Branco"
+
+msgid "Transparency:"
+msgstr "Transparência:"
+
+msgid "Hide cursor"
+msgstr "Ocultar cursor"
+
+msgid ""
+"Using the Numpad plus some other special keys, you can control Silverjuke "
+"completely\n"
+"by the keyboard or some other hardware buttons. In this case, you'll enqueue "
+"new\n"
+"tracks by entering the unique numbers shown beside the album and track names."
+msgstr ""
+"Usando o Numpad mais algumas teclas especiais, você pode controlar o "
+"Silverjuke\n"
+"completamente pelo teclado ou por alguns outros botões de hardware. Nesse "
+"caso,\n"
+"você enfileira novas faixas inserindo os números únicos mostrados ao lado do "
+"álbum\n"
+"e dos nomes das faixas."
+
+msgid "Use Numpad controls"
+msgstr "Usar controles Numpad"
+
+msgid "Also use Numpad controls outside the kiosk mode"
+msgstr "Usar também os controles Numpad fora do modo quiosque"
+
+msgid "Keys:"
+msgstr "Teclas:"
+
+msgid ""
+"With the credit system, users must eg. add coins before tracks can be "
+"enqueued. Please\n"
+"refer to the online help for details about the possibilities and the "
+"supported hardware."
+msgstr ""
+"Com o sistema de crédito, os usuários devem, por exemplo. adicionar moedas "
+"antes que\n"
+"as faixas possam ser enfileiradas. Consulte a ajuda online para obter "
+"detalhes sobre as\n"
+"possibilidades e o hardware suportado."
+
+msgid "Use credit system"
+msgstr "Usar sistema de crédito"
+
+msgid "Credits may be added by DDE, command line or shortcuts"
+msgstr ""
+"Os créditos podem ser adicionados por DDE, linha de comando ou por atalhos"
+
+msgid "Keys..."
+msgstr "Teclas..."
+
+msgid "Remember credits between program starts"
+msgstr "Lembrar créditos entre inicializações do programa"
+
+msgid "Current credit:"
+msgstr "Crédito atual:"
+
+msgid "Please enter your password to exit the kiosk mode."
+msgstr "Digite sua senha para sair do modo quiosque."
+
+msgid ""
+"Too many tracks in queue,\n"
+"please try again later."
+msgstr ""
+"Há muitas faixas na fila;\n"
+"tente novamente mais tarde."
+
+msgid ""
+"This track is already in queue,\n"
+"please try again later."
+msgstr ""
+"Esta faixa já está na fila;\n"
+"tente novamente mais tarde."
+
+msgid ""
+"This track or artist was just played,\n"
+"please try again later."
+msgstr ""
+"Esta faixa ou artista acabou de ser reproduzida;\n"
+"tente novamente mais tarde."
+
+msgid "Maintenance password"
+msgstr "Senha de manutenção"
+
+msgid "Exit kiosk mode"
+msgstr "Sair do modo quiosque"
+
+msgid "Start kiosk mode"
+msgstr "Iniciar o modo quiosque"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Password:"
+msgstr "Senha:"
+
+msgid "Invalid password. Please try again."
+msgstr "Senha inválida. Tente novamente."
+
+msgid "Invalid track number"
+msgstr "Número de faixa inválido"
+
+msgid "Shutdown computer"
+msgstr "Desligar o computador"
+
+msgid "Reboot computer"
+msgstr "Reiniciar computador"
+
+msgid ""
+"Shift|AltGr|Delete|Clear\n"
+"all|OK"
+msgstr ""
+"Shift|AltGr|Excluir|Limpar\n"
+"todos|OK"
+
+msgid ""
+"No virtual keyboard found, please add the *.sjk files to the search paths."
+msgstr ""
+"Nenhum teclado virtual encontrado; adicione os arquivos *.sjk aos caminhos "
+"de pesquisa."
+
+#, c-format
+msgid "An album must have at least %s tracks with corresponding %s."
+msgstr "Um álbum deve ter ao menos %s faixas com correspondências a %s."
+
+msgid "artist/album"
+msgstr "artista/álbum"
+
+msgid "artist/album or genre"
+msgstr "artista/álbum ou gênero"
+
+msgid "directory"
+msgstr "diretório"
+
+#, c-format
+msgid "Compilations may contain up to %s tracks of the same artist."
+msgstr "Compilações podem conter até %s faixas do mesmo artista."
+
+msgid "Separate the words using commas, case is ignored"
+msgstr ""
+"Separa as palavras usando vírgulas, maiúsculas e minúsculas são ignorados"
+
+msgid "Sort by:"
+msgstr "Ordenar por:"
+
+msgid "Stop-words for sorting artists:"
+msgstr "Palavras de parada para classificar artistas:"
+
+msgid "Stop-words for sorting albums:"
+msgstr "Palavras de parada para classificar álbuns:"
+
+msgid "Show stop-words words at end"
+msgstr "Mostrar palavras de terminação no final"
+
+msgid ""
+"If selected, eg. \"The Rolling Stones\" becomes \"Rolling Stones, The\";\n"
+"sorting itself is not affected by this option"
+msgstr ""
+"Se selecionado, ex. \"The Rolling Stones\" se torna \"Rolling Stones, The"
+"\";\n"
+"a classificação em si não é afetada por esta opção"
+
+msgid "Keywords to identify cover image for an album:"
+msgstr "Palavras-chave para identificar a imagem de capa de um álbum:"
+
+msgid "Double click on covers"
+msgstr "Clique duas vezes nas capas"
+
+msgid "Select/play album"
+msgstr "Selecionar/reproduzir álbum"
+
+msgid "Combine tracks to albums"
+msgstr "Combinar faixas a álbuns"
+
+msgid "Updating genres..."
+msgstr "Atualizando gêneros..."
+
+msgid "Updating groups..."
+msgstr "Atualizando grupos..."
+
+msgid "Combining tracks to albums..."
+msgstr "Combinando faixas a álbuns..."
+
+msgid "Do you want to add the following folder(s) to your music library?"
+msgstr ""
+"Deseja adicionar a(s) seguinte(s) pasta(s) à sua biblioteca de músicas?"
+
+#, c-format
+msgid "Yes, leave the image in \"%s\""
+msgstr "Sim, manter a imagem em \"%s\""
+
+#, c-format
+msgid "Yes, copy the image to \"%s\""
+msgstr "Sim, copiar a imagem para \"%s\""
+
+#, c-format
+msgid "Do you want to use the given image as the cover for \"%s\"?"
+msgstr "Deseja usar a imagem fornecida como capa para \"%s\"?"
+
+#. TRANSLATORS: %s will be replaced by a filename
+#, c-format
+msgid "\"%s\" is not in your music library and cannot be edited therefore."
+msgstr "\"%s\" não está na sua biblioteca de músicas e não pode ser editado."
+
+#, c-format
+msgid "%s tracks on %s albums found for \"%s\""
+msgstr "%s faixa(s) em %s álbum(ns) encontrados para \"%s\""
+
+#, c-format
+msgid "%s tracks on %s albums"
+msgstr "%s faixa(s) em %s álbum(ns)"
+
+msgid "Albums"
+msgstr "Álbuns"
+
+msgid "All albums"
+msgstr "Todos os álbuns"
+
+msgid "Unsorted tracks"
+msgstr "Faixas não classificadas"
+
+#, c-format
+msgid "Disk %i"
+msgstr "Disco %i"
+
+msgid "O:"
+msgstr "O:"
+
+msgid "C:"
+msgstr "C:"
+
+msgid "Stop prelistening"
+msgstr "Parar de pré-ouvir"
+
+#, c-format
+msgid "Prelisten \"%s\""
+msgstr "Pré-ouvir \"%s\""
+
+#, c-format
+msgid "Enqueue \"%s\""
+msgstr "Enfileirar \"%s\""
+
+#, c-format
+msgid "Play \"%s\" now"
+msgstr "Reproduzir \"%s\" agora"
+
+#, c-format
+msgid "Play \"%s\" next"
+msgstr "Reproduzir \"%s\" em seguida"
+
+#, c-format
+msgid "Unqueue \"%s\""
+msgstr "Desenfileirar \"%s\""
+
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#, c-format
+msgid "Enqueue %i track"
+msgid_plural "Enqueue %i tracks"
+msgstr[0] "Enfileirar %i faixa"
+msgstr[1] "Enfileirar %i faixas"
+
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#, c-format
+msgid "Play %i track now"
+msgid_plural "Play %i tracks now"
+msgstr[0] "Reproduzir %i faixa agora"
+msgstr[1] "Reproduzir %i faixas agora"
+
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#, c-format
+msgid "Play %i track next"
+msgid_plural "Play %i tracks next"
+msgstr[0] "Reproduzir %i faixa em seguida"
+msgstr[1] "Reproduzir %i faixas em seguida"
+
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#, c-format
+msgid "Unqueue %i track"
+msgid_plural "Unqueue %i tracks"
+msgstr[0] "Desenfileirar %i faixa"
+msgstr[1] "Desenfileirar %i faixas"
+
+#, c-format
+msgid "\"%s\" on the web"
+msgstr "\"%s\" na web"
+
+#, c-format
+msgid "Average rating: %s"
+msgstr "Classificação média: %s"
+
+#, c-format
+msgid "Rating: %s"
+msgstr "Classificação: %s"
+
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#, c-format
+msgid "Do you want to change the rating for %i selected track?"
+msgid_plural "Do you want to change the rating for %i selected tracks?"
+msgstr[0] "Deseja alterar a classificação para %i faixa selecionada?"
+msgstr[1] "Deseja alterar a classificação para %i faixas selecionadas?"
+
+msgid "Change rating"
+msgstr "Alterar classificação"
+
+msgid "Click to select all tracks of this album, double-click to play them"
+msgstr ""
+"Clique para selecionar todas as faixas deste álbum, clique duas vezes para "
+"reproduzi-las"
+
+msgid "Click to select all tracks of this artists, double-click to play them"
+msgstr ""
+"Clique para selecionar todas as faixas destes artistas, clique duas vezes "
+"para reproduzi-las"
+
+msgid "Click to select all tracks of this disk, double-click to play them"
+msgstr ""
+"Clique para selecionar todas as faixas deste disco, clique duas vezes para "
+"reproduzi-las"
+
+#, c-format
+msgid "Double-click to enqueue \"%s\""
+msgstr "Clique duas vezes para enfileirar \"%s\""
+
+#. TRANSLATORS: %i will be replaced by the number of tracks
+#, c-format
+msgid "Do you want to enqueue %i selected track?"
+msgid_plural "Do you want to enqueue %i selected tracks?"
+msgstr[0] "Deseja enfileirar %i faixa selecionada?"
+msgstr[1] "Deseja enfileirar %i faixas selecionadas?"
+
+msgid "Size"
+msgstr "Tamanho"
+
+msgid "Gain"
+msgstr "Ganho"
+
+msgid "Read music-files from the following folders and sources:"
+msgstr "Ler arquivos de música das seguintes pastas e fontes:"
+
+msgid "Read music-files from the following sources:"
+msgstr "Ler arquivos de música das seguintes fontes:"
+
+msgid "Add source"
+msgstr "Adicionar fonte"
+
+msgid "Remove source"
+msgstr "Remover fonte"
+
+msgid "Options"
+msgstr "Opções"
+
+msgid "Music library"
+msgstr "Biblioteca de música"
+
+#, c-format
+msgid "Options for \"%s\""
+msgstr "Opções para \"%s\""
+
+msgid "Options..."
+msgstr "Opções..."
+
+msgid "Jukebox"
+msgstr "Jukebox"
+
+msgid "Please select a playlist, some files or enter a streaming URL"
+msgstr ""
+"Selecione uma lista de reprodução, alguns arquivos ou insira uma URL de "
+"streaming"
+
+msgid "Append to current playlist"
+msgstr "Acrescentar à lista de reprodução atual"
+
+msgid "Volume control"
+msgstr "Controle de volume"
+
+msgid "Play all tracks of an album with the same volume"
+msgstr "Reproduzir todas as faixas de um álbum com o mesmo volume"
+
+msgid "Desired volume:"
+msgstr "Volume desejado:"
+
+msgid "Max. gain:"
+msgstr "Ganho máx.:"
+
+msgid "Current volume:"
+msgstr "Volume atual:"
+
+msgid "Fading"
+msgstr "Fading"
+
+msgid "Crossfading"
+msgstr "Crossfading"
+
+msgid "Manual crossfades:"
+msgstr "Crossfades manuais:"
+
+msgid "Automatic crossfades:"
+msgstr "Crossfades automáticos:"
+
+msgid "Offset to end:"
+msgstr "Deslocamento para finalizar:"
+
+msgid "No crossfades between subsequent tracks of the same album"
+msgstr "Não há crossfades entre as faixas subsequentes do mesmo álbum"
+
+msgid "Only fade out the old track, the new track starts with full volume"
+msgstr ""
+"Apenas desaparecer a faixa antiga, a nova faixa inicia com o volume total"
+
+msgid "Resume"
+msgstr "Retomar"
+
+msgid "Jingles"
+msgstr "Jingles"
+
+msgid ""
+"The following options define the behaviour of the queue. For the \"shuffle "
+"intensity\",\n"
+"small values create only slight variations of the queue order, whereas large "
+"values\n"
+"cause major variations."
+msgstr ""
+"As seguintes opções definem o comportamento da fila. Para a \"intensidade do "
+"aleatório\",\n"
+"valores menores criam apenas pequenas variações da ordem da fila, enquanto "
+"valores\n"
+"maiores causam grandes variações."
+
+#. TRANSLATORS: %i will be replaced by a number
+#, c-format
+msgid "Kiosk mode: Allow max. %i track waiting in queue"
+msgid_plural "Kiosk mode: Allow max. %i tracks waiting in queue"
+msgstr[0] "Modo quiosque: Permitir máx. %i faixa em espera na fila"
+msgstr[1] "Modo quiosque: permitir máx. %i faixas em espera na fila"
+
+msgid "Kiosk mode: Avoid double tracks waiting in queue"
+msgstr "Modo quiosque: Evitar faixas duplicadas aguardando na fila"
+
+#, c-format
+msgid "Avoid boredom: No track repetition within %i minutes"
+msgstr "Evite o tédio: Nenhuma repetição de faixa em %i minutos"
+
+#, c-format
+msgid "Avoid boredom: No artist repetition within %i minutes"
+msgstr "Evite o tédio: Nenhuma repetição de artista em %i minutos"
+
+msgid "Shuffle intensity:"
+msgstr "Intensidade do aleatório:"
+
+msgid ""
+"Here you can decide whether to restore the queue after a restart of "
+"Silverjuke.\n"
+"You can restore all or only unplayed titles."
+msgstr ""
+"Aqui você pode decidir se deseja restaurar a fila após uma reinicialização "
+"do Silverjuke.\n"
+"Você pode restaurar todos ou apenas títulos não reproduzidos."
+
+msgid "Restore queue"
+msgstr "Restaurar fila"
+
+msgid "Restore already played tracks"
+msgstr "Restaurar faixas já reproduzidas"
+
+msgid "Start playback from last position"
+msgstr "Iniciar reprodução da última posição"
+
+msgid ""
+"Use the following options to define which actions should be done "
+"automatically\n"
+"after given timeouts."
+msgstr ""
+"Use as seguintes opções para definir quais ações devem ser executadas\n"
+"automaticamente após determinados tempos limite."
+
+#, c-format
+msgid "AutoPlay: If the playlist is empty, wait %i minutes;"
+msgstr ""
+"Reprodução Automática: Se a lista de reprodução estiver vazia, aguardar %i "
+"minutos;"
+
+#, c-format
+msgid "then, play %i tracks from the %s"
+msgstr "depois, reproduzir %i faixas da seguinte %s"
+
+msgid "Ignore tracks from the music selection"
+msgstr "Ignorar faixas da seleção de músicas"
+
+msgid "Manually enqueued tracks interrupt AutoPlay immediately"
+msgstr ""
+"Faixas enfileiradas manualmente interrompem a Reprodução Automática "
+"imediatamente"
+
+msgid "Sleep mode:"
+msgstr "Modo de suspensão:"
+
+msgid "Stop playback"
+msgstr "Parar a reprodução"
+
+msgid ""
+"in|after inactivity of|at|always in|always after inactivity of|always at"
+msgstr ""
+"em|após inatividade de|aos|sempre em|sempre após inatividade de|sempre aos"
+
+msgid "minutes|o'clock"
+msgstr "minutos|hora em ponto"
+
+#, c-format
+msgid "Before this, fade out %i seconds"
+msgstr "Antes disso, fade out por %i segundos"
+
+msgid ""
+"Jingles are normal tracks from your music library that are played\n"
+"under certain conditions."
+msgstr ""
+"Jingles são faixas normais da sua biblioteca de músicas que são\n"
+"reproduzidas sob certas condições."
+
+msgid "If the jukebox is playing, about every"
+msgstr "Se a jukebox estiver reproduzindo, quase todas"
+
+msgid "minutes,"
+msgstr "minutos,"
+
+msgid "play a track from the music selection"
+msgstr "reproduzir uma faixa da seleção de músicas"
+
+msgid "At"
+msgstr "Em"
+
+msgid "o'clock,"
+msgstr "em ponto,"
+
+msgid "Daily"
+msgstr "Diariamente"
+
+msgid "Wait for end of playing track"
+msgstr "Aguarde o fim da reprodução da faixa"
+
+#, c-format
+msgid "Go to current track after %i minutes of inactivity"
+msgstr "Ir para a faixa atual após %i minutos de inatividade"
+
+#, c-format
+msgid "Reset view after %i minutes of inactivity to"
+msgstr "Redefinir a exibição após %i minutos de inatividade para"
+
+#, c-format
+msgid "Open video screen after %i minutes of inactivity"
+msgstr "Abrir tela de vídeo após %i minutos de inatividade"
+
+#, c-format
+msgid "Close video screen after %i minutes"
+msgstr "Fechar tela de vídeo após %i minutos"
+
+#, c-format
+msgid "Limit play time to %i seconds"
+msgstr "Limitar o tempo de reprodução para %i segundos"
+
+msgid "Read folders:"
+msgstr "Ler pastas:"
+
+msgid "Read file:"
+msgstr "Ler arquivo:"
+
+msgid "Read (ID3)-tags"
+msgstr "Ler etiquetas (ID3)"
+
+msgid "Path and file pattern for track-information if (ID3-)tags are missing:"
+msgstr ""
+"Padrão e caminho de arquivo para informações da faixa se as etiquetas (ID3) "
+"estiverem ausentes:"
+
+msgid "Placeholders:"
+msgstr "Marcadores:"
+
+msgid "Include folder to the update process"
+msgstr "Incluir pasta no processo de atualização"
+
+msgid "Read hidden files"
+msgstr "Ler arquivos ocultos"
+
+msgid "Read hidden folders"
+msgstr "Ler pastas ocultas"
+
+msgid "Read inside ZIP-/TAR-archives"
+msgstr "Ler dentro de arquivos ZIP/TAR"
+
+msgid "Additional file extensions:"
+msgstr "Extensões de arquivo adicionais:"
+
+msgid "Ignore file extensions:"
+msgstr "Ignorar extensões de arquivo:"
+
+msgid "(separate the extensions using the comma, case is ignored)"
+msgstr ""
+"(separa as extensões usando vírgula, maiúsculas e minúsculas são ignoradas)"
+
+msgid "Read files and folders"
+msgstr "Ler arquivos e pastas"
+
+msgid "Add a folder to search for music-files"
+msgstr "Adicionar uma pasta para procurar arquivos de música"
+
+msgid "Add a single music-file"
+msgstr "Adicionar um único arquivo de música"
+
+msgid "Disabled"
+msgstr "Desativado"
+
+msgid "No update"
+msgstr "Sem atualização"
+
+#, c-format
+msgid "Remove \"%s\" from the music library?"
+msgstr "Remover \"%s\" da biblioteca de músicas?"
+
+msgid "Select a folder with music-files"
+msgstr "Selecione uma pasta com arquivos de música"
+
+msgid "Select music-file"
+msgstr "Selecionar arquivo de música"
+
+msgid "Unknown track"
+msgstr "Faixa desconhecida"
+
+msgid "Unknown artist"
+msgstr "Artista desconhecido"
+
+msgid "Add a server containing music-files"
+msgstr "Adicionar um servidor que contenha arquivos de música"
+
+msgid "Use server:"
+msgstr "Usar servidor:"
+
+msgid "Server:"
+msgstr "Servidor:"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "Login name:"
+msgstr "Nome de acesso:"
+
+msgid "Include server to the update process"
+msgstr "Incluir servidor no processo de atualização"
+
+msgid "Configuration file"
+msgstr "Arquivo de configuração"
+
+#, c-format
+msgid "Loading %s"
+msgstr "Carregando %s"
+
+#, c-format
+msgid "Error %i"
+msgstr "Erro %i"
+
+msgid "Edit track"
+msgstr "Editar faixa"
+
+msgid "of"
+msgstr "de"
+
+msgid "Write (ID3-)tags"
+msgstr "Gravar etiquetas (ID3)"
+
+msgid "File names"
+msgstr "Nomes de arquivo"
+
+#, c-format
+msgid "Show all %s file names..."
+msgstr "Mostrar todos os nomes de arquivo %s..."
+
+msgid ""
+"The shown values are the sum or the average of all single values in the "
+"given files."
+msgstr ""
+"Os valores mostrados são a soma ou a média de todos os valores únicos nos "
+"arquivos fornecidos."
+
+msgid "Track"
+msgstr "Faixa"
+
+msgid "Further information"
+msgstr "Outras informações"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Temporary directory"
+msgstr "Diretório temporário"
+
+msgid "Further information..."
+msgstr "Outras informações..."
+
+#, c-format
+msgid "Cannot rename \"%s\" to \"%s\"."
+msgstr "Não é possível renomear \"%s\" para \"%s\"."
+
+msgid "Server name"
+msgstr "Nome do servidor"
+
+msgid "Query online database"
+msgstr "Consultar banco de dados online"
+
+msgid "more..."
+msgstr "mais..."
+
+msgid "Please select one of the following albums:"
+msgstr "Selecione um dos seguintes álbuns:"
+
+msgid "Old file name"
+msgstr "Nome do arquivo antigo"
+
+msgid "New file name"
+msgstr "Nome nome do arquivo"
+
+msgid "Field"
+msgstr "Campo"
+
+msgid "Old value"
+msgstr "Valor antigo"
+
+msgid "New value"
+msgstr "Novo valor"
+
+msgid "<empty>"
+msgstr "<vazio>"
+
+msgid "Confirm modifications"
+msgstr "Confirmar modificações"
+
+msgid "Delete empty folders"
+msgstr "Excluir pastas vazias"
+
+msgid "Please confirm or edit the following modification:"
+msgstr "Confirme ou edite a seguinte modificação:"
+
+#, c-format
+msgid "Please confirm or edit the following %s modifications:"
+msgstr "Confirme ou edite as %s modificações a seguir:"
+
+msgid "(lower case)"
+msgstr "(minúsculas)"
+
+msgid "(upper case)"
+msgstr "(maiúsculas)"
+
+msgid "(n characters)"
+msgstr "(n caracteres)"
+
+msgid "Rename files"
+msgstr "Renomear arquivos"
+
+msgid "Pattern:"
+msgstr "Padrão:"
+
+msgid "Artist (first character)"
+msgstr "Artista (primeiro caractere)"
+
+msgid "Album (first character)"
+msgstr "Álbum (primeiro caractere)"
+
+msgid "Genre (first character)"
+msgstr "Gênero (primeiro caractere)"
+
+msgid "Group (first character)"
+msgstr "Grupo (primeiro caractere)"
+
+msgid "Year (4 characters)"
+msgstr "Ano (4 caracteres)"
+
+msgid "Year (2 characters)"
+msgstr "Ano (2 caracteres)"
+
+msgid "Duration (5 characters)"
+msgstr "Duração (5 caracteres)"
+
+msgid "Directory change"
+msgstr "Alteração de diretório"
+
+msgid "File name (8 characters)"
+msgstr "Nome do arquivo (8 caracteres)"
+
+msgid "File extension"
+msgstr "Extensão de arquivo"
+
+msgid "Example:"
+msgstr "Exemplo:"
+
+msgid "Replace"
+msgstr "Substituir"
+
+msgid "Search for:"
+msgstr "Pesquisar por:"
+
+msgid "in:"
+msgstr "em:"
+
+msgid "All fields"
+msgstr "Todos os campos"
+
+msgid "Path and file name"
+msgstr "Caminho e nome do arquivo"
+
+msgid "Replace with:"
+msgstr "Substituir com:"
+
+msgid "Match whole words only"
+msgstr "Corresponder apenas palavras inteiras"
+
+msgid "Match case"
+msgstr "Corresponder maiúsculas e minúsculas"
+
+msgid "Regular expression"
+msgstr "Expressão regular"
+
+#, c-format
+msgid "\"%s\" not found."
+msgstr "\"%s\" não encontrado."
+
+msgid "Split field"
+msgstr "Dividir campo"
+
+msgid "Field to split:"
+msgstr "Campo a ser dividido:"
+
+msgid "Destination fields and pattern:"
+msgstr "Campos e padrão de destino:"
+
+msgid "Track number (1 character)"
+msgstr "Número da faixa (1 caractere)"
+
+msgid "Track number (2 characters)"
+msgstr "Número da faixa (2 caracteres)"
+
+msgid "Disk number (1 character)"
+msgstr "Número do disco (1 caractere)"
+
+msgid "Disk number (2 characters)"
+msgstr "Número do disco (2 caracteres)"
+
+msgid "Void information"
+msgstr "Anular informações"
+
+#, c-format
+msgid ""
+"With different skins you can change the \"look and feel\" of %s. Just\n"
+"select the skin to use from the list above. You'll find more skins on the "
+"web."
+msgstr ""
+"Com skins diferentes, você pode alterar a aparência do %s. Basta selecionar\n"
+"a skin a ser usada na lista acima. Você pode encontrar mais skins na web."
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Info..."
+msgstr "Informações..."
+
+msgid "Update list"
+msgstr "Atualizar lista"
+
+msgid "More skins on the web..."
+msgstr "Mais skins na web..."
+
+msgid ""
+"You can set independent font and cover sizes to use in the main window. The "
+"sizes\n"
+"refer to a zoom of 100%. If you zoom in or out (eg. by using the \"+\" or \"-"
+"\" keys), both\n"
+"sizes will grow or shrink proportionally."
+msgstr ""
+"Você pode definir tamanhos de fonte e capa para usar na janela principal. Os "
+"tamanhos\n"
+"referem-se a um zoom de 100%. Se você aumentar ou diminuir o zoom (ex. "
+"usando as\n"
+"teclas \"+\" ou \"-\"), ambos aumentarão ou diminuirão proporcionalmente."
+
+msgid "Font:"
+msgstr "Fonte:"
+
+msgid "Font size:"
+msgstr "Tamanho da fonte:"
+
+msgid "Use this font for dialogs, too"
+msgstr "Usar esta fonte também para diálogos"
+
+msgid "Column width:"
+msgstr "Largura da coluna:"
+
+msgid "Cover size:"
+msgstr "Tamanho da capa:"
+
+msgid "No lyrics found."
+msgstr "Nenhuma letra encontrada."
+
+msgid "Karaoke Prompt"
+msgstr "Prompt de Karaokê"
+
+#, c-format
+msgid "No images found in \"%s\"."
+msgstr "Nenhuma imagem encontrada em \"%s\"."
+
+msgid "Background"
+msgstr "Fundo"
+
+#, c-format
+msgid "Use %s-files"
+msgstr "Usar arquivos %s"
+
+msgid "Please select a directory with images"
+msgstr "Selecione um diretório com imagens"
+
+msgid "Title overlay"
+msgstr "Sobreposição de título"
+
+msgid "If appropriate, switch over automatically"
+msgstr "Se apropriado, alterne automaticamente"
+
+msgid "Half size"
+msgstr "Metade do tamanho"
+
+msgid "Spectrum Monitor"
+msgstr "Monitor de Espectro"
+
+msgid "Show spectrum"
+msgstr "Mostrar espectro"
+
+msgid "Show oscilloscope"
+msgstr "Mostrar osciloscópio"
+
+msgid "Show starfield"
+msgstr "Mostrar campo de estrelas"
+
+msgid "Show other figures"
+msgstr "Mostrar outras figuras"
+
+msgid "Visualization"
+msgstr "Visualização"
+
+msgid "Preset info"
+msgstr "Informações predefinidas"
+
+msgid "Go to previous preset"
+msgstr "Ir para a predefinição anterior"
+
+msgid "Go to next preset"
+msgstr "Ir para a próxima predefinição"
+
+msgid "Go to random preset"
+msgstr "Ir para predefinição aleatória"
+
+msgid "Preset shuffle"
+msgstr "Aleatório predefinido"
+
+msgid "Preset duration"
+msgstr "Duração predefinida"
+
+msgid "No presets found."
+msgstr "Nenhuma predefinição encontrada."
+
+msgid "Video output"
+msgstr "Saída de vídeo"
+
+msgid "Search homepage"
+msgstr "Pesquisar página inicial"
+
+#, c-format
+msgid "Lyrics on %s"
+msgstr "Letras em %s"
+
+#, c-format
+msgid "Search with %s"
+msgstr "Pesquisar com %s"
+
+#, c-format
+msgid "Information on %s"
+msgstr "Informações em %s"
+
+msgid "Object count:"
+msgstr "Contagem de objetos:"
+
+msgid "Elapsed time:"
+msgstr "Tempo decorrido:"
+
+msgid "Message"
+msgstr "Mensagem"
+
+msgid "Scope"
+msgstr "Escopo"
+
+msgid "Console"
+msgstr "Console"
+
+#. TRANSLATORS: %i will be replaced by a number
+#, c-format
+msgid "%i message"
+msgid_plural "%i messages"
+msgstr[0] "%i mensagem"
+msgstr[1] "%i mensagens"
+
+msgid "Evaluate"
+msgstr "Avaliar"
+
+msgid "Clear"
+msgstr "Limpar"
+
+msgid "Open console on errors and warnings"
+msgstr "Abrir console nos erros e avisos"
+
+msgid "Details"
+msgstr "Detalhes"
+
+msgid "Clear all messages?"
+msgstr "Limpar todas as mensagens?"
+
+#, c-format
+msgid "Overwrite \"%s\"?"
+msgstr "Substituir \"%s\"?"
+
+msgid "Append"
+msgstr "Acrescentar"
+
+msgid "State"
+msgstr "Estado"
+
+#, c-format
+msgid "%s-video"
+msgstr "%s-vídeo"
+
+#, c-format
+msgid "%s-audio"
+msgstr "%s-áudio"
+
+#, c-format
+msgid "%s-images"
+msgstr "%s-imagens"
+
+#, c-format
+msgid "%s-playlists"
+msgstr "%s-playlists"
+
+#, c-format
+msgid "%s-files"
+msgstr "%s-arquivos"
+
+msgid "Script-files"
+msgstr "Arquivos de script"
+
+msgid "Silverjuke skin-files"
+msgstr "Arquivos de skin do Silverjuke"
+
+msgid "Silverjuke jukebox-files"
+msgstr "Arquivos de jukebox do Silverjuke"
+
+msgid "Archive-files"
+msgstr "Arquivar arquivos"
+
+msgid "Known file-types"
+msgstr "Tipos de arquivo conhecidos"
+
+msgid "Test..."
+msgstr "Testar..."
+
+msgid "Programs"
+msgstr "Programas"
+
+msgid "Cleanup index..."
+msgstr "Limpar índice..."
+
+msgid "max. size"
+msgstr "tam. máximo"
+
+#, c-format
+msgid ""
+"Last time %s did not terminate normally.\n"
+"The following - maybe errorous - objects were in use just before the "
+"abnormal termination:\n"
+"\n"
+"%s\n"
+"\n"
+"On continuous problems, try to avoid using these objects.\n"
+"Do you want to use the objects this time?"
+msgstr ""
+"Na última vez, o %s não foi encerrado normalmente.\n"
+"Os seguintes objetos - talvez com erros - estavam em uso antes do "
+"encerramento anormal:\n"
+"\n"
+"%s\n"
+"\n"
+"Em problemas contínuos, tente evitar o uso desses objetos.\n"
+"Deseja usar os objetos dessa vez?"
+
+msgid "Use maybe errorous objects?"
+msgstr "Usar objetos talvez com erro?"
+
+msgid "__DATE_TIME_LONG__"
+msgstr "__DATE_TIME_LONG__"
+
+msgid "__DATE_TIME_EDITABLE__"
+msgstr "__DATE_TIME_EDITABLE__"
+
+msgid "__DATE_LONG__"
+msgstr "__DATE_LONG__"
+
+msgid "__DATE_EDITABLE__"
+msgstr "__DATE_EDITABLE__"
+
+msgid "__DATE_SUNDAY_FIRST__"
+msgstr "__DATE_SUNDAY_FIRST__"
+
+msgid "__THIS_LANG__"
+msgstr "__THIS_LANG__"
+
+msgid "__COVER_SEARCH_URLS__"
+msgstr "__COVER_SEARCH_URLS__"
+
+msgid "__ARTIST_INFO_URLS__"
+msgstr "__ARTIST_INFO_URLS__"
+
+msgid "__STOP_ARTISTS__"
+msgstr "__STOP_ARTISTS__"
+
+msgid "__STOP_ALBUMS__"
+msgstr "__STOP_ALBUMS__"
+
+msgid "__COVER_KEYWORDS__"
+msgstr "__COVER_KEYWORDS__"
+
+msgid "__VIRT_KEYBD__"
+msgstr "__VIRT_KEYBD__"
+
+#. TRANSLATORS: This is the thousands separator, used for e.g. 10,000
+msgid ","
+msgstr ","
+
+#. TRANSLATORS: This is the decimal point, used for e.g. 3.1415926
+msgid "."
+msgstr "."
+
+#. TRANSLATORS: %i will be replaced by a number
+#, c-format
+msgid "%i day"
+msgid_plural "%i days"
+msgstr[0] "%i dia"
+msgstr[1] "%i dias"
+
+#, c-format
+msgid "Invalid regular expression \"%s\"."
+msgstr "Expressão regular inválida \"%s\"."
+
+msgid "Fatal error"
+msgstr "Erro fatal"
+
+msgid "Ctrl"
+msgstr "Ctrl"
+
+msgid "Alt"
+msgstr "Alt"
+
+msgid "Shift"
+msgstr "Shift"
+
+msgid "Enlarge window"
+msgstr "Ampliar janela"
+
+msgid "Shrink window"
+msgstr "Encolher janela"
+
+msgid "Enlarge display"
+msgstr "Ampliar exibição"
+
+msgid "Shrink display"
+msgstr "Encolher exibição"
+
+msgid "Services"
+msgstr "Serviços"
+
+#, c-format
+msgid "Hide %s"
+msgstr "Ocultar %s"
+
+msgid "Hide Others"
+msgstr "Ocultar Outros"
+
+msgid "Show All"
+msgstr "Mostrar Tudo"
+
+#, c-format
+msgid "Quit %s"
+msgstr "Sair do %s"
+
+msgid "Extras"
+msgstr "Extras"
+
+msgid "Full screen"
+msgstr "Tela cheia"
+
+msgid "Modules on the web..."
+msgstr "Módulos na web..."
+
+msgid "Explore"
+msgstr "Explorar"
+
+msgid "Reveal in Finder"
+msgstr "Revelar no Localizador"
+
+#, c-format
+msgid "The file \"%s\" does not exist."
+msgstr "O arquivo \"%s\" não existe."
+
+#, c-format
+msgid "Cannot execute \"%s\"."
+msgstr "Não foi possível executar \"%s\"."
+
+msgid "Please use the operating system to set Silverjuke to an exclusive mode."
+msgstr ""
+"Use o sistema operacional para configurar o Silverjuke para um modo "
+"exclusivo."
