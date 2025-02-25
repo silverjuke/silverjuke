@@ -882,7 +882,7 @@ bool SjSkinMlTagHandler::HandleTag(const wxHtmlTag& tag)
 			// second, execute stuff between <script> and </script>
 			if( tag.HasEnding() )
 			{
-				scriptContent = m_skinMlParser->GetSource()->Mid(tag.GetBeginPos(), tag.GetEndPos1()-tag.GetBeginPos());
+				scriptContent = wxString(tag.GetBeginIter(), tag.GetEndIter1());
 				scriptContent.Trim(true);
 				scriptContent.Trim(false);
 				if( !scriptContent.IsEmpty() )
